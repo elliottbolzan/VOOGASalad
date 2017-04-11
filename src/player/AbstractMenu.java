@@ -17,7 +17,7 @@ public abstract class AbstractMenu implements Menu{
 	private ComponentMaker factory;
 	private Button back;
 	private String gameFolderPath;
-	
+	private Stage stage;
 
 	public AbstractMenu(Stage stage, String gameFolderPath){
 		setupView(stage, gameFolderPath);
@@ -26,6 +26,7 @@ public abstract class AbstractMenu implements Menu{
 
 	private void setupView(Stage stage, String gameFolderPath){
 		root = new BorderPane();
+		this.stage = stage;
 		this.gameFolderPath = gameFolderPath;
 		factory = new ComponentMaker(resources);
 		ImageView image = new ImageView(

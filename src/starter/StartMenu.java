@@ -113,7 +113,6 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void editGame() {
-
 		String chosen = chooseGame();
 		if(isSelected(chosen)){
 			new AuthoringEnvironment(chosen);
