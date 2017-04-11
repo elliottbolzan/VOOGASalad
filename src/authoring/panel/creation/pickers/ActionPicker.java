@@ -21,7 +21,6 @@ public class ActionPicker extends Picker {
 	private EntityMaker editor;
 	private EngineController engine = new EngineController();
 	private ListView<Action> list;
-	private Action currentlyEditing;
 	private ComponentMaker maker;
 
 	public ActionPicker(Workspace workspace, EntityMaker editor) {
@@ -54,7 +53,7 @@ public class ActionPicker extends Picker {
 	@Override
 	public void createNew() {
 		if (editor.getSelectedEvent() != null && editor.getEntity() != null) {
-			currentlyEditing = null;
+			setCurrentlyEditing(null);
 			showEditor();
 		} else {
 			editor.showMessage(getWorkspace().getResources().getString("NoEventSelected"));
@@ -63,8 +62,8 @@ public class ActionPicker extends Picker {
 
 	@Override
 	public <E> void add(E element) {
-		if (currentlyEditing != null) {
-			remove(currentlyEditing);
+		if (getCurrentlyEditing() != null) {
+			remove(getCurrentlyEditing());
 		}
 		Action action = (Action) element;
 		action.setEntity(editor.getEntity());
@@ -88,7 +87,7 @@ public class ActionPicker extends Picker {
 	@Override
 	public void edit() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
-			currentlyEditing = list.getSelectionModel().getSelectedItem();
+			setCurrentlyEditing(list.getSelectionModel().getSelectedItem());
 			showEditor();
 		}
 	}
@@ -100,10 +99,11 @@ public class ActionPicker extends Picker {
 		else
 			list.setItems(FXCollections.emptyObservableList());
 	}
-	
+
 	@Override
 	public void showEditor() {
-		ActionEditor editor = new ActionEditor(getWorkspace(), this, currentlyEditing, engine.getAllActions());
+		ActionEditor editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
+				engine.getAllActions());
 		maker.display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 

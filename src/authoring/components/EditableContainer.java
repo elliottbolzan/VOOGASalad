@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 public abstract class EditableContainer extends View {
 	
 	private Workspace workspace;
+	private Object currentlyEditing;
 
 	/**
 	 * 
@@ -52,6 +53,14 @@ public abstract class EditableContainer extends View {
 			alert.show();
 		}
 		return object != null;
+	}
+	
+	public void setCurrentlyEditing(Object currentlyEditing) {
+		this.currentlyEditing = currentlyEditing;
+	}
+	
+	public Object getCurrentlyEditing() {
+		return currentlyEditing;
 	}
 
 	public abstract void createContainer();
