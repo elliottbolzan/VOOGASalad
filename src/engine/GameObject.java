@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import engine.game.gameloop.StepStrategy;
 import exceptions.GameObjectException;
 
 public abstract class GameObject {
@@ -11,9 +12,7 @@ public abstract class GameObject {
 	private List<Parameter> params;
 	private Entity entity;
 	private transient ResourceBundle gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
-
-	public GameObject() {
-	}
+	private GameInfo info;
 
 	public GameObject(String name) {
 		resources = ResourceBundle.getBundle("resources/" + name);
@@ -66,5 +65,12 @@ public abstract class GameObject {
 			throw new GameObjectException(gameObjectExceptions.getString("NoParameter"));
 		}
 		return null;
+	}
+	
+	public GameInfo getGameInfo(){
+		return this.info;
+	}
+	public void setGameInfo(GameInfo info){
+		this.info = info;
 	}
 }
