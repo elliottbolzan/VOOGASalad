@@ -14,13 +14,15 @@ public class GameLoaderTest {
 	public static void main(String[] args) {
 		try{
 			
-		String filepath="data/EntityTesting";
+		String filepath="data/SaveTesting/Testing";
 		GameSaver gs = new GameSaver();
-		Entity mario = new CharacterEntity("Mario","src/resources/images/mario.png");
+		Entity mario = new CharacterEntity();
+		mario.setImagePath("resources/images/mario.png");
 		mario.setX(100);
 		mario.setY(55);
 		
-		Entity luigi = new CharacterEntity("Luigi","src/resources/images/luigi.png");
+		Entity luigi = new CharacterEntity();
+		luigi.setImagePath("resources/images/luigi.png");
 		luigi.setX(100);
 		luigi.setY(55);
 		
@@ -29,8 +31,9 @@ public class GameLoaderTest {
 		level.addEntity(luigi);
 		
 		List<Level> levels= new ArrayList<Level>();
-		
-		gs.saveGame(levels, filepath);
+		Game g = new Game();
+		g.setLevels(levels);
+		gs.saveGame(g, filepath);
 			
 			
 		GameLoader gl = new GameLoader();

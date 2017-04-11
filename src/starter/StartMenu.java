@@ -29,7 +29,7 @@ public class StartMenu extends BorderPane {
 	private String iconPath = resources.getString("IconPath");
 	private String logoPath = resources.getString("LogoPath");
 
-	protected StartMenu(Stage primaryStage) {
+	public StartMenu(Stage primaryStage) {
 		this.stage = primaryStage;
 		this.setIcon();
 		this.buildStage();
@@ -105,11 +105,14 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void editGame() {
-		new AuthoringEnvironment(chooseGame());
+		String path = chooseGame();
+		if (!path.equals(""))
+			new AuthoringEnvironment(path);
 	}
 
 	private void playGame() {
-		new PlayerMenu();
+		String dataFolderPath = this.chooseGame();
+		new PlayerMenu(dataFolderPath);
 	}
 
 	private Button makeButton(String label, EventHandler<ActionEvent> handler) {

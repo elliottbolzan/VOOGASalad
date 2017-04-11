@@ -18,16 +18,29 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.Entity;
 import engine.game.Level;
 
+// Make references to paths relative. 
+
 public class GameSaver {
+	
+	private Game game;
 
 	public void saveGame(Game game, String filepath) {
+		this.game = game;
 		this.saveGame(game.getLevels(), filepath);
 	}
 
-	// filepath provides the specific directory where the game will be stored
-	public void saveGame(List<Level> levels, String filepath) {
-		savelevels(levels, filepath);
-
+	public void saveGame(List<Level> levels, String filePath) {
+		createRoot(filePath);
+		savelevels(levels, filePath + "/" + game.getName());
+	}
+	
+	private void createRoot(String filePath) {
+		
+		System.out.println(filePath+game.getName());
+		File folder = new File(filePath + game.getName());
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
 	}
 
 	private void savelevels(List<Level> levels, String filepath) {
@@ -41,7 +54,7 @@ public class GameSaver {
 
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
 			List<String> entityfilepaths = new ArrayList<String>();
-
+		
 			for (int j = 0; j < entities.size(); j++) {
 				Entity currentity = entities.get(j);
 				String entityfilepath = saveEntity(currentity, filepath);
@@ -61,7 +74,7 @@ public class GameSaver {
 		String entityfilepath = "";
 		try {
 			saveEntityImage(entity, filepath);
-			entityfilepath = filepath + "/entities/" + entity.getName() + ".xml";
+			entityfilepath = filepath + "/entities/" + entity.getName() + "ha.xml";
 			File entityfile = new File(entityfilepath);
 
 			XStream xStream = new XStream(new DomDriver());
@@ -81,8 +94,10 @@ public class GameSaver {
 
 	public void saveEntityImage(Entity entity, String filepath) {
 		try {
-
-			String sourcePath = new File(new URI(entity.getImagePath())).getAbsolutePath();
+			
+			
+			
+			String sourcePath = filepath;
 			Path sourcepath = Paths.get(sourcePath);
 
 			String targetpathstring = filepath + "/images/" + entity.getName() + "image.png";
@@ -99,5 +114,4 @@ public class GameSaver {
 		}
 
 	}
-
 }

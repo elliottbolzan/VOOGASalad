@@ -26,7 +26,7 @@ import javafx.util.Duration;
  *
  */
 public class OldGameLoopBackup {
-	public static final int FRAME_TIME_MILLISECONDS = 20;
+	private static final int FRAME_TIME_MILLISECONDS = 20;
 	private GraphicsEngine graphicsEngine;
 	private LevelManager levelManager;
 	private Timeline timeline;
