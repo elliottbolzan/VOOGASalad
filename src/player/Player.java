@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  */
 public class Player extends BorderPane {
 	
-	private static final int CONTROLS_HEIGHT = 50;
+	private static final int CONTROLS_HEIGHT = 60;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private String stylesheetPath = resources.getString("StylesheetPath");
 	
