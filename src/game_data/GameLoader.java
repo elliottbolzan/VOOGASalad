@@ -24,9 +24,9 @@ import engine.game.Level;
 
 public class GameLoader {
 
-	public List<Level> loadGame(String folderpath) throws NotAGameFolderException {
+	public List<Level> loadGame(String folderPath) throws NotAGameFolderException {
 
-		File levelfolder = new File(folderpath + "/levels");
+		File levelfolder = new File(folderPath + "/levels");
 		if (!levelfolder.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -35,16 +35,16 @@ public class GameLoader {
 		List<Level> levels = new ArrayList<Level>();
 		for (int i = 0; i < levelfiles.length; i++) {
 			File levelfile = levelfiles[i];
-			Level neolevel = new Level();
-			addEntitiestoLevel(neolevel, levelfile);
-			levels.add(neolevel);
+			Level newlevel = new Level();
+			addEntitiestoLevel(newlevel, levelfile, folderPath);
+			levels.add(newlevel);
 		}
 
 		return levels;
 
 	}
 
-	private void addEntitiestoLevel(Level neolevel, File levelfile) {
+	private void addEntitiestoLevel(Level neolevel, File levelfile, String folderPath) {
 
 		try {
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -53,8 +53,9 @@ public class GameLoader {
 			doc.getDocumentElement().normalize();
 			NodeList nList = doc.getElementsByTagName("path");
 			for (int i = 0; i < nList.getLength(); i++) {
-				String entitypath = nList.item(i).getTextContent();
-				Entity entity = getEntityFromFilePath(entitypath);
+				String entityPath = nList.item(i).getTextContent();
+				Entity entity = getEntityFromFilePath(folderPath + entityPath);
+				entity.setImagePath("file:" + folderPath + File.separator + entity.getImagePath());
 				neolevel.addEntity(entity);
 			}
 

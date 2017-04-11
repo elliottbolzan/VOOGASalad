@@ -30,10 +30,10 @@ public class NodeFactory implements NodeFactoryInterface {
 	}
 	
 	private ImageView getImageFromPath(String imagePath) {
-		//TODO: remove
+		//TODO: remove the following
 		if(getClass().getClassLoader().getResourceAsStream(imagePath) != null) {
 			return new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(imagePath)));
 		}
-		return new ImageView(new Image("file:" + dataFolderPath + imagePath));
+		return new ImageView(new Image(imagePath));
 	}
 }
