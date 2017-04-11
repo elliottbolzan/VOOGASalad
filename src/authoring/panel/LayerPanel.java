@@ -10,6 +10,9 @@ import authoring.components.ComponentMaker;
 import authoring.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -51,13 +54,13 @@ public class LayerPanel extends View
 		Button deleteLayerButton = maker.makeButton("DeleteLayerButton", e -> {
 			initCloseRequest(e);
 			delete();
-			}, true);
+		}, true);
 		initLayerSelector();
 		configureVelocitySettings();
 		editorContainer.getChildren().addAll(addLayerButton, deleteLayerButton);
 		setCenter(editorContainer);
 	}
-	
+
 	private void initCloseRequest(Event e)
 	{
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
