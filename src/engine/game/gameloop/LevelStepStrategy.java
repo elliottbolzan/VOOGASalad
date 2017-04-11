@@ -51,7 +51,6 @@ public class LevelStepStrategy implements StepStrategy{
 	
 	@Override
 	public void step() {
-		System.out.println("Executing Level's step()");
 		observableBundle.updateObservers();  //ticks the clock (need to at beginning of step(), not end, because onFinished of Timeline called at END of time elapsed
 		
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
@@ -61,7 +60,6 @@ public class LevelStepStrategy implements StepStrategy{
 		observableBundle.getCollisionObservable().getCollisions().clear();
 		observableBundle.getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
-		printStepData(); //TODO Remove after debugging
 	}
 	
 	/**

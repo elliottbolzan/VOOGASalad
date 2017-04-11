@@ -22,7 +22,7 @@ public class DieAction extends Action{
 	}
 
 	@Override
-	public void act() {
+	public void act() {		
 		CharacterEntity entity = (CharacterEntity) getEntity();  //TODO Throw VoogaException here if not CharacterEntity
 		//Decrement lives
 		entity.setLives(entity.getLives() - 1);
