@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import engine.game.gameloop.StepStrategy;
 import exceptions.GameObjectException;
 
 public abstract class GameObject {
@@ -72,5 +71,23 @@ public abstract class GameObject {
 	}
 	public void setGameInfo(GameInfo info){
 		this.info = info;
+	}
+	
+	public GameObject getInstance(){
+		try {
+			return getClass().getConstructor().newInstance();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	public GameObject clone(){
+		GameObject copy = getInstance();
+		copy.setGameInfo(getGameInfo());
+		List<Parameter> params = new ArrayList<Parameter>();
+		params.addAll(getParams());
+		copy.setParams(params);
+		return copy;
 	}
 }
