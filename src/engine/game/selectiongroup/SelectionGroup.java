@@ -1,5 +1,6 @@
 package engine.game.selectiongroup;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -9,12 +10,13 @@ import java.util.List;
  * @param <T>
  */
 public interface SelectionGroup<T extends Selectable> {
-	public SGIterator<T> createIterator();
-	public int size();
-	public void add(T element);
-	public void add(int index, T element);
-	public void set(int index, T element);
-	public void remove(int index);
-	public T get(int index);
-	public List<T> getListRepresentation();
+	SGIterator<T> createIterator();
+	int size();
+	void add(T element);
+	void add(int index, T element);
+	void addAll(Collection<T> collection);
+	void set(int index, T element);
+	void remove(int index);
+	T get(int index);
+	List<T> getListRepresentation();
 }

@@ -1,6 +1,7 @@
 package engine.game.selectiongroup;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ListSG<T extends Selectable> implements SelectionGroup<T>{
@@ -56,5 +57,10 @@ public class ListSG<T extends Selectable> implements SelectionGroup<T>{
 	@Override
 	public List<T> getListRepresentation(){
 		return list;
+	}
+
+	@Override
+	public void addAll(Collection<T> collection) {
+		list.addAll(collection);
 	}
 }
