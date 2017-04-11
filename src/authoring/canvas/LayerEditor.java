@@ -16,7 +16,6 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
@@ -97,7 +96,7 @@ public class LayerEditor extends View
 		});
 		canvas.setPaneOnMouseDragged(e -> {
 			try {
-				Bounds newBounds = boundsFromImage(getCurrentImage(), e);
+				Bounds newBounds = boundsFromEntity(getCurrentEntity(), e);
 				if (e.isControlDown() && e.isShiftDown() && !lastBounds.intersects(newBounds)) {
 					lastBounds = newBounds;
 					placeEntity(e);
@@ -141,9 +140,9 @@ public class LayerEditor extends View
 		});
 	}
 
-	private Image getCurrentImage()
+	private Entity getCurrentEntity()
 	{
-		return new Image(workspace.getSelectedEntity().getImagePath());
+		return workspace.getSelectedEntity();
 	}
 
 	private void placeEntity(MouseEvent e)
@@ -156,9 +155,9 @@ public class LayerEditor extends View
 		}
 	}
 
-	private Bounds boundsFromImage(Image image, MouseEvent e)
+	private Bounds boundsFromEntity(Entity entity, MouseEvent e)
 	{
-		Bounds bounds = new Rectangle(e.getX(), e.getY(), image.getWidth(), image.getHeight()).getBoundsInLocal();
+		Bounds bounds = new Rectangle(e.getX(), e.getY(), entity.getWidth(), entity.getHeight()).getBoundsInLocal();
 		return bounds;
 	}
 
