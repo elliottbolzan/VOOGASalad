@@ -24,14 +24,15 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		super("Entity");
 		try {
 			setup("Mario", new File("resources/images/mario.png").toURI().toURL().toExternalForm());
-		} catch (MalformedURLException e) {}
+		} catch (MalformedURLException e) {
+		}
 	}
 
 	public Entity(String name, String imagePath) {
 		super("Entity");
 		setup(name, imagePath);
 	}
-	
+
 	private void setup(String name, String imagePath) {
 		x = new SimpleDoubleProperty();
 		y = new SimpleDoubleProperty();
@@ -192,10 +193,17 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return events;
 	}
 
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+
 	@Override
 	public Entity clone() {
 		try {
-			return getClass().getDeclaredConstructor().newInstance();
+			Entity returnedEntity = getClass().getDeclaredConstructor().newInstance();
+			returnedEntity.setImagePath(this.getImagePath());
+			returnedEntity.setName(this.getName());
+			returnedEntity.setEvents(this.getEvents());
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			// TODO: PUT ACTUAL ALERT HERE (this one is fake so that I don't

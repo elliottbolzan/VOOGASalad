@@ -102,6 +102,31 @@ public class LayerEditor extends View
 			}
 		});
 	}
+	//
+	// private void typeToCopyPaste()
+	// {
+	// workspace.setOnKeyPressed(e -> {
+	// if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
+	// List<EntityDisplay> selectedEntities = new ArrayList<EntityDisplay>();
+	// for (List<EntityDisplay> list : layerEntities.values()) {
+	// for (EntityDisplay entity : list) {
+	// if (entity.isSelected()) {
+	// System.out.println(entity.getEntity().getName());
+	// selectedEntities.add(entity);
+	// }
+	// }
+	// }
+	// workspace.setOnKeyPressed(e2 -> {
+	// if (e2.getCode().equals(KeyCode.V) && e2.isControlDown()) {
+	// for (EntityDisplay entity : selectedEntities) {
+	// addEntity(entity.getEntity(), entity.getEntity().getX() + 25,
+	// entity.getEntity().getY() + 25);
+	// }
+	// }
+	// });
+	// }
+	// });
+	// }
 
 	private Image getCurrentImage()
 	{

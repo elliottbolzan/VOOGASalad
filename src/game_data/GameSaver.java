@@ -5,6 +5,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,16 +18,28 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.Entity;
 import engine.game.Level;
 
+// Make references to paths relative. 
+
 public class GameSaver {
+	
+	private Game game;
 
 	public void saveGame(Game game, String filepath) {
+		this.game = game;
 		this.saveGame(game.getLevels(), filepath);
 	}
 
 	// filepath provides the specific directory where the game will be stored
-	public void saveGame(List<Level> levels, String filepath) {
-		savelevels(levels, filepath);
-
+	public void saveGame(List<Level> levels, String filePath) {
+		createRoot(filePath);
+		savelevels(levels, filePath + "/" + game.getName());
+	}
+	
+	private void createRoot(String filePath) {
+		File folder = new File(filePath + game.getName());
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
 	}
 
 	private void savelevels(List<Level> levels, String filepath) {
@@ -39,7 +52,6 @@ public class GameSaver {
 		for (int i = 0; i < levels.size(); i++) {
 
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
-			System.out.println(levels.get(i).getEntities());
 			List<String> entityfilepaths = new ArrayList<String>();
 
 			for (int j = 0; j < entities.size(); j++) {
@@ -82,8 +94,8 @@ public class GameSaver {
 	public void saveEntityImage(Entity entity, String filepath) {
 		try {
 
-			String sourcepathstring = entity.getImagePath();
-			Path sourcepath = Paths.get(sourcepathstring);
+			String sourcePath = new File(new URI(entity.getImagePath())).getAbsolutePath();
+			Path sourcepath = Paths.get(sourcePath);
 
 			String targetpathstring = filepath + "/images/" + entity.getName() + "image.png";
 			File entityimagefile = new File(targetpathstring);
@@ -94,7 +106,7 @@ public class GameSaver {
 			Path targetpath = Paths.get(targetpathstring);
 			Files.copy(sourcepath, targetpath, REPLACE_EXISTING);
 
-		} catch (IOException i) {
+		} catch (Exception i) {
 			i.printStackTrace();
 		}
 
