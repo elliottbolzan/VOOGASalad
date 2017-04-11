@@ -3,7 +3,6 @@ package game_data;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +18,11 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.Entity;
 import engine.game.Level;
 
+// Load process: read (relative) path from file.
+// Create an absolute path from it.
+// Give Entities the absolute paths.
+
 public class GameLoader {
-
-	public GameLoader() {
-
-	}
 
 	public List<Level> loadGame(String folderpath) throws NotAGameFolderException {
 

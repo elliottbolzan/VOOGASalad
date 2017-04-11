@@ -105,7 +105,9 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void editGame() {
-		new AuthoringEnvironment(chooseGame());
+		String path = chooseGame();
+		if (!path.equals(""))
+			new AuthoringEnvironment(path);
 	}
 
 	private void playGame() {

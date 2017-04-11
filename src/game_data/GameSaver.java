@@ -18,15 +18,27 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.Entity;
 import engine.game.Level;
 
+// Make references to paths relative. 
+
 public class GameSaver {
+	
+	private Game game;
 
 	public void saveGame(Game game, String filepath) {
+		this.game = game;
 		this.saveGame(game.getLevels(), filepath);
 	}
 
-	// filepath provides the specific directory where the game will be stored
-	public void saveGame(List<Level> levels, String filepath) {
-		savelevels(levels, filepath);
+	public void saveGame(List<Level> levels, String filePath) {
+		createRoot(filePath);
+		savelevels(levels, filePath + "/" + game.getName());
+	}
+	
+	private void createRoot(String filePath) {
+		File folder = new File(filePath + game.getName());
+		if (!folder.exists()) {
+			folder.mkdirs();
+		}
 	}
 
 	private void savelevels(List<Level> levels, String filepath) {
