@@ -21,7 +21,7 @@ import engine.game.Level;
 // Make references to paths relative. 
 
 public class GameSaver {
-	
+
 	private Game game;
 
 	public void saveGame(Game game, String filepath) {
@@ -34,18 +34,18 @@ public class GameSaver {
 		savelevels(levels, filePath + "/" + game.getName());
 		savedefaults(game.getDefaults(), filePath + "/" + game.getName());
 	}
-	
+
 	private void createRoot(String filePath) {
 		File folder = new File(filePath + game.getName());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
 	}
-	
+
 	private void savedefaults(List<Entity> levels, String filepath){
-		
+
 	}
-	
+
 	private void savelevels(List<Level> levels, String filepath) {
 		for (int i = 0; i < levels.size(); i++) {
 
@@ -54,39 +54,40 @@ public class GameSaver {
 
 			for (int j = 0; j < entities.size(); j++) {
 				Entity currentity = entities.get(j);
-				
-				
+
+
 				String entityfilepath = saveEntity(currentity, filepath);
 				entityfilepaths.add(entityfilepath);
 			}
 
 			LevelSaver ls = new LevelSaver(entityfilepaths, filepath, i);
 			String xmlLevel = ls.saveLevel();
-			
+
+
 		}
-		
-		
-		
-//		File entityfolder = new File(filepath + "/levels");
-//		if (!entityfolder.exists()) {
-//			entityfolder.mkdirs();
-//		}
-//		File dir = new File(filepath + "/levels");
-//		dir.mkdir();
-//		for (int i = 0; i < levels.size(); i++) {
-//
-//			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
-//			List<String> entityfilepaths = new ArrayList<String>();
-//
-//			for (int j = 0; j < entities.size(); j++) {
-//				Entity currentity = entities.get(j);
-//				String entityfilepath = saveEntity(currentity, filepath);
-//				entityfilepaths.add(entityfilepath);
-//			}
-//
-//			LevelSaver ls = new LevelSaver(entityfilepaths, filepath, i);
-//			ls.saveLevel();
-//		}
+
+
+
+		//		File entityfolder = new File(filepath + "/levels");
+		//		if (!entityfolder.exists()) {
+		//			entityfolder.mkdirs();
+		//		}
+		//		File dir = new File(filepath + "/levels");
+		//		dir.mkdir();
+		//		for (int i = 0; i < levels.size(); i++) {
+		//
+		//			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
+		//			List<String> entityfilepaths = new ArrayList<String>();
+		//
+		//			for (int j = 0; j < entities.size(); j++) {
+		//				Entity currentity = entities.get(j);
+		//				String entityfilepath = saveEntity(currentity, filepath);
+		//				entityfilepaths.add(entityfilepath);
+		//			}
+		//
+		//			LevelSaver ls = new LevelSaver(entityfilepaths, filepath, i);
+		//			ls.saveLevel();
+		//		}
 	}
 
 	public String saveEntity(Entity entity, String filepath) {
@@ -95,24 +96,47 @@ public class GameSaver {
 			entityfolder.mkdirs();
 		}
 		String entityfilepath = "";
-		try {
-			saveEntityImage(entity, filepath);
-			entityfilepath = filepath + "/entities/" + entity.getName() + ".xml";
-			File entityfile = new File(entityfilepath);
+		saveEntityImage(entity, filepath);
+		entityfilepath = filepath + "/entities/" + entity.getName() + ".xml";
+		File entityfile = new File(entityfilepath);
 
-			XStream xStream = new XStream(new DomDriver());
-			xStream.registerConverter(new EntityConverter());
-			String xmlstring = xStream.toXML(entity);
-			FileWriter fw = new java.io.FileWriter(entityfile);
+		XStream xStream = new XStream(new DomDriver());
+		xStream.registerConverter(new EntityConverter());
+		String xmlstring = xStream.toXML(entity);
 
-			fw.write(xmlstring);
-			fw.close();
+		//			FileWriter fw = new java.io.FileWriter(entityfile);
+		//
+		//			fw.write(xmlstring);
+		//			fw.close();
 
-		} catch (IOException i) {
-			i.printStackTrace();
-		}
+
+
 
 		return entityfilepath;
+
+		//		File entityfolder = new File(filepath + "/entities");
+		//		if (!entityfolder.exists()) {
+		//			entityfolder.mkdirs();
+		//		}
+		//		String entityfilepath = "";
+		//		try {
+		//			saveEntityImage(entity, filepath);
+		//			entityfilepath = filepath + "/entities/" + entity.getName() + ".xml";
+		//			File entityfile = new File(entityfilepath);
+		//
+		//			XStream xStream = new XStream(new DomDriver());
+		//			xStream.registerConverter(new EntityConverter());
+		//			String xmlstring = xStream.toXML(entity);
+		//			FileWriter fw = new java.io.FileWriter(entityfile);
+		//
+		//			fw.write(xmlstring);
+		//			fw.close();
+		//
+		//		} catch (IOException i) {
+		//			i.printStackTrace();
+		//		}
+		//
+		//		return entityfilepath;
 	}
 
 	public void saveEntityImage(Entity entity, String filepath) {
