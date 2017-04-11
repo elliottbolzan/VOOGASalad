@@ -85,18 +85,15 @@ public class EntityConverter implements Converter {
 				field = entity.getClass().getDeclaredField(reader.getNodeName());
 			} catch (NoSuchFieldException | SecurityException e) {
 				try {
-					System.out.println("error here");
 					field = entity.getClass().getSuperclass().getDeclaredField(reader.getNodeName());
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				// e.printStackTrace();
 			}
 			if (field == null)
 				break;
 			field.setAccessible(true);
 			Object value;
-			System.out.println("Value: " + reader.getValue());
 			if (field.getType().equals(SimpleDoubleProperty.class))
 				value = new SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
 			else if (field.getType().equals(SimpleStringProperty.class))

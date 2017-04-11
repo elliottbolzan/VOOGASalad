@@ -15,17 +15,18 @@ public class PlayerMenu {
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private BorderPane root;
 	private Stage stage;
-	private String filename;
 	private Game game;
 	private GameData data;
+	private String gameFolderPath;
 	
-	public PlayerMenu(String filename){
-		this.filename = filename;
+	public PlayerMenu(String gameFolderPath){
+		this.gameFolderPath = gameFolderPath;
 		setupStage();
 		setupScene();
 	}
 	
-	public PlayerMenu(Stage stage){
+	public PlayerMenu(Stage stage, String gameFolderPath){
+		this.gameFolderPath = gameFolderPath;
 		this.stage = stage;
 		stage.setScene(createScene());
 		setupScene();
@@ -60,10 +61,10 @@ public class PlayerMenu {
 		ComponentMaker componentMaker = new ComponentMaker(resources);
 		VBox menu = new VBox(8);
 
-		menu.getChildren().addAll(componentMaker.makeButton("StartButton", e -> stage.setScene(new LoadMenu(stage).display()), true),
-				componentMaker.makeButton("AchievementsButton", e -> stage.setScene(new AchievementsMenu(stage).display()), true),
-				componentMaker.makeButton("OptionsButton", e -> stage.setScene(new OptionsMenu(stage).display()), true),
-				componentMaker.makeButton("InfoButton", e -> stage.setScene(new InfoMenu(stage).display()), true),
+		menu.getChildren().addAll(componentMaker.makeButton("StartButton", e -> stage.setScene(new LoadMenu(stage, gameFolderPath).display()), true),
+				componentMaker.makeButton("AchievementsButton", e -> stage.setScene(new AchievementsMenu(stage, gameFolderPath).display()), true),
+				componentMaker.makeButton("OptionsButton", e -> stage.setScene(new OptionsMenu(stage, gameFolderPath).display()), true),
+				componentMaker.makeButton("InfoButton", e -> stage.setScene(new InfoMenu(stage, gameFolderPath).display()), true),
 				componentMaker.makeButton("ExitButton", e -> stage.close(), true));
 		
 		root.setCenter(menu);

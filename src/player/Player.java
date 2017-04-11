@@ -31,14 +31,19 @@ public class Player extends BorderPane {
 	private Scene scene;
 	private GameLoop gameLoop;
 	
+	private String dataFolderPath;
+	
 	private Button playButton;
 	private boolean isPaused;
 	
-	public Player() {
+	public Player(String dataFolderPath) {
+		this.dataFolderPath = dataFolderPath;
+		
 		this.buildStage();
 		
 		this.buildGameView();
 		this.buildControlBar();
+		
 		this.togglePlayPause(true);
 	}
 	
@@ -47,6 +52,7 @@ public class Player extends BorderPane {
 		stage.setTitle(resources.getString("PlayerTitle"));
 		stage.setMinWidth(600);
 		stage.setMinHeight(600);
+		stage.setOnCloseRequest(e -> this.exit());
 		
 		scene = new Scene(this, 600, 600);
 		scene.getStylesheets().add(stylesheetPath);
@@ -57,7 +63,7 @@ public class Player extends BorderPane {
 	
 	private void buildGameView() {
 		//TODO: pass in the file name of the game/level you want to play
-		gameLoop = new GameLoop(scene, "FIXME");
+		gameLoop = new GameLoop(scene, dataFolderPath);
 		this.setCenter(gameLoop.getGameView());
 	}
 	
