@@ -32,6 +32,7 @@ public class GameSaver {
 		createRoot(filepath);
 		savelevels(game.getLevels(), filepath + "/" + game.getName());
 		savedefaults(game.getDefaults(), filepath + "/" + game.getName());
+		saveSong(filepath+game.getSongPath());
 		saveDocument(filepath);
 	}
 	public void saveGame(List<Level> levels, String filePath) {
@@ -43,12 +44,23 @@ public class GameSaver {
 	
 	private void createRoot(String filePath) {
 		
-		System.out.println(filePath+game.getName());
+		//System.out.println(filePath+game.getName());
 		File folder = new File(filePath + game.getName());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
 	}
+	
+	private void saveSong(String songPath){
+		System.out.println(songPath);
+		LevelSaver ls = new LevelSaver(null, songPath);
+		String xmlsong = ls.saveSong(songPath);
+		Element songelement = gamexmlfactory.stringToElement(xmlsong);
+		gamexmlfactory.addSong(songelement);
+		//gamexmlfactory.addSong(gamexmlfactory.stringToElement(songPath));
+	}
+	
+	
 	
 	private void savedefaults(List<Entity> defaults, String filepath){
 		
@@ -81,10 +93,7 @@ public class GameSaver {
 			List<Element> entitynodes = new ArrayList<Element>();
 		
 			for (int j = 0; j < entities.size(); j++) {
-				Entity currentity = entities.get(j);
-				
-				System.out.println(currentity.getX());
-				
+				Entity currentity = entities.get(j);				
 				Element entitynode = getEntityNode(currentity);
 				entitynodes.add(entitynode);
 			}
@@ -113,27 +122,27 @@ public class GameSaver {
 		return gamexmlfactory.stringToElement(xmlstring);
 		
 	}
-	public String saveEntity(Entity entity, String filepath) {
-		File entityfolder = new File(filepath + "/entities");
-		if (!entityfolder.exists()) {
-			entityfolder.mkdirs();
-		}
-		String entityfilepath = "";
-		try {
-			saveEntityImage(entity, filepath);
-			entityfilepath = filepath + "/entities/" + entity.getName() + ".xml";
-			File entityfile = new File(entityfilepath);
-			XStream xStream = new XStream(new DomDriver());
-			xStream.registerConverter(new EntityConverter());
-			String xmlstring = xStream.toXML(entity);
-			FileWriter fw = new java.io.FileWriter(entityfile);
-			fw.write(xmlstring);
-			fw.close();
-		} catch (IOException i) {
-			i.printStackTrace();
-		}
-		return entityfilepath;
-	}
+//	public String saveEntity(Entity entity, String filepath) {
+//		File entityfolder = new File(filepath + "/entities");
+//		if (!entityfolder.exists()) {
+//			entityfolder.mkdirs();
+//		}
+//		String entityfilepath = "";
+//		try {
+//			saveEntityImage(entity, filepath);
+//			entityfilepath = filepath + "/entities/" + entity.getName() + ".xml";
+//			File entityfile = new File(entityfilepath);
+//			XStream xStream = new XStream(new DomDriver());
+//			xStream.registerConverter(new EntityConverter());
+//			String xmlstring = xStream.toXML(entity);
+//			FileWriter fw = new java.io.FileWriter(entityfile);
+//			fw.write(xmlstring);
+//			fw.close();
+//		} catch (IOException i) {
+//			i.printStackTrace();
+//		}
+//		return entityfilepath;
+//	}
 	public void saveEntityImage(Entity entity, String filepath) {
 		try {
 			
@@ -164,7 +173,7 @@ public class GameSaver {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(filepath+"gamexmlfactorytest.xml"));
+			StreamResult result = new StreamResult(new File(filepath+"/gamexmlfactorytest.xml"));
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
 			transformer.transform(source, result);

@@ -1,5 +1,6 @@
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
+<<<<<<< HEAD
   <x>225.0</x>
   <y>125.0</y>
   <width>425.0</width>
@@ -7,6 +8,15 @@
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>file:/Users/zergfire/Desktop/test.png</imagePath>
+=======
+  <x>450.0</x>
+  <y>100.0</y>
+  <width>200.0</width>
+  <height>300.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Mario</name>
+  <imagePath>file:/home/jimmy/Desktop/EclipseProjects/voogasalad_duwaldorf/src/resources/images/mario.png</imagePath>
+>>>>>>> master
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>

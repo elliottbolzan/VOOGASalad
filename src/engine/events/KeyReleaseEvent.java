@@ -13,8 +13,8 @@ public class KeyReleaseEvent extends Event {
 
 	@Override	
 	public boolean act(){
-		if (((InputObservable)getEventObservable()).isKeyReleaseToProcess()){
-			if (getParam("Key").equals(((InputObservable) getEventObservable()).getLastPressedKey()))
+		if (getGameInfo().getObservableBundle().getInputObservable().isKeyReleaseToProcess()){
+			if (getParam("Key").equals(getGameInfo().getObservableBundle().getInputObservable().getLastPressedKey()))
 				return true;
 		}
 		return false;

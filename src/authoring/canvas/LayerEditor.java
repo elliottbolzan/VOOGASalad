@@ -16,7 +16,6 @@ import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
@@ -84,7 +83,7 @@ public class LayerEditor extends View
 		currLayer = 0;
 		lastBounds = new Rectangle().getBoundsInLocal();
 		clickToAddEntity();
-		typeToDelete();
+		addKeyActions();
 		newTab();
 	}
 
@@ -97,7 +96,7 @@ public class LayerEditor extends View
 		});
 		canvas.setPaneOnMouseDragged(e -> {
 			try {
-				Bounds newBounds = boundsFromImage(getCurrentImage(), e);
+				Bounds newBounds = boundsFromEntity(getCurrentEntity(), e);
 				if (e.isControlDown() && e.isShiftDown() && !lastBounds.intersects(newBounds)) {
 					lastBounds = newBounds;
 					placeEntity(e);
@@ -107,7 +106,7 @@ public class LayerEditor extends View
 		});
 	}
 
-	private void typeToDelete()
+	private void addKeyActions()
 	{
 		workspace.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
@@ -140,35 +139,10 @@ public class LayerEditor extends View
 			}
 		});
 	}
-	//
-	// private void typeToCopyPaste()
-	// {
-	// workspace.setOnKeyPressed(e -> {
-	// if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
-	// List<EntityDisplay> selectedEntities = new ArrayList<EntityDisplay>();
-	// for (List<EntityDisplay> list : layerEntities.values()) {
-	// for (EntityDisplay entity : list) {
-	// if (entity.isSelected()) {
-	// System.out.println(entity.getEntity().getName());
-	// selectedEntities.add(entity);
-	// }
-	// }
-	// }
-	// workspace.setOnKeyPressed(e2 -> {
-	// if (e2.getCode().equals(KeyCode.V) && e2.isControlDown()) {
-	// for (EntityDisplay entity : selectedEntities) {
-	// addEntity(entity.getEntity(), entity.getEntity().getX() + 25,
-	// entity.getEntity().getY() + 25);
-	// }
-	// }
-	// });
-	// }
-	// });
-	// }
 
-	private Image getCurrentImage()
+	private Entity getCurrentEntity()
 	{
-		return new Image(workspace.getSelectedEntity().getImagePath());
+		return workspace.getSelectedEntity();
 	}
 
 	private void placeEntity(MouseEvent e)
@@ -181,9 +155,9 @@ public class LayerEditor extends View
 		}
 	}
 
-	private Bounds boundsFromImage(Image image, MouseEvent e)
+	private Bounds boundsFromEntity(Entity entity, MouseEvent e)
 	{
-		Bounds bounds = new Rectangle(e.getX(), e.getY(), image.getWidth(), image.getHeight()).getBoundsInLocal();
+		Bounds bounds = new Rectangle(e.getX(), e.getY(), entity.getWidth(), entity.getHeight()).getBoundsInLocal();
 		return bounds;
 	}
 
@@ -202,6 +176,7 @@ public class LayerEditor extends View
 				}
 			}
 			addedEntity.setSelected(!addedEntity.isSelected());
+			//workspace.updateEntity(addedEntity.getEntity());
 		});
 	}
 
@@ -233,8 +208,6 @@ public class LayerEditor extends View
 	public void selectLayer(int newLayer)
 	{
 		newLayerSelected(newLayer);
-		// allow this layer to have key actions
-		typeToDelete();
 	}
 
 	private void newLayerSelected(int newVal)
@@ -251,6 +224,13 @@ public class LayerEditor extends View
 			entity.toFront();
 		}
 		currLayer = newVal;
+	}
+
+	public void select()
+	{
+		this.selectLayer(0);
+		// allow this layer to have key actions
+		addKeyActions();
 	}
 
 	private void showSelectMessage()

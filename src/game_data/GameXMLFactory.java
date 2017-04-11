@@ -77,6 +77,7 @@ public class GameXMLFactory {
 		nameNode.setAttributeNode(attr);
 
 	}
+	
 
 
 	public void addLevel(Element levelinfo){
@@ -90,6 +91,12 @@ public class GameXMLFactory {
 		levelsNode.appendChild(newlevel);
 
 	}
+	
+	public void addSong(Element songPath){
+		Element importsong = (Element) doc.importNode(songPath, true);
+		resourceNode.appendChild(importsong);
+	}
+	
 	public void addDefaultEntity(Element defaultentity){
 
 

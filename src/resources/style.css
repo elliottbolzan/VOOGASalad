@@ -64,6 +64,13 @@
     -fx-alignment: CENTER;
 }
 
+#title {
+    -fx-font-size: 70pt;
+	-fx-font-family: Phosphate;
+	-fx-text-fill: #2affce;
+	-fx-stroke: black;
+}
+
 /*.scroll-pane > .viewport {
    -fx-background-color: white;
 }*/
