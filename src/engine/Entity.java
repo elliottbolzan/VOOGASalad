@@ -71,6 +71,11 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.x.set(x);
 	}
 
+	public void setZ(int z)
+	{
+		this.zIndex.set(z);
+	}
+
 	@Override
 	public String getName() {
 		return this.name.get();

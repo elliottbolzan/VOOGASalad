@@ -47,7 +47,13 @@ public class GameSaverTest {
 		Game g  = new Game();
 		g.setName("Testing");
 		g.setLevels(levels);
+		List<Entity> defaults = new ArrayList<Entity>();
 		
+		defaults.add(luigi);
+		
+		g.setDefaults(defaults);
+		
+	
 		gs.saveGame(g, filepath);
 	}
 }

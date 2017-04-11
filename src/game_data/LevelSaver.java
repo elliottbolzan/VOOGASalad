@@ -24,10 +24,9 @@ public class LevelSaver {
 	private DocumentBuilder docBuilder;
 	private Document doc;
 	private int levelnumber;
-	public LevelSaver(List<Element> inputentitynodes, String inputfolderpath,int inputlevelnumber){
+	public LevelSaver(List<Element> inputentitynodes, String inputfolderpath){
 		entitynodes=inputentitynodes;
 		folderpath=inputfolderpath;
-		levelnumber=inputlevelnumber;
 
 	}
 

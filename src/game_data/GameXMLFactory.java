@@ -32,19 +32,21 @@ public class GameXMLFactory {
 	private Document doc;
 	private Element nameNode;
 	private Element levelsNode;
-	
+	private Element defaultsNode;
+	private Element resourceNode;
+
 	//Name
 	//Entities
 	//Levels
 	//Defaults
 	//Song
-	
-	
+
+
 	public GameXMLFactory(){
 		initiate();
 	}
 	private void initiate(){
-		
+
 		docFactory = DocumentBuilderFactory.newInstance();
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
@@ -52,58 +54,70 @@ public class GameXMLFactory {
 			e.printStackTrace();
 		}
 		doc = docBuilder.newDocument();
-		
+
 		Element rootElement = doc.createElement("Game");
 		doc.appendChild(rootElement);
-		
+
 		nameNode = doc.createElement("Name");
 		rootElement.appendChild(nameNode);
-		
+
 		levelsNode = doc.createElement("Levels");
 		rootElement.appendChild(levelsNode);
-		}
-	
+
+		defaultsNode = doc.createElement("DefaultsNode");
+		rootElement.appendChild(defaultsNode);
+		
+		resourceNode = doc.createElement("ResourceNode");
+		rootElement.appendChild(resourceNode);
+	}
+
 	public void setName(String gamename){
 		Attr attr = doc.createAttribute("GameName");
 		attr.setValue(gamename);
 		nameNode.setAttributeNode(attr);
 
 	}
-	
-	
+
+
 	public void addLevel(Element levelinfo){
-		
-		
-		
+
+
+
 		Element newlevel = doc.createElement("level");
-		
+
 		Element importedlevelnode=(Element) doc.importNode(levelinfo, true);
 		newlevel.appendChild(importedlevelnode);
-		
-		
 		levelsNode.appendChild(newlevel);
-		
+
 	}
-	
+	public void addDefaultEntity(Element defaultentity){
+
+
+
+		Element importeddefaultentitynode= (Element) doc.importNode(defaultentity, true);
+
+		defaultsNode.appendChild(importeddefaultentitynode);
+
+	}
 	public void addEntityInfotoElement(Element element, Element entityinfo){
-		
-		
+
+
 		Element newentity = doc.createElement("entity");
 		newentity.appendChild(entityinfo);
-		
+
 		element.appendChild(newentity);
-		
+
 	}
-	
-	
+
+
 	public Element stringToElement(String xmlstring){
-		
+
 		try {
 			return  DocumentBuilderFactory
-				    .newInstance()
-				    .newDocumentBuilder()
-				    .parse(new ByteArrayInputStream(xmlstring.getBytes()))
-				    .getDocumentElement();
+					.newInstance()
+					.newDocumentBuilder()
+					.parse(new ByteArrayInputStream(xmlstring.getBytes()))
+					.getDocumentElement();
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -111,12 +125,12 @@ public class GameXMLFactory {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
-	
+
 	public Document getDocument(){
 		return doc;
 	}
-	
+
 }
