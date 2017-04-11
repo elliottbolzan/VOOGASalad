@@ -69,7 +69,7 @@ public class LayerEditor extends View
 	private void clear()
 	{
 		while (layerCount > 0) {
-			deleteLayer(layerCount - 1);
+			executeDelete(layerCount - 1);
 		}
 		setup();
 	}
@@ -233,6 +233,8 @@ public class LayerEditor extends View
 	public void selectLayer(int newLayer)
 	{
 		newLayerSelected(newLayer);
+		// allow this layer to have key actions
+		typeToDelete();
 	}
 
 	private void newLayerSelected(int newVal)
@@ -265,21 +267,21 @@ public class LayerEditor extends View
 	}
 
 	/*
-	 * ALERT: DO NOT TRY DELETING LAYER 1. 
+	 * ALERT: DO NOT TRY DELETING LAYER 1.
 	 */
 	public void deleteLayer(int layer)
 	{
-		if(layerCount==1){
+		if (layerCount == 1) {
 			String message = workspace.getResources().getString("LayerError");
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
 			alert.showAndWait();
-		}
-		else{
-		executeDelete(layer);
+		} else {
+			executeDelete(layer);
 		}
 	}
 
-	private void executeDelete(int layer) {
+	private void executeDelete(int layer)
+	{
 		if (layerEntities.get(layer).size() != 0) {
 			layerEntities.get(layer).stream().forEach(id -> {
 				canvas.removeEntity(id);
