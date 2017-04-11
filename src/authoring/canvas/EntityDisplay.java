@@ -11,28 +11,24 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class EntityDisplay extends VBox
-{
+public class EntityDisplay extends VBox {
 	private Entity entity;
 	private ImageView image;
 	private int tileSize;
 	private boolean selected;
 
-	public EntityDisplay(Entity entity, int gridSize, double x, double y)
-	{
-		// TODO: Instead of this.entity = entity, need this.entity =
-		// entity.clone();
+	public EntityDisplay(Entity entity, int gridSize, double x, double y) {
 		this.entity = entity.clone();
-		// this.entity = entity;
 		this.image = new ImageView(new Image(entity.getImagePath()));
+		this.setMinHeight(entity.getHeight());
+		this.setMinWidth(entity.getWidth());
 		this.tileSize = gridSize;
 		selected = false;
 
 		setup(gridSize, x, y);
 	}
 
-	private void setup(int gridSize, double x, double y)
-	{
+	private void setup(int gridSize, double x, double y) {
 		this.setPrefHeight(10);
 		this.setPrefWidth(10);
 		image.fitWidthProperty().bind(this.minWidthProperty());
@@ -50,13 +46,11 @@ public class EntityDisplay extends VBox
 		DragResizer.makeResizable(this, gridSize);
 	}
 
-	public Entity getEntity()
-	{
+	public Entity getEntity() {
 		return entity;
 	}
 
-	public void setSelected(boolean selected)
-	{
+	public void setSelected(boolean selected) {
 		this.selected = selected;
 		if (selected) {
 			Color borderColor = new Color(0, 0, 0, 0.2);
@@ -74,14 +68,12 @@ public class EntityDisplay extends VBox
 		}
 	}
 
-	public boolean isSelected()
-	{
+	public boolean isSelected() {
 		return this.selected;
 	}
 
 	// TODO: This method is repeated in DragResizer
-	private double getTiledCoordinate(double coordinate)
-	{
+	private double getTiledCoordinate(double coordinate) {
 		double gridCoordinate = ((int) coordinate / tileSize) * tileSize;
 		if (coordinate % tileSize > tileSize / 2) {
 			return gridCoordinate + tileSize;

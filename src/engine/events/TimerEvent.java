@@ -19,7 +19,7 @@ public class TimerEvent extends Event {
 
 	@Override
 	public boolean act() {
-		int time = ((TimerObservable) getEventObservable()).getTimeInMilliseconds();
+		int time = getGameInfo().getObservableBundle().getTimerObservable().getTimeInMilliseconds();
 		if (lessThan && equalTo) {
 			return time <= (Integer) getParam("Time");
 		} else if (lessThan && !equalTo) {

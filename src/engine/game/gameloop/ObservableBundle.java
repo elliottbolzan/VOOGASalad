@@ -67,6 +67,7 @@ public class ObservableBundle {
 		timerObservable.attachCurrentLevelTimerManager(levelManager.getCurrentLevel().getTimerManager());
 	}
 	
+	/*
 	public void setObservablesInEvents(LevelManager levelManager){
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			for (Event event : entity.getEvents()) {
@@ -82,6 +83,7 @@ public class ObservableBundle {
 			}
 		}
 	}
+	*/
 	
 	public void updateObservers(){
 		inputObservable.updateObservers();

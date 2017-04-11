@@ -53,8 +53,8 @@ public class GameSaver {
 	
 	private void createRoot(String filePath) {
 		
-		System.out.println(filePath+game.getName());
-		File folder = new File(filePath + game.getName());
+		
+		File folder = new File(filePath +"/" + game.getName());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
@@ -97,7 +97,7 @@ public class GameSaver {
 			for (int j = 0; j < entities.size(); j++) {
 				Entity currentity = entities.get(j);
 				
-				System.out.println(currentity.getX());
+			//	System.out.println(currentity.getX());
 				
 				Element entitynode = getEntityNode(currentity);
 				entitynodes.add(entitynode);
@@ -194,7 +194,7 @@ public class GameSaver {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(filepath+"gamexmlfactorytest.xml"));
+			StreamResult result = new StreamResult(new File(filepath+"/"+game.getName()+"/settings.xml"));
 
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);

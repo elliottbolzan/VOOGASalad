@@ -11,6 +11,7 @@ import authoring.panel.settings.Settings;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
+import engine.Entity;
 
 public class Panel extends CollapsibleView {
 
@@ -39,6 +40,10 @@ public class Panel extends CollapsibleView {
 		createSubviews();
 		setup();
 	}
+	
+	/*public void updateEntity(Entity entity) {
+		entityDisplay.updateEntity(entity);
+	}*/
 
 	/**
 	 * Populate the subviews Lists, which dictates which subviews appear in the
@@ -60,12 +65,16 @@ public class Panel extends CollapsibleView {
 		setCenter(maker.makeAccordion(subviews));
 		setBottom(maker.makeButton("SaveButtonSettings", e -> workspace.save(), true));
 	}
-	
+
 	public EntityDisplay getEntityDisplay() {
 		return entityDisplay;
 	}
 	
-	public void updateLayerPanel(String newLayer){
+	public Settings getSettings() {
+		return settings;
+	}
+	
+	public void updateLayerPanel(String newLayer) {
 		layerPanel.updateBox(newLayer);
 	}
 

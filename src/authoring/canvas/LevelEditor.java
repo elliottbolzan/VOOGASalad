@@ -120,6 +120,7 @@ public class LevelEditor extends View
 				} else if (!newTab.getText().equals("+") && !oldTab.getText().equals("+")) {
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
 					workspace.selectExistingLevel(currentLevel.getLayerCount());
+					currentLevel.select();
 				}
 			}
 

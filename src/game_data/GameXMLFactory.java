@@ -63,7 +63,7 @@ public class GameXMLFactory {
 		levelsNode = doc.createElement("Levels");
 		rootElement.appendChild(levelsNode);
 		
-		defaultsNode = doc.createElement("DefaultsNode");
+		defaultsNode = doc.createElement("Defaults");
 		rootElement.appendChild(defaultsNode);
 		}
 	

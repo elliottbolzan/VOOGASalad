@@ -1,7 +1,6 @@
 package engine;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		height = new SimpleDoubleProperty();
 		zIndex = new SimpleDoubleProperty();
 		events = new ArrayList<Event>();
-		events = new ArrayList<Event>();
 		this.name = new SimpleStringProperty(name);
 		this.imagePath = new SimpleStringProperty(imagePath);
 		addParam(new Parameter("Time Step", Double.class, 0.5));
@@ -71,8 +69,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.x.set(x);
 	}
 
-	public void setZ(int z)
-	{
+	public void setZ(int z) {
 		this.zIndex.set(z);
 	}
 
@@ -199,20 +196,30 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	public void setEvents(List<Event> events) {
+		/*(this.events.clear();
+		for (Event event : events) {
+			this.addEvent(event);
+		}*/
 		this.events = events;
+	}
+
+	public void set(Entity entity) {
+		this.setImagePath(entity.getImagePath());
+		this.setName(entity.getName());
+		this.setEvents(entity.getEvents());
+		this.setHeight(entity.getHeight());
+		this.setWidth(entity.getWidth());
+		this.setX(entity.getX());
+		this.setY(entity.getY());
 	}
 
 	@Override
 	public Entity clone() {
 		try {
 			Entity returnedEntity = getClass().getDeclaredConstructor().newInstance();
-			returnedEntity.setImagePath(this.getImagePath());
-			returnedEntity.setName(this.getName());
-			returnedEntity.setEvents(this.getEvents());
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			// TODO: PUT ACTUAL ALERT HERE (this one is fake so that I don't
-			// fail the class)
+			returnedEntity.set(this);
+			return returnedEntity;
+		} catch (Exception e) {
 			Alert alert = new Alert(null, "Couldn't clone Entity", null);
 			alert.show();
 		}
