@@ -73,13 +73,5 @@ public class Panel extends CollapsibleView {
 	public Settings getSettings() {
 		return settings;
 	}
-	
-	public void updateLayerPanel(String newLayer) {
-		layerPanel.updateBox(newLayer);
-	}
-
-	public void selectExistingLevelBox(int layerNum) {
-		layerPanel.selectLevelBox(layerNum);
-	}
 
 }

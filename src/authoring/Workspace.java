@@ -64,9 +64,9 @@ public class Workspace extends View {
 		data = new GameData();
 		maker = new ComponentMaker(resources);
 		defaults = new DefaultEntities(this);
+		levelEditor = new LevelEditor(this);
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
-		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
 		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
@@ -139,12 +139,7 @@ public class Workspace extends View {
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
-	public List getEntities() {
-		// return canvas's entities (i.e. canvas.getLevel())
-		return new ArrayList<>();
-	}
-
-	public void setNewLayer(String newLayer) {
+	/*public void setNewLayer(String newLayer) {
 		panel.updateLayerPanel(newLayer);
 	}
 
@@ -163,4 +158,7 @@ public class Workspace extends View {
 	public void deleteLayer(int layer) {
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
+	
+	*/
+	
 }
