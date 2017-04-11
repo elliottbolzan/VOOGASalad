@@ -12,13 +12,13 @@ import javafx.stage.Stage;
 public class AuthoringEnvironment {
 
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/AuthoringEnvironment");
-	private String path;
+	private String gamePath;
 	
 	/**
 	 * 
 	 */
-	public AuthoringEnvironment(String path) {
-		this.path = path;
+	public AuthoringEnvironment(String gamePath) {
+		this.gamePath = gamePath;
 		setupStage();
 	}
 	
@@ -36,7 +36,7 @@ public class AuthoringEnvironment {
 	}
 	
 	private Scene createScene() {
-		Scene scene = new Scene(new Workspace(resources, path), 1000, 600);
+		Scene scene = new Scene(new Workspace(resources, gamePath), 1000, 600);
 		scene.getStylesheets().add(resources.getString("StylesheetPath"));
 		return scene;
 	}

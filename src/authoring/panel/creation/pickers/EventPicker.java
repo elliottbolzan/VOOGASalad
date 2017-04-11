@@ -20,16 +20,15 @@ import javafx.stage.Modality;
  */
 public class EventPicker extends Picker {
 
-	private EntityMaker editor;
+	private EntityMaker entityMaker;
 	private EngineController engine = new EngineController();
 	private ListView<Event> list;
-	private Event currentlyEditing;
-	private ComponentMaker maker;
+	private ComponentMaker componentMaker;
 
-	public EventPicker(Workspace workspace, EntityMaker editor) {
-		super(workspace, "EventPickerTitle", editor);
-		this.editor = editor;
-		maker = new ComponentMaker(workspace.getResources());
+	public EventPicker(Workspace workspace, EntityMaker entityMaker) {
+		super(workspace, "EventPickerTitle", entityMaker);
+		this.entityMaker = entityMaker;
+		componentMaker = new ComponentMaker(workspace.getResources());
 		update();
 	}
 
@@ -53,7 +52,7 @@ public class EventPicker extends Picker {
 		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				editor.setSelectedEvent(list.getSelectionModel().getSelectedItem());
+				entityMaker.setSelectedEvent(list.getSelectionModel().getSelectedItem());
 			}
 		});
 		setCenter(list);
@@ -61,26 +60,27 @@ public class EventPicker extends Picker {
 
 	@Override
 	public void createNew() {
-		if (editor.getEntity() != null) {
-			currentlyEditing = null;
+		if (entityMaker.getEntity() != null) {
+			setCurrentlyEditing(null);
 			showEditor();
 		}
 	}
 
 	@Override
 	public <E> void add(E element) {
-		if (currentlyEditing != null) {
-			remove(currentlyEditing);
+		if (getCurrentlyEditing() != null) {
+			remove(getCurrentlyEditing());
 		}
 		Event event = (Event) element;
-		event.setEntity(editor.getEntity());
-		editor.getEntity().getEvents().add(event);
+		event.setEntity(entityMaker.getEntity());
+		System.out.println(entityMaker.getEntity());
+		entityMaker.getEntity().getEvents().add(event);
 		update();
 	}
 
 	@Override
 	public <E> void remove(E element) {
-		editor.getEntity().getEvents().remove((Event) element);
+		entityMaker.getEntity().getEvents().remove((Event) element);
 		update();
 	}
 
@@ -88,27 +88,28 @@ public class EventPicker extends Picker {
 	public void delete() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
 			remove(list.getSelectionModel().getSelectedItem());
-			editor.setSelectedEvent(null);
+			entityMaker.setSelectedEvent(null);
 		}
 	}
 
 	@Override
 	public void edit() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
-			currentlyEditing = list.getSelectionModel().getSelectedItem();
+			setCurrentlyEditing(list.getSelectionModel().getSelectedItem());
 			showEditor();
 		}
 	}
 
 	@Override
 	public void update() {
-		list.setItems(FXCollections.observableArrayList(editor.getEntity().getEvents()));
+		list.setItems(FXCollections.observableArrayList(entityMaker.getEntity().getEvents()));
 	}
-	
+
 	@Override
 	public void showEditor() {
-		EventEditor editor = new EventEditor(getWorkspace(), this, currentlyEditing, engine.getAllEvents());
-		maker.display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
+		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
+				engine.getAllEvents());
+		componentMaker.display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 
 }

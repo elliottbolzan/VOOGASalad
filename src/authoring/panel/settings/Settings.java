@@ -7,6 +7,7 @@ import authoring.Workspace;
 import authoring.components.ComponentMaker;
 import authoring.components.LabeledField;
 import authoring.views.View;
+import game_data.Game;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -49,7 +50,7 @@ public class Settings extends View {
 		VBox settingsContainer = new VBox(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		
 		nameField = new LabeledField(workspace, "GameNameLabel", workspace.getGame().getName(), true);
-		VBox nameBox = buttonBox("SetName", e -> setName(), nameField);
+		VBox nameBox = buttonBox("SetName", e -> saveName(), nameField);
 		
 		songField = new LabeledField(workspace, "SongLabel", fileName(workspace.getGame().getSongPath()),
 				false);
@@ -59,6 +60,11 @@ public class Settings extends View {
 		setCenter(settingsContainer);
 	}
 	
+	public void load(Game game) {
+		nameField.setText(game.getName());
+		songField.setText(fileName(game.getSongPath()));
+	}
+	
 	private VBox buttonBox(String buttonProperty, EventHandler<ActionEvent> handler, LabeledField field) {
 		Button button = maker.makeButton(buttonProperty, handler, true);
 		VBox box = new VBox(field, button);
@@ -66,7 +72,7 @@ public class Settings extends View {
 		return box;
 	}
 	
-	private void setName() {
+	private void saveName() {
 		workspace.getGame().setName(nameField.getText());
 	}
 

@@ -23,7 +23,7 @@ public class DefaultEntities {
 	 */
 	public DefaultEntities(Workspace workspace) {
 		this.workspace = workspace;
-		setEntities(new ArrayList<Entity>());
+		this.entities = FXCollections.observableArrayList(new ArrayList<Entity>());
 		add(new CharacterEntity());
 	}
 	
@@ -32,7 +32,8 @@ public class DefaultEntities {
 	}
 	
 	public void setEntities(List<Entity> entities) {
-		this.entities = FXCollections.observableArrayList(entities);
+		this.entities.clear();
+		this.entities.addAll(entities);
 	}
 	
 	public Entity getSelectedEntity() {

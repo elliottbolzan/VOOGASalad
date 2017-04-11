@@ -31,7 +31,7 @@ public class EntityDisplay extends EditableContainer {
 	public EntityDisplay(Workspace workspace) {
 		super(workspace, workspace.getResources().getString("EntityDisplayTitle"));
 	}
-	
+
 	/**
 	 * @return a TableView.
 	 */
@@ -75,9 +75,10 @@ public class EntityDisplay extends EditableContainer {
 	}
 
 	public void addEntity(Entity entity) {
-		if (!getWorkspace().getDefaults().getEntities().contains(entity)) {
-			getWorkspace().getDefaults().add(entity);
+		if (getCurrentlyEditing() != null) {
+			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
 		}
+		getWorkspace().getDefaults().add(entity);
 	}
 
 	@Override
@@ -90,13 +91,27 @@ public class EntityDisplay extends EditableContainer {
 
 	@Override
 	public void createNew() {
-		new EntityMaker(getWorkspace(), this, null);		
+		setCurrentlyEditing(null);
+		new EntityMaker(getWorkspace(), this, null);
 	}
+
+	/*public void updateEntity(Entity entity) {
+		for (Entity currEntity : table.getItems()) {
+			// won't work, probably? same names two defaults, for example. are we allowing that?
+			// also: if you have a block named Mario, and you press a Mario, the block just becomes Mario.
+			// problems like that.
+			if (currEntity.getName().equals(entity.getName())) {
+				currEntity.set(entity);
+			}
+		}
+	}*/
 
 	@Override
 	public void edit() {
-		if (selectionExists(table.getSelectionModel().getSelectedItem()))
-			new EntityMaker(getWorkspace(), this, table.getSelectionModel().getSelectedItem());
+		Entity selection = table.getSelectionModel().getSelectedItem();
+		if (selectionExists(selection))
+			setCurrentlyEditing(selection);
+			new EntityMaker(getWorkspace(), this, selection);
 	}
 
 	@Override
