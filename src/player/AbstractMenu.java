@@ -3,11 +3,14 @@ package player;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import starter.StartMenu;
 
@@ -18,13 +21,14 @@ public abstract class AbstractMenu implements Menu{
 	private Button back;
 	private String gameFolderPath;
 	private Stage stage;
+	private String fontPath = resources.getString("FontPath");
 
-	public AbstractMenu(Stage stage, String gameFolderPath){
-		setupView(stage, gameFolderPath);
+	public AbstractMenu(Stage stage, String gameFolderPath, String title){
+		loadFont();
+		setupView(stage, gameFolderPath, title);
 	}
 
-
-	private void setupView(Stage stage, String gameFolderPath){
+	private void setupView(Stage stage, String gameFolderPath, String title){
 		root = new BorderPane();
 		this.stage = stage;
 		this.gameFolderPath = gameFolderPath;
@@ -34,6 +38,10 @@ public abstract class AbstractMenu implements Menu{
 		
 		back = factory.makeImageButton("Back", image, e -> back(stage), false);
 		getRoot().setBottom(backButton());
+		Label titleLabel = new Label(resources.getString(title));
+		titleLabel.setId("title");
+		getRoot().setTop(titleLabel);
+		BorderPane.setAlignment(titleLabel, Pos.CENTER);
 	}
 	
 	protected BorderPane getRoot(){
@@ -51,6 +59,10 @@ public abstract class AbstractMenu implements Menu{
 	protected Button backButton(){
 		return back;
 	}
+
+	protected void loadFont() {
+		Font.loadFont(fontPath, 10);
+	}
 	
 	public void back(Stage stage){
 		new PlayerMenu(stage, gameFolderPath);
@@ -61,4 +73,5 @@ public abstract class AbstractMenu implements Menu{
 		scene.getStylesheets().add(getResources().getString("StylesheetPath"));
 		return scene;	
 	}
+	
 }
