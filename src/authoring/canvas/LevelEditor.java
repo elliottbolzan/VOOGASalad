@@ -35,7 +35,6 @@ public class LevelEditor extends View
 	public LevelEditor(Workspace workspace)
 	{
 		super("");
-		levelCount = 0;
 		this.workspace = workspace;
 		setup();
 	}
@@ -49,8 +48,21 @@ public class LevelEditor extends View
 		return currentLevels;
 	}
 
+	public void loadGame(List<Level> levels)
+	{
+		setup();
+		for (Level level : levels) {
+			tabPane.getSelectionModel().select(0);
+			currentLevel.loadLevel(level);
+			if (levelCount < levels.size()) {
+				tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
+			}
+		}
+	}
+
 	private void setup()
 	{
+		levelCount = 0;
 		levels = new ArrayList<LayerEditor>();
 		tabPane = new TabPane();
 		tabPane.getTabs().add(newTab());
@@ -61,6 +73,7 @@ public class LevelEditor extends View
 
 	private Tab newTab()
 	{
+		System.out.println(levelCount);
 		Tab tab = new Tab();
 		levelCount++;
 		tab.setText(String.format("Level %d", levelCount));
@@ -103,7 +116,6 @@ public class LevelEditor extends View
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
-					System.out.println(currentLevel.getLayerCount());
 					workspace.selectExistingLevel(currentLevel.getLayerCount());
 				} else if (!newTab.getText().equals("+") && !oldTab.getText().equals("+")) {
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();

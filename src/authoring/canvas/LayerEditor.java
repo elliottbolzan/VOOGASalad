@@ -31,6 +31,7 @@ public class LayerEditor extends View
 	Workspace workspace;
 	Canvas canvas;
 	Map<Integer, List<EntityDisplay>> layerEntities;
+	List<EntityDisplay> copiedEntities;
 	int layerCount;
 	int currLayer;
 	Bounds lastBounds;
@@ -55,13 +56,32 @@ public class LayerEditor extends View
 		return thisLevel;
 	}
 
+	public void loadLevel(Level level)
+	{
+		this.clear();
+		canvas.clear();
+		for (Entity entity : level.getEntities()) {
+			addEntity(entity, entity.getX(), entity.getY(), (int) entity.getZ());
+		}
+		selectLayer(0);
+	}
+
+	private void clear()
+	{
+		while (layerCount > 0) {
+			deleteLayer(layerCount - 1);
+		}
+		setup();
+	}
+
 	private void setup()
 	{
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
 		layerEntities = new HashMap<Integer, List<EntityDisplay>>();
+		copiedEntities = new ArrayList<EntityDisplay>();
 		layerCount = 0;
-		currLayer = 1;
+		currLayer = 0;
 		lastBounds = new Rectangle().getBoundsInLocal();
 		clickToAddEntity();
 		typeToDelete();
@@ -102,6 +122,22 @@ public class LayerEditor extends View
 					}
 				}
 			}
+			if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
+				copiedEntities.clear();
+				for (List<EntityDisplay> list : layerEntities.values()) {
+					for (EntityDisplay entity : list) {
+						if (entity.isSelected()) {
+							copiedEntities.add(entity);
+						}
+					}
+				}
+			}
+			if (e.getCode().equals(KeyCode.V) && e.isControlDown()) {
+				for (EntityDisplay entity : copiedEntities) {
+					addEntity(entity.getEntity(), entity.getEntity().getX() + 25, entity.getEntity().getY() + 25,
+							currLayer);
+				}
+			}
 		});
 	}
 	//
@@ -138,7 +174,7 @@ public class LayerEditor extends View
 	private void placeEntity(MouseEvent e)
 	{
 		try {
-			addEntity(workspace.getSelectedEntity(), e.getX(), e.getY());
+			addEntity(workspace.getSelectedEntity(), e.getX(), e.getY(), currLayer);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			showSelectMessage();
@@ -151,10 +187,12 @@ public class LayerEditor extends View
 		return bounds;
 	}
 
-	private void addEntity(Entity entity, double x, double y)
+	private void addEntity(Entity entity, double x, double y, int z)
 	{
 		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
-		layerEntities.get(currLayer).add(addedEntity);
+		addedEntity.getEntity().setZ(z);
+		setNumLayers(z);
+		layerEntities.get(z).add(addedEntity);
 		addedEntity.setOnMouseClicked(e -> {
 			if (!e.isShiftDown()) {
 				for (List<EntityDisplay> list : layerEntities.values()) {
@@ -167,6 +205,18 @@ public class LayerEditor extends View
 		});
 	}
 
+	// private void addEntity(Entity entity, double x, double y)
+	// {
+	// addEntity(entity, x, y, currLayer);
+	// }
+
+	private void setNumLayers(int z)
+	{
+		while (layerCount <= z) {
+			newTab();
+		}
+	}
+
 	public void makeNewTab()
 	{
 		newTab();
@@ -175,7 +225,7 @@ public class LayerEditor extends View
 	private void newTab()
 	{
 		layerCount++;
-		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
+		layerEntities.put(layerCount - 1, new ArrayList<EntityDisplay>());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}

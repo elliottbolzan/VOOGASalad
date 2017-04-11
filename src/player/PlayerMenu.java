@@ -3,6 +3,8 @@ package player;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
+import game_data.Game;
+import game_data.GameData;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -13,6 +15,8 @@ public class PlayerMenu {
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private BorderPane root;
 	private Stage stage;
+	private Game game;
+	private GameData data;
 	private String gameFolderPath;
 	
 	public PlayerMenu(String gameFolderPath){
@@ -26,6 +30,17 @@ public class PlayerMenu {
 		this.stage = stage;
 		stage.setScene(createScene());
 		setupScene();
+	}
+	
+	private void setupData(){
+		game = new Game();
+		data = new GameData();
+		
+	}
+	
+	private void load(String filename){
+		game = data.loadGame(filename);
+		//TODO: Load info into menus
 	}
 	
 	private void setupStage(){

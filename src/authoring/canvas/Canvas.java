@@ -31,7 +31,8 @@ import javafx.scene.shape.Circle;
  * @author jimmy
  *
  */
-public class Canvas extends View {
+public class Canvas extends View
+{
 
 	private Workspace workspace;
 	private final int TILE_SIZE = 25;
@@ -47,21 +48,30 @@ public class Canvas extends View {
 	private double width;
 	private double height;
 
-	public Canvas(Workspace workspace) {
+	public Canvas(Workspace workspace)
+	{
 		super(workspace.getResources().getString("CanvasTitle"));
 		this.workspace = workspace;
 		setup();
 	}
 
-	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler) {
+	public void clear()
+	{
+		setup();
+	}
+
+	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler)
+	{
 		layer.setOnMouseClicked(eventHandler);
 	}
 
-	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler) {
+	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler)
+	{
 		layer.setOnMouseDragged(eventHandler);
 	}
 
-	private void setup() {
+	private void setup()
+	{
 		gridNodes = new Group();
 		// entityRegions = new HashMap<Node, Region>();
 		entities = new ArrayList<EntityDisplay>();
@@ -69,7 +79,8 @@ public class Canvas extends View {
 		this.setCenter(scrollScreen);
 	}
 
-	private ScrollPane createLayer() {
+	private ScrollPane createLayer()
+	{
 		scrollScreen = new ScrollPane();
 		layer = new Pane();
 		layer.setPrefHeight(height);
@@ -83,11 +94,13 @@ public class Canvas extends View {
 		return scrollScreen;
 	}
 
-	public void addEntity(Entity entity) {
+	public void addEntity(Entity entity)
+	{
 		this.addEntity(entity, 0, 0);
 	}
 
-	public EntityDisplay addEntity(Entity entity, double x, double y) {
+	public EntityDisplay addEntity(Entity entity, double x, double y)
+	{
 		EntityDisplay newEntity = new EntityDisplay(entity, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
@@ -101,12 +114,14 @@ public class Canvas extends View {
 		return newEntity;
 	}
 
-	public void removeEntity(EntityDisplay entity) {
+	public void removeEntity(EntityDisplay entity)
+	{
 		entities.remove(entity);
 		layer.getChildren().remove(entity);
 	}
 
-	private void drawGrid() {
+	private void drawGrid()
+	{
 		for (int i = 0; i < width / TILE_SIZE; i++) {
 			for (int j = 0; j < height / TILE_SIZE; j++) {
 				drawGridDot(i, j);
@@ -114,7 +129,8 @@ public class Canvas extends View {
 		}
 	}
 
-	private void drawGridDot(double tileX, double tileY) {
+	private void drawGridDot(double tileX, double tileY)
+	{
 		Circle gridMarker = new Circle();
 		gridMarker.setCenterX(tileX * TILE_SIZE);
 		gridMarker.setCenterY(tileY * TILE_SIZE);
@@ -123,11 +139,14 @@ public class Canvas extends View {
 		gridNodes.getChildren().add(gridMarker);
 	}
 
-	private void makeDraggable(EntityDisplay entity) {
-		entity.translateXProperty().addListener(new ChangeListener<Number>() {
+	private void makeDraggable(EntityDisplay entity)
+	{
+		entity.translateXProperty().addListener(new ChangeListener<Number>()
+		{
 
 			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldX, Number newX) {
+			public void changed(ObservableValue<? extends Number> observable, Number oldX, Number newX)
+			{
 				scrollScreen.setHvalue(newX.doubleValue() / (width - entity.getWidth()));
 				if (newX.intValue() < 0) {
 					entity.setTranslateX(0);
@@ -139,10 +158,12 @@ public class Canvas extends View {
 
 		});
 
-		entity.translateYProperty().addListener(new ChangeListener<Number>() {
+		entity.translateYProperty().addListener(new ChangeListener<Number>()
+		{
 
 			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldY, Number newY) {
+			public void changed(ObservableValue<? extends Number> observable, Number oldY, Number newY)
+			{
 				scrollScreen.setVvalue(newY.doubleValue() / (height - entity.getHeight()));
 				if (newY.intValue() < 0) {
 					entity.setTranslateY(0);
@@ -164,7 +185,8 @@ public class Canvas extends View {
 		});
 	}
 
-	private void updateDisplay() {
+	private void updateDisplay()
+	{
 		updateLayerBounds();
 		layer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		gridNodes.getChildren().clear();
@@ -173,7 +195,8 @@ public class Canvas extends View {
 		layer.setPrefWidth(width);
 	}
 
-	private void updateLayerBounds() {
+	private void updateLayerBounds()
+	{
 		double maxX = DEFAULT_WIDTH;
 		double maxY = DEFAULT_HEIGHT;
 		for (EntityDisplay entity : entities) {
@@ -190,7 +213,8 @@ public class Canvas extends View {
 		this.height = maxY;
 	}
 
-	private Point2D getTiledCoordinate(double x, double y) {
+	private Point2D getTiledCoordinate(double x, double y)
+	{
 		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
 		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
 		return new Point2D(gridX, gridY);
