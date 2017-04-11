@@ -123,6 +123,7 @@ public class LevelManager {
 	 */
 	public void loadAllSavedLevels(){
 		levels.addAll(gameData.loadGame(gameFilename).getLevels());
+		levels.add(new Level());      //TODO Just add for testing, remove when done!!!!
 		System.out.println("Loaded the current level");
 	}
 	

@@ -1,5 +1,6 @@
 package engine.game.gameloop;
 
+import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
@@ -18,11 +19,11 @@ public class Screen{
 	private StepStrategy currentStepStrategy; //immutable
 	private Timeline timeline;
 	
-	public Screen(StepStrategy currentStepStrategy, ObservableBundle observableBundle, LevelManager levelManager, Scene gameScene, GraphicsEngine graphicsEngine){
+	public Screen(StepStrategy currentStepStrategy, LevelManager levelManager, Scene gameScene, GraphicsEngine graphicsEngine, GameInfo info){
 		this.currentStepStrategy = currentStepStrategy;
 		setupTimeline();
 		System.out.println(timeline + "Timeline instantiated in Screen with StepStrategy" + this.currentStepStrategy);
-		currentStepStrategy.setup(observableBundle, levelManager, gameScene, this, graphicsEngine);
+		currentStepStrategy.setup(levelManager, gameScene, this, graphicsEngine, info);
 	}
 	
 	private void setupTimeline(){
@@ -43,7 +44,7 @@ public class Screen{
 	
 	private void step(){
 		currentStepStrategy.step();
-		game.setCurrentStepStrategy(currentStepStrategy);
+		//game.setCurrentStepStrategy(currentStepStrategy);
 		//Make sure to call start() for the next screen when implement in StepStrategy subclasses! - no need for step() in GameLoop anymore
 	}
 	

@@ -1,5 +1,6 @@
 package engine.game.gameloop;
 
+import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
@@ -30,7 +31,9 @@ public class GameLoop {
 		//levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
 		
 		//Setup the first level screen
-		level1Screen = new Screen(new LevelStepStrategy(), observableBundle, levelManager, gameScene, graphicsEngine);
+		StepStrategy strategy = new LevelStepStrategy();
+		GameInfo info = new GameInfo(observableBundle, strategy);
+		level1Screen = new Screen(strategy, levelManager, gameScene, graphicsEngine, info);
 	}
 	
 	public void startTimeline(){
