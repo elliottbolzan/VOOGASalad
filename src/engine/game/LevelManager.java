@@ -2,6 +2,7 @@ package engine.game;
 
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
+import game_data.GameData;
 
 /**
  * Holds all the levels in the current game and allows for game-wide behavior.
@@ -18,12 +19,15 @@ public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
 	private int currentLevel; // one-indexed
 	private String gameFilename;
+	private GameData gameData;
 
 	public LevelManager(String gameFilename) {
 		levels = new ListSG<>(); // TODO: Change to reflection, or something
 									// more modular
+		
 		currentLevel = 1;
 		this.gameFilename = gameFilename;
+		gameData = new GameData();
 	}
 
 	/**
@@ -97,6 +101,7 @@ public class LevelManager {
 									// the edge list, this will be OK: create
 									// getSaveableList() method in
 									// SelectionGroup interface)
+		
 		System.out.println("Saved game");
 	}
 
@@ -117,11 +122,7 @@ public class LevelManager {
 	 * @param filename
 	 */
 	public void loadAllSavedLevels(){
-		//With Elliot's new idea, need to call Game class's load() method again to get initial conditions for new
-		
-		//GameDataExternalAPI gameData = new GameDataExternalAPI();
-		//levels = gameData.loadGame(filename); //TODO tell Game Data people to change this to return SelectionGroup<Level> (or List<Level>, in which case I need to convert to the Selection Group here)
-		levels.add(new Level());
+		levels.addAll(gameData.loadGame(gameFilename).getLevels());
 		System.out.println("Loaded the current level");
 	}
 	

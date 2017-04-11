@@ -29,7 +29,6 @@ public class GameSaver {
 		this.saveGame(game.getLevels(), filepath);
 	}
 
-	// filepath provides the specific directory where the game will be stored
 	public void saveGame(List<Level> levels, String filePath) {
 		createRoot(filePath);
 		savelevels(levels, filePath + "/" + game.getName());
@@ -111,5 +110,4 @@ public class GameSaver {
 		}
 
 	}
-
 }

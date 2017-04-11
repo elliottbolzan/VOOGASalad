@@ -3,6 +3,7 @@ package authoring.panel;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import authoring.Workspace;
 import authoring.canvas.Canvas;
@@ -11,12 +12,16 @@ import authoring.components.ComponentMaker;
 import authoring.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.geometry.Side;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tab;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -49,11 +54,25 @@ public class LayerPanel extends View {
 		editorContainer = new VBox();
 		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		Button addLayerButton = maker.makeButton("AddLayerButton", e -> workspace.addLayer(), true);
-		Button deleteLayerButton = maker.makeButton("DeleteLayerButton", e -> delete(), true);
+		Button deleteLayerButton = maker.makeButton("DeleteLayerButton", e -> {
+			initCloseRequest(e);
+			delete();
+			}, true);
 		initLayerSelector();
 		configureVelocitySettings();
 		editorContainer.getChildren().addAll(addLayerButton, deleteLayerButton);
 		setCenter(editorContainer);
+	}
+	
+	private void initCloseRequest(Event e)
+	{
+		ComponentMaker maker = new ComponentMaker(workspace.getResources());
+		String message = workspace.getResources().getString("ConfirmationContent");
+		Alert alert = maker.makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader", message);
+		Optional<ButtonType> result = alert.showAndWait();
+		if (result.get() != ButtonType.OK) {
+			e.consume();
+		}
 	}
 
 	private void delete() {

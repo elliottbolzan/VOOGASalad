@@ -43,6 +43,7 @@ public class Screen{
 	
 	private void step(){
 		currentStepStrategy.step();
+		game.setCurrentStepStrategy(currentStepStrategy);
 		//Make sure to call start() for the next screen when implement in StepStrategy subclasses! - no need for step() in GameLoop anymore
 	}
 	
