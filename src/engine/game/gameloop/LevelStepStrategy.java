@@ -45,7 +45,7 @@ public class LevelStepStrategy implements StepStrategy {
 
 		levelManager.loadAllSavedLevels(); //To reset initial state of level
 		// TODO get filename here
-		levelManager.addLevel(new Level()); // TODO: remove this empty level for
+		//levelManager.addLevel(new Level()); // TODO: remove this empty level for
 											// testing
 		
 		instantiateTestEntitesEventsActions();
@@ -138,6 +138,8 @@ public class LevelStepStrategy implements StepStrategy {
 
 	private void setupGameView() {
 		// TODO call graphicsEngine.setCamera() here
+		System.out.println("Set Entities Collections (makes bindings)");
+		System.out.println(levelManager.getCurrentLevel().getEntities().size());
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 		graphicsEngine.setScorebar(new Scorebar(levelManager));
 	}

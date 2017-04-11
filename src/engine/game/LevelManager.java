@@ -124,8 +124,6 @@ public class LevelManager {
 	 */
 	public void loadAllSavedLevels(){
 		levels.addAll(gameData.loadGame(gameFilename).getLevels());
-		levels.add(new Level());	//TODO: remove this after testing 
-		System.out.println("Loaded the current level");
 	}
 	
 	/*

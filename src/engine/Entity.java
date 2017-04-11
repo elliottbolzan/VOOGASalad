@@ -30,6 +30,9 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	private void setup(String name, String imagePath) {
 		System.out.println("Constructor: " + this);
+		for(StackTraceElement ste : Thread.currentThread().getStackTrace()) {
+			System.out.println(ste);
+		}
 		x = new SimpleDoubleProperty();
 		y = new SimpleDoubleProperty();
 		width = new SimpleDoubleProperty();
