@@ -14,7 +14,7 @@ public class GameLoaderTest {
 	public static void main(String[] args) {
 		try{
 			
-		String filepath="data/EntityTesting";
+		String filepath="data/SaveTesting/Testing";
 		GameSaver gs = new GameSaver();
 		Entity mario = new CharacterEntity();
 		mario.setImagePath("resources/images/mario.png");
@@ -31,8 +31,9 @@ public class GameLoaderTest {
 		level.addEntity(luigi);
 		
 		List<Level> levels= new ArrayList<Level>();
-		
-		gs.saveGame(levels, filepath);
+		Game g = new Game();
+		g.setLevels(levels);
+		gs.saveGame(g, filepath);
 			
 			
 		GameLoader gl = new GameLoader();

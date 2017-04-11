@@ -70,7 +70,6 @@ public class GameLoader {
 			String entityxmlstring = getXMLStringFromEntityPath(entitypath);
 			XStream xStream = new XStream(new DomDriver());
 			xStream.registerConverter(new EntityConverter());
-
 			entity = (Entity) xStream.fromXML(entityxmlstring);
 		} catch (Exception i) {
 			i.printStackTrace();
