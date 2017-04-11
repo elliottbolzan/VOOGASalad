@@ -93,6 +93,7 @@ public class Player extends BorderPane {
 		Label scorebar = gameLoop.getGameScorebar();
 		
 		controls.getChildren().addAll(playButton, restartButton, saveButton, exitButton, separator, scorebar);
+		
 		this.setTop(controls);
 	}
 	
@@ -121,6 +122,7 @@ public class Player extends BorderPane {
 	}
 	
 	private void save(){
+		//TODO: make actually save
 		saveStates.add("yay saved game");
 	}
 }

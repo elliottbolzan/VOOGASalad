@@ -18,7 +18,7 @@ public class LoadMenu extends AbstractMenu{
 	private VBox saveButtonContainer;
 	
 	public LoadMenu(Stage stage, String gameFolderPath){
-		super(stage, gameFolderPath);
+		super(stage, gameFolderPath, "LoadTitle");
 		saveStates = FXCollections.observableArrayList();
 		saveButtons = FXCollections.observableArrayList();
 		setupScene(stage, gameFolderPath);
@@ -33,7 +33,6 @@ public class LoadMenu extends AbstractMenu{
 				
 		VBox container = new VBox(20);
 		container.setAlignment(Pos.TOP_CENTER);
-		container.setTranslateY(100);
 		container.maxWidthProperty().bind(stage.widthProperty().multiply(0.3));
 		saveButtonContainer.maxWidthProperty().bind(container.maxWidthProperty());
 		
