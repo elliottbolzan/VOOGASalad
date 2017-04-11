@@ -84,7 +84,7 @@ public class LayerEditor extends View
 		currLayer = 0;
 		lastBounds = new Rectangle().getBoundsInLocal();
 		clickToAddEntity();
-		typeToDelete();
+		addKeyActions();
 		newTab();
 	}
 
@@ -107,7 +107,7 @@ public class LayerEditor extends View
 		});
 	}
 
-	private void typeToDelete()
+	private void addKeyActions()
 	{
 		workspace.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
@@ -140,31 +140,6 @@ public class LayerEditor extends View
 			}
 		});
 	}
-	//
-	// private void typeToCopyPaste()
-	// {
-	// workspace.setOnKeyPressed(e -> {
-	// if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
-	// List<EntityDisplay> selectedEntities = new ArrayList<EntityDisplay>();
-	// for (List<EntityDisplay> list : layerEntities.values()) {
-	// for (EntityDisplay entity : list) {
-	// if (entity.isSelected()) {
-	// System.out.println(entity.getEntity().getName());
-	// selectedEntities.add(entity);
-	// }
-	// }
-	// }
-	// workspace.setOnKeyPressed(e2 -> {
-	// if (e2.getCode().equals(KeyCode.V) && e2.isControlDown()) {
-	// for (EntityDisplay entity : selectedEntities) {
-	// addEntity(entity.getEntity(), entity.getEntity().getX() + 25,
-	// entity.getEntity().getY() + 25);
-	// }
-	// }
-	// });
-	// }
-	// });
-	// }
 
 	private Image getCurrentImage()
 	{
@@ -233,8 +208,6 @@ public class LayerEditor extends View
 	public void selectLayer(int newLayer)
 	{
 		newLayerSelected(newLayer);
-		// allow this layer to have key actions
-		typeToDelete();
 	}
 
 	private void newLayerSelected(int newVal)
@@ -251,6 +224,13 @@ public class LayerEditor extends View
 			entity.toFront();
 		}
 		currLayer = newVal;
+	}
+
+	public void select()
+	{
+		this.selectLayer(0);
+		// allow this layer to have key actions
+		addKeyActions();
 	}
 
 	private void showSelectMessage()
