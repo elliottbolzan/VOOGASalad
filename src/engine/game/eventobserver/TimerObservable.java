@@ -18,6 +18,10 @@ public class TimerObservable extends EventObservable{
 		 return currentLevelTimerManager.getMilliseconds();
 	}
 	
+	public void incrementTimeInMilliseconds(int millis) {
+		currentLevelTimerManager.incrementTime(millis);
+	}
+	
 	@Override
 	public void updateObservers() {
 		currentLevelTimerManager.tick();

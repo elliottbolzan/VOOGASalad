@@ -12,6 +12,7 @@ public class NextLevelAction extends Action {
 
 	@Override
 	public void act() {
+		getGame().getLevelStepStrategy().startNextLevel();
 		levelStepStrategy.startNextLevel();
 	}
 

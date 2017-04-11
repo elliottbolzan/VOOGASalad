@@ -7,10 +7,8 @@ import engine.Entity;
 import engine.entities.CharacterEntity;
 import engine.game.Level;
 
-public class LevelSaverTest
-{
-	public static void main(String[] args)
-	{
+public class LevelSaverTest {
+	public static void main(String[] args) {
 		GameSaver gs = new GameSaver();
 
 		// Entity entity = new
@@ -41,6 +39,5 @@ public class LevelSaverTest
 		List<Level> levels = new ArrayList<Level>();
 		levels.add(l);
 		gs.saveGame(levels, filepath);
-
 	}
 }

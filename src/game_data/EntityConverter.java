@@ -11,12 +11,17 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import engine.Entity;
 import engine.game.EngineController;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
 
 public class EntityConverter implements Converter {
 
 	@Override
 	public boolean canConvert(Class arg0) {
-		return arg0.equals(Entity.class) || arg0.getSuperclass().equals(Entity.class);
+		try {
+			return arg0.equals(Entity.class) || arg0.getSuperclass().equals(Entity.class);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
@@ -53,7 +58,12 @@ public class EntityConverter implements Converter {
 			}
 			if (value != null) {
 				writer.startNode(name);
-				context.convertAnother(value);
+				if (value instanceof SimpleDoubleProperty)
+					writer.setValue(((SimpleDoubleProperty) value).get() + "");
+				else if (value instanceof SimpleStringProperty)
+					writer.setValue(((SimpleStringProperty) value).get());
+				else
+					context.convertAnother(value);
 				writer.endNode();
 			}
 		}
@@ -71,33 +81,23 @@ public class EntityConverter implements Converter {
 			reader.moveDown();
 			Field field = null;
 			try {
-				// System.out.println("reader"+reader.toString());
-				// System.out.println("readernamenode"+reader.getNodeName());
-
-				// System.out.println(entity);//
-				// System.out.println("getclass"+ entity.getClass());
-				// System.out.println("field"+entity.getClass().getDeclaredField(reader.getNodeName()));
 
 				field = entity.getClass().getDeclaredField(reader.getNodeName());
 			} catch (NoSuchFieldException | SecurityException e) {
 				try {
-					System.out.println("error here");
 					field = entity.getClass().getSuperclass().getDeclaredField(reader.getNodeName());
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				//e.printStackTrace();
 			}
 			if (field == null)
 				break;
 			field.setAccessible(true);
 			Object value;
-			System.out.println("Value: " + reader.getValue());
 			if (field.getType().equals(SimpleDoubleProperty.class))
-				value = (SimpleDoubleProperty) context.convertAnother(entity, SimpleDoubleProperty.class);
-			// value = new
-			// SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
-
+				value = new SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
+			else if (field.getType().equals(SimpleStringProperty.class))
+				value = new SimpleStringProperty(reader.getValue());
 			else
 				value = context.convertAnother(entity, field.getType());
 			try {

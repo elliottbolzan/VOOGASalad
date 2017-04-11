@@ -38,6 +38,7 @@ public class EngineController {
 
 	public Entity createEntity(String entity) {
 		return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"), "Entity");
+		
 	}
 
 	public Event createEvent(String event) {

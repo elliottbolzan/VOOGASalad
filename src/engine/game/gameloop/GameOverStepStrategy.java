@@ -28,7 +28,4 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	protected int nextLevelNumber(LevelManager levelManager) {
 		return 1;
 	}
-
-	
-	
 }

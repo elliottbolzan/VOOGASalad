@@ -29,6 +29,4 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 		return levelManager.getLevelNumber();
 	}
 
-	
-	
 }

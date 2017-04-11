@@ -1,5 +1,6 @@
 package engine.game.selectiongroup;
 
+import java.util.Collection;
 import java.util.List;
 
 public class GraphSG<T extends Selectable> implements SelectionGroup<T> {
@@ -54,6 +55,12 @@ public class GraphSG<T extends Selectable> implements SelectionGroup<T> {
 	public List<T> getListRepresentation() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void addAll(Collection<T> collection) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

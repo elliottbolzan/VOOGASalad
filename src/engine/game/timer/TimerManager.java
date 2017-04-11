@@ -3,6 +3,7 @@ package engine.game.timer;
 import java.text.DecimalFormat;
 
 import engine.game.gameloop.OldGameLoopBackup;
+import engine.game.gameloop.Screen;
 
 /**
  * Code relating to the Timer, for games that decide to have timed Levels. NOT to be confused with the GameLoop class,
@@ -19,7 +20,7 @@ import engine.game.gameloop.OldGameLoopBackup;
 public class TimerManager {
 	private static final String SECONDS_FORMAT = "00.00";
 	private static final String MINUTES_FORMAT = "00";
-	public static final int MILLISECONDS_PER_FRAME = OldGameLoopBackup.FRAME_TIME_MILLISECONDS;
+	public static final int MILLISECONDS_PER_FRAME = Screen.FRAME_TIME_MILLISECONDS;
 	private int milliseconds;
 	private TickStrategy tickStrategy;
 	
