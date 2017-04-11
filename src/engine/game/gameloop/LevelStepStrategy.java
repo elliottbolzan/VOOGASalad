@@ -7,7 +7,7 @@ import engine.Entity;
 import engine.Event;
 import engine.GameInfo;
 import engine.actions.DieAction;
-import engine.actions.JumpSpeedAction;
+import engine.actions.JumpAction;
 import engine.actions.MoveAction;
 import engine.actions.WalkAction;
 import engine.actions.ZeroHorizontalSpeedAction;
@@ -175,9 +175,9 @@ public class LevelStepStrategy implements StepStrategy {
 		KeyPressEvent upPressed = new KeyPressEvent();
 		upPressed.updateParam("Key", KeyCode.UP);
 		mario.addEvent(upPressed);
-		JumpSpeedAction jump = new JumpSpeedAction();
+		JumpAction jump = new JumpAction();
 		jump.setEntity(mario);
-		jump.updateParam("Initial Jump Speed", -15.0);
+		jump.updateParam("Initial Jump Speed", 15.0);
 		upPressed.addAction(jump);
 
 		KeyPressEvent rightPressed = new KeyPressEvent();

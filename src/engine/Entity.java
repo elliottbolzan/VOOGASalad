@@ -24,15 +24,12 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		try {
 			setup("Mario", new File("src/resources/images/mario.png").toURI().toURL().toExternalForm());
 		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public Entity(String name, String imagePath) {
-		super("Entity");
-		setup(name, imagePath);
-	}
-
 	private void setup(String name, String imagePath) {
+		System.out.println("Constructor: " + this);
 		x = new SimpleDoubleProperty();
 		y = new SimpleDoubleProperty();
 		width = new SimpleDoubleProperty();
@@ -89,14 +86,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public void setImagePath(String imagePath) {
 		this.imagePath.set(imagePath);
-	}
-
-	public ReadOnlyDoubleProperty xReadOnlyProperty() {
-		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(x);
-	}
-
-	public ReadOnlyDoubleProperty yReadOnlyProperty() {
-		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(y);
 	}
 
 	public SimpleDoubleProperty xProperty() {

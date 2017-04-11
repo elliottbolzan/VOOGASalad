@@ -31,7 +31,7 @@ public class GameSaver {
 
 	public void saveGame(List<Level> levels, String filePath) {
 		createRoot(filePath);
-		savelevels(levels, filePath + "/" + game.getName());
+		savelevels(levels, filePath + File.separator + game.getName());
 	}
 	
 	private void createRoot(String filePath) {
@@ -42,11 +42,11 @@ public class GameSaver {
 	}
 
 	private void savelevels(List<Level> levels, String filepath) {
-		File entityfolder = new File(filepath + "/levels");
+		File entityfolder = new File(filepath + File.separator + "levels");
 		if (!entityfolder.exists()) {
 			entityfolder.mkdirs();
 		}
-		File dir = new File(filepath + "/levels");
+		File dir = new File(filepath + File.separator + "levels");
 		dir.mkdir();
 		for (int i = 0; i < levels.size(); i++) {
 
@@ -64,15 +64,17 @@ public class GameSaver {
 		}
 	}
 
-	public String saveEntity(Entity entity, String filepath) {
-		File entityfolder = new File(filepath + "/entities");
+	public String saveEntity(Entity entity, String dataFolderPath) {
+		File entityfolder = new File(dataFolderPath + File.separator + "entities");
 		if (!entityfolder.exists()) {
 			entityfolder.mkdirs();
 		}
 		String entityfilepath = "";
 		try {
-			saveEntityImage(entity, filepath);
-			entityfilepath = filepath + "/entities/" + entity.getName() + ".xml";
+			String tempImagePath = entity.getImagePath();
+			
+			saveEntityImage(entity, dataFolderPath);
+			entityfilepath = dataFolderPath + File.separator + "entities" + File.separator + entity.getName() + ".xml";
 			File entityfile = new File(entityfilepath);
 
 			XStream xStream = new XStream(new DomDriver());
@@ -82,21 +84,24 @@ public class GameSaver {
 
 			fw.write(xmlstring);
 			fw.close();
+			
+			entity.setImagePath(tempImagePath);
 
 		} catch (IOException i) {
 			i.printStackTrace();
 		}
 
-		return entityfilepath;
+		return File.separator + "entities" + File.separator + entity.getName() + ".xml";
 	}
 
-	public void saveEntityImage(Entity entity, String filepath) {
+	public void saveEntityImage(Entity entity, String dataFolderPath) {
 		try {
 
 			String sourcePath = new File(new URI(entity.getImagePath())).getAbsolutePath();
 			Path sourcepath = Paths.get(sourcePath);
 
-			String targetpathstring = filepath + "/images/" + entity.getName() + "image.png";
+			String targetpathstring = dataFolderPath + File.separator + "images" + File.separator + entity.getName() + "Image.png";
+			entity.setImagePath("images" + File.separator + entity.getName() + "Image.png");
 			File entityimagefile = new File(targetpathstring);
 
 			entityimagefile.getParentFile().mkdirs();
@@ -108,6 +113,5 @@ public class GameSaver {
 		} catch (Exception i) {
 			i.printStackTrace();
 		}
-
 	}
 }
