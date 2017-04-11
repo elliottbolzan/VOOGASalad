@@ -3,8 +3,6 @@ package engine;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.game.eventobserver.EventObservable;
-
 public abstract class Event extends GameObject implements EventInterface {
 	
 	private List<Action> actions;
@@ -22,6 +20,10 @@ public abstract class Event extends GameObject implements EventInterface {
 	public List<Action> getActions() {
 		return actions;
 	}
+	
+	public void setActions(List<Action> actions) {
+		this.actions = actions;
+	}
 
 	@Override
 	public abstract boolean act();
@@ -30,4 +32,5 @@ public abstract class Event extends GameObject implements EventInterface {
 		for (Action action : actions)
 			action.act();
 	}
+	
 }
