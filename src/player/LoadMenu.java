@@ -50,8 +50,9 @@ public class LoadMenu extends AbstractMenu{
 				}else{
 					ReplaceSaveMenu replacer = new ReplaceSaveMenu();
 					replacer.display(e -> {
-						saveButtons.get(replacer.getButtonID()).setOnAction(e1 -> {
-							//Changes button to load the new save
+						int index = replacer.getButtonID();
+						//Changes button action to load new save
+						saveButtons.get(index).setOnAction(e1 -> {						
 							loadGame(stage, saveStates.get(saveStates.size()-1));
 						});
 						replacer.close();
