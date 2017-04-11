@@ -196,17 +196,16 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	public void setEvents(List<Event> events) {
-		/*(this.events.clear();
-		for (Event event : events) {
-			this.addEvent(event);
-		}*/
+		/*
+		 * (this.events.clear(); for (Event event : events) {
+		 * this.addEvent(event); }
+		 */
 		this.events = events;
 	}
 
 	public void set(Entity entity) {
 		this.setImagePath(entity.getImagePath());
 		this.setName(entity.getName());
-		this.setEvents(entity.getEvents());
 		this.setHeight(entity.getHeight());
 		this.setWidth(entity.getWidth());
 		this.setX(entity.getX());
@@ -214,16 +213,22 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	@Override
-	public Entity clone() {
-		try {
-			Entity returnedEntity = getClass().getDeclaredConstructor().newInstance();
-			returnedEntity.set(this);
-			return returnedEntity;
-		} catch (Exception e) {
-			Alert alert = new Alert(null, "Couldn't clone Entity", null);
-			alert.show();
-		}
-		return this;
+	public Entity clone() {/*
+							 * try { Entity returnedEntity =
+							 * getClass().getDeclaredConstructor().newInstance()
+							 * ; returnedEntity.set(this); return
+							 * returnedEntity; } catch (Exception e) { Alert
+							 * alert = new Alert(null, "Couldn't clone Entity",
+							 * null); alert.show(); } return this;
+							 */
+		Entity copy = (Entity) super.clone();
+		copy.set(this);
+		copy.setEvents(events.stream().map(s -> {
+			Event eventCopy = (Event) s.clone();
+			eventCopy.setActions(s.getActions().stream().map(p -> (Action) p.clone()).collect(Collectors.toList()));
+			return eventCopy;
+		}).collect(Collectors.toList()));
+		return copy;
 	}
 
 }
