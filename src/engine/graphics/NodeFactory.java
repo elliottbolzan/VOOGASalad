@@ -13,18 +13,27 @@ import javafx.scene.image.ImageView;
  */
 public class NodeFactory implements NodeFactoryInterface {
 
-	public NodeFactory() {
-		
+	private String dataFolderPath;
+	
+	public NodeFactory(String dataFolderPath) {
+		this.dataFolderPath = dataFolderPath;
 	}
 
 	@Override
 	public ImageView getNodeFromEntity(Entity entity) {
-		System.out.println(entity.getImagePath());
-		ImageView node = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(entity.getImagePath())));
+		ImageView node = this.getImageFromPath(entity.getImagePath());
 		node.setX(entity.getX());
 		node.setY(entity.getY());
 		node.setFitWidth(entity.getWidth());
 		node.setFitHeight(entity.getHeight());
 		return node;
+	}
+	
+	private ImageView getImageFromPath(String imagePath) {
+		//TODO: remove
+		if(getClass().getClassLoader().getResourceAsStream(imagePath) != null) {
+			return new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(imagePath)));
+		}
+		return new ImageView(new Image("file:" + dataFolderPath + imagePath));
 	}
 }

@@ -24,18 +24,20 @@ import javafx.scene.text.Font;
  * the Entities to display, and then call update() every frame to animate the graphics.
  */
 public class GraphicsEngine {
-
+	
 	private Collection<Entity> entities;
 	private Camera camera;
 	private Scorebar scorebar;
 	
 	private Pane displayArea;
 	private Label scorebarDisplay;
+	private String dataFolderPath;
 	
-	public GraphicsEngine() {
+	public GraphicsEngine(String dataFolderPath) {
 		this.camera = new ScrollingCamera(0,0);
 		this.entities = new ArrayList<Entity>();
 		this.scorebar = new Scorebar(null);
+		this.dataFolderPath = dataFolderPath;
 		this.setupView();
 		this.setupScorebar();
 	}
@@ -115,7 +117,7 @@ public class GraphicsEngine {
 	}
 	
 	private void drawAllEntities() {
-		NodeFactory factory = new NodeFactory();
+		NodeFactory factory = new NodeFactory(dataFolderPath);
 		for(Entity e : entities) {
 			ImageView node = (ImageView)factory.getNodeFromEntity(e);
 			node.xProperty().bind(e.xReadOnlyProperty());
