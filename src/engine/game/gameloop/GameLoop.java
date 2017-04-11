@@ -28,7 +28,7 @@ public class GameLoop {
 		
 		// Setup levelManager
 		levelManager = new LevelManager(gameFilename);
-		//levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
+		levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
 		
 		//Setup the first level screen
 		StepStrategy strategy = new LevelStepStrategy();

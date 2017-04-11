@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
 import engine.game.gameloop.GameLoop;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,14 +31,14 @@ public class Player extends BorderPane {
 	private Stage stage;
 	private Scene scene;
 	private GameLoop gameLoop;
-	
 	private String dataFolderPath;
-	
 	private Button playButton;
 	private boolean isPaused;
+	private ObservableList<String> saveStates;
 	
-	public Player(String dataFolderPath) {
+	public Player(String dataFolderPath, ObservableList<String> saveStates) {
 		this.dataFolderPath = dataFolderPath;
+		this.saveStates = saveStates;
 		
 		this.buildStage();
 		
@@ -80,6 +81,9 @@ public class Player extends BorderPane {
 		Button restartButton = factory.makeButton("RestartButtonText", e -> this.restart(), true);
 		restartButton.setPrefHeight(CONTROLS_HEIGHT);
 		
+		Button saveButton = factory.makeButton("SaveButtonText", e -> this.save(), true);
+		saveButton.setPrefHeight(CONTROLS_HEIGHT);
+		
 		Button exitButton = factory.makeButton("ExitButtonText", e -> this.exit(), true);
 		exitButton.setPrefHeight(CONTROLS_HEIGHT);
 		
@@ -88,7 +92,7 @@ public class Player extends BorderPane {
 		
 		Label scorebar = gameLoop.getGameScorebar();
 		
-		controls.getChildren().addAll(playButton, restartButton, exitButton, separator, scorebar);
+		controls.getChildren().addAll(playButton, restartButton, saveButton, exitButton, separator, scorebar);
 		this.setTop(controls);
 	}
 	
@@ -114,5 +118,9 @@ public class Player extends BorderPane {
 	private void exit() {
 		gameLoop.pauseTimeline();
 		stage.close();
+	}
+	
+	private void save(){
+		saveStates.add("yay saved game");
 	}
 }

@@ -41,6 +41,7 @@ public class LevelStepStrategy implements StepStrategy {
 		this.gameScene = gameScene;
 		this.graphicsEngine = graphicsEngine;
 		this.screen = screen;
+<<<<<<< HEAD
 		this.info = info;
 
 		levelManager.loadAllSavedLevels(); //To reset initial state of level
@@ -48,6 +49,11 @@ public class LevelStepStrategy implements StepStrategy {
 		levelManager.addLevel(new Level()); // TODO: remove this empty level for
 											// testing
 
+=======
+		
+		levelManager.loadAllSavedLevels(); //To reset initial state of level TODO get filename here
+		
+>>>>>>> e369ca0d84a38475201d95a4404b6a6d36b059c7
 		instantiateTestEntitesEventsActions();
 
 		//connectObservablesToLevels();
@@ -156,7 +162,12 @@ public class LevelStepStrategy implements StepStrategy {
 		mario.setY(200);
 		mario.setWidth(100);
 		mario.setHeight(100);
+<<<<<<< HEAD
 
+=======
+		mario.setImagePath("resources/images/mario.png");
+		
+>>>>>>> e369ca0d84a38475201d95a4404b6a6d36b059c7
 		Entity block = new BlockEntity();
 		block.setX(200);
 		block.setY(400);
