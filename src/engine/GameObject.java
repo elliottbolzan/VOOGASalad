@@ -3,8 +3,8 @@ package engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
-import engine.game.gameloop.StepStrategy;
 import exceptions.GameObjectException;
 
 public abstract class GameObject {
@@ -66,11 +66,34 @@ public abstract class GameObject {
 		}
 		return null;
 	}
-	
-	public GameInfo getGameInfo(){
+
+	public GameInfo getGameInfo() {
 		return this.info;
 	}
-	public void setGameInfo(GameInfo info){
+
+	public void setGameInfo(GameInfo info) {
 		this.info = info;
+	}
+
+	public GameObject getInstance() {
+		try {
+			return getClass().getConstructor().newInstance();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public GameObject clone() {
+		GameObject copy = getInstance();
+		copy.setGameInfo(getGameInfo());
+		List<Parameter> params = new ArrayList<Parameter>();
+
+		params.addAll(getParams().stream().map(s -> {
+			return new Parameter(s.getName(), s.getParameterClass(), s.getObject());
+		}).collect(Collectors.toList()));
+		copy.setParams(params);
+		return copy;
 	}
 }
