@@ -54,7 +54,7 @@ public class GameSaver {
 	}
 	
 	private void saveSong(String songPath){
-		System.out.println(songPath);
+		//System.out.println(songPath);
 		LevelSaver ls = new LevelSaver(null, songPath);
 		String xmlsong = ls.saveSong(songPath);
 		Element songelement = gamexmlfactory.stringToElement(xmlsong);
