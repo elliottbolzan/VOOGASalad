@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Alert;
 
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 
@@ -24,6 +23,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		try {
 			setup("Mario", new File("src/resources/images/mario.png").toURI().toURL().toExternalForm());
 		} catch (MalformedURLException e) {
+			
 		}
 	}
 
@@ -41,7 +41,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		events = new ArrayList<Event>();
 		this.name = new SimpleStringProperty(name);
 		this.imagePath = new SimpleStringProperty(imagePath);
-		addParam(new Parameter("Time Step", Double.class, 0.5));
 	}
 
 	@Override
