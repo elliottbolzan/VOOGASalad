@@ -24,7 +24,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public Entity()
 	{
 		super("Entity");
-		//setup("Default", null);
+		// setup("Default", null);
 		try {
 			setup("Mario", new File("src/resources/images/mario.png").toURI().toURL().toExternalForm());
 		} catch (MalformedURLException e) {
@@ -44,7 +44,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		width = new SimpleDoubleProperty();
 		height = new SimpleDoubleProperty();
 		zIndex = new SimpleDoubleProperty();
-		events = new ArrayList<Event>();
 		events = new ArrayList<Event>();
 		this.name = new SimpleStringProperty(name);
 		this.imagePath = new SimpleStringProperty(imagePath);
@@ -237,7 +236,22 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public void setEvents(List<Event> events)
 	{
+		// this.events.clear();
+		// for (Event event : events) {
+		// this.addEvent(event);
+		// }
 		this.events = events;
+	}
+
+	public void set(Entity entity)
+	{
+		this.setImagePath(entity.getImagePath());
+		this.setName(entity.getName());
+		this.setEvents(entity.getEvents());
+		this.setHeight(entity.getHeight());
+		this.setWidth(entity.getWidth());
+		this.setX(entity.getX());
+		this.setY(entity.getY());
 	}
 
 	@Override
@@ -245,13 +259,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	{
 		try {
 			Entity returnedEntity = getClass().getDeclaredConstructor().newInstance();
-			returnedEntity.setImagePath(this.getImagePath());
-			returnedEntity.setName(this.getName());
-			returnedEntity.setEvents(this.getEvents());
-			returnedEntity.setHeight(this.getHeight());
-			returnedEntity.setWidth(this.getWidth());
-			returnedEntity.setX(this.getX());
-			returnedEntity.setY(this.getY());
+			returnedEntity.set(this);
 			return returnedEntity;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
