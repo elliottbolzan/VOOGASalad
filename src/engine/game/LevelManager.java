@@ -3,6 +3,7 @@ package engine.game;
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
 import game_data.GameData;
+import game_data.NotAGameFolderException;
 
 /**
  * Holds all the levels in the current game and allows for game-wide behavior.
@@ -123,6 +124,7 @@ public class LevelManager {
 	 */
 	public void loadAllSavedLevels(){
 		levels.addAll(gameData.loadGame(gameFilename).getLevels());
+		levels.add(new Level());	//TODO: remove this after testing 
 		System.out.println("Loaded the current level");
 	}
 	

@@ -22,6 +22,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public Entity() {
 		super("Entity");
+		//setup("Default", null);
 		try {
 			setup("Mario", new File("resources/images/mario.png").toURI().toURL().toExternalForm());
 		} catch (MalformedURLException e) {

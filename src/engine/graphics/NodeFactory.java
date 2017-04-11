@@ -1,5 +1,6 @@
 package engine.graphics;
 
+import engine.Entity;
 import engine.EntityInterface;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -17,7 +18,8 @@ public class NodeFactory implements NodeFactoryInterface {
 	}
 
 	@Override
-	public ImageView getNodeFromEntity(EntityInterface entity) {
+	public ImageView getNodeFromEntity(Entity entity) {
+		System.out.println(entity.getImagePath());
 		ImageView node = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(entity.getImagePath())));
 		node.setX(entity.getX());
 		node.setY(entity.getY());
