@@ -55,7 +55,24 @@ public class LevelSaver {
 
 	}
 	
-	private String toString(Document doc) {
+	public String saveSong(String songPath){
+		docFactory = DocumentBuilderFactory.newInstance();
+		try {
+			docBuilder = docFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		doc = docBuilder.newDocument();
+		
+		Element rootsong = doc.createElement("songpath");
+		doc.appendChild(rootsong);
+		rootsong.setAttribute("songpath", songPath);
+		
+		return toString(doc);
+
+	}
+	
+	public String toString(Document doc) {
 	    try {
 	        StringWriter sw = new StringWriter();
 	        TransformerFactory tf = TransformerFactory.newInstance();
