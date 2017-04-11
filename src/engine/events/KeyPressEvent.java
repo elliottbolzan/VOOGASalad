@@ -13,7 +13,7 @@ public class KeyPressEvent extends Event {
 
 	@Override
 	public boolean act() {
-		return (((InputObservable) getEventObservable()).isKeyPressToProcess()
-				&& getParam("Key").equals(((InputObservable) getEventObservable()).getLastPressedKey()));
+		return getGameInfo().getObservableBundle().getInputObservable().isKeyPressToProcess()
+				&& getParam("Key").equals(getGameInfo().getObservableBundle().getInputObservable().getLastPressedKey());
 	}
 }

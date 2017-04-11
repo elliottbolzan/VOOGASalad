@@ -11,25 +11,18 @@ import engine.game.gameloop.LevelStepStrategy;
  *
  */
 public class DieAction extends Action{
-	private LevelStepStrategy levelStepStrategy;
 	
 	public DieAction() {
 
 	}
-	
-	public void setLevelStepStrategy(LevelStepStrategy levelStepStrategy) {
-		this.levelStepStrategy = levelStepStrategy;
-	}
 
 	@Override
-	public void act() {		
-		CharacterEntity entity = (CharacterEntity) getEntity();  //TODO Throw VoogaException here if not CharacterEntity
-		//Decrement lives
+	public void act() {
+		CharacterEntity entity = (CharacterEntity) getEntity();  //TODO Throw exception here if not CharacterEntity
 		entity.setLives(entity.getLives() - 1);
-		System.out.println("Die action triggered");
-		
-		//Call transitionToNextLevel(boolean gameOver) (never called from step()!) -> how get the GameLoop/Screen/LevelStepStrategy object? 
-		levelStepStrategy.endLevel(entity.getLives() <= 0);
+		System.out.println("Die action triggered"); 
+		((LevelStepStrategy) getGameInfo().getCurrentStepStrategy()).endLevel(entity.getLives() <= 0);
+		//TODO Throw exception here if current step strategy is not LevelStepStrategy (shouldn't ever be the case)
 	}
 
 }
