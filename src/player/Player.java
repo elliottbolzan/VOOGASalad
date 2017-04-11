@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
 import engine.game.gameloop.GameLoop;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,15 +31,20 @@ public class Player extends BorderPane {
 	private Stage stage;
 	private Scene scene;
 	private GameLoop gameLoop;
-	
+	private String dataFolderPath;
 	private Button playButton;
 	private boolean isPaused;
+	private ObservableList<String> saveStates;
 	
-	public Player() {
+	public Player(String dataFolderPath, ObservableList<String> saveStates) {
+		this.dataFolderPath = dataFolderPath;
+		this.saveStates = saveStates;
+		
 		this.buildStage();
 		
 		this.buildGameView();
 		this.buildControlBar();
+		
 		this.togglePlayPause(true);
 	}
 	
@@ -47,6 +53,7 @@ public class Player extends BorderPane {
 		stage.setTitle(resources.getString("PlayerTitle"));
 		stage.setMinWidth(600);
 		stage.setMinHeight(600);
+		stage.setOnCloseRequest(e -> this.exit());
 		
 		scene = new Scene(this, 600, 600);
 		scene.getStylesheets().add(stylesheetPath);
@@ -57,7 +64,7 @@ public class Player extends BorderPane {
 	
 	private void buildGameView() {
 		//TODO: pass in the file name of the game/level you want to play
-		gameLoop = new GameLoop(scene, "FIXME");
+		gameLoop = new GameLoop(scene, dataFolderPath);
 		this.setCenter(gameLoop.getGameView());
 	}
 	
@@ -74,6 +81,9 @@ public class Player extends BorderPane {
 		Button restartButton = factory.makeButton("RestartButtonText", e -> this.restart(), true);
 		restartButton.setPrefHeight(CONTROLS_HEIGHT);
 		
+		Button saveButton = factory.makeButton("SaveButtonText", e -> this.save(), true);
+		saveButton.setPrefHeight(CONTROLS_HEIGHT);
+		
 		Button exitButton = factory.makeButton("ExitButtonText", e -> this.exit(), true);
 		exitButton.setPrefHeight(CONTROLS_HEIGHT);
 		
@@ -82,7 +92,7 @@ public class Player extends BorderPane {
 		
 		Label scorebar = gameLoop.getGameScorebar();
 		
-		controls.getChildren().addAll(playButton, restartButton, exitButton, separator, scorebar);
+		controls.getChildren().addAll(playButton, restartButton, saveButton, exitButton, separator, scorebar);
 		this.setTop(controls);
 	}
 	
@@ -108,5 +118,9 @@ public class Player extends BorderPane {
 	private void exit() {
 		gameLoop.pauseTimeline();
 		stage.close();
+	}
+	
+	private void save(){
+		saveStates.add("yay saved game");
 	}
 }

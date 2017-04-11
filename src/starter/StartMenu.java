@@ -29,7 +29,7 @@ public class StartMenu extends BorderPane {
 	private String iconPath = resources.getString("IconPath");
 	private String logoPath = resources.getString("LogoPath");
 
-	protected StartMenu(Stage primaryStage) {
+	public StartMenu(Stage primaryStage) {
 		this.stage = primaryStage;
 		this.setIcon();
 		this.buildStage();
@@ -93,6 +93,7 @@ public class StartMenu extends BorderPane {
 	}
 
 	private String chooseGame() {
+		// Check if games are valid from here?
 		ComponentMaker maker = new ComponentMaker(resources);
 		DirectoryChooser chooser = maker.makeDirectoryChooser(
 				System.getProperty("user.dir") + resources.getString("DefaultDirectory"), "ChooserTitle");
@@ -104,12 +105,27 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
+	private boolean isSelected(String selectedDirectory) {
+		if (selectedDirectory == "") {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	private void editGame() {
-		new AuthoringEnvironment(chooseGame());
+		String chosen = chooseGame();
+		if (isSelected(chosen)) {
+			new AuthoringEnvironment(chosen);
+		}
+
 	}
 
 	private void playGame() {
-		new PlayerMenu();
+		String chosen = chooseGame();
+		if (isSelected(chosen)) {
+			new PlayerMenu(chosen);
+		}
 	}
 
 	private Button makeButton(String label, EventHandler<ActionEvent> handler) {

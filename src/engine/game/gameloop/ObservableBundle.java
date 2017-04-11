@@ -73,21 +73,23 @@ public class ObservableBundle {
 		timerObservable.attachCurrentLevelTimerManager(levelManager.getCurrentLevel().getTimerManager());
 	}
 	
+	/*
 	public void setObservablesInEvents(LevelManager levelManager){
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			for (Event event : entity.getEvents()) {
 				if (event instanceof KeyPressEvent || event instanceof KeyReleaseEvent) {
-					event.addEventObservable(inputObservable);
+					event.setEventObservable(inputObservable);
 				}
 				else if (event instanceof CollisionEvent){
-					event.addEventObservable(collisionObservable);
+					event.setEventObservable(collisionObservable);
 				}
 				else if (event instanceof TimerEvent){
-					event.addEventObservable(timerObservable);
+					event.setEventObservable(timerObservable);
 				}
 			}
 		}
 	}
+	*/
 	
 	public void updateObservers(){
 		inputObservable.updateObservers();

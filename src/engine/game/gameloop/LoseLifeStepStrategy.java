@@ -33,7 +33,4 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	protected boolean hasNextScreen() {
 		return true;
 	}
-
-	
-	
 }

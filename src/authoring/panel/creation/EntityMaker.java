@@ -27,7 +27,6 @@ public class EntityMaker {
 	private Stage stage;
 	private View view;
 	private SplitPane pane;
-	private Entity entity;
 	private EngineController engine;
 	
 	private EntityInfo entityInfo;
@@ -43,23 +42,22 @@ public class EntityMaker {
 	public EntityMaker(Workspace workspace, EntityDisplay display, Entity entity) {
 		this.workspace = workspace;
 		this.display = display;
-		this.entity = entity;
 		engine = new EngineController();
-		if (this.entity == null) {
-			this.entity = engine.getDefaultEntity();
+		if (entity == null) {
+			entity = engine.getDefaultEntity();
 		}
-		setupView();
+		setupView(entity);
 		setupStage();
 	}
 	
 	public Entity getEntity() {
-		return entity;
+		return entityEditor.getEntity();
 	}
 	
-	private void setupView() {
+	private void setupView(Entity entity) {
 		view = new ConcreteView(workspace.getResources().getString("EntityMakerTitle"));
+		entityEditor = new EntityEditor(workspace, entity.clone(), engine.getAllEntities());
 		entityInfo = new EntityInfo(workspace, this);
-		entityEditor = new EntityEditor(workspace, entity, engine.getAllEntities());
 		eventPicker = new EventPicker(workspace, this);
 		actionPicker = new ActionPicker(workspace, this);
 		pane = new SplitPane(entityInfo, entityEditor, eventPicker, actionPicker);
@@ -106,9 +104,9 @@ public class EntityMaker {
 			showMessage(workspace.getResources().getString("EmptyName"));
 			return;
 		}
-		entity.nameProperty().set(entityInfo.getName());
-		entity.imagePathProperty().set(entityInfo.getImagePath());
-		display.addEntity(entity);
+		getEntity().nameProperty().set(entityInfo.getName());
+		getEntity().imagePathProperty().set(entityInfo.getImagePath());
+		display.addEntity(getEntity());
 		dismiss();
 	}
 	
