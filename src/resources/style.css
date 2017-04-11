@@ -66,7 +66,7 @@
 
 #title {
     -fx-font-size: 70pt;
-	-fx-font-family: Phosphate;
+	-fx-font-family: "Phosphate";
 	-fx-text-fill: #2affce;
 	-fx-stroke: black;
 }
