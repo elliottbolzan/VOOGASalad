@@ -177,6 +177,7 @@ public class LayerEditor extends View
 				}
 			}
 			addedEntity.setSelected(!addedEntity.isSelected());
+			workspace.updateEntity(addedEntity.getEntity());
 		});
 	}
 

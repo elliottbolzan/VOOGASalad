@@ -21,41 +21,49 @@ import javafx.scene.layout.VBox;
  * @author Elliott Bolzan
  *
  */
-public class EntityDisplay extends EditableContainer {
+public class EntityDisplay extends EditableContainer
+{
 
 	private TableView<Entity> table;
 
 	/**
 	 * 
 	 */
-	public EntityDisplay(Workspace workspace) {
+	public EntityDisplay(Workspace workspace)
+	{
 		super(workspace, workspace.getResources().getString("EntityDisplayTitle"));
 	}
-	
+
 	/**
 	 * @return a TableView.
 	 */
-	private TableView<Entity> makeTable() {
+	private TableView<Entity> makeTable()
+	{
 		TableView<Entity> table = new TableView<Entity>();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setPlaceholder(new Label(getWorkspace().getResources().getString("EmptyEntities")));
 		table.prefHeightProperty().bind(heightProperty());
 		table.setId("entity-table");
-		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		table.setOnMouseClicked(new EventHandler<MouseEvent>()
+		{
 			@Override
-			public void handle(MouseEvent event) {
+			public void handle(MouseEvent event)
+			{
 				getWorkspace().getDefaults().setSelectedEntity(table.getSelectionModel().getSelectedItem());
 			}
 		});
 		return table;
 	}
 
-	private TableColumn<Entity, Entity> makeEntityColumn() {
+	private TableColumn<Entity, Entity> makeEntityColumn()
+	{
 		TableColumn<Entity, Entity> entityColumn = new TableColumn<>("Entity");
 		entityColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		entityColumn.setCellFactory(param -> new TableCell<Entity, Entity>() {
+		entityColumn.setCellFactory(param -> new TableCell<Entity, Entity>()
+		{
 			@Override
-			protected void updateItem(Entity entity, boolean empty) {
+			protected void updateItem(Entity entity, boolean empty)
+			{
 				super.updateItem(entity, empty);
 				if (entity == null) {
 					setGraphic(null);
@@ -74,14 +82,16 @@ public class EntityDisplay extends EditableContainer {
 		return entityColumn;
 	}
 
-	public void addEntity(Entity entity) {
+	public void addEntity(Entity entity)
+	{
 		if (!getWorkspace().getDefaults().getEntities().contains(entity)) {
 			getWorkspace().getDefaults().add(entity);
 		}
 	}
 
 	@Override
-	public void createContainer() {
+	public void createContainer()
+	{
 		table = makeTable();
 		table.setItems(getWorkspace().getDefaults().getEntities());
 		table.getColumns().add(makeEntityColumn());
@@ -89,18 +99,30 @@ public class EntityDisplay extends EditableContainer {
 	}
 
 	@Override
-	public void createNew() {
-		new EntityMaker(getWorkspace(), this, null);		
+	public void createNew()
+	{
+		new EntityMaker(getWorkspace(), this, null);
+	}
+
+	public void updateEntity(Entity entity)
+	{
+		for (Entity currEntity : table.getItems()) {
+			if (currEntity.getName().equals(entity.getName())) {
+				currEntity.set(entity);
+			}
+		}
 	}
 
 	@Override
-	public void edit() {
+	public void edit()
+	{
 		if (selectionExists(table.getSelectionModel().getSelectedItem()))
 			new EntityMaker(getWorkspace(), this, table.getSelectionModel().getSelectedItem());
 	}
 
 	@Override
-	public void delete() {
+	public void delete()
+	{
 		if (selectionExists(table.getSelectionModel().getSelectedItem()))
 			getWorkspace().getDefaults().remove(table.getSelectionModel().getSelectedItem());
 	}
