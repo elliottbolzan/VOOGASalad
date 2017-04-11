@@ -93,6 +93,7 @@ public class StartMenu extends BorderPane {
 	}
 
 	private String chooseGame() {
+		// Check if games are valid from here?
 		ComponentMaker maker = new ComponentMaker(resources);
 		DirectoryChooser chooser = maker.makeDirectoryChooser(
 				System.getProperty("user.dir") + resources.getString("DefaultDirectory"), "ChooserTitle");
@@ -103,30 +104,29 @@ public class StartMenu extends BorderPane {
 			return selectedDirectory.getAbsolutePath();
 		}
 	}
-	
-	private boolean isSelected(String selectedDirectory){
-		if(selectedDirectory == ""){
+
+	private boolean isSelected(String selectedDirectory) {
+		if (selectedDirectory == "") {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
 
 	private void editGame() {
 		String chosen = chooseGame();
-		if(isSelected(chosen)){
+		if (isSelected(chosen)) {
 			new AuthoringEnvironment(chosen);
 		}
-		
+
 	}
 
 	private void playGame() {
 		String chosen = chooseGame();
-		if(isSelected(chosen)){
+		if (isSelected(chosen)) {
 			new PlayerMenu(chosen);
 		}
 	}
-
 
 	private Button makeButton(String label, EventHandler<ActionEvent> handler) {
 		Button button = new Button(resources.getString(label));

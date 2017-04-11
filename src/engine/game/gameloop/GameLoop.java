@@ -19,15 +19,15 @@ public class GameLoop {
 	private Screen level1Screen;
 	private GraphicsEngine graphicsEngine;
 	
-	public GameLoop(Scene gameScene, String gameFilename){
+	public GameLoop(Scene gameScene, String dataFolderPath){
 		//Instantiate GraphicsEngine
-		graphicsEngine = new GraphicsEngine();
+		graphicsEngine = new GraphicsEngine(dataFolderPath);
 		
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
 		
 		// Setup levelManager
-		levelManager = new LevelManager(gameFilename);
+		levelManager = new LevelManager(dataFolderPath);
 		levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
 		
 		//Setup the first level screen

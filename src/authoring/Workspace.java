@@ -52,6 +52,10 @@ public class Workspace extends View {
 		return game;
 	}
 
+	/*public void updateEntity(Entity entity) {
+		panel.updateEntity(entity);
+	}*/
+
 	/**
 	 * Initializes the Workspace's components.
 	 */
@@ -69,8 +73,7 @@ public class Workspace extends View {
 		setCenter(pane);
 	}
 
-	private void load(String path)
-	{
+	private void load(String path) {
 		// game = data.loadGame(path);
 		game = new Game();
 		Level level = new Level();
@@ -96,11 +99,10 @@ public class Workspace extends View {
 		levels.add(level);
 		levels.add(level2);
 		game.setLevels(levels);
-		levelEditor.loadGame(levels);
 
+		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
-		// load levels into canvas
-		// load settings: game name, music
+		panel.getSettings().load(game);
 	}
 
 	public void save() {
@@ -150,8 +152,7 @@ public class Workspace extends View {
 		levelEditor.getCurrentLevel().makeNewTab();
 	}
 
-	public void selectLayer(int arg2)
-	{
+	public void selectLayer(int arg2) {
 		levelEditor.getCurrentLevel().selectLayer(arg2 - 1);
 	}
 
