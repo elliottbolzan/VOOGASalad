@@ -115,7 +115,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 		return getItem() == null ? "" : getItem().toString();
 	}
 
-	private KeyCode getKeyCode() {
+	public KeyCode getKeyCode() {
 		return getItem() == null ? null : (KeyCode) getItem();
 	}
 
@@ -124,9 +124,9 @@ public class EditingCell extends TableCell<Parameter, Object> {
 		String input = textField.getText();
 		try {
 			if (param.getParameterClass().equals(Integer.class)) {
-				Integer.parseInt(input);
+				commitEdit(Integer.parseInt(input));
 			} else if (param.getParameterClass().equals(Double.class)) {
-				Double.parseDouble(input);
+				commitEdit(Double.parseDouble(input));
 			}
 			commitEdit(input);
 		} catch (Exception e) {

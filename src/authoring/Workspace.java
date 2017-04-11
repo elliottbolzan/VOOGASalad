@@ -10,6 +10,8 @@ import authoring.components.ComponentMaker;
 import authoring.panel.Panel;
 import authoring.views.View;
 import engine.Entity;
+import engine.entities.CharacterEntity;
+import engine.game.Level;
 import game_data.Game;
 import game_data.GameData;
 import javafx.geometry.Insets;
@@ -53,6 +55,11 @@ public class Workspace extends View
 		return game;
 	}
 
+	public void updateEntity(Entity entity)
+	{
+		panel.updateEntity(entity);
+	}
+
 	/**
 	 * Initializes the Workspace's components.
 	 */
@@ -73,7 +80,33 @@ public class Workspace extends View
 
 	private void load(String path)
 	{
-		game = data.loadGame(path);
+		// game = data.loadGame(path);
+		game = new Game();
+		Level level = new Level();
+		Level level2 = new Level();
+		Entity one = new CharacterEntity();
+		Entity two = new CharacterEntity();
+		Entity three = new CharacterEntity();
+		Entity four = new CharacterEntity();
+		// one.setImagePath("resources/images/mario.png");
+		one.xProperty().set(120);
+		two.yProperty().set(200);
+		three.xProperty().set(200);
+		four.xProperty().set(300);
+
+		three.setZ(1);
+		four.setZ(10);
+		level.addEntity(one);
+		level.addEntity(two);
+		level.addEntity(three);
+		level.addEntity(four);
+		level2.addEntity(one);
+		List<Level> levels = new ArrayList<>();
+		levels.add(level);
+		levels.add(level2);
+		game.setLevels(levels);
+		levelEditor.loadGame(levels);
+
 		defaults.setEntities(game.getDefaults());
 		// load levels into canvas
 		// load settings: game name, music
@@ -81,7 +114,6 @@ public class Workspace extends View
 
 	public void save()
 	{
-		// Levels must already be saved into game. Everything else already is.
 		String path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
@@ -138,7 +170,7 @@ public class Workspace extends View
 
 	public void selectLayer(int arg2)
 	{
-		levelEditor.getCurrentLevel().selectLayer(arg2);
+		levelEditor.getCurrentLevel().selectLayer(arg2 - 1);
 	}
 
 	public void selectExistingLevel(int newLevelNum)

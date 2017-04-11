@@ -1,6 +1,8 @@
 package engine;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,28 +23,32 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public Entity()
 	{
-		this("Default", "resources/images/mario.png");
+		super("Entity");
+		// setup("Default", null);
+		try {
+			setup("Mario", new File("src/resources/images/mario.png").toURI().toURL().toExternalForm());
+		} catch (MalformedURLException e) {
+		}
 	}
 
 	public Entity(String name, String imagePath)
 	{
 		super("Entity");
+		setup(name, imagePath);
+	}
+
+	private void setup(String name, String imagePath)
+	{
 		x = new SimpleDoubleProperty();
 		y = new SimpleDoubleProperty();
 		width = new SimpleDoubleProperty();
 		height = new SimpleDoubleProperty();
 		zIndex = new SimpleDoubleProperty();
 		events = new ArrayList<Event>();
-		events = new ArrayList<Event>();
 		this.name = new SimpleStringProperty(name);
 		this.imagePath = new SimpleStringProperty(imagePath);
 		addParam(new Parameter("Time Step", Double.class, 0.5));
 	}
-
-	/*
-	 * public Entity(Entity entity) { this(); for (Event event : entity.events)
-	 * { this.addEvent(event); } }
-	 */
 
 	@Override
 	public void update()
@@ -72,6 +78,11 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public void setX(double x)
 	{
 		this.x.set(x);
+	}
+
+	public void setZ(int z)
+	{
+		this.zIndex.set(z);
 	}
 
 	@Override
@@ -225,7 +236,22 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public void setEvents(List<Event> events)
 	{
+		// this.events.clear();
+		// for (Event event : events) {
+		// this.addEvent(event);
+		// }
 		this.events = events;
+	}
+
+	public void set(Entity entity)
+	{
+		this.setImagePath(entity.getImagePath());
+		this.setName(entity.getName());
+		this.setEvents(entity.getEvents());
+		this.setHeight(entity.getHeight());
+		this.setWidth(entity.getWidth());
+		this.setX(entity.getX());
+		this.setY(entity.getY());
 	}
 
 	@Override
@@ -233,9 +259,8 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	{
 		try {
 			Entity returnedEntity = getClass().getDeclaredConstructor().newInstance();
-			returnedEntity.setImagePath(this.getImagePath());
-			returnedEntity.setName(this.getName());
-			returnedEntity.setEvents(this.getEvents());
+			returnedEntity.set(this);
+			return returnedEntity;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			// TODO: PUT ACTUAL ALERT HERE (this one is fake so that I don't
