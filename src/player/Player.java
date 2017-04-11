@@ -92,7 +92,7 @@ public class Player extends BorderPane {
 		
 		Label scorebar = gameLoop.getGameScorebar();
 		
-		controls.getChildren().addAll(playButton, restartButton, exitButton, separator, scorebar);
+		controls.getChildren().addAll(playButton, restartButton, saveButton, exitButton, separator, scorebar);
 		this.setTop(controls);
 	}
 	
