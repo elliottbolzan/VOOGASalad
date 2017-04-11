@@ -28,7 +28,7 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 		// collision.setFirstEntity(getEntity()); //TODO: should this just get
 		// removed? Currently it doesnt work
 		// collision.setSecondName((String)getParam("Entity"));
-		for (Collision collision : ((CollisionObservable) getEventObservable()).getCollisions()) {
+		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
 			if (collision.equals(this.collision))
 				return true;
 		}

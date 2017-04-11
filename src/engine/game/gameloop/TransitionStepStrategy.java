@@ -2,6 +2,7 @@ package engine.game.gameloop;
 
 import java.util.ResourceBundle;
 
+import engine.GameInfo;
 import engine.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
@@ -19,19 +20,21 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	private Scene gameScene;
 	private GraphicsEngine graphicsEngine;
 	private Screen screen;
+	private GameInfo info;
 	
 	public TransitionStepStrategy(String resourceFileTextName){
 		 this.resourceFileTextName = resourceFileTextName;
 	}
 	
 	@Override
-	public void setup(ObservableBundle newObservableBundle, LevelManager levelManager, Scene gameScene, Screen screen,
-			GraphicsEngine graphicsEngine) {
-		this.observableBundle = newObservableBundle;   //TODO These are just being used to pass to next level - too many parameters in method names; find a better way!
+	public void setup(LevelManager levelManager, Scene gameScene, Screen screen,
+			GraphicsEngine graphicsEngine, GameInfo info) {
+		//TODO These are just being used to pass to next level - too many parameters in method names; find a better way!
 		this.levelManager = levelManager;
 		this.gameScene = gameScene;
 		this.graphicsEngine = graphicsEngine;
 		this.screen = screen;
+		this.info = info;
 		//TODO Also display number of lives left for lose a life transition
 		graphicsEngine.fillScreenWithText(ResourceBundle.getBundle(RESOURCES_NAME).getString(resourceFileTextName));
 	}
@@ -54,7 +57,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	private void moveToNextScreen(){
 		screen.getTimeline().stop();
 		levelManager.setLevelNumber(nextLevelNumber(levelManager));
-		Screen nextScreen = new Screen(getNextStepStrategy(levelManager), observableBundle, levelManager, gameScene, graphicsEngine);
+		Screen nextScreen = new Screen(getNextStepStrategy(levelManager), levelManager, gameScene, graphicsEngine, info);
 		nextScreen.getTimeline().play();
 	}
 }
