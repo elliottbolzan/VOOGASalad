@@ -1,17 +1,26 @@
 package game_data;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.io.StringWriter;
+import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
 
 public class GameXMLFactory {
 
@@ -30,6 +39,10 @@ public class GameXMLFactory {
 	//Defaults
 	//Song
 	
+	
+	public GameXMLFactory(){
+		initiate();
+	}
 	private void initiate(){
 		
 		docFactory = DocumentBuilderFactory.newInstance();
@@ -39,14 +52,18 @@ public class GameXMLFactory {
 			e.printStackTrace();
 		}
 		doc = docBuilder.newDocument();
-		Element nameNode = doc.createElement("Name");
-		doc.appendChild(nameNode);
 		
-		Element levelsNode = doc.createElement("Levels");
-		doc.appendChild(nameNode);
+		Element rootElement = doc.createElement("Game");
+		doc.appendChild(rootElement);
+		
+		nameNode = doc.createElement("Name");
+		rootElement.appendChild(nameNode);
+		
+		levelsNode = doc.createElement("Levels");
+		rootElement.appendChild(levelsNode);
 		}
 	
-	private void setName(String gamename){
+	public void setName(String gamename){
 		Attr attr = doc.createAttribute("GameName");
 		attr.setValue(gamename);
 		nameNode.setAttributeNode(attr);
@@ -54,19 +71,21 @@ public class GameXMLFactory {
 	}
 	
 	
-	private void addLevel(Element levelinfo){
+	public void addLevel(Element levelinfo){
 		
 		
 		
 		Element newlevel = doc.createElement("level");
-		newlevel.appendChild(levelinfo);
+		
+		Element importedlevelnode=(Element) doc.importNode(levelinfo, true);
+		newlevel.appendChild(importedlevelnode);
 		
 		
 		levelsNode.appendChild(newlevel);
 		
 	}
 	
-	private void addEntityInfotoElement(Element element, Element entityinfo){
+	public void addEntityInfotoElement(Element element, Element entityinfo){
 		
 		
 		Element newentity = doc.createElement("entity");
@@ -77,7 +96,7 @@ public class GameXMLFactory {
 	}
 	
 	
-	private Element stringToElement(String xmlstring){
+	public Element stringToElement(String xmlstring){
 		
 		try {
 			return  DocumentBuilderFactory
@@ -96,5 +115,8 @@ public class GameXMLFactory {
 		return null;
 	}
 	
+	public Document getDocument(){
+		return doc;
+	}
 	
 }

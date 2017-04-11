@@ -18,14 +18,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 public class LevelSaver {
 
-	private List<String> entityfilepaths;
+	private List<Element> entitynodes;
 	private String folderpath;
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
 	private int levelnumber;
-	public LevelSaver(List<String> inputentityfilepaths, String inputfolderpath,int inputlevelnumber){
-		entityfilepaths=inputentityfilepaths;
+	public LevelSaver(List<Element> inputentitynodes, String inputfolderpath,int inputlevelnumber){
+		entitynodes=inputentitynodes;
 		folderpath=inputfolderpath;
 		levelnumber=inputlevelnumber;
 
@@ -47,8 +47,8 @@ public class LevelSaver {
 		doc.appendChild(rootElement);
 
 
-		for(int i=0;i<entityfilepaths.size();i++){
-			addLevelEntity(i+1, entityfilepaths.get(i),rootElement);
+		for(int i=0;i<entitynodes.size();i++){
+			addLevelEntity(i+1, entitynodes.get(i),rootElement);
 		}
 
 		return toString(doc);
@@ -73,12 +73,12 @@ public class LevelSaver {
 	    }
 	}
 	
-	private void addLevelEntity(int entitynumber, String entityfilepath, Element rootElement){
+	private void addLevelEntity(int entitynumber, Element entitynode, Element rootElement){
 
 
-		Element levelpath = doc.createElement("EntityPath");
-		rootElement.appendChild(levelpath);
-
+		Element entity = doc.createElement("Entity");
+		rootElement.appendChild(entity);
+/*
 		Attr attr = doc.createAttribute("id");
 		attr.setValue(Integer.toString(entitynumber));
 		levelpath.setAttributeNode(attr);
@@ -86,6 +86,9 @@ public class LevelSaver {
 		Element pathname = doc.createElement("path");
 		pathname.appendChild(doc.createTextNode(entityfilepath));
 		levelpath.appendChild(pathname);
+		*/
+		Element importedentitynode= (Element) doc.importNode(entitynode, true);
+		entity.appendChild(importedentitynode);
 
 	}
 
