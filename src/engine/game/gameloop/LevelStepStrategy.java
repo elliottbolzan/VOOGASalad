@@ -6,7 +6,7 @@ import engine.CollisionSide;
 import engine.Entity;
 import engine.Event;
 import engine.actions.DieAction;
-import engine.actions.JumpAction;
+import engine.actions.JumpSpeedAction;
 import engine.actions.MoveAction;
 import engine.actions.WalkAction;
 import engine.actions.ZeroHorizontalSpeedAction;
@@ -18,6 +18,7 @@ import engine.events.CollisionEvent;
 import engine.events.KeyPressEvent;
 import engine.events.KeyReleaseEvent;
 import engine.events.TimerEvent;
+import engine.game.Level;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
@@ -131,6 +132,7 @@ public class LevelStepStrategy implements StepStrategy{
 		mario.setY(200);
 		mario.setWidth(100);
 		mario.setHeight(100);
+		mario.setImagePath("resources/images/mario.png");
 		
 		Entity block = new BlockEntity();
 		block.setX(200);
@@ -149,10 +151,9 @@ public class LevelStepStrategy implements StepStrategy{
 		KeyPressEvent upPressed = new KeyPressEvent(); 
 		upPressed.updateParam("Key", KeyCode.UP);
 		mario.addEvent(upPressed);
-		JumpAction jump = new JumpAction(); 
+		JumpSpeedAction jump = new JumpSpeedAction(); 
 		jump.setEntity(mario);
-		jump.updateParam("Max Jump Height", 15.0);
-		jump.updateParam("Jump Duration", 1.0);
+		jump.updateParam("Initial Jump Speed", -15.0);
 		upPressed.addAction(jump);
 		
 		KeyPressEvent rightPressed = new KeyPressEvent();

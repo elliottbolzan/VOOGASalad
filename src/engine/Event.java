@@ -32,7 +32,7 @@ public abstract class Event extends GameObject implements EventInterface {
 			action.act();
 	}
 	
-	public void addEventObservable(EventObservable observable){
+	public void setEventObservable(EventObservable observable){
 		this.observable = observable;
 	}
 	

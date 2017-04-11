@@ -4,7 +4,7 @@ import javafx.stage.Stage;
 
 public class AchievementsMenu extends AbstractMenu{
 
-	public AchievementsMenu(Stage stage){
-		super(stage);
+	public AchievementsMenu(Stage stage, String gameFolderPath){
+		super(stage, gameFolderPath);
 	}
 }

@@ -31,14 +31,17 @@ public class LayerEditor extends View
 	Workspace workspace;
 	Canvas canvas;
 	Map<Integer, List<EntityDisplay>> layerEntities;
+	List<EntityDisplay> copiedEntities;
 	int layerCount;
 	int currLayer;
 	Bounds lastBounds;
+	ComponentMaker maker;
 
 	public LayerEditor(Workspace workspace)
 	{
 		super("");
 		this.workspace = workspace;
+		maker = new ComponentMaker(workspace.getResources());
 		setup();
 	}
 
@@ -53,13 +56,32 @@ public class LayerEditor extends View
 		return thisLevel;
 	}
 
+	public void loadLevel(Level level)
+	{
+		this.clear();
+		canvas.clear();
+		for (Entity entity : level.getEntities()) {
+			addEntity(entity, entity.getX(), entity.getY(), (int) entity.getZ());
+		}
+		selectLayer(0);
+	}
+
+	private void clear()
+	{
+		while (layerCount > 0) {
+			deleteLayer(layerCount - 1);
+		}
+		setup();
+	}
+
 	private void setup()
 	{
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
 		layerEntities = new HashMap<Integer, List<EntityDisplay>>();
+		copiedEntities = new ArrayList<EntityDisplay>();
 		layerCount = 0;
-		currLayer = 1;
+		currLayer = 0;
 		lastBounds = new Rectangle().getBoundsInLocal();
 		clickToAddEntity();
 		typeToDelete();
@@ -100,8 +122,49 @@ public class LayerEditor extends View
 					}
 				}
 			}
+			if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
+				copiedEntities.clear();
+				for (List<EntityDisplay> list : layerEntities.values()) {
+					for (EntityDisplay entity : list) {
+						if (entity.isSelected()) {
+							copiedEntities.add(entity);
+						}
+					}
+				}
+			}
+			if (e.getCode().equals(KeyCode.V) && e.isControlDown()) {
+				for (EntityDisplay entity : copiedEntities) {
+					addEntity(entity.getEntity(), entity.getEntity().getX() + 25, entity.getEntity().getY() + 25,
+							currLayer);
+				}
+			}
 		});
 	}
+	//
+	// private void typeToCopyPaste()
+	// {
+	// workspace.setOnKeyPressed(e -> {
+	// if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
+	// List<EntityDisplay> selectedEntities = new ArrayList<EntityDisplay>();
+	// for (List<EntityDisplay> list : layerEntities.values()) {
+	// for (EntityDisplay entity : list) {
+	// if (entity.isSelected()) {
+	// System.out.println(entity.getEntity().getName());
+	// selectedEntities.add(entity);
+	// }
+	// }
+	// }
+	// workspace.setOnKeyPressed(e2 -> {
+	// if (e2.getCode().equals(KeyCode.V) && e2.isControlDown()) {
+	// for (EntityDisplay entity : selectedEntities) {
+	// addEntity(entity.getEntity(), entity.getEntity().getX() + 25,
+	// entity.getEntity().getY() + 25);
+	// }
+	// }
+	// });
+	// }
+	// });
+	// }
 
 	private Image getCurrentImage()
 	{
@@ -111,7 +174,7 @@ public class LayerEditor extends View
 	private void placeEntity(MouseEvent e)
 	{
 		try {
-			addEntity(workspace.getSelectedEntity(), e.getX(), e.getY());
+			addEntity(workspace.getSelectedEntity(), e.getX(), e.getY(), currLayer);
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			showSelectMessage();
@@ -124,10 +187,12 @@ public class LayerEditor extends View
 		return bounds;
 	}
 
-	private void addEntity(Entity entity, double x, double y)
+	private void addEntity(Entity entity, double x, double y, int z)
 	{
 		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
-		layerEntities.get(currLayer).add(addedEntity);
+		addedEntity.getEntity().setZ(z);
+		setNumLayers(z);
+		layerEntities.get(z).add(addedEntity);
 		addedEntity.setOnMouseClicked(e -> {
 			if (!e.isShiftDown()) {
 				for (List<EntityDisplay> list : layerEntities.values()) {
@@ -140,6 +205,18 @@ public class LayerEditor extends View
 		});
 	}
 
+	// private void addEntity(Entity entity, double x, double y)
+	// {
+	// addEntity(entity, x, y, currLayer);
+	// }
+
+	private void setNumLayers(int z)
+	{
+		while (layerCount <= z) {
+			newTab();
+		}
+	}
+
 	public void makeNewTab()
 	{
 		newTab();
@@ -148,7 +225,7 @@ public class LayerEditor extends View
 	private void newTab()
 	{
 		layerCount++;
-		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
+		layerEntities.put(layerCount - 1, new ArrayList<EntityDisplay>());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}
@@ -188,12 +265,21 @@ public class LayerEditor extends View
 	}
 
 	/*
-	 * ALERT: DO NOT TRY DELETING LAYER 1. NUMBERING OF THE LAYERS MIGHT ALSO BE
-	 * MESSED UP
+	 * ALERT: DO NOT TRY DELETING LAYER 1. 
 	 */
 	public void deleteLayer(int layer)
 	{
-		// selectNewLayer(layer-1);
+		if(layerCount==1){
+			String message = workspace.getResources().getString("LayerError");
+			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
+			alert.showAndWait();
+		}
+		else{
+		executeDelete(layer);
+		}
+	}
+
+	private void executeDelete(int layer) {
 		if (layerEntities.get(layer).size() != 0) {
 			layerEntities.get(layer).stream().forEach(id -> {
 				canvas.removeEntity(id);
