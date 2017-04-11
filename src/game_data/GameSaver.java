@@ -37,7 +37,10 @@ public class GameSaver {
 	public void saveGame(Game game, String filepath) {
 		this.game = game;
 		gamexmlfactory= new GameXMLFactory();
-		this.saveGame(game.getLevels(), filepath);
+		gamexmlfactory.setName(game.getName());
+		createRoot(filepath);
+		savelevels(game.getLevels(), filepath + "/" + game.getName());
+		savedefaults(game.getDefaults(), filepath + "/" + game.getName());
 		saveDocument(filepath);
 	}
 
@@ -57,7 +60,31 @@ public class GameSaver {
 		}
 	}
 	
-	private void savedefaults(List<Entity> levels, String filepath){
+	private void savedefaults(List<Entity> defaults, String filepath){
+		
+		
+
+			List<Entity> entities = defaults;
+			List<Element> entitynodes = new ArrayList<Element>();
+		
+			for (int j = 0; j < entities.size(); j++) {
+				Entity currentity = entities.get(j);
+				
+
+				Element entitynode = getEntityNode(currentity);
+				entitynodes.add(entitynode);
+			}
+
+			LevelSaver ls = new LevelSaver(entitynodes, filepath);
+			String xmlLevel = ls.saveLevel();
+			//System.out.println(xmlLevel);
+			Element levelelement = gamexmlfactory.stringToElement(xmlLevel);
+			gamexmlfactory.addDefaultEntity(levelelement);
+			//System.out.println(xmlLevel);
+			
+			
+		
+		
 		
 	}
 	
@@ -70,43 +97,25 @@ public class GameSaver {
 			for (int j = 0; j < entities.size(); j++) {
 				Entity currentity = entities.get(j);
 				
+				System.out.println(currentity.getX());
 				
 				Element entitynode = getEntityNode(currentity);
 				entitynodes.add(entitynode);
 			}
 
-			LevelSaver ls = new LevelSaver(entitynodes, filepath, i);
+			LevelSaver ls = new LevelSaver(entitynodes, filepath);
 			String xmlLevel = ls.saveLevel();
-			System.out.println(xmlLevel);
+		//	System.out.println(xmlLevel);
 			Element levelelement = gamexmlfactory.stringToElement(xmlLevel);
 			gamexmlfactory.addLevel(levelelement);
-			System.out.println(xmlLevel);
+			//System.out.println(xmlLevel);
 			
 			
 		}
 		
 		
 		
-//		File entityfolder = new File(filepath + "/levels");
-//		if (!entityfolder.exists()) {
-//			entityfolder.mkdirs();
-//		}
-//		File dir = new File(filepath + "/levels");
-//		dir.mkdir();
-//		for (int i = 0; i < levels.size(); i++) {
-//
-//			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
-//			List<String> entityfilepaths = new ArrayList<String>();
-//
-//			for (int j = 0; j < entities.size(); j++) {
-//				Entity currentity = entities.get(j);
-//				String entityfilepath = saveEntity(currentity, filepath);
-//				entityfilepaths.add(entityfilepath);
-//			}
-//
-//			LevelSaver ls = new LevelSaver(entityfilepaths, filepath, i);
-//			ls.saveLevel();
-//		}
+
 	}
 
 	

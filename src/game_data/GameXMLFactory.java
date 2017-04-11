@@ -32,6 +32,7 @@ public class GameXMLFactory {
 	private Document doc;
 	private Element nameNode;
 	private Element levelsNode;
+	private Element defaultsNode;
 	
 	//Name
 	//Entities
@@ -61,6 +62,9 @@ public class GameXMLFactory {
 		
 		levelsNode = doc.createElement("Levels");
 		rootElement.appendChild(levelsNode);
+		
+		defaultsNode = doc.createElement("DefaultsNode");
+		rootElement.appendChild(defaultsNode);
 		}
 	
 	public void setName(String gamename){
@@ -79,12 +83,18 @@ public class GameXMLFactory {
 		
 		Element importedlevelnode=(Element) doc.importNode(levelinfo, true);
 		newlevel.appendChild(importedlevelnode);
-		
-		
 		levelsNode.appendChild(newlevel);
 		
 	}
+	public void addDefaultEntity(Element defaultentity){
+		
+
+		
+		Element importeddefaultentitynode= (Element) doc.importNode(defaultentity, true);
 	
+		defaultsNode.appendChild(importeddefaultentitynode);
+		
+	}
 	public void addEntityInfotoElement(Element element, Element entityinfo){
 		
 		
