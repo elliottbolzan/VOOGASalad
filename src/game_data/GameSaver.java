@@ -32,6 +32,7 @@ public class GameSaver {
 	public void saveGame(List<Level> levels, String filePath) {
 		createRoot(filePath);
 		savelevels(levels, filePath + "/" + game.getName());
+		savedefaults(game.getDefaults(), filePath + "/" + game.getName());
 	}
 	
 	private void createRoot(String filePath) {
@@ -40,14 +41,12 @@ public class GameSaver {
 			folder.mkdirs();
 		}
 	}
-
+	
+	private void savedefaults(List<Entity> levels, String filepath){
+		
+	}
+	
 	private void savelevels(List<Level> levels, String filepath) {
-		File entityfolder = new File(filepath + "/levels");
-		if (!entityfolder.exists()) {
-			entityfolder.mkdirs();
-		}
-		File dir = new File(filepath + "/levels");
-		dir.mkdir();
 		for (int i = 0; i < levels.size(); i++) {
 
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
@@ -55,13 +54,39 @@ public class GameSaver {
 
 			for (int j = 0; j < entities.size(); j++) {
 				Entity currentity = entities.get(j);
+				
+				
 				String entityfilepath = saveEntity(currentity, filepath);
 				entityfilepaths.add(entityfilepath);
 			}
 
 			LevelSaver ls = new LevelSaver(entityfilepaths, filepath, i);
-			ls.saveLevel();
+			String xmlLevel = ls.saveLevel();
+			
 		}
+		
+		
+		
+//		File entityfolder = new File(filepath + "/levels");
+//		if (!entityfolder.exists()) {
+//			entityfolder.mkdirs();
+//		}
+//		File dir = new File(filepath + "/levels");
+//		dir.mkdir();
+//		for (int i = 0; i < levels.size(); i++) {
+//
+//			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
+//			List<String> entityfilepaths = new ArrayList<String>();
+//
+//			for (int j = 0; j < entities.size(); j++) {
+//				Entity currentity = entities.get(j);
+//				String entityfilepath = saveEntity(currentity, filepath);
+//				entityfilepaths.add(entityfilepath);
+//			}
+//
+//			LevelSaver ls = new LevelSaver(entityfilepaths, filepath, i);
+//			ls.saveLevel();
+//		}
 	}
 
 	public String saveEntity(Entity entity, String filepath) {
