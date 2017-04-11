@@ -109,9 +109,10 @@ public class EntityDisplay extends EditableContainer {
 	@Override
 	public void edit() {
 		Entity selection = table.getSelectionModel().getSelectedItem();
-		if (selectionExists(selection))
+		if (selectionExists(selection)){
 			setCurrentlyEditing(selection);
 			new EntityMaker(getWorkspace(), this, selection);
+		}
 	}
 
 	@Override
