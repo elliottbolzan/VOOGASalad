@@ -25,6 +25,8 @@ public class EntityDisplay extends VBox
 		this.entity = entity.clone();
 		// this.entity = entity;
 		this.image = new ImageView(new Image(entity.getImagePath()));
+		this.setMinHeight(entity.getHeight());
+		this.setMinWidth(entity.getWidth());
 		this.tileSize = gridSize;
 		selected = false;
 

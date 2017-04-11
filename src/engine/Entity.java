@@ -248,6 +248,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 			returnedEntity.setImagePath(this.getImagePath());
 			returnedEntity.setName(this.getName());
 			returnedEntity.setEvents(this.getEvents());
+			returnedEntity.setHeight(this.getHeight());
+			returnedEntity.setWidth(this.getWidth());
+			returnedEntity.setX(this.getX());
+			returnedEntity.setY(this.getY());
 			return returnedEntity;
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
