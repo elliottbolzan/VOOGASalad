@@ -14,11 +14,13 @@ public class LoadMenu extends AbstractMenu{
 		
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private ObservableList<String> saveStates;
-	private VBox saveStateButtons;
+	private ObservableList<Button> saveButtons;
+	private VBox saveButtonContainer;
 	
 	public LoadMenu(Stage stage, String gameFolderPath){
 		super(stage, gameFolderPath);
 		saveStates = FXCollections.observableArrayList();
+		saveButtons = FXCollections.observableArrayList();
 		setupScene(stage, gameFolderPath);
 	}
 	
@@ -27,12 +29,13 @@ public class LoadMenu extends AbstractMenu{
 	}
 	
 	private void setupScene(Stage stage, String gameFolderPath){
-		saveStateButtons = new VBox(8);
+		saveButtonContainer = new VBox(5);
 				
 		VBox container = new VBox(20);
-		container.setAlignment(Pos.CENTER);
+		container.setAlignment(Pos.TOP_CENTER);
+		container.setTranslateY(100);
 		container.maxWidthProperty().bind(stage.widthProperty().multiply(0.3));
-		saveStateButtons.maxWidthProperty().bind(container.maxWidthProperty());
+		saveButtonContainer.maxWidthProperty().bind(container.maxWidthProperty());
 		
 		Button newGameButton = this.getFactory().makeButton("NewGameButton", e -> this.loadGame(stage, gameFolderPath), true);
 		
@@ -40,12 +43,25 @@ public class LoadMenu extends AbstractMenu{
 
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
-				Button save = getFactory().makeButton(Integer.toString(saveStates.size()), e -> loadGame(stage, saveStates.get(saveStates.size()-1)), true);
-				saveStateButtons.getChildren().add(save);			
+				if(saveStates.size() < 11){
+					Button save = getFactory().makeButton(Integer.toString(saveStates.size()), e -> loadGame(stage, saveStates.get(saveStates.size()-1)), true);
+					saveButtons.add(save);
+					saveButtonContainer.getChildren().add(save);		
+				}else{
+					ReplaceSaveMenu replacer = new ReplaceSaveMenu();
+					replacer.display(e -> {
+						saveButtons.get(replacer.getButtonID()).setOnAction(e1 -> {
+							//Changes button to load the new save
+							loadGame(stage, saveStates.get(saveStates.size()-1));
+						});
+						replacer.close();
+					});
+				}
+					
 			}
 		});		
 		
-		container.getChildren().addAll(newGameButton, saveStateButtons);
+		container.getChildren().addAll(newGameButton, saveButtonContainer);
 		this.getRoot().setCenter(container);
 		
 	}
