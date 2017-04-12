@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import engine.Entity;
-import engine.Event;
 import engine.entities.CharacterEntity;
-import engine.events.AlwaysEvent;
 import engine.game.Level;
 
+public class GameSaverTest {
 
-public class LevelSaverTest {
+	
+	
 	public static void main(String[] args) {
 
 		GameSaver gs = new GameSaver();
@@ -31,7 +31,7 @@ public class LevelSaverTest {
 		luigi.setImagePath("src/resources/images/luigi.png");
 
 		luigi.setX(100);
-		luigi.setY(55);
+		luigi.setY(65);
 
 		// C:/Users/Michael8417/workspace/voogasalad_duwaldorf/
 		String filepath = "data/SaveTesting";
@@ -42,6 +42,18 @@ public class LevelSaverTest {
 
 		List<Level> levels = new ArrayList<Level>();
 		levels.add(l);
-		//gs.saveGame(levels, filepath);
+		
+		
+		Game g  = new Game();
+		g.setName("Testing");
+		g.setLevels(levels);
+		List<Entity> defaults = new ArrayList<Entity>();
+		
+		defaults.add(luigi);
+		
+		g.setDefaults(defaults);
+		
+	
+		gs.saveGame(g, filepath);
 	}
 }

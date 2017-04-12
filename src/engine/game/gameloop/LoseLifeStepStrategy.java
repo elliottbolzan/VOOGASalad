@@ -29,4 +29,8 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 		return levelManager.getLevelNumber();
 	}
 
+	@Override
+	protected boolean hasNextScreen(LevelManager levelManager) {
+		return true;
+	}
 }

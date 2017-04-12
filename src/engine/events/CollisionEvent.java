@@ -2,7 +2,6 @@ package engine.events;
 
 import engine.Event;
 import engine.Parameter;
-import engine.game.eventobserver.CollisionObservable;
 import engine.Collision;
 import engine.CollisionEventInterface;
 
@@ -19,20 +18,13 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 	}
 
 	@Override
-	public Collision getCollision() {
-		return collision;
-	}
-
-	@Override
 	public boolean act() {
-		// collision.setFirstEntity(getEntity()); //TODO: should this just get
-		// removed? Currently it doesnt work
-		// collision.setSecondName((String)getParam("Entity"));
 		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
-			if (collision.equals(this.collision))
+			if (collision.isBetween(getEntity().getName(), (String) getParam("Entity"))
+					&& collision.getCollisionSide().equals(this.collision.getCollisionSide()))
 				return true;
 		}
 		return false;
-
 	}
+	
 }

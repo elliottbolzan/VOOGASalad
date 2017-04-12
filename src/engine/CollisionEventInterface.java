@@ -2,5 +2,5 @@ package engine;
 
 public interface CollisionEventInterface extends EventInterface{
 
-	CollisionInterface getCollision();
+	//CollisionInterface getCollision();
 }

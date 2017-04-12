@@ -28,11 +28,13 @@ public class EntityConverterTest {
 		xStream.registerConverter(new EntityConverter());
 		//xStream.alias("person", Person.class);
 		//System.out.println(xStream.toXML(entity));
-		
+
 		entity = (Entity) xStream.fromXML(xStream.toXML(entity));
 		System.out.println(entity.getEvents());
 		System.out.println(entity.getClass());
+
 		System.out.println(entity.getX());
+
 		
 		//System.out.println(entity.getX());
 		

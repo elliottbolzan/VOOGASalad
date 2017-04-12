@@ -7,8 +7,6 @@ import engine.game.gameloop.StepStrategy;
 public abstract class Action extends GameObject implements ActionInterface {
 	private transient ResourceBundle actionExceptions = ResourceBundle.getBundle("resources/ActionExceptions");
 	
-	private StepStrategy currentStepStrategy;
-
 	public Action() {
 		super("Action");
 	}

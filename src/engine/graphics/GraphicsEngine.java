@@ -36,7 +36,7 @@ public class GraphicsEngine {
 	public GraphicsEngine(String dataFolderPath) {
 		this.camera = new ScrollingCamera(0,0);
 		this.entities = new ArrayList<Entity>();
-		this.scorebar = new Scorebar(null);
+		this.scorebar = new Scorebar();
 		this.dataFolderPath = dataFolderPath;
 		this.setupView();
 		this.setupScorebar();
@@ -118,10 +118,10 @@ public class GraphicsEngine {
 	
 	private void drawAllEntities() {
 		NodeFactory factory = new NodeFactory(dataFolderPath);
-		for(Entity e : entities) {
-			ImageView node = (ImageView)factory.getNodeFromEntity(e);
-			node.xProperty().bind(e.xReadOnlyProperty());
-			node.yProperty().bind(e.yReadOnlyProperty());
+		for(Entity entity : entities) {
+			ImageView node = (ImageView)factory.getNodeFromEntity(entity);
+			node.xProperty().bind(entity.xProperty());
+			node.yProperty().bind(entity.yProperty());
 			displayArea.getChildren().add(node);	
 		}
 	}
