@@ -11,7 +11,8 @@ public class JumpAction extends Action {
 
 	@Override
 	public void act() {
-		System.out.println("I AM JUMPING");
+		System.out.println("JUMP: " + getEntity().getYSpeed());
 		getEntity().setYSpeed(-((Double) getParam("Initial Jump Speed")));
+		System.out.println(getEntity().getYSpeed());
 	}
 }
