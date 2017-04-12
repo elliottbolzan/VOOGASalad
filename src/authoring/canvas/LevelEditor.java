@@ -22,8 +22,7 @@ import javafx.scene.control.TabPane;
  * @author jimmy
  *
  */
-public class LevelEditor extends View
-{
+public class LevelEditor extends View {
 
 	Workspace workspace;
 	TabPane tabPane;
@@ -32,15 +31,13 @@ public class LevelEditor extends View
 	int levelCount;
 	HelpBar helpBar;
 
-	public LevelEditor(Workspace workspace)
-	{
+	public LevelEditor(Workspace workspace) {
 		super("");
 		this.workspace = workspace;
 		setup();
 	}
 
-	public List<Level> getLevels()
-	{
+	public List<Level> getLevels() {
 		List<Level> currentLevels = new ArrayList<Level>();
 		for (LayerEditor level : levels) {
 			currentLevels.add(level.getLevel());
@@ -48,8 +45,7 @@ public class LevelEditor extends View
 		return currentLevels;
 	}
 
-	public void loadGame(List<Level> levels)
-	{
+	public void loadGame(List<Level> levels) {
 		setup();
 		for (Level level : levels) {
 			tabPane.getSelectionModel().select(0);
@@ -60,8 +56,7 @@ public class LevelEditor extends View
 		}
 	}
 
-	private void setup()
-	{
+	private void setup() {
 		levelCount = 0;
 		levels = new ArrayList<LayerEditor>();
 		tabPane = new TabPane();
@@ -87,8 +82,7 @@ public class LevelEditor extends View
 		return tab;
 	}
 
-	private void closeRequest(Event e)
-	{
+	private void closeRequest(Event e) {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("ConfirmationContent");
 		Alert alert = maker.makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader", message);
@@ -98,28 +92,24 @@ public class LevelEditor extends View
 		}
 	}
 
-	public LayerEditor getCurrentLevel()
-	{
+	public LayerEditor getCurrentLevel() {
 		return currentLevel;
 	}
 
-	private Tab makePlusTab()
-	{
+	private Tab makePlusTab() {
 		Tab plusTab = new Tab("+");
 		plusTab.setClosable(false);
-		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
-		{
+		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
 			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
-			{
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
-					workspace.selectExistingLevel(currentLevel.getLayerCount());
+					//workspace.selectExistingLevel(currentLevel.getLayerCount());
 				} else if (!newTab.getText().equals("+") && !oldTab.getText().equals("+")) {
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
-					workspace.selectExistingLevel(currentLevel.getLayerCount());
+					//workspace.selectExistingLevel(currentLevel.getLayerCount());
 					currentLevel.select();
 				}
 			}
@@ -128,8 +118,7 @@ public class LevelEditor extends View
 		return plusTab;
 	}
 
-	private void addToolbar()
-	{
+	private void addToolbar() {
 		helpBar = new HelpBar(workspace);
 		setBottom(helpBar);
 	}

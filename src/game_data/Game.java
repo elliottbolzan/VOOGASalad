@@ -25,10 +25,10 @@ public class Game {
 	 */
 	public Game() {
 		// Load these from a properties file.
-		name = "My Game";
+		name = "Game";
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
-		songPath = "/path/to/song.mp3";
+		songPath = "";
 	}
 	
 	public String getName() {

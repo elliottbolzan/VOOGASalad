@@ -5,7 +5,7 @@
     -fx-background: #1d1d1d;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    -fx-accent: #2affce;
+    -fx-accent: #e7b300;
     -fx-control-inner-background: #1d1d1d;
 }
 
@@ -62,13 +62,6 @@
 
 .tab .tab-label { 
     -fx-alignment: CENTER;
-}
-
-#title {
-    -fx-font-size: 70pt;
-	-fx-font-family: Phosphate;
-	-fx-text-fill: #2affce;
-	-fx-stroke: black;
 }
 
 /*.scroll-pane > .viewport {
