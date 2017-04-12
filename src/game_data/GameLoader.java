@@ -56,6 +56,7 @@ public class GameLoader {
 				String entityPath = nList.item(i).getTextContent();
 				Entity entity = getEntityFromFilePath(folderPath + entityPath);
 				entity.setImagePath("file:" + folderPath + File.separator + entity.getImagePath());
+				System.out.println("EVENTS: " + entity.getEvents());
 				neolevel.addEntity(entity);
 			}
 
