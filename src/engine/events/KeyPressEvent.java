@@ -2,7 +2,6 @@ package engine.events;
 
 import engine.Event;
 import engine.Parameter;
-import engine.game.eventobserver.InputObservable;
 import javafx.scene.input.KeyCode;
 
 public class KeyPressEvent extends Event {

@@ -60,7 +60,7 @@ public class GameXMLFactory {
 
 		rootElement.appendChild(defaultsNode);
 		
-		resourceNode = doc.createElement("ResourceNode");
+		resourceNode = doc.createElement("Resources");
 		rootElement.appendChild(resourceNode);
 	}
 
@@ -68,7 +68,6 @@ public class GameXMLFactory {
 		Attr attr = doc.createAttribute("GameName");
 		attr.setValue(gameName);
 		nameNode.setAttributeNode(attr);
-
 	}
 	
 
@@ -82,9 +81,12 @@ public class GameXMLFactory {
 
 	}
 	
-	public void addSong(Element songPath){
-		Element importSong = (Element) doc.importNode(songPath, true);
-		resourceNode.appendChild(importSong);
+	public void addSong(String songPath){
+		//Element importSong = (Element) doc.importNode(songPath, true);
+		Attr attr = doc.createAttribute("Song");
+		attr.setValue(songPath);
+		
+		resourceNode.setAttributeNode(attr);
 	}
 	
 	public void addDefaultEntity(Element defaultEntity){
