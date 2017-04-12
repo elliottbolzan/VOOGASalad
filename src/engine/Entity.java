@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Alert;
 
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 
@@ -29,10 +27,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	private void setup(String name, String imagePath) {
-		System.out.println("Constructor: " + this);
-		for(StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-			System.out.println(ste);
-		}
 		x = new SimpleDoubleProperty();
 		y = new SimpleDoubleProperty();
 		width = new SimpleDoubleProperty();
@@ -41,7 +35,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		events = new ArrayList<Event>();
 		this.name = new SimpleStringProperty(name);
 		this.imagePath = new SimpleStringProperty(imagePath);
-		addParam(new Parameter("Time Step", Double.class, 0.5));
 	}
 
 	@Override
@@ -217,7 +210,12 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		copy.set(this);
 		copy.setEvents(events.stream().map(s -> {
 			Event eventCopy = (Event) s.clone();
-			eventCopy.setActions(s.getActions().stream().map(p -> (Action) p.clone()).collect(Collectors.toList()));
+			eventCopy.setEntity(copy);
+			eventCopy.setActions(s.getActions().stream().map(p -> {
+				Action actionCopy = (Action) p.clone();
+				actionCopy.setEntity(copy);
+				return actionCopy;
+			}).collect(Collectors.toList()));
 			return eventCopy;
 		}).collect(Collectors.toList()));
 		return copy;
