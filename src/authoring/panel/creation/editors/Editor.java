@@ -153,8 +153,6 @@ public abstract class Editor extends View {
 	}
 	
 	private boolean comboBoxHasSelection() {
-		System.out.println("Combo Box: " + comboBox.getValue());
-		System.out.println(workspace.getResources().getString("Type"));
 		return !comboBox.getValue().equals(workspace.getResources().getString("Type"));
 	}
 
