@@ -2,6 +2,8 @@ package game_data;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +12,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -60,17 +65,17 @@ public class GameSaver {
 		try {
 			String sourcePathString = new File(new URI(entity.getImagePath())).getAbsolutePath();
 			Path sourcePath = Paths.get(sourcePathString);
-			
+
 			String targetPathString = "images" + File.separator + entity.getName() + "Image.png";
 			entity.setImagePath(targetPathString);
 			File entityImageFile = new File(filePath + File.separator + targetPathString);
-			
+
 			entityImageFile.getParentFile().mkdirs();
 			entityImageFile.createNewFile();
-			
+
 			Path targetPath = Paths.get(filePath + File.separator + targetPathString);
 			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
-			
+
 		} catch (Exception i) {
 			i.printStackTrace();
 		}
@@ -128,7 +133,6 @@ public class GameSaver {
 
 	private void saveDocument(String filePath) {
 		Document doc = gameXMLFactory.getDocument();
-
 		File levelDirectory = new File(filePath);
 		if (!levelDirectory.exists()) {
 			levelDirectory.mkdirs();
@@ -141,8 +145,157 @@ public class GameSaver {
 			StreamResult result = new StreamResult(
 					new File(filePath + File.separator + game.getName() + File.separator + "settings.xml"));
 			transformer.transform(source, result);
+
+
+			
+
+
+			String outputFolder = "My Game.zip";
+			ArrayList<String> fileList = new ArrayList<String>();
+			byte[] buffer = new byte[1024];
+			generateFileList(new File(filePath), fileList, filePath);
+
+			FileOutputStream fos = null;
+			ZipOutputStream zos = null;
+
+			try {
+				fos = new FileOutputStream(outputFolder);
+				zos = new ZipOutputStream(fos);
+
+				System.out.println("Output to Zip : " + outputFolder);
+				FileInputStream in = null;
+
+				for (String file: fileList) {
+					System.out.println("File Added : " + file);
+					ZipEntry ze = new ZipEntry(source + File.separator + file);
+					zos.putNextEntry(ze);
+					try {
+						in = new FileInputStream(filePath + File.separator + file);
+						int len;
+						while ((len = in .read(buffer)) > 0) {
+							zos.write(buffer, 0, len);
+						}
+					} finally {
+						in.close();
+					}
+				}
+
+				zos.closeEntry();
+				System.out.println("Folder successfully compressed");
+
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			} finally {
+				try {
+					zos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+
+
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
+
 	}
+
+	private void generateFileList(File node, ArrayList<String> fileList, String filePath) {
+		// add file only
+		if (node.isFile()) {
+			fileList.add(generateZipEntry(node.toString(), filePath));
+		}
+
+		if (node.isDirectory()) {
+			String[] subNote = node.list();
+			for (String filename: subNote) {
+				generateFileList(new File(node, filename), fileList, filePath);
+			}
+		}
+	}
+	
+	private String generateZipEntry(String file, String filePath) {
+        return file.substring(filePath.length() + 1, file.length());
+    }
+
 }
+
+
+
+
+//	public class ZipUtils {
+//
+//	    private List <String> fileList;
+//	    private static final String OUTPUT_ZIP_FILE = "Folder.zip";
+//	    private static final String SOURCE_FOLDER = "D:\\Reports"; // SourceFolder path
+//
+//	    public ZipUtils() {
+//	        fileList = new ArrayList < String > ();
+//	    }
+//
+//	    public static void main(String[] args) {
+//	        ZipUtils appZip = new ZipUtils();
+//	        appZip.generateFileList(new File(SOURCE_FOLDER));
+//	        appZip.zipIt(OUTPUT_ZIP_FILE);
+//	    }
+//
+//	    public void zipIt(String zipFile) {
+//	        byte[] buffer = new byte[1024];
+//	        String source = new File(SOURCE_FOLDER).getName();
+//	        FileOutputStream fos = null;
+//	        ZipOutputStream zos = null;
+//	        try {
+//	            fos = new FileOutputStream(zipFile);
+//	            zos = new ZipOutputStream(fos);
+//
+//	            System.out.println("Output to Zip : " + zipFile);
+//	            FileInputStream in = null;
+//
+//	            for (String file: this.fileList) {
+//	                System.out.println("File Added : " + file);
+//	                ZipEntry ze = new ZipEntry(source + File.separator + file);
+//	                zos.putNextEntry(ze);
+//	                try {
+//	                    in = new FileInputStream(SOURCE_FOLDER + File.separator + file);
+//	                    int len;
+//	                    while ((len = in .read(buffer)) > 0) {
+//	                        zos.write(buffer, 0, len);
+//	                    }
+//	                } finally {
+//	                    in.close();
+//	                }
+//	            }
+//
+//	            zos.closeEntry();
+//	            System.out.println("Folder successfully compressed");
+//
+//	        } catch (IOException ex) {
+//	            ex.printStackTrace();
+//	        } finally {
+//	            try {
+//	                zos.close();
+//	            } catch (IOException e) {
+//	                e.printStackTrace();
+//	            }
+//	        }
+//	    }
+//
+//	    public void generateFileList(File node) {
+//	        // add file only
+//	        if (node.isFile()) {
+//	            fileList.add(generateZipEntry(node.toString()));
+//	        }
+//
+//	        if (node.isDirectory()) {
+//	            String[] subNote = node.list();
+//	            for (String filename: subNote) {
+//	                generateFileList(new File(node, filename));
+//	            }
+//	        }
+//	    }
+//
+//	    private String generateZipEntry(String file) {
+//	        return file.substring(SOURCE_FOLDER.length() + 1, file.length());
+//	    }
+//	}
