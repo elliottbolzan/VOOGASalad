@@ -7,6 +7,7 @@ public class NextLevelAction extends Action {
 
 	@Override
 	public void act() {
+		System.out.println("In NextLevelAction's act()");
 		((LevelStepStrategy) getGameInfo().getCurrentStepStrategy()).startNextLevel();
 	}
 

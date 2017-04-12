@@ -32,7 +32,6 @@ import engine.game.Level;
 // Give Entities the absolute paths.
 
 public class GameLoader {
-
 	public Game loadGame(String folderPath) throws NotAGameFolderException {
 		File levelFolder = new File(folderPath + "/settings.xml");
 		if (!levelFolder.exists()) {
