@@ -7,7 +7,7 @@ public class CharacterEntity extends Entity {
 
 	public CharacterEntity() {
 		addParam(new Parameter("Lives", Integer.class, 5));
-		//this.setYAcceleration(Entity.ACCELERATION);
+		this.setYAcceleration(Entity.ACCELERATION);
 	}
 
 	public int getLives() {
