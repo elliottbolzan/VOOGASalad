@@ -29,8 +29,10 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 		// removed? Currently it doesnt work
 		// collision.setSecondName((String)getParam("Entity"));
 		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
-			if (collision.equals(this.collision))
+			if (collision.equals(this.collision)){
+				System.out.println("Collision event's act() returning TRUE for " + this);
 				return true;
+			}
 		}
 		return false;
 

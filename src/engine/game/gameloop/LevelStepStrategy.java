@@ -56,7 +56,6 @@ public class LevelStepStrategy implements StepStrategy {
 
 	@Override
 	public void step() {
-		System.out.println("In LevelStepStrategy's step()");
 		printStepData();
 		info.getObservableBundle().updateObservers(); // ticks the clock (need to at
 											// beginning of step(), not end,
@@ -95,7 +94,8 @@ public class LevelStepStrategy implements StepStrategy {
 		nextScreen.getTimeline().play();
 	}
 	private void printStepData() {
-		System.out.println(levelManager.getCurrentLevel().getTimerManager());
+		System.out.print(levelManager.getCurrentLevel().getTimerManager() + " ");
+		System.out.println(info.getObservableBundle().getCollisionObservable().getCollisions());
 	}
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
@@ -207,7 +207,7 @@ public class LevelStepStrategy implements StepStrategy {
 		stopFalling.setEntity(mario);
 		groundCollision.addAction(stopFalling);
 		
-		/*
+		
 		Entity peach = new BlockEntity();
 		peach.setX(350);
 		peach.setY(200);
@@ -219,13 +219,15 @@ public class LevelStepStrategy implements StepStrategy {
 		CollisionEvent peachCollisionBottom = new CollisionEvent();
 		CollisionEvent peachCollisionLeft = new CollisionEvent();
 		CollisionEvent peachCollisionRight = new CollisionEvent();
+		System.out.println("Peach collision IDs" + peachCollisionBottom + " " + peachCollisionLeft + " " + peachCollisionRight);
 		//peachCollisionTop.setCollision(new Collision(mario, peach, CollisionSide.TOP));
 		peachCollisionBottom.setCollision(new Collision(mario, peach, CollisionSide.BOTTOM));
 		peachCollisionLeft.setCollision(new Collision(mario, peach, CollisionSide.LEFT));
 		peachCollisionRight.setCollision(new Collision(mario, peach, CollisionSide.RIGHT));
-		mario.addEvent(peachCollisionRight);
-		mario.addEvent(peachCollisionLeft);
-		mario.addEvent(peachCollisionBottom);
+		peach.addEvent(peachCollisionRight);
+		peach.addEvent(peachCollisionLeft);
+		peach.addEvent(peachCollisionBottom);
+		
 		
 		Action nextLevelActionBottom = new NextLevelAction();
 		Action nextLevelActionLeft = new NextLevelAction();
@@ -237,10 +239,11 @@ public class LevelStepStrategy implements StepStrategy {
 		peachCollisionBottom.addAction(nextLevelActionBottom);
 		peachCollisionLeft.addAction(nextLevelActionLeft);
 		peachCollisionRight.addAction(nextLevelActionRight);
-		*/
 		
 		levelManager.getCurrentLevel().getEntities().add(mario);
 		levelManager.getCurrentLevel().getEntities().add(block);
 		levelManager.getCurrentLevel().getEntities().add(peach);
+		
+		System.out.println("Peach coordinates: " + peach.getX() + " " + peach.getY());
 	}
 }
