@@ -66,9 +66,7 @@ public class LevelEditor extends View {
 		this.addToolbar();
 	}
 
-	private Tab newTab()
-	{
-		System.out.println(levelCount);
+	private Tab newTab() {
 		Tab tab = new Tab();
 		levelCount++;
 		tab.setText(String.format("Level %d", levelCount));
@@ -106,10 +104,10 @@ public class LevelEditor extends View {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
-					//workspace.selectExistingLevel(currentLevel.getLayerCount());
+					// workspace.selectExistingLevel(currentLevel.getLayerCount());
 				} else if (!newTab.getText().equals("+") && !oldTab.getText().equals("+")) {
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
-					//workspace.selectExistingLevel(currentLevel.getLayerCount());
+					// workspace.selectExistingLevel(currentLevel.getLayerCount());
 					currentLevel.select();
 				}
 			}

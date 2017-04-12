@@ -25,7 +25,6 @@ import javafx.scene.shape.Rectangle;
  * @author jimmy Modified by Mina Mungekar
  *
  */
-
 public class LayerEditor extends View {
 	private Workspace workspace;
 	private Canvas canvas;
@@ -45,8 +44,8 @@ public class LayerEditor extends View {
 
 	public Level getLevel() {
 		Level thisLevel = new Level();
-		for (List<EntityDisplay> entityList : layerEntities.values()) {
-			for (EntityDisplay entity : entityList) {
+		for (Layer layer : layers.values()) {
+			for (EntityDisplay entity : layer.getEntities()) {
 				thisLevel.addEntity(entity.getEntity());
 			}
 		}
@@ -76,59 +75,21 @@ public class LayerEditor extends View {
 	private void setup() {
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
-		layerEntities = new HashMap<Integer, List<EntityDisplay>>();
+		layers = new HashMap<Integer, Layer>();
 		copiedEntities = new ArrayList<EntityDisplay>();
 		layerCount = 0;
-		currLayer = 0;
+		currLayer = 1;
 		lastBounds = new Rectangle().getBoundsInLocal();
-		clickToAddEntity();
 		addKeyActions();
-		layerCount++;
-		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
-	}
-
-	private void clickToAddEntity()
-	{
-		canvas.setPaneOnMouseClicked(e -> {
-			if (e.isControlDown()) {
-				placeEntity(e);
-			}
-		});
-		canvas.setPaneOnMouseDragged(e -> {
-			try {
-				Bounds newBounds = boundsFromEntity(getCurrentEntity(), e);
-				if (e.isControlDown() && e.isShiftDown() && !lastBounds.intersects(newBounds)) {
-					lastBounds = newBounds;
-					placeEntity(e);
-				}
-			} catch (Exception exception) {
-			}
-		});
-	}
-
-	private void clickToAddEntity() {
-		canvas.setPaneOnMouseClicked(e -> {
-			if (e.isControlDown()) {
-				placeEntity(e);
-			}
-		});
-		canvas.setPaneOnMouseDragged(e -> {
-			try {
-				Bounds newBounds = boundsFromEntity(getCurrentEntity(), e);
-				if (e.isControlDown() && e.isShiftDown() && !lastBounds.intersects(newBounds)) {
-					lastBounds = newBounds;
-					placeEntity(e);
-				}
-			} catch (Exception exception) {
-			}
-		});
+		newLayer();
 	}
 
 	private void addKeyActions() {
 		workspace.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
-				for (List<EntityDisplay> list : layerEntities.values()) {
-					Iterator<EntityDisplay> iter = list.iterator();
+				for (Layer layer : layers.values()) {
+					List<EntityDisplay> entities = layer.getEntities();
+					Iterator<EntityDisplay> iter = entities.iterator();
 					while (iter.hasNext()) {
 						EntityDisplay entity = iter.next();
 						if (entity.isSelected()) {
@@ -140,8 +101,8 @@ public class LayerEditor extends View {
 			}
 			if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
 				copiedEntities.clear();
-				for (List<EntityDisplay> list : layerEntities.values()) {
-					for (EntityDisplay entity : list) {
+				for (Layer layer : layers.values()) {
+					for (EntityDisplay entity : layer.getEntities()) {
 						if (entity.isSelected()) {
 							copiedEntities.add(entity);
 						}
@@ -175,22 +136,20 @@ public class LayerEditor extends View {
 		return bounds;
 	}
 
-	private void addEntity(Entity entity, double x, double y, int z)
-	{
+	public void addEntity(Entity entity, double x, double y, int z) {
 		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
 		addedEntity.getEntity().setZ(z);
 		setNumLayers(z);
-		layerEntities.get(z).add(addedEntity);
+		layers.get(z).addEntity(addedEntity);
 		addedEntity.setOnMouseClicked(e -> {
 			if (!e.isShiftDown()) {
-				for (List<EntityDisplay> list : layerEntities.values()) {
-					for (EntityDisplay display : list) {
-						display.setSelected(false);
+				for (Layer layers : layers.values()) {
+					for (EntityDisplay display : layers.getEntities()) {
+						selectEntity(display, false);
 					}
 				}
 			}
-			addedEntity.setSelected(!addedEntity.isSelected());
-			//workspace.updateEntity(addedEntity.getEntity());
+			selectEntity(addedEntity, !addedEntity.isSelected());
 		});
 	}
 
@@ -210,18 +169,10 @@ public class LayerEditor extends View {
 		return selectedEntities;
 	}
 
-	private void setNumLayers(int z)
-	{
-		while (layerCount <= z) {
-			newTab();
+	private void setNumLayers(int z) {
+		while (layerCount < z) {
+			newLayer();
 		}
-	}
-
-	public void makeNewTab() {
-		layerCount++;
-		layers.put(layerCount - 1, new Layer());
-		// workspace.setNewLayer(String.format("Layer %d", layerCount));
-		newLayer();
 	}
 
 	public void makeLayer() {
@@ -230,36 +181,32 @@ public class LayerEditor extends View {
 
 	private void newLayer() {
 		layerCount++;
-		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
+		layers.put(layerCount, new Layer());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
+		// newLayerSelected(layerCount);
 	}
 
 	public void selectLayer(int newLayer) {
 		newLayerSelected(newLayer);
 	}
 
-	private void newLayerSelected(int newVal)
-	{
-		System.out.println("SELECTED: " + newVal);
+	private void newLayerSelected(int newVal) {
 		for (Layer layer : layers.values()) {
 			for (Node entity : layer.getEntities()) {
 				entity.setOpacity(0.3);
 				entity.toBack();
 			}
 		}
-		System.out.println(newVal + "This");
-		if(layerEntities.get(newVal).size()!=0){
-		for (Node entity : layerEntities.get(newVal)) {
+
+		for (Node entity : layers.get(newVal).getEntities()) {
 			entity.setOpacity(1);
 			entity.toFront();
-			}
 		}
 		currLayer = newVal;
 	}
 
-	public void select()
-	{
-		this.newLayerSelected(1);
+	public void select() {
+		this.selectLayer(1);
 		// allow this layer to have key actions
 		addKeyActions();
 	}
@@ -275,6 +222,9 @@ public class LayerEditor extends View {
 		return layerCount;
 	}
 
+	/*
+	 * ALERT: DO NOT TRY DELETING LAYER 1.
+	 */
 	public void deleteLayer(int layer) {
 		if (layerCount == 1) {
 			String message = workspace.getResources().getString("LayerError");
@@ -291,14 +241,14 @@ public class LayerEditor extends View {
 				canvas.removeEntity(id);
 			});
 		}
-		layerEntities.remove(layer);
-		List<Integer> changedValues = layerEntities.keySet().stream().filter(elt -> elt > layer).map(elt -> elt - 1)
+		layers.remove(layer);
+		List<Integer> changedValues = layers.keySet().stream().filter(elt -> elt > layer).map(elt -> elt - 1)
 				.collect(Collectors.toList());
 		changedValues.stream().forEach(id -> {
-			layerEntities.put(id, layerEntities.get(id + 1));
+			layers.put(id, layers.get(id + 1));
 		});
 		layerCount--;
-		// workspace.selectExistingLevel(layerCount);
+		workspace.selectExistingLevel(layerCount);
 	}
 
 }

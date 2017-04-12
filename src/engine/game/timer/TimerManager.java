@@ -2,7 +2,6 @@ package engine.game.timer;
 
 import java.text.DecimalFormat;
 
-import engine.game.gameloop.OldGameLoopBackup;
 import engine.game.gameloop.Screen;
 
 /**
