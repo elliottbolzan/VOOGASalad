@@ -33,11 +33,15 @@ public class EntityConverter implements Converter {
 
 		Class<?> objClass = entity.getClass();
 		Field[] fields = objClass.getDeclaredFields();
+
+		
 		writeFields(entity, fields, writer, context);
 
 		objClass = objClass.getSuperclass();
 		fields = objClass.getDeclaredFields();
 		writeFields(entity, fields, writer, context);
+
+
 
 		writer.close();
 	}
@@ -74,6 +78,7 @@ public class EntityConverter implements Converter {
 		EngineController controller = new EngineController();
 
 		reader.moveDown();
+
 		Entity entity = controller.createEntity(reader.getValue());
 		reader.moveUp();
 

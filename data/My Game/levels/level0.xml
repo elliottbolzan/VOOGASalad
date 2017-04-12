@@ -1,1 +1,11 @@
+<<<<<<< HEAD
+
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities><EntityPath id="1"><path>/home/jimmy/Desktop/EclipseProjects/voogasalad_duwaldorf/data/My Game/entities/Mario.xml</path></EntityPath><EntityPath id="2"><path>/home/jimmy/Desktop/EclipseProjects/voogasalad_duwaldorf/data/My Game/entities/Mario.xml</path></EntityPath></Entities>
+
+=======
+<<<<<<< HEAD
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities><EntityPath id="1"><path>/Users/zergfire/Documents/workspace/voogasalad_duwaldorf/data/My Game/entities/Mario.xml</path></EntityPath></Entities>
+=======
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities><EntityPath id="1"><path>/home/jimmy/Desktop/EclipseProjects/voogasalad_duwaldorf/data/My Game/entities/Mario.xml</path></EntityPath><EntityPath id="2"><path>/home/jimmy/Desktop/EclipseProjects/voogasalad_duwaldorf/data/My Game/entities/Mario.xml</path></EntityPath></Entities>
+>>>>>>> master
+>>>>>>> 6e3d2af8bef149044924e9ba74ddb71610c39493
