@@ -1,9 +1,9 @@
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>300.0</x>
+  <x>350.0</x>
   <y>175.0</y>
-  <width>125.0</width>
-  <height>200.0</height>
+  <width>100.0</width>
+  <height>150.0</height>
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>images/MarioImage.png</imagePath>
@@ -14,9 +14,11 @@
   <events>
     <engine.events.AlwaysEvent>
       <params/>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
         <engine.actions.MoveAction>
           <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.MoveAction>
       </actions>
     </engine.events.AlwaysEvent>
@@ -28,17 +30,39 @@
           <obj class="javafx.scene.input.KeyCode">W</obj>
         </engine.Parameter>
       </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
         <engine.actions.JumpAction>
           <params>
             <engine.Parameter>
               <name>Initial Jump Speed</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">10.0</obj>
+              <obj class="double">15.0</obj>
             </engine.Parameter>
           </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.JumpAction>
       </actions>
     </engine.events.KeyPressEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroHorizontalSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroHorizontalSpeedAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+        <secondName></secondName>
+      </collision>
+    </engine.events.BottomCollisionEvent>
   </events>
 </engine.entities.CharacterEntity>

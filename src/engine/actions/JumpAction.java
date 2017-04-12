@@ -1,6 +1,7 @@
 package engine.actions;
 
 import engine.Action;
+import engine.Entity;
 import engine.Parameter;
 
 public class JumpAction extends Action {
@@ -13,6 +14,7 @@ public class JumpAction extends Action {
 	public void act() {
 		System.out.println("JUMP: " + getEntity().getYSpeed());
 		getEntity().setYSpeed(-((Double) getParam("Initial Jump Speed")));
+		getEntity().setYAcceleration(Entity.ACCELERATION);
 		System.out.println(getEntity().getYSpeed());
 	}
 }
