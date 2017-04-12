@@ -4,6 +4,7 @@ import engine.Event;
 import engine.Parameter;
 import engine.Collision;
 import engine.CollisionEventInterface;
+import engine.CollisionSide;
 
 public class CollisionEvent extends Event implements CollisionEventInterface {
 
@@ -11,6 +12,7 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 
 	public CollisionEvent() {
 		addParam(new Parameter("Entity", String.class, ""));
+		this.collision = new Collision(null, null, CollisionSide.ALL);
 	}
 
 	public void setCollision(Collision collision) {
@@ -26,5 +28,5 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 		}
 		return false;
 	}
-	
+
 }
