@@ -24,6 +24,7 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 					&& collision.getCollisionSide().equals(this.collision.getCollisionSide()))
 				return true;
 		}
-			return false;
+		return false;
 	}
+	
 }

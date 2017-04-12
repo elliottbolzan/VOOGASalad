@@ -17,6 +17,7 @@ public interface SelectionGroup<T extends Selectable> {
 	void addAll(Collection<T> collection);
 	void set(int index, T element);
 	void remove(int index);
+	void removeAll();
 	T get(int index);
 	List<T> getListRepresentation();
 }

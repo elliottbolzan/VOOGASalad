@@ -57,8 +57,9 @@ public class LevelManager {
 	 * @param currentLevel
 	 * @return
 	 */
+
 	public boolean setLevelNumber(int currentLevel) {
-		boolean inRange = !(currentLevel <= 1 || currentLevel > levels.size());
+		boolean inRange = currentLevel >= 1 && currentLevel <= levels.size();
 		if (inRange) {
 			this.currentLevel = currentLevel;
 		}
@@ -125,9 +126,21 @@ public class LevelManager {
 	 * 
 	 * @param filename
 	 */
+
 	public void loadAllSavedLevels() {
 		levels.removeAll();
-		levels.addAll(gameData.loadGame(gameFilename).getLevels());
+		levels.addAll(gameData.loadGame(gameFilename).getLevels()); // TODO
+																	// uncomment
+																	// once
+																	// GameData
+																	// is added
+		/*
+		 * levels.add(new Level()); //TODO: remove this after testing
+		 * levels.add(new Level()); levels.add(new Level());
+		 * System.out.println("The Levels SelectionGroup has List: " +
+		 * levels.getListRepresentation());
+		 * System.out.println("Loaded the current level");
+		 */
 	}
 
 	/*
