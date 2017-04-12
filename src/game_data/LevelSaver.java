@@ -1,10 +1,12 @@
 package game_data;
 import java.io.File;
+import java.io.StringWriter;
 import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -16,22 +18,44 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 public class LevelSaver {
 
-	private List<String> entityfilepaths;
-	private String folderpath;
+	private List<Element> entityNodes;
+	private String folderPath;
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
-	private int levelnumber;
-	public LevelSaver(List<String> inputentityfilepaths, String inputfolderpath,int inputlevelnumber){
-		entityfilepaths=inputentityfilepaths;
-		folderpath=inputfolderpath;
-		levelnumber=inputlevelnumber;
-		
+	
+	
+	
+	public LevelSaver(List<Element> inputentitynodes){
+		entityNodes=inputentitynodes;
+	}
+
+
+	public String saveLevel(){
+
+		docFactory = DocumentBuilderFactory.newInstance();
+		try {
+			docBuilder = docFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		doc = docBuilder.newDocument();
+
+
+		Element rootElement = doc.createElement("Entities");
+		doc.appendChild(rootElement);
+
+
+		for(int i=0;i<entityNodes.size();i++){
+			addLevelEntity(i+1, entityNodes.get(i),rootElement);
+		}
+
+		return toString(doc);
+		//writeContent(levelnumber);
+
 	}
 	
-	
-	public void saveLevel(){
-		
+	public String saveSong(String songPath){
 		docFactory = DocumentBuilderFactory.newInstance();
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
@@ -40,62 +64,40 @@ public class LevelSaver {
 		}
 		doc = docBuilder.newDocument();
 		
+		Element rootsong = doc.createElement("songpath");
+		doc.appendChild(rootsong);
+		rootsong.setAttribute("songpath", songPath);
 		
-		Element rootElement = doc.createElement("Entities");
-		doc.appendChild(rootElement);
-		
-		
-		for(int i=0;i<entityfilepaths.size();i++){
-			addLevelEntity(i+1, entityfilepaths.get(i),rootElement);
-		}
-		
-		
-		
-		writeContent(levelnumber);
-		
-		}
-	private void addLevelEntity(int entitynumber, String entityfilepath, Element rootElement){
-		
+		return toString(doc);
 
-			Element levelpath = doc.createElement("EntityPath");
-			rootElement.appendChild(levelpath);
-
-			Attr attr = doc.createAttribute("id");
-			attr.setValue(Integer.toString(entitynumber));
-			levelpath.setAttributeNode(attr);
-
-			Element pathname = doc.createElement("path");
-			pathname.appendChild(doc.createTextNode(entityfilepath));
-			levelpath.appendChild(pathname);
-		
 	}
 	
+	public String toString(Document doc) {
+	    try {
+	        StringWriter sw = new StringWriter();
+	        TransformerFactory tf = TransformerFactory.newInstance();
+	        Transformer transformer = tf.newTransformer();
+	        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+	        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+	        transformer.transform(new DOMSource(doc), new StreamResult(sw));
+	        return sw.toString();
+	    } catch (Exception ex) {
+	        throw new RuntimeException("Error converting to String", ex);
+	    }
+	}
 	
-	private void writeContent(int levelnumber){
-		
-		
-		File leveldirectory = new File(folderpath+"/levels");
-		if(!leveldirectory.exists()){
-			leveldirectory.mkdirs();
-		}
-		
-		
-		try{
-		TransformerFactory transformerFactory = TransformerFactory.newInstance();
-		Transformer transformer = transformerFactory.newTransformer();
-		DOMSource source = new DOMSource(doc);
-		StreamResult result = new StreamResult(new File(folderpath+"/levels/level"+levelnumber+".xml"));
+	private void addLevelEntity(int entityNumber, Element entityNode, Element rootElement){
 
-		// Output to console for testing
-		// StreamResult result = new StreamResult(System.out);
 
-		transformer.transform(source, result);
+		Element entity = doc.createElement("Entity");
+		rootElement.appendChild(entity);
+		Element importedEntityNode= (Element) doc.importNode(entityNode, true);
+		entity.appendChild(importedEntityNode);
 
-	
-		}
-		catch (TransformerException e){
-			e.printStackTrace();
-		}
-		
-		}
+	}
+
+
 }

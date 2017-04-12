@@ -26,23 +26,37 @@ public class Collision implements CollisionInterface {
 	 * @return boolean result that is true if two Collisions contain the same
 	 *         Entities and CollisionSide and false otherwise.
 	 */
-	@Override
+	/*@Override
 	public boolean equals(Collision other) {
 		// TODO find another way to compare collisions without using instanceof
 		return (other instanceof Collision && (checkFirstSecond(other) || checkNames(other))
 				&& firstRelativeToSecond.equals(other.getCollisionSide()));
 	}
+	*/
+	/*
+	 * private boolean checkFirstSecond(Collision other) { return
+	 * ((firstEntity.equals(other.getFirstEntity()) &&
+	 * secondEntity.equals(other.getSecondEntity())) ||
+	 * (secondEntity.equals(other.getFirstEntity()) &&
+	 * firstEntity.equals(other.getSecondEntity()))); }
+	 */
 
-	private boolean checkFirstSecond(Collision other) {
-		return ((firstEntity.equals(other.getFirstEntity()) && secondEntity.equals(other.getSecondEntity()))
-				|| (secondEntity.equals(other.getFirstEntity()) && firstEntity.equals(other.getSecondEntity())));
-	}
-
-	private boolean checkNames(Collision other) {
-		return ((firstEntity.equals(other.getFirstEntity()) && secondName.equals(other.getSecondEntity().getName()))
-				|| (firstEntity.equals(other.getSecondEntity())
-						&& secondName.equals(other.getFirstEntity().getName())));
-	}
+	/*
+	 * private boolean checkNames(Collision other) {
+	 * System.out.println("SECOND NAME: " + secondName);
+	 * System.out.println("OTHER: " + other);
+	 * System.out.println("OTHER.first entity: " + other.getFirstEntity());
+	 * System.out.println("other.second entity: " + other.getSecondEntity());
+	 * System.out.println(" -------------------------"); return (secondName !=
+	 * null && other.getFirstEntity() != null && other.getSecondEntity() != null
+	 * && ((firstEntity.equals(other.getFirstEntity()) &&
+	 * secondName.equals(other.getSecondEntity().getName())) ||
+	 * (firstEntity.equals(other.getSecondEntity()) &&
+	 * secondName.equals(other.getFirstEntity().getName())))); }
+	 */
+	/*
+	 * private boolean checkNames(Collision other){ return }
+	 */
 
 	public CollisionSide getCollisionSide() {
 		return firstRelativeToSecond;
@@ -62,5 +76,10 @@ public class Collision implements CollisionInterface {
 
 	public void setSecondName(String name) {
 		this.secondName = name;
+	}
+
+	public boolean isBetween(String name, String param) {
+		return (firstEntity.getName().equals(name) && secondEntity.getName().equals(param))
+				|| (firstEntity.getName().equals(param) && secondEntity.getName().equals(name));
 	}
 }

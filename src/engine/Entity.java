@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.control.Alert;
 
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 
@@ -24,12 +22,8 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		try {
 			setup("Mario", new File("src/resources/images/mario.png").toURI().toURL().toExternalForm());
 		} catch (MalformedURLException e) {
+			e.printStackTrace();
 		}
-	}
-
-	public Entity(String name, String imagePath) {
-		super("Entity");
-		setup(name, imagePath);
 	}
 
 	private void setup(String name, String imagePath) {
@@ -41,7 +35,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		events = new ArrayList<Event>();
 		this.name = new SimpleStringProperty(name);
 		this.imagePath = new SimpleStringProperty(imagePath);
-		addParam(new Parameter("Time Step", Double.class, 0.5));
 	}
 
 	@Override
@@ -89,14 +82,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public void setImagePath(String imagePath) {
 		this.imagePath.set(imagePath);
-	}
-
-	public ReadOnlyDoubleProperty xReadOnlyProperty() {
-		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(x);
-	}
-
-	public ReadOnlyDoubleProperty yReadOnlyProperty() {
-		return ReadOnlyDoubleProperty.readOnlyDoubleProperty(y);
 	}
 
 	public SimpleDoubleProperty xProperty() {
@@ -196,17 +181,16 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	public void setEvents(List<Event> events) {
-		/*(this.events.clear();
-		for (Event event : events) {
-			this.addEvent(event);
-		}*/
+		/*
+		 * (this.events.clear(); for (Event event : events) {
+		 * this.addEvent(event); }
+		 */
 		this.events = events;
 	}
 
 	public void set(Entity entity) {
 		this.setImagePath(entity.getImagePath());
 		this.setName(entity.getName());
-		this.setEvents(entity.getEvents());
 		this.setHeight(entity.getHeight());
 		this.setWidth(entity.getWidth());
 		this.setX(entity.getX());
@@ -214,16 +198,27 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	@Override
-	public Entity clone() {
-		try {
-			Entity returnedEntity = getClass().getDeclaredConstructor().newInstance();
-			returnedEntity.set(this);
-			return returnedEntity;
-		} catch (Exception e) {
-			Alert alert = new Alert(null, "Couldn't clone Entity", null);
-			alert.show();
-		}
-		return this;
+	public Entity clone() {/*
+							 * try { Entity returnedEntity =
+							 * getClass().getDeclaredConstructor().newInstance()
+							 * ; returnedEntity.set(this); return
+							 * returnedEntity; } catch (Exception e) { Alert
+							 * alert = new Alert(null, "Couldn't clone Entity",
+							 * null); alert.show(); } return this;
+							 */
+		Entity copy = (Entity) super.clone();
+		copy.set(this);
+		copy.setEvents(events.stream().map(s -> {
+			Event eventCopy = (Event) s.clone();
+			eventCopy.setEntity(copy);
+			eventCopy.setActions(s.getActions().stream().map(p -> {
+				Action actionCopy = (Action) p.clone();
+				actionCopy.setEntity(copy);
+				return actionCopy;
+			}).collect(Collectors.toList()));
+			return eventCopy;
+		}).collect(Collectors.toList()));
+		return copy;
 	}
 
 }

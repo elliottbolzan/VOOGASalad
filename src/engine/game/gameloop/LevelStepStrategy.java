@@ -6,7 +6,7 @@ import engine.Entity;
 import engine.Event;
 import engine.GameInfo;
 import engine.actions.DieAction;
-import engine.actions.JumpSpeedAction;
+import engine.actions.JumpAction;
 import engine.actions.MoveAction;
 import engine.actions.NextLevelAction;
 import engine.actions.WalkAction;
@@ -132,6 +132,8 @@ public class LevelStepStrategy implements StepStrategy {
 //	}
 	private void setupGameView() {
 		// TODO call graphicsEngine.setCamera() here
+		System.out.println("Set Entities Collections (makes bindings)");
+		System.out.println(levelManager.getCurrentLevel().getEntities().size());
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 	public void startNextLevel() {

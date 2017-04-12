@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="My Game"/><Levels><level><Entities>
+<Entity>
+<engine.entities.CharacterEntity>
+  <EntityType>Character</EntityType>
+  <x>275.0</x>
+  <y>150.0</y>
+  <width>75.0</width>
+  <height>100.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Mario</name>
+  <imagePath>images/MarioImage.png</imagePath>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.MoveAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.MoveAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">W</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.JumpAction>
+          <params>
+            <engine.Parameter>
+              <name>Initial Jump Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">10.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.JumpAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+  </events>
+</engine.entities.CharacterEntity>
+</Entity>
+</Entities></level></Levels><Defaults><Entities>
+<Entity>
+<engine.entities.CharacterEntity>
+  <EntityType>Character</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>0.0</width>
+  <height>0.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Mario</name>
+  <imagePath>images/MarioImage.png</imagePath>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.MoveAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.MoveAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">W</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.JumpAction>
+          <params>
+            <engine.Parameter>
+              <name>Initial Jump Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">10.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.JumpAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+  </events>
+</engine.entities.CharacterEntity>
+</Entity>
+</Entities></Defaults><Resources Song="/Users/jaydoherty/Documents/eclipse_workspace/voogasalad_duwaldorf/data/path/to/song.mp3"/></Game>

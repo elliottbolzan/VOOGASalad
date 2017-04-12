@@ -118,10 +118,10 @@ public class GraphicsEngine {
 	
 	private void drawAllEntities() {
 		NodeFactory factory = new NodeFactory(dataFolderPath);
-		for(Entity e : entities) {
-			ImageView node = (ImageView)factory.getNodeFromEntity(e);
-			node.xProperty().bind(e.xReadOnlyProperty());
-			node.yProperty().bind(e.yReadOnlyProperty());
+		for(Entity entity : entities) {
+			ImageView node = (ImageView)factory.getNodeFromEntity(entity);
+			node.xProperty().bind(entity.xProperty());
+			node.yProperty().bind(entity.yProperty());
 			displayArea.getChildren().add(node);	
 		}
 	}
