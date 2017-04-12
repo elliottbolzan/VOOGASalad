@@ -13,12 +13,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -139,8 +141,21 @@ public abstract class Editor extends View {
 	}
 
 	private void save() {
+		System.out.println(comboBoxHasSelection());
+		if (!comboBoxHasSelection()) {
+			String content = workspace.getResources().getString("PickSomething");
+			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
+			alert.show();
+			return;
+		}
 		((Stage) getScene().getWindow()).close();
 		save(parameters);
+	}
+	
+	private boolean comboBoxHasSelection() {
+		System.out.println("Combo Box: " + comboBox.getValue());
+		System.out.println(workspace.getResources().getString("Type"));
+		return !comboBox.getValue().equals(workspace.getResources().getString("Type"));
 	}
 
 	private void addToParameters(Parameter updatedParameter) {
