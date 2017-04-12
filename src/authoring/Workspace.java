@@ -158,11 +158,11 @@ public class Workspace extends View {
 	}
 
 	public void addLayer() {
-		levelEditor.getCurrentLevel().makeNewTab();
+		levelEditor.getCurrentLevel().newTab();
 	}
 
 	public void selectLayer(int arg2) {
-		levelEditor.getCurrentLevel().selectLayer(arg2 - 1);
+		levelEditor.getCurrentLevel().newLayerSelected(arg2);
 	}
 
 	public void selectExistingLevel(int newLevelNum) {

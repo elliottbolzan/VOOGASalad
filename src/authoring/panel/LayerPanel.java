@@ -32,7 +32,7 @@ public class LayerPanel extends View
 
 	private Workspace workspace;
 	private VBox editorContainer;
-	private ComboBox myBox;
+	private ComboBox<String> myBox;
 	private Map<Integer, List<String>> layerOptions;
 	private ComponentMaker maker;
 
@@ -42,7 +42,7 @@ public class LayerPanel extends View
 		this.workspace = workspace;
 		maker = new ComponentMaker(workspace.getResources());
 		layerOptions = new HashMap<Integer, List<String>>();
-		myBox = new ComboBox();
+		myBox = new ComboBox<String>();
 		configureEditing();
 	}
 
@@ -55,6 +55,8 @@ public class LayerPanel extends View
 			initCloseRequest(e);
 			delete();
 		}, true);
+		myBox.getItems().add(workspace.getResources().getString("DefaultLayer"));
+		myBox.setValue(workspace.getResources().getString("DefaultLayer"));
 		initLayerSelector();
 		configureVelocitySettings();
 		editorContainer.getChildren().addAll(addLayerButton, deleteLayerButton);
@@ -132,6 +134,8 @@ public class LayerPanel extends View
 		for (int i = 0; i < layerNum; i++) {
 			myBox.getItems().add(String.format("Layer %d", i + 1));
 		}
+		System.out.println(myBox.getItems().get(0));
+		myBox.setValue(myBox.getItems().get(0));
 	}
 
 }

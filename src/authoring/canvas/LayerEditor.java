@@ -62,7 +62,7 @@ public class LayerEditor extends View
 		for (Entity entity : level.getEntities()) {
 			addEntity(entity, entity.getX(), entity.getY(), (int) entity.getZ());
 		}
-		selectLayer(0);
+		newLayerSelected(0);
 	}
 
 	private void clear()
@@ -84,7 +84,8 @@ public class LayerEditor extends View
 		lastBounds = new Rectangle().getBoundsInLocal();
 		clickToAddEntity();
 		addKeyActions();
-		newTab();
+		layerCount++;
+		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
 	}
 
 	private void clickToAddEntity()
@@ -192,25 +193,15 @@ public class LayerEditor extends View
 		}
 	}
 
-	public void makeNewTab()
-	{
-		newTab();
-	}
-
-	private void newTab()
+	public void newTab()
 	{
 		layerCount++;
-		layerEntities.put(layerCount - 1, new ArrayList<EntityDisplay>());
+		layerEntities.put(layerCount, new ArrayList<EntityDisplay>());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}
 
-	public void selectLayer(int newLayer)
-	{
-		newLayerSelected(newLayer);
-	}
-
-	private void newLayerSelected(int newVal)
+	public void newLayerSelected(int newVal)
 	{
 		for (List<EntityDisplay> entityList : layerEntities.values()) {
 			for (Node entity : entityList) {
@@ -218,17 +209,19 @@ public class LayerEditor extends View
 				entity.toBack();
 			}
 		}
-
+		System.out.println(newVal + "This");
+		if(layerEntities.get(newVal).size()!=0){
 		for (Node entity : layerEntities.get(newVal)) {
 			entity.setOpacity(1);
 			entity.toFront();
+			}
 		}
 		currLayer = newVal;
 	}
 
 	public void select()
 	{
-		this.selectLayer(0);
+		this.newLayerSelected(1);
 		// allow this layer to have key actions
 		addKeyActions();
 	}
