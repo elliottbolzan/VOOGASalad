@@ -54,10 +54,10 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
+        <engine.actions.ZeroVerticalSpeedAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
+        </engine.actions.ZeroVerticalSpeedAction>
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>

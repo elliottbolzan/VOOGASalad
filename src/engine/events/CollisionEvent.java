@@ -17,21 +17,23 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 		this.collision = collision;
 	}
 
-	@Override
-	public Collision getCollision() {
-		return collision;
-	}
+	// @Override
+	/*
+	 * public Collision getCollision() { return collision; }
+	 */
 
 	@Override
 	public boolean act() {
-		collision.setFirstEntity(getEntity());
-		collision.setSecondName((String)getParam("Entity"));
 		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
-			System.out.println(getEntity());
-			if (collision.isBetween(getEntity().getName(), (String)getParam("Entity")))
+			//System.out.println(getEntity());
+			if (collision.isBetween(getEntity().getName(), (String) getParam("Entity"))
+					&& collision.getCollisionSide().equals(this.collision.getCollisionSide())){
+				System.out.println("YES");
 				return true;
-			/*if (collision.equals(this.collision))
-				return true;*/
+			}
+			/*
+			 * if (collision.equals(this.collision)) return true;
+			 */
 		}
 		return false;
 

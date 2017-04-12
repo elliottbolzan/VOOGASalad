@@ -151,6 +151,7 @@ public class LevelStepStrategy implements StepStrategy {
 	// Temporary, for testing
 	private void instantiateTestEntitesEventsActions() {
 		// TEST - TODO ask Nikita, etc. how GAE does this
+		/*
 		Entity mario = new CharacterEntity();
 		mario.setX(200);
 		mario.setY(200);
@@ -224,6 +225,6 @@ public class LevelStepStrategy implements StepStrategy {
 		groundCollision.addAction(stopFalling);
 
 		levelManager.getCurrentLevel().getEntities().add(mario);
-		levelManager.getCurrentLevel().getEntities().add(block);
+		levelManager.getCurrentLevel().getEntities().add(block);*/
 	}
 }

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -56,7 +57,8 @@ public class GameLoader {
 				String entityPath = nList.item(i).getTextContent();
 				Entity entity = getEntityFromFilePath(folderPath + entityPath);
 				entity.setImagePath("file:" + folderPath + File.separator + entity.getImagePath());
-				System.out.println("EVENTS: " + entity.getEvents());
+				System.out.println("ENTITY OF EVENTS: "
+						+ entity.getEvents().stream().map(s -> s.getEntity()).collect(Collectors.toList()));
 				neolevel.addEntity(entity);
 			}
 

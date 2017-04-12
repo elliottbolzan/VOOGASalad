@@ -46,6 +46,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public void update() {
 		List<Event> eventsToTrigger = events.stream().filter(s -> s.act()).collect(Collectors.toList());
 		eventsToTrigger.forEach(event -> event.trigger());
+		System.out.println("EVENTs IN ENTITY: " + events);
+		System.out.println(this);
+		System.out.println("--------------------");
+		
 	}
 
 	@Override
