@@ -11,7 +11,6 @@ import authoring.panel.settings.Settings;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
-import engine.Entity;
 
 public class Panel extends CollapsibleView {
 
@@ -40,7 +39,7 @@ public class Panel extends CollapsibleView {
 		createSubviews();
 		setup();
 	}
-	
+
 	/**
 	 * Populate the subviews Lists, which dictates which subviews appear in the
 	 * Accordion.
@@ -65,13 +64,17 @@ public class Panel extends CollapsibleView {
 	public EntityDisplay getEntityDisplay() {
 		return entityDisplay;
 	}
-	
+
 	public Settings getSettings() {
 		return settings;
 	}
-	
+
 	public void updateLayerPanel(String newLayer) {
 		layerPanel.updateBox(newLayer);
+	}
+
+	public void selectExistingLevelBox(int layerNum) {
+		layerPanel.selectLevelBox(layerNum);
 	}
 
 }

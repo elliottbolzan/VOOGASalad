@@ -25,15 +25,16 @@ import javafx.scene.shape.Rectangle;
  * @author jimmy Modified by Mina Mungekar
  *
  */
+
 public class LayerEditor extends View {
-	Workspace workspace;
-	Canvas canvas;
-	Map<Integer, Layer> layers;
-	List<EntityDisplay> copiedEntities;
-	int layerCount;
-	int currLayer;
-	Bounds lastBounds;
-	ComponentMaker maker;
+	private Workspace workspace;
+	private Canvas canvas;
+	private Map<Integer, Layer> layers;
+	private List<EntityDisplay> copiedEntities;
+	private int layerCount;
+	private int currLayer;
+	private Bounds lastBounds;
+	private ComponentMaker maker;
 
 	public LayerEditor(Workspace workspace) {
 		super("");
@@ -61,6 +62,10 @@ public class LayerEditor extends View {
 		selectLayer(0);
 	}
 
+	public int getCurrentLayer() {
+		return currLayer;
+	}
+
 	private void clear() {
 		while (layerCount > 0) {
 			executeDelete(layerCount - 1);
@@ -76,7 +81,6 @@ public class LayerEditor extends View {
 		layerCount = 0;
 		currLayer = 0;
 		lastBounds = new Rectangle().getBoundsInLocal();
-		clickToAddEntity();
 		addKeyActions();
 		newLayer();
 	}

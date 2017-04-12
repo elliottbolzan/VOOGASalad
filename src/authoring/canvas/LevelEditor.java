@@ -24,12 +24,12 @@ import javafx.scene.control.TabPane;
  */
 public class LevelEditor extends View {
 
-	Workspace workspace;
-	TabPane tabPane;
-	LayerEditor currentLevel;
-	List<LayerEditor> levels;
-	int levelCount;
-	HelpBar helpBar;
+	private Workspace workspace;
+	private TabPane tabPane;
+	private LayerEditor currentLevel;
+	private List<LayerEditor> levels;
+	private int levelCount;
+	private HelpBar helpBar;
 
 	public LevelEditor(Workspace workspace) {
 		super("");

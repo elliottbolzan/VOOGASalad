@@ -123,4 +123,11 @@ public class LayerPanel extends View {
 		myBox.setValue(newLayer);
 	}
 
+	public void selectLevelBox(int layerNum) {
+		myBox.getItems().clear();
+		for (int i = 0; i < layerNum; i++) {
+			myBox.getItems().add(String.format("Layer %d", i + 1));
+		}
+	}
+
 }

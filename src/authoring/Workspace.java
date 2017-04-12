@@ -68,16 +68,17 @@ public class Workspace extends View {
 		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
 		setCenter(pane);
-		dragToAdd();
+		dragToAddEntity();
 	}
 
-	private void dragToAdd() {
+	private void dragToAddEntity() {
 		panel.getEntityDisplay().getTable().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getTable().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.setOnMouseEntered(e2 -> {
-				levelEditor.getCurrentLevel().addEntity(addedEntity, e2.getX(), e2.getY(), 1);
+				levelEditor.getCurrentLevel().addEntity(addedEntity, e2.getX(), e2.getY(),
+						levelEditor.getCurrentLevel().getCurrentLayer());
 				levelEditor.setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});
