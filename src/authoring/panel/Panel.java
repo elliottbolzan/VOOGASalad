@@ -40,10 +40,6 @@ public class Panel extends CollapsibleView {
 		createSubviews();
 		setup();
 	}
-	
-	/*public void updateEntity(Entity entity) {
-		entityDisplay.updateEntity(entity);
-	}*/
 
 	/**
 	 * Populate the subviews Lists, which dictates which subviews appear in the
@@ -69,11 +65,11 @@ public class Panel extends CollapsibleView {
 	public EntityDisplay getEntityDisplay() {
 		return entityDisplay;
 	}
-	
+
 	public Settings getSettings() {
 		return settings;
 	}
-	
+
 	public void updateLayerPanel(String newLayer) {
 		layerPanel.updateBox(newLayer);
 	}

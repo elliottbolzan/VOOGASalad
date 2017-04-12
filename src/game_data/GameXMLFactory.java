@@ -21,7 +21,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-
 public class GameXMLFactory {
 
 	private DocumentBuilderFactory docFactory;
@@ -32,11 +31,11 @@ public class GameXMLFactory {
 	private Element defaultsNode;
 	private Element resourceNode;
 
-
-	public GameXMLFactory(){
+	public GameXMLFactory() {
 		initiate();
 	}
-	private void initiate(){
+
+	private void initiate() {
 
 		docFactory = DocumentBuilderFactory.newInstance();
 		try {
@@ -55,48 +54,43 @@ public class GameXMLFactory {
 		levelsNode = doc.createElement("Levels");
 		rootElement.appendChild(levelsNode);
 
-		
 		defaultsNode = doc.createElement("Defaults");
 
 		rootElement.appendChild(defaultsNode);
-		
+
 		resourceNode = doc.createElement("Resources");
 		rootElement.appendChild(resourceNode);
 	}
 
-	public void setName(String gameName){
+	public void setName(String gameName) {
 		Attr attr = doc.createAttribute("GameName");
 		attr.setValue(gameName);
 		nameNode.setAttributeNode(attr);
 	}
-	
 
-
-	public void addLevel(Element levelInfo){
+	public void addLevel(Element levelInfo) {
 
 		Element newLevel = doc.createElement("level");
-		Element importedLevelNode=(Element) doc.importNode(levelInfo, true);
+		Element importedLevelNode = (Element) doc.importNode(levelInfo, true);
 		newLevel.appendChild(importedLevelNode);
 		levelsNode.appendChild(newLevel);
 
 	}
-	
-	public void addSong(String songPath){
-		//Element importSong = (Element) doc.importNode(songPath, true);
+
+	public void addSong(String songPath) {
 		Attr attr = doc.createAttribute("Song");
 		attr.setValue(songPath);
-		
 		resourceNode.setAttributeNode(attr);
 	}
-	
-	public void addDefaultEntity(Element defaultEntity){
 
-		Element importedDefaultEntityNode= (Element) doc.importNode(defaultEntity, true);
+	public void addDefaultEntity(Element defaultEntity) {
+
+		Element importedDefaultEntityNode = (Element) doc.importNode(defaultEntity, true);
 		defaultsNode.appendChild(importedDefaultEntityNode);
 
 	}
-	public void addEntityInfotoElement(Element element, Element entityInfo){
 
+	public void addEntityInfotoElement(Element element, Element entityInfo) {
 
 		Element newEntity = doc.createElement("entity");
 		newEntity.appendChild(entityInfo);
@@ -104,15 +98,11 @@ public class GameXMLFactory {
 
 	}
 
-
-	public Element stringToElement(String xmlString){
+	public Element stringToElement(String xmlString) {
 
 		try {
-			return  DocumentBuilderFactory
-					.newInstance()
-					.newDocumentBuilder()
-					.parse(new ByteArrayInputStream(xmlString.getBytes()))
-					.getDocumentElement();
+			return DocumentBuilderFactory.newInstance().newDocumentBuilder()
+					.parse(new ByteArrayInputStream(xmlString.getBytes())).getDocumentElement();
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -123,7 +113,7 @@ public class GameXMLFactory {
 		return null;
 	}
 
-	public Document getDocument(){
+	public Document getDocument() {
 		return doc;
 	}
 

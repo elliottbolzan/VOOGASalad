@@ -1,9 +1,11 @@
 package player;
 
+import java.io.File;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
 import engine.game.gameloop.GameLoop;
+import game_data.GameData;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,7 +17,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  * 
@@ -23,11 +28,12 @@ import javafx.stage.Stage;
  *
  */
 public class Player extends BorderPane {
-	
+
 	private static final int CONTROLS_HEIGHT = 60;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private String stylesheetPath = resources.getString("StylesheetPath");
-	
+	private MediaPlayer player;
+
 	private Stage stage;
 	private Scene scene;
 	private GameLoop gameLoop;
@@ -35,70 +41,84 @@ public class Player extends BorderPane {
 	private Button playButton;
 	private boolean isPaused;
 	private ObservableList<String> saveStates;
-	
+
 	public Player(String dataFolderPath, ObservableList<String> saveStates) {
 		this.dataFolderPath = dataFolderPath;
 		this.saveStates = saveStates;
-		
+
 		this.buildStage();
-		
+
+		this.playSong();
 		this.buildGameView();
 		this.buildControlBar();
-		
+
 		this.togglePlayPause(true);
 	}
-	
+
 	private void buildStage() {
 		stage = new Stage();
 		stage.setTitle(resources.getString("PlayerTitle"));
 		stage.setMinWidth(600);
 		stage.setMinHeight(600);
 		stage.setOnCloseRequest(e -> this.exit());
-		
+
 		scene = new Scene(this, 600, 600);
 		scene.getStylesheets().add(stylesheetPath);
-		
+
 		stage.setScene(scene);
 		stage.show();
 	}
-	
+
+	private void playSong() {
+		try {
+			GameData gameData = new GameData();
+			String path = gameData.loadGame(dataFolderPath).getSongPath();
+			String uriString = new File(path).toURI().toString();
+			player = new MediaPlayer(new Media(uriString));
+			player.setCycleCount(MediaPlayer.INDEFINITE);
+			player.play();
+		} catch (Exception e) {
+
+		}
+	}
+
 	private void buildGameView() {
-		//TODO: pass in the file name of the game/level you want to play
 		gameLoop = new GameLoop(scene, dataFolderPath);
 		this.setCenter(gameLoop.getGameView());
 	}
-	
+
 	private void buildControlBar() {
 		HBox controls = new HBox();
 		controls.setMaxSize(Double.MAX_VALUE, CONTROLS_HEIGHT);
-		
+
 		ComponentMaker factory = new ComponentMaker(resources);
-		
-		ImageView playImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PlayPausePath"))));
+
+		ImageView playImage = new ImageView(
+				new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PlayPausePath"))));
 		playButton = factory.makeImageButton("PauseButtonText", playImage, e -> this.togglePlayPause(isPaused), true);
 		playButton.setPrefHeight(CONTROLS_HEIGHT);
-		
+
 		Button restartButton = factory.makeButton("RestartButtonText", e -> this.restart(), true);
 		restartButton.setPrefHeight(CONTROLS_HEIGHT);
-		
+
 		Button saveButton = factory.makeButton("SaveButtonText", e -> this.save(), true);
 		saveButton.setPrefHeight(CONTROLS_HEIGHT);
-		
+
 		Button exitButton = factory.makeButton("ExitButtonText", e -> this.exit(), true);
 		exitButton.setPrefHeight(CONTROLS_HEIGHT);
-		
+
 		Separator separator = new Separator();
 		HBox.setHgrow(separator, Priority.ALWAYS);
-		
+
 		Label scorebar = gameLoop.getGameScorebar();
-		
+
 		controls.getChildren().addAll(playButton, restartButton, saveButton, exitButton, separator, scorebar);
-		
+
 		this.setTop(controls);
 	}
-	
+
 	private void togglePlayPause(boolean play) {
-		if(play) {
+		if (play) {
 			isPaused = false;
 			playButton.setText(resources.getString("PauseButtonText"));
 			gameLoop.startTimeline();
@@ -108,21 +128,21 @@ public class Player extends BorderPane {
 			gameLoop.pauseTimeline();
 		}
 	}
-	
+
 	private void restart() {
 		gameLoop.pauseTimeline();
 		this.buildGameView();
 		this.buildControlBar();
 		this.togglePlayPause(true);
 	}
-	
+
 	private void exit() {
 		gameLoop.pauseTimeline();
 		stage.close();
 	}
-	
-	private void save(){
-		//TODO: make actually save
+
+	private void save() {
+		// TODO: make actually save
 		saveStates.add("yay saved game");
 	}
 }

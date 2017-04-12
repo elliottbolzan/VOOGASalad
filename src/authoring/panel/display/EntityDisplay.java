@@ -32,6 +32,10 @@ public class EntityDisplay extends EditableContainer {
 		super(workspace, workspace.getResources().getString("EntityDisplayTitle"));
 	}
 
+	public TableView<Entity> getTable() {
+		return table;
+	}
+
 	/**
 	 * @return a TableView.
 	 */

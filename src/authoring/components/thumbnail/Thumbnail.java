@@ -11,7 +11,6 @@ import javafx.scene.image.ImageView;
  */
 public abstract class Thumbnail extends View {
 
-	private String path;
 	private SimpleObjectProperty<Image> image;
 	private ImageView imageView = new ImageView();
 
