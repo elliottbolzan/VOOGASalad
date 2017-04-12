@@ -32,9 +32,9 @@ public class GameSaver {
 		gameXMLFactory= new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
 		createRoot(filepath);
-		savelevels(game.getLevels(), filepath + "/" + game.getName());
+		saveLevels(game.getLevels(), filepath + "/" + game.getName());
 		saveDefaults(game.getDefaults(), filepath + "/" + game.getName());
-		//saveSong(filepath+game.getSongPath());
+		saveSong(filepath+game.getSongPath());
 		saveDocument(filepath);
 	}
 	
@@ -49,12 +49,12 @@ public class GameSaver {
 	
 	private void saveSong(String songPath){
 		//System.out.println(songPath);
-		LevelSaver ls = new LevelSaver(null);
-		String xmlsong = ls.saveSong(songPath);
-		Element songelement = gameXMLFactory.stringToElement(xmlsong);
-		gameXMLFactory.addSong(songelement);
+		//LevelSaver ls = new LevelSaver(null);
+		//String xmlsong = ls.saveSong(songPath);
+		//Element songelement = gameXMLFactory.stringToElement(xmlSong);
+		gameXMLFactory.addSong(songPath);
 		
-		gameXMLFactory.addSong(gameXMLFactory.stringToElement(songPath));
+		//gameXMLFactory.addSong(gameXMLFactory.stringToElement(songPath));
 	}
 	
 	
@@ -100,7 +100,7 @@ public class GameSaver {
 		
 	}
 	
-	private void savelevels(List<Level> levels, String filePath) {
+	private void saveLevels(List<Level> levels, String filePath) {
 		for (int i = 0; i < levels.size(); i++) {
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
 			List<Element> entityNodes = new ArrayList<Element>();
