@@ -63,4 +63,10 @@ public class GraphSG<T extends Selectable> implements SelectionGroup<T> {
 		
 	}
 
+	@Override
+	public void removeAll() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

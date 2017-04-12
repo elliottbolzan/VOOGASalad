@@ -2,10 +2,10 @@ package engine.game.gameloop;
 
 import engine.game.LevelManager;
 
-public class GameOverStepStrategy extends TransitionStepStrategy {
-	private static final String RESOURCE_NAME = "GameOver";
+public class NextLevelStepStrategy extends TransitionStepStrategy {
+	private static final String RESOURCE_NAME = "Win";
 	
-	public GameOverStepStrategy() {
+	public NextLevelStepStrategy() {
 		super(RESOURCE_NAME);
 	}
 	
@@ -26,11 +26,11 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 
 	@Override
 	protected int nextLevelNumber(LevelManager levelManager) {
-		return 1;
+		return levelManager.getLevelNumber() + 1;
 	}
 
 	@Override
 	protected boolean hasNextScreen(LevelManager levelManager) {   //TODO set to true when add LevelSelectionStrategy - actually get rid of this method then - this is TEMPORARY
-		return false;
+		return levelManager.getLevelNumber() <= levelManager.getLevels().size();
 	}
 }
