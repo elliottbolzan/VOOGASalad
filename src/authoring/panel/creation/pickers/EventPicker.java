@@ -73,7 +73,6 @@ public class EventPicker extends Picker {
 		}
 		Event event = (Event) element;
 		event.setEntity(entityMaker.getEntity());
-		System.out.println(entityMaker.getEntity());
 		entityMaker.getEntity().getEvents().add(event);
 		update();
 	}

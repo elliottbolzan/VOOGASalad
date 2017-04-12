@@ -24,8 +24,7 @@ import javafx.stage.DirectoryChooser;
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
  *
  */
-public class Workspace extends View
-{
+public class Workspace extends View {
 
 	private ResourceBundle resources;
 	private ComponentMaker maker;
@@ -41,8 +40,7 @@ public class Workspace extends View
 	/**
 	 * 
 	 */
-	public Workspace(ResourceBundle resources, String path)
-	{
+	public Workspace(ResourceBundle resources, String path) {
 		super("Workspace");
 		this.resources = resources;
 		setup();
@@ -51,27 +49,21 @@ public class Workspace extends View
 		}
 	}
 
-	public Game getGame()
-	{
+	public Game getGame() {
 		return game;
 	}
-
-	/*
-	 * public void updateEntity(Entity entity) { panel.updateEntity(entity); }
-	 */
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		game = new Game();
 		data = new GameData();
 		maker = new ComponentMaker(resources);
 		defaults = new DefaultEntities(this);
-		pane = new SplitPane();
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
+		pane = new SplitPane();
 		pane.getItems().addAll(panel, levelEditor);
 		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
@@ -79,8 +71,7 @@ public class Workspace extends View
 		dragToAddEntity();
 	}
 
-	private void dragToAddEntity()
-	{
+	private void dragToAddEntity() {
 		panel.getEntityDisplay().getTable().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getTable().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
@@ -94,38 +85,14 @@ public class Workspace extends View
 		});
 	}
 
-	private void load(String path)
-	{
-		// game = data.loadGame(path);
-		GameData gameData = new GameData();
-		game = gameData.loadGame(path);
-
+	private void load(String path) {
+		game = data.loadGame(path);
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
-		/*
-		 * game = new Game(); Level level = new Level(); Level level2 = new
-		 * Level(); Entity one = new CharacterEntity(); Entity two = new
-		 * CharacterEntity(); Entity three = new CharacterEntity(); Entity four
-		 * = new CharacterEntity(); //
-		 * one.setImagePath("resources/images/mario.png");
-		 * one.xProperty().set(120); two.yProperty().set(200);
-		 * three.xProperty().set(200); four.xProperty().set(300);
-		 * 
-		 * three.setZ(1); four.setZ(10); level.addEntity(one);
-		 * level.addEntity(two); level.addEntity(three); level.addEntity(four);
-		 * level2.addEntity(one); List<Level> levels = new ArrayList<>();
-		 * levels.add(level); levels.add(level2); game.setLevels(levels);
-		 * 
-		 * levelEditor.loadGame(game.getLevels());
-		 * defaults.setEntities(game.getDefaults());
-		 * panel.getSettings().load(game);
-		 * 
-		 */
 	}
 
-	public void save()
-	{
+	public void save() {
 		String path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
@@ -139,39 +106,27 @@ public class Workspace extends View
 		}
 	}
 
-	public ResourceBundle getResources()
-	{
+	public ResourceBundle getResources() {
 		return resources;
 	}
 
-	public SplitPane getPane()
-	{
+	public SplitPane getPane() {
 		return pane;
 	}
 
-	public DefaultEntities getDefaults()
-	{
+	public DefaultEntities getDefaults() {
 		return defaults;
 	}
 
-	public Entity getSelectedEntity()
-	{
+	public Entity getSelectedEntity() {
 		return defaults.getSelectedEntity();
 	}
 
-	public void showMessage(String message)
-	{
+	public void showMessage(String message) {
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
-	public List getEntities()
-	{
-		// return canvas's entities (i.e. canvas.getLevel())
-		return new ArrayList<>();
-	}
-
-	public void setNewLayer(String newLayer)
-	{
+	public void setNewLayer(String newLayer) {
 		panel.updateLayerPanel(newLayer);
 	}
 
@@ -190,8 +145,4 @@ public class Workspace extends View
 		panel.selectExistingLevelBox(newLevelNum);
 	}
 
-	public void deleteLayer(int layer)
-	{
-		levelEditor.getCurrentLevel().deleteLayer(layer);
-	}
 }

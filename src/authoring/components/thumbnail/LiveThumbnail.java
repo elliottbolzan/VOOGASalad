@@ -23,7 +23,8 @@ public class LiveThumbnail extends Thumbnail {
 	}
 	
 	private void setImage() {
-		getImage().set(new Image(path.get()));
+		if (path.get().startsWith("file:"))
+			getImage().set(new Image(path.get()));
 	}
 
 }
