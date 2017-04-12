@@ -62,7 +62,7 @@ public class LayerEditor extends View
 		for (Entity entity : level.getEntities()) {
 			addEntity(entity, entity.getX(), entity.getY(), (int) entity.getZ());
 		}
-		selectLayer(0);
+		selectLayer(1);
 	}
 
 	public int getCurrentLayer()
@@ -85,7 +85,7 @@ public class LayerEditor extends View
 		layers = new HashMap<Integer, Layer>();
 		copiedEntities = new ArrayList<EntityDisplay>();
 		layerCount = 0;
-		currLayer = 0;
+		currLayer = 1;
 		lastBounds = new Rectangle().getBoundsInLocal();
 		addKeyActions();
 		newLayer();
@@ -149,6 +149,7 @@ public class LayerEditor extends View
 
 	public void addEntity(Entity entity, double x, double y, int z)
 	{
+		System.out.println("ADD TO: " + z);
 		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
 		addedEntity.getEntity().setZ(z);
 		setNumLayers(z);
@@ -185,7 +186,7 @@ public class LayerEditor extends View
 
 	private void setNumLayers(int z)
 	{
-		while (layerCount <= z) {
+		while (layerCount < z) {
 			newLayer();
 		}
 	}
@@ -198,7 +199,8 @@ public class LayerEditor extends View
 	private void newLayer()
 	{
 		layerCount++;
-		layers.put(layerCount - 1, new Layer());
+		layers.put(layerCount, new Layer());
+		System.out.println(layerCount + ": " + "added");
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}
@@ -210,6 +212,7 @@ public class LayerEditor extends View
 
 	private void newLayerSelected(int newVal)
 	{
+		System.out.println("SELECTED: " + newVal);
 		for (Layer layer : layers.values()) {
 			for (Node entity : layer.getEntities()) {
 				entity.setOpacity(0.3);
@@ -226,7 +229,7 @@ public class LayerEditor extends View
 
 	public void select()
 	{
-		this.selectLayer(0);
+		this.selectLayer(1);
 		// allow this layer to have key actions
 		addKeyActions();
 	}
