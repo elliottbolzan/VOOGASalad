@@ -123,8 +123,10 @@ public class LevelManager {
 	 * @param filename
 	 */
 	public void loadAllSavedLevels(){
-		levels.addAll(gameData.loadGame(gameFilename).getLevels());
+		levels.removeAll();
+		//levels.addAll(gameData.loadGame(gameFilename).getLevels());  //TODO uncomment once GameData is added
 		levels.add(new Level());	//TODO: remove this after testing 
+		System.out.println("The Levels SelectionGroup has List: " + levels.getListRepresentation());
 		System.out.println("Loaded the current level");
 	}
 	

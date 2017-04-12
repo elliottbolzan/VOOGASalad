@@ -41,7 +41,9 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	
 	@Override
 	public void step() {
-		System.out.println("Step in Transition Screen" + frameNumber);
+		if(frameNumber % 20 == 0){
+			 System.out.println("In frame # " + frameNumber + " of TransitionStepStrategy " + this);
+		}
 		//TODO Could add animation here
 		if(frameNumber == FRAME_DURATION){
 			System.out.println("move to next screen");
@@ -60,7 +62,9 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber(levelManager));  //this boolean is just a safety measure, but TransitionStepStrategies should only stay on current level if moving to a new level at all
 		System.out.println("Levelnum = " + levelManager.getLevelNumber());
 		if(hasNextLevel && hasNextScreen()){
-			Screen nextScreen = new Screen(getNextStepStrategy(levelManager), levelManager, gameScene, graphicsEngine, info);
+			StepStrategy nextStepStrategy = getNextStepStrategy(levelManager);
+			info.setCurrentStepStrategy(nextStepStrategy);
+			Screen nextScreen = new Screen(nextStepStrategy, levelManager, gameScene, graphicsEngine, info);
 			System.out.println(nextScreen);
 			nextScreen.getTimeline().play();
 		}

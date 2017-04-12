@@ -1,5 +1,4 @@
 package engine.game.gameloop;
-
 import engine.Action;
 import engine.Collision;
 import engine.CollisionSide;
@@ -9,6 +8,7 @@ import engine.GameInfo;
 import engine.actions.DieAction;
 import engine.actions.JumpSpeedAction;
 import engine.actions.MoveAction;
+import engine.actions.NextLevelAction;
 import engine.actions.WalkAction;
 import engine.actions.ZeroHorizontalSpeedAction;
 import engine.actions.ZeroVerticalSpeedAction;
@@ -24,7 +24,6 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-
 public class LevelStepStrategy implements StepStrategy {
 //	private ObservableBundle observableBundle;
 	private LevelManager levelManager;
@@ -32,7 +31,6 @@ public class LevelStepStrategy implements StepStrategy {
 	private GraphicsEngine graphicsEngine;
 	private Screen screen;
 	private GameInfo info;
-
 	@Override
 	public void setup(LevelManager levelManager, Scene gameScene, Screen screen, GraphicsEngine graphicsEngine,
 			GameInfo info) {
@@ -42,14 +40,12 @@ public class LevelStepStrategy implements StepStrategy {
 		this.graphicsEngine = graphicsEngine;
 		this.screen = screen;
 		this.info = info;
-
 		levelManager.loadAllSavedLevels(); //To reset initial state of level
 		// TODO get filename here
 		levelManager.addLevel(new Level()); // TODO: remove this empty level for
 											// testing
 		
 		instantiateTestEntitesEventsActions();
-
 		//connectObservablesToLevels();
 		//setLevelStepStrategyInDieActions();
 		addInfoToEntities();
@@ -60,30 +56,28 @@ public class LevelStepStrategy implements StepStrategy {
 
 	@Override
 	public void step() {
+		System.out.println("In LevelStepStrategy's step()");
+		printStepData();
 		info.getObservableBundle().updateObservers(); // ticks the clock (need to at
 											// beginning of step(), not end,
 											// because onFinished of Timeline
 											// called at END of time elapsed
-
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
-
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
 	}
-
 	/**
 	 * Although this method uses a Timeline, it is specific to Level Screens, so
 	 * I put it here in LevelStepStrategy rather than in Screen.
 	 * 
 	 * @param gameOver
 	 */
-
-	public void endLevel(boolean gameOver){
-		//Do not check timeIsUp() here, rather, set up TimerEvent with time = 0 and attach a DieAction, which will call this method when appropriate
-		detachObservablesFromEntities();
+	public void endLevel(boolean gameOver) {
+		// Do not check timeIsUp() here, rather, set up TimerEvent with time = 0
+		// and attach a DieAction, which will call this method when appropriate
 		StepStrategy nextStepStrategy;
 		if (gameOver) {
 			System.out.println("Out of lives -- Game over!");
@@ -100,11 +94,9 @@ public class LevelStepStrategy implements StepStrategy {
 		Screen nextScreen = new Screen(nextStepStrategy, levelManager, gameScene, graphicsEngine, info);
 		nextScreen.getTimeline().play();
 	}
-
 	private void printStepData() {
 		System.out.println(levelManager.getCurrentLevel().getTimerManager());
 	}
-
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */
@@ -112,22 +104,16 @@ public class LevelStepStrategy implements StepStrategy {
 		info.getObservableBundle().levelObservableSetup(gameScene, levelManager);
 		//info.getObservableBundle().setObservablesInEvents(levelManager);     //<------------------NEED TO REMOVE<--------------
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			info.getObservableBundle().attachEntityToAll(entity);   //TODO Just attach to observables where you need it
-		}
-	}
-	
-	private void detachObservablesFromEntities(){
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			try{
-				info.getObservableBundle().detachEntityFromAll(entity);   //TODO Just detach from those observables where attached (see above comment)
-			}
-			catch(ArrayIndexOutOfBoundsException e){
-				System.out.println("List of Entities in current level: " + levelManager.getCurrentLevel().getEntities());
-				System.out.println("Exception for Entity: " + entity);
+			entity.setGameInfo(info);
+			info.getObservableBundle().attachEntityToAll(entity);   //Good; this replaces attachEntityToAll()
+			for (Event event : entity.getEvents()) {
+				event.setGameInfo(info);
+				for (Action action : event.getActions()) {
+					action.setGameInfo(info);
+				}
 			}
 		}
 	}
-
 //	private void setLevelStepStrategyInDieActions() {
 //		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 //			for (Event event : entity.getEvents()) {
@@ -141,17 +127,19 @@ public class LevelStepStrategy implements StepStrategy {
 //			}
 //		}
 //	}
-
 	private void setupGameView() {
 		// TODO call graphicsEngine.setCamera() here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 		graphicsEngine.setScorebar(new Scorebar(levelManager));
 	}
-
 	public void startNextLevel() {
-		// TODO start next level
+		System.out.println("In LevelStepStrategy's startNextLevel()");
+		StepStrategy nextStepStrategy = new NextLevelStepStrategy();
+		info.setCurrentStepStrategy(nextStepStrategy);
+		screen.getTimeline().stop();
+		Screen nextScreen = new Screen(nextStepStrategy, levelManager, gameScene, graphicsEngine, info);
+		nextScreen.getTimeline().play();
 	}
-
 	// Temporary, for testing
 	private void instantiateTestEntitesEventsActions() {
 		// TEST - TODO ask Nikita, etc. how GAE does this
@@ -168,7 +156,6 @@ public class LevelStepStrategy implements StepStrategy {
 		block.setWidth(100);
 		block.setHeight(100);
 		block.setImagePath("resources/images/block.png");
-
 		TimerEvent timeRunsOut = new TimerEvent(); // trigger time currently
 													// hardcoded to 0 in
 													// constructor
@@ -177,7 +164,6 @@ public class LevelStepStrategy implements StepStrategy {
 		DieAction die = new DieAction();
 		die.setEntity(mario);
 		timeRunsOut.addAction(die);
-
 		KeyPressEvent upPressed = new KeyPressEvent();
 		upPressed.updateParam("Key", KeyCode.UP);
 		mario.addEvent(upPressed);
@@ -185,7 +171,6 @@ public class LevelStepStrategy implements StepStrategy {
 		jump.setEntity(mario);
 		jump.updateParam("Initial Jump Speed", -15.0);
 		upPressed.addAction(jump);
-
 		KeyPressEvent rightPressed = new KeyPressEvent();
 		rightPressed.updateParam("Key", KeyCode.RIGHT);
 		mario.addEvent(rightPressed);
@@ -193,7 +178,6 @@ public class LevelStepStrategy implements StepStrategy {
 		stepRight.setEntity(mario);
 		stepRight.updateParam("Walk Speed", 5.0);
 		rightPressed.addAction(stepRight);
-
 		KeyPressEvent leftPressed = new KeyPressEvent();
 		leftPressed.updateParam("Key", KeyCode.LEFT);
 		mario.addEvent(leftPressed);
@@ -201,33 +185,62 @@ public class LevelStepStrategy implements StepStrategy {
 		stepLeft.setEntity(mario);
 		stepLeft.updateParam("Walk Speed", -5.0);
 		leftPressed.addAction(stepLeft);
-
 		KeyReleaseEvent rightReleased = new KeyReleaseEvent();
 		rightReleased.updateParam("Key", KeyCode.RIGHT);
 		mario.addEvent(rightReleased);
 		ZeroHorizontalSpeedAction stopWalking = new ZeroHorizontalSpeedAction();
 		stopWalking.setEntity(mario);
 		rightReleased.addAction(stopWalking);
-
 		KeyReleaseEvent leftReleased = new KeyReleaseEvent();
 		leftReleased.updateParam("Key", KeyCode.LEFT);
 		mario.addEvent(leftReleased);
 		leftReleased.addAction(stopWalking);
-
 		AlwaysEvent marioAlways = new AlwaysEvent();
 		mario.addEvent(marioAlways);
 		MoveAction movement = new MoveAction();
 		movement.setEntity(mario);
 		marioAlways.addAction(movement);
-
 		CollisionEvent groundCollision = new CollisionEvent();
 		groundCollision.setCollision(new Collision(mario, block, CollisionSide.TOP));
 		block.addEvent(groundCollision);
 		ZeroVerticalSpeedAction stopFalling = new ZeroVerticalSpeedAction();
 		stopFalling.setEntity(mario);
 		groundCollision.addAction(stopFalling);
-
+		
+		/*
+		Entity peach = new BlockEntity();
+		peach.setX(350);
+		peach.setY(200);
+		peach.setWidth(50);
+		peach.setHeight(150);
+		peach.setImagePath("resources/images/princessPeach.png");
+		
+		//CollisionEvent peachCollisionTop = new CollisionEvent();
+		CollisionEvent peachCollisionBottom = new CollisionEvent();
+		CollisionEvent peachCollisionLeft = new CollisionEvent();
+		CollisionEvent peachCollisionRight = new CollisionEvent();
+		//peachCollisionTop.setCollision(new Collision(mario, peach, CollisionSide.TOP));
+		peachCollisionBottom.setCollision(new Collision(mario, peach, CollisionSide.BOTTOM));
+		peachCollisionLeft.setCollision(new Collision(mario, peach, CollisionSide.LEFT));
+		peachCollisionRight.setCollision(new Collision(mario, peach, CollisionSide.RIGHT));
+		mario.addEvent(peachCollisionRight);
+		mario.addEvent(peachCollisionLeft);
+		mario.addEvent(peachCollisionBottom);
+		
+		Action nextLevelActionBottom = new NextLevelAction();
+		Action nextLevelActionLeft = new NextLevelAction();
+		Action nextLevelActionRight = new NextLevelAction();
+		nextLevelActionBottom.setEntity(mario);   //TODO try removing this, since no info about mario needed...
+		nextLevelActionLeft.setEntity(mario);
+		nextLevelActionRight.setEntity(mario);
+		//peachCollisionTop.addAction(nextLevelAction);
+		peachCollisionBottom.addAction(nextLevelActionBottom);
+		peachCollisionLeft.addAction(nextLevelActionLeft);
+		peachCollisionRight.addAction(nextLevelActionRight);
+		*/
+		
 		levelManager.getCurrentLevel().getEntities().add(mario);
 		levelManager.getCurrentLevel().getEntities().add(block);
+		levelManager.getCurrentLevel().getEntities().add(peach);
 	}
 }
