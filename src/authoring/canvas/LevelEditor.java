@@ -25,12 +25,12 @@ import javafx.scene.control.TabPane;
 public class LevelEditor extends View
 {
 
-	private Workspace workspace;
-	private TabPane tabPane;
-	private LayerEditor currentLevel;
-	private List<LayerEditor> levels;
-	private int levelCount;
-	private HelpBar helpBar;
+	Workspace workspace;
+	TabPane tabPane;
+	LayerEditor currentLevel;
+	List<LayerEditor> levels;
+	int levelCount;
+	HelpBar helpBar;
 
 	public LevelEditor(Workspace workspace)
 	{
@@ -73,6 +73,7 @@ public class LevelEditor extends View
 
 	private Tab newTab()
 	{
+		System.out.println(levelCount);
 		Tab tab = new Tab();
 		levelCount++;
 		tab.setText(String.format("Level %d", levelCount));
