@@ -40,7 +40,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		events = new ArrayList<Event>();
 		this.name = new SimpleStringProperty(name);
 		this.imagePath = new SimpleStringProperty(imagePath);
-		addParam(new Parameter("Time Step", Double.class, 0.5));
 	}
 
 	@Override
