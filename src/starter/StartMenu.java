@@ -123,10 +123,11 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void playGame() {
-		String chosen = chooseGame();
-		if (isSelected(chosen)) {
-			new PlayerMenu(chosen);
-		}
+//		String chosen = chooseGame();
+//		if(isSelected(chosen)){
+//			new PlayerMenu(chosen);
+//		}
+		new PlayerMenu(chooseGame());
 	}
 
 	private Button makeButton(String label, EventHandler<ActionEvent> handler) {

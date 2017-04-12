@@ -22,7 +22,7 @@ public class EntitySaverTest {
 
 	//C:/Users/Michael8417/workspace/voogasalad_duwaldorf/
 	String filepath="data/EntityTesting";
-	gs.saveEntity(entity, filepath);
+	//gs.saveEntity(entity, filepath);
 	
 	}
 	

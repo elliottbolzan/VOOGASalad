@@ -23,12 +23,13 @@ public class ClassFinder {
 		if (scannedUrl == null) {
 			throw new IllegalArgumentException(String.format(BAD_PACKAGE_ERROR, scannedPath, scannedPackage));
 		}
-		File scannedDir = new File(scannedUrl.getFile());
+		File scannedDir = new File(scannedUrl.getFile().replaceAll("%20", " "));
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		for (File file : scannedDir.listFiles()) {
 			classes.addAll(find(file, scannedPackage));
 		}
 		return classes;
+		
 	}
 
 	private List<Class<?>> find(File file, String scannedPackage) {
