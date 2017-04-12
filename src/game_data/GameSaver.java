@@ -23,15 +23,17 @@ import engine.game.Level;
 public class GameSaver {
 	
 	private Game game;
+	private GameXMLFactory gameXMLFactory;
 
 	public void saveGame(Game game, String filepath) {
 		this.game = game;
-		this.saveGame(game.getLevels(), filepath);
-	}
-
-	public void saveGame(List<Level> levels, String filePath) {
-		createRoot(filePath);
-		savelevels(levels, filePath + File.separator + game.getName());
+		gameXMLFactory= new GameXMLFactory();
+		gameXMLFactory.setName(game.getName());
+		createRoot(filepath);
+		saveLevels(game.getLevels(), filepath + "/" + game.getName());
+		saveDefaults(game.getDefaults(), filepath + "/" + game.getName());
+		saveSong(filepath+game.getSongPath());
+		saveDocument(filepath);
 	}
 	
 	private void createRoot(String filePath) {
@@ -40,14 +42,61 @@ public class GameSaver {
 			folder.mkdirs();
 		}
 	}
-
-	private void savelevels(List<Level> levels, String filepath) {
-		File entityfolder = new File(filepath + File.separator + "levels");
-		if (!entityfolder.exists()) {
-			entityfolder.mkdirs();
+	
+	private void saveSong(String songPath){
+		//System.out.println(songPath);
+		//LevelSaver ls = new LevelSaver(null);
+		//String xmlsong = ls.saveSong(songPath);
+		//Element songelement = gameXMLFactory.stringToElement(xmlSong);
+		gameXMLFactory.addSong(songPath);
+		
+		//gameXMLFactory.addSong(gameXMLFactory.stringToElement(songPath));
+	}
+	
+	
+	public void saveEntityImage(Entity entity, String filePath) {
+		try {
+			String sourcePathString = filePath;
+			Path sourcePath = Paths.get(sourcePathString);
+			String targetPathString = filePath + "/images/" + entity.getName() + "image.png";
+			File entityImageFile = new File(targetPathString);
+			entityImageFile.getParentFile().mkdirs();
+			entityImageFile.createNewFile();
+			Path targetPath = Paths.get(targetPathString);
+			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
+		} catch (Exception i) {
+			i.printStackTrace();
 		}
-		File dir = new File(filepath + File.separator + "levels");
-		dir.mkdir();
+	}
+	
+	
+	
+	private void saveDefaults(List<Entity> defaults, String filePath){
+		
+		
+			List<Entity> entities = defaults;
+			List<Element> entityNodes = new ArrayList<Element>();
+		
+			for (int j = 0; j < entities.size(); j++) {
+				Entity currEntity = entities.get(j);
+				
+				Element entityNode = getEntityNode(currEntity);
+				entityNodes.add(entityNode);
+			}
+			LevelSaver ls = new LevelSaver(entityNodes);
+			String xmlLevel = ls.saveLevel();
+			//System.out.println(xmlLevel);
+			Element levelElement = gameXMLFactory.stringToElement(xmlLevel);
+			gameXMLFactory.addDefaultEntity(levelElement);
+			//System.out.println(xmlLevel);
+			
+			
+		
+		
+		
+	}
+	
+	private void saveLevels(List<Level> levels, String filePath) {
 		for (int i = 0; i < levels.size(); i++) {
 
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());

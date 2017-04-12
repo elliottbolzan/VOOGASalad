@@ -50,6 +50,8 @@ public class GameLoader {
 		addName(game,doc);
 		addLevels(game,doc);
 		addDefaults(game,doc);
+		addSong(game,doc);
+		
 		return game;
 	}
 	
@@ -78,6 +80,12 @@ public class GameLoader {
 
 	}
 	
+	private void addSong(Game game, Document doc){
+		
+		NodeList songNodes = doc.getElementsByTagName("Resources");
+		//System.out.println("song: " + songNodes.getLength());
+		game.setSongPath(songNodes.item(0).getAttributes().item(0).getNodeValue());
+	}
 	private  void addLevels(Game game,Document doc){
 		
 		NodeList levelsNode = doc.getElementsByTagName("Levels");
