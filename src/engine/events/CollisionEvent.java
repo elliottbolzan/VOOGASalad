@@ -23,6 +23,7 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 			if (collision.isBetween(getEntity().getName(), (String) getParam("Entity"))
 					&& collision.getCollisionSide().equals(this.collision.getCollisionSide()))
 				return true;
+			}
 		}
 			return false;
 	}

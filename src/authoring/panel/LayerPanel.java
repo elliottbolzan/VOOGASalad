@@ -1,5 +1,8 @@
 package authoring.panel;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import authoring.Workspace;
@@ -29,6 +32,7 @@ public class LayerPanel extends View {
 	private Workspace workspace;
 	private VBox editorContainer;
 	private ComboBox<String> myBox;
+	private Map<Integer, List<String>> layerOptions;
 	private ComponentMaker maker;
 	private ObservableList<String> layerNames;
 
@@ -36,8 +40,8 @@ public class LayerPanel extends View {
 		super(workspace.getResources().getString("LayerPanelTitle"));
 		this.workspace = workspace;
 		maker = new ComponentMaker(workspace.getResources());
+		layerOptions = new HashMap<Integer, List<String>>();
 		myBox = new ComboBox<String>();
-		myBox.setValue("Layer 1");
 		configureEditing();
 	}
 
@@ -85,7 +89,7 @@ public class LayerPanel extends View {
 
 	private void delete()
 	{
-		int layer = Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split(" ")[1]);
+		int layer = Integer.parseInt(((String) myBox.getSelectionModel().getSelectedItem()).split(" ")[1]);
 		myBox.setValue((layer == 1 ? String.format("Layer %d", layer) : String.format("Layer %d", layer - 1)));
 		workspace.deleteLayer(layer);
 	}
@@ -114,18 +118,20 @@ public class LayerPanel extends View {
 
 	public void updateBox(String newLayer) {
 		myBox.getItems().add(newLayer);
+		// myBox.setValue(newLayer);
 	}
 
 	private void initLayerSelector()
 	{
 		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
-		myBox.valueProperty().addListener(new ChangeListener<String>()
+		myBox.valueProperty().addListener(new ChangeListener()
 		{
+
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
+			public void changed(ObservableValue arg0, Object arg1, Object arg2)
 			{
-				if (newValue != null) {
-					workspace.selectLayer(Integer.parseInt(newValue.split(" ")[1]));
+				if (arg2 != null) {
+					workspace.selectLayer(Integer.parseInt(((String) arg2).split(" ")[1]));
 				}
 			}
 		});
@@ -136,7 +142,8 @@ public class LayerPanel extends View {
 		for (int i = 0; i < layerNum; i++) {
 			myBox.getItems().add(String.format("Layer %d", i + 1));
 		}
-		myBox.setValue(String.format("Layer %d", layerNum));
+		System.out.println(myBox.getItems().get(0));
+		myBox.setValue(myBox.getItems().get(0));
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import engine.Entity;
 import engine.LevelInterface;
+import engine.game.gameloop.Scorebar;
 import engine.game.selectiongroup.Selectable;
 import engine.game.timer.TimerManager;
 
@@ -17,13 +18,9 @@ import engine.game.timer.TimerManager;
  */
 public class Level implements LevelInterface, Selectable{
 	private List<Entity> entities;
-	private TimerManager timerManager;
-	private Level initialState;
 	
 	public Level(){
 		entities = new ArrayList<>();
-		timerManager = new TimerManager(10, false); //TODO figure out how to get "60" from Authoring
-		initialState = null;
 	}
 	
 	/**
@@ -89,8 +86,4 @@ public class Level implements LevelInterface, Selectable{
 		
 	}
 	*/
-	
-	public TimerManager getTimerManager(){
-		return timerManager;
-	}
 }

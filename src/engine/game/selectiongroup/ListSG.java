@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import engine.game.Level;
+
 public class ListSG<T extends Selectable> implements SelectionGroup<T>{
 	private List<T> list;
 	
@@ -62,5 +64,12 @@ public class ListSG<T extends Selectable> implements SelectionGroup<T>{
 	@Override
 	public void addAll(Collection<T> collection) {
 		list.addAll(collection);
+	}
+
+	@Override
+	public void removeAll() {
+		while(!list.isEmpty()){
+			list.remove(0);
+		}
 	}
 }
