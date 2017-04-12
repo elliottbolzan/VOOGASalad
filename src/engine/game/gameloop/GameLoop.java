@@ -18,6 +18,7 @@ public class GameLoop {
 	private LevelManager levelManager;
 	private Screen level1Screen;
 	private GraphicsEngine graphicsEngine;
+	private GameInfo info;
 	
 	public GameLoop(Scene gameScene, String dataFolderPath){
 		//Instantiate GraphicsEngine
@@ -26,22 +27,27 @@ public class GameLoop {
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
 		
+		//Setup scorebar
+		Scorebar scorebar = new Scorebar();
+		graphicsEngine.setScorebar(scorebar);
+	
 		// Setup levelManager
 		levelManager = new LevelManager(dataFolderPath);
 		//levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
 		
 		//Setup the first level screen
 		StepStrategy strategy = new LevelStepStrategy();
-		GameInfo info = new GameInfo(observableBundle, strategy);
+		GameInfo info = new GameInfo(observableBundle, strategy, scorebar, level1Screen);
+		this.info = info;
 		level1Screen = new Screen(strategy, levelManager, gameScene, graphicsEngine, info);
 	}
 	
 	public void startTimeline(){
-		level1Screen.start();
+		info.getCurrentScreen().start();
 	}
 	
 	public void pauseTimeline(){
-		level1Screen.pause();
+		info.getCurrentScreen().pause();
 	}
 	
 	public Pane getGameView() {
