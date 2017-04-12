@@ -21,54 +21,41 @@ import javafx.scene.layout.VBox;
  * @author Elliott Bolzan
  *
  */
-public class EntityDisplay extends EditableContainer
-{
+public class EntityDisplay extends EditableContainer {
 
 	private TableView<Entity> table;
 
 	/**
 	 * 
 	 */
-	public EntityDisplay(Workspace workspace)
-	{
+	public EntityDisplay(Workspace workspace) {
 		super(workspace, workspace.getResources().getString("EntityDisplayTitle"));
-	}
-
-	public TableView<Entity> getTable()
-	{
-		return table;
 	}
 
 	/**
 	 * @return a TableView.
 	 */
-	private TableView<Entity> makeTable()
-	{
+	private TableView<Entity> makeTable() {
 		TableView<Entity> table = new TableView<Entity>();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		table.setPlaceholder(new Label(getWorkspace().getResources().getString("EmptyEntities")));
 		table.prefHeightProperty().bind(heightProperty());
 		table.setId("entity-table");
-		table.setOnMouseClicked(new EventHandler<MouseEvent>()
-		{
+		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				getWorkspace().getDefaults().setSelectedEntity(table.getSelectionModel().getSelectedItem());
 			}
 		});
 		return table;
 	}
 
-	private TableColumn<Entity, Entity> makeEntityColumn()
-	{
+	private TableColumn<Entity, Entity> makeEntityColumn() {
 		TableColumn<Entity, Entity> entityColumn = new TableColumn<>("Entity");
 		entityColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		entityColumn.setCellFactory(param -> new TableCell<Entity, Entity>()
-		{
+		entityColumn.setCellFactory(param -> new TableCell<Entity, Entity>() {
 			@Override
-			protected void updateItem(Entity entity, boolean empty)
-			{
+			protected void updateItem(Entity entity, boolean empty) {
 				super.updateItem(entity, empty);
 				if (entity == null) {
 					setGraphic(null);
@@ -87,8 +74,7 @@ public class EntityDisplay extends EditableContainer
 		return entityColumn;
 	}
 
-	public void addEntity(Entity entity)
-	{
+	public void addEntity(Entity entity) {
 		if (getCurrentlyEditing() != null) {
 			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
 		}
@@ -96,8 +82,7 @@ public class EntityDisplay extends EditableContainer
 	}
 
 	@Override
-	public void createContainer()
-	{
+	public void createContainer() {
 		table = makeTable();
 		table.setItems(getWorkspace().getDefaults().getEntities());
 		table.getColumns().add(makeEntityColumn());
@@ -105,34 +90,33 @@ public class EntityDisplay extends EditableContainer
 	}
 
 	@Override
-	public void createNew()
-	{
+	public void createNew() {
 		setCurrentlyEditing(null);
 		new EntityMaker(getWorkspace(), this, null);
 	}
 
-	/*
-	 * public void updateEntity(Entity entity) { for (Entity currEntity :
-	 * table.getItems()) { // won't work, probably? same names two defaults, for
-	 * example. are we allowing that? // also: if you have a block named Mario,
-	 * and you press a Mario, the block just becomes Mario. // problems like
-	 * that. if (currEntity.getName().equals(entity.getName())) {
-	 * currEntity.set(entity); } } }
-	 */
+	/*public void updateEntity(Entity entity) {
+		for (Entity currEntity : table.getItems()) {
+			// won't work, probably? same names two defaults, for example. are we allowing that?
+			// also: if you have a block named Mario, and you press a Mario, the block just becomes Mario.
+			// problems like that.
+			if (currEntity.getName().equals(entity.getName())) {
+				currEntity.set(entity);
+			}
+		}
+	}*/
 
 	@Override
-	public void edit()
-	{
+	public void edit() {
 		Entity selection = table.getSelectionModel().getSelectedItem();
-		if (selectionExists(selection)) {
+		if (selectionExists(selection)){
 			setCurrentlyEditing(selection);
 			new EntityMaker(getWorkspace(), this, selection);
 		}
 	}
 
 	@Override
-	public void delete()
-	{
+	public void delete() {
 		if (selectionExists(table.getSelectionModel().getSelectedItem()))
 			getWorkspace().getDefaults().remove(table.getSelectionModel().getSelectedItem());
 	}
