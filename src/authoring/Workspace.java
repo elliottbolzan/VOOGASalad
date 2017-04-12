@@ -10,14 +10,13 @@ import authoring.components.ComponentMaker;
 import authoring.panel.Panel;
 import authoring.views.View;
 import engine.Entity;
+import engine.entities.CharacterEntity;
+import engine.game.Level;
 import game_data.Game;
 import game_data.GameData;
 import javafx.geometry.Insets;
-import javafx.scene.Cursor;
-import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
-import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 
 /**
@@ -130,18 +129,16 @@ public class Workspace extends View {
 		panel.updateLayerPanel(newLayer);
 	}
 
-	/*
-	 * public void addLayer() { levelEditor.getCurrentLevel().makeLayer(); }
-	 * 
-	 * public void selectLayer(int arg2) {
-	 * levelEditor.getCurrentLevel().selectLayer(arg2 - 1); }
-	 * 
-	 * public void selectExistingLevel(int newLevelNum) {
-	 * panel.selectExistingLevelBox(newLevelNum); }
-	 * 
-	 * public void deleteLayer(int layer) {
-	 * levelEditor.getCurrentLevel().deleteLayer(layer); }
-	 * 
-	 */
+	public void addLayer() {
+		levelEditor.getCurrentLevel().newTab();
+	}
+
+	public void selectLayer(int arg2) {
+		levelEditor.getCurrentLevel().newLayerSelected(arg2);
+	}
+
+	public void selectExistingLevel(int newLevelNum) {
+		panel.selectExistingLevelBox(newLevelNum);
+	}
 
 }

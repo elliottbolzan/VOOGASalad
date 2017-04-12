@@ -1,6 +1,5 @@
 package authoring.panel;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,6 @@ public class LayerPanel extends View {
 		maker = new ComponentMaker(workspace.getResources());
 		layerOptions = new HashMap<Integer, List<String>>();
 		myBox = new ComboBox<String>();
-		layerNames = FXCollections.observableArrayList(new ArrayList<>());
 		configureEditing();
 	}
 
@@ -89,11 +87,11 @@ public class LayerPanel extends View {
 		}
 	}
 
-	private void delete() {
+	private void delete()
+	{
 		int layer = Integer.parseInt(((String) myBox.getSelectionModel().getSelectedItem()).split(" ")[1]);
-		// myBox.setValue((layer == 1 ? String.format("Layer %d", layer) :
-		// /*String.format("Layer %d", layer - 1)*/ ));
-		// workspace.deleteLayer(layer);
+		myBox.setValue((layer == 1 ? String.format("Layer %d", layer) : String.format("Layer %d", layer - 1)));
+		workspace.deleteLayer(layer);
 	}
 
 	private void configureVelocitySettings() {
@@ -120,7 +118,23 @@ public class LayerPanel extends View {
 
 	public void updateBox(String newLayer) {
 		myBox.getItems().add(newLayer);
-		myBox.setValue(newLayer);
+		// myBox.setValue(newLayer);
+	}
+
+	private void initLayerSelector()
+	{
+		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
+		myBox.valueProperty().addListener(new ChangeListener()
+		{
+
+			@Override
+			public void changed(ObservableValue arg0, Object arg1, Object arg2)
+			{
+				if (arg2 != null) {
+					workspace.selectLayer(Integer.parseInt(((String) arg2).split(" ")[1]));
+				}
+			}
+		});
 	}
 
 	public void selectLevelBox(int layerNum) {
@@ -128,6 +142,8 @@ public class LayerPanel extends View {
 		for (int i = 0; i < layerNum; i++) {
 			myBox.getItems().add(String.format("Layer %d", i + 1));
 		}
+		System.out.println(myBox.getItems().get(0));
+		myBox.setValue(myBox.getItems().get(0));
 	}
 
 }

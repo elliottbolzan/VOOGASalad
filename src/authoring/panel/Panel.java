@@ -11,6 +11,7 @@ import authoring.panel.settings.Settings;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
+import engine.Entity;
 
 public class Panel extends CollapsibleView {
 

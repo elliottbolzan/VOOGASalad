@@ -99,19 +99,21 @@ public class EntityDisplay extends EditableContainer {
 		new EntityMaker(getWorkspace(), this, null);
 	}
 
-	/*
-	 * public void updateEntity(Entity entity) { for (Entity currEntity :
-	 * table.getItems()) { // won't work, probably? same names two defaults, for
-	 * example. are we allowing that? // also: if you have a block named Mario,
-	 * and you press a Mario, the block just becomes Mario. // problems like
-	 * that. if (currEntity.getName().equals(entity.getName())) {
-	 * currEntity.set(entity); } } }
-	 */
+	/*public void updateEntity(Entity entity) {
+		for (Entity currEntity : table.getItems()) {
+			// won't work, probably? same names two defaults, for example. are we allowing that?
+			// also: if you have a block named Mario, and you press a Mario, the block just becomes Mario.
+			// problems like that.
+			if (currEntity.getName().equals(entity.getName())) {
+				currEntity.set(entity);
+			}
+		}
+	}*/
 
 	@Override
 	public void edit() {
 		Entity selection = table.getSelectionModel().getSelectedItem();
-		if (selectionExists(selection)) {
+		if (selectionExists(selection)){
 			setCurrentlyEditing(selection);
 			new EntityMaker(getWorkspace(), this, selection);
 		}
