@@ -7,7 +7,7 @@ import engine.Entity;
 import engine.Event;
 import engine.GameInfo;
 import engine.actions.DieAction;
-import engine.actions.JumpSpeedAction;
+import engine.actions.JumpAction;
 import engine.actions.MoveAction;
 import engine.actions.WalkAction;
 import engine.actions.ZeroHorizontalSpeedAction;
@@ -45,7 +45,7 @@ public class LevelStepStrategy implements StepStrategy {
 
 		levelManager.loadAllSavedLevels(); //To reset initial state of level
 		// TODO get filename here
-		levelManager.addLevel(new Level()); // TODO: remove this empty level for
+		//levelManager.addLevel(new Level()); // TODO: remove this empty level for
 											// testing
 		
 		instantiateTestEntitesEventsActions();
@@ -138,6 +138,8 @@ public class LevelStepStrategy implements StepStrategy {
 
 	private void setupGameView() {
 		// TODO call graphicsEngine.setCamera() here
+		System.out.println("Set Entities Collections (makes bindings)");
+		System.out.println(levelManager.getCurrentLevel().getEntities().size());
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 		graphicsEngine.setScorebar(new Scorebar(levelManager));
 	}
@@ -149,6 +151,7 @@ public class LevelStepStrategy implements StepStrategy {
 	// Temporary, for testing
 	private void instantiateTestEntitesEventsActions() {
 		// TEST - TODO ask Nikita, etc. how GAE does this
+		/*
 		Entity mario = new CharacterEntity();
 		mario.setX(200);
 		mario.setY(200);
@@ -175,9 +178,9 @@ public class LevelStepStrategy implements StepStrategy {
 		KeyPressEvent upPressed = new KeyPressEvent();
 		upPressed.updateParam("Key", KeyCode.UP);
 		mario.addEvent(upPressed);
-		JumpSpeedAction jump = new JumpSpeedAction();
+		JumpAction jump = new JumpAction();
 		jump.setEntity(mario);
-		jump.updateParam("Initial Jump Speed", -15.0);
+		jump.updateParam("Initial Jump Speed", 15.0);
 		upPressed.addAction(jump);
 
 		KeyPressEvent rightPressed = new KeyPressEvent();
@@ -222,6 +225,6 @@ public class LevelStepStrategy implements StepStrategy {
 		groundCollision.addAction(stopFalling);
 
 		levelManager.getCurrentLevel().getEntities().add(mario);
-		levelManager.getCurrentLevel().getEntities().add(block);
+		levelManager.getCurrentLevel().getEntities().add(block);*/
 	}
 }
