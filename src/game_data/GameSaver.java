@@ -25,6 +25,8 @@ public class GameSaver {
 	
 	private Game game;
 	private GameXMLFactory gamexmlfactory;
+	
+	
 	public void saveGame(Game game, String filepath) {
 		this.game = game;
 		gamexmlfactory= new GameXMLFactory();
@@ -35,12 +37,15 @@ public class GameSaver {
 		saveSong(filepath+game.getSongPath());
 		saveDocument(filepath);
 	}
+	
+	
+	/*
 	public void saveGame(List<Level> levels, String filePath) {
 		createRoot(filePath);
 		savelevels(levels, filePath + "/" + game.getName());
 		savedefaults(game.getDefaults(), filePath + "/" + game.getName());
 		
-	}
+	}*/
 	
 	private void createRoot(String filePath) {
 		
@@ -59,7 +64,23 @@ public class GameSaver {
 		String xmlsong = ls.saveSong(songPath);
 		Element songelement = gamexmlfactory.stringToElement(xmlsong);
 		gamexmlfactory.addSong(songelement);
-		//gamexmlfactory.addSong(gamexmlfactory.stringToElement(songPath));
+		
+		gamexmlfactory.addSong(gamexmlfactory.stringToElement(songPath));
+	}
+	
+	public void saveEntityImage(Entity entity, String filepath) {
+		try {
+			String sourcePath = filepath;
+			Path sourcepath = Paths.get(sourcePath);
+			String targetpathstring = filepath + "/images/" + entity.getName() + "image.png";
+			File entityimagefile = new File(targetpathstring);
+			entityimagefile.getParentFile().mkdirs();
+			entityimagefile.createNewFile();
+			Path targetpath = Paths.get(targetpathstring);
+			Files.copy(sourcepath, targetpath, REPLACE_EXISTING);
+		} catch (Exception i) {
+			i.printStackTrace();
+		}
 	}
 	
 	
@@ -147,23 +168,7 @@ public class GameSaver {
 //		}
 //		return entityfilepath;
 //	}
-	public void saveEntityImage(Entity entity, String filepath) {
-		try {
-			
-			
-			
-			String sourcePath = filepath;
-			Path sourcepath = Paths.get(sourcePath);
-			String targetpathstring = filepath + "/images/" + entity.getName() + "image.png";
-			File entityimagefile = new File(targetpathstring);
-			entityimagefile.getParentFile().mkdirs();
-			entityimagefile.createNewFile();
-			Path targetpath = Paths.get(targetpathstring);
-			Files.copy(sourcepath, targetpath, REPLACE_EXISTING);
-		} catch (Exception i) {
-			i.printStackTrace();
-		}
-	}
+	
 	
 	private void saveDocument(String filepath){
 		

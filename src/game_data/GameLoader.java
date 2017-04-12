@@ -51,6 +51,12 @@ public class GameLoader {
 		addName(game,doc);
 		addLevels(game,doc);
 		addDefaults(game,doc);
+		System.out.println("levelsize"+game.getLevels().size());
+		System.out.println("entitysize" + game.getLevels().get(0).getEntities().size());
+		System.out.println("defaultssize"+game.getDefaults().size());
+		
+		
+		
 		return game;
 	}
 	
@@ -72,8 +78,11 @@ public class GameLoader {
 	}
 	private void addName(Game game, Document doc){
 		
+		
+		
 		NodeList nameNodes =doc.getElementsByTagName("Name");
 		game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
+
 	}
 	
 	private  void addLevels(Game game,Document doc){
@@ -81,6 +90,8 @@ public class GameLoader {
 		NodeList levelsNode = doc.getElementsByTagName("Levels");
 		NodeList levelsList = levelsNode.item(0).getChildNodes();
 		List<Level> gamelevels  = new ArrayList<Level>();
+		
+	
 		for (int i=0;i<levelsList.getLength();i++){
 			
 			Element levelElement= (Element) levelsList.item(i);
@@ -88,7 +99,7 @@ public class GameLoader {
 			gamelevels.add(instantiatedLevel);
 			
 		}
-	
+		game.setLevels(gamelevels);
 		
 	}
 	

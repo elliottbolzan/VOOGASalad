@@ -75,6 +75,13 @@ public class Workspace extends View {
 
 	private void load(String path) {
 		// game = data.loadGame(path);
+		GameData gameData = new GameData();
+		game =gameData.loadGame(path);
+		
+		levelEditor.loadGame(game.getLevels());
+		defaults.setEntities(game.getDefaults());
+		panel.getSettings().load(game);
+		/*
 		game = new Game();
 		Level level = new Level();
 		Level level2 = new Level();
@@ -103,6 +110,8 @@ public class Workspace extends View {
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
+		
+		*/
 	}
 
 	public void save() {
