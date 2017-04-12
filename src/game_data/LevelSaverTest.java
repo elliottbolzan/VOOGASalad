@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import engine.Entity;
+import engine.Event;
 import engine.entities.CharacterEntity;
+import engine.events.AlwaysEvent;
 import engine.game.Level;
+
 
 public class LevelSaverTest {
 	public static void main(String[] args) {
+
 		GameSaver gs = new GameSaver();
 
 		// Entity entity = new
@@ -38,6 +42,6 @@ public class LevelSaverTest {
 
 		List<Level> levels = new ArrayList<Level>();
 		levels.add(l);
-		gs.saveGame(levels, filepath);
+		//gs.saveGame(levels, filepath);
 	}
 }

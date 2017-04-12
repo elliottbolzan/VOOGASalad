@@ -41,10 +41,6 @@ public class Panel extends CollapsibleView {
 		setup();
 	}
 	
-	/*public void updateEntity(Entity entity) {
-		entityDisplay.updateEntity(entity);
-	}*/
-
 	/**
 	 * Populate the subviews Lists, which dictates which subviews appear in the
 	 * Accordion.
@@ -72,6 +68,10 @@ public class Panel extends CollapsibleView {
 	
 	public Settings getSettings() {
 		return settings;
+	}
+	
+	public void updateLayerPanel(String newLayer) {
+		layerPanel.updateBox(newLayer);
 	}
 
 }

@@ -9,8 +9,6 @@ import java.util.Optional;
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
 import authoring.views.View;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -54,30 +52,31 @@ public class LayerPanel extends View {
 		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		Button addLayerButton = maker.makeButton("AddLayerButton", e -> addLayer(), true);
 		Button deleteLayerButton = maker.makeButton("DeleteLayerButton", e -> removeLayer(e), true);
-		//initLayerSelector();
+		// initLayerSelector();
 		createComboBox();
 		configureVelocitySettings();
 		editorContainer.getChildren().addAll(addLayerButton, deleteLayerButton);
 		setCenter(editorContainer);
 	}
-	
+
 	private void createComboBox() {
 		myBox.setItems(layerNames);
 	}
-	
+
 	private void addLayer() {
 		layerNames.add("Layer" + Integer.toString(layerNames.size()));
-		//workspace.addLayer();
+		// workspace.addLayer();
 	}
-	
+
 	private void removeLayer(Event e) {
 		layerNames.remove(myBox.getSelectionModel().getSelectedItem());
 		initCloseRequest(e);
 		delete();
 	}
-	
+
 	private void selectedLayer(String layerName) {
-		//workspace.selectLayer(Integer.parseInt(((String) layerName).split(" ")[1]));
+		// workspace.selectLayer(Integer.parseInt(((String) layerName).split("
+		// ")[1]));
 	}
 
 	private void initCloseRequest(Event e) {
@@ -92,8 +91,9 @@ public class LayerPanel extends View {
 
 	private void delete() {
 		int layer = Integer.parseInt(((String) myBox.getSelectionModel().getSelectedItem()).split(" ")[1]);
-		//myBox.setValue((layer == 1 ? String.format("Layer %d", layer) : /*String.format("Layer %d", layer - 1)*/  ));
-		//workspace.deleteLayer(layer);
+		// myBox.setValue((layer == 1 ? String.format("Layer %d", layer) :
+		// /*String.format("Layer %d", layer - 1)*/ ));
+		// workspace.deleteLayer(layer);
 	}
 
 	private void configureVelocitySettings() {
@@ -118,29 +118,9 @@ public class LayerPanel extends View {
 		editorContainer.getChildren().addAll(myBox, sliderBox, velocityButton);
 	}
 
-	/*public void updateBox(String newLayer) {
+	public void updateBox(String newLayer) {
 		myBox.getItems().add(newLayer);
 		myBox.setValue(newLayer);
-	}*/
-
-	/*private void initLayerSelector() {
-		System.out.println("init layer selector");
-		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
-		myBox.valueProperty().addListener(new ChangeListener() {
-			@Override
-			public void changed(ObservableValue arg0, Object arg1, Object arg2) {
-				if (arg2 != null) {
-					workspace.selectLayer(Integer.parseInt(((String) arg2).split(" ")[1]));
-				}
-			}
-		});
-	}*/
-
-	/*public void selectLevelBox(int layerNum) {
-		myBox.getItems().clear();
-		for (int i = 0; i < layerNum; i++) {
-			myBox.getItems().add(String.format("Layer %d", i + 1));
-		}
-	}*/
+	}
 
 }

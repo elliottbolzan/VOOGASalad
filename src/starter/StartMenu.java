@@ -31,17 +31,11 @@ public class StartMenu extends BorderPane {
 	private String stylesheetPath = resources.getString("StylesheetPath");
 	private String iconPath = resources.getString("IconPath");
 	private String logoPath = resources.getString("LogoPath");
-	private String fontPath = resources.getString("FontPath");
 
 	public StartMenu(Stage primaryStage) {
 		this.stage = primaryStage;
-		this.loadFont();
 		this.setIcon();
 		this.buildStage();
-	}
-	
-	private void loadFont() {
-		Font.loadFont(fontPath, 10);
 	}
 
 	private void setIcon() {
@@ -71,8 +65,9 @@ public class StartMenu extends BorderPane {
 
 	private BorderPane buildView() {
 		
-		Label label = new Label("Vooga");
-		label.setId("title");
+		ImageView imageView = new ImageView(new Image(logoPath));
+		imageView.setPreserveRatio(true);
+		imageView.setFitWidth(300);
 		
 		Button newButton = makeButton("NewButton", e -> this.newGame());
 		Button editButton = makeButton("EditButton", e -> this.editGame());
@@ -81,7 +76,7 @@ public class StartMenu extends BorderPane {
 		HBox editOrPlayButtons = new HBox(0);
 		editOrPlayButtons.getChildren().addAll(editButton, playButton);
 
-		BorderPane pane = new BorderPane(label);
+		BorderPane pane = new BorderPane(imageView);
 		BorderPane bottom = new BorderPane(new VBox(newButton, editOrPlayButtons));
 		bottom.setPadding(new Insets(20));
 		pane.setBottom(bottom);

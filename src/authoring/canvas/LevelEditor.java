@@ -67,7 +67,6 @@ public class LevelEditor extends View {
 	}
 
 	private Tab newTab() {
-		System.out.println(levelCount);
 		Tab tab = new Tab();
 		levelCount++;
 		tab.setText(String.format("Level %d", levelCount));

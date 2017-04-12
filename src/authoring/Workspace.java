@@ -10,13 +10,14 @@ import authoring.components.ComponentMaker;
 import authoring.panel.Panel;
 import authoring.views.View;
 import engine.Entity;
-import engine.entities.CharacterEntity;
-import engine.game.Level;
 import game_data.Game;
 import game_data.GameData;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 
 /**
@@ -52,10 +53,6 @@ public class Workspace extends View {
 		return game;
 	}
 
-	/*public void updateEntity(Entity entity) {
-		panel.updateEntity(entity);
-	}*/
-
 	/**
 	 * Initializes the Workspace's components.
 	 */
@@ -64,42 +61,31 @@ public class Workspace extends View {
 		data = new GameData();
 		maker = new ComponentMaker(resources);
 		defaults = new DefaultEntities(this);
+		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
 		pane = new SplitPane();
-		panel = new Panel(this, 0);
 		pane.getItems().addAll(panel, levelEditor);
 		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
 		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
 		setCenter(pane);
+		dragToAdd();
+	}
+
+	private void dragToAdd() {
+		panel.getEntityDisplay().getTable().setOnDragDetected(e -> {
+			Entity addedEntity = panel.getEntityDisplay().getTable().getSelectionModel().getSelectedItem();
+			Image image = new Image(addedEntity.getImagePath());
+			panel.setCursor(new ImageCursor(image, 0, 0));
+			levelEditor.setOnMouseEntered(e2 -> {
+				levelEditor.getCurrentLevel().addEntity(addedEntity, e2.getX(), e2.getY(), 1);
+				levelEditor.setOnMouseEntered(null);
+				panel.setCursor(Cursor.DEFAULT);
+			});
+		});
 	}
 
 	private void load(String path) {
-		// game = data.loadGame(path);
-		game = new Game();
-		Level level = new Level();
-		Level level2 = new Level();
-		Entity one = new CharacterEntity();
-		Entity two = new CharacterEntity();
-		Entity three = new CharacterEntity();
-		Entity four = new CharacterEntity();
-		// one.setImagePath("resources/images/mario.png");
-		one.xProperty().set(120);
-		two.yProperty().set(200);
-		three.xProperty().set(200);
-		four.xProperty().set(300);
-
-		three.setZ(1);
-		four.setZ(10);
-		level.addEntity(one);
-		level.addEntity(two);
-		level.addEntity(three);
-		level.addEntity(four);
-		level2.addEntity(one);
-		List<Level> levels = new ArrayList<>();
-		levels.add(level);
-		levels.add(level2);
-		game.setLevels(levels);
-
+		game = data.loadGame(path);
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
@@ -139,26 +125,22 @@ public class Workspace extends View {
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
-	/*public void setNewLayer(String newLayer) {
+	public void setNewLayer(String newLayer) {
 		panel.updateLayerPanel(newLayer);
 	}
 
-	public void addLayer() {
-		levelEditor.getCurrentLevel().makeNewTab();
-	}
+	/*
+	 * public void addLayer() { levelEditor.getCurrentLevel().makeLayer(); }
+	 * 
+	 * public void selectLayer(int arg2) {
+	 * levelEditor.getCurrentLevel().selectLayer(arg2 - 1); }
+	 * 
+	 * public void selectExistingLevel(int newLevelNum) {
+	 * panel.selectExistingLevelBox(newLevelNum); }
+	 * 
+	 * public void deleteLayer(int layer) {
+	 * levelEditor.getCurrentLevel().deleteLayer(layer); }
+	 * 
+	 */
 
-	public void selectLayer(int arg2) {
-		levelEditor.getCurrentLevel().selectLayer(arg2 - 1);
-	}
-
-	public void selectExistingLevel(int newLevelNum) {
-		panel.selectExistingLevelBox(newLevelNum);
-	}
-
-	public void deleteLayer(int layer) {
-		levelEditor.getCurrentLevel().deleteLayer(layer);
-	}
-	
-	*/
-	
 }
