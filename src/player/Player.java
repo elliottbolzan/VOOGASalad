@@ -70,12 +70,16 @@ public class Player extends BorderPane {
 	}
 
 	private void playSong() {
-		GameData gameData = new GameData();
-		String path = gameData.loadGame(dataFolderPath).getSongPath();
-		String uriString = new File(path).toURI().toString();
-		player = new MediaPlayer(new Media(uriString));
-		player.setCycleCount(MediaPlayer.INDEFINITE);
-		player.play();
+		try {
+			GameData gameData = new GameData();
+			String path = gameData.loadGame(dataFolderPath).getSongPath();
+			String uriString = new File(path).toURI().toString();
+			player = new MediaPlayer(new Media(uriString));
+			player.setCycleCount(MediaPlayer.INDEFINITE);
+			player.play();
+		} catch (Exception e) {
+
+		}
 	}
 
 	private void buildGameView() {
