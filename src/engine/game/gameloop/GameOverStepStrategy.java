@@ -30,7 +30,7 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	}
 
 	@Override
-	protected boolean hasNextScreen() {   //TODO set to true when add LevelSelectionStrategy - actually get rid of this method then - this is TEMPORARY
+	protected boolean hasNextScreen(LevelManager levelManager) {   //TODO set to true when add LevelSelectionStrategy - actually get rid of this method then - this is TEMPORARY
 		return false;
 	}
 }

@@ -3,7 +3,6 @@ package engine.game.gameloop;
 import java.util.ResourceBundle;
 
 import engine.GameInfo;
-import engine.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
@@ -55,13 +54,13 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	//protected abstract String getSubclassSpecificText();
 	protected abstract StepStrategy getNextStepStrategy(LevelManager levelManager);
 	protected abstract int nextLevelNumber(LevelManager levelManager);
-	protected abstract boolean hasNextScreen();
+	protected abstract boolean hasNextScreen(LevelManager levelManager);
 	
 	private void moveToNextScreen(){
 		screen.getTimeline().stop();
 		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber(levelManager));  //this boolean is just a safety measure, but TransitionStepStrategies should only stay on current level if moving to a new level at all
 		System.out.println("Levelnum = " + levelManager.getLevelNumber());
-		if(hasNextLevel && hasNextScreen()){
+		if(hasNextLevel && hasNextScreen(levelManager)){
 			StepStrategy nextStepStrategy = getNextStepStrategy(levelManager);
 			info.setCurrentStepStrategy(nextStepStrategy);
 			Screen nextScreen = new Screen(nextStepStrategy, levelManager, gameScene, graphicsEngine, info);

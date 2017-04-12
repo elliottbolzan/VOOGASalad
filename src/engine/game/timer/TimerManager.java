@@ -21,17 +21,23 @@ public class TimerManager {
 	private static final String SECONDS_FORMAT = "00.00";
 	private static final String MINUTES_FORMAT = "00";
 	public static final int MILLISECONDS_PER_FRAME = Screen.FRAME_TIME_MILLISECONDS;
+	private int initialMilliseconds;
 	private int milliseconds;
 	private TickStrategy tickStrategy;
 	
 	public TimerManager(double totalSeconds, boolean tickUp){
-		milliseconds = (int)(totalSeconds*1000);
+		initialMilliseconds = (int)(totalSeconds*1000);
+		milliseconds = initialMilliseconds;
 		if(tickUp){
 			 tickStrategy = new TickUp();
 		}
 		else{
 			tickStrategy = new TickDown();
 		}
+	}
+	
+	public void reset(){ 
+		milliseconds = initialMilliseconds;
 	}
 	
 	public int getMilliseconds(){

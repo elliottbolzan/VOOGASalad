@@ -36,7 +36,7 @@ public class GraphicsEngine {
 	public GraphicsEngine(String dataFolderPath) {
 		this.camera = new ScrollingCamera(0,0);
 		this.entities = new ArrayList<Entity>();
-		this.scorebar = new Scorebar(null);
+		this.scorebar = new Scorebar();
 		this.dataFolderPath = dataFolderPath;
 		this.setupView();
 		this.setupScorebar();

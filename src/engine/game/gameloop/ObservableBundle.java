@@ -2,6 +2,7 @@ package engine.game.gameloop;
 
 import engine.Entity;
 import engine.Event;
+import engine.GameInfo;
 import engine.events.CollisionEvent;
 import engine.events.KeyPressEvent;
 import engine.events.KeyReleaseEvent;
@@ -68,9 +69,9 @@ public class ObservableBundle {
 	 * Put observable action methods in here to avoid using getters and setters, thus reducing dependencies.
 	 * @param levelManager
 	 */
-	public void levelObservableSetup(Scene gameScene, LevelManager levelManager){
+	public void levelObservableSetup(Scene gameScene, LevelManager levelManager, GameInfo gameInfo){
 		inputObservable.setupInputListeners(gameScene);
-		timerObservable.attachCurrentLevelTimerManager(levelManager.getCurrentLevel().getTimerManager());
+		timerObservable.attachCurrentLevelTimerManager(gameInfo.getScorebar().getTimerManager());
 	}
 	
 	/*

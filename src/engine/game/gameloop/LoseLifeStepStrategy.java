@@ -30,7 +30,7 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	}
 
 	@Override
-	protected boolean hasNextScreen() {
+	protected boolean hasNextScreen(LevelManager levelManager) {
 		return true;
 	}
 }
