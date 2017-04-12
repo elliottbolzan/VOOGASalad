@@ -8,8 +8,12 @@ package engine;
  *
  */
 public enum CollisionSide {
-	RIGHT, LEFT, TOP, BOTTOM;
+	RIGHT, LEFT, TOP, BOTTOM, ALL;
 
 	private CollisionSide() {
+	}
+
+	public boolean equals(CollisionSide other) {
+		return this == other || this == ALL || other == ALL;
 	}
 }
