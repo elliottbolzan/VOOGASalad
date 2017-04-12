@@ -18,18 +18,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 public class LevelSaver {
 
-	private List<Element> entitynodes;
-	private String folderpath;
+	private List<Element> entityNodes;
+	private String folderPath;
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
-	private int levelnumber;
 	
 	
-	public LevelSaver(List<Element> inputentitynodes, String inputfolderpath){
-		entitynodes=inputentitynodes;
-		folderpath=inputfolderpath;
-
+	
+	public LevelSaver(List<Element> inputentitynodes){
+		entityNodes=inputentitynodes;
 	}
 
 
@@ -48,8 +46,8 @@ public class LevelSaver {
 		doc.appendChild(rootElement);
 
 
-		for(int i=0;i<entitynodes.size();i++){
-			addLevelEntity(i+1, entitynodes.get(i),rootElement);
+		for(int i=0;i<entityNodes.size();i++){
+			addLevelEntity(i+1, entityNodes.get(i),rootElement);
 		}
 
 		return toString(doc);
@@ -91,51 +89,15 @@ public class LevelSaver {
 	    }
 	}
 	
-	private void addLevelEntity(int entitynumber, Element entitynode, Element rootElement){
+	private void addLevelEntity(int entityNumber, Element entityNode, Element rootElement){
 
 
 		Element entity = doc.createElement("Entity");
 		rootElement.appendChild(entity);
-/*
-		Attr attr = doc.createAttribute("id");
-		attr.setValue(Integer.toString(entitynumber));
-		levelpath.setAttributeNode(attr);
-
-		Element pathname = doc.createElement("path");
-		pathname.appendChild(doc.createTextNode(entityfilepath));
-		levelpath.appendChild(pathname);
-		*/
-		Element importedentitynode= (Element) doc.importNode(entitynode, true);
-		entity.appendChild(importedentitynode);
+		Element importedEntityNode= (Element) doc.importNode(entityNode, true);
+		entity.appendChild(importedEntityNode);
 
 	}
 
 
-	private void writeContent(int levelnumber){
-
-
-		File leveldirectory = new File(folderpath+"/levels");
-		if(!leveldirectory.exists()){
-			leveldirectory.mkdirs();
-		}
-
-
-		try{
-			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(folderpath+"/levels/level"+levelnumber+".xml"));
-
-			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
-
-			transformer.transform(source, result);
-
-
-		}
-		catch (TransformerException e){
-			e.printStackTrace();
-		}
-
-	}
 }

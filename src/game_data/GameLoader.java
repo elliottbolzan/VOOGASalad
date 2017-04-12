@@ -33,17 +33,17 @@ import engine.game.Level;
 public class GameLoader {
 
 	
-	public Game loadGame(String folderpath) throws NotAGameFolderException{
+	public Game loadGame(String folderPath) throws NotAGameFolderException{
 	
-		File levelfolder = new File(folderpath + "/settings.xml");
-		if (!levelfolder.exists()) {
+		File levelFolder = new File(folderPath + "/settings.xml");
+		if (!levelFolder.exists()) {
 			throw new NotAGameFolderException();
 		}
 		Document doc=null;
 		try{
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 	      DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-	      doc = docBuilder.parse(folderpath+"/settings.xml");
+	      doc = docBuilder.parse(folderPath+"/settings.xml");
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -51,12 +51,6 @@ public class GameLoader {
 		addName(game,doc);
 		addLevels(game,doc);
 		addDefaults(game,doc);
-		System.out.println("levelsize"+game.getLevels().size());
-		System.out.println("entitysize" + game.getLevels().get(0).getEntities().size());
-		System.out.println("defaultssize"+game.getDefaults().size());
-		
-		
-		
 		return game;
 	}
 	
@@ -89,17 +83,17 @@ public class GameLoader {
 		
 		NodeList levelsNode = doc.getElementsByTagName("Levels");
 		NodeList levelsList = levelsNode.item(0).getChildNodes();
-		List<Level> gamelevels  = new ArrayList<Level>();
+		List<Level> gameLevels  = new ArrayList<Level>();
 		
 	
 		for (int i=0;i<levelsList.getLength();i++){
 			
 			Element levelElement= (Element) levelsList.item(i);
 			Level instantiatedLevel=convertElementtoLevel(levelElement);
-			gamelevels.add(instantiatedLevel);
+			gameLevels.add(instantiatedLevel);
 			
 		}
-		game.setLevels(gamelevels);
+		game.setLevels(gameLevels);
 		
 	}
 	
@@ -157,78 +151,4 @@ public class GameLoader {
 		
 	}
 	
-	
-	
-	/*
-	public List<Level> loadGame(String folderpath) throws NotAGameFolderException {
-
-		File levelfolder = new File(folderpath + "/levels");
-		if (!levelfolder.exists()) {
-			throw new NotAGameFolderException();
-		}
-		File[] levelfiles = levelfolder.listFiles();
-
-		List<Level> levels = new ArrayList<Level>();
-		for (int i = 0; i < levelfiles.length; i++) {
-			File levelfile = levelfiles[i];
-			Level neolevel = new Level();
-			addEntitiestoLevel(neolevel, levelfile);
-			levels.add(neolevel);
-		}
-
-		return levels;
-
-	}
-*/
-	private void addEntitiestoLevel(Level neolevel, File levelfile) {
-
-		try {
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(levelfile);
-			doc.getDocumentElement().normalize();
-			NodeList nList = doc.getElementsByTagName("path");
-			for (int i = 0; i < nList.getLength(); i++) {
-				String entitypath = nList.item(i).getTextContent();
-				Entity entity = getEntityFromFilePath(entitypath);
-				neolevel.addEntity(entity);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private Entity getEntityFromFilePath(String entitypath) {
-		Entity entity = null;
-		try {
-
-			String entityxmlstring = getXMLStringFromEntityPath(entitypath);
-			XStream xStream = new XStream(new DomDriver());
-			xStream.registerConverter(new EntityConverter());
-			entity = (Entity) xStream.fromXML(entityxmlstring);
-		} catch (Exception i) {
-			i.printStackTrace();
-		}
-		return entity;
-	}
-
-	// http://stackoverflow.com/questions/5511096/java-convert-formatted-xml-file-to-one-line-string
-	private String getXMLStringFromEntityPath(String entitypath) {
-		StringBuilder sb = new StringBuilder();
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(new File(entitypath)));
-			String line;
-
-			while ((line = br.readLine()) != null) {
-				sb.append(line.trim());
-			}
-
-			br.close();
-		} catch (Exception i) {
-			i.printStackTrace();
-		}
-
-		return sb.toString();
-	}
 }

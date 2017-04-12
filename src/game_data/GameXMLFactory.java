@@ -24,9 +24,6 @@ import org.xml.sax.SAXException;
 
 public class GameXMLFactory {
 
-
-	private List<String> entityfilepaths;
-	private String folderpath;
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
@@ -34,12 +31,6 @@ public class GameXMLFactory {
 	private Element levelsNode;
 	private Element defaultsNode;
 	private Element resourceNode;
-
-	//Name
-	//Entities
-	//Levels
-	//Defaults
-	//Song
 
 
 	public GameXMLFactory(){
@@ -73,59 +64,52 @@ public class GameXMLFactory {
 		rootElement.appendChild(resourceNode);
 	}
 
-	public void setName(String gamename){
+	public void setName(String gameName){
 		Attr attr = doc.createAttribute("GameName");
-		attr.setValue(gamename);
+		attr.setValue(gameName);
 		nameNode.setAttributeNode(attr);
 
 	}
 	
 
 
-	public void addLevel(Element levelinfo){
+	public void addLevel(Element levelInfo){
 
-
-
-		Element newlevel = doc.createElement("level");
-
-		Element importedlevelnode=(Element) doc.importNode(levelinfo, true);
-		newlevel.appendChild(importedlevelnode);
-		levelsNode.appendChild(newlevel);
+		Element newLevel = doc.createElement("level");
+		Element importedLevelNode=(Element) doc.importNode(levelInfo, true);
+		newLevel.appendChild(importedLevelNode);
+		levelsNode.appendChild(newLevel);
 
 	}
 	
 	public void addSong(Element songPath){
-		Element importsong = (Element) doc.importNode(songPath, true);
-		resourceNode.appendChild(importsong);
+		Element importSong = (Element) doc.importNode(songPath, true);
+		resourceNode.appendChild(importSong);
 	}
 	
-	public void addDefaultEntity(Element defaultentity){
+	public void addDefaultEntity(Element defaultEntity){
 
-
-
-		Element importeddefaultentitynode= (Element) doc.importNode(defaultentity, true);
-
-		defaultsNode.appendChild(importeddefaultentitynode);
+		Element importedDefaultEntityNode= (Element) doc.importNode(defaultEntity, true);
+		defaultsNode.appendChild(importedDefaultEntityNode);
 
 	}
-	public void addEntityInfotoElement(Element element, Element entityinfo){
+	public void addEntityInfotoElement(Element element, Element entityInfo){
 
 
-		Element newentity = doc.createElement("entity");
-		newentity.appendChild(entityinfo);
-
-		element.appendChild(newentity);
+		Element newEntity = doc.createElement("entity");
+		newEntity.appendChild(entityInfo);
+		element.appendChild(newEntity);
 
 	}
 
 
-	public Element stringToElement(String xmlstring){
+	public Element stringToElement(String xmlString){
 
 		try {
 			return  DocumentBuilderFactory
 					.newInstance()
 					.newDocumentBuilder()
-					.parse(new ByteArrayInputStream(xmlstring.getBytes()))
+					.parse(new ByteArrayInputStream(xmlString.getBytes()))
 					.getDocumentElement();
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -134,7 +118,6 @@ public class GameXMLFactory {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-
 		return null;
 	}
 

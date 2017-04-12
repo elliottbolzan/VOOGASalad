@@ -42,6 +42,6 @@ public class LevelSaverTest {
 
 		List<Level> levels = new ArrayList<Level>();
 		levels.add(l);
-		gs.saveGame(levels, filepath);
+		//gs.saveGame(levels, filepath);
 	}
 }
