@@ -24,9 +24,10 @@ import javafx.scene.shape.Circle;
 /**
  * 
  * The Canvas is where you can drag Entities to create your own level. It can
- * contain multiple layers for backgrounds and foregrounds. Each background and
- * foreground can move at their own respective velocities. The Canvas is located
- * in the center of the workspace.
+ * contain multiple layers for backgrounds and foregrounds (layers). The layers
+ * are mostly used to specify the order in which entities . The Canvas is
+ * located in the center of the workspace. The top-left corner of the canvas is
+ * set to be the origin (0,0) of the coordinate system.
  * 
  * @author jimmy
  *
@@ -41,9 +42,8 @@ public class Canvas extends View
 
 	private Group gridNodes;
 	private ScrollPane scrollScreen;
-	// private Map<Node, Region> entityRegions;
-	private List<EntityDisplay> entities;
-	private Pane layer;
+	private List<EntityView> entities;
+	private Pane canvas;
 
 	private double width;
 	private double height;
@@ -55,71 +55,130 @@ public class Canvas extends View
 		setup();
 	}
 
+	/**
+	 * Remove all of the entities from within the canvas.
+	 */
 	public void clear()
 	{
 		setup();
 	}
 
+	/**
+	 * Set the given eventHandler to the onMouseClickedProperty of the pane
+	 * portion of the canvas.
+	 * 
+	 * @param eventHandler
+	 *            EventHandler that determines what happens when the mouse is
+	 *            clicked on the pane of the Canvas.
+	 */
 	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler)
 	{
-		layer.setOnMouseClicked(eventHandler);
+		canvas.setOnMouseClicked(eventHandler);
 	}
 
+	/**
+	 * Set the given eventHandler to the onMouseDraggedProperty of the pane
+	 * portion of the canvas.
+	 * 
+	 * @param eventHandler
+	 *            EventHandler that determines what happens when the mouse is
+	 *            dragged on the pane of the Canvas.
+	 */
 	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler)
 	{
-		layer.setOnMouseDragged(eventHandler);
+		canvas.setOnMouseDragged(eventHandler);
 	}
 
+	/**
+	 * Set up the canvas (set all of its entities and displays to the default
+	 * ones).
+	 */
 	private void setup()
 	{
 		gridNodes = new Group();
 		// entityRegions = new HashMap<Node, Region>();
-		entities = new ArrayList<EntityDisplay>();
-		scrollScreen = createLayer();
+		entities = new ArrayList<EntityView>();
+		scrollScreen = createScroller();
 		this.setCenter(scrollScreen);
 	}
 
-	private ScrollPane createLayer()
+	/**
+	 * Creates the scroller for the canvas.
+	 * 
+	 * @return ScrollPane scroller for canvas
+	 */
+	private ScrollPane createScroller()
 	{
 		scrollScreen = new ScrollPane();
-		layer = new Pane();
-		layer.setPrefHeight(height);
-		layer.setPrefWidth(width);
-		layer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		canvas = new Pane();
+		canvas.setPrefHeight(height);
+		canvas.setPrefWidth(width);
+		canvas.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
-		layer.getChildren().add(gridNodes);
-		scrollScreen.setContent(layer);
+		canvas.getChildren().add(gridNodes);
+		scrollScreen.setContent(canvas);
 		// clickToAddEntity();
 		updateDisplay();
 		return scrollScreen;
 	}
 
-	public void addEntity(Entity entity)
+	/**
+	 * Add an entity to the top-left corner of the canvas. This method makes a
+	 * clone of the given Entity and creates an actual EntityView from it ((The
+	 * EntityView is what is actually displayed in the Canvas.)
+	 * 
+	 * @param entity
+	 *            Entity to be added to the canvas.
+	 * @return EntityView that is displayed in the Canvas.
+	 */
+	public EntityView addEntity(Entity entity)
 	{
-		this.addEntity(entity, 0, 0);
+		return this.addEntity(entity, 0, 0);
 	}
 
-	public EntityDisplay addEntity(Entity entity, double x, double y)
+	/**
+	 * Add an entity to the given x and y position of the canvas. This method
+	 * makes a clone of the given Entity and creates an actual EntityView from
+	 * it (the EntityView is what is actually displayed in the Canvas)
+	 * 
+	 * @param entity
+	 *            Entity to be added
+	 * @param x
+	 *            x Position
+	 * @param y
+	 *            y position
+	 * @return EntityView that is displayed in the Canvas.
+	 */
+	public EntityView addEntity(Entity entity, double x, double y)
 	{
-		EntityDisplay newEntity = new EntityDisplay(entity, TILE_SIZE, x, y);
+		EntityView newEntity = new EntityView(entity, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
 		newEntity.setTranslateY(tiledCoordinate.getY());
 		entities.add(newEntity);
-		layer.getChildren().add(newEntity);
+		canvas.getChildren().add(newEntity);
 
 		makeDraggable(newEntity);
-		updateLayerBounds();
+		updateCanvasBounds();
 		updateDisplay();
 		return newEntity;
 	}
 
-	public void removeEntity(EntityDisplay entity)
+	/**
+	 * Remove the given EntityView from the Canvas.
+	 * 
+	 * @param entity
+	 *            EntityView to be removed from the Canvas.
+	 */
+	public void removeEntity(EntityView entity)
 	{
 		entities.remove(entity);
-		layer.getChildren().remove(entity);
+		canvas.getChildren().remove(entity);
 	}
 
+	/**
+	 * Draw the grid for the Canvas
+	 */
 	private void drawGrid()
 	{
 		for (int i = 0; i < width / TILE_SIZE; i++) {
@@ -129,6 +188,14 @@ public class Canvas extends View
 		}
 	}
 
+	/**
+	 * Draw a single grid dot at the given coordinates.
+	 * 
+	 * @param tileX
+	 *            x coordinate of the grid dot
+	 * @param tileY
+	 *            y coordinate of the grid dot
+	 */
 	private void drawGridDot(double tileX, double tileY)
 	{
 		Circle gridMarker = new Circle();
@@ -139,7 +206,17 @@ public class Canvas extends View
 		gridNodes.getChildren().add(gridMarker);
 	}
 
-	private void makeDraggable(EntityDisplay entity)
+	/**
+	 * Bind the scrollbar of the scroll screen to the currently dragged object.
+	 * As the object is dragged, the scrollbar will automatically re-adjust so
+	 * that the object is in the center of the scroll screen. Moreover, this
+	 * method updates the bounds of the canvas as the dragged object moves past
+	 * the currently defined bounds.
+	 * 
+	 * @param entity
+	 *            EntityView to bind the scrollbar to.
+	 */
+	private void makeDraggable(EntityView entity)
 	{
 		entity.translateXProperty().addListener(new ChangeListener<Number>()
 		{
@@ -151,7 +228,7 @@ public class Canvas extends View
 				if (newX.intValue() < 0) {
 					entity.setTranslateX(0);
 				} else if (newX.intValue() + entity.getWidth() > width) {
-					updateLayerBounds();
+					updateCanvasBounds();
 				}
 				updateDisplay();
 			}
@@ -168,7 +245,7 @@ public class Canvas extends View
 				if (newY.intValue() < 0) {
 					entity.setTranslateY(0);
 				} else if (newY.intValue() + entity.getHeight() > height) {
-					updateLayerBounds();
+					updateCanvasBounds();
 				}
 				updateDisplay();
 			}
@@ -176,30 +253,36 @@ public class Canvas extends View
 		});
 
 		entity.minHeightProperty().addListener(e -> {
-			updateLayerBounds();
 			updateDisplay();
 		});
 		entity.minWidthProperty().addListener(e -> {
-			updateLayerBounds();
 			updateDisplay();
 		});
 	}
 
+	/**
+	 * This method draws the current bounds of the grid and updates the bounds
+	 * of the layer.
+	 */
 	private void updateDisplay()
 	{
-		updateLayerBounds();
-		layer.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		updateCanvasBounds();
+		canvas.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		gridNodes.getChildren().clear();
 		drawGrid();
-		layer.setPrefHeight(height);
-		layer.setPrefWidth(width);
+		canvas.setPrefHeight(height);
+		canvas.setPrefWidth(width);
 	}
 
-	private void updateLayerBounds()
+	/**
+	 * Updates the bounds of the canvas based on the position of the entity
+	 * furthest from the origin in each direction (x and y)
+	 */
+	private void updateCanvasBounds()
 	{
 		double maxX = DEFAULT_WIDTH;
 		double maxY = DEFAULT_HEIGHT;
-		for (EntityDisplay entity : entities) {
+		for (EntityView entity : entities) {
 			double nodeMaxX = entity.getTranslateX() + entity.getBoundsInParent().getWidth();
 			double nodeMaxY = entity.getTranslateY() + entity.getBoundsInParent().getHeight();
 			if (nodeMaxX > maxX) {
@@ -213,6 +296,16 @@ public class Canvas extends View
 		this.height = maxY;
 	}
 
+	/**
+	 * Gets the tiled coordinate for the given x and y position. For example,
+	 * for a grid tile_size of 25, position (19, 3) will map to (25, 0).
+	 * 
+	 * @param x
+	 *            x position
+	 * @param y
+	 *            y position
+	 * @return tiled coordinate of the given input.
+	 */
 	private Point2D getTiledCoordinate(double x, double y)
 	{
 		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;

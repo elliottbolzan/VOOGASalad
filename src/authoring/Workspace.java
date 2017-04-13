@@ -165,10 +165,10 @@ public class Workspace extends View
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
-	public List getEntities()
+	public List<Entity> getEntities()
 	{
 		// return canvas's entities (i.e. canvas.getLevel())
-		return new ArrayList<>();
+		return new ArrayList<Entity>();
 	}
 
 	public void setNewLayer(String newLayer)
