@@ -13,8 +13,18 @@ import engine.game.EngineController;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * @author nikita This class is used by xStream to convert Entities to XML and
+ *         load Entities from XML.
+ */
 public class EntityConverter implements Converter {
-
+	/**
+	 * Check if this converter can convert an instance of the class provided.
+	 * 
+	 * @param arg0
+	 *            the class to check
+	 * @return if the converter can convert this type of class
+	 */
 	@Override
 	public boolean canConvert(Class arg0) {
 		try {
@@ -24,6 +34,17 @@ public class EntityConverter implements Converter {
 		}
 	}
 
+	/**
+	 * write an entity out to XML
+	 * 
+	 * @param arg0
+	 *            the entity to be written out
+	 * @param writer
+	 *            the writer that writes to XML
+	 * @param context
+	 *            the context which converts and writes other objects out
+	 *            automatically
+	 */
 	@Override
 	public void marshal(Object arg0, HierarchicalStreamWriter writer, MarshallingContext context) {
 		Entity entity = (Entity) arg0;
@@ -34,14 +55,11 @@ public class EntityConverter implements Converter {
 		Class<?> objClass = entity.getClass();
 		Field[] fields = objClass.getDeclaredFields();
 
-		
 		writeFields(entity, fields, writer, context);
 
 		objClass = objClass.getSuperclass();
 		fields = objClass.getDeclaredFields();
 		writeFields(entity, fields, writer, context);
-
-
 
 		writer.close();
 	}
@@ -73,6 +91,16 @@ public class EntityConverter implements Converter {
 		}
 	}
 
+	/**
+	 * create an Entity from XML
+	 * 
+	 * @param reader
+	 *            the reader that reads the XML file
+	 * @param context
+	 *            the context which reads and converts other objects
+	 *            automatically
+	 * @return the entity converted from the XML
+	 */
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		EngineController controller = new EngineController();

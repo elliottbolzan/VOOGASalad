@@ -2,13 +2,33 @@ package engine;
 
 import java.util.List;
 
+/**
+ * @author nikita Interface for all actions.
+ */
 public interface ActionInterface {
-	//external
-	List<Parameter> getParams(); // will use reflection
-	void setParams(List<Parameter> params); // will use reflection
+	// external API
+	/**
+	 * get all parameters necessary for this action to act
+	 * 
+	 * @return a list of parameter objects
+	 */
+	List<Parameter> getParams();
+
+	/**
+	 * set the parameters necessary for this event to act
+	 * 
+	 * @param params
+	 *            the parameters to be set
+	 */
+	void setParams(List<Parameter> params);
+
 	String getDisplayName();
+
 	String getDisplayDescription();
-	
-	//internal
-	void act(); // carry out the action triggered by the event. Will need a reference to game
+
+	// internal API
+	/**
+	 * carry out the action. is called when triggered by an event
+	 */
+	void act();
 }

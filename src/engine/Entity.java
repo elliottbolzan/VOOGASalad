@@ -9,9 +9,13 @@ import java.util.stream.Collectors;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * @author nikita Abstract class for entities. Methods are implemented that are
+ *         common to all kinds of entites (character, block background, etc)
+ */
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 
-	public static final Integer ACCELERATION = 1;
+	public static final Integer YACCELERATION = 1;
 	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private SimpleStringProperty name, imagePath;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
@@ -37,6 +41,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.imagePath = new SimpleStringProperty(imagePath);
 	}
 
+	/**
+	 * tell all events to check if they are triggered. is called once per step
+	 * of the game loop. If events are triggered, their actions act.
+	 */
 	@Override
 	public void update() {
 		List<Event> eventsToTrigger = events.stream().filter(s -> s.act()).collect(Collectors.toList());
@@ -181,14 +189,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	public void setEvents(List<Event> events) {
-		/*
-		 * (this.events.clear(); for (Event event : events) {
-		 * this.addEvent(event); }
-		 */
 		this.events = events;
 	}
 
-	public void set(Entity entity) {
+	private void set(Entity entity) {
 		this.setImagePath(entity.getImagePath());
 		this.setName(entity.getName());
 		this.setHeight(entity.getHeight());
@@ -197,15 +201,15 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.setY(entity.getY());
 	}
 
+	/**
+	 * obtain a copy of this entity. Overrides the clone method defined in
+	 * GameObject. need to obtain a copy of all events, and all actions of those
+	 * events
+	 * 
+	 * @return a copy of this entity
+	 */
 	@Override
-	public Entity clone() {/*
-							 * try { Entity returnedEntity =
-							 * getClass().getDeclaredConstructor().newInstance()
-							 * ; returnedEntity.set(this); return
-							 * returnedEntity; } catch (Exception e) { Alert
-							 * alert = new Alert(null, "Couldn't clone Entity",
-							 * null); alert.show(); } return this;
-							 */
+	public Entity clone() {
 		Entity copy = (Entity) super.clone();
 		copy.set(this);
 		copy.setEvents(events.stream().map(s -> {

@@ -10,6 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Jesse
+ *
+ */
 public class LoadMenu extends AbstractMenu {
 
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
@@ -25,6 +30,7 @@ public class LoadMenu extends AbstractMenu {
 	}
 
 	private void loadGame(Stage stage, String gameFolderPath) {
+		stage.close();
 		new Player(gameFolderPath, saveStates);
 	}
 

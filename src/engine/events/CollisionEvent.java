@@ -3,10 +3,9 @@ package engine.events;
 import engine.Event;
 import engine.Parameter;
 import engine.Collision;
-import engine.CollisionEventInterface;
 import engine.CollisionSide;
 
-public class CollisionEvent extends Event implements CollisionEventInterface {
+public class CollisionEvent extends Event{
 
 	private Collision collision;
 

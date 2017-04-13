@@ -1,21 +1,20 @@
 package engine;
 
-import java.util.ResourceBundle;
-
-import engine.game.gameloop.StepStrategy;
-
+/**
+ * @author nikita. Abstract class for actions. Actions must implement the act
+ *         method.
+ */
 public abstract class Action extends GameObject implements ActionInterface {
-	private transient ResourceBundle actionExceptions = ResourceBundle.getBundle("resources/ActionExceptions");
-	
+
 	public Action() {
 		super("Action");
 	}
 
+	/**
+	 * carry out the action represented by this object. is called when the event
+	 * this action is held by is triggered
+	 */
 	@Override
 	public abstract void act();
-	
-	protected ResourceBundle getActionExceptionsBundle(){
-		return actionExceptions;
-	}
-	
+
 }
