@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -20,7 +19,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  * 
@@ -138,6 +136,8 @@ public class Player extends BorderPane {
 
 	private void exit() {
 		gameLoop.pauseTimeline();
+		if (player != null)
+			player.pause();
 		stage.close();
 	}
 
@@ -145,4 +145,5 @@ public class Player extends BorderPane {
 		// TODO: make actually save
 		saveStates.add("yay saved game");
 	}
+	
 }
