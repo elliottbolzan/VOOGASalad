@@ -21,6 +21,7 @@ import engine.events.KeyReleaseEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
+import engine.graphics.cameras.FollowingCamera;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 public class LevelStepStrategy implements StepStrategy {
@@ -41,8 +42,7 @@ public class LevelStepStrategy implements StepStrategy {
 		this.info = info;
 		levelManager.loadAllSavedLevels(); //To reset initial state of level
 		// TODO get filename here
-		//levelManager.addLevel(new Level()); // TODO: remove this empty level for
-											// testing
+		
 		info.getScorebar().resetTimerManager();
 		
 		//instantiateTestEntitesEventsActions();
@@ -132,8 +132,6 @@ public class LevelStepStrategy implements StepStrategy {
 //	}
 	private void setupGameView() {
 		// TODO call graphicsEngine.setCamera() here
-		//System.out.println("Set Entities Collections (makes bindings)");
-		//System.out.println(levelManager.getCurrentLevel().getEntities().size());
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 	public void startNextLevel() {

@@ -1,37 +1,23 @@
 package engine.graphics.cameras;
 
-public class ScrollingCamera implements Camera {
-	private double positionX;
-	private double positionY;
+/**
+ * An implementation of Camera that continuously scrolls at a fixed rate in a given direction.
+ * 
+ * @author Jay Doherty
+ *
+ */
+public class ScrollingCamera extends Camera {
 	private double scrollSpeedX;
 	private double scrollSpeedY;
 	
 	public ScrollingCamera(double speedX, double speedY) {
-		positionX = 0;
-		positionY = 0;
+		super(0,0);
 		scrollSpeedX = speedX;
 		scrollSpeedY = speedY;
 	}
 
 	@Override
 	public void update() {
-		this.positionX += scrollSpeedX;
-		this.positionY += scrollSpeedY;
-	}
-
-	@Override
-	public void setPosition(double positionX, double positionY) {
-		this.positionX = positionX;
-		this.positionY = positionY;
-	}
-
-	@Override
-	public double getX() {
-		return positionX;
-	}
-
-	@Override
-	public double getY() {
-		return positionY;
+		this.setPosition(this.getX() + scrollSpeedX, this.getY() + scrollSpeedY);
 	}
 }
