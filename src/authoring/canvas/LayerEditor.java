@@ -2,7 +2,6 @@ package authoring.canvas;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,6 +20,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
 /**
+ * LayerEditor keeps track of a Canvas and all of the layers on the canvas. Each
+ * level can be represented by its own LayerEditor, and thus a Level can be
+ * created from the entities on a LayerEditor.
  * 
  * @author jimmy Modified by Mina Mungekar
  *
@@ -29,30 +31,52 @@ public class LayerEditor extends View {
 	private Workspace workspace;
 	private Canvas canvas;
 	private Map<Integer, Layer> layers;
-	private List<EntityDisplay> copiedEntities;
+	private List<EntityView> copiedEntities;
 	private int layerCount;
 	private int currLayer;
 	private Bounds lastBounds;
 	private ComponentMaker maker;
 
-	public LayerEditor(Workspace workspace) {
+	/**
+	 * Make a new LayerEditor.
+	 * 
+	 * @param workspace
+	 *            Workspace that the LayerEditor will be in.
+	 */
+	public LayerEditor(Workspace workspace)
+	{
 		super("");
 		this.workspace = workspace;
 		maker = new ComponentMaker(workspace.getResources());
 		setup();
 	}
 
-	public Level getLevel() {
+	/**
+	 * Convert all of the Layers/entities currently in the LayerEditor to a
+	 * Level object.
+	 * 
+	 * @return Level object represented by this LayerEditor.
+	 */
+	public Level getLevel()
+	{
 		Level thisLevel = new Level();
 		for (Layer layer : layers.values()) {
-			for (EntityDisplay entity : layer.getEntities()) {
+			for (EntityView entity : layer.getEntities()) {
 				thisLevel.addEntity(entity.getEntity());
 			}
 		}
 		return thisLevel;
 	}
 
-	public void loadLevel(Level level) {
+	/**
+	 * Sets the entities/layers of this LayerEditor to those described in the
+	 * given Level object.
+	 * 
+	 * @param level
+	 *            Level to be loaded
+	 */
+	public void loadLevel(Level level)
+	{
 		this.clear();
 		canvas.clear();
 		for (Entity entity : level.getEntities()) {
@@ -61,22 +85,37 @@ public class LayerEditor extends View {
 		selectLayer(1);
 	}
 
-	public int getCurrentLayer() {
+	/**
+	 * Returns the layer that is currently selected.
+	 * 
+	 * @return Currently selected layer.
+	 */
+	public int getCurrentLayer()
+	{
 		return currLayer;
 	}
 
-	private void clear() {
+	/**
+	 * Clear all o the layers/entities currently in the LayerEditor and
+	 * reinitialize the LayerEditor.
+	 */
+	private void clear()
+	{
 		while (layerCount > 1) {
 			executeDelete(layerCount);
 		}
 		setup();
 	}
 
-	private void setup() {
+	/*
+	 * Initialize the LayerEditor.
+	 */
+	private void setup()
+	{
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
 		layers = new HashMap<Integer, Layer>();
-		copiedEntities = new ArrayList<EntityDisplay>();
+		copiedEntities = new ArrayList<EntityView>();
 		layerCount = 0;
 		currLayer = 1;
 		lastBounds = new Rectangle().getBoundsInLocal();
@@ -84,33 +123,29 @@ public class LayerEditor extends View {
 		newLayer();
 	}
 
-	private void addKeyActions() {
+	/**
+	 * Add all of the key actions to the LayerEditor Backspace --> delete
+	 * currently selected entities ctrl + 'C' --> copy currently selected
+	 * entities ctrl + 'V' --> paste currently selected entities
+	 */
+	private void addKeyActions()
+	{
 		workspace.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
 				for (Layer layer : layers.values()) {
-					List<EntityDisplay> entities = layer.getEntities();
-					Iterator<EntityDisplay> iter = entities.iterator();
-					while (iter.hasNext()) {
-						EntityDisplay entity = iter.next();
-						if (entity.isSelected()) {
-							iter.remove();
-							canvas.removeEntity(entity);
-						}
-					}
+					List<EntityView> selectedEntities = layer.getSelectedEntities();
+					layer.getEntities().removeAll(layer.getSelectedEntities());
+					selectedEntities.forEach(entity -> canvas.removeEntity(entity));
 				}
 			}
 			if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
 				copiedEntities.clear();
 				for (Layer layer : layers.values()) {
-					for (EntityDisplay entity : layer.getEntities()) {
-						if (entity.isSelected()) {
-							copiedEntities.add(entity);
-						}
-					}
+					copiedEntities.addAll(layer.getSelectedEntities());
 				}
 			}
 			if (e.getCode().equals(KeyCode.V) && e.isControlDown()) {
-				for (EntityDisplay entity : copiedEntities) {
+				for (EntityView entity : copiedEntities) {
 					addEntity(entity.getEntity(), entity.getEntity().getX() + 25, entity.getEntity().getY() + 25,
 							currLayer);
 				}
@@ -118,11 +153,24 @@ public class LayerEditor extends View {
 		});
 	}
 
-	private Entity getCurrentEntity() {
+	/**
+	 * Get the currently selected entity from the workspace's sidebar.
+	 * 
+	 * @return Workspace's currently selected entity.
+	 */
+	private Entity getCurrentEntity()
+	{
 		return workspace.getSelectedEntity();
 	}
 
-	private void placeEntity(MouseEvent e) {
+	/**
+	 * Place the entity at the position of the given MouseEvent.
+	 * 
+	 * @param e
+	 *            MouseEvent to place the entity at.
+	 */
+	private void placeEntity(MouseEvent e)
+	{
 		try {
 			addEntity(workspace.getSelectedEntity(), e.getX(), e.getY(), currLayer);
 		} catch (Exception exception) {
@@ -131,20 +179,44 @@ public class LayerEditor extends View {
 		}
 	}
 
-	private Bounds boundsFromEntity(Entity entity, MouseEvent e) {
+	/**
+	 * Gets the bounds of the given Entity at the position given by the mouse
+	 * 
+	 * @param entity
+	 *            Entity whose bounds is being retrieved.
+	 * @param e
+	 *            Mouse event which describes the location of the Entity.
+	 * @return Bounds of the Entity.
+	 */
+	private Bounds boundsFromEntity(Entity entity, MouseEvent e)
+	{
 		Bounds bounds = new Rectangle(e.getX(), e.getY(), entity.getWidth(), entity.getHeight()).getBoundsInLocal();
 		return bounds;
 	}
 
-	public void addEntity(Entity entity, double x, double y, int z) {
-		EntityDisplay addedEntity = canvas.addEntity(entity, x, y);
+	/**
+	 * Add the given entity to the given x, y, and z position. z position =
+	 * layer number.
+	 * 
+	 * @param entity
+	 *            Entity to be added to the LayerEditor.
+	 * @param x
+	 *            x position to place the Entity
+	 * @param y
+	 *            y position to place the Entity
+	 * @param z
+	 *            layer to place the Entity in
+	 */
+	public void addEntity(Entity entity, double x, double y, int z)
+	{
+		EntityView addedEntity = canvas.addEntity(entity, x, y);
 		addedEntity.getEntity().setZ(z);
 		setNumLayers(z);
 		layers.get(z).addEntity(addedEntity);
 		addedEntity.setOnMouseClicked(e -> {
 			if (!e.isShiftDown()) {
 				for (Layer layers : layers.values()) {
-					for (EntityDisplay display : layers.getEntities()) {
+					for (EntityView display : layers.getEntities()) {
 						selectEntity(display, false);
 					}
 				}
@@ -153,40 +225,59 @@ public class LayerEditor extends View {
 		});
 	}
 
-	private void selectEntity(EntityDisplay entity, boolean selected) {
+	/**
+	 * Set the given EntityViews selected value.
+	 * 
+	 * @param entity
+	 *            EntityView to be selected/deselected.
+	 * @param selected
+	 *            true if selected, false if deselected
+	 */
+	private void selectEntity(EntityView entity, boolean selected)
+	{
 		entity.setSelected(selected);
 	}
 
-	private List<EntityDisplay> getSelectedEntities() {
-		List<EntityDisplay> selectedEntities = new ArrayList<EntityDisplay>();
-		for (Layer layer : layers.values()) {
-			for (EntityDisplay entity : layer.getEntities()) {
-				if (entity.isSelected()) {
-					selectedEntities.add(entity);
-				}
-			}
-		}
-		return selectedEntities;
-	}
-
-	private void setNumLayers(int z) {
+	/**
+	 * Set the upper limit on the number of layers that this LayerEditor has.
+	 * 
+	 * @param z
+	 *            Number for last layer in this LayerEditor
+	 */
+	private void setNumLayers(int z)
+	{
 		while (layerCount < z) {
 			newLayer();
 		}
 	}
 
-	public void makeLayer() {
+	/**
+	 * Add a new layer to the LayerEditor.
+	 */
+	public void makeLayer()
+	{
 		newLayer();
 	}
 
-	private void newLayer() {
+	/**
+	 * Make a new layer
+	 */
+	private void newLayer()
+	{
 		layerCount++;
 		layers.put(layerCount, new Layer());
 		workspace.setNewLayer(String.format("Layer %d", layerCount));
 		// newLayerSelected(layerCount);
 	}
 
-	public void selectLayer(int newLayer) {
+	/**
+	 * Select the given layer.
+	 * 
+	 * @param newLayer
+	 *            Layer to be selected.
+	 */
+	public void selectLayer(int newLayer)
+	{
 		newLayerSelected(newLayer);
 	}
 
@@ -205,25 +296,42 @@ public class LayerEditor extends View {
 		currLayer = newVal;
 	}
 
-	public void select() {
+	/**
+	 * Select this LayerEditor (select the first layer)
+	 */
+	public void select()
+	{
 		this.selectLayer(1);
 		// allow this layer to have key actions
 		addKeyActions();
 	}
 
-	private void showSelectMessage() {
+	/**
+	 * Show an error message
+	 */
+	private void showSelectMessage()
+	{
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("SelectAnEntity");
 		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
 		alert.show();
 	}
 
-	public int getLayerCount() {
+	/**
+	 * Get the number of layers in this LayerEditor
+	 * 
+	 * @return Current number of layers.
+	 */
+	public int getLayerCount()
+	{
 		return layerCount;
 	}
 
-	/*
-	 * ALERT: DO NOT TRY DELETING LAYER 1.
+	/**
+	 * Delete the given layer from the LayerEditor.
+	 * 
+	 * @param layer
+	 *            Layer to be deleted
 	 */
 	public void deleteLayer(int layer) {
 		if (layerCount == 1) {
@@ -235,7 +343,13 @@ public class LayerEditor extends View {
 		}
 	}
 
-	private void executeDelete(int layer) {
+	/**
+	 * Actually delete the given layer
+	 * 
+	 * @param layer
+	 */
+	private void executeDelete(int layer)
+	{
 		if (layers.get(layer).getEntities().size() != 0) {
 			layers.get(layer).getEntities().stream().forEach(id -> {
 				canvas.removeEntity(id);
