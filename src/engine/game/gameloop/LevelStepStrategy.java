@@ -14,6 +14,7 @@ import engine.actions.ZeroHorizontalSpeedAction;
 import engine.actions.ZeroVerticalSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
+import engine.entities.CameraEntity;
 import engine.events.AlwaysEvent;
 import engine.events.CollisionEvent;
 import engine.events.KeyPressEvent;
@@ -21,7 +22,6 @@ import engine.events.KeyReleaseEvent;
 import engine.events.TimerEvent;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import engine.graphics.cameras.FollowingCamera;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 public class LevelStepStrategy implements StepStrategy {

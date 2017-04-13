@@ -3,8 +3,7 @@ package engine.graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import engine.graphics.cameras.Camera;
-import engine.graphics.cameras.ScrollingCamera;
+import engine.entities.CameraEntity;
 import engine.Entity;
 import engine.game.gameloop.Scorebar;
 import javafx.scene.control.Label;
@@ -28,19 +27,17 @@ public class GraphicsEngine {
 	
 	private Collection<Entity> entities;
 	private Collection<ImageView> nodes;
-	private Camera camera;
+	private CameraEntity camera;
 	private Scorebar scorebar;
 	
 	private Pane displayArea;
 	private Label scorebarDisplay;
-	private String dataFolderPath;
 	
-	public GraphicsEngine(String dataFolderPath) {
-		this.camera = new ScrollingCamera(0,0);
+	public GraphicsEngine() {
+		this.camera = new CameraEntity();
 		this.entities = new ArrayList<Entity>();
 		this.nodes = new ArrayList<ImageView>();
 		this.scorebar = new Scorebar();
-		this.dataFolderPath = dataFolderPath;
 		this.setupView();
 		this.setupScorebar();
 	}
@@ -63,7 +60,7 @@ public class GraphicsEngine {
 	 * Sets the camera used to move around the display
 	 * @param newCamera
 	 */
-	public void setCamera(Camera newCamera) {
+	public void setCamera(CameraEntity newCamera) {
 		this.camera = newCamera;
 	}
 	
@@ -113,7 +110,6 @@ public class GraphicsEngine {
 	}
 	
 	private void updateCamera() {
-		camera.update();
 		for(ImageView node : nodes) {
 			node.setTranslateX(-camera.getX());
 			node.setTranslateY(-camera.getY());

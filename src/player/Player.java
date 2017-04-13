@@ -89,7 +89,7 @@ public class Player extends BorderPane {
 	}
 
 	private void buildGameView() {
-		gameLoop = new GameLoop(scene, dataFolderPath);
+		gameLoop = new GameLoop(scene, new GameData().loadGame(dataFolderPath));
 		this.setCenter(gameLoop.getGameView());
 	}
 
@@ -142,8 +142,8 @@ public class Player extends BorderPane {
 
 	private void exit() {
 		gameLoop.pauseTimeline();
-		if (player != null)
-			player.pause();
+		if (songPlayer != null)
+			songPlayer.pause();
 		stage.close();
 	}
 

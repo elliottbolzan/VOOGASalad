@@ -2,6 +2,7 @@ package engine.game;
 
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
+import game_data.Game;
 import game_data.GameData;
 import game_data.NotAGameFolderException;
 
@@ -19,16 +20,14 @@ import game_data.NotAGameFolderException;
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
 	private int currentLevel; // one-indexed
-	private String gameFilename;
-	private GameData gameData;
+	private Game game;
 
-	public LevelManager(String gameFilename) {
+	public LevelManager(Game game) {
 		levels = new ListSG<>(); // TODO: Change to reflection, or something
 									// more modular
 
 		currentLevel = 1;
-		this.gameFilename = gameFilename;
-		gameData = new GameData();
+		this.game = game;
 	}
 
 	/**
@@ -129,7 +128,7 @@ public class LevelManager {
 
 	public void loadAllSavedLevels() {
 		levels.removeAll();
-		levels.addAll(gameData.loadGame(gameFilename).getLevels()); // TODO
+		levels.addAll(game.getLevels()); // TODO
 																	// uncomment
 																	// once
 																	// GameData
