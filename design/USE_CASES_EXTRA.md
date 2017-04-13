@@ -32,7 +32,7 @@ Jimmy Shackford (jas199)<br>
 
 ------------------
 
-Nikita Zemlevskiy (naz7)
+Nikita Zemlevskiy (naz7)<br>
 **Two users play a game simultaneously**
 - Necessary objects will be serialized to XML. These include the entities, along with their locations and properties. 
 - XML files will be sent to all those connected to the network via the many to many sharing library.
