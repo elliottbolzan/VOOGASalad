@@ -85,12 +85,46 @@
 </engine.entities.BlockEntity>
 </Entity>
 <Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>550.0</x>
+  <y>225.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Coin</name>
+  <imagePath>resources/CoinImage.png</imagePath>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>375.0</x>
+  <y>275.0</y>
+  <width>75.0</width>
+  <height>100.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Trouble</name>
+  <imagePath>resources/TroubleImage.png</imagePath>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
   <x>150.0</x>
-  <y>275.0</y>
-  <width>75.0</width>
-  <height>125.0</height>
+  <y>250.0</y>
+  <width>100.0</width>
+  <height>150.0</height>
   <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
@@ -247,25 +281,28 @@
         </engine.actions.ZeroHorizontalSpeedAction>
       </actions>
     </engine.events.KeyReleaseEvent>
+    <engine.events.CollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Trouble</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>ALL</firstRelativeToSecond>
+        <secondName/>
+      </collision>
+    </engine.events.CollisionEvent>
   </events>
 </engine.entities.CharacterEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>550.0</x>
-  <y>225.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Coin</name>
-  <imagePath>resources/CoinImage.png</imagePath>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
 </Entity>
 </Entities></level></Levels><Defaults><Entities>
 <Entity>
@@ -303,13 +340,30 @@
 </engine.entities.BlockEntity>
 </Entity>
 <Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>204.59154929577466</width>
+  <height>250.22535211267606</height>
+  <zIndex>0.0</zIndex>
+  <name>Trouble</name>
+  <imagePath>resources/TroubleImage.png</imagePath>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
   <x>0.0</x>
   <y>0.0</y>
   <width>102.22535211267605</width>
   <height>158.4225352112676</height>
-  <zIndex>1.0</zIndex>
+  <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -465,6 +519,26 @@
         </engine.actions.ZeroHorizontalSpeedAction>
       </actions>
     </engine.events.KeyReleaseEvent>
+    <engine.events.CollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Trouble</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>ALL</firstRelativeToSecond>
+        <secondName/>
+      </collision>
+    </engine.events.CollisionEvent>
   </events>
 </engine.entities.CharacterEntity>
 </Entity>
