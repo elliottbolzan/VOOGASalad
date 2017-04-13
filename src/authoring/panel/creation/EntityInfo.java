@@ -17,7 +17,6 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -96,8 +95,9 @@ public class EntityInfo extends View {
 	}
 
 	private void pickImage() {
-		FileChooser imageChooser = componentMaker.makeFileChooser(System.getProperty("user.home"), "Images", "*.png",
-				"*.jpg", "*.gif");
+		FileChooser imageChooser = componentMaker.makeFileChooser(
+				System.getProperty("user.dir") + workspace.getResources().getString("DefaultDirectory"), "Images",
+				"*.png", "*.jpg", "*.gif");
 		File file = imageChooser.showOpenDialog(getScene().getWindow());
 		if (file != null) {
 			thumbnail.setImage(file.toURI().toString());
