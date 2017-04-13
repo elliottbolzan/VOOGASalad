@@ -80,6 +80,6 @@ public class Collision implements CollisionInterface {
 
 	public boolean isBetween(String name, String param) {
 		return (firstEntity.getName().equals(name) && secondEntity.getName().equals(param))
-				|| (firstEntity.getName().equals(param) && secondEntity.getName().equals(name));
+				/*|| (firstEntity.getName().equals(param) && secondEntity.getName().equals(name))*/;
 	}
 }

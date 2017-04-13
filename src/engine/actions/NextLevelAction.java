@@ -14,5 +14,4 @@ public class NextLevelAction extends Action {
 	public void act() {
 		((LevelStepStrategy) getGameInfo().getCurrentStepStrategy()).startNextLevel();
 	}
-
 }
