@@ -65,3 +65,23 @@ Elliott Bolzan (eab91)
 **User edits the Entities on the board by editing the default Entities.**<br>
 **Saving the game is done on a separate thread.**<br>
 
+
+---------------------
+
+Mina Mungekar (mem94)
+
+**User sets a default level layout**
+- The user modifies Level 1 and gives it an appropriate layout. Whenever the user hits the tab to select a new level, he or she is asked whether Level 1 should be copied over to the new level. 
+- If the user selects yes, `getEntities` will be called on Layer 1 and stored. This list of Entities will be used to initialize the levels that follow. 
+**User sets layer names**
+- In the Layer Panel, an editable text box will be displayed every time a layer is selected.
+- The user will be prompted to set the layer name, then hit the`Enter` button. Once the user does this, the list of layers contained in the LevelEditor will be updated, and the string representing the current level will be replaced by the one the user has entered.
+- The layer names are contained in an ObservableList that the combobox possesses. Upon the name change, the combobox will update.
+**User selects where he/she wants the progress bar displayed**
+- The user will drag and drop the progress bar display to whichever part of the screen he or she desires.
+- The progress bar will update in the game loop to reflect the user's progress through the level, number of lives, and score.
+**User wishes to create time-based events**
+- In the Authoring Environment, the user will be able to select a Timer button and edit it. 
+- The Timer button will be an Entity, but not interact with the characters on screen.
+- Through this button, the user can set the game time and assign different events to take place at certain times.
+- The Timer will be written to an XML file, and the information it contains passed to the Game Engine. When the Game Loop timer hits a point at which the user specified an event to occur, the event will be triggered.
