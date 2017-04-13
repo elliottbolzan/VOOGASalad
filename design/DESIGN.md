@@ -274,8 +274,8 @@ The only other module it interacts with is the Game Engine, where it gets all th
     *	Movement. - This includes the physics of jumping/gravity.
     *  	Note: Obtains the list of these Actions through reflection.
 
-Entity, Event, and Action modules were all created to allow single Entities to have multiple Events those in turn to have Actions. They
-are an especially good example of substitution, as a single Entity can have ANY Events, and in turn they can have ANY Action; this is
+Entity, Event, and Action modules were all created to allow single Entities to have multiple Events, and those in turn to have Actions. They
+are an especially good example of substitution, as a single Entity can have ANY Events, and in turn they can have ANY Actions; this is
 especially important to allow for the most flexibility when designing a game.
 
 **Game Data**
@@ -283,7 +283,8 @@ especially important to allow for the most flexibility when designing a game.
 The Game Data will consist of the Input and Output modules, the former of which saves a game to an XML file(s), and the latter of which
 loads and recreates the data from that/those files(s). Both of these modules communicate with the Game Player's SaveProgressModule
 to save and load the game being played. With respect to design goals, these modules were created
-to separate the logic behind each task.
+to separate the logic behind each task. These modules each use the `EntityConverter` object, which implements the `Converter` interface provided 
+by xStream. Here, entities are converted to valid XML and entities are created from XML. The format is consistent with xStream.
 
 
 ## Example Games
