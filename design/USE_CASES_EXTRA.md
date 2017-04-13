@@ -33,10 +33,27 @@ Jimmy Shackford (jas199)<br>
 ------------------
 
 Nikita Zemlevskiy (naz7)
-**Two users edit/play a game simultaneously**
-**A block character interacts with a block so that the block drops a powerup**
+**Two users play a game simultaneously**
+- Necessary objects will be serialized to XML. These include the entities, along with their locations and properties. 
+- XML files will be sent to all those connected to the network via the many to many sharing library.
+- Other users will recieve the XML files and update properties and locations of entities accordingly. 
+ 
+**A character interacts with a block so that the block drops a powerup**
+- The block has an event for colliding with the character.
+- This event is triggered, telling the `PowerupAction` to `act`
+- The action knows apriori what kind of powerup to generate. 
+- It creates this powerup (another entity), sets its properties (speed, position, etc appropriately) and adds it to the level, letting the rest of the gameplay take care of what happens next
+
 **User presses a key to throw a moving object**
+- Similar to the powerup above, the character will have an event for reacting to the key
+- The event will be triggered, telling the `ThrowAction` to `act`
+- The action will create a new entity, and sets its properties appropriately. Here the speed is set to that the entity is moving. The newly created entity is then added to the level.
+
 **User creates an entity with the ThrowAction**
+- The user has to add an event to which this action will respond
+- The user adds this action to that event
+- The user must specify what entity to create and the properties it will have.
+- Specifically, the user must designate where to place it and what speed it will have.
 
 
 ------------
