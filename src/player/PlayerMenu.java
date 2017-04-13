@@ -35,7 +35,6 @@ public class PlayerMenu {
 	private void setupData(){
 		game = new Game();
 		data = new GameData();
-		
 	}
 	
 	private void load(String filename){
