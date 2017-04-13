@@ -10,6 +10,12 @@ import engine.entities.CharacterEntity;
 import engine.Action;
 import engine.Entity;
 
+/**
+ * @author nikita This class is used for communication between game engine and
+ *         the authoring environment. This class is also used when loading
+ *         entities from the XML file, in order to create entities in a robust
+ *         way.
+ */
 public class EngineController {
 
 	private ClassFinder finder;
@@ -30,15 +36,14 @@ public class EngineController {
 	public List<String> getAllEvents() {
 		return findClasses("engine.events", "Event");
 	}
-	
-	
+
 	public Entity getDefaultEntity() {
 		return new CharacterEntity();
 	}
 
 	public Entity createEntity(String entity) {
 		return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"), "Entity");
-		
+
 	}
 
 	public Event createEvent(String event) {
@@ -74,7 +79,6 @@ public class EngineController {
 			Class<?> clazz = Class.forName(path);
 			Constructor<?> ctor = clazz.getDeclaredConstructor();
 			return ctor.newInstance();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
