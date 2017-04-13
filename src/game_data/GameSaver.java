@@ -2,8 +2,6 @@ package game_data;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,6 +45,9 @@ public class GameSaver {
 	}
 
 	private void saveSong(String filePath, String songPath) {
+		if (songPath.equals("")) {
+			return;
+		}
 		try {
 			String updated = new File(songPath).getAbsolutePath();
 			Path sourcePath = Paths.get(updated);

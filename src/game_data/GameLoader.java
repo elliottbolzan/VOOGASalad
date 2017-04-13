@@ -92,8 +92,13 @@ public class GameLoader {
 	}
 
 	private void addSong(Game game, Document doc, String folderPath) {
-		NodeList songNodes = doc.getElementsByTagName("Resources");
-		game.setSongPath(folderPath + File.separator + songNodes.item(0).getAttributes().item(0).getNodeValue());
+		try {
+			NodeList songNodes = doc.getElementsByTagName("Resources");
+			game.setSongPath(folderPath + File.separator + songNodes.item(0).getAttributes().item(0).getNodeValue());
+		}
+		catch (Exception e) {
+			game.setSongPath("");
+		}
 	}
 
 	private void addLevels(Game game, Document doc, String folderPath) {
