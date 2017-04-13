@@ -33,14 +33,18 @@ Jimmy Shackford (jas199)<br>
 ------------------
 
 Nikita Zemlevskiy (naz7)
+**Two users edit/play a game simultaneously**
+**A block character interacts with a block so that the block drops a powerup**
+**User presses a key to throw a moving object**
+**User creates an entity with the ThrowAction**
 
 
 ------------
 
 Elliott Bolzan (eab91)
 
-**User plays the game directly from the Game Authoring Environment.**
-**User sends a chat message using the networking library.**
-**User edits the Entities on the board by editing the default Entities.**
-**Saving the game is done on a separate thread.**
+**User plays the game directly from the Game Authoring Environment.**<br>
+**User sends a chat message using the networking library.**<br>
+**User edits the Entities on the board by editing the default Entities.**<br>
+**Saving the game is done on a separate thread.**<br>
 
