@@ -25,7 +25,7 @@ public class LoadMenu extends AbstractMenu {
 	}
 
 	private void loadGame(Stage stage, String gameFolderPath) {
-		//stage.close();
+		stage.close();
 		new Player(gameFolderPath, saveStates);
 	}
 
