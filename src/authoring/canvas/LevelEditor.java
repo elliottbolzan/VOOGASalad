@@ -18,26 +18,45 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 /**
+ * LevelEditor keeps track of multiple levels and assigns a LayerEditor to each
+ * LevelEditor. The LevelEditor displays each Layer through a TabPane structure
+ * where each Level has its own tab.
  * 
  * @author jimmy
  *
  */
-public class LevelEditor extends View {
+public class LevelEditor extends View
+{
 
-	Workspace workspace;
-	TabPane tabPane;
-	LayerEditor currentLevel;
-	List<LayerEditor> levels;
-	int levelCount;
-	HelpBar helpBar;
+	private Workspace workspace;
+	private TabPane tabPane;
+	private LayerEditor currentLevel;
+	private List<LayerEditor> levels;
+	private int levelCount;
+	private HelpBar helpBar;
 
-	public LevelEditor(Workspace workspace) {
+	/**
+	 * Make a new LevelEditor
+	 * 
+	 * @param workspace
+	 *            The workspace that the LevelEditor is currently in.
+	 */
+	public LevelEditor(Workspace workspace)
+	{
 		super("");
 		this.workspace = workspace;
 		setup();
 	}
 
-	public List<Level> getLevels() {
+	/**
+	 * Gets the list of all the levels that this LevelEditor currently keeps
+	 * contains. This method actually converts the List<Entities> from each
+	 * LayerEditor into a Level object.
+	 * 
+	 * @return List of levels that this LevelEditor keeps track of.
+	 */
+	public List<Level> getLevels()
+	{
 		List<Level> currentLevels = new ArrayList<Level>();
 		for (LayerEditor level : levels) {
 			currentLevels.add(level.getLevel());
@@ -45,7 +64,15 @@ public class LevelEditor extends View {
 		return currentLevels;
 	}
 
-	public void loadGame(List<Level> levels) {
+	/**
+	 * Sets the levels of this LevelEditor to those described in the given List
+	 * of Levels.
+	 * 
+	 * @param levels
+	 *            List of levels to load for this LevelEditor.
+	 */
+	public void loadGame(List<Level> levels)
+	{
 		setup();
 		for (Level level : levels) {
 			tabPane.getSelectionModel().select(0);
@@ -56,7 +83,11 @@ public class LevelEditor extends View {
 		}
 	}
 
-	private void setup() {
+	/**
+	 * Initialize the LevelEditor.
+	 */
+	private void setup()
+	{
 		levelCount = 0;
 		levels = new ArrayList<LayerEditor>();
 		tabPane = new TabPane();
@@ -66,7 +97,13 @@ public class LevelEditor extends View {
 		this.addToolbar();
 	}
 
-	private Tab newTab() {
+	/**
+	 * Make a new tab (level) for the LevelEditor.
+	 * 
+	 * @return Tab Tab representing the new level
+	 */
+	private Tab newTab()
+	{
 		Tab tab = new Tab();
 		levelCount++;
 		tab.setText(String.format("Level %d", levelCount));
@@ -80,7 +117,15 @@ public class LevelEditor extends View {
 		return tab;
 	}
 
-	private void closeRequest(Event e) {
+	/**
+	 * Make a close confirmation request. This is created whenever the user
+	 * tries to exit out of a level.
+	 * 
+	 * @param e
+	 *            Event that close confirmation request is attached to
+	 */
+	private void closeRequest(Event e)
+	{
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("ConfirmationContent");
 		Alert alert = maker.makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader", message);
@@ -90,24 +135,38 @@ public class LevelEditor extends View {
 		}
 	}
 
-	public LayerEditor getCurrentLevel() {
+	/**
+	 * Gets the LayerEditor for the currently selected level
+	 * 
+	 * @return LayerEditor describing the currently selected level
+	 */
+	public LayerEditor getCurrentLevel()
+	{
 		return currentLevel;
 	}
 
-	private Tab makePlusTab() {
+	/**
+	 * Make a plus tab which adds a new Level tab whenever it is pressed
+	 * 
+	 * @return Plus tab
+	 */
+	private Tab makePlusTab()
+	{
 		Tab plusTab = new Tab("+");
 		plusTab.setClosable(false);
-		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
+		{
 			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
+			{
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
-					// workspace.selectExistingLevel(currentLevel.getLayerCount());
+					workspace.selectExistingLevel(currentLevel.getLayerCount());
 				} else if (!newTab.getText().equals("+") && !oldTab.getText().equals("+")) {
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
-					// workspace.selectExistingLevel(currentLevel.getLayerCount());
+					workspace.selectExistingLevel(currentLevel.getLayerCount());
 					currentLevel.select();
 				}
 			}
@@ -116,7 +175,11 @@ public class LevelEditor extends View {
 		return plusTab;
 	}
 
-	private void addToolbar() {
+	/**
+	 * Adds a help bar to the bottom of the LevelEditor.
+	 */
+	private void addToolbar()
+	{
 		helpBar = new HelpBar(workspace);
 		setBottom(helpBar);
 	}

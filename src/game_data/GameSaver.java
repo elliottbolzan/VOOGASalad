@@ -33,6 +33,12 @@ public class GameSaver {
 	private Game game;
 	private GameXMLFactory gameXMLFactory;
 
+	/** 
+	 * Main method to save the entire game to the selected file path.
+	 * Creates the XML factory factory that adds nodes to the XML file.
+	 * Calls the helper methods that save each individual part of the XML file.
+	 * 
+	 */
 	public void saveGame(Game game, String filepath) {
 		this.game = game;
 		gameXMLFactory = new GameXMLFactory();
@@ -52,6 +58,9 @@ public class GameSaver {
 	}
 
 	private void saveSong(String filePath, String songPath) {
+		if (songPath.equals("")) {
+			return;
+		}
 		try {
 			String updated = new File(songPath).getAbsolutePath();
 			Path sourcePath = Paths.get(updated);

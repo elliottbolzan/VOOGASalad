@@ -3,22 +3,64 @@ package authoring.canvas;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Layer {
-	private List<EntityDisplay> entities;
+/**
+ * Represents a single layer of entities. A layer is simply a list of
+ * EntityViews.
+ * 
+ * @author jimmy
+ *
+ */
+public class Layer
+{
+	private List<EntityView> entities;
 
-	public Layer() {
-		entities = new ArrayList<EntityDisplay>();
+	/*
+	 * Make a new Layer, which represents a list of EntityViews.
+	 */
+	public Layer()
+	{
+		entities = new ArrayList<EntityView>();
 	}
 
-	public List<EntityDisplay> getEntities() {
+	/**
+	 * Get the list of EntityViews that is represented by this Layer.
+	 * 
+	 * @return list of EntityViews.
+	 */
+	public List<EntityView> getEntities()
+	{
 		return entities;
 	}
 
-	public void setEntities(List<EntityDisplay> entities) {
+	/**
+	 * Set the list of EntityViews that is represented by this Layer.
+	 * 
+	 * @param entities
+	 *            List of EntityViews that this Layer will now describe
+	 */
+	public void setEntities(List<EntityView> entities)
+	{
 		this.entities = entities;
 	}
 
-	public void addEntity(EntityDisplay entity) {
+	/**
+	 * Add the given EntityView to the layer.
+	 * 
+	 * @param entity
+	 */
+	public void addEntity(EntityView entity)
+	{
 		this.entities.add(entity);
+	}
+
+	public List<EntityView> getSelectedEntities()
+	{
+		List<EntityView> selectedEntities = new ArrayList<EntityView>();
+		for (EntityView entity : entities) {
+			if (entity.isSelected()) {
+				selectedEntities.add(entity);
+			}
+		}
+		return selectedEntities;
 	}
 }
