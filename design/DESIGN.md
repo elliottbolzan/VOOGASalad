@@ -156,6 +156,7 @@ The Game Player will load a main menu with buttons that are appropriate for the 
 3. Highscores
 4. Options
 5. Game Data
+6. Achievements
 
 
 - **Back**
@@ -173,6 +174,9 @@ This button leads to a menu where the user can adjust things like audio volume, 
 
 - **Game Data**
 This button leads to a menu that holds descriptions of the game. This is a hub that holds useful information for a game, backstory, character data, or anything the game developer wants to include.
+
+**Achievements**
+This button leads to a menu that holds achievements for the game. Achievements can be completed by meeting the required parameters and will create a pop up once achieved.
 
 ![](images/mainmenu.png)
 
@@ -199,6 +203,8 @@ Pauses or plays the game.
 
 - **Options**
 Allows user to change settings of the particular game while in the game without going back to the main menu.
+
+There will also be a HUD for the score, lives, and time.
 
 ![](images/gamerunner.png)
 

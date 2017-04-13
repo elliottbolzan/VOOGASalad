@@ -30,4 +30,20 @@ Jimmy Shackford (jas199)<br>
 - The user selects one or more `Entities` by `shift-clicking` all of them (or clicking just one) in the GAE canvas.
 - The user clicks any of the arrow keys, which causes the selected entities to move in that direction by one grid tile.
 
+Jesse Yue (jty4)<br>
+**Creating achievements**
+- User goes to the achievements panel of GAE
+- User sets a title for the achievement
+- User sets a description for the achievement
+- User sets parameters for the achievement
+- User hits save achievement then the authoring environment asks game data to save it
+**Creating game info**
+- User goes to the settings panel of GAE
+- User types in any information they think the player will want to know
+- User hits save to save to the game data
+**Loading in achievements**
+- In the player menu, the achievements will be extracted from the game data and placed inside the achievement menu.
+**Completing an Achievement**
+- In the player, when the user completes all the parameters of an achievement there will be a pop up for an achievement
+- The achievement menu will tick that achievement as completed
 

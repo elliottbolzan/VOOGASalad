@@ -16,6 +16,11 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import starter.StartMenu;
 
+/**
+ * 
+ * @author Jesse
+ *
+ */
 public abstract class AbstractMenu implements Menu{
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private BorderPane root;	
