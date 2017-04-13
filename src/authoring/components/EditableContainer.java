@@ -47,7 +47,6 @@ public abstract class EditableContainer extends View {
 	}
 	
 	public boolean selectionExists(Object object) {
-		System.out.println(object);
 		if (object == null) {
 			ComponentMaker maker = new ComponentMaker(workspace.getResources());
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", workspace.getResources().getString("PickSomething"));
