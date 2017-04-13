@@ -27,8 +27,7 @@ import javafx.scene.shape.Rectangle;
  * @author jimmy Modified by Mina Mungekar
  *
  */
-public class LayerEditor extends View
-{
+public class LayerEditor extends View {
 	private Workspace workspace;
 	private Canvas canvas;
 	private Map<Integer, Layer> layers;
@@ -282,8 +281,7 @@ public class LayerEditor extends View
 		newLayerSelected(newLayer);
 	}
 
-	private void newLayerSelected(int newVal)
-	{
+	private void newLayerSelected(int newVal) {
 		for (Layer layer : layers.values()) {
 			for (Node entity : layer.getEntities()) {
 				entity.setOpacity(0.3);
@@ -335,8 +333,7 @@ public class LayerEditor extends View
 	 * @param layer
 	 *            Layer to be deleted
 	 */
-	public void deleteLayer(int layer)
-	{
+	public void deleteLayer(int layer) {
 		if (layerCount == 1) {
 			String message = workspace.getResources().getString("LayerError");
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
