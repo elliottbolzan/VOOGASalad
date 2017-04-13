@@ -9,14 +9,12 @@ import javafx.scene.image.ImageView;
 /**
  * @author Jay Doherty
  * 
- * This class can convert GameEngine Entities into JavaFX Nodes.
+ * This class takes game engine Entities and returns a corresponding JavaFX ImageView to display on screen.
  */
 public class NodeFactory implements NodeFactoryInterface {
-
-	private String dataFolderPath;
 	
-	public NodeFactory(String dataFolderPath) {
-		this.dataFolderPath = dataFolderPath;
+	public NodeFactory() {
+
 	}
 
 	@Override
