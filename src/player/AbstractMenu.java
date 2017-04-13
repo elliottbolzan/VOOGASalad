@@ -10,10 +10,17 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import starter.StartMenu;
 
+/**
+ * 
+ * @author Jesse
+ *
+ */
 public abstract class AbstractMenu implements Menu{
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private BorderPane root;	
@@ -40,6 +47,8 @@ public abstract class AbstractMenu implements Menu{
 		getRoot().setBottom(backButton());
 		Label titleLabel = new Label(resources.getString(title));
 		titleLabel.setId("title");
+		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+		titleLabel.setTextFill(Color.YELLOW);
 		getRoot().setTop(titleLabel);
 		BorderPane.setAlignment(titleLabel, Pos.CENTER);
 	}

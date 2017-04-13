@@ -8,7 +8,7 @@ public class Scorebar {
 	private int score;
 	
 	public Scorebar() {
-		timerManager = new TimerManager(10, false);
+		timerManager = new TimerManager(120, false);
 		lives = 5;
 		score = 0;
 	}

@@ -11,6 +11,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Jesse
+ *
+ */
 public class PlayerMenu {
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private BorderPane root;
@@ -35,7 +40,6 @@ public class PlayerMenu {
 	private void setupData(){
 		game = new Game();
 		data = new GameData();
-		
 	}
 	
 	private void load(String filename){
