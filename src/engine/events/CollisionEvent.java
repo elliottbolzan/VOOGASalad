@@ -28,5 +28,4 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 		}
 		return false;
 	}
-
 }

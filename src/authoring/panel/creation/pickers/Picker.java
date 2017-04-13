@@ -3,6 +3,7 @@ package authoring.panel.creation.pickers;
 import authoring.Workspace;
 import authoring.components.EditableContainer;
 import authoring.panel.creation.EntityMaker;
+import engine.GameObject;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -45,6 +46,8 @@ public abstract class Picker extends EditableContainer {
 		box.setAlignment(Pos.CENTER);
 		setTop(box);
 	}
+	
+	public abstract void select(GameObject object);
 
 	public abstract void createContainer();
 
@@ -61,5 +64,5 @@ public abstract class Picker extends EditableContainer {
 	public abstract void edit();
 	
 	public abstract void showEditor();
-
+	
 }

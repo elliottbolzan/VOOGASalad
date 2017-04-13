@@ -103,6 +103,7 @@ public class Workspace extends View
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
+		this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
 		/*
 		 * game = new Game(); Level level = new Level(); Level level2 = new
 		 * Level(); Entity one = new CharacterEntity(); Entity two = new
