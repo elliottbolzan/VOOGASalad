@@ -36,6 +36,7 @@ public class Collision implements CollisionInterface {
 		firstEntity = entity;
 	}
 
+
 	/**
 	 * Check whether this collision is between two entities with the respective
 	 * names
