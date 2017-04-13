@@ -18,6 +18,9 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
 /**
+ * LevelEditor keeps track of multiple levels and assigns a LayerEditor to each
+ * LevelEditor. The LevelEditor displays each Layer through a TabPane structure
+ * where each Level has its own tab.
  * 
  * @author jimmy
  *
@@ -32,6 +35,12 @@ public class LevelEditor extends View
 	private int levelCount;
 	private HelpBar helpBar;
 
+	/**
+	 * Make a new LevelEditor
+	 * 
+	 * @param workspace
+	 *            The workspace that the LevelEditor is currently in.
+	 */
 	public LevelEditor(Workspace workspace)
 	{
 		super("");
@@ -39,6 +48,13 @@ public class LevelEditor extends View
 		setup();
 	}
 
+	/**
+	 * Gets the list of all the levels that this LevelEditor currently keeps
+	 * contains. This method actually converts the List<Entities> from each
+	 * LayerEditor into a Level object.
+	 * 
+	 * @return List of levels that this LevelEditor keeps track of.
+	 */
 	public List<Level> getLevels()
 	{
 		List<Level> currentLevels = new ArrayList<Level>();
@@ -48,6 +64,13 @@ public class LevelEditor extends View
 		return currentLevels;
 	}
 
+	/**
+	 * Sets the levels of this LevelEditor to those described in the given List
+	 * of Levels.
+	 * 
+	 * @param levels
+	 *            List of levels to load for this LevelEditor.
+	 */
 	public void loadGame(List<Level> levels)
 	{
 		setup();
@@ -60,6 +83,9 @@ public class LevelEditor extends View
 		}
 	}
 
+	/**
+	 * Initialize the LevelEditor.
+	 */
 	private void setup()
 	{
 		levelCount = 0;
@@ -71,6 +97,11 @@ public class LevelEditor extends View
 		this.addToolbar();
 	}
 
+	/**
+	 * Make a new tab (level) for the LevelEditor.
+	 * 
+	 * @return Tab Tab representing the new level
+	 */
 	private Tab newTab()
 	{
 		Tab tab = new Tab();
@@ -86,6 +117,13 @@ public class LevelEditor extends View
 		return tab;
 	}
 
+	/**
+	 * Make a close confirmation request. This is created whenever the user
+	 * tries to exit out of a level.
+	 * 
+	 * @param e
+	 *            Event that close confirmation request is attached to
+	 */
 	private void closeRequest(Event e)
 	{
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
@@ -97,11 +135,21 @@ public class LevelEditor extends View
 		}
 	}
 
+	/**
+	 * Gets the LayerEditor for the currently selected level
+	 * 
+	 * @return LayerEditor describing the currently selected level
+	 */
 	public LayerEditor getCurrentLevel()
 	{
 		return currentLevel;
 	}
 
+	/**
+	 * Make a plus tab which adds a new Level tab whenever it is pressed
+	 * 
+	 * @return Plus tab
+	 */
 	private Tab makePlusTab()
 	{
 		Tab plusTab = new Tab("+");
@@ -127,6 +175,9 @@ public class LevelEditor extends View
 		return plusTab;
 	}
 
+	/**
+	 * Adds a help bar to the bottom of the LevelEditor.
+	 */
 	private void addToolbar()
 	{
 		helpBar = new HelpBar(workspace);
