@@ -70,10 +70,21 @@ Elliott Bolzan (eab91)
 Kyle Finke (kwf10)
 
 **Update the player's score when they complete a level**
+- Create a CollisionEvent for the main character with the "end-of-level" Entity
+- Add an NextLevelAction to the CollsionEvent
+- Add an IncreaseScoreAction to the CollisionEvent with the intended increase in score added as a Parameter of the action
 
 **The player runs out of time on a level causing them to lose a life**
+- A DieAction must be added to the TimerEvent
+- The DieAction is triggered when the time for the timer runs out
 
 **The user sets borders for a level that cause the player to die when they go outside of the borders**
+- Create individual events for the top, bottom, left, and right edge of the border
+- Add a DieAction to each of these Events that are triggered if the main character Entity moves outside of the border
 
 **The player collides with a power-up that gives them an extra life**
-
+- A new Entity is created to represent the power-up
+- The main character Entity is given a CollisionEvent that corresponds to hitting the power-up Entity
+- Add an IncreaseLifeAction to the CollisionEvent for the main character Entity
+- The power-up Entity is given a CollisionEvent that corresponds to hitting the main character Entity
+- Add a RemoveEntityAction to the CollisionEvent for the power-up Entity to remove the power-up from the screen
