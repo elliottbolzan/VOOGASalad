@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
 import engine.game.gameloop.GameLoop;
+import game_data.Game;
 import game_data.GameData;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
@@ -18,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 /**
@@ -39,11 +41,15 @@ public class Player extends BorderPane {
 	private Button playButton;
 	private boolean isPaused;
 	private ObservableList<String> saveStates;
+	private GameData gameData;
+	private Game game;
+	private ComponentMaker factory;
+	private int count = 0;
 
 	public Player(String dataFolderPath, ObservableList<String> saveStates) {
 		this.dataFolderPath = dataFolderPath;
 		this.saveStates = saveStates;
-
+		factory = new ComponentMaker(resources);
 		this.buildStage();
 
 		this.playSong();
@@ -69,8 +75,9 @@ public class Player extends BorderPane {
 
 	private void playSong() {
 		try {
-			GameData gameData = new GameData();
-			String path = gameData.loadGame(dataFolderPath).getSongPath();
+			gameData = new GameData();
+			game = gameData.loadGame(dataFolderPath);
+			String path = game.getSongPath();
 			String uriString = new File(path).toURI().toString();
 			player = new MediaPlayer(new Media(uriString));
 			player.setCycleCount(MediaPlayer.INDEFINITE);
@@ -88,8 +95,6 @@ public class Player extends BorderPane {
 	private void buildControlBar() {
 		HBox controls = new HBox();
 		controls.setMaxSize(Double.MAX_VALUE, CONTROLS_HEIGHT);
-
-		ComponentMaker factory = new ComponentMaker(resources);
 
 		ImageView playImage = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PlayPausePath"))));
@@ -142,8 +147,19 @@ public class Player extends BorderPane {
 	}
 
 	private void save() {
-		// TODO: make actually save
-		saveStates.add("yay saved game");
+		count++;
+		String path = "";
+		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
+		DirectoryChooser chooser = factory.makeDirectoryChooser(outputFolder, "GameSaverTitle");
+		File selectedDirectory = chooser.showDialog(getScene().getWindow());
+		if (selectedDirectory != null) {
+			path = selectedDirectory.getAbsolutePath();
+		}
+		if (!path.equals("")) {
+			game.setName("save"+count);
+			gameData.saveGame(game, path);
+		}
+		saveStates.add(path+File.separator+game.getName());
 	}
 	
 }
