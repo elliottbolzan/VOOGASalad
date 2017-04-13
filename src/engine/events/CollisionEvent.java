@@ -3,10 +3,9 @@ package engine.events;
 import engine.Event;
 import engine.Parameter;
 import engine.Collision;
-import engine.CollisionEventInterface;
 import engine.CollisionSide;
 
-public class CollisionEvent extends Event implements CollisionEventInterface {
+public class CollisionEvent extends Event{
 
 	private Collision collision;
 
@@ -23,8 +22,9 @@ public class CollisionEvent extends Event implements CollisionEventInterface {
 	public boolean act() {
 		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
 			if (collision.isBetween(getEntity().getName(), (String) getParam("Entity"))
-					&& collision.getCollisionSide().equals(this.collision.getCollisionSide()))
+					&& collision.getCollisionSide().equals(this.collision.getCollisionSide())){
 				return true;
+			}
 		}
 		return false;
 	}

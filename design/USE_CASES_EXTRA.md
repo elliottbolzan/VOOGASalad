@@ -65,3 +65,15 @@ Elliott Bolzan (eab91)
 **User edits the Entities on the board by editing the default Entities.**<br>
 **Saving the game is done on a separate thread.**<br>
 
+-----------
+
+Kyle Finke (kwf10)
+
+**Update the player's score when they complete a level**
+
+**The player runs out of time on a level causing them to lose a life**
+
+**The user sets borders for a level that cause the player to die when they go outside of the borders**
+
+**The player collides with a power-up that gives them an extra life**
+

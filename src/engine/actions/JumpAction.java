@@ -13,6 +13,6 @@ public class JumpAction extends Action {
 	@Override
 	public void act() {
 		getEntity().setYSpeed(-((Double) getParam("Initial Jump Speed")));
-		getEntity().setYAcceleration(Entity.ACCELERATION);
+		getEntity().setYAcceleration(Entity.YACCELERATION);
 	}
 }
