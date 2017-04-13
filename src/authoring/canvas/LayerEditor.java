@@ -66,8 +66,8 @@ public class LayerEditor extends View {
 	}
 
 	private void clear() {
-		while (layerCount > 0) {
-			executeDelete(layerCount - 1);
+		while (layerCount > 1) {
+			executeDelete(layerCount);
 		}
 		setup();
 	}
