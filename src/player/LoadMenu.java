@@ -10,6 +10,11 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author Jesse
+ *
+ */
 public class LoadMenu extends AbstractMenu {
 
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
