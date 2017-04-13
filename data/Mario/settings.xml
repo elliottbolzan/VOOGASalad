@@ -6,7 +6,7 @@
   <y>400.0</y>
   <width>75.0</width>
   <height>75.0</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -23,7 +23,7 @@
   <y>400.0</y>
   <width>75.0</width>
   <height>75.0</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -40,7 +40,7 @@
   <y>400.0</y>
   <width>75.0</width>
   <height>75.0</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -57,7 +57,7 @@
   <y>400.0</y>
   <width>75.0</width>
   <height>75.0</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -74,7 +74,7 @@
   <y>400.0</y>
   <width>75.0</width>
   <height>75.0</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -91,7 +91,7 @@
   <y>275.0</y>
   <width>75.0</width>
   <height>125.0</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -257,7 +257,7 @@
   <y>225.0</y>
   <width>75.0</width>
   <height>75.0</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Coin</name>
   <imagePath>resources/CoinImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -275,7 +275,7 @@
   <y>0.0</y>
   <width>63.38028169014083</width>
   <height>63.38028169014083</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -292,7 +292,7 @@
   <y>0.0</y>
   <width>150.25352112676055</width>
   <height>181.01408450704224</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Coin</name>
   <imagePath>resources/CoinImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
@@ -309,7 +309,7 @@
   <y>0.0</y>
   <width>102.22535211267605</width>
   <height>158.4225352112676</height>
-  <zIndex>0.0</zIndex>
+  <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
   <xSpeed>0.0</xSpeed>
