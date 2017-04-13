@@ -5,6 +5,7 @@ import authoring.components.ComponentMaker;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.ActionEditor;
 import engine.Action;
+import engine.GameObject;
 import engine.game.EngineController;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
@@ -69,6 +70,7 @@ public class ActionPicker extends Picker {
 		action.setEntity(editor.getEntity());
 		editor.getSelectedEvent().getActions().add(action);
 		update();
+		select(action);
 	}
 
 	@Override
@@ -105,6 +107,11 @@ public class ActionPicker extends Picker {
 		ActionEditor editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
 				engine.getAllActions());
 		maker.display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
+	}
+
+	@Override
+	public void select(GameObject object) {
+		list.getSelectionModel().select((Action) object);
 	}
 
 }
