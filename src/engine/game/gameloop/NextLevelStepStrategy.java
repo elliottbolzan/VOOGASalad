@@ -2,6 +2,11 @@ package engine.game.gameloop;
 
 import engine.game.LevelManager;
 
+/**
+ * 
+ * @author Matthew Barbano
+ *
+ */
 public class NextLevelStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "Win";
 	

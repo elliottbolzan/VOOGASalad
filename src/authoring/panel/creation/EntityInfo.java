@@ -24,6 +24,10 @@ import javafx.stage.FileChooser;
 /**
  * @author Elliott Bolzan
  *
+ *         This class serves to display and let the user edit the Entity's basic
+ *         information. As of now, it encapsulates a Thumbnail for the Entity's
+ *         image, its name, its scale, and a button letting the user save his or
+ *         her changes.
  */
 public class EntityInfo extends View {
 
@@ -35,7 +39,12 @@ public class EntityInfo extends View {
 	private Slider scaleSlider;
 
 	/**
-	 * @param title
+	 * Creates an EntityInfo.
+	 * 
+	 * @param workspace
+	 *            the workspace for this view.
+	 * @param editor
+	 *            the EntityMaker which created the EntityInfo.
 	 */
 	public EntityInfo(Workspace workspace, EntityMaker editor) {
 		super("Info");
@@ -103,23 +112,35 @@ public class EntityInfo extends View {
 			thumbnail.setImage(file.toURI().toString());
 		}
 	}
-
-	public String getName() {
-		return nameField.getText();
-	}
-
-	public String getImagePath() {
-		return thumbnail.getImagePath();
-	}
-
+	
 	private Image getImage() {
 		return new Image(getImagePath());
 	}
 
+	/**
+	 * @return the Entity's name.
+	 */
+	public String getName() {
+		return nameField.getText();
+	}
+
+	/**
+	 * @return the Entity's image path.
+	 */
+	public String getImagePath() {
+		return thumbnail.getImagePath();
+	}
+
+	/**
+	 * @return the Entity's image width, as modified by the scale-adjustment.
+	 */
 	public double getImageWidth() {
 		return getImage().getWidth() * scaleSlider.getValue();
 	}
 
+	/**
+	 * @return the Entity's image height, as modified by the scale-adjustment.
+	 */
 	public double getImageHeight() {
 		return getImage().getHeight() * scaleSlider.getValue();
 	}

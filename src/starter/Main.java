@@ -1,6 +1,3 @@
-/**
- * 
- */
 package starter;
 
 import javafx.application.Application;

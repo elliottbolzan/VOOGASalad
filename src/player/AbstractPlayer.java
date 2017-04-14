@@ -11,8 +11,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
-public abstract class AbstractPlayer extends BorderPane{
-	
+public abstract class AbstractPlayer extends BorderPane {
+
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private String stylesheetPath = resources.getString("StylesheetPath");
 	private MediaPlayer songPlayer;
@@ -22,16 +22,15 @@ public abstract class AbstractPlayer extends BorderPane{
 	private Stage stage;
 	private Scene scene;
 	private String path;
-	
-	public AbstractPlayer(Game game, String dataFolderPath){
+
+	public AbstractPlayer(Game game, String dataFolderPath) {
 		this.game = game;
 		path = dataFolderPath;
-		
 		playSong();
 		buildStage();
 		buildGameView();
 	}
-	
+
 	private void buildStage() {
 		stage = new Stage();
 		stage.setTitle(resources.getString("PlayerTitle"));
@@ -45,13 +44,12 @@ public abstract class AbstractPlayer extends BorderPane{
 		stage.setScene(scene);
 		stage.show();
 	}
-	
+
 	private void buildGameView() {
-		if(!path.equals("")){
+		if (!path.equals("")) {
 			gameLoop = new GameLoop(scene, game);
 			this.setCenter(gameLoop.getGameView());
 		}
-		
 	}
 	
 	private void playSong() {
@@ -67,7 +65,7 @@ public abstract class AbstractPlayer extends BorderPane{
 	}
 	
 	private void exit() {
-		if(!path.equals("")){
+		if (!path.equals("")) {
 			gameLoop.pauseTimeline();
 		}
 		stage.close();
