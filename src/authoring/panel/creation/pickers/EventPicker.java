@@ -48,7 +48,12 @@ public class EventPicker extends Picker {
 				}
 			}
 		});
-		list.setOnMouseClicked(e -> setSelectedEvent());
+		setOnClick(list, new Runnable() {
+			@Override
+			public void run() {
+				setSelectedEvent();
+			}
+		});
 		setCenter(list);
 	}
 
@@ -105,13 +110,13 @@ public class EventPicker extends Picker {
 				engine.getAllEvents());
 		componentMaker.display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
-	
+
 	@Override
 	public void select(GameObject object) {
 		list.getSelectionModel().select((Event) object);
 		setSelectedEvent();
 	}
-	
+
 	private void setSelectedEvent() {
 		entityMaker.setSelectedEvent(list.getSelectionModel().getSelectedItem());
 	}

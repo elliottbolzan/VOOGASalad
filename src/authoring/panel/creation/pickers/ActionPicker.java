@@ -48,6 +48,7 @@ public class ActionPicker extends Picker {
 				}
 			}
 		});
+		setOnClick(list, null);
 		setCenter(list);
 	}
 

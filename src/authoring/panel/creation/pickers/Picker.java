@@ -4,9 +4,14 @@ import authoring.Workspace;
 import authoring.components.EditableContainer;
 import authoring.panel.creation.EntityMaker;
 import engine.GameObject;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
 /**
@@ -27,7 +32,7 @@ public abstract class Picker extends EditableContainer {
 		this.maker = maker;
 		setup();
 	}
-	
+
 	public EntityMaker getEntityMaker() {
 		return maker;
 	}
@@ -46,7 +51,20 @@ public abstract class Picker extends EditableContainer {
 		box.setAlignment(Pos.CENTER);
 		setTop(box);
 	}
-	
+
+	public <E> void setOnClick(ListView<E> list, Runnable single) {
+		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if (mouseEvent.getClickCount() == 1) {
+					single.run();
+				} else if (mouseEvent.getClickCount() == 2) {
+					edit();
+				}
+			}
+		});
+	}
+
 	public abstract void select(GameObject object);
 
 	public abstract void createContainer();
@@ -62,7 +80,7 @@ public abstract class Picker extends EditableContainer {
 	public abstract void update();
 
 	public abstract void edit();
-	
+
 	public abstract void showEditor();
-	
+
 }
