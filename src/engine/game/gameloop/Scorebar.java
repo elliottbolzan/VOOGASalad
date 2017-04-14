@@ -10,8 +10,13 @@ import engine.game.timer.TimerManager;
  *
  */
 public class Scorebar {
-	private TimerManager timerManager;   //restart it every time restart new level! (perhaps in another class calling this class' methods
-	private int lives;   //immutable except by Character Entity - TODO extension sprint - get rid of this duplication of lives in CharacterEntity and here by allowing GAE to set Scorebar values too! (also consider multiplayer)
+	private TimerManager timerManager; // restart it every time restart new
+										// level! (perhaps in another class
+										// calling this class' methods
+	private int lives; // immutable except by Character Entity - TODO extension
+						// sprint - get rid of this duplication of lives in
+						// CharacterEntity and here by allowing GAE to set
+						// Scorebar values too! (also consider multiplayer)
 	private int score;
 	private int level;
 	
@@ -21,15 +26,15 @@ public class Scorebar {
 		score = 0;
 		level = 1;
 	}
-	
-	public void resetTimerManager(){
-		 timerManager.reset();
+
+	public void resetTimerManager() {
+		timerManager.reset();
 	}
-	
+
 	public String getTime() {
 		return timerManager.toString();
 	}
-	
+
 	public TimerManager getTimerManager() {
 		return timerManager;
 	}
@@ -53,6 +58,16 @@ public class Scorebar {
 	public void setScore(int score) {
 		this.score = score;
 	}
+
+	/**
+	 * 
+	 * @param scoreChange
+	 *            amount of points by which the current score will change
+	 */
+	public void updateScore(int scoreChange) {
+		this.score += scoreChange;
+	}
+
 	
 	public int getLevel(){
 		return level;
