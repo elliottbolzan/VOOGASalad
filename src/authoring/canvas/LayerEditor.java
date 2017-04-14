@@ -65,10 +65,18 @@ public class LayerEditor extends View {
 		return thisLevel;
 	}
 
+	/**
+	 * Update the Entities in each layer to reflect the default Entity they
+	 * correspond to. This method is called when a default Entity is edited by
+	 * the user.
+	 * 
+	 * @param entity
+	 *            the Entity to be edited.
+	 */
 	public void updateEntity(Entity entity) {
 		for (Layer layer : layers.values()) {
 			List<EntityView> concerned = new ArrayList<>();
-			for (EntityView entityView: layer.getEntities()) {
+			for (EntityView entityView : layer.getEntities()) {
 				Entity toEdit = entityView.getEntity();
 				if (toEdit.getName().equals(entity.getName())) {
 					concerned.add(entityView);

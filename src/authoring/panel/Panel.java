@@ -11,8 +11,15 @@ import authoring.panel.settings.Settings;
 import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
-import engine.Entity;
 
+/**
+ * @author Elliott Bolzan
+ *
+ *         A class that encapsulates a panel architecture. New subpanels can be
+ *         added using a single line of code, placed in the createSubviews()
+ *         method. This system seeks to facilitate the addition of new subviews
+ *         and to reduce duplicated boilerplate code.
+ */
 public class Panel extends CollapsibleView {
 
 	private Workspace workspace;
@@ -42,7 +49,7 @@ public class Panel extends CollapsibleView {
 	}
 
 	/**
-	 * Populate the subviews Lists, which dictates which subviews appear in the
+	 * Populate the subviews List, which dictates which subviews appear in the
 	 * Accordion.
 	 */
 	private void createSubviews() {
@@ -62,18 +69,36 @@ public class Panel extends CollapsibleView {
 		setBottom(maker.makeButton("SaveButtonSettings", e -> workspace.save(), true));
 	}
 
+	/**
+	 * @return the EntityDisplay.
+	 */
 	public EntityDisplay getEntityDisplay() {
 		return entityDisplay;
 	}
 
+	/**
+	 * @return the Settings subview.
+	 */
 	public Settings getSettings() {
 		return settings;
 	}
 
+	/**
+	 * Update the layer panel with a new layer.
+	 * 
+	 * @param newLayer
+	 *            the layer to be added to the layer panel.
+	 */
 	public void updateLayerPanel(String newLayer) {
 		layerPanel.updateBox(newLayer);
 	}
 
+	/**
+	 * Select an existing level.
+	 * 
+	 * @param layerNum
+	 *            the layer to be selected.
+	 */
 	public void selectExistingLevelBox(int layerNum) {
 		layerPanel.selectLevelBox(layerNum);
 	}

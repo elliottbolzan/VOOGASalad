@@ -24,16 +24,14 @@ import javafx.scene.text.Text;
  * @author Mina Mungekar
  *
  */
-public class LayerPanel extends View
-{
+public class LayerPanel extends View {
 
 	private Workspace workspace;
 	private VBox editorContainer;
 	private ComboBox<String> myBox;
 	private ComponentMaker maker;
 
-	public LayerPanel(Workspace workspace)
-	{
+	public LayerPanel(Workspace workspace) {
 		super(workspace.getResources().getString("LayerPanelTitle"));
 		this.workspace = workspace;
 		maker = new ComponentMaker(workspace.getResources());
@@ -42,8 +40,7 @@ public class LayerPanel extends View
 		configureEditing();
 	}
 
-	private void configureEditing()
-	{
+	private void configureEditing() {
 		editorContainer = new VBox();
 		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		Button addLayerButton = maker.makeButton("AddLayerButton", e -> workspace.addLayer(), true);
@@ -57,8 +54,7 @@ public class LayerPanel extends View
 		setCenter(editorContainer);
 	}
 
-	private void initCloseRequest(Event e)
-	{
+	private void initCloseRequest(Event e) {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("ConfirmationContent");
 		Alert alert = maker.makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader", message);
@@ -68,17 +64,14 @@ public class LayerPanel extends View
 		}
 	}
 
-	private void delete()
-	{
+	private void delete() {
 		int layer = Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split(" ")[1]);
 		myBox.setValue((layer == 1 ? String.format("Layer %d", layer) : String.format("Layer %d", layer - 1)));
 		workspace.deleteLayer(layer);
 	}
 
-	private void configureVelocitySettings()
-	{
-		Slider velocitySlider = new Slider()
-		{
+	private void configureVelocitySettings() {
+		Slider velocitySlider = new Slider() {
 			{
 				setMin(0);
 				setMax(100);
@@ -86,8 +79,7 @@ public class LayerPanel extends View
 			}
 		};
 
-		HBox sliderBox = new HBox()
-		{
+		HBox sliderBox = new HBox() {
 			{
 				setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 				Text t = new Text(workspace.getResources().getString("LayerSpeedPrompt"));
@@ -100,19 +92,15 @@ public class LayerPanel extends View
 		editorContainer.getChildren().addAll(myBox, sliderBox, velocityButton);
 	}
 
-	public void updateBox(String newLayer)
-	{
+	public void updateBox(String newLayer) {
 		myBox.getItems().add(newLayer);
 	}
 
-	private void initLayerSelector()
-	{
+	private void initLayerSelector() {
 		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
-		myBox.valueProperty().addListener(new ChangeListener<String>()
-		{
+		myBox.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
-			{
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue != null) {
 					workspace.selectLayer(Integer.parseInt(newValue.split(" ")[1]));
 				}
@@ -120,10 +108,8 @@ public class LayerPanel extends View
 		});
 	}
 
-	public void selectLevelBox(int layerNum)
-	{
+	public void selectLevelBox(int layerNum) {
 		myBox.getItems().clear();
-		System.out.println(layerNum);
 		for (int i = 0; i < layerNum; i++) {
 			myBox.getItems().add(String.format("Layer %d", i + 1));
 		}

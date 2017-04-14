@@ -79,9 +79,15 @@ public class LevelEditor extends View {
 			}
 		}
 	}
-	
+
+	/**
+	 * Update the Entities in each Level to match their default Entity.
+	 * 
+	 * @param entity
+	 *            the default Entity to match.
+	 */
 	public void updateEntity(Entity entity) {
-		for (LayerEditor layerEditor: levels) {
+		for (LayerEditor layerEditor : levels) {
 			layerEditor.updateEntity(entity);
 		}
 	}

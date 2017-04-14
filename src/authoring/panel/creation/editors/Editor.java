@@ -141,7 +141,6 @@ public abstract class Editor extends View {
 	}
 
 	private void save() {
-		System.out.println(comboBoxHasSelection());
 		if (!comboBoxHasSelection()) {
 			String content = workspace.getResources().getString("PickSomething");
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
