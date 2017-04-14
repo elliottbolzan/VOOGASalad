@@ -66,7 +66,6 @@ public class Panel extends CollapsibleView {
 		setCenter(maker.makeAccordion(subviews));
 		setBottom(new VBox(maker.makeButton("SaveButtonSettings", e -> workspace.save(), true),
 				maker.makeButton("TestButtonSettings", e -> workspace.test(workspace.getGame()), true)));
-
 	}
 
 	public EntityDisplay getEntityDisplay() {

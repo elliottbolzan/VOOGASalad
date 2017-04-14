@@ -19,6 +19,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
+import player.BasicPlayer;
 import player.Player;
 
 /**
@@ -37,6 +38,7 @@ public class Workspace extends View {
 
 	private Game game;
 	private DefaultEntities defaults;
+	private String path;
 
 	/**
 	 * 
@@ -45,6 +47,7 @@ public class Workspace extends View {
 		super("Workspace");
 		this.resources = resources;
 		setup();
+		this.path = path;
 		if (!path.equals("")) {
 			load(path);
 		}
@@ -135,7 +138,7 @@ public class Workspace extends View {
 	}
 	
 	public void test(Game game){
-		//new BasicPlayer(game);
+		new BasicPlayer(game, path);
 	}
 
 	public ResourceBundle getResources() {
