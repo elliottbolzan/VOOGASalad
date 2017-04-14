@@ -10,6 +10,7 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 import engine.Entity;
 import engine.game.EngineController;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -84,6 +85,8 @@ public class EntityConverter implements Converter {
 					writer.setValue(((SimpleDoubleProperty) value).get() + "");
 				else if (value instanceof SimpleStringProperty)
 					writer.setValue(((SimpleStringProperty) value).get());
+				else if (value instanceof SimpleBooleanProperty)
+					writer.setValue(((SimpleBooleanProperty) value).get() + "");
 				else
 					context.convertAnother(value);
 				writer.endNode();
@@ -131,6 +134,8 @@ public class EntityConverter implements Converter {
 				value = new SimpleDoubleProperty(Double.parseDouble(reader.getValue()));
 			else if (field.getType().equals(SimpleStringProperty.class))
 				value = new SimpleStringProperty(reader.getValue());
+			else if (field.getType().equals(SimpleBooleanProperty.class))
+				value = new SimpleBooleanProperty(Boolean.parseBoolean(reader.getValue()));
 			else
 				value = context.convertAnother(entity, field.getType());
 			try {
