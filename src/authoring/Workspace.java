@@ -19,6 +19,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
+import player.Player;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -131,6 +132,10 @@ public class Workspace extends View {
 		if (!path.equals("")) {
 			data.saveGame(game, path);
 		}
+	}
+	
+	public void test(Game game){
+		//new BasicPlayer(game);
 	}
 
 	public ResourceBundle getResources() {
