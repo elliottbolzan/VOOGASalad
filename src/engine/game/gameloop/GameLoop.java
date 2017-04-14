@@ -9,7 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 /**
- * Manages the highest level of time flow in the game.
+ * Manages the highest level of time flow in the game. The client class for the game loop.
  * 
  * @author Matthew Barbano
  *

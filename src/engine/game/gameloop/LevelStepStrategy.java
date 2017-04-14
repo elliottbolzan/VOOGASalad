@@ -24,6 +24,13 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+
+/**
+ * Subclass of StepStrategy implementing step() when a Level should be displayed.
+ * 
+ * @author Matthew Barbano
+ *
+ */
 public class LevelStepStrategy implements StepStrategy {
 //	private ObservableBundle observableBundle;
 	private LevelManager levelManager;
@@ -31,6 +38,11 @@ public class LevelStepStrategy implements StepStrategy {
 	private GraphicsEngine graphicsEngine;
 	private Screen screen;
 	private GameInfo info;
+	
+	/**
+	 * Functionality executed when timeline for Screen with this LevelStepStrategy is step up; only executed once.
+	 * Called from Screen's constructor.	
+	 */
 	@Override
 	public void setup(LevelManager levelManager, Scene gameScene, Screen screen, GraphicsEngine graphicsEngine,
 			GameInfo info) {
@@ -53,7 +65,10 @@ public class LevelStepStrategy implements StepStrategy {
 		// conditions - need to ask Nikita how to do this
 		setupGameView();
 	}
-
+	
+	/**
+	 * Called on every iteration of the Timeline.
+	 */
 	@Override
 	public void step() {
 		info.getObservableBundle().updateObservers(); // ticks the clock (need to at
@@ -67,12 +82,19 @@ public class LevelStepStrategy implements StepStrategy {
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
 	}
+	
 	/**
+	 * Logic for ending this level screen when you die. IMPORTANT: Called from DieAction
+	 * (and can be called from other Actions), NOT from step(). Stops this screen's
+	 * timeline, instantiates the next screen with a TransitionStepStrategy
+	 * appropriate to whether there is a gameOver, and starts that timeline.
 	 * Although this method uses a Timeline, it is specific to Level Screens, so
 	 * I put it here in LevelStepStrategy rather than in Screen.
 	 * 
 	 * @param gameOver
 	 */
+	
+	//TODO Rename this die()
 	public void endLevel(boolean gameOver) {
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			info.getObservableBundle().detachEntityFromAll(entity);
@@ -128,6 +150,14 @@ public class LevelStepStrategy implements StepStrategy {
 		// TODO call graphicsEngine.setCamera() here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
+	
+	/**
+	 * Logic for ending this level screen when won the level. IMPORTANT: Called from NextLevelAction
+	 * (and can be called from other Actions), NOT from step(). Stops this screen's
+	 * timeline, instantiates the next screen with a NextLevelStepStrategy, and starts that timeline.
+	 * Although this method uses a Timeline, it is specific to Level Screens, so
+	 * I put it here in LevelStepStrategy rather than in Screen.
+	 */
 	public void startNextLevel() {
 		StepStrategy nextStepStrategy = new NextLevelStepStrategy();
 		info.setCurrentStepStrategy(nextStepStrategy);
