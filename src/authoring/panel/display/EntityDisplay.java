@@ -16,22 +16,33 @@ import javafx.scene.layout.VBox;
 /**
  * @author Elliott Bolzan
  *
+ *         A class that displays the user's default Entities. Allows the user to
+ *         edit and delete them, or add new ones. Also allows the user to drag
+ *         and drop Entities to the Canvas.
  */
 public class EntityDisplay extends EditableContainer {
 
 	private ListView<Entity> list;
 
 	/**
-	 * 
+	 * Creates an EntityDisplay.
+	 * @param workspace the workspace that owns the EntityDisplay.
 	 */
 	public EntityDisplay(Workspace workspace) {
 		super(workspace, workspace.getResources().getString("EntityDisplayTitle"));
 	}
 
+	/**
+	 * @return the EntityDisplay's ListView.
+	 */
 	public ListView<Entity> getList() {
 		return list;
 	}
 
+	/**
+	 * Add an Entity to the EntityDisplay.
+	 * @param entity the Entity to be added.
+	 */
 	public void addEntity(Entity entity) {
 		if (getCurrentlyEditing() != null) {
 			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
@@ -39,27 +50,39 @@ public class EntityDisplay extends EditableContainer {
 		}
 		getWorkspace().getDefaults().add(entity);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see authoring.components.EditableContainer#createNew()
+	 */
 	@Override
 	public void createNew() {
 		setCurrentlyEditing(null);
 		new EntityMaker(getWorkspace(), this, null);
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.components.EditableContainer#edit()
+	 */
 	@Override
 	public void edit() {
-		if (selectionExists(getSelection())){
+		if (selectionExists(getSelection())) {
 			setCurrentlyEditing(getSelection());
 			new EntityMaker(getWorkspace(), this, getSelection());
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.components.EditableContainer#delete()
+	 */
 	@Override
 	public void delete() {
 		if (selectionExists(getSelection()))
 			getWorkspace().getDefaults().remove(getSelection());
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.components.EditableContainer#createContainer()
+	 */
 	@Override
 	public void createContainer() {
 		list = new ListView<Entity>();
@@ -86,7 +109,7 @@ public class EntityDisplay extends EditableContainer {
 		list.setItems(getWorkspace().getDefaults().getEntities());
 		setCenter(list);
 	}
-	
+
 	private Entity getSelection() {
 		return list.getSelectionModel().getSelectedItem();
 	}
@@ -101,6 +124,5 @@ public class EntityDisplay extends EditableContainer {
 		box.getChildren().addAll(thumbnail, name);
 		return box;
 	}
-	
 
 }

@@ -92,6 +92,14 @@ public class LayerPanel extends View {
 		editorContainer.getChildren().addAll(myBox, sliderBox, velocityButton);
 	}
 
+	/**
+	 * updateBox is called whenever the LayerEditor adds another layer and needs
+	 * to alert the combobox. The name of the new string name is passed back to
+	 * the combobox.
+	 * 
+	 * @param newLayer
+	 */
+
 	public void updateBox(String newLayer) {
 		myBox.getItems().add(newLayer);
 	}
@@ -107,6 +115,14 @@ public class LayerPanel extends View {
 			}
 		});
 	}
+
+	/**
+	 * selectLevelBox is called whenever levels are switched and the set of
+	 * layers changes. The new level reports its new layer set to the workspace,
+	 * which, in turn passes the new layer count to the combobox.
+	 * 
+	 * @param layerNum
+	 */
 
 	public void selectLevelBox(int layerNum) {
 		myBox.getItems().clear();

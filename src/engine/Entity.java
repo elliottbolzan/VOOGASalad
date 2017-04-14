@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -18,6 +19,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public static final Integer YACCELERATION = 1;
 	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private SimpleStringProperty name, imagePath;
+	private SimpleBooleanProperty isVisible;
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
 
@@ -39,6 +41,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		events = new ArrayList<Event>();
 		this.name = new SimpleStringProperty(name);
 		this.imagePath = new SimpleStringProperty(imagePath);
+		isVisible = new SimpleBooleanProperty(true);
 	}
 
 	/**
@@ -116,6 +119,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return imagePath;
 	}
 
+	public SimpleBooleanProperty isVisibleProperty() {
+		return this.isVisible;
+	}
+
 	@Override
 	public double getY() {
 		return this.y.get();
@@ -190,6 +197,14 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public void setEvents(List<Event> events) {
 		this.events = events;
+	}
+
+	public void setIsVisible(boolean visiblbe) {
+		this.isVisible.set(visiblbe);
+	}
+
+	public boolean getIsVisible() {
+		return this.isVisible.get();
 	}
 
 	private void set(Entity entity) {

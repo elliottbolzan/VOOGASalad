@@ -17,9 +17,14 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
+import player.BasicPlayer;
 
 /**
- * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
+ * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford)
+ *
+ *         The container for the Game Authoring Environment. Displays a
+ *         SplitPane, which contains the Panel and the Canvas. Serves as an
+ *         intermediary between the default Entities, the Panel, and the Canvas.
  *
  */
 public class Workspace extends View {
@@ -34,19 +39,29 @@ public class Workspace extends View {
 
 	private Game game;
 	private DefaultEntities defaults;
+	private String path;
 
 	/**
+	 * Creates the Workspace.
 	 * 
+	 * @param resources
+	 *            the ResourceBundle that pertains to this Workspace.
+	 * @param path
+	 *            the path of the Game to be loaded.
 	 */
 	public Workspace(ResourceBundle resources, String path) {
 		super("Workspace");
 		this.resources = resources;
 		setup();
+		this.path = path;
 		if (!path.equals("")) {
 			load(path);
 		}
 	}
 
+	/**
+	 * @return the Workspace's current Game.
+	 */
 	public Game getGame() {
 		return game;
 	}
@@ -91,6 +106,11 @@ public class Workspace extends View {
 		this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
 	}
 
+	/**
+	 * Save the Game to disk. A DirectoryChooser is presented to the user; the
+	 * Game's construction is finalized; and a call to GameData is made to save
+	 * the Game.
+	 */
 	public void save() {
 		String path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
@@ -105,48 +125,120 @@ public class Workspace extends View {
 		}
 	}
 
+	/**
+	 * Test the Game that is currently being designed.
+	 * 
+	 * @param game
+	 *            the Game to test.
+	 */
+	public void test(Game game) {
+		new BasicPlayer(game, path);
+	}
+
+	/**
+	 * @return the ResourceBundle for this View's descendants.
+	 */
 	public ResourceBundle getResources() {
 		return resources;
 	}
 
+	/**
+	 * @return the SplitPane governing this View.
+	 */
 	public SplitPane getPane() {
 		return pane;
 	}
 
+	/**
+	 * @return the default Entities the user has created.
+	 */
 	public DefaultEntities getDefaults() {
 		return defaults;
 	}
 
+	/**
+	 * @return the selected Entity.
+	 */
 	public Entity getSelectedEntity() {
 		return defaults.getSelectedEntity();
 	}
 
+	/**
+	 * Show an error message to the user.
+	 * 
+	 * @param message
+	 *            the message to be shown.
+	 */
 	public void showMessage(String message) {
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
+	/**
+	 * Used at initialization, when the default layer created is not one that is
+	 * user-requested. The levelEditor must alert the ComboBox that the first
+	 * layer has been initialized, which it does through the workspace.
+	 * 
+	 * @param newLayer
+	 *            the layer to be created.
+	 */
 	public void setNewLayer(String newLayer) {
 		panel.updateLayerPanel(newLayer);
 	}
 
+	/**
+	 * addLayer is called from the panel whenever the user selects the option to
+	 * add another layer. The workspace instructs the levelEditor to create
+	 * another layer.
+	 * 
+	 */
 	public void addLayer() {
 		levelEditor.getCurrentLevel().makeLayer();
 	}
 
-	public void selectLayer(int arg2) {
-		levelEditor.getCurrentLevel().selectLayer(arg2);
+	/**
+	 * When the user selects a new layer from the layer-selecting ComboBox, it
+	 * alerts the workspace, which, in turn, instructs the LevelEditor to switch
+	 * layers.
+	 * 
+	 * @param number
+	 *            the layer's identifier.
+	 */
+	public void selectLayer(int number) {
+		levelEditor.getCurrentLevel().selectLayer(number);
 	}
 
+	/**
+	 * When a new level is selected by the user, the LevelEditor alerts the
+	 * workspace, which, in turn, alerts the panel to the change being made. The
+	 * combobox displaying layer names is subsequently updated.
+	 * 
+	 * @param newLevelNum
+	 *            the number of the new level.
+	 */
 	public void selectExistingLevel(int newLevelNum) {
 		panel.selectExistingLevelBox(newLevelNum);
 	}
 
+	/**
+	 * When the user instructs the layer panel to delete a layer, the workspace
+	 * alerts the levelEditor, telling it to delete a layer of its current
+	 * level.
+	 * 
+	 * @param layer
+	 *            the identifier of the layer to be deleted.
+	 */
 	public void deleteLayer(int layer) {
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
-	
+
+	/**
+	 * Update Entities on the Canvas when their default was edited by the user.
+	 * 
+	 * @param entity
+	 *            the Entity to replace the old Entities with.
+	 */
 	public void updateEntity(Entity entity) {
 		levelEditor.updateEntity(entity);
 	}
-	
+
 }

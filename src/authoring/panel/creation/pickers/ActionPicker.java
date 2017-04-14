@@ -16,6 +16,10 @@ import javafx.stage.Modality;
 /**
  * @author Elliott Bolzan
  *
+ *         This class lets the user view, edit, delete, and select Actions he or
+ *         she has created. It extends Picker, a superclass which provides its
+ *         editing and deleting abilities.
+ *
  */
 public class ActionPicker extends Picker {
 
@@ -24,6 +28,11 @@ public class ActionPicker extends Picker {
 	private ListView<Action> list;
 	private ComponentMaker maker;
 
+	/** 
+	 * Creates an ActionPicker.
+	 * @param workspace the workspace that pertains to this picker.
+	 * @param editor the EntityMaker which created this ActionPicker.
+	 */
 	public ActionPicker(Workspace workspace, EntityMaker editor) {
 		super(workspace, "ActionPickerTitle", editor);
 		this.editor = editor;
@@ -31,6 +40,9 @@ public class ActionPicker extends Picker {
 		update();
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#createContainer()
+	 */
 	@Override
 	public void createContainer() {
 		list = new ListView<Action>();
@@ -52,6 +64,9 @@ public class ActionPicker extends Picker {
 		setCenter(list);
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#createNew()
+	 */
 	@Override
 	public void createNew() {
 		if (editor.getSelectedEvent() != null && editor.getEntity() != null) {
@@ -62,6 +77,9 @@ public class ActionPicker extends Picker {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#add(java.lang.Object)
+	 */
 	@Override
 	public <E> void add(E element) {
 		if (getCurrentlyEditing() != null) {
@@ -74,12 +92,18 @@ public class ActionPicker extends Picker {
 		select(action);
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#remove(java.lang.Object)
+	 */
 	@Override
 	public <E> void remove(E element) {
 		editor.getSelectedEvent().getActions().remove((Action) element);
 		update();
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#delete()
+	 */
 	@Override
 	public void delete() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
@@ -87,6 +111,9 @@ public class ActionPicker extends Picker {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#edit()
+	 */
 	@Override
 	public void edit() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
@@ -95,6 +122,9 @@ public class ActionPicker extends Picker {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#update()
+	 */
 	@Override
 	public void update() {
 		if (editor.getSelectedEvent() != null)
@@ -103,6 +133,9 @@ public class ActionPicker extends Picker {
 			list.setItems(FXCollections.emptyObservableList());
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#showEditor()
+	 */
 	@Override
 	public void showEditor() {
 		ActionEditor editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
@@ -110,6 +143,9 @@ public class ActionPicker extends Picker {
 		maker.display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#select(engine.GameObject)
+	 */
 	@Override
 	public void select(GameObject object) {
 		list.getSelectionModel().select((Action) object);

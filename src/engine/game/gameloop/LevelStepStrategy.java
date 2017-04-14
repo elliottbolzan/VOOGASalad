@@ -14,6 +14,7 @@ import engine.actions.ZeroHorizontalSpeedAction;
 import engine.actions.ZeroVerticalSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
+import engine.entities.CameraEntity;
 import engine.events.AlwaysEvent;
 import engine.events.CollisionEvent;
 import engine.events.KeyPressEvent;
@@ -41,8 +42,7 @@ public class LevelStepStrategy implements StepStrategy {
 		this.info = info;
 		levelManager.loadAllSavedLevels(); //To reset initial state of level
 		// TODO get filename here
-		//levelManager.addLevel(new Level()); // TODO: remove this empty level for
-											// testing
+		
 		info.getScorebar().resetTimerManager();
 		
 		//instantiateTestEntitesEventsActions();
@@ -60,7 +60,6 @@ public class LevelStepStrategy implements StepStrategy {
 											// beginning of step(), not end,
 											// because onFinished of Timeline
 											// called at END of time elapsed
-		printStepData();
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
@@ -82,12 +81,10 @@ public class LevelStepStrategy implements StepStrategy {
 		// and attach a DieAction, which will call this method when appropriate
 		StepStrategy nextStepStrategy;
 		if (gameOver) {
-			//System.out.println("Out of lives -- Game over!");
 			// screen.setNextScreen(screen); //TODO get rid of next screen
 			// parameter - no need to keep track of!
 			nextStepStrategy = new GameOverStepStrategy();
 		} else {
-			//System.out.println("You lost a life.");
 			// screen.setNextScreen(screen);
 			nextStepStrategy = new LoseLifeStepStrategy();
 		}
@@ -96,10 +93,7 @@ public class LevelStepStrategy implements StepStrategy {
 		Screen nextScreen = new Screen(nextStepStrategy, levelManager, gameScene, graphicsEngine, info);
 		nextScreen.getTimeline().play();
 	}
-	private void printStepData() {
-		//System.out.print(info.getScorebar().getTime() + " ");
-		//System.out.println(info.getObservableBundle().getCollisionObservable().getCollisions());
-	}
+	
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */
@@ -132,12 +126,9 @@ public class LevelStepStrategy implements StepStrategy {
 //	}
 	private void setupGameView() {
 		// TODO call graphicsEngine.setCamera() here
-		//System.out.println("Set Entities Collections (makes bindings)");
-		//System.out.println(levelManager.getCurrentLevel().getEntities().size());
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 	public void startNextLevel() {
-		//System.out.println("In LevelStepStrategy's startNextLevel()");
 		StepStrategy nextStepStrategy = new NextLevelStepStrategy();
 		info.setCurrentStepStrategy(nextStepStrategy);
 		screen.getTimeline().stop();
@@ -187,9 +178,9 @@ public class LevelStepStrategy implements StepStrategy {
 			KeyPressEvent upPressed = new KeyPressEvent();
 			upPressed.updateParam("Key", KeyCode.UP);
 			mario.addEvent(upPressed);
-			JumpSpeedAction jump = new JumpSpeedAction();
+			JumpAction jump = new JumpAction();
 			jump.setEntity(mario);
-			jump.updateParam("Initial Jump Speed", -15.0);
+			jump.updateParam("Initial Jump Speed", 15.0);
 			upPressed.addAction(jump);
 			KeyPressEvent rightPressed = new KeyPressEvent();
 			rightPressed.updateParam("Key", KeyCode.RIGHT);
@@ -292,9 +283,9 @@ public class LevelStepStrategy implements StepStrategy {
 			KeyPressEvent upPressed = new KeyPressEvent();
 			upPressed.updateParam("Key", KeyCode.UP);
 			mario.addEvent(upPressed);
-			JumpSpeedAction jump = new JumpSpeedAction();
+			JumpAction jump = new JumpAction();
 			jump.setEntity(mario);
-			jump.updateParam("Initial Jump Speed", -15.0);
+			jump.updateParam("Initial Jump Speed", 15.0);
 			upPressed.addAction(jump);
 			KeyPressEvent rightPressed = new KeyPressEvent();
 			rightPressed.updateParam("Key", KeyCode.RIGHT);
@@ -398,7 +389,7 @@ public class LevelStepStrategy implements StepStrategy {
 			KeyPressEvent upPressed = new KeyPressEvent();
 			upPressed.updateParam("Key", KeyCode.UP);
 			mario.addEvent(upPressed);
-			JumpSpeedAction jump = new JumpSpeedAction();
+			JumpAction jump = new JumpAction();
 			jump.setEntity(mario);
 			jump.updateParam("Initial Jump Speed", -15.0);
 			upPressed.addAction(jump);

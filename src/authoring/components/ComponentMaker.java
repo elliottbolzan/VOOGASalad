@@ -174,7 +174,7 @@ public class ComponentMaker {
 		button.getStyleClass().add(style);
 		return button;
 	}
-	
+
 	/**
 	 * @param property
 	 *            the property that provides the title of the Button.

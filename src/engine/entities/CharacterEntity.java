@@ -17,11 +17,21 @@ public class CharacterEntity extends Entity {
 		this.setYAcceleration(Entity.YACCELERATION);
 	}
 
+	/**
+	 * 
+	 * @return The number of lives that the CharacterEntity has
+	 */
 	public int getLives() {
 		return getGameInfo().getScorebar().getLives();
 		// return (Integer) getParam("Lives");
 	}
 
+	/**
+	 * Sets the number of lives for the CharacterEntity
+	 * 
+	 * @param lives
+	 *            new number of lives for this CharacterEntity
+	 */
 	public void setLives(int lives) {
 		updateParam("Lives", lives);
 		getGameInfo().getScorebar().setLives(lives);

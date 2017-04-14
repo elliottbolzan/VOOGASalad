@@ -94,10 +94,8 @@ These three units are described below:
 
 The Starter Window is a very simple window that has the title and 5 buttons:
 1. A New button that opens up the Game Authoring Environment from scratch.
-2. A Choose Game button that allows the user to choose an existing game to edit or play.
 3. An Edit button to go into the GAE with the chosen game.
 4. A Play button that goes into the Game Player with the chosen game.
-5. An Exit button that closes the program.
 
 ![](images/starter.png)
 
@@ -156,12 +154,11 @@ The user should be able to set the type of the new `Entity`; its image; its name
 
 The Game Player will load a main menu with buttons that are appropriate for the games. It will have 5 options:
 
-1. Back
-2. Play Game
-3. Highscores
-4. Options
-5. Game Data
-6. Achievements
+1. Play Game
+2. Highscores
+3. Options
+4. Game Data
+5. Achievements
 
 - **Back**
 This button just returns to the main starting window, or if in any of the menus it will return to the Game Player starting window.
@@ -190,8 +187,6 @@ Inside the actual game, there will be a toolbar at the top with 5 controls:
 2. Save
 3. Restart
 4. Play/Pause
-5. Options
-
 
 - **Exit**
 Exits the game and takes you back to the Game Player main menu.
@@ -204,9 +199,6 @@ Restarts the game from the very beginning. Reloads the data file.
 
 - **Play/Pause**
 Pauses or plays the game.
-
-- **Options**
-Allows user to change settings of the particular game while in the game without going back to the main menu.
 
 There will also be a HUD for the score, lives, and time.
 
@@ -246,6 +238,7 @@ The only other module it interacts with is the Game Engine, where it gets all th
 **Game Engine**
 *	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
    *	TimingManager - Information about the current time.
+   *	CollisionManager - Informatino about the Collsions between Entities in the current step of the game.
    *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
    *	GameLoop - Game loop.
    *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
@@ -260,10 +253,11 @@ The only other module it interacts with is the Game Engine, where it gets all th
     *	ComputerControlledEntity - Anything appearing on screen not controlled by the human player. This includes wall, blocks, and enemies. Divided between those that move (the user will be able to choose left/right, or up/down and the distance), and those that do not.
     *	Background.
     *	Note: For GamerControlledEntity and ComputerControlledEntity, contains inheritance hierarchies for different types. Also attaches Events to each object to handle interactions between Characters and Blocks. Contains a single class for the Background.
-*   Event Module (attached to Object). Defined as one of the following:
+*   Event Module (attached to Entity). Defined as one of the following:
     *	User input.
     *	Collision (each side, to distinguish between possible ones). 
     *	Timer.
+    *	Entity Location.
     *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
 *	Action Module (attached to Event). - The consequence of each Event. Examples are:
     *	Instantiate new object.

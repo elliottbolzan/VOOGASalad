@@ -18,7 +18,10 @@ import javafx.stage.Stage;
 
 /**
  * @author Elliott Bolzan
- *
+ * 
+ *         This class is displayed when an Entity is being created or edited. It
+ *         serves as a wrapper for four main parts: the EntityInfo, the
+ *         EntityEditor, the EventPicker, and the ActionPicker.
  */
 public class EntityMaker {
 
@@ -37,7 +40,14 @@ public class EntityMaker {
 	private Event selectedEvent;
 
 	/**
+	 * Creates an EntityMaker.
 	 * 
+	 * @param workspace
+	 *            the workspace that pertains to this view.
+	 * @param display
+	 *            the EntityDisplay which created this editor.
+	 * @param entity
+	 *            an Entity to edit (could be null).
 	 */
 	public EntityMaker(Workspace workspace, EntityDisplay display, Entity entity) {
 		this.workspace = workspace;
@@ -50,6 +60,9 @@ public class EntityMaker {
 		setupStage();
 	}
 
+	/**
+	 * @return the EntityMaker's entity.
+	 */
 	public Entity getEntity() {
 		return entityEditor.getEntity();
 	}
@@ -81,24 +94,45 @@ public class EntityMaker {
 		return scene;
 	}
 
+	/**
+	 * Closes the EntityMaker.
+	 */
 	public void dismiss() {
 		stage.close();
 	}
 
+	/**
+	 * Set the currently selected Event.
+	 * 
+	 * @param event
+	 *            the currently selected Event.
+	 */
 	public void setSelectedEvent(Event event) {
 		selectedEvent = event;
 		actionPicker.update();
 	}
 
+	/**
+	 * @return the currently selected Event.
+	 */
 	public Event getSelectedEvent() {
 		return selectedEvent;
 	}
 
+	/**
+	 * Display an error message in a JavaFX dialog.
+	 * 
+	 * @param message
+	 *            the message to display.
+	 */
 	public void showMessage(String message) {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).show();
 	}
 
+	/**
+	 * Save the Entity to defaults.
+	 */
 	public void save() {
 		if (entityInfo.getName().trim().equals("")) {
 			showMessage(workspace.getResources().getString("EmptyName"));
