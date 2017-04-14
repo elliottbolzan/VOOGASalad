@@ -146,9 +146,44 @@ public class LayerEditor extends View
 				}
 			}
 			if (e.getCode().equals(KeyCode.V) && e.isControlDown()) {
+				for (Layer layer : layers.values()) {
+					layer.getSelectedEntities().forEach(entity -> entity.setSelected(false));
+				}
 				for (EntityView entity : copiedEntities) {
 					addEntity(entity.getEntity(), entity.getEntity().getX() + 25, entity.getEntity().getY() + 25,
-							currLayer);
+							currLayer).setSelected(true);
+				}
+			}
+			if (e.getCode().equals(KeyCode.D)) {
+				for (Layer layer : layers.values()) {
+					layer.getSelectedEntities().forEach(entity -> {
+						entity.moveX(canvas.getTileSize());
+					});
+				}
+			}
+			if (e.getCode().equals(KeyCode.A)) {
+				for (Layer layer : layers.values()) {
+					layer.getSelectedEntities().forEach(entity -> {
+						if (entity.getEntity().getX() > canvas.getTileSize()) {
+							entity.moveX(-1 * canvas.getTileSize());
+						}
+					});
+				}
+			}
+			if (e.getCode().equals(KeyCode.S)) {
+				for (Layer layer : layers.values()) {
+					layer.getSelectedEntities().forEach(entity -> {
+						entity.moveY(canvas.getTileSize());
+					});
+				}
+			}
+			if (e.getCode().equals(KeyCode.W)) {
+				for (Layer layer : layers.values()) {
+					layer.getSelectedEntities().forEach(entity -> {
+						if (entity.getEntity().getY() > canvas.getTileSize()) {
+							entity.moveY(-1 * canvas.getTileSize());
+						}
+					});
 				}
 			}
 		});
@@ -206,8 +241,9 @@ public class LayerEditor extends View
 	 *            y position to place the Entity
 	 * @param z
 	 *            layer to place the Entity in
+	 * @return EntityView that was added.
 	 */
-	public void addEntity(Entity entity, double x, double y, int z)
+	public EntityView addEntity(Entity entity, double x, double y, int z)
 	{
 		EntityView addedEntity = canvas.addEntity(entity, x, y);
 		addedEntity.getEntity().setZ(z);
@@ -223,6 +259,7 @@ public class LayerEditor extends View
 			}
 			selectEntity(addedEntity, !addedEntity.isSelected());
 		});
+		return addedEntity;
 	}
 
 	/**

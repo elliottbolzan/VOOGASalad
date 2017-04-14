@@ -59,10 +59,6 @@ public class Workspace extends View
 		return game;
 	}
 
-	/*
-	 * public void updateEntity(Entity entity) { panel.updateEntity(entity); }
-	 */
-
 	/**
 	 * Initializes the Workspace's components.
 	 */

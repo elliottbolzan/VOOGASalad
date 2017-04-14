@@ -121,8 +121,17 @@ public class Canvas extends View
 	public double getYScrollAmount()
 	{
 		double viewportY = scrollScreen.getViewportBounds().getHeight();
-		System.out.println(viewportY);
 		return scrollScreen.getVvalue() * (height - viewportY);
+	}
+
+	/**
+	 * Returns the size of each tile in the Canvas.
+	 * 
+	 * @return canvas tile size.
+	 */
+	public double getTileSize()
+	{
+		return TILE_SIZE;
 	}
 
 	/**
