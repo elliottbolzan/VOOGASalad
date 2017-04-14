@@ -20,7 +20,6 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
-import player.Player;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -47,7 +46,6 @@ public class Workspace extends View {
 		super("Workspace");
 		this.resources = resources;
 		setup();
-		this.path = path;
 		if (!path.equals("")) {
 			load(path);
 		}
@@ -124,7 +122,7 @@ public class Workspace extends View {
 	}
 
 	public void save() {
-		String path = "";
+		path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
 		File selectedDirectory = chooser.showDialog(getScene().getWindow());
