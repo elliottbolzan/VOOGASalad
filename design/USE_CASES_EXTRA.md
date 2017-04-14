@@ -212,4 +212,49 @@ Matthew Barbano (meb100)
 - The user clicks the first level, then the second, and a path appears connecting the levels. In the backend, GraphSG’s method connectLevels() connects the levels by adding them to each other’s edge lists (or perhaps another implementation of graph).
 
 
+---------------------
 
+Dennis Ling (dl186)
+
+**A user saves the game and chooses a file path location that already contains the same named game.**
+- After the save game button is pressed, the `saveGame(Game game, String filepath)` in `GameSaver.java` is called.
+- The Game is seralized into XML using Xstream into the `String filepath` location, overwriting any game already saved at the location.
+
+**A user loads the game and chooses a folder without a proper XML file**
+- After the load game button is pressed, the `loadGame(String folderpath)` in `GameLoader.java` is called.
+- The `loadGame` method tries to find the `String folderPath`, but does not.
+- A `NotAGameFolderException` is thrown and the method exits.
+
+**A user saves the game as a zip file.**
+- After the save game button is pressed, a new method in `GameSaver.java` will access the already-made game folder.
+- The new method, `zipFolder` will take the folder and zip all of the contents, returning one zipped file.
+- The zip file will be written to the filepath designed.
+
+**A user loads the game from a zip file.**
+- After the load game button is pressed, a new method in `GameLoader.java` will acess the zipped file.
+- The new method, `unzipFile` will take the file and unzip the contents, returning a folder with all of the necessary game contents.
+- The unzipped folder will be opened and loaded onto the Game Player.
+
+---------------------
+
+Michael Li (mxl3)
+**Achievements are accessed and saved into the XML file from the authoring environment.**
+- Achievements will first be serialized and written into the XML file.
+- A new node will be created, with the node name being "Achievements" and the value being all of the achievements saved by the user.
+- The XML file now contains all of the achievements under new nodes.
+
+**Additional game information is accessed and loaded from the XML file onto the authoring environment.**
+- The game info will be stored as new nodes in the XML file.
+- When load is pressed on the game authoring environment, the `GameLoader.java` will have a method `loadAchievements` that extracts the achievement information from the XML file.
+- The extracted information is returned to the game authoring environment to display.
+
+**Background images are accessed and loaded from the XML file onto the authoring environment.**
+- The background images will be stored as new nodes in the XML file.
+- After load is pressed in the authoring environment, a method `loadBackgrounds` will be called in `GameLoader.java` that extracts the background images from the XML file.
+- These image filepaths are returned to the game authoring environment to display.
+
+**A song is saved and then loaded with XML serializing.**
+- *The song will be located in resources of the game file.*
+- The song's filepath will be passed to the `GameSaver.java`, which will handle all relative and absolute path necessities.
+- The filepath will be serialized into XML and saved into the XML file.
+- When loading is pressed, the same filepath will be unserialized by the `GameLoader.java` and provided to the authoring environment to access.

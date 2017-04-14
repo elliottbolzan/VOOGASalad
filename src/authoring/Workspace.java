@@ -27,7 +27,8 @@ import player.BasicPlayer;
  *         intermediary between the default Entities, the Panel, and the Canvas.
  *
  */
-public class Workspace extends View {
+public class Workspace extends View
+{
 
 	private ResourceBundle resources;
 	private ComponentMaker maker;
@@ -49,7 +50,8 @@ public class Workspace extends View {
 	 * @param path
 	 *            the path of the Game to be loaded.
 	 */
-	public Workspace(ResourceBundle resources, String path) {
+	public Workspace(ResourceBundle resources, String path)
+	{
 		super("Workspace");
 		this.resources = resources;
 		setup();
@@ -68,7 +70,8 @@ public class Workspace extends View {
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup() {
+	private void setup()
+	{
 		game = new Game();
 		data = new GameData();
 		maker = new ComponentMaker(resources);
@@ -89,8 +92,10 @@ public class Workspace extends View {
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.setOnMouseEntered(e2 -> {
-				levelEditor.getCurrentLevel().addEntity(addedEntity, e2.getX(), e2.getY(),
-						levelEditor.getCurrentLevel().getCurrentLayer());
+				levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
+				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2.
+				// e2.getSceneY(),
+				// levelEditor.getCurrentLevel().getCurrentLayer());
 				levelEditor.setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});
@@ -226,7 +231,8 @@ public class Workspace extends View {
 	 * @param layer
 	 *            the identifier of the layer to be deleted.
 	 */
-	public void deleteLayer(int layer) {
+	public void deleteLayer(int layer)
+	{
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
 
