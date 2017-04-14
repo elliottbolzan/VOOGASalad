@@ -103,6 +103,29 @@ public class Canvas extends View
 	}
 
 	/**
+	 * Gets the current x value of the top-left corner.
+	 * 
+	 * @return x value of top-left corner of scroll panel.
+	 */
+	public double getXScrollAmount()
+	{
+		double viewPortX = scrollScreen.getViewportBounds().getWidth();
+		return scrollScreen.getHvalue() * (width - viewPortX);
+	}
+
+	/**
+	 * Gets the current y value of the top-left corner.
+	 * 
+	 * @return y value of top-left corner.
+	 */
+	public double getYScrollAmount()
+	{
+		double viewportY = scrollScreen.getViewportBounds().getHeight();
+		System.out.println(viewportY);
+		return scrollScreen.getVvalue() * (height - viewportY);
+	}
+
+	/**
 	 * Creates the scroller for the canvas.
 	 * 
 	 * @return ScrollPane scroller for canvas
