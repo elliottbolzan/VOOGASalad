@@ -35,6 +35,7 @@ public class EntityDisplay extends EditableContainer {
 	public void addEntity(Entity entity) {
 		if (getCurrentlyEditing() != null) {
 			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
+			getWorkspace().updateEntity(entity);
 		}
 		getWorkspace().getDefaults().add(entity);
 	}

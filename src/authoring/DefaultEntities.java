@@ -62,5 +62,9 @@ public class DefaultEntities {
 	private void updateModel() {
 		workspace.getGame().setDefaults(new ArrayList<Entity>(entities));
 	}
+	
+	public void updateCanvas(Entity entity) {
+		workspace.updateEntity(entity);
+	}
 
 }

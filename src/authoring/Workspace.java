@@ -1,8 +1,6 @@
 package authoring;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
@@ -53,10 +51,6 @@ public class Workspace extends View {
 		return game;
 	}
 
-	/*
-	 * public void updateEntity(Entity entity) { panel.updateEntity(entity); }
-	 */
-
 	/**
 	 * Initializes the Workspace's components.
 	 */
@@ -90,33 +84,11 @@ public class Workspace extends View {
 	}
 
 	private void load(String path) {
-		// game = data.loadGame(path);
-		GameData gameData = new GameData();
-		game = gameData.loadGame(path);
-
+		game = data.loadGame(path);
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
 		this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
-		/*
-		 * game = new Game(); Level level = new Level(); Level level2 = new
-		 * Level(); Entity one = new CharacterEntity(); Entity two = new
-		 * CharacterEntity(); Entity three = new CharacterEntity(); Entity four
-		 * = new CharacterEntity(); //
-		 * one.setImagePath("resources/images/mario.png");
-		 * one.xProperty().set(120); two.yProperty().set(200);
-		 * three.xProperty().set(200); four.xProperty().set(300);
-		 * 
-		 * three.setZ(1); four.setZ(10); level.addEntity(one);
-		 * level.addEntity(two); level.addEntity(three); level.addEntity(four);
-		 * level2.addEntity(one); List<Level> levels = new ArrayList<>();
-		 * levels.add(level); levels.add(level2); game.setLevels(levels);
-		 * 
-		 * levelEditor.loadGame(game.getLevels());
-		 * defaults.setEntities(game.getDefaults());
-		 * panel.getSettings().load(game);
-		 * 
-		 */
 	}
 
 	public void save() {
@@ -153,11 +125,6 @@ public class Workspace extends View {
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
-	public List<Entity> getEntities() {
-		// return canvas's entities (i.e. canvas.getLevel())
-		return new ArrayList<Entity>();
-	}
-
 	public void setNewLayer(String newLayer) {
 		panel.updateLayerPanel(newLayer);
 	}
@@ -177,4 +144,9 @@ public class Workspace extends View {
 	public void deleteLayer(int layer) {
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
+	
+	public void updateEntity(Entity entity) {
+		levelEditor.updateEntity(entity);
+	}
+	
 }
