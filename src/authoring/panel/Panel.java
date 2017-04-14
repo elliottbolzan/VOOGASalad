@@ -5,6 +5,7 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
+import authoring.panel.achievements.Achievements;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.settings.Settings;
@@ -12,6 +13,7 @@ import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
 import engine.Entity;
+import javafx.scene.layout.VBox;
 
 public class Panel extends CollapsibleView {
 
@@ -20,6 +22,7 @@ public class Panel extends CollapsibleView {
 	private EntityDisplay entityDisplay;
 	private Settings settings;
 	private LayerPanel layerPanel;
+	private Achievements achievements;
 
 	/**
 	 * Returns a Panel.
@@ -37,6 +40,7 @@ public class Panel extends CollapsibleView {
 		entityDisplay = new EntityDisplay(workspace);
 		settings = new Settings(workspace);
 		layerPanel = new LayerPanel(workspace);
+		achievements = new Achievements(workspace);
 		createSubviews();
 		setup();
 	}
@@ -50,6 +54,7 @@ public class Panel extends CollapsibleView {
 		subviews.add(entityDisplay);
 		subviews.add(new Chat(workspace));
 		subviews.add(layerPanel);
+		subviews.add(achievements);
 		subviews.add(settings);
 	}
 
@@ -59,7 +64,8 @@ public class Panel extends CollapsibleView {
 	private void setup() {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		setCenter(maker.makeAccordion(subviews));
-		setBottom(maker.makeButton("SaveButtonSettings", e -> workspace.save(), true));
+		setBottom(new VBox(maker.makeButton("SaveButtonSettings", e -> workspace.save(), true),
+				maker.makeButton("TestButtonSettings", e -> workspace.test(workspace.getGame()), true)));
 	}
 
 	public EntityDisplay getEntityDisplay() {

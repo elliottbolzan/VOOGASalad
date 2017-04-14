@@ -30,6 +30,7 @@ public class Settings extends View {
 	private ComponentMaker maker;
 	private LabeledField nameField;
 	private LabeledField songField;
+	private LabeledField imageField;
 
 	/**
 	 * The constructor needs a parent workspace specified. The rest of the
@@ -54,9 +55,13 @@ public class Settings extends View {
 		
 		songField = new LabeledField(workspace, "SongLabel", fileName(workspace.getGame().getSongPath()),
 				false);
-		VBox musicBox = buttonBox("MusicSelect", e -> pickSong(), songField);
+		VBox musicBox = buttonBox("MusicSelect", e -> pickMedia(songField, getResource("MusicChooserTitle"), getResource("MusicChooserExtensions")), songField);
 		
-		settingsContainer.getChildren().addAll(nameBox, new Separator(), musicBox);
+		imageField = new LabeledField(workspace, "BackgroundLabel", "", false);
+		VBox imageBox = buttonBox("MusicSelect", e -> pickMedia(imageField, getResource("ImageChooserTitle"), 
+				getResource("ImageChooserExtension1"), getResource("ImageChooserExtension2")), imageField);
+		
+		settingsContainer.getChildren().addAll(nameBox, new Separator(), musicBox, new Separator(), imageBox);
 		setCenter(settingsContainer);
 	}
 	
@@ -75,21 +80,28 @@ public class Settings extends View {
 	private void saveName() {
 		workspace.getGame().setName(nameField.getText());
 	}
-
-	private void pickSong() {
+	
+	private void pickMedia(LabeledField field, String extensionName, String... type){
 		String directory = System.getProperty("user.dir") + workspace.getResources().getString("DefaultDirectory");
-		FileChooser chooser = maker.makeFileChooser(directory, workspace.getResources().getString("MusicChooserTitle"),
-				workspace.getResources().getString("MusicChooserExtensions"));
+		FileChooser chooser = maker.makeFileChooser(directory, extensionName, type);
 		File selectedFile = chooser.showOpenDialog(getScene().getWindow());
 		if (selectedFile != null) {
 			String absolute = selectedFile.getAbsolutePath();
-			songField.setText(fileName(absolute));
-			workspace.getGame().setSongPath(absolute);
+			field.setText(fileName(absolute));
+			if(getResource(extensionName).equals("MusicChooserTitle")){		
+				workspace.getGame().setSongPath(absolute);
+			}else{
+				//workspace.getGame().setBackgroundPath(absolute);
+			}
 		}
 	}
 
 	private String fileName(String path) {
 		return Paths.get(path).getFileName().toString();
+	}
+	
+	private String getResource(String input){
+		return workspace.getResources().getString(input);
 	}
 	
 }
