@@ -55,7 +55,6 @@ public class Workspace extends View
 		super("Workspace");
 		this.resources = resources;
 		setup();
-		this.path = path;
 		if (!path.equals("")) {
 			load(path);
 		}
@@ -117,7 +116,7 @@ public class Workspace extends View
 	 * the Game.
 	 */
 	public void save() {
-		String path = "";
+		path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
 		File selectedDirectory = chooser.showDialog(getScene().getWindow());

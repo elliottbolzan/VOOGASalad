@@ -66,6 +66,7 @@ public class PlayerMenu {
 		VBox menu = new VBox(8);
 
 		menu.getChildren().addAll(componentMaker.makeButton("StartButton", e -> stage.setScene(new LoadMenu(stage, gameFolderPath).display()), true),
+				componentMaker.makeButton("Highscores", e -> stage.setScene(new HighscoreMenu(stage, gameFolderPath).display()), true),
 				componentMaker.makeButton("AchievementsButton", e -> stage.setScene(new AchievementsMenu(stage, gameFolderPath).display()), true),
 				componentMaker.makeButton("OptionsButton", e -> stage.setScene(new OptionsMenu(stage, gameFolderPath).display()), true),
 				componentMaker.makeButton("InfoButton", e -> stage.setScene(new InfoMenu(stage, gameFolderPath).display()), true),

@@ -6,9 +6,9 @@ import java.util.List;
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
 import authoring.views.View;
-import javafx.geometry.Insets;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Orientation;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -20,7 +20,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 public class Achievements extends View{
@@ -54,10 +53,11 @@ public class Achievements extends View{
 	}
 	
 	private void setup(){
-		ScrollPane pane = new ScrollPane();
-		pane.setHbarPolicy(ScrollBarPolicy.NEVER);
-		
+		ScrollPane scroll = new ScrollPane();
 		VBox container = new VBox(15);
+		scroll.setContent(container);
+		
+		scroll.setFitToWidth(true);
 		
 		Button plus = maker.makeButton("AchievementsPlus", e -> newParameter(), true);
 		grid.add(condition, 0, conditions.size()-1, 1, 1);
@@ -68,8 +68,7 @@ public class Achievements extends View{
 		VBox parameter = labelBox("AchievementsParamLabel", grid);
 		Button set = maker.makeButton("SetName", e -> setAchievement(), true);
 		container.getChildren().addAll(name, description, parameter, set);
-		//pane.setContent(container);
-		setCenter(container);
+		setCenter(scroll);
 	}
 	
 	private VBox labelBox(String title, Node object){
