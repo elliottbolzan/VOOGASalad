@@ -158,6 +158,30 @@ Jesse Yue (jty4)
 - In the player, when the user completes all the parameters of an achievement there will be a pop up for an achievement
 - The achievement menu will tick that achievement as completed
 
+---------------------
+
+Matthew Barbano (meb100)
+
+**A startup splash screen displays when a game is begun in the Game Player.**
+- When the Game Player instantiates a GameLoop, it in turn instantiates a Screen with a new StartupStepStrategy, which has the logic for displaying the startup screen image.
+- When the Game Player calls GameLoop’s start(), the Timeline in Screen calls StartupStepStrategy’s step(), which displays this screen.
+- After a set number of frames (a constant in StartupStepStrategy), StartupStepStrategy instantiates a new Screen, gives it a LevelStepStrategy, and calls its start(), switching to the first Level screen.
+
+**The game authoring environment sets the timer to start at 60 seconds, and the change is reflected for other subteams.**
+- A panel in the authoring environment allows for setting scorebar parameters, where 60 seconds is set as the starting time (critically, for a particular level).
+- This change is saved to game data.
+- The loadAllSavedData() method in LevelManager loads, in addition to the levels, the scorebar parameters.
+- The TimerManager loaded for each level is assigned to each level.
+
+**A player kills an enemy by stomping on it, increasing the score.**
+- The Authoring Environment creates an Enemy Entity with TopCollision Event and a Die Action, which is sent through game data and loaded into the engine.
+- The Authoring Environment also attaches a ScoreChange Action to this TopCollisionEvent, with parameter of the increment to the score.
+- When this Entity-Event-Action group is updated by the game loop, ScoreChange’s act() calls the Scorebar’s score setter to update.
+
+**The game authoring environment allows adds a level to the level selection screen graph and connects it to the first level.**
+- The user clicks to place a level location, and a node is added to the graph SelectionGroup.
+- This is repeated for another level.
+- The user clicks the first level, then the second, and a path appears connecting the levels. In the backend, GraphSG’s method connectLevels() connects the levels by adding them to each other’s edge lists (or perhaps another implementation of graph).
 
 
 
