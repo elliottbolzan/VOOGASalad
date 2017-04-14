@@ -268,11 +268,7 @@ especially important to allow for the most flexibility when designing a game.
 
 **Game Data**
 
-The Game Data will consist of the Input and Output modules, the former of which saves a game to an XML file(s), and the latter of which
-loads and recreates the data from that/those files(s). Both of these modules communicate with the Game Player's SaveProgressModule
-to save and load the game being played. With respect to design goals, these modules were created
-to separate the logic behind each task. These modules each use the `EntityConverter` object, which implements the `Converter` interface provided 
-by xStream. Here, entities are converted to valid XML and entities are created from XML. The format is consistent with xStream.
+The Game Data consists of Loading and Saving modules to separate the logic behind each task. We supply to other classes the `saveGame` and `loadGame` methods that are in the `GameSaver.java` and `LoadGame.java` respectively. These classes each use several other classes to help complete the serialization and parsing/unserializing process. Specifically, these modules each use the `EntityConverter` object, which implements the `Converter` interface provided by xStream. Here, entities are converted to valid XML and entities are created from XML. The format is consistent with xStream. We also use the specific `GameXMLFactory` to create the XML files and classes like the `LevelSaver`.
 
 
 ## Example Games
@@ -317,3 +313,4 @@ A point of debate was whether actions and events have parameters, or whether the
 
 - How should the `Player` get access to the JavaFx Node objects and how will they be updated?<br>
 Our group discussed two different options for having the `Player` receive the JavaFx Nodes and how they will be updated on every step of the game. The first and most primitive idea that could have worked was for the `Player` to call the `NodeFactory` on every single step of the game and replace the JavaFx Nodes that existed in the Scene with the new ones. These new ones would get the updated positions from the game engine, and the game would thus be moving. However, this would require the regeneration of the same nodes every single step just with new locations. This seemed like a poor choice to us, and a new design was chosen. Under this new design, we would only generate the JavaFx Node objects from `NodeFactory` once. The locations and images and all other necessary properties of these nodes will be binded using bindings to the locations and other vital properties of the `Entity` objects. These JavaFx Nodes will be then placed in the scene and will update automatically. Doing so eliminates having to update on every step and create new JavaFx Nodes. Only the game engine has to know about the stepping of the game, the `Player` just has to place the nodes properly in the scene, and that's it.
+
