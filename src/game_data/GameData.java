@@ -9,9 +9,9 @@ public class GameData {
 
 	public Game loadGame(String folderPath) {
 		GameLoader gl = new GameLoader();
-		Game game =null;
+		Game game = null;
 			try {
-			game =gl.loadGame(folderPath);
+			game = gl.loadGame(folderPath);
 		} catch (NotAGameFolderException i) {
 			i.printStackTrace();
 		}

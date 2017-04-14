@@ -7,6 +7,12 @@ import java.util.stream.Collectors;
 
 import exceptions.GameObjectException;
 
+/**
+ * @author nikita This is the abstract class from which event, action and entity
+ *         all inherit. It contains methods that are common to all of these
+ *         types of game objects, such as getting names and descriptions to
+ *         display to the user, getting and setting parameters, cloning and etc
+ */
 public abstract class GameObject {
 	private transient ResourceBundle resources;
 	private List<Parameter> params;
@@ -75,7 +81,7 @@ public abstract class GameObject {
 		this.info = info;
 	}
 
-	public GameObject getInstance() {
+	private GameObject getInstance() {
 		try {
 			return getClass().getConstructor().newInstance();
 		} catch (Exception e) {
@@ -85,6 +91,12 @@ public abstract class GameObject {
 		}
 	}
 
+	/**
+	 * return a copy of this game object, copying all necessary instance
+	 * variables.
+	 * 
+	 * @return copy of this game object.
+	 */
 	public GameObject clone() {
 		GameObject copy = getInstance();
 		copy.setGameInfo(getGameInfo());

@@ -71,6 +71,7 @@ public class CollisionObservable extends EventObservable {
 		for (Entity first : getObservers()) {
 			for (Entity second : getObservers()) {
 				if (first != second && isCollision(first, second)) {
+					System.out.println("ONCE");
 					collisions.add(new Collision(first, second, collisionSide(first, second)));
 				}
 			}
@@ -86,11 +87,8 @@ public class CollisionObservable extends EventObservable {
 	}
 
 	private boolean isCollision(Entity first, Entity second) {
-		return !(	first.getZ() != second.getZ() || 
-					first.getX() + first.getWidth() < second.getX() || 
-					second.getX() + second.getWidth() < first.getX() ||
-					first.getY() + first.getHeight() < second.getY() ||
-					second.getY() + second.getHeight() < first.getY()
-				);
+		return !(first.getZ() != second.getZ() || first.getX() + first.getWidth() < second.getX()
+				|| second.getX() + second.getWidth() < first.getX() || first.getY() + first.getHeight() < second.getY()
+				|| second.getY() + second.getHeight() < first.getY());
 	}
 }

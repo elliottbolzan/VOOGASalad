@@ -3,7 +3,7 @@ package exceptions;
 import java.util.ResourceBundle;
 
 /**
- * Exception for GameObjects
+ * Exception for GameObjects. Extends RuntimeException.
  * 
  * @author Kyle Finke
  *

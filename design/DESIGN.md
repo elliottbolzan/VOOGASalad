@@ -94,10 +94,8 @@ These three units are described below:
 
 The Starter Window is a very simple window that has the title and 5 buttons:
 1. A New button that opens up the Game Authoring Environment from scratch.
-2. A Choose Game button that allows the user to choose an existing game to edit or play.
 3. An Edit button to go into the GAE with the chosen game.
 4. A Play button that goes into the Game Player with the chosen game.
-5. An Exit button that closes the program.
 
 ![](images/starter.png)
 
@@ -105,9 +103,9 @@ The Starter Window is a very simple window that has the title and 5 buttons:
 
 The Authoring Environment will be further subdivided into three parts:
 
-1. The Settings (on the left in the image below).
+1. The Settings (on the bottom left in the image below).
 2. The Canvas (in the center in the image below).
-3. The Entity Panel (on the right in the image below).
+3. The Entity Panel (on the left in the image below).
 
 ![](images/authoring.png)
 
@@ -117,7 +115,7 @@ The **Settings** panel will harbor all game-wide settings.
 
 These settings may include: the scrolling platformer's orientation, whether the game scrolls automatically or when prompted by the character, the game's song, etc.
 
-In addition, the Settings will contain a `Save` button, that allows for the saving of the designed game to file. 
+In addition, the Settings will contain a `Save Game` button, that allows for the saving of the designed game to file. 
 
 Generally speaking, this section will only include "traditional" user interface elements: there should be no surprises in how the user should interact with the Settings.
 
@@ -151,15 +149,12 @@ The entity editor will allow the user to create a new **Entity**. The user shoul
 
 The Game Player will load a main menu with buttons that are appropriate for the games. It will have 5 options:
 
-1. Back
-2. Play Game
-3. Highscores
-4. Options
-5. Game Data
+1. Play Game
+2. Highscores
+3. Options
+4. Game Data
+5. Achievements
 
-
-- **Back**
-This button just returns to the main starting window, or if in any of the menus it will return to the Game Player starting window.
 
 - **Play Game**
 This button leads to a menu where they can either start a new game or from a previous save point.
@@ -174,6 +169,9 @@ This button leads to a menu where the user can adjust things like audio volume, 
 - **Game Data**
 This button leads to a menu that holds descriptions of the game. This is a hub that holds useful information for a game, backstory, character data, or anything the game developer wants to include.
 
+**Achievements**
+This button leads to a menu that holds achievements for the game. Achievements can be completed by meeting the required parameters and will create a pop up once achieved.
+
 ![](images/mainmenu.png)
 
 Inside the actual game, there will be a toolbar at the top with 5 controls:
@@ -182,8 +180,6 @@ Inside the actual game, there will be a toolbar at the top with 5 controls:
 2. Save
 3. Restart
 4. Play/Pause
-5. Options
-
 
 - **Exit**
 Exits the game and takes you back to the Game Player main menu.
@@ -197,8 +193,7 @@ Restarts the game from the very beginning. Reloads the data file.
 - **Play/Pause**
 Pauses or plays the game.
 
-- **Options**
-Allows user to change settings of the particular game while in the game without going back to the main menu.
+There will also be a HUD for the score, lives, and time.
 
 ![](images/gamerunner.png)
 
@@ -236,6 +231,7 @@ The only other module it interacts with is the Game Engine, where it gets all th
 **Game Engine**
 *	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
    *	TimingManager - Information about the current time.
+   *	CollisionManager - Informatino about the Collsions between Entities in the current step of the game.
    *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
    *	GameLoop - Game loop.
    *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
@@ -250,10 +246,11 @@ The only other module it interacts with is the Game Engine, where it gets all th
     *	ComputerControlledEntity - Anything appearing on screen not controlled by the human player. This includes wall, blocks, and enemies. Divided between those that move (the user will be able to choose left/right, or up/down and the distance), and those that do not.
     *	Background.
     *	Note: For GamerControlledEntity and ComputerControlledEntity, contains inheritance hierarchies for different types. Also attaches Events to each object to handle interactions between Characters and Blocks. Contains a single class for the Background.
-*   Event Module (attached to Object). Defined as one of the following:
+*   Event Module (attached to Entity). Defined as one of the following:
     *	User input.
     *	Collision (each side, to distinguish between possible ones). 
     *	Timer.
+    *	Entity Location.
     *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
 *	Action Module (attached to Event). - The consequence of each Event. Examples are:
     *	Instantiate new object.
@@ -268,8 +265,8 @@ The only other module it interacts with is the Game Engine, where it gets all th
     *	Movement. - This includes the physics of jumping/gravity.
     *  	Note: Obtains the list of these Actions through reflection.
 
-Entity, Event, and Action modules were all created to allow single Entities to have multiple Events those in turn to have Actions. They
-are an especially good example of substitution, as a single Entity can have ANY Events, and in turn they can have ANY Action; this is
+Entity, Event, and Action modules were all created to allow single Entities to have multiple Events, and those in turn to have Actions. They
+are an especially good example of substitution, as a single Entity can have ANY Events, and in turn they can have ANY Actions; this is
 especially important to allow for the most flexibility when designing a game.
 
 **Game Data**
@@ -277,7 +274,8 @@ especially important to allow for the most flexibility when designing a game.
 The Game Data will consist of the Input and Output modules, the former of which saves a game to an XML file(s), and the latter of which
 loads and recreates the data from that/those files(s). Both of these modules communicate with the Game Player's SaveProgressModule
 to save and load the game being played. With respect to design goals, these modules were created
-to separate the logic behind each task.
+to separate the logic behind each task. These modules each use the `EntityConverter` object, which implements the `Converter` interface provided 
+by xStream. Here, entities are converted to valid XML and entities are created from XML. The format is consistent with xStream.
 
 
 ## Example Games

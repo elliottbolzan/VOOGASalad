@@ -23,16 +23,17 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 /**
+ * Environment for playing the game. The Player instantiates the engine GameLoop and loads it with data
+ * from a chosen file using the GameData interface.
  * 
- * Environment for playing the game
- *
+ * @author Jay Doherty
  */
 public class Player extends BorderPane {
 
 	private static final int CONTROLS_HEIGHT = 60;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private String stylesheetPath = resources.getString("StylesheetPath");
-	private MediaPlayer player;
+	private MediaPlayer songPlayer;
 
 	private Stage stage;
 	private Scene scene;
@@ -79,16 +80,16 @@ public class Player extends BorderPane {
 			game = gameData.loadGame(dataFolderPath);
 			String path = game.getSongPath();
 			String uriString = new File(path).toURI().toString();
-			player = new MediaPlayer(new Media(uriString));
-			player.setCycleCount(MediaPlayer.INDEFINITE);
-			player.play();
+			songPlayer = new MediaPlayer(new Media(uriString));
+			songPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+			songPlayer.play();
 		} catch (Exception e) {
 
 		}
 	}
 
 	private void buildGameView() {
-		gameLoop = new GameLoop(scene, dataFolderPath);
+		gameLoop = new GameLoop(scene, new GameData().loadGame(dataFolderPath));
 		this.setCenter(gameLoop.getGameView());
 	}
 
@@ -141,8 +142,8 @@ public class Player extends BorderPane {
 
 	private void exit() {
 		gameLoop.pauseTimeline();
-		if (player != null)
-			player.pause();
+		if (songPlayer != null)
+			songPlayer.pause();
 		stage.close();
 	}
 

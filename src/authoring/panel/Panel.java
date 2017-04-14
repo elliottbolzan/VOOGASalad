@@ -69,10 +69,22 @@ public class Panel extends CollapsibleView {
 	public Settings getSettings() {
 		return settings;
 	}
+	
+	/**
+	 * When a new layer is selected by the LevelEditor, the panel must notify the layerPanel of the change and instruct
+	 * it to update the value it displays.
+	 * @param newLayer
+	 */
 
 	public void updateLayerPanel(String newLayer) {
 		layerPanel.updateBox(newLayer);
 	}
+	
+	/**
+	 * When the user switches between level tabs or selects a new level, the layerPanel must be notified so that the 
+	 * combobox will show only the names of the layers contained in the new level.
+	 * @param layerNum
+	 */
 
 	public void selectExistingLevelBox(int layerNum) {
 		layerPanel.selectLevelBox(layerNum);
