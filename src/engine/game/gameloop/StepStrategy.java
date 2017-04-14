@@ -5,6 +5,13 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
 
+/**
+ * The interface for the Strategy Design Pattern whose subclasses can be substituted for 
+ * different implementations of Screen's step().
+ * @author Matthew Barbano
+ *
+ */
+
 public interface StepStrategy {
 	/**
 	 * Called from Screen's constructor. Safest to put preliminary setup code rather than
@@ -15,7 +22,7 @@ public interface StepStrategy {
 	public void setup(LevelManager levelManager, Scene gameScene, Screen screen, GraphicsEngine graphicsEngine, GameInfo info);
 	
 	/**
-	 * Called from Screen's step() method.
+	 * Called from Screen's step() method on every iteration of the Timeline.
 	 */
 	public void step();
 }
