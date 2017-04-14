@@ -236,17 +236,13 @@ Has 3 modules
 The only other module it interacts with is the Game Engine, where it gets all the resources it needs to run the game.
 
 **Game Engine**
-*	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
-   *	TimingManager - Information about the current time.
-   *	CollisionManager - Informatino about the Collsions between Entities in the current step of the game.
-   *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
-   *	GameLoop - Game loop.
+*	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes/packages.
+   *	TimerManager - Information about the current time. Uses the <b>Strategy</b> Design Pattern to substitute implemetation of tick() based on whether clock ticks up or down.
+   *	GameLoop - Game loop. Contains Screen and StepStrategy hierarhcy, which uses the <b>Strategy</b> Design pattern to substitute implementation of step() based on the screen displayed.
    *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
-   *	Level - Contains classes from Player and Object modules pertaining to that level. Manages interaction between Players and Objects. Will likely be extended into inheritance hierarchy for creation of new types of levels, and each level will be divided into multiple classes. Also contains information about Settings:
-        *	Orientation.
-        *	Scrolling speed.
-        *	Background scrolling speed.
-        *	Whether scrolling is determined by character or by game.
+   *	SelectionGroup - Inheritance hierarhcy encapsulating a data structure containing all existing levels in the game. Allows for different implementations of this data structure, such as
+        Lists or graphs (the latter is for the second sprint so the player can have a map to navigate on). Could implement <b>Iterator</b> Design pattern in future.
+   *	Level - Contains classes from Player and Object modules pertaining to that level. Manages interaction between Players and Objects.
     *   Module created to have a centralized location for dealing with issues beyond the scope of a single level. Unifies the processing of all existing levels with that of level-wide settings (ex: song).
 *	Entity Module. - Anything drawn on the game screen.
     *	GamerControlledEntity - The character(s) controlled by the human player. Separate from the human player (in case can switch between characters), but interacts with the Player module. 
@@ -258,6 +254,7 @@ The only other module it interacts with is the Game Engine, where it gets all th
     *	Collision (each side, to distinguish between possible ones). 
     *	Timer.
     *	Entity Location.
+    *	Uses an <b>Observable</b> Design Pattern to allow Entities to listen to these events.
     *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
 *	Action Module (attached to Event). - The consequence of each Event. Examples are:
     *	Instantiate new object.

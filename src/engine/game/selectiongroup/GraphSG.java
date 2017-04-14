@@ -3,6 +3,12 @@ package engine.game.selectiongroup;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * 
+ * @author Matthew Barbano
+ *
+ * @param <T>
+ */
 public class GraphSG<T extends Selectable> implements SelectionGroup<T> {
 
 	public GraphSG() {
