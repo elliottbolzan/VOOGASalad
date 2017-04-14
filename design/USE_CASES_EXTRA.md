@@ -117,8 +117,22 @@ Mina Mungekar (mem94)
 Jay Doherty (jld60)
 
 **The user moves and the camera follows the character on screen**
+- The user moves the character.
+- On the next frame, an `AlwaysEvent` tied to the `CameraEntity` fires and triggers a `FollowAction`.
+- `FollowAction` updates the position of the camera based on the character.
+- `GraphicsEngine.updateCamera()` shifts all of the nodes by the new value of the camera location.
+ 
 **A powerup is picked up and needs to be removed from the visual display**
+- A `PowerUpEntity` and `CharacterEnity` collide, causing a `CollisionEvent` in both to go off.
+- The `CollisionEvent` in `PowerUpEntity` triggers a `InvisibleAction` that sets the `PowerUpEntity.isVisible` to false.
+- A listener in the `GraphicsEngine` sets the visibility of the corresponding display node to invisible.
+
 **A block is hit and its image changes as a result (cracks appear or something)**
+- A `CharacterEntity` or projectile collide with a breakable block.
+- A `CollisionEvent` on the block fires and triggers a `ImageChangeAction`.
+- The `ImageChangeAction` sets the image path of the block to a new image path.
+- A listener in the `GraphicsEngine` sets the image of the corresponding display node to the new image.
+
 **TODO Maybe something about displaying layers differently? **
 
 ------------
