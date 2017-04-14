@@ -4,7 +4,8 @@ import engine.Action;
 import engine.game.gameloop.LevelStepStrategy;
 
 /**
- * Starts the next level of a game.
+ * Starts the next level of the current game.
+ * 
  * @author Kyle Finke
  *
  */
