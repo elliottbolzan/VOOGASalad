@@ -7,6 +7,7 @@ import engine.entities.CameraEntity;
 import engine.Entity;
 import engine.game.gameloop.Scorebar;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -134,7 +135,10 @@ public class GraphicsEngine {
 			ImageView node = (ImageView)factory.getNodeFromEntity(entity);
 			node.xProperty().bind(entity.xProperty());
 			node.yProperty().bind(entity.yProperty());
-			
+			node.visibleProperty().bind(entity.isVisibleProperty());
+			entity.imagePathProperty().addListener(
+					(observer, oldPath, newPath) -> node.setImage(new Image(newPath))
+			);
 			this.nodes.add(node);
 			displayArea.getChildren().add(node);	
 		}

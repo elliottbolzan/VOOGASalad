@@ -44,7 +44,7 @@ public abstract class AbstractPlayer extends BorderPane{
 	
 	private void buildGameView() {
 		if(!path.equals("")){
-			gameLoop = new GameLoop(scene, path);
+			gameLoop = new GameLoop(scene, game);
 			this.setCenter(gameLoop.getGameView());
 		}
 		
