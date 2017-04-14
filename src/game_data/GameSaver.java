@@ -33,11 +33,12 @@ public class GameSaver {
 	private Game game;
 	private GameXMLFactory gameXMLFactory;
 
-	/** 
-	 * Main method to save the entire game to the selected file path.
-	 * Creates the XML factory factory that adds nodes to the XML file.
-	 * Calls the helper methods that save each individual part of the XML file.
-	 * 
+	/**
+	 * Main method to save the entire game to the selected file path. Utilizes GameXMLFactory to create the XML file.
+	 * @param game
+	 * 			game to be saved
+	 * @param filepath
+	 * 			filepath for the location of where the game will be saved
 	 */
 	public void saveGame(Game game, String filepath) {
 		this.game = game;
@@ -49,7 +50,12 @@ public class GameSaver {
 		saveSong(filepath + File.separator + game.getName(), game.getSongPath());
 		saveDocument(filepath);
 	}
-
+	
+	/**
+	 * creates the folder for the game
+	 * @param filePath
+	 * 			location of where game will be saved
+	 */
 	private void createRoot(String filePath) {
 		File folder = new File(filePath + File.separator + game.getName());
 		if (!folder.exists()) {
@@ -57,6 +63,13 @@ public class GameSaver {
 		}
 	}
 
+	/**
+	 * saves the song path into the XML game file
+	 * @param filePath
+	 * 			location of where the game will be saved
+	 * @param songPath
+	 * 			song path to be saved into XML
+	 */
 	private void saveSong(String filePath, String songPath) {
 		if (songPath.equals("")) {
 			return;
@@ -73,10 +86,17 @@ public class GameSaver {
 			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 			gameXMLFactory.addSong(relative);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Saves the image path of the entities into XML file
+	 * @param entity
+	 * 			entity's image path to be saved
+	 * @param filePath
+	 * 			location of where game will be saved
+	 */
 	public void saveEntityImage(Entity entity, String filePath) {
 		try {
 			String sourcePathString = new File(new URI(entity.getImagePath())).getAbsolutePath();
@@ -96,26 +116,35 @@ public class GameSaver {
 		}
 	}
 
+	/**
+	 * Saves the default entities into XML
+	 * @param defaults
+	 * 			List of entities that are defaults, to be saved into XML
+	 * @param filePath
+	 * 			where game will be saved
+	 */
 	private void saveDefaults(List<Entity> defaults, String filePath) {
-
 		List<Entity> entities = defaults;
 		List<Element> entityNodes = new ArrayList<Element>();
 
 		for (int j = 0; j < entities.size(); j++) {
 			Entity currEntity = entities.get(j);
-
 			Element entityNode = getEntityNode(currEntity, filePath);
 			entityNodes.add(entityNode);
 		}
 		LevelSaver ls = new LevelSaver(entityNodes);
 		String xmlLevel = ls.saveLevel();
-		// System.out.println(xmlLevel);
 		Element levelElement = gameXMLFactory.stringToElement(xmlLevel);
 		gameXMLFactory.addDefaultEntity(levelElement);
-		// System.out.println(xmlLevel);
-
 	}
 
+	/**
+	 * Saves the list of levels (list of entities) that will be written into XML
+	 * @param levels
+	 * 			list of levels to be written to XML
+	 * @param filePath
+	 * 			where game will be saved
+	 */
 	private void saveLevels(List<Level> levels, String filePath) {
 		for (int i = 0; i < levels.size(); i++) {
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
@@ -126,16 +155,21 @@ public class GameSaver {
 				Element entityNode = getEntityNode(currEntity, filePath);
 				entityNodes.add(entityNode);
 			}
-
 			LevelSaver ls = new LevelSaver(entityNodes);
 			String xmlLevel = ls.saveLevel();
-			// System.out.println(xmlLevel);
 			Element levelElement = gameXMLFactory.stringToElement(xmlLevel);
 			gameXMLFactory.addLevel(levelElement);
-			// System.out.println(xmlLevel);
 		}
 	}
 
+	/**
+	 * Converts an entity into an element node to be used in XML
+	 * @param entity
+	 * 			object to be converted into element
+	 * @param folderPath
+	 * 			where game will be saved
+	 * @return
+	 */
 	private Element getEntityNode(Entity entity, String folderPath) {
 		String tempImagePath = entity.getImagePath();
 		saveEntityImage(entity, folderPath);
@@ -146,6 +180,11 @@ public class GameSaver {
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 
+	/**
+	 * Saves the document as a whole, after the XML serializing is done
+	 * @param filePath
+	 * 			where game will be saved
+	 */
 	private void saveDocument(String filePath) {
 		Document doc = gameXMLFactory.getDocument();
 		File levelDirectory = new File(filePath);
@@ -156,161 +195,12 @@ public class GameSaver {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-
 			StreamResult result = new StreamResult(
 					new File(filePath + File.separator + game.getName() + File.separator + "settings.xml"));
 			transformer.transform(source, result);
-
-
-			
-
-
-			String outputFolder = "My Game.zip";
-			ArrayList<String> fileList = new ArrayList<String>();
-			byte[] buffer = new byte[1024];
-			generateFileList(new File(filePath), fileList, filePath);
-
-			FileOutputStream fos = null;
-			ZipOutputStream zos = null;
-
-			try {
-				fos = new FileOutputStream(outputFolder);
-				zos = new ZipOutputStream(fos);
-
-				System.out.println("Output to Zip : " + outputFolder);
-				FileInputStream in = null;
-
-				for (String file: fileList) {
-					System.out.println("File Added : " + file);
-					ZipEntry ze = new ZipEntry(source + File.separator + file);
-					zos.putNextEntry(ze);
-					try {
-						in = new FileInputStream(filePath + File.separator + file);
-						int len;
-						while ((len = in .read(buffer)) > 0) {
-							zos.write(buffer, 0, len);
-						}
-					} finally {
-						in.close();
-					}
-				}
-
-				zos.closeEntry();
-				System.out.println("Folder successfully compressed");
-
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			} finally {
-				try {
-					zos.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-
-
 		} catch (TransformerException e) {
 			e.printStackTrace();
 		}
-
 	}
-
-	private void generateFileList(File node, ArrayList<String> fileList, String filePath) {
-		// add file only
-		if (node.isFile()) {
-			fileList.add(generateZipEntry(node.toString(), filePath));
-		}
-
-		if (node.isDirectory()) {
-			String[] subNote = node.list();
-			for (String filename: subNote) {
-				generateFileList(new File(node, filename), fileList, filePath);
-			}
-		}
-	}
-	
-	private String generateZipEntry(String file, String filePath) {
-        return file.substring(filePath.length() + 1, file.length());
-    }
 
 }
-
-
-
-
-//	public class ZipUtils {
-//
-//	    private List <String> fileList;
-//	    private static final String OUTPUT_ZIP_FILE = "Folder.zip";
-//	    private static final String SOURCE_FOLDER = "D:\\Reports"; // SourceFolder path
-//
-//	    public ZipUtils() {
-//	        fileList = new ArrayList < String > ();
-//	    }
-//
-//	    public static void main(String[] args) {
-//	        ZipUtils appZip = new ZipUtils();
-//	        appZip.generateFileList(new File(SOURCE_FOLDER));
-//	        appZip.zipIt(OUTPUT_ZIP_FILE);
-//	    }
-//
-//	    public void zipIt(String zipFile) {
-//	        byte[] buffer = new byte[1024];
-//	        String source = new File(SOURCE_FOLDER).getName();
-//	        FileOutputStream fos = null;
-//	        ZipOutputStream zos = null;
-//	        try {
-//	            fos = new FileOutputStream(zipFile);
-//	            zos = new ZipOutputStream(fos);
-//
-//	            System.out.println("Output to Zip : " + zipFile);
-//	            FileInputStream in = null;
-//
-//	            for (String file: this.fileList) {
-//	                System.out.println("File Added : " + file);
-//	                ZipEntry ze = new ZipEntry(source + File.separator + file);
-//	                zos.putNextEntry(ze);
-//	                try {
-//	                    in = new FileInputStream(SOURCE_FOLDER + File.separator + file);
-//	                    int len;
-//	                    while ((len = in .read(buffer)) > 0) {
-//	                        zos.write(buffer, 0, len);
-//	                    }
-//	                } finally {
-//	                    in.close();
-//	                }
-//	            }
-//
-//	            zos.closeEntry();
-//	            System.out.println("Folder successfully compressed");
-//
-//	        } catch (IOException ex) {
-//	            ex.printStackTrace();
-//	        } finally {
-//	            try {
-//	                zos.close();
-//	            } catch (IOException e) {
-//	                e.printStackTrace();
-//	            }
-//	        }
-//	    }
-//
-//	    public void generateFileList(File node) {
-//	        // add file only
-//	        if (node.isFile()) {
-//	            fileList.add(generateZipEntry(node.toString()));
-//	        }
-//
-//	        if (node.isDirectory()) {
-//	            String[] subNote = node.list();
-//	            for (String filename: subNote) {
-//	                generateFileList(new File(node, filename));
-//	            }
-//	        }
-//	    }
-//
-//	    private String generateZipEntry(String file) {
-//	        return file.substring(SOURCE_FOLDER.length() + 1, file.length());
-//	    }
-//	}

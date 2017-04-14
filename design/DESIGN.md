@@ -268,7 +268,7 @@ especially important to allow for the most flexibility when designing a game.
 
 **Game Data**
 
-The Game Data consists of Loading and Saving modules to separate the logic behind each task. We supply to other classes the `saveGame` and `loadGame` methods that are in the `GameSaver.java` and `LoadGame.java` respectively. These classes each use several other classes to help complete the serialization and parsing/unserializing process. Specifically, these modules each use the `EntityConverter` object, which implements the `Converter` interface provided by xStream. Here, entities are converted to valid XML and entities are created from XML. The format is consistent with xStream. We also use the specific `GameXMLFactory` to create the XML files and classes like the `LevelSaver`.
+The Game Data consists of Loading and Saving modules to separate the logic behind each task. We supply to other classes the `saveGame` and `loadGame` methods that are in the `GameData` class, which uses the same named methods from `GameSaver.java` and `LoadGame.java` respectively. These classes each use several other classes to help complete the serialization and parsing/unserializing process. Specifically, these modules each use the `EntityConverter` object, which implements the `Converter` interface provided by xStream. Here, entities are converted to valid XML and entities are created from XML. The format is consistent with xStream. We also use the specific `GameXMLFactory` to create the XML files and classes like the `LevelSaver`.
 
 
 ## Example Games
