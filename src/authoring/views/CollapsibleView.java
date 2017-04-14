@@ -2,7 +2,7 @@ package authoring.views;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
-import authoring.utils.Direction;
+import authoring.components.Direction;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;

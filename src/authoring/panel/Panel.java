@@ -5,11 +5,11 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
+import authoring.components.Direction;
 import authoring.panel.achievements.Achievements;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.settings.Settings;
-import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
 import javafx.scene.layout.VBox;
