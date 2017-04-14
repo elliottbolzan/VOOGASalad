@@ -6,6 +6,12 @@ import java.util.List;
 
 import engine.game.Level;
 
+/**
+ * 
+ * @author Matthew Barbano
+ *
+ * @param <T>
+ */
 public class ListSG<T extends Selectable> implements SelectionGroup<T>{
 	private List<T> list;
 	

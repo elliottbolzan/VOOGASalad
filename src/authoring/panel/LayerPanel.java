@@ -24,16 +24,14 @@ import javafx.scene.text.Text;
  * @author Mina Mungekar
  *
  */
-public class LayerPanel extends View
-{
+public class LayerPanel extends View {
 
 	private Workspace workspace;
 	private VBox editorContainer;
 	private ComboBox<String> myBox;
 	private ComponentMaker maker;
 
-	public LayerPanel(Workspace workspace)
-	{
+	public LayerPanel(Workspace workspace) {
 		super(workspace.getResources().getString("LayerPanelTitle"));
 		this.workspace = workspace;
 		maker = new ComponentMaker(workspace.getResources());
@@ -42,8 +40,7 @@ public class LayerPanel extends View
 		configureEditing();
 	}
 
-	private void configureEditing()
-	{
+	private void configureEditing() {
 		editorContainer = new VBox();
 		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 		Button addLayerButton = maker.makeButton("AddLayerButton", e -> workspace.addLayer(), true);
@@ -57,8 +54,7 @@ public class LayerPanel extends View
 		setCenter(editorContainer);
 	}
 
-	private void initCloseRequest(Event e)
-	{
+	private void initCloseRequest(Event e) {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("ConfirmationContent");
 		Alert alert = maker.makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader", message);
@@ -68,17 +64,14 @@ public class LayerPanel extends View
 		}
 	}
 
-	private void delete()
-	{
+	private void delete() {
 		int layer = Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split(" ")[1]);
 		myBox.setValue((layer == 1 ? String.format("Layer %d", layer) : String.format("Layer %d", layer - 1)));
 		workspace.deleteLayer(layer);
 	}
 
-	private void configureVelocitySettings()
-	{
-		Slider velocitySlider = new Slider()
-		{
+	private void configureVelocitySettings() {
+		Slider velocitySlider = new Slider() {
 			{
 				setMin(0);
 				setMax(100);
@@ -86,8 +79,7 @@ public class LayerPanel extends View
 			}
 		};
 
-		HBox sliderBox = new HBox()
-		{
+		HBox sliderBox = new HBox() {
 			{
 				setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 				Text t = new Text(workspace.getResources().getString("LayerSpeedPrompt"));
@@ -99,43 +91,41 @@ public class LayerPanel extends View
 		Button velocityButton = maker.makeButton("SaveLayerSpeed", null, true);
 		editorContainer.getChildren().addAll(myBox, sliderBox, velocityButton);
 	}
-	
+
 	/**
-	 * updateBox is called whenever the LayerEditor adds another layer and needs to alert the combobox. The
-	 * name of the new string name is passed back to the combobox.
+	 * updateBox is called whenever the LayerEditor adds another layer and needs
+	 * to alert the combobox. The name of the new string name is passed back to
+	 * the combobox.
+	 * 
 	 * @param newLayer
 	 */
 
-	public void updateBox(String newLayer)
-	{
+	public void updateBox(String newLayer) {
 		myBox.getItems().add(newLayer);
 	}
 
-	private void initLayerSelector()
-	{
+	private void initLayerSelector() {
 		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
-		myBox.valueProperty().addListener(new ChangeListener<String>()
-		{
+		myBox.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
-			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue)
-			{
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue != null) {
 					workspace.selectLayer(Integer.parseInt(newValue.split(" ")[1]));
 				}
 			}
 		});
 	}
-	
-/**
- * selectLevelBox is called whenever levels are switched and the set of layers changes. The new level
- * reports its new layer set to the workspace, which, in turn passes the new layer count to the combobox.
- * @param layerNum
- */
-	
-	public void selectLevelBox(int layerNum)
-	{
+
+	/**
+	 * selectLevelBox is called whenever levels are switched and the set of
+	 * layers changes. The new level reports its new layer set to the workspace,
+	 * which, in turn passes the new layer count to the combobox.
+	 * 
+	 * @param layerNum
+	 */
+
+	public void selectLevelBox(int layerNum) {
 		myBox.getItems().clear();
-		System.out.println(layerNum);
 		for (int i = 0; i < layerNum; i++) {
 			myBox.getItems().add(String.format("Layer %d", i + 1));
 		}

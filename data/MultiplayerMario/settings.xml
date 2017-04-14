@@ -41,7 +41,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.BottomCollisionEvent>
     <engine.events.KeyPressEvent>
@@ -421,7 +420,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.BottomCollisionEvent>
   </events>
@@ -602,7 +600,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.BottomCollisionEvent>
   </events>
@@ -748,7 +745,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.BottomCollisionEvent>
   </events>

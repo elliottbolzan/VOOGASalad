@@ -23,14 +23,17 @@ public class GameXMLFactory
 	private Element defaultsNode;
 	private Element resourceNode;
 
-	public GameXMLFactory()
-	{
+	/**
+	 * GameXMLFactory constructor
+	 */
+	public GameXMLFactory() {
 		initiate();
 	}
-
-	private void initiate()
-	{
-
+	
+	/**
+	 * Initialize the XML file by creating the appropriate nodes
+	 */
+	private void initiate() {
 		docFactory = DocumentBuilderFactory.newInstance();
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
@@ -49,57 +52,76 @@ public class GameXMLFactory
 		rootElement.appendChild(levelsNode);
 
 		defaultsNode = doc.createElement("Defaults");
-
 		rootElement.appendChild(defaultsNode);
 
 		resourceNode = doc.createElement("Resources");
 		rootElement.appendChild(resourceNode);
 	}
-
-	public void setName(String gameName)
-	{
+	
+	/**
+	 * Sets the name of the game in the XML file
+	 * @param gameName
+	 * 			game name to be set in XML
+	 */
+	public void setName(String gameName) {
 		Attr attr = doc.createAttribute("GameName");
 		attr.setValue(gameName);
 		nameNode.setAttributeNode(attr);
 	}
 
-	public void addLevel(Element levelInfo)
-	{
-
+	/**
+	 * Adds a level into the XML file given the level node
+	 * @param levelInfo
+	 * 			node to be added into XML
+	 */
+	public void addLevel(Element levelInfo) {
 		Element newLevel = doc.createElement("level");
 		Element importedLevelNode = (Element) doc.importNode(levelInfo, true);
 		newLevel.appendChild(importedLevelNode);
 		levelsNode.appendChild(newLevel);
-
 	}
 
-	public void addSong(String songPath)
-	{
+	/**
+	 * Adds a song path into XML file given the string
+	 * @param songPath
+	 * 			string song path to be added to XML
+	 */
+	public void addSong(String songPath) {
 		Attr attr = doc.createAttribute("Song");
 		attr.setValue(songPath);
 		resourceNode.setAttributeNode(attr);
 	}
 
-	public void addDefaultEntity(Element defaultEntity)
-	{
-
+	/**
+	 * Adds the default entities into XML given the element
+	 * @param defaultEntity
+	 * 			element to be added to the XML file
+	 */
+	public void addDefaultEntity(Element defaultEntity) {
 		Element importedDefaultEntityNode = (Element) doc.importNode(defaultEntity, true);
 		defaultsNode.appendChild(importedDefaultEntityNode);
-
 	}
 
-	public void addEntityInfotoElement(Element element, Element entityInfo)
-	{
-
+	/**
+	 * Adds the entity info into XML
+	 * @param element
+	 * 			element node to be added
+	 * @param entityInfo
+	 * 			entity info to be added into XML
+	 */
+	public void addEntityInfotoElement(Element element, Element entityInfo) {
 		Element newEntity = doc.createElement("entity");
 		newEntity.appendChild(entityInfo);
 		element.appendChild(newEntity);
-
 	}
 
-	public Element stringToElement(String xmlString)
-	{
-
+	/**
+	 * Converts given string into an XML element node
+	 * @param xmlString
+	 * 			string to be converted into XML element
+	 * @return
+	 */
+	public Element stringToElement(String xmlString) {
 		try {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder()
 					.parse(new ByteArrayInputStream(xmlString.getBytes())).getDocumentElement();
@@ -113,8 +135,11 @@ public class GameXMLFactory
 		return null;
 	}
 
-	public Document getDocument()
-	{
+	/**
+	 * getter for document containing XML file
+	 * @return
+	 */
+	public Document getDocument() {
 		return doc;
 	}
 

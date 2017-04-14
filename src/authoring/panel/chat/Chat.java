@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.panel.chat;
 
 import java.util.Random;
@@ -21,6 +18,10 @@ import javafx.scene.layout.Priority;
 /**
  * @author Elliott Bolzan
  *
+ *         A class representing a ChatView. Allows for a username, the viewing
+ *         of sent messages, and the sending of messages. Makes use of a
+ *         networking library.
+ *
  */
 public class Chat extends View {
 
@@ -34,7 +35,8 @@ public class Chat extends View {
 	private String username;
 
 	/**
-	 * 
+	 * Creates a Chat.
+	 * @param workspace the workspace that owns the Chat.
 	 */
 	public Chat(Workspace workspace) {
 		super(workspace.getResources().getString("ChatTitle"));
@@ -44,11 +46,11 @@ public class Chat extends View {
 
 	private void setup() {
 		username = "User_" + Integer.toString(new Random().nextInt(1000));
-		//discussion = new Discussion();
-		//discussion.listenOnChannel(e -> receivedMessage(e), CHANNEL);
+		// discussion = new Discussion();
+		// discussion.listenOnChannel(e -> receivedMessage(e), CHANNEL);
 		viewSetup();
 	}
-	
+
 	private void viewSetup() {
 		setTop(createUsernameBox());
 		chat = new TextArea();
@@ -59,7 +61,7 @@ public class Chat extends View {
 		setCenter(chat);
 		setBottom(createSendBox());
 	}
-	
+
 	private Node createUsernameBox() {
 		HBox usernameBox = new HBox();
 		usernameField = new TextField();
@@ -72,7 +74,7 @@ public class Chat extends View {
 		HBox.setHgrow(usernameField, Priority.ALWAYS);
 		return usernameBox;
 	}
-	
+
 	private Node createSendBox() {
 		HBox sendBox = new HBox();
 		sendField = new TextField();
@@ -92,22 +94,22 @@ public class Chat extends View {
 			send();
 		}
 	}
-	
+
 	private void saveKeyPressed(KeyEvent event) {
 		if (event.getCode().equals(KeyCode.ENTER)) {
 			event.consume();
 			save();
 		}
 	}
-	
+
 	private void save() {
 		username = usernameField.getText();
 	}
-	
+
 	private void send() {
 		Message message = new Message(username, sendField.getText());
 		appendToChat(message);
-		//discussion.send(message, CHANNEL);
+		// discussion.send(message, CHANNEL);
 		sendField.setText("");
 	}
 

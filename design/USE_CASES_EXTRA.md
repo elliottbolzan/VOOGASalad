@@ -1,6 +1,6 @@
-Use Cases - Final Sprint
+## Use Cases - Final Sprint
 
-**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Matthew Barbano (meb100), Dennis Ling (dl186)
+**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Matthew Barbano (meb100), Dennis Ling (dl186).
 
 ---------------
 
@@ -60,10 +60,35 @@ Nikita Zemlevskiy (naz7)<br>
 
 Elliott Bolzan (eab91)
 
-**User plays the game directly from the Game Authoring Environment.**<br>
-**User sends a chat message using the networking library.**<br>
-**User edits the Entities on the board by editing the default Entities.**<br>
-**Saving the game is done on a separate thread.**<br>
+**User is able to load and play the game s/he is editing directly from the Game Authoring Environment.**
+
+- The user designs a game on the `Canvas`.
+- The user presses the `Play` button, located near the `Save` button.
+- A `GamePlayer` object is instantiated with the appropriate `Game` object.
+- The user can immediately test the game that he or she has been designing.
+
+**User sends a chat message using the networking library.**
+
+- The user opens the `Chat` panel in the `ControlPanel` located on the left-hand side of the Game Authoring Environment.
+- The user picks a username.
+- The user types a message and presses the `Send` button.
+- The message is sent using the networking library, which makes use of multicasting.
+- All users who have joined the multicasting group will receive the message in their `Chat` panel, where the sender will be displayed along with the message content.
+
+**User edits the Entities on the board by editing the default Entities.**
+
+- The user creates a default `Entity` using the Entity creator.
+- The user drags a few instances of this `Entity` to the `Canvas`.
+- The user realizes he or she has forgotten a detail: an `Action` perhaps, or an `Event` to trigger the `Entity`'s movement.
+- The user edits the default `Entity` using the Entity creator.
+- The placed `Entities` are automatically updated to reflect the changes.
+
+**Saving the game is done on a separate thread.**
+
+- The user presses the `Save` button.
+- A `Dialog` is shown, with a progress bar tracking the progress of the saving mechanism.
+- The saving of the `Game` object is done on a separate thread, so as not to freeze the user interface.
+- The user is informed of the success or failure of the saving process through a `Dialog`.
 
 -----------
 
@@ -133,7 +158,10 @@ Jay Doherty (jld60)
 - The `ImageChangeAction` sets the image path of the block to a new image path.
 - A listener in the `GraphicsEngine` sets the image of the corresponding display node to the new image.
 
-**TODO Maybe something about displaying layers differently? **
+**An Entity in a background layer needs to be rendered behind a foreground entity**
+- The user specifies entity layers in the Authoring Environment.
+- On loading a level, nodes are added to the scene and then sorted by their z-index so that they get drawn in the correct order.
+- If runtime switching between layers is desirable, this can be accomplished by adding a listener to the `Entity's` z-index and the scene can be redrawn whenever the z-index changes.
 
 ------------
 
@@ -184,4 +212,49 @@ Matthew Barbano (meb100)
 - The user clicks the first level, then the second, and a path appears connecting the levels. In the backend, GraphSG’s method connectLevels() connects the levels by adding them to each other’s edge lists (or perhaps another implementation of graph).
 
 
+---------------------
 
+Dennis Ling (dl186)
+
+**A user saves the game and chooses a file path location that already contains the same named game.**
+- After the save game button is pressed, the `saveGame(Game game, String filepath)` in `GameSaver.java` is called.
+- The Game is seralized into XML using Xstream into the `String filepath` location, overwriting any game already saved at the location.
+
+**A user loads the game and chooses a folder without a proper XML file**
+- After the load game button is pressed, the `loadGame(String folderpath)` in `GameLoader.java` is called.
+- The `loadGame` method tries to find the `String folderPath`, but does not.
+- A `NotAGameFolderException` is thrown and the method exits.
+
+**A user saves the game as a zip file.**
+- After the save game button is pressed, a new method in `GameSaver.java` will access the already-made game folder.
+- The new method, `zipFolder` will take the folder and zip all of the contents, returning one zipped file.
+- The zip file will be written to the filepath designed.
+
+**A user loads the game from a zip file.**
+- After the load game button is pressed, a new method in `GameLoader.java` will acess the zipped file.
+- The new method, `unzipFile` will take the file and unzip the contents, returning a folder with all of the necessary game contents.
+- The unzipped folder will be opened and loaded onto the Game Player.
+
+---------------------
+
+Michael Li (mxl3)
+**Achievements are accessed and saved into the XML file from the authoring environment.**
+- Achievements will first be serialized and written into the XML file.
+- A new node will be created, with the node name being "Achievements" and the value being all of the achievements saved by the user.
+- The XML file now contains all of the achievements under new nodes.
+
+**Additional game information is accessed and loaded from the XML file onto the authoring environment.**
+- The game info will be stored as new nodes in the XML file.
+- When load is pressed on the game authoring environment, the `GameLoader.java` will have a method `loadAchievements` that extracts the achievement information from the XML file.
+- The extracted information is returned to the game authoring environment to display.
+
+**Background images are accessed and loaded from the XML file onto the authoring environment.**
+- The background images will be stored as new nodes in the XML file.
+- After load is pressed in the authoring environment, a method `loadBackgrounds` will be called in `GameLoader.java` that extracts the background images from the XML file.
+- These image filepaths are returned to the game authoring environment to display.
+
+**A song is saved and then loaded with XML serializing.**
+- *The song will be located in resources of the game file.*
+- The song's filepath will be passed to the `GameSaver.java`, which will handle all relative and absolute path necessities.
+- The filepath will be serialized into XML and saved into the XML file.
+- When loading is pressed, the same filepath will be unserialized by the `GameLoader.java` and provided to the authoring environment to access.

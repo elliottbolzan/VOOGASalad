@@ -67,6 +67,18 @@ public class EntityConverter implements Converter
 
 		writer.close();
 	}
+	
+	/**
+	 * write the values of the entities into their respective double/string/boolean values
+	 * @param entity 
+	 * 				entity to be written
+	 * @param fields 
+	 * 				fields within entity to be written
+	 * @param writer 
+	 * 				writer object
+	 * @param context 
+	 * 				context for writing
+	 */
 
 	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer, MarshallingContext context)
 	{
