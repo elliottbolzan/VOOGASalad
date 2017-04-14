@@ -94,7 +94,8 @@ public class EntityView extends VBox
 		this.setMinWidth(getTiledCoordinate(image.getBoundsInLocal().getWidth()));
 		this.setMinHeight(getTiledCoordinate(image.getBoundsInLocal().getHeight()));
 
-		DragUtil.makeDraggableResizable(this, gridSize);
+		DragUtil.makeDraggable(this, gridSize);
+		DragUtil.makeResizeable(this, gridSize);
 	}
 
 	/**
