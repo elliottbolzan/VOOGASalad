@@ -1,12 +1,9 @@
 package game_data;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -52,7 +49,7 @@ public class GameLoader {
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 			doc = docBuilder.parse(folderPath + File.separator + "settings.xml");
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		Game game = new Game();
 		addName(game, doc);
@@ -112,7 +109,7 @@ public class GameLoader {
 	private Level convertElementtoLevel(Element levelElement, String folderPath) {
 		Element entitiesNode = (Element) levelElement.getChildNodes().item(0);
 		Level returnedLevel = new Level();
-		for (Entity entity: getEntities(entitiesNode, folderPath)){
+		for (Entity entity : getEntities(entitiesNode, folderPath)) {
 			returnedLevel.addEntity(entity);
 		}
 		return returnedLevel;
@@ -143,8 +140,7 @@ public class GameLoader {
 		try {
 			NodeList songNodes = doc.getElementsByTagName("Resources");
 			game.setSongPath(folderPath + File.separator + songNodes.item(0).getAttributes().item(0).getNodeValue());
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			game.setSongPath("");
 		}
 	}

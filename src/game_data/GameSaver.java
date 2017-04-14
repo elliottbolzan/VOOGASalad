@@ -1,6 +1,7 @@
 package game_data;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -20,15 +21,19 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import engine.Entity;
 import engine.game.Level;
 
 // Make references to paths relative. 
-public class GameSaver {
+public class GameSaver
+{
 
 	private Game game;
 	private GameXMLFactory gameXMLFactory;

@@ -18,7 +18,8 @@ import javafx.beans.property.SimpleStringProperty;
  * @author nikita This class is used by xStream to convert Entities to XML and
  *         load Entities from XML.
  */
-public class EntityConverter implements Converter {
+public class EntityConverter implements Converter
+{
 	/**
 	 * Check if this converter can convert an instance of the class provided.
 	 * 
@@ -27,7 +28,8 @@ public class EntityConverter implements Converter {
 	 * @return if the converter can convert this type of class
 	 */
 	@Override
-	public boolean canConvert(Class arg0) {
+	public boolean canConvert(Class arg0)
+	{
 		try {
 			return arg0.equals(Entity.class) || arg0.getSuperclass().equals(Entity.class);
 		} catch (Exception e) {
@@ -47,7 +49,8 @@ public class EntityConverter implements Converter {
 	 *            automatically
 	 */
 	@Override
-	public void marshal(Object arg0, HierarchicalStreamWriter writer, MarshallingContext context) {
+	public void marshal(Object arg0, HierarchicalStreamWriter writer, MarshallingContext context)
+	{
 		Entity entity = (Entity) arg0;
 		writer.startNode("EntityType");
 		writer.setValue(entity.getDisplayName());
@@ -77,8 +80,8 @@ public class EntityConverter implements Converter {
 	 * 				context for writing
 	 */
 
-	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer,
-			MarshallingContext context) {
+	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer, MarshallingContext context)
+	{
 		for (Field field : fields) {
 			if (java.lang.reflect.Modifier.isStatic(field.getModifiers()))
 				continue;
@@ -89,7 +92,7 @@ public class EntityConverter implements Converter {
 				value = field.get(entity);
 			} catch (Exception e) {
 				// TODO remove print stack trace
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 			if (value != null) {
 				writer.startNode(name);
@@ -117,7 +120,8 @@ public class EntityConverter implements Converter {
 	 * @return the entity converted from the XML
 	 */
 	@Override
-	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
+	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context)
+	{
 		EngineController controller = new EngineController();
 
 		reader.moveDown();

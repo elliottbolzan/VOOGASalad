@@ -6,11 +6,8 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.NetworkInterface;
-import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 
 import discussion.response.Connectable;
 import discussion.response.Delegate;
@@ -23,7 +20,8 @@ import discussion.response.Delegate;
  *         thread.
  *
  */
-public class Receiver extends Actor implements Runnable {
+public class Receiver extends Actor implements Runnable
+{
 
 	private String ID;
 	private Collection<Delegate> delegates;
@@ -64,7 +62,8 @@ public class Receiver extends Actor implements Runnable {
 	 * @see java.lang.Runnable#run()
 	 */
 	@Override
-	public void run() {
+	public void run()
+	{
 		try {
 			byte[] buffer = new byte[getBufferSize()];
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -81,11 +80,12 @@ public class Receiver extends Actor implements Runnable {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
-	private MulticastSocket setupSocket() throws Exception {
+	private MulticastSocket setupSocket() throws Exception
+	{
 		MulticastSocket socket = new MulticastSocket(getPort());
 		socket.setReuseAddress(true);
 		/*
@@ -107,7 +107,8 @@ public class Receiver extends Actor implements Runnable {
 		return socket;
 	}
 
-	private Message getMessageFromBuffer(byte[] buffer) throws Exception {
+	private Message getMessageFromBuffer(byte[] buffer) throws Exception
+	{
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(buffer);
 		ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
 		Message message = (Message) is.readObject();
@@ -115,7 +116,8 @@ public class Receiver extends Actor implements Runnable {
 		return message;
 	}
 
-	private void processMessage(Message message) {
+	private void processMessage(Message message)
+	{
 		for (Delegate delegate : delegates) {
 			if (message.getKey().equals(delegate.getKey()) && !message.getSenderID().equals(ID)) {
 				delegate.getConnectable().received(message.getObject());

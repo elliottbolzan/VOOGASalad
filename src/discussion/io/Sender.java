@@ -49,7 +49,7 @@ public class Sender extends Actor {
 			sendPacket(socket, makePacket(stream));
 			socket.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 

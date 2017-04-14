@@ -137,6 +137,28 @@ public class EntityView extends VBox
 	}
 
 	/**
+	 * Move by the given amount in the x direction
+	 * 
+	 * @param xAmount
+	 *            amount to move in the x direction.
+	 */
+	public void moveX(double xAmount)
+	{
+		this.setTranslateX(this.getTranslateX() + xAmount);
+	}
+
+	/**
+	 * Move by the given amount in the y direction.
+	 * 
+	 * @param yAmount
+	 *            amount to move in the y direction.
+	 */
+	public void moveY(double yAmount)
+	{
+		this.setTranslateY(this.getTranslateY() + yAmount);
+	}
+
+	/**
 	 * Returns whether or not this EntityView is selected.
 	 * 
 	 * @return true if this entity is selected, false if not selected.
