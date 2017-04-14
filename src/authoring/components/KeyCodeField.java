@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.components;
 
 import javafx.scene.control.TextField;
@@ -10,6 +7,11 @@ import javafx.scene.input.KeyEvent;
 /**
  * @author Elliott Bolzan
  *
+ *         This class provides a special editing mechanism for TableViews: it
+ *         allows user to input keystrokes while editing a field. This is
+ *         particularly practical for keys like SHIFT, RIGHT, or LEFT, which are
+ *         commonly used in games, but impossible to input on a normal
+ *         TextField.
  */
 public class KeyCodeField extends TextField {
 
@@ -17,7 +19,7 @@ public class KeyCodeField extends TextField {
 	private KeyCode keyCode;
 
 	/**
-	 * 
+	 * Create a new KeyCodeField.
 	 */
 	public KeyCodeField() {
 		focusedProperty().addListener((arg0, oldValue, newValue) -> {
@@ -27,12 +29,16 @@ public class KeyCodeField extends TextField {
 	}
 
 	/**
-	 * @param text
+	 * Create a new KeyCodeField from a string.
+	 * @param text the content of the KeyCodeField.
 	 */
 	public KeyCodeField(String text) {
 		super(text);
 	}
-	
+
+	/**
+	 * @return the KeyCodeField's current KeyCode.
+	 */
 	public KeyCode getKeyCode() {
 		return keyCode;
 	}

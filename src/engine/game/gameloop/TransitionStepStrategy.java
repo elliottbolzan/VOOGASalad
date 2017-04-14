@@ -7,6 +7,12 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
 
+/**
+ * StepStrategy for transition screen displaying messages like "Game Over" or "You won" (read 
+ * from a properties file).
+ * @author Matthew Barbano
+ *
+ */
 public abstract class TransitionStepStrategy implements StepStrategy {
 	private static final String RESOURCES_NAME = "resources/TransitionScreen";
 	private static final int FRAME_DURATION = 150;

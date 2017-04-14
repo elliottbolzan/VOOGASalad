@@ -3,6 +3,12 @@ package engine.game.selectiongroup;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * 
+ * @author Matthew Barbano
+ *
+ * @param <T>
+ */
 public class SGListIterator<T> implements SGIterator<T>{
 	private Iterator<T> listIterator;
 	

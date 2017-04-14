@@ -1,6 +1,6 @@
-Use Cases - Final Sprint
+## Use Cases - Final Sprint
 
-**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Matthew Barbano (meb100), Dennis Ling (dl186)
+**Written by:** Elliott Bolzan (eab91), Jesse Yue (jty4), Jay Doherty (jld60), Mina Mungekar(mem94), Nikita Zemlevskiy (naz7), Jimmy Shackford (jas199), Kyle Finke (kwf10), Matthew Barbano (meb100), Dennis Ling (dl186).
 
 ---------------
 
@@ -60,10 +60,35 @@ Nikita Zemlevskiy (naz7)<br>
 
 Elliott Bolzan (eab91)
 
-**User plays the game directly from the Game Authoring Environment.**<br>
-**User sends a chat message using the networking library.**<br>
-**User edits the Entities on the board by editing the default Entities.**<br>
-**Saving the game is done on a separate thread.**<br>
+**User is able to load and play the game s/he is editing directly from the Game Authoring Environment.**
+
+- The user designs a game on the `Canvas`.
+- The user presses the `Play` button, located near the `Save` button.
+- A `GamePlayer` object is instantiated with the appropriate `Game` object.
+- The user can immediately test the game that he or she has been designing.
+
+**User sends a chat message using the networking library.**
+
+- The user opens the `Chat` panel in the `ControlPanel` located on the left-hand side of the Game Authoring Environment.
+- The user picks a username.
+- The user types a message and presses the `Send` button.
+- The message is sent using the networking library, which makes use of multicasting.
+- All users who have joined the multicasting group will receive the message in their `Chat` panel, where the sender will be displayed along with the message content.
+
+**User edits the Entities on the board by editing the default Entities.**
+
+- The user creates a default `Entity` using the Entity creator.
+- The user drags a few instances of this `Entity` to the `Canvas`.
+- The user realizes he or she has forgotten a detail: an `Action` perhaps, or an `Event` to trigger the `Entity`'s movement.
+- The user edits the default `Entity` using the Entity creator.
+- The placed `Entities` are automatically updated to reflect the changes.
+
+**Saving the game is done on a separate thread.**
+
+- The user presses the `Save` button.
+- A `Dialog` is shown, with a progress bar tracking the progress of the saving mechanism.
+- The saving of the `Game` object is done on a separate thread, so as not to freeze the user interface.
+- The user is informed of the success or failure of the saving process through a `Dialog`.
 
 -----------
 
@@ -161,6 +186,30 @@ Jesse Yue (jty4)
 - In the player, when the user completes all the parameters of an achievement there will be a pop up for an achievement
 - The achievement menu will tick that achievement as completed
 
+---------------------
+
+Matthew Barbano (meb100)
+
+**A startup splash screen displays when a game is begun in the Game Player.**
+- When the Game Player instantiates a GameLoop, it in turn instantiates a Screen with a new StartupStepStrategy, which has the logic for displaying the startup screen image.
+- When the Game Player calls GameLoop’s start(), the Timeline in Screen calls StartupStepStrategy’s step(), which displays this screen.
+- After a set number of frames (a constant in StartupStepStrategy), StartupStepStrategy instantiates a new Screen, gives it a LevelStepStrategy, and calls its start(), switching to the first Level screen.
+
+**The game authoring environment sets the timer to start at 60 seconds, and the change is reflected for other subteams.**
+- A panel in the authoring environment allows for setting scorebar parameters, where 60 seconds is set as the starting time (critically, for a particular level).
+- This change is saved to game data.
+- The loadAllSavedData() method in LevelManager loads, in addition to the levels, the scorebar parameters.
+- The TimerManager loaded for each level is assigned to each level.
+
+**A player kills an enemy by stomping on it, increasing the score.**
+- The Authoring Environment creates an Enemy Entity with TopCollision Event and a Die Action, which is sent through game data and loaded into the engine.
+- The Authoring Environment also attaches a ScoreChange Action to this TopCollisionEvent, with parameter of the increment to the score.
+- When this Entity-Event-Action group is updated by the game loop, ScoreChange’s act() calls the Scorebar’s score setter to update.
+
+**The game authoring environment allows adds a level to the level selection screen graph and connects it to the first level.**
+- The user clicks to place a level location, and a node is added to the graph SelectionGroup.
+- This is repeated for another level.
+- The user clicks the first level, then the second, and a path appears connecting the levels. In the backend, GraphSG’s method connectLevels() connects the levels by adding them to each other’s edge lists (or perhaps another implementation of graph).
 
 
 

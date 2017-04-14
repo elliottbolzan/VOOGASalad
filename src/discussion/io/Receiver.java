@@ -18,12 +18,28 @@ import discussion.response.Delegate;
 /**
  * @author Elliott Bolzan
  *
+ *         This class represents a receiving party in the sending mechanism. It
+ *         is implemented as a Runnable, in order to not block the Application
+ *         thread.
+ *
  */
 public class Receiver extends Actor implements Runnable {
 
 	private String ID;
 	private Collection<Delegate> delegates;
 
+	/**
+	 * Create a Receiver.
+	 * 
+	 * @param ID
+	 *            the identifier of this chat system.
+	 * @param host
+	 *            the IP address of the host.
+	 * @param port
+	 *            the port to listen on.
+	 * @param bufferSize
+	 *            the buffer size of each packet.
+	 */
 	public Receiver(String ID, String host, int port, int bufferSize) {
 		super(host, port, bufferSize);
 		this.ID = ID;
@@ -31,10 +47,22 @@ public class Receiver extends Actor implements Runnable {
 		System.setProperty("java.net.preferIPv4Stack", "true");
 	}
 
+	/**
+	 * Adds a party to the receiving mechanism. This receiver must be notified
+	 * when the a message that matches the key is received.
+	 * 
+	 * @param connectable
+	 *            the party to be notified.
+	 * @param key
+	 *            the channel the party is listening on.
+	 */
 	public void addReceiver(Connectable connectable, String key) {
 		delegates.add(new Delegate(key, connectable));
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		try {
