@@ -178,9 +178,9 @@ public class LevelStepStrategy implements StepStrategy {
 			KeyPressEvent upPressed = new KeyPressEvent();
 			upPressed.updateParam("Key", KeyCode.UP);
 			mario.addEvent(upPressed);
-			JumpSpeedAction jump = new JumpSpeedAction();
+			JumpAction jump = new JumpAction();
 			jump.setEntity(mario);
-			jump.updateParam("Initial Jump Speed", -15.0);
+			jump.updateParam("Initial Jump Speed", 15.0);
 			upPressed.addAction(jump);
 			KeyPressEvent rightPressed = new KeyPressEvent();
 			rightPressed.updateParam("Key", KeyCode.RIGHT);
@@ -283,9 +283,9 @@ public class LevelStepStrategy implements StepStrategy {
 			KeyPressEvent upPressed = new KeyPressEvent();
 			upPressed.updateParam("Key", KeyCode.UP);
 			mario.addEvent(upPressed);
-			JumpSpeedAction jump = new JumpSpeedAction();
+			JumpAction jump = new JumpAction();
 			jump.setEntity(mario);
-			jump.updateParam("Initial Jump Speed", -15.0);
+			jump.updateParam("Initial Jump Speed", 15.0);
 			upPressed.addAction(jump);
 			KeyPressEvent rightPressed = new KeyPressEvent();
 			rightPressed.updateParam("Key", KeyCode.RIGHT);
@@ -389,7 +389,7 @@ public class LevelStepStrategy implements StepStrategy {
 			KeyPressEvent upPressed = new KeyPressEvent();
 			upPressed.updateParam("Key", KeyCode.UP);
 			mario.addEvent(upPressed);
-			JumpSpeedAction jump = new JumpSpeedAction();
+			JumpAction jump = new JumpAction();
 			jump.setEntity(mario);
 			jump.updateParam("Initial Jump Speed", -15.0);
 			upPressed.addAction(jump);
