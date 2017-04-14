@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 public class HTMLDisplay extends Stage {
 
 	/**
-	 * @param resources
-	 *            the ResourceBundle that contains both the path to the HTML
-	 *            page and the title of the view.
+	 * Creates an HTMLDisplay.
+	 * @param filePath the path to the HTML file to be displayed.
+	 * @param title the title of the HTMLDisplay.
 	 */
 	public HTMLDisplay(String filePath, String title) {
 		WebView browser = new WebView();

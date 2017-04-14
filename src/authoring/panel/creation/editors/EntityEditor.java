@@ -11,6 +11,10 @@ import engine.game.EngineController;
 /**
  * @author Elliott Bolzan
  *
+ *         An extension of Editor, specifically design to edit Entities. Allows
+ *         the user to consult and set values for a list of parameters for each
+ *         Entity. Gives the user the option to save his or her progress in
+ *         creating an Entity.
  */
 public class EntityEditor extends Editor {
 
@@ -18,10 +22,11 @@ public class EntityEditor extends Editor {
 	private Entity entity;
 
 	/**
-	 * @param workspace
-	 * @param titleProperty
-	 * @param elements
-	 * @param object
+	 * Creates an EntityEditor.
+	 * @param workspace the workspace that owns this Editor.
+	 * @param picker the picker that owns this Editor.
+	 * @param entity the entity that this Editor is to edit (or null).
+	 * @param elements the elements that this Editor is to display in the ComboBox.
 	 */
 	public EntityEditor(Workspace workspace, Entity entity, List<String> elements) {
 		super(workspace, elements, entity, false);
@@ -29,6 +34,9 @@ public class EntityEditor extends Editor {
 		engine = new EngineController();
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.editors.Editor#selected(java.lang.String)
+	 */
 	@Override
 	public void selected(String string) {
 		List<Event> events = entity.getEvents();
@@ -37,9 +45,16 @@ public class EntityEditor extends Editor {
 		update(entity);
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.editors.Editor#save(java.util.List)
+	 */
 	@Override
-	public void save(List<Parameter> data) {}
-	
+	public void save(List<Parameter> data) {
+	}
+
+	/**
+	 * @return the Entity being edited.
+	 */
 	public Entity getEntity() {
 		return entity;
 	}
