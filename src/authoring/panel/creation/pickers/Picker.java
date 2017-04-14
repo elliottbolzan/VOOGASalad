@@ -4,13 +4,11 @@ import authoring.Workspace;
 import authoring.components.EditableContainer;
 import authoring.panel.creation.EntityMaker;
 import engine.GameObject;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 
@@ -57,7 +55,9 @@ public abstract class Picker extends EditableContainer {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
 				if (mouseEvent.getClickCount() == 1) {
-					single.run();
+					if (single != null) {
+						single.run();
+					}
 				} else if (mouseEvent.getClickCount() == 2) {
 					edit();
 				}

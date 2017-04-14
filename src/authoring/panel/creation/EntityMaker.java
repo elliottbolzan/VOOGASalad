@@ -21,19 +21,19 @@ import javafx.stage.Stage;
  *
  */
 public class EntityMaker {
-	
+
 	private Workspace workspace;
 	private EntityDisplay display;
 	private Stage stage;
 	private View view;
 	private SplitPane pane;
 	private EngineController engine;
-	
+
 	private EntityInfo entityInfo;
 	private EntityEditor entityEditor;
 	private EventPicker eventPicker;
 	private ActionPicker actionPicker;
-	
+
 	private Event selectedEvent;
 
 	/**
@@ -49,11 +49,11 @@ public class EntityMaker {
 		setupView(entity);
 		setupStage();
 	}
-	
+
 	public Entity getEntity() {
 		return entityEditor.getEntity();
 	}
-	
+
 	private void setupView(Entity entity) {
 		view = new ConcreteView(workspace.getResources().getString("EntityMakerTitle"));
 		entityEditor = new EntityEditor(workspace, entity.clone(), engine.getAllEntities());
@@ -64,7 +64,7 @@ public class EntityMaker {
 		pane.setDividerPositions(0.25, 0.5, 0.75);
 		view.setCenter(pane);
 	}
-	
+
 	private void setupStage() {
 		stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);
@@ -74,34 +74,39 @@ public class EntityMaker {
 		stage.show();
 		stage.centerOnScreen();
 	}
-	
+
 	private Scene createScene() {
 		Scene scene = new Scene(view, 800, 400);
 		scene.getStylesheets().add(workspace.getResources().getString("StylesheetPath"));
 		return scene;
 	}
-	
+
 	public void dismiss() {
 		stage.close();
 	}
-	
+
 	public void setSelectedEvent(Event event) {
 		selectedEvent = event;
 		actionPicker.update();
 	}
-	
+
 	public Event getSelectedEvent() {
 		return selectedEvent;
 	}
-	
+
 	public void showMessage(String message) {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).show();
 	}
-	
+
 	public void save() {
 		if (entityInfo.getName().trim().equals("")) {
 			showMessage(workspace.getResources().getString("EmptyName"));
+			return;
+		}
+		if (display.getCurrentlyEditing() == null
+				&& workspace.getDefaults().getNames().contains(entityInfo.getName())) {
+			showMessage(workspace.getResources().getString("DifferentName"));
 			return;
 		}
 		getEntity().nameProperty().set(entityInfo.getName());
@@ -111,5 +116,5 @@ public class EntityMaker {
 		display.addEntity(getEntity());
 		dismiss();
 	}
-	
+
 }
