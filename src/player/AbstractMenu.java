@@ -46,7 +46,7 @@ public abstract class AbstractMenu implements Menu{
 		getRoot().setBottom(backButton());
 		Label titleLabel = new Label(resources.getString(title));
 		titleLabel.setId("title");
-		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 30));
+		titleLabel.setFont(Font.font(resources.getString("FontPath"), FontWeight.BOLD, 30));
 		titleLabel.setTextFill(Color.YELLOW);
 		getRoot().setTop(titleLabel);
 		BorderPane.setAlignment(titleLabel, Pos.CENTER);

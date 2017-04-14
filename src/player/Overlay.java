@@ -2,35 +2,59 @@ package player;
 
 import java.util.ResourceBundle;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 
+/**
+ * 
+ * @author Jesse
+ *
+ */
 public class Overlay extends BorderPane{
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	
-	private ToolBar top;
-	private ToolBar bottom;
 	private Label score;
 	private Label lives;
 	private Label level;
 	private Label time;
 
 	public Overlay(){
-		setup();
-		
+		setup();	
 	}
 	
 	private void setup(){
-		top = new ToolBar();
-		bottom = new ToolBar();
-		Label scoreLabel = new Label(resources.getString("Score"));
-		ImageView heartLabel = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("Heart"))));
-		Label levelLabel = new Label(resources.getString("Level"));
-		Label timeLabel = new Label(resources.getString("Time"));
+		score = new Label();
+		lives = new Label();
+		level = new Label();
+		time = new Label();
+		
+		HBox container = new HBox(100);
+		container.setAlignment(Pos.CENTER);
+		container.getChildren().addAll(makeLabelBox(new Label(resources.getString("Score")), score),
+				makeImageBox(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("HeartPath")))), lives),
+				makeLabelBox(new Label(resources.getString("Level")), level),
+				makeLabelBox(new Label(resources.getString("Time")), time));
+		this.setTop(container);
+	}
+	
+	private VBox makeLabelBox(Label title, Label value){
+		VBox box = new VBox(5);
+		box.getChildren().addAll(title, value);
+		box.setAlignment(Pos.CENTER);
+		return box;
+	}
+	
+	private VBox makeImageBox(ImageView image, Label value){
+		VBox box = new VBox(5);
+		box.getChildren().addAll(image, value);
+		box.setAlignment(Pos.CENTER);
+		return box;
 	}
 	
 	public Pane display(){

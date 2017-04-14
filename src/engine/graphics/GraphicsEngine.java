@@ -17,6 +17,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import player.Overlay;
 
 /**
  * @author Jay Doherty
@@ -34,7 +35,7 @@ public class GraphicsEngine {
 	private Scorebar scorebar;
 	
 	private Pane displayArea;
-	private Label scorebarDisplay;
+	private Overlay scorebarDisplay;
 	
 	public GraphicsEngine() {
 		this.camera = new CameraEntity();
@@ -55,7 +56,10 @@ public class GraphicsEngine {
 	/**
 	 * @return the display for time/lives/score
 	 */
-	public Label getScorebarDisplay() {
+//	public Label getScorebarDisplay() {
+//		return scorebarDisplay;
+//	}
+	public Overlay getScorebarDisplay(){
 		return scorebarDisplay;
 	}
 	
@@ -121,7 +125,10 @@ public class GraphicsEngine {
 	}
 	
 	private void updateScorebar() {
-		scorebarDisplay.setText(String.format("Time: %s \nLives: %s \nScore: %s", scorebar.getTime(), scorebar.getLives(), scorebar.getScore()));
+		scorebarDisplay.setScore(Integer.toString(scorebar.getScore()));
+		scorebarDisplay.setLives(Integer.toString(scorebar.getLives()));
+		scorebarDisplay.setLevel(Integer.toString(scorebar.getLevel()));
+		scorebarDisplay.setTime(scorebar.getTime());
 	}
 	
 	private void clearView() {
@@ -167,7 +174,7 @@ public class GraphicsEngine {
 	}
 	
 	private void setupScorebar() {
-		scorebarDisplay = new Label();
+		scorebarDisplay = new Overlay();
 		this.updateScorebar();
 	}
 	

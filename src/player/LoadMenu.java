@@ -1,7 +1,5 @@
 package player;
 
-import java.util.ResourceBundle;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -43,6 +41,7 @@ public class LoadMenu extends AbstractMenu {
 
 		Button newGameButton = this.getFactory().makeButton("NewGameButton", e -> this.loadGame(stage, gameFolderPath),
 				true);
+		newGameButton.setTranslateY(50.0);
 
 		saveStates.addListener(new ListChangeListener<String>() {
 
