@@ -33,7 +33,7 @@ import engine.game.Level;
 
 public class GameLoader {
 	public Game loadGame(String folderPath) throws NotAGameFolderException {
-		File levelFolder = new File(folderPath + "/settings.xml");
+		File levelFolder = new File(folderPath + File.separator + "settings.xml");
 		if (!levelFolder.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -41,7 +41,7 @@ public class GameLoader {
 		try {
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-			doc = docBuilder.parse(folderPath + "/settings.xml");
+			doc = docBuilder.parse(folderPath + File.separator + "settings.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

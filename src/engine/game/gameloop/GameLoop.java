@@ -3,6 +3,7 @@ package engine.game.gameloop;
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
+import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -20,9 +21,9 @@ public class GameLoop {
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
 	
-	public GameLoop(Scene gameScene, String dataFolderPath){
+	public GameLoop(Scene gameScene, Game game){
 		//Instantiate GraphicsEngine
-		graphicsEngine = new GraphicsEngine(dataFolderPath);
+		graphicsEngine = new GraphicsEngine();
 		
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
@@ -32,7 +33,7 @@ public class GameLoop {
 		graphicsEngine.setScorebar(scorebar);
 	
 		// Setup levelManager
-		levelManager = new LevelManager(dataFolderPath);
+		levelManager = new LevelManager(game);
 		//levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
 		
 		//Setup the first level screen
