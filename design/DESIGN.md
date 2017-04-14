@@ -103,21 +103,23 @@ The Starter Window is a very simple window that has the title and 5 buttons:
 
 The Authoring Environment will be further subdivided into three parts:
 
-1. The Settings (on the bottom left in the image below).
+1. The Control Panel (on the left in the image below).
 2. The Canvas (in the center in the image below).
-3. The Entity Panel (on the left in the image below).
+3. The Entity Editor (shown in a different image, further down).
 
 ![](images/authoring.png)
 
-- **The Settings**
+- **The Control Panel**
 
-The **Settings** panel will harbor all game-wide settings. 
+The **Control Panel** harbors the following subpanels:
 
-These settings may include: the scrolling platformer's orientation, whether the game scrolls automatically or when prompted by the character, the game's song, etc.
+- The `Entity Display`: where default Entities are shown. These Entities can be edited or deleted: they can also dragged to the **Canvas** and positioned within the game.
+- The `Chat`: where the user can chat with other users on the local network. Using a networking library, the user is able to communicate and collaborate on the game currently being edited.
+- The `Layer Editor`: where the user can edit the game's layers. A layer's velocity can be set from this subpanel, and the user can add, delete, or select layers as well. Entities on different levels cannot interact with each other.
+- The `Settings`: displays settings that include the game's name, the game's song, etc.
+- The `Save` button: a button which the user can click to save his game to disk.
 
-In addition, the Settings will contain a `Save Game` button, that allows for the saving of the designed game to file. 
-
-Generally speaking, this section will only include "traditional" user interface elements: there should be no surprises in how the user should interact with the Settings.
+Generally speaking, this section only includes "traditional" user interface elements: there should be no surprises in how the user should interact with the Settings. We aim to create a user experience similar to that of most major programs and operating systems: double-clicking, drag-and-drop, and keycode combinations should be standardized.
 
 - **The Canvas**
 
@@ -131,19 +133,22 @@ Clicking on an existing **Entity** will open it in the **Entity Panel**'s editor
 
 The **Canvas** should be able to extend infinitely, either horizontally or vertically. This way, the user can create games of any size. 
 
-- **The Entity Panel**
+- **The Entity Editor**
 
-This component's purpose is the creation, display, and editing of **Entities**, the basic building blocks of games. This component is split into two parts: the created entity display, and the entity editor.
+The purpose of this component (pictured below) is the creation, display, and editing of `Entities`, the basic building blocks of games.
 
-The created entity display will show the user which entities have been created, and provide a way for creating new entities. Upon clicking on an entity, the user will be able to click on the **Canvas** to add that entity to the game. 
+The user should be able to set the type of the new `Entity`; its image; its name; its scale; and `Events` to which this `Entity` responds, associated to `Actions`. Most of the game's functionality should be created from this subpanel: anything the user eventually sees in the game will have gone through the **Entity Editor**.
 
-The entity editor will allow the user to create a new **Entity**. The user should be able to set the type of this new object; its image; and **Events** to which this **Entity** responds, associated to **Actions**. Most of the game's functionality should be created from this subpanel.
+![](images/editor.png)
 
 *Errors will be indicated to the user through a JavaFX Dialog. Possible errors include*:
 
-- Incorrect parameters when an **Action** is created.
+- Incorrect parameters when an `Action` or `Event` is created.
+- Failure to save the game.
 - Incorrect parameters for game-wide settings.
+- Attempt to use the same name for two different `Entities`.
 - Seeking to delete the game's only existing level.
+- Confirmation messages when the user seeks to destroy data.
 
 3\. **The Game Player**
 
@@ -155,6 +160,8 @@ The Game Player will load a main menu with buttons that are appropriate for the 
 4. Game Data
 5. Achievements
 
+- **Back**
+This button just returns to the main starting window, or if in any of the menus it will return to the Game Player starting window.
 
 - **Play Game**
 This button leads to a menu where they can either start a new game or from a previous save point.
@@ -207,7 +214,7 @@ There will also be a HUD for the score, lives, and time.
 
 * The `Entity Display Module` will provide the user with the ability to select and drag entities to the canvas. In addition, the module will give the user the option of launching the `Entity Editing Module` to edit an existing Entity, and will also allow the user to delete a created Entity.
 
-* The `Settings Module` will allow the user to change game-wide settings. It contains a save button that directly communicates to the Game Data module (through a listener) when a game needs to be written to an XML file. The Settings Module will be different from the other modules in the sense that whatever is selected through it will be applied to the entire game (i.e., background music and scrolling direction). New settings can be added to the module through the addition of specific text fields/combo-boxes that directly reference valid features of the game. 
+* The `Settings Module` will allow the user to change game-wide settings. It contains a save button that directly communicates to the Game Data module (through a listener) when a game needs to be written to an XML file. The Settings Module will be different from the other modules in the sense that whatever is selected through it will be applied to the entire game (i.e., background music). New settings can be added to the module through the addition of specific text fields/combo-boxes that directly reference valid features of the game. 
 
 * All information contained in the authoring environment (game layout, custom entities created, etc.) will be passed to `Game Data` and saved. This way, not only will the user be able to access a saved game, he/she would also be able to save anything customized in the authoring environment. 
 
@@ -229,17 +236,13 @@ Has 3 modules
 The only other module it interacts with is the Game Engine, where it gets all the resources it needs to run the game.
 
 **Game Engine**
-*	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
-   *	TimingManager - Information about the current time.
-   *	CollisionManager - Informatino about the Collsions between Entities in the current step of the game.
-   *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
-   *	GameLoop - Game loop.
+*	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes/packages.
+   *	TimerManager - Information about the current time. Uses the <b>Strategy</b> Design Pattern to substitute implemetation of tick() based on whether clock ticks up or down.
+   *	GameLoop - Game loop. Contains Screen and StepStrategy hierarhcy, which uses the <b>Strategy</b> Design pattern to substitute implementation of step() based on the screen displayed.
    *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
-   *	Level - Contains classes from Player and Object modules pertaining to that level. Manages interaction between Players and Objects. Will likely be extended into inheritance hierarchy for creation of new types of levels, and each level will be divided into multiple classes. Also contains information about Settings:
-        *	Orientation.
-        *	Scrolling speed.
-        *	Background scrolling speed.
-        *	Whether scrolling is determined by character or by game.
+   *	SelectionGroup - Inheritance hierarhcy encapsulating a data structure containing all existing levels in the game. Allows for different implementations of this data structure, such as
+        Lists or graphs (the latter is for the second sprint so the player can have a map to navigate on). Could implement <b>Iterator</b> Design pattern in future.
+   *	Level - Contains classes from Player and Object modules pertaining to that level. Manages interaction between Players and Objects.
     *   Module created to have a centralized location for dealing with issues beyond the scope of a single level. Unifies the processing of all existing levels with that of level-wide settings (ex: song).
 *	Entity Module. - Anything drawn on the game screen.
     *	GamerControlledEntity - The character(s) controlled by the human player. Separate from the human player (in case can switch between characters), but interacts with the Player module. 
@@ -251,6 +254,7 @@ The only other module it interacts with is the Game Engine, where it gets all th
     *	Collision (each side, to distinguish between possible ones). 
     *	Timer.
     *	Entity Location.
+    *	Uses an <b>Observable</b> Design Pattern to allow Entities to listen to these events.
     *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
 *	Action Module (attached to Event). - The consequence of each Event. Examples are:
     *	Instantiate new object.
@@ -271,11 +275,7 @@ especially important to allow for the most flexibility when designing a game.
 
 **Game Data**
 
-The Game Data will consist of the Input and Output modules, the former of which saves a game to an XML file(s), and the latter of which
-loads and recreates the data from that/those files(s). Both of these modules communicate with the Game Player's SaveProgressModule
-to save and load the game being played. With respect to design goals, these modules were created
-to separate the logic behind each task. These modules each use the `EntityConverter` object, which implements the `Converter` interface provided 
-by xStream. Here, entities are converted to valid XML and entities are created from XML. The format is consistent with xStream.
+The Game Data consists of Loading and Saving modules to separate the logic behind each task. We supply to other classes the `saveGame` and `loadGame` methods that are in the `GameData` class, which uses the same named methods from `GameSaver.java` and `LoadGame.java` respectively. These classes each use several other classes to help complete the serialization and parsing/unserializing process. Specifically, these modules each use the `EntityConverter` object, which implements the `Converter` interface provided by xStream. Here, entities are converted to valid XML and entities are created from XML. The format is consistent with xStream. We also use the specific `GameXMLFactory` to create the XML files and classes like the `LevelSaver`.
 
 
 ## Example Games
@@ -320,3 +320,4 @@ A point of debate was whether actions and events have parameters, or whether the
 
 - How should the `Player` get access to the JavaFx Node objects and how will they be updated?<br>
 Our group discussed two different options for having the `Player` receive the JavaFx Nodes and how they will be updated on every step of the game. The first and most primitive idea that could have worked was for the `Player` to call the `NodeFactory` on every single step of the game and replace the JavaFx Nodes that existed in the Scene with the new ones. These new ones would get the updated positions from the game engine, and the game would thus be moving. However, this would require the regeneration of the same nodes every single step just with new locations. This seemed like a poor choice to us, and a new design was chosen. Under this new design, we would only generate the JavaFx Node objects from `NodeFactory` once. The locations and images and all other necessary properties of these nodes will be binded using bindings to the locations and other vital properties of the `Entity` objects. These JavaFx Nodes will be then placed in the scene and will update automatically. Doing so eliminates having to update on every step and create new JavaFx Nodes. Only the game engine has to know about the stepping of the game, the `Player` just has to place the nodes properly in the scene, and that's it.
+

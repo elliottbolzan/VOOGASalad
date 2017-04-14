@@ -97,7 +97,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.BottomCollisionEvent>
     <engine.events.KeyPressEvent>
@@ -139,7 +138,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.BottomCollisionEvent>
     <engine.events.KeyPressEvent>
@@ -213,7 +211,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
   </events>
@@ -607,7 +604,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.BottomCollisionEvent>
     <engine.events.KeyPressEvent>
@@ -649,7 +645,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.BottomCollisionEvent>
     <engine.events.KeyPressEvent>
@@ -723,7 +718,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
   </events>

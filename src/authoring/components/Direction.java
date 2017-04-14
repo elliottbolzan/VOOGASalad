@@ -1,7 +1,4 @@
-/**
- * 
- */
-package authoring.utils;
+package authoring.components;
 
 /**
  * @author Elliott Bolzan

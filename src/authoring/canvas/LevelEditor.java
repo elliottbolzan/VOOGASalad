@@ -7,6 +7,7 @@ import java.util.Optional;
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
 import authoring.views.View;
+import engine.Entity;
 import engine.game.Level;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,8 +26,7 @@ import javafx.scene.control.TabPane;
  * @author jimmy
  *
  */
-public class LevelEditor extends View
-{
+public class LevelEditor extends View {
 
 	private Workspace workspace;
 	private TabPane tabPane;
@@ -41,8 +41,7 @@ public class LevelEditor extends View
 	 * @param workspace
 	 *            The workspace that the LevelEditor is currently in.
 	 */
-	public LevelEditor(Workspace workspace)
-	{
+	public LevelEditor(Workspace workspace) {
 		super("");
 		this.workspace = workspace;
 		setup();
@@ -55,8 +54,7 @@ public class LevelEditor extends View
 	 * 
 	 * @return List of levels that this LevelEditor keeps track of.
 	 */
-	public List<Level> getLevels()
-	{
+	public List<Level> getLevels() {
 		List<Level> currentLevels = new ArrayList<Level>();
 		for (LayerEditor level : levels) {
 			currentLevels.add(level.getLevel());
@@ -71,8 +69,7 @@ public class LevelEditor extends View
 	 * @param levels
 	 *            List of levels to load for this LevelEditor.
 	 */
-	public void loadGame(List<Level> levels)
-	{
+	public void loadGame(List<Level> levels) {
 		setup();
 		for (Level level : levels) {
 			tabPane.getSelectionModel().select(0);
@@ -84,10 +81,21 @@ public class LevelEditor extends View
 	}
 
 	/**
+	 * Update the Entities in each Level to match their default Entity.
+	 * 
+	 * @param entity
+	 *            the default Entity to match.
+	 */
+	public void updateEntity(Entity entity) {
+		for (LayerEditor layerEditor : levels) {
+			layerEditor.updateEntity(entity);
+		}
+	}
+
+	/**
 	 * Initialize the LevelEditor.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		levelCount = 0;
 		levels = new ArrayList<LayerEditor>();
 		tabPane = new TabPane();
@@ -102,8 +110,7 @@ public class LevelEditor extends View
 	 * 
 	 * @return Tab Tab representing the new level
 	 */
-	private Tab newTab()
-	{
+	private Tab newTab() {
 		Tab tab = new Tab();
 		levelCount++;
 		tab.setText(String.format("Level %d", levelCount));
@@ -124,8 +131,7 @@ public class LevelEditor extends View
 	 * @param e
 	 *            Event that close confirmation request is attached to
 	 */
-	private void closeRequest(Event e)
-	{
+	private void closeRequest(Event e) {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("ConfirmationContent");
 		Alert alert = maker.makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader", message);
@@ -140,8 +146,7 @@ public class LevelEditor extends View
 	 * 
 	 * @return LayerEditor describing the currently selected level
 	 */
-	public LayerEditor getCurrentLevel()
-	{
+	public LayerEditor getCurrentLevel() {
 		return currentLevel;
 	}
 
@@ -150,15 +155,12 @@ public class LevelEditor extends View
 	 * 
 	 * @return Plus tab
 	 */
-	private Tab makePlusTab()
-	{
+	private Tab makePlusTab() {
 		Tab plusTab = new Tab("+");
 		plusTab.setClosable(false);
-		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
-		{
+		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
 			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
-			{
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
@@ -178,8 +180,7 @@ public class LevelEditor extends View
 	/**
 	 * Adds a help bar to the bottom of the LevelEditor.
 	 */
-	private void addToolbar()
-	{
+	private void addToolbar() {
 		helpBar = new HelpBar(workspace);
 		setBottom(helpBar);
 	}
