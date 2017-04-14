@@ -17,7 +17,6 @@ import javafx.stage.Stage;
  */
 public class LoadMenu extends AbstractMenu {
 
-	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private ObservableList<String> saveStates;
 	private ObservableList<Button> saveButtons;
 	private VBox saveButtonContainer;
