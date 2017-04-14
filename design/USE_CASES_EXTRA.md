@@ -158,7 +158,10 @@ Jay Doherty (jld60)
 - The `ImageChangeAction` sets the image path of the block to a new image path.
 - A listener in the `GraphicsEngine` sets the image of the corresponding display node to the new image.
 
-**TODO Maybe something about displaying layers differently? **
+**An Entity in a background layer needs to be rendered behind a foreground entity**
+- The user specifies entity layers in the Authoring Environment.
+- On loading a level, nodes are added to the scene and then sorted by their z-index so that they get drawn in the correct order.
+- If runtime switching between layers is desirable, this can be accomplished by adding a listener to the `Entity's` z-index and the scene can be redrawn whenever the z-index changes.
 
 ------------
 

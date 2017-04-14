@@ -2,10 +2,12 @@ package engine.graphics;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import engine.entities.CameraEntity;
 import engine.Entity;
 import engine.game.gameloop.Scorebar;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -83,14 +85,6 @@ public class GraphicsEngine {
 	}
 	
 	/**
-	 * Call this every frame to animate the camera.
-	 */
-	public void updateFrame() {
-		this.updateCamera();
-		this.updateScorebar();
-	}
-	
-	/**
 	 * Clears the display and places text on the screen.
 	 * @param text : 
 	 */
@@ -103,11 +97,20 @@ public class GraphicsEngine {
 	}
 	
 	/**
+	 * Call this every frame to animate the camera.
+	 */
+	public void updateFrame() {
+		this.updateCamera();
+		this.updateScorebar();
+	}
+	
+	/**
 	 * Call this conservatively, it seems to require a lot of memory.
 	 */
 	public void updateView() {
 		this.clearView();
 		this.drawAllEntities();
+		this.sortViewByZIndex();
 	}
 	
 	private void updateCamera() {
@@ -133,15 +136,25 @@ public class GraphicsEngine {
 		NodeFactory factory = new NodeFactory();
 		for(Entity entity : entities) {
 			ImageView node = (ImageView)factory.getNodeFromEntity(entity);
-			node.xProperty().bind(entity.xProperty());
-			node.yProperty().bind(entity.yProperty());
-			node.visibleProperty().bind(entity.isVisibleProperty());
-			entity.imagePathProperty().addListener(
-					(observer, oldPath, newPath) -> node.setImage(new Image(newPath))
-			);
+			this.makeBindings(node, entity);
 			this.nodes.add(node);
 			displayArea.getChildren().add(node);	
 		}
+	}
+	
+	private void makeBindings(ImageView node, Entity entity) {
+		node.xProperty().bind(entity.xProperty());
+		node.yProperty().bind(entity.yProperty());
+		node.setTranslateZ(entity.getZ());
+		node.visibleProperty().bind(entity.isVisibleProperty());
+		entity.imagePathProperty().addListener(
+				(observer, oldPath, newPath) -> node.setImage(new Image(newPath))
+		);
+	}
+	
+	private void sortViewByZIndex() {
+		List<Node> sortedNodes = displayArea.getChildren().sorted((a,b) -> {return Double.compare(b.getTranslateZ(), a.getTranslateZ());});
+		displayArea.getChildren().setAll(sortedNodes); 
 	}
 	
 	private void setupView() {
@@ -150,7 +163,7 @@ public class GraphicsEngine {
 		HBox.setHgrow(displayArea, Priority.ALWAYS);
 		VBox.setVgrow(displayArea, Priority.ALWAYS);
 		this.clipAtEdges(displayArea);
-		this.drawAllEntities();
+		this.updateView();
 	}
 	
 	private void setupScorebar() {
