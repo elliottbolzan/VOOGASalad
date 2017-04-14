@@ -30,6 +30,12 @@ import javafx.util.Callback;
 /**
  * @author Elliott Bolzan
  *
+ *         A superclass for a number of editors in the Authoring Environment.
+ *         All editors have commonalities: they have a ComboBox from which the
+ *         user can choose the nature of that which is being edited, and they
+ *         display the parameters for that which was selected. Finally, they all
+ *         need to provide a save option. This is why this functionality was
+ *         regrouped in one superclass.
  */
 public abstract class Editor extends View {
 
@@ -43,7 +49,16 @@ public abstract class Editor extends View {
 	private ComponentMaker maker;
 
 	/**
-	 * @param title
+	 * Creates an Editor.
+	 * 
+	 * @param workspace
+	 *            the workspace that owns the Editor.
+	 * @param elements
+	 *            the elements to display.
+	 * @param object
+	 *            the object to (optionally) edit.
+	 * @param showSave
+	 *            whether the save button should be shown.
 	 */
 	public Editor(Workspace workspace, List<String> elements, GameObject object, boolean showSave) {
 		super("");
@@ -141,7 +156,6 @@ public abstract class Editor extends View {
 	}
 
 	private void save() {
-		System.out.println(comboBoxHasSelection());
 		if (!comboBoxHasSelection()) {
 			String content = workspace.getResources().getString("PickSomething");
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
@@ -151,7 +165,7 @@ public abstract class Editor extends View {
 		((Stage) getScene().getWindow()).close();
 		save(parameters);
 	}
-	
+
 	private boolean comboBoxHasSelection() {
 		return !comboBox.getValue().equals(workspace.getResources().getString("Type"));
 	}
@@ -161,8 +175,21 @@ public abstract class Editor extends View {
 		parameters.add(updatedParameter);
 	}
 
+	/**
+	 * Called when the user has selected an element from the ComboBox.
+	 * Implementations can have widely varying reactions to this event.
+	 * 
+	 * @param string
+	 *            the element selected by the user.
+	 */
 	public abstract void selected(String string);
 
+	/**
+	 * Called when the user presses the save button.
+	 * 
+	 * @param data
+	 *            the parameters that the user has entered and edited.
+	 */
 	public abstract void save(List<Parameter> data);
 
 }
