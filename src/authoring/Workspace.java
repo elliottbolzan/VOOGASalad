@@ -19,6 +19,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
+import player.BasicPlayer;
+import player.Player;
 
 /**
  * @author Elliott Bolzan Modified by Mina Mungekar, Jimmy Shackford
@@ -36,6 +38,7 @@ public class Workspace extends View {
 
 	private Game game;
 	private DefaultEntities defaults;
+	private String path;
 
 	/**
 	 * 
@@ -44,6 +47,7 @@ public class Workspace extends View {
 		super("Workspace");
 		this.resources = resources;
 		setup();
+		this.path = path;
 		if (!path.equals("")) {
 			load(path);
 		}
@@ -132,6 +136,10 @@ public class Workspace extends View {
 			data.saveGame(game, path);
 		}
 	}
+	
+	public void test(Game game){
+		new BasicPlayer(game, path);
+	}
 
 	public ResourceBundle getResources() {
 		return resources;
@@ -157,23 +165,52 @@ public class Workspace extends View {
 		// return canvas's entities (i.e. canvas.getLevel())
 		return new ArrayList<Entity>();
 	}
+	
+	/**
+	 * Used at initialization, when the default layer created is not one that is user-requested. The levelEditor
+	 * must alert the combobox that the first layer has been initialized, which it does through the workspace.
+	 * @param newLayer
+	 */
 
 	public void setNewLayer(String newLayer) {
 		panel.updateLayerPanel(newLayer);
 	}
+	
+	/**
+	 * addLayer is called from the panel whenever the user selects the option to add another layer.
+	 * The workspace instructs the levelEditor to create another layer.
+	 * @param none
+	 */
 
 	public void addLayer() {
 		levelEditor.getCurrentLevel().makeLayer();
 	}
+	
+	/**
+	 * When the user selects a new layer from the layer-selecting combobox, it alerts the workspace, which, in turn,
+	 * instructs the LevelEditor to switch layers.
+	 * @param arg2
+	 */
 
 	public void selectLayer(int arg2) {
 		levelEditor.getCurrentLevel().selectLayer(arg2);
 	}
+	
+	/**
+	 * When a new level is selected by the user, the LevelEditor alerts the workspace, which, in turn, 
+	 * alerts the panel to the change being made. The combobox displaying layer names is subsequently updated.
+	 * @param newLevelNum
+	 */
 
 	public void selectExistingLevel(int newLevelNum) {
 		panel.selectExistingLevelBox(newLevelNum);
 	}
 
+	/**
+	 * When the user instructs the layer panel to delete a layer, the workspace alerts the levelEditor, telling it to 
+	 * delete a layer of its current level.
+	 * @param layer
+	 */
 	public void deleteLayer(int layer) {
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}

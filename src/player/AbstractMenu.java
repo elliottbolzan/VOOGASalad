@@ -14,8 +14,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import starter.StartMenu;
 
+/**
+ * Abstract class of menu that defines all the common features of each menu
+ * @author Jesse
+ *
+ */
 public abstract class AbstractMenu implements Menu{
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private BorderPane root;	

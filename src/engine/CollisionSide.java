@@ -13,6 +13,13 @@ public enum CollisionSide {
 	private CollisionSide() {
 	}
 
+	/**
+	 * Determines whether this CollisionSide is equal to the other CollisionSide
+	 * 
+	 * @param other
+	 *            CollisionSide to which this is compared
+	 * @return true if this == other, and false otherwise
+	 */
 	public boolean equals(CollisionSide other) {
 		return this == other || this == ALL || other == ALL;
 	}
