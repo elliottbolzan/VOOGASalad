@@ -19,7 +19,7 @@ public class Scorebar {
 		timerManager = new TimerManager(120, false);
 		lives = 5;
 		score = 0;
-		level = 0;
+		level = 1;
 	}
 	
 	public void resetTimerManager(){
