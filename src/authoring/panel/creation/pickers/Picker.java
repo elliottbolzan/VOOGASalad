@@ -50,21 +50,6 @@ public abstract class Picker extends EditableContainer {
 		setTop(box);
 	}
 
-	public <E> void setOnClick(ListView<E> list, Runnable single) {
-		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent mouseEvent) {
-				if (mouseEvent.getClickCount() == 1) {
-					if (single != null) {
-						single.run();
-					}
-				} else if (mouseEvent.getClickCount() == 2) {
-					edit();
-				}
-			}
-		});
-	}
-
 	public abstract void select(GameObject object);
 
 	public abstract void createContainer();

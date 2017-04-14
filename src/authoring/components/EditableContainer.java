@@ -2,9 +2,12 @@ package authoring.components;
 
 import authoring.Workspace;
 import authoring.views.View;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -61,6 +64,21 @@ public abstract class EditableContainer extends View {
 	
 	public Object getCurrentlyEditing() {
 		return currentlyEditing;
+	}
+	
+	public <E> void setOnClick(ListView<E> list, Runnable single) {
+		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if (mouseEvent.getClickCount() == 1) {
+					if (single != null) {
+						single.run();
+					}
+				} else if (mouseEvent.getClickCount() == 2) {
+					edit();
+				}
+			}
+		});
 	}
 
 	public abstract void createContainer();

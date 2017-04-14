@@ -76,8 +76,8 @@ public class Workspace extends View {
 	}
 
 	private void dragToAddEntity() {
-		panel.getEntityDisplay().getTable().setOnDragDetected(e -> {
-			Entity addedEntity = panel.getEntityDisplay().getTable().getSelectionModel().getSelectedItem();
+		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
+			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.setOnMouseEntered(e2 -> {
