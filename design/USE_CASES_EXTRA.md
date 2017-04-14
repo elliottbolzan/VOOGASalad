@@ -111,3 +111,19 @@ Mina Mungekar (mem94)
 - The Timer button will be an Entity, but not interact with the characters on screen.
 - Through this button, the user can set the game time and assign different events to take place at certain times.
 - The Timer will be written to an XML file, and the information it contains passed to the Game Engine. When the Game Loop timer hits a point at which the user specified an event to occur, the event will be triggered.
+
+------------
+
+Jay Doherty (jld60)
+
+**The user moves and the camera follows the character on screen**
+**A powerup is picked up and needs to be removed from the visual display**
+**A block is hit and its image changes as a result (cracks appear or something)**
+**TODO Maybe something about displaying layers differently? **
+
+------------
+
+
+
+
+

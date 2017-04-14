@@ -94,10 +94,8 @@ These three units are described below:
 
 The Starter Window is a very simple window that has the title and 5 buttons:
 1. A New button that opens up the Game Authoring Environment from scratch.
-2. A Choose Game button that allows the user to choose an existing game to edit or play.
 3. An Edit button to go into the GAE with the chosen game.
 4. A Play button that goes into the Game Player with the chosen game.
-5. An Exit button that closes the program.
 
 ![](images/starter.png)
 
@@ -105,9 +103,9 @@ The Starter Window is a very simple window that has the title and 5 buttons:
 
 The Authoring Environment will be further subdivided into three parts:
 
-1. The Settings (on the left in the image below).
+1. The Settings (on the bottom left in the image below).
 2. The Canvas (in the center in the image below).
-3. The Entity Panel (on the right in the image below).
+3. The Entity Panel (on the left in the image below).
 
 ![](images/authoring.png)
 
@@ -117,7 +115,7 @@ The **Settings** panel will harbor all game-wide settings.
 
 These settings may include: the scrolling platformer's orientation, whether the game scrolls automatically or when prompted by the character, the game's song, etc.
 
-In addition, the Settings will contain a `Save` button, that allows for the saving of the designed game to file. 
+In addition, the Settings will contain a `Save Game` button, that allows for the saving of the designed game to file. 
 
 Generally speaking, this section will only include "traditional" user interface elements: there should be no surprises in how the user should interact with the Settings.
 
@@ -151,16 +149,12 @@ The entity editor will allow the user to create a new **Entity**. The user shoul
 
 The Game Player will load a main menu with buttons that are appropriate for the games. It will have 5 options:
 
-1. Back
-2. Play Game
-3. Highscores
-4. Options
-5. Game Data
-6. Achievements
+1. Play Game
+2. Highscores
+3. Options
+4. Game Data
+5. Achievements
 
-
-- **Back**
-This button just returns to the main starting window, or if in any of the menus it will return to the Game Player starting window.
 
 - **Play Game**
 This button leads to a menu where they can either start a new game or from a previous save point.
@@ -186,8 +180,6 @@ Inside the actual game, there will be a toolbar at the top with 5 controls:
 2. Save
 3. Restart
 4. Play/Pause
-5. Options
-
 
 - **Exit**
 Exits the game and takes you back to the Game Player main menu.
@@ -200,9 +192,6 @@ Restarts the game from the very beginning. Reloads the data file.
 
 - **Play/Pause**
 Pauses or plays the game.
-
-- **Options**
-Allows user to change settings of the particular game while in the game without going back to the main menu.
 
 There will also be a HUD for the score, lives, and time.
 
