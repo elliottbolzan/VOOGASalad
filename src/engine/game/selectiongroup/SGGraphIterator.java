@@ -1,5 +1,11 @@
 package engine.game.selectiongroup;
 
+/**
+ * 
+ * @author Matthew Barbano
+ *
+ * @param <T>
+ */
 public class SGGraphIterator<T> implements SGIterator<T>{
 
 	public SGGraphIterator() {

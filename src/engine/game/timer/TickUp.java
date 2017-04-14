@@ -1,5 +1,10 @@
 package engine.game.timer;
 
+/**
+ * 
+ * @author Matthew Barbano
+ *
+ */
 public class TickUp implements TickStrategy{
 	
 	@Override
