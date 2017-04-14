@@ -231,6 +231,7 @@ The only other module it interacts with is the Game Engine, where it gets all th
 **Game Engine**
 *	Game Module- The highest-level module, manages the flow of time, organization of levels, and interaction with the Game Player. It will contain the following classes:
    *	TimingManager - Information about the current time.
+   *	CollisionManager - Informatino about the Collsions between Entities in the current step of the game.
    *	PlayerManager - Information about players. Manages their interactions, if multiplayer. See the Player module below.
    *	GameLoop - Game loop.
    *	LevelManager - Contains a Collection of all existing levels. Responsible for creating/deleting new levels.
@@ -245,10 +246,11 @@ The only other module it interacts with is the Game Engine, where it gets all th
     *	ComputerControlledEntity - Anything appearing on screen not controlled by the human player. This includes wall, blocks, and enemies. Divided between those that move (the user will be able to choose left/right, or up/down and the distance), and those that do not.
     *	Background.
     *	Note: For GamerControlledEntity and ComputerControlledEntity, contains inheritance hierarchies for different types. Also attaches Events to each object to handle interactions between Characters and Blocks. Contains a single class for the Background.
-*   Event Module (attached to Object). Defined as one of the following:
+*   Event Module (attached to Entity). Defined as one of the following:
     *	User input.
     *	Collision (each side, to distinguish between possible ones). 
     *	Timer.
+    *	Entity Location.
     *	Example: Mario hits a block. The block releases a prize. The block has an event; Mario also has an event.  They each have an event from their own point-of-view.
 *	Action Module (attached to Event). - The consequence of each Event. Examples are:
     *	Instantiate new object.

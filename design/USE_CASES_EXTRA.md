@@ -123,6 +123,26 @@ Jay Doherty (jld60)
 
 ------------
 
+Jesse Yue (jty4)
+
+**Creating achievements**
+- User goes to the achievements panel of GAE
+- User sets a title for the achievement
+- User sets a description for the achievement
+- User sets parameters for the achievement
+- User hits save achievement then the authoring environment asks game data to save it
+
+**Creating game info**
+- User goes to the settings panel of GAE
+- User types in any information they think the player will want to know
+- User hits save to save to the game data
+
+**Loading in achievements**
+- In the player menu, the achievements will be extracted from the game data and placed inside the player menus.
+
+**Completing an Achievement**
+- In the player, when the user completes all the parameters of an achievement there will be a pop up for an achievement
+- The achievement menu will tick that achievement as completed
 
 
 
