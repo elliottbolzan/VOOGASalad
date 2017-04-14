@@ -2,6 +2,13 @@ package engine.game.gameloop;
 
 import engine.game.timer.TimerManager;
 
+/**
+ * Contains information displayed on the Scorebar.
+ * 
+ * @author Jay Doherty
+ * @author Matthew Barbano
+ *
+ */
 public class Scorebar {
 	private TimerManager timerManager; // restart it every time restart new
 										// level! (perhaps in another class
@@ -11,11 +18,13 @@ public class Scorebar {
 						// CharacterEntity and here by allowing GAE to set
 						// Scorebar values too! (also consider multiplayer)
 	private int score;
-
+	private int level;
+	
 	public Scorebar() {
 		timerManager = new TimerManager(120, false);
 		lives = 5;
 		score = 0;
+		level = 1;
 	}
 
 	public void resetTimerManager() {
@@ -59,4 +68,12 @@ public class Scorebar {
 		this.score += scoreChange;
 	}
 
+	
+	public int getLevel(){
+		return level;
+	}
+	
+	public void setLevel(int level){
+		this.level = level;
+	}
 }

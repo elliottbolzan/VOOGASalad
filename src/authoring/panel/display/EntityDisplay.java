@@ -6,58 +6,90 @@ import authoring.components.thumbnail.LiveThumbnail;
 import authoring.components.thumbnail.Thumbnail;
 import authoring.panel.creation.EntityMaker;
 import engine.Entity;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
 /**
  * @author Elliott Bolzan
  *
+ *         A class that displays the user's default Entities. Allows the user to
+ *         edit and delete them, or add new ones. Also allows the user to drag
+ *         and drop Entities to the Canvas.
  */
 public class EntityDisplay extends EditableContainer {
 
-	private TableView<Entity> table;
+	private ListView<Entity> list;
 
 	/**
-	 * 
+	 * Creates an EntityDisplay.
+	 * @param workspace the workspace that owns the EntityDisplay.
 	 */
 	public EntityDisplay(Workspace workspace) {
 		super(workspace, workspace.getResources().getString("EntityDisplayTitle"));
 	}
 
-	public TableView<Entity> getTable() {
-		return table;
+	/**
+	 * @return the EntityDisplay's ListView.
+	 */
+	public ListView<Entity> getList() {
+		return list;
 	}
 
 	/**
-	 * @return a TableView.
+	 * Add an Entity to the EntityDisplay.
+	 * @param entity the Entity to be added.
 	 */
-	private TableView<Entity> makeTable() {
-		TableView<Entity> table = new TableView<Entity>();
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		table.setPlaceholder(new Label(getWorkspace().getResources().getString("EmptyEntities")));
-		table.prefHeightProperty().bind(heightProperty());
-		table.setId("entity-table");
-		table.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				getWorkspace().getDefaults().setSelectedEntity(table.getSelectionModel().getSelectedItem());
-			}
-		});
-		return table;
+	public void addEntity(Entity entity) {
+		if (getCurrentlyEditing() != null) {
+			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
+			getWorkspace().updateEntity(entity);
+		}
+		getWorkspace().getDefaults().add(entity);
 	}
 
-	private TableColumn<Entity, Entity> makeEntityColumn() {
-		TableColumn<Entity, Entity> entityColumn = new TableColumn<>("Entity");
-		entityColumn.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		entityColumn.setCellFactory(param -> new TableCell<Entity, Entity>() {
+	/* (non-Javadoc)
+	 * @see authoring.components.EditableContainer#createNew()
+	 */
+	@Override
+	public void createNew() {
+		setCurrentlyEditing(null);
+		new EntityMaker(getWorkspace(), this, null);
+	}
+
+	/* (non-Javadoc)
+	 * @see authoring.components.EditableContainer#edit()
+	 */
+	@Override
+	public void edit() {
+		if (selectionExists(getSelection())) {
+			setCurrentlyEditing(getSelection());
+			new EntityMaker(getWorkspace(), this, getSelection());
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see authoring.components.EditableContainer#delete()
+	 */
+	@Override
+	public void delete() {
+		if (selectionExists(getSelection()))
+			getWorkspace().getDefaults().remove(getSelection());
+	}
+
+	/* (non-Javadoc)
+	 * @see authoring.components.EditableContainer#createContainer()
+	 */
+	@Override
+	public void createContainer() {
+		list = new ListView<Entity>();
+		list.setPlaceholder(new Label(getWorkspace().getResources().getString("EmptyEntities")));
+		list.setEditable(false);
+		list.prefHeightProperty().bind(heightProperty());
+		list.setCellFactory(param -> new ListCell<Entity>() {
 			@Override
 			protected void updateItem(Entity entity, boolean empty) {
 				super.updateItem(entity, empty);
@@ -65,64 +97,32 @@ public class EntityDisplay extends EditableContainer {
 					setGraphic(null);
 					return;
 				}
-				VBox box = new VBox(8);
-				box.setPadding(new Insets(8));
-				box.setAlignment(Pos.CENTER);
-				Label name = new Label();
-				name.textProperty().bind(entity.nameProperty());
-				Thumbnail thumbnail = new LiveThumbnail(entity.imagePathProperty(), 50, 50);
-				box.getChildren().addAll(thumbnail, name);
-				setGraphic(box);
+				setGraphic(createCellContent(entity));
 			}
 		});
-		return entityColumn;
-	}
-
-	public void addEntity(Entity entity) {
-		if (getCurrentlyEditing() != null) {
-			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
-		}
-		getWorkspace().getDefaults().add(entity);
-	}
-
-	@Override
-	public void createContainer() {
-		table = makeTable();
-		table.setItems(getWorkspace().getDefaults().getEntities());
-		table.getColumns().add(makeEntityColumn());
-		setCenter(table);
-	}
-
-	@Override
-	public void createNew() {
-		setCurrentlyEditing(null);
-		new EntityMaker(getWorkspace(), this, null);
-	}
-
-	/*public void updateEntity(Entity entity) {
-		for (Entity currEntity : table.getItems()) {
-			// won't work, probably? same names two defaults, for example. are we allowing that?
-			// also: if you have a block named Mario, and you press a Mario, the block just becomes Mario.
-			// problems like that.
-			if (currEntity.getName().equals(entity.getName())) {
-				currEntity.set(entity);
+		setOnClick(list, new Runnable() {
+			@Override
+			public void run() {
+				getWorkspace().getDefaults().setSelectedEntity(getSelection());
 			}
-		}
-	}*/
-
-	@Override
-	public void edit() {
-		Entity selection = table.getSelectionModel().getSelectedItem();
-		if (selectionExists(selection)){
-			setCurrentlyEditing(selection);
-			new EntityMaker(getWorkspace(), this, selection);
-		}
+		});
+		list.setItems(getWorkspace().getDefaults().getEntities());
+		setCenter(list);
 	}
 
-	@Override
-	public void delete() {
-		if (selectionExists(table.getSelectionModel().getSelectedItem()))
-			getWorkspace().getDefaults().remove(table.getSelectionModel().getSelectedItem());
+	private Entity getSelection() {
+		return list.getSelectionModel().getSelectedItem();
+	}
+
+	private VBox createCellContent(Entity entity) {
+		VBox box = new VBox(8);
+		box.setPadding(new Insets(8));
+		box.setAlignment(Pos.CENTER);
+		Label name = new Label();
+		name.textProperty().bind(entity.nameProperty());
+		Thumbnail thumbnail = new LiveThumbnail(entity.imagePathProperty(), 50, 50);
+		box.getChildren().addAll(thumbnail, name);
+		return box;
 	}
 
 }

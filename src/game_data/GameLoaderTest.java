@@ -1,51 +1,37 @@
 package game_data;
 
-import java.util.ArrayList;
-import java.util.List;
+public class GameLoaderTest
+{
 
-import engine.Entity;
-import engine.entities.CharacterEntity;
-import engine.game.Level;
+	public static void main(String[] args)
+	{
+		try {
 
-public class GameLoaderTest {
+			String filepath = "data/smileyface/My Game";
+			/*
+			 * GameSaver gs = new GameSaver(); Entity mario = new
+			 * CharacterEntity();
+			 * mario.setImagePath("resources/images/mario.png");
+			 * mario.setX(100); mario.setY(55);
+			 * 
+			 * Entity luigi = new CharacterEntity();
+			 * luigi.setImagePath("resources/images/luigi.png");
+			 * luigi.setX(100); luigi.setY(55);
+			 * 
+			 * Level level = new Level(); level.addEntity(mario);
+			 * level.addEntity(luigi);
+			 * 
+			 * List<Level> levels= new ArrayList<Level>(); Game g = new Game();
+			 * g.setLevels(levels); gs.saveGame(g, filepath);
+			 * 
+			 */
+			GameLoader gl = new GameLoader();
 
-	
-	
-	public static void main(String[] args) {
-		try{
-			
-		String filepath="data/smileyface/My Game";
-		/*
-		GameSaver gs = new GameSaver();
-		Entity mario = new CharacterEntity();
-		mario.setImagePath("resources/images/mario.png");
-		mario.setX(100);
-		mario.setY(55);
-		
-		Entity luigi = new CharacterEntity();
-		luigi.setImagePath("resources/images/luigi.png");
-		luigi.setX(100);
-		luigi.setY(55);
-		
-		Level level = new Level();
-		level.addEntity(mario);
-		level.addEntity(luigi);
-		
-		List<Level> levels= new ArrayList<Level>();
-		Game g = new Game();
-		g.setLevels(levels);
-		gs.saveGame(g, filepath);
-			
-			*/
-		GameLoader gl = new GameLoader();
-		
-		gl.loadGame(filepath);
-		}catch (NotAGameFolderException i){
-			i.printStackTrace();
+			gl.loadGame(filepath);
+		} catch (NotAGameFolderException i) {
+			// i.printStackTrace();
 		}
-		
-		}
-	
-	
-	
+
+	}
+
 }

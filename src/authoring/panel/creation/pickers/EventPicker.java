@@ -15,6 +15,10 @@ import javafx.stage.Modality;
 
 /**
  * @author Elliott Bolzan
+ * 
+ *         This class lets the user view, edit, delete, and select Events he or
+ *         she has created. It extends Picker, a superclass which provides its
+ *         editing and deleting abilities.
  *
  */
 public class EventPicker extends Picker {
@@ -24,6 +28,11 @@ public class EventPicker extends Picker {
 	private ListView<Event> list;
 	private ComponentMaker componentMaker;
 
+	/**
+	 * Creates an EventPicker.
+	 * @param workspace the workspace to which this picker belongs.
+	 * @param entityMaker the EntityMaker which created this Picker.
+	 */
 	public EventPicker(Workspace workspace, EntityMaker entityMaker) {
 		super(workspace, "EventPickerTitle", entityMaker);
 		this.entityMaker = entityMaker;
@@ -31,6 +40,9 @@ public class EventPicker extends Picker {
 		update();
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#createContainer()
+	 */
 	@Override
 	public void createContainer() {
 		list = new ListView<Event>();
@@ -48,10 +60,18 @@ public class EventPicker extends Picker {
 				}
 			}
 		});
-		list.setOnMouseClicked(e -> setSelectedEvent());
+		setOnClick(list, new Runnable() {
+			@Override
+			public void run() {
+				setSelectedEvent();
+			}
+		});
 		setCenter(list);
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#createNew()
+	 */
 	@Override
 	public void createNew() {
 		if (entityMaker.getEntity() != null) {
@@ -60,6 +80,9 @@ public class EventPicker extends Picker {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#add(java.lang.Object)
+	 */
 	@Override
 	public <E> void add(E element) {
 		if (getCurrentlyEditing() != null) {
@@ -72,12 +95,18 @@ public class EventPicker extends Picker {
 		select(event);
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#remove(java.lang.Object)
+	 */
 	@Override
 	public <E> void remove(E element) {
 		entityMaker.getEntity().getEvents().remove((Event) element);
 		update();
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#delete()
+	 */
 	@Override
 	public void delete() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
@@ -86,6 +115,9 @@ public class EventPicker extends Picker {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#edit()
+	 */
 	@Override
 	public void edit() {
 		if (selectionExists(list.getSelectionModel().getSelectedItem())) {
@@ -94,24 +126,33 @@ public class EventPicker extends Picker {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#update()
+	 */
 	@Override
 	public void update() {
 		list.setItems(FXCollections.observableArrayList(entityMaker.getEntity().getEvents()));
 	}
 
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#showEditor()
+	 */
 	@Override
 	public void showEditor() {
 		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
 				engine.getAllEvents());
 		componentMaker.display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see authoring.panel.creation.pickers.Picker#select(engine.GameObject)
+	 */
 	@Override
 	public void select(GameObject object) {
 		list.getSelectionModel().select((Event) object);
 		setSelectedEvent();
 	}
-	
+
 	private void setSelectedEvent() {
 		entityMaker.setSelectedEvent(list.getSelectionModel().getSelectedItem());
 	}

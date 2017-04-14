@@ -5,16 +5,23 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
+import authoring.components.Direction;
 import authoring.panel.achievements.Achievements;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.settings.Settings;
-import authoring.utils.Direction;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
-import engine.Entity;
 import javafx.scene.layout.VBox;
 
+/**
+ * @author Elliott Bolzan
+ *
+ *         A class that encapsulates a panel architecture. New subpanels can be
+ *         added using a single line of code, placed in the createSubviews()
+ *         method. This system seeks to facilitate the addition of new subviews
+ *         and to reduce duplicated boilerplate code.
+ */
 public class Panel extends CollapsibleView {
 
 	private Workspace workspace;
@@ -46,7 +53,7 @@ public class Panel extends CollapsibleView {
 	}
 
 	/**
-	 * Populate the subviews Lists, which dictates which subviews appear in the
+	 * Populate the subviews List, which dictates which subviews appear in the
 	 * Accordion.
 	 */
 	private void createSubviews() {
@@ -68,10 +75,16 @@ public class Panel extends CollapsibleView {
 				maker.makeButton("TestButtonSettings", e -> workspace.test(workspace.getGame()), true)));
 	}
 
+	/**
+	 * @return the EntityDisplay.
+	 */
 	public EntityDisplay getEntityDisplay() {
 		return entityDisplay;
 	}
 
+	/**
+	 * @return the Settings subview.
+	 */
 	public Settings getSettings() {
 		return settings;
 	}
@@ -82,6 +95,12 @@ public class Panel extends CollapsibleView {
 	 * @param newLayer
 	 */
 
+	/**
+	 * Update the layer panel with a new layer.
+	 * 
+	 * @param newLayer
+	 *            the layer to be added to the layer panel.
+	 */
 	public void updateLayerPanel(String newLayer) {
 		layerPanel.updateBox(newLayer);
 	}
@@ -92,6 +111,12 @@ public class Panel extends CollapsibleView {
 	 * @param layerNum
 	 */
 
+	/**
+	 * Select an existing level.
+	 * 
+	 * @param layerNum
+	 *            the layer to be selected.
+	 */
 	public void selectExistingLevelBox(int layerNum) {
 		layerPanel.selectLevelBox(layerNum);
 	}

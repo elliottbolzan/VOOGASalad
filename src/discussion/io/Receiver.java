@@ -6,11 +6,8 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.net.NetworkInterface;
-import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Enumeration;
 
 import discussion.response.Connectable;
 import discussion.response.Delegate;
@@ -18,12 +15,29 @@ import discussion.response.Delegate;
 /**
  * @author Elliott Bolzan
  *
+ *         This class represents a receiving party in the sending mechanism. It
+ *         is implemented as a Runnable, in order to not block the Application
+ *         thread.
+ *
  */
-public class Receiver extends Actor implements Runnable {
+public class Receiver extends Actor implements Runnable
+{
 
 	private String ID;
 	private Collection<Delegate> delegates;
 
+	/**
+	 * Create a Receiver.
+	 * 
+	 * @param ID
+	 *            the identifier of this chat system.
+	 * @param host
+	 *            the IP address of the host.
+	 * @param port
+	 *            the port to listen on.
+	 * @param bufferSize
+	 *            the buffer size of each packet.
+	 */
 	public Receiver(String ID, String host, int port, int bufferSize) {
 		super(host, port, bufferSize);
 		this.ID = ID;
@@ -31,12 +45,25 @@ public class Receiver extends Actor implements Runnable {
 		System.setProperty("java.net.preferIPv4Stack", "true");
 	}
 
+	/**
+	 * Adds a party to the receiving mechanism. This receiver must be notified
+	 * when the a message that matches the key is received.
+	 * 
+	 * @param connectable
+	 *            the party to be notified.
+	 * @param key
+	 *            the channel the party is listening on.
+	 */
 	public void addReceiver(Connectable connectable, String key) {
 		delegates.add(new Delegate(key, connectable));
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
-	public void run() {
+	public void run()
+	{
 		try {
 			byte[] buffer = new byte[getBufferSize()];
 			DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
@@ -53,11 +80,12 @@ public class Receiver extends Actor implements Runnable {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
-	private MulticastSocket setupSocket() throws Exception {
+	private MulticastSocket setupSocket() throws Exception
+	{
 		MulticastSocket socket = new MulticastSocket(getPort());
 		socket.setReuseAddress(true);
 		/*
@@ -79,7 +107,8 @@ public class Receiver extends Actor implements Runnable {
 		return socket;
 	}
 
-	private Message getMessageFromBuffer(byte[] buffer) throws Exception {
+	private Message getMessageFromBuffer(byte[] buffer) throws Exception
+	{
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(buffer);
 		ObjectInputStream is = new ObjectInputStream(new BufferedInputStream(byteStream));
 		Message message = (Message) is.readObject();
@@ -87,7 +116,8 @@ public class Receiver extends Actor implements Runnable {
 		return message;
 	}
 
-	private void processMessage(Message message) {
+	private void processMessage(Message message)
+	{
 		for (Delegate delegate : delegates) {
 			if (message.getKey().equals(delegate.getKey()) && !message.getSenderID().equals(ID)) {
 				delegate.getConnectable().received(message.getObject());
