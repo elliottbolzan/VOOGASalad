@@ -1,6 +1,7 @@
 package game_data;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
@@ -8,25 +9,31 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import engine.Entity;
 import engine.game.Level;
 
 // Make references to paths relative. 
-public class GameSaver {
+public class GameSaver
+{
 
 	private Game game;
 	private GameXMLFactory gameXMLFactory;
 
-	public void saveGame(Game game, String filepath) {
+	public void saveGame(Game game, String filepath)
+	{
 		this.game = game;
 		gameXMLFactory = new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
@@ -37,14 +44,16 @@ public class GameSaver {
 		saveDocument(filepath);
 	}
 
-	private void createRoot(String filePath) {
+	private void createRoot(String filePath)
+	{
 		File folder = new File(filePath + File.separator + game.getName());
 		if (!folder.exists()) {
 			folder.mkdirs();
 		}
 	}
 
-	private void saveSong(String filePath, String songPath) {
+	private void saveSong(String filePath, String songPath)
+	{
 		if (songPath.equals("")) {
 			return;
 		}
@@ -60,11 +69,12 @@ public class GameSaver {
 			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 			gameXMLFactory.addSong(relative);
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 
-	public void saveEntityImage(Entity entity, String filePath) {
+	public void saveEntityImage(Entity entity, String filePath)
+	{
 		try {
 			String sourcePathString = new File(new URI(entity.getImagePath())).getAbsolutePath();
 			Path sourcePath = Paths.get(sourcePathString);
@@ -84,7 +94,8 @@ public class GameSaver {
 		}
 	}
 
-	private void saveDefaults(List<Entity> defaults, String filePath) {
+	private void saveDefaults(List<Entity> defaults, String filePath)
+	{
 
 		List<Entity> entities = defaults;
 		List<Element> entityNodes = new ArrayList<Element>();
@@ -104,7 +115,8 @@ public class GameSaver {
 
 	}
 
-	private void saveLevels(List<Level> levels, String filePath) {
+	private void saveLevels(List<Level> levels, String filePath)
+	{
 		for (int i = 0; i < levels.size(); i++) {
 			List<Entity> entities = new ArrayList<Entity>(levels.get(i).getEntities());
 			List<Element> entityNodes = new ArrayList<Element>();
@@ -124,7 +136,8 @@ public class GameSaver {
 		}
 	}
 
-	private Element getEntityNode(Entity entity, String folderPath) {
+	private Element getEntityNode(Entity entity, String folderPath)
+	{
 		String tempImagePath = entity.getImagePath();
 		saveEntityImage(entity, folderPath);
 		XStream xStream = new XStream(new DomDriver());
@@ -134,7 +147,8 @@ public class GameSaver {
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 
-	private void saveDocument(String filePath) {
+	private void saveDocument(String filePath)
+	{
 		Document doc = gameXMLFactory.getDocument();
 
 		File levelDirectory = new File(filePath);

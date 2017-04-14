@@ -1,12 +1,9 @@
 package game_data;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,8 +28,10 @@ import engine.game.Level;
 // Create an absolute path from it.
 // Give Entities the absolute paths.
 
-public class GameLoader {
-	public Game loadGame(String folderPath) throws NotAGameFolderException {
+public class GameLoader
+{
+	public Game loadGame(String folderPath) throws NotAGameFolderException
+	{
 		File levelFolder = new File(folderPath + File.separator + "settings.xml");
 		if (!levelFolder.exists()) {
 			throw new NotAGameFolderException();
@@ -43,7 +42,7 @@ public class GameLoader {
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 			doc = docBuilder.parse(folderPath + File.separator + "settings.xml");
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		Game game = new Game();
 		addName(game, doc);
@@ -54,14 +53,16 @@ public class GameLoader {
 		return game;
 	}
 
-	private void addDefaults(Game game, Document doc, String folderPath) {
+	private void addDefaults(Game game, Document doc, String folderPath)
+	{
 		NodeList defaultsNode = doc.getElementsByTagName("Defaults");
 		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0);
 		game.setDefaults(getEntities(entitiesNode, folderPath));
 
 	}
 
-	private List<Entity> getEntities(Element entitiesNode, String folderPath ) {
+	private List<Entity> getEntities(Element entitiesNode, String folderPath)
+	{
 		NodeList entitiesList = entitiesNode.getChildNodes();
 		List<Entity> entityList = new ArrayList<Entity>();
 		for (int i = 0; i < entitiesList.getLength(); i++) {
@@ -75,33 +76,36 @@ public class GameLoader {
 		return entityList;
 	}
 
-	private Level convertElementtoLevel(Element levelElement, String folderPath) {
+	private Level convertElementtoLevel(Element levelElement, String folderPath)
+	{
 		Element entitiesNode = (Element) levelElement.getChildNodes().item(0);
 		Level returnedLevel = new Level();
-		for (Entity entity: getEntities(entitiesNode, folderPath)){
+		for (Entity entity : getEntities(entitiesNode, folderPath)) {
 			returnedLevel.addEntity(entity);
 		}
 		return returnedLevel;
 	}
 
-	private void addName(Game game, Document doc) {
+	private void addName(Game game, Document doc)
+	{
 
 		NodeList nameNodes = doc.getElementsByTagName("Name");
 		game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
 
 	}
 
-	private void addSong(Game game, Document doc, String folderPath) {
+	private void addSong(Game game, Document doc, String folderPath)
+	{
 		try {
 			NodeList songNodes = doc.getElementsByTagName("Resources");
 			game.setSongPath(folderPath + File.separator + songNodes.item(0).getAttributes().item(0).getNodeValue());
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			game.setSongPath("");
 		}
 	}
 
-	private void addLevels(Game game, Document doc, String folderPath) {
+	private void addLevels(Game game, Document doc, String folderPath)
+	{
 
 		NodeList levelsNode = doc.getElementsByTagName("Levels");
 		NodeList levelsList = levelsNode.item(0).getChildNodes();
@@ -118,7 +122,8 @@ public class GameLoader {
 
 	}
 
-	private Entity getEntityFromElement(Element entityElement) {
+	private Entity getEntityFromElement(Element entityElement)
+	{
 
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
@@ -130,7 +135,8 @@ public class GameLoader {
 
 	// http://stackoverflow.com/questions/32739278/convert-elementorg-w3c-dom-to-string-in-java
 
-	private String getXMLStringFromElement(Element entityElement) {
+	private String getXMLStringFromElement(Element entityElement)
+	{
 		StreamResult result = null;
 		NodeList entityChildren = entityElement.getChildNodes();
 		Element entityXMLElement = null;

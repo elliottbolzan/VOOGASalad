@@ -1,27 +1,19 @@
 package game_data;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-public class GameXMLFactory {
+public class GameXMLFactory
+{
 
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
@@ -31,17 +23,19 @@ public class GameXMLFactory {
 	private Element defaultsNode;
 	private Element resourceNode;
 
-	public GameXMLFactory() {
+	public GameXMLFactory()
+	{
 		initiate();
 	}
 
-	private void initiate() {
+	private void initiate()
+	{
 
 		docFactory = DocumentBuilderFactory.newInstance();
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		doc = docBuilder.newDocument();
 
@@ -62,13 +56,15 @@ public class GameXMLFactory {
 		rootElement.appendChild(resourceNode);
 	}
 
-	public void setName(String gameName) {
+	public void setName(String gameName)
+	{
 		Attr attr = doc.createAttribute("GameName");
 		attr.setValue(gameName);
 		nameNode.setAttributeNode(attr);
 	}
 
-	public void addLevel(Element levelInfo) {
+	public void addLevel(Element levelInfo)
+	{
 
 		Element newLevel = doc.createElement("level");
 		Element importedLevelNode = (Element) doc.importNode(levelInfo, true);
@@ -77,20 +73,23 @@ public class GameXMLFactory {
 
 	}
 
-	public void addSong(String songPath) {
+	public void addSong(String songPath)
+	{
 		Attr attr = doc.createAttribute("Song");
 		attr.setValue(songPath);
 		resourceNode.setAttributeNode(attr);
 	}
 
-	public void addDefaultEntity(Element defaultEntity) {
+	public void addDefaultEntity(Element defaultEntity)
+	{
 
 		Element importedDefaultEntityNode = (Element) doc.importNode(defaultEntity, true);
 		defaultsNode.appendChild(importedDefaultEntityNode);
 
 	}
 
-	public void addEntityInfotoElement(Element element, Element entityInfo) {
+	public void addEntityInfotoElement(Element element, Element entityInfo)
+	{
 
 		Element newEntity = doc.createElement("entity");
 		newEntity.appendChild(entityInfo);
@@ -98,7 +97,8 @@ public class GameXMLFactory {
 
 	}
 
-	public Element stringToElement(String xmlString) {
+	public Element stringToElement(String xmlString)
+	{
 
 		try {
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder()
@@ -113,7 +113,8 @@ public class GameXMLFactory {
 		return null;
 	}
 
-	public Document getDocument() {
+	public Document getDocument()
+	{
 		return doc;
 	}
 
