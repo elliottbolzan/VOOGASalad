@@ -23,7 +23,7 @@ public class Screen{
 		info.setCurrentScreen(this);
 		this.currentStepStrategy = currentStepStrategy;
 		setupTimeline();
-		System.out.println(timeline + "Timeline instantiated in Screen with StepStrategy" + this.currentStepStrategy);
+		//System.out.println(timeline + "Timeline instantiated in Screen with StepStrategy" + this.currentStepStrategy);
 		currentStepStrategy.setup(levelManager, gameScene, this, graphicsEngine, info);
 	}
 	

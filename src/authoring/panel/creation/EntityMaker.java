@@ -76,7 +76,7 @@ public class EntityMaker {
 	}
 	
 	private Scene createScene() {
-		Scene scene = new Scene(view, 800, 300);
+		Scene scene = new Scene(view, 800, 400);
 		scene.getStylesheets().add(workspace.getResources().getString("StylesheetPath"));
 		return scene;
 	}
@@ -106,6 +106,8 @@ public class EntityMaker {
 		}
 		getEntity().nameProperty().set(entityInfo.getName());
 		getEntity().imagePathProperty().set(entityInfo.getImagePath());
+		getEntity().widthProperty().set(entityInfo.getImageWidth());
+		getEntity().heightProperty().set(entityInfo.getImageHeight());
 		display.addEntity(getEntity());
 		dismiss();
 	}

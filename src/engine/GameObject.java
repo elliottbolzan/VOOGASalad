@@ -86,7 +86,6 @@ public abstract class GameObject {
 	}
 
 	public GameObject clone() {
-		System.out.println("TEST");
 		GameObject copy = getInstance();
 		copy.setGameInfo(getGameInfo());
 		List<Parameter> params = new ArrayList<Parameter>();

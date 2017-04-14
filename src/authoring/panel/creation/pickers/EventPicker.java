@@ -5,13 +5,12 @@ import authoring.components.ComponentMaker;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.EventEditor;
 import engine.Event;
+import engine.GameObject;
 import engine.game.EngineController;
 import javafx.collections.FXCollections;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 
 /**
@@ -49,12 +48,7 @@ public class EventPicker extends Picker {
 				}
 			}
 		});
-		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				entityMaker.setSelectedEvent(list.getSelectionModel().getSelectedItem());
-			}
-		});
+		list.setOnMouseClicked(e -> setSelectedEvent());
 		setCenter(list);
 	}
 
@@ -73,9 +67,9 @@ public class EventPicker extends Picker {
 		}
 		Event event = (Event) element;
 		event.setEntity(entityMaker.getEntity());
-		System.out.println(entityMaker.getEntity());
 		entityMaker.getEntity().getEvents().add(event);
 		update();
+		select(event);
 	}
 
 	@Override
@@ -110,6 +104,16 @@ public class EventPicker extends Picker {
 		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
 				engine.getAllEvents());
 		componentMaker.display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
+	}
+	
+	@Override
+	public void select(GameObject object) {
+		list.getSelectionModel().select((Event) object);
+		setSelectedEvent();
+	}
+	
+	private void setSelectedEvent() {
+		entityMaker.setSelectedEvent(list.getSelectionModel().getSelectedItem());
 	}
 
 }

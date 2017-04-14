@@ -2,8 +2,6 @@ package game_data;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,7 +33,7 @@ public class GameSaver {
 		createRoot(filepath);
 		saveLevels(game.getLevels(), filepath + File.separator + game.getName());
 		saveDefaults(game.getDefaults(), filepath + File.separator + game.getName());
-		saveSong(filepath + game.getSongPath());
+		saveSong(filepath + File.separator + game.getName(), game.getSongPath());
 		saveDocument(filepath);
 	}
 
@@ -46,33 +44,43 @@ public class GameSaver {
 		}
 	}
 
-	private void saveSong(String songPath) {
-		// System.out.println(songPath);
-		// LevelSaver ls = new LevelSaver(null);
-		// String xmlsong = ls.saveSong(songPath);
-		// Element songelement = gameXMLFactory.stringToElement(xmlSong);
-		gameXMLFactory.addSong(songPath);
-
-		// gameXMLFactory.addSong(gameXMLFactory.stringToElement(songPath));
+	private void saveSong(String filePath, String songPath) {
+		if (songPath.equals("")) {
+			return;
+		}
+		try {
+			String updated = new File(songPath).getAbsolutePath();
+			Path sourcePath = Paths.get(updated);
+			String relative = "resources" + File.separator + game.getName() + ".mp3";
+			game.setSongPath(relative);
+			File file = new File(filePath + File.separator + relative);
+			file.getParentFile().mkdirs();
+			file.createNewFile();
+			Path targetPath = Paths.get(filePath + File.separator + relative);
+			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
+			gameXMLFactory.addSong(relative);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void saveEntityImage(Entity entity, String filePath) {
 		try {
 			String sourcePathString = new File(new URI(entity.getImagePath())).getAbsolutePath();
 			Path sourcePath = Paths.get(sourcePathString);
-			
-			String targetPathString = "images" + File.separator + entity.getName() + "Image.png";
+
+			String targetPathString = "resources" + File.separator + entity.getName() + "Image.png";
 			entity.setImagePath(targetPathString);
 			File entityImageFile = new File(filePath + File.separator + targetPathString);
-			
+
 			entityImageFile.getParentFile().mkdirs();
 			entityImageFile.createNewFile();
-			
+
 			Path targetPath = Paths.get(filePath + File.separator + targetPathString);
 			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
-			
+
 		} catch (Exception i) {
-			i.printStackTrace();
+			// i.printStackTrace();
 		}
 	}
 
