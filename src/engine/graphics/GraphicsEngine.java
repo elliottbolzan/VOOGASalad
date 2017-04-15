@@ -7,6 +7,7 @@ import java.util.List;
 import engine.entities.CameraEntity;
 import engine.Entity;
 import engine.game.gameloop.Scorebar;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -56,9 +57,7 @@ public class GraphicsEngine {
 	/**
 	 * @return the display for time/lives/score
 	 */
-//	public Label getScorebarDisplay() {
-//		return scorebarDisplay;
-//	}
+
 	public Overlay getScorebarDisplay(){
 		return scorebarDisplay;
 	}
@@ -97,6 +96,7 @@ public class GraphicsEngine {
 		Label label = new Label(text);
 		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
 		label.setFont(new Font(displayArea.getWidth()/text.length()));
+		label.setAlignment(Pos.CENTER);
 		displayArea.getChildren().add(label);
 	}
 	
