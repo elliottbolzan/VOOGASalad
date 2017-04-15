@@ -252,6 +252,9 @@ public class DragUtil
 			x = event.getX();
 			y = event.getY();
 		}
+		if (!event.isShiftDown()) {
+			region.setSelected(true);
+		}
 	}
 
 	private void mousePressedResize(MouseEvent event)
