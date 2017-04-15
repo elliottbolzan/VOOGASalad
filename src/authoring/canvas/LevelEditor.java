@@ -200,7 +200,7 @@ public class LevelEditor extends View
 			{
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
-					workspace.selectExistingLevel(oldTab.getText(),newTab().getText());
+					workspace.selectExistingLevel(oldTab.getText(),newTab.getText());
 					tabPane.getSelectionModel().select(tabPane.getTabs().size() - 2);
 					currentLevel = (LayerEditor) tabPane.getSelectionModel().getSelectedItem().getContent();
 					workspace.selectExistingLevel(newTab.getText(),tabPane.getSelectionModel().getSelectedItem().getText());

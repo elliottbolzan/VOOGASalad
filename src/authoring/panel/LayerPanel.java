@@ -88,9 +88,11 @@ public class LayerPanel extends View {
 	}
 
 	private void delete() {
-		int layer = Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split(" ")[1]);
-		myBox.setValue((layer == 1 ? String.format("Layer %d", layer) : String.format("Layer %d", layer - 1)));
-		workspace.deleteLayer(layer);
+		//int layer = Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split(" ")[1]);
+		workspace.deleteLayer(myBox.getSelectionModel().getSelectedIndex()+1);
+		selectionModel.remove(myBox.getSelectionModel().getSelectedIndex());
+		myBox.setItems(selectionModel);
+		myBox.setValue(selectionModel.get(0));
 	}
 
 	private void configureVelocitySettings() {
@@ -130,11 +132,12 @@ private void createNameField(){
 }
 
 private void saveName(){
+	if(nameField.getText()!=null){
 	selectionModel.set(myBox.getSelectionModel().getSelectedIndex(), nameField.getText());
 	myBox.setItems(selectionModel);
 	myBox.setValue(nameField.getText());
 	nameField.setText(null);
-	
+	}
 }
 
 	private void initLayerSelector() {
@@ -158,22 +161,18 @@ private void saveName(){
 	 */
 
 	public void selectLevelBox(String oldLevel, String newLevel) {
-		if(!oldLevel.equals("+")){
-			nameList.put(oldLevel,new ArrayList<String>(selectionModel));
-			if(!newLevel.equals("+")){
-			selectionModel = FXCollections.observableArrayList(nameList.get(newLevel));
-			myBox.setItems(selectionModel);
-			myBox.setValue(selectionModel.get(0));
-			}
-		}
-		else{
+		if(oldLevel.equals("+")){
 			selectionModel.clear();
 			selectionModel.add(workspace.getResources().getString("DefaultLayer"));
-			nameList.put(workspace.getResources().getString("DefaultLayer"), new ArrayList<String>(selectionModel));
-			myBox.setItems(selectionModel);
-			myBox.setValue(selectionModel.get(0));
+			nameList.put(newLevel, new ArrayList<String>(selectionModel));
+		}
+		nameList.put(oldLevel,new ArrayList<String>(selectionModel));
+		if(!newLevel.equals("+")){
+			selectionModel = FXCollections.observableArrayList(nameList.get(newLevel));
+			}
+		myBox.setItems(selectionModel);
+		myBox.setValue(selectionModel.get(0));
 		}
 		
 	}
 
-}
