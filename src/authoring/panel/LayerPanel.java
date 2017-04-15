@@ -1,5 +1,9 @@
 package authoring.panel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import authoring.Workspace;
@@ -8,12 +12,15 @@ import authoring.components.LabeledField;
 import authoring.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -32,12 +39,17 @@ public class LayerPanel extends View {
 	private ComboBox<String> myBox;
 	private ComponentMaker maker;
 	private LabeledField nameField;
+	private Map<Integer, ObservableList<String>> nameList;
+	private ObservableList<String> selectionModel;
 
 	public LayerPanel(Workspace workspace) {
 		super(workspace.getResources().getString("LayerPanelTitle"));
 		this.workspace = workspace;
+		selectionModel = FXCollections.observableArrayList();
+		nameList = new HashMap<Integer, ObservableList<String>>();
 		maker = new ComponentMaker(workspace.getResources());
 		myBox = new ComboBox<String>();
+		selectionModel.add(workspace.getResources().getString("DefaultLayer"));
 		myBox.getItems().add(workspace.getResources().getString("DefaultLayer"));
 		myBox.setValue(workspace.getResources().getString("DefaultLayer"));
 		configureEditing();
@@ -59,6 +71,7 @@ public class LayerPanel extends View {
 
 	private void addLayer(){
 	workspace.addLayer();
+	selectionModel.add("Layer" + " "+ (myBox.getItems().size()+1));
 	myBox.getItems().add("Layer" + " "+ (myBox.getItems().size()+1));
 	myBox.setValue("Layer" + " "+ (myBox.getItems().size()));
 	}
@@ -108,17 +121,18 @@ private void createNameField(){
 		{
 			setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
 			nameField = new LabeledField(workspace, "LayerPrompt", null, true);
-			Button nameButton = maker.makeButton("LayerSave", e->saveName(), true);
-			getChildren().addAll(nameField,nameButton);
+			getChildren().addAll(nameField);
 		}
 	};
-	editorContainer.getChildren().addAll(myBox, nameFieldBox); 
+	Button nameButton = maker.makeButton("LayerSave", e->saveName(), true);
+	editorContainer.getChildren().addAll(myBox, nameFieldBox,nameButton); 
 }
 
 private void saveName(){
-	//myBox.getSelectionModel().clearSelection();
-	myBox.getEditor().setText(nameField.getText());
-	
+	selectionModel.set(myBox.getSelectionModel().getSelectedIndex(), nameField.getText());
+	myBox.setItems(selectionModel);
+	myBox.setValue(nameField.getText());
+	nameField.setText(null);
 	
 }
 
@@ -128,7 +142,7 @@ private void saveName(){
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue != null) {
-					workspace.selectLayer(Integer.parseInt(newValue.split(" ")[1]));
+					workspace.selectLayer(myBox.getSelectionModel().getSelectedIndex()+1);
 				}
 			}
 		});
