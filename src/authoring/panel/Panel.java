@@ -12,6 +12,7 @@ import authoring.panel.display.EntityDisplay;
 import authoring.panel.settings.Settings;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 /**
@@ -71,8 +72,10 @@ public class Panel extends CollapsibleView {
 	private void setup() {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		setCenter(maker.makeAccordion(subviews));
-		setBottom(new VBox(maker.makeButton("SaveButtonSettings", e -> workspace.save(), true),
-				maker.makeButton("TestButtonSettings", e -> workspace.test(workspace.getGame()), true)));
+		Button save = maker.makeButton("SaveButtonSettings", e -> workspace.save(), true);
+		Button test = maker.makeButton("TestButtonSettings", e -> workspace.test(workspace.getGame()), true);
+		test.setDisable(!workspace.pathExists());
+		setBottom(new VBox(save, test));
 	}
 
 	/**
@@ -89,22 +92,7 @@ public class Panel extends CollapsibleView {
 		return settings;
 	}
 	
-	/**
-	 * When a new layer is selected by the LevelEditor, the panel must notify the layerPanel of the change and instruct
-	 * it to update the value it displays.
-	 * @param newLayer
-	 */
 
-	/**
-	 * Update the layer panel with a new layer.
-	 * 
-	 * @param newLayer
-	 *            the layer to be added to the layer panel.
-	 */
-	public void updateLayerPanel(String newLayer) {
-		layerPanel.updateBox(newLayer);
-	}
-	
 	/**
 	 * When the user switches between level tabs or selects a new level, the layerPanel must be notified so that the 
 	 * combobox will show only the names of the layers contained in the new level.
@@ -117,8 +105,11 @@ public class Panel extends CollapsibleView {
 	 * @param layerNum
 	 *            the layer to be selected.
 	 */
-	public void selectExistingLevelBox(int layerNum) {
-		layerPanel.selectLevelBox(layerNum);
+	public void selectExistingLevelBox(String oldLevel, String newLevel) {
+		layerPanel.selectLevelBox(oldLevel, newLevel);
+	}
+	public void selectExistingLevelBox(int count) {
+		layerPanel.selectLevelBox(count);
 	}
 
 }

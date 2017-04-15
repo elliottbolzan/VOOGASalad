@@ -23,6 +23,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import engine.Entity;
 import engine.game.Level;
+import exceptions.NotAGameFolderException;
 
 // Load process: read (relative) path from file.
 // Create an absolute path from it.

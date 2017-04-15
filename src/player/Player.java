@@ -32,7 +32,7 @@ import javafx.stage.Stage;
  */
 public class Player extends BorderPane {
 
-	private static final int CONTROLS_HEIGHT = 45;
+	private static final int CONTROLS_HEIGHT = 42;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private String stylesheetPath = resources.getString("StylesheetPath");
 	private MediaPlayer songPlayer;
@@ -48,8 +48,8 @@ public class Player extends BorderPane {
 	private Game game;
 	private ComponentMaker factory;
 	private int count = 0;
-	private ImageView play;
-	private ImageView pause;
+	private ImageView playImage;
+	private ImageView pauseImage;
 
 	public Player(String dataFolderPath, ObservableList<String> saveStates) {
 		this.dataFolderPath = dataFolderPath;
@@ -105,14 +105,15 @@ public class Player extends BorderPane {
 		controls.setMaxSize(Double.MAX_VALUE, CONTROLS_HEIGHT);
 		
 
-		pause = new ImageView(
+		pauseImage = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PausePath"))));
-		play = new ImageView(
+		playImage = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PlayPath"))));
-		playButton = factory.makeImageButton("PauseButtonText", pause, e -> this.togglePlayPause(isPaused), true);
+		playButton = factory.makeImageButton("PauseButtonText", pauseImage, e -> this.togglePlayPause(isPaused), true);
 		playButton.setPrefHeight(CONTROLS_HEIGHT);
 
-		Button restartButton = factory.makeButton("RestartButtonText", e -> this.restart(), true);
+		ImageView restartImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("RestartPath"))));
+		Button restartButton = factory.makeImageButton("RestartButtonText", restartImage, e -> this.restart(), true);
 		restartButton.setPrefHeight(CONTROLS_HEIGHT);
 
 		Button saveButton = factory.makeButton("SaveButtonText", e -> this.save(), true);
@@ -135,12 +136,12 @@ public class Player extends BorderPane {
 		if (play) {
 			isPaused = false;
 			playButton.setText(resources.getString("PauseButtonText"));
-			playButton.setGraphic(this.pause);
+			playButton.setGraphic(this.pauseImage);
 			gameLoop.startTimeline();
 		} else {
 			isPaused = true;
 			playButton.setText(resources.getString("PlayButtonText"));
-			playButton.setGraphic(this.play);
+			playButton.setGraphic(this.playImage);
 			gameLoop.pauseTimeline();
 		}
 	}

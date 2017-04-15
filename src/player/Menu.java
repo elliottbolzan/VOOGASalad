@@ -8,7 +8,7 @@ import javafx.stage.Stage;
  * @author Jesse
  * 
  */
-public interface Menu {
+public interface Menu{
 	/**
 	 * Returns the user back to the main menu
 	 * @param stage

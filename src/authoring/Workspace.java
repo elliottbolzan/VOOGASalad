@@ -20,7 +20,7 @@ import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
 
 /**
- * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford)
+ * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse Yue)
  *
  *         The container for the Game Authoring Environment. Displays a
  *         SplitPane, which contains the Panel and the Canvas. Serves as an
@@ -41,7 +41,7 @@ public class Workspace extends View
 	private Game game;
 	private DefaultEntities defaults;
 	private String path;
-
+	
 	/**
 	 * Creates the Workspace.
 	 * 
@@ -53,11 +53,12 @@ public class Workspace extends View
 	public Workspace(ResourceBundle resources, String path)
 	{
 		super("Workspace");
+		this.path = path;
 		this.resources = resources;
 		setup();
 		if (!path.equals("")) {
-			load(path);
-		}
+			load(path);		
+		}	
 	}
 
 	/**
@@ -132,11 +133,23 @@ public class Workspace extends View
 	/**
 	 * Test the Game that is currently being designed.
 	 * 
-	 * @param game
-	 *            the Game to test.
+	 * @param game the Game to test.
+	 *            
 	 */
 	public void test(Game game) {
 		new BasicPlayer(game, path);
+	}
+	
+	/**
+	 * 
+	 * @returns if there is an existing path or not
+	 */
+	public boolean pathExists(){
+		if(path.equals("")){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	/**
@@ -178,25 +191,13 @@ public class Workspace extends View
 	}
 
 	/**
-	 * Used at initialization, when the default layer created is not one that is
-	 * user-requested. The levelEditor must alert the ComboBox that the first
-	 * layer has been initialized, which it does through the workspace.
-	 * 
-	 * @param newLayer
-	 *            the layer to be created.
-	 */
-	public void setNewLayer(String newLayer) {
-		panel.updateLayerPanel(newLayer);
-	}
-
-	/**
 	 * addLayer is called from the panel whenever the user selects the option to
 	 * add another layer. The workspace instructs the levelEditor to create
 	 * another layer.
 	 * 
 	 */
 	public void addLayer() {
-		levelEditor.getCurrentLevel().makeLayer();
+		levelEditor.getCurrentLevel().newLayer();
 	}
 
 	/**
@@ -219,9 +220,14 @@ public class Workspace extends View
 	 * @param newLevelNum
 	 *            the number of the new level.
 	 */
-	public void selectExistingLevel(int newLevelNum) {
-		panel.selectExistingLevelBox(newLevelNum);
+	public void selectExistingLevel(String oldLevel, String newLevel) {
+		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
+	
+	public void selectExistingLevel(int count) {
+		panel.selectExistingLevelBox(count);
+	}
+	
 
 	/**
 	 * When the user instructs the layer panel to delete a layer, the workspace

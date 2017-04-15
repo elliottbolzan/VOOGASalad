@@ -1,5 +1,7 @@
 package game_data;
 
+import exceptions.NotAGameFolderException;
+
 public class GameData {
 	
 	/**
