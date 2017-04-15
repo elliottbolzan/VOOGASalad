@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,6 +49,7 @@ public class GameSaver {
 		saveLevels(game.getLevels(), filepath + File.separator + game.getName());
 		saveDefaults(game.getDefaults(), filepath + File.separator + game.getName());
 		saveSong(filepath + File.separator + game.getName(), game.getSongPath());
+		saveBackground(filepath + File.separator + game.getName(), game.getSongPath());
 		saveDocument(filepath);
 	}
 	
@@ -88,6 +90,16 @@ public class GameSaver {
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
+	}	
+	
+	/**
+	 * Saves achievements into XML file
+	 * @param achieve
+	 * @param filePath
+	 */
+	private void saveAchivements(String achieve, String filePath){
+		if(achieve.equals("")) return;
+		gameXMLFactory.addAchievement(achieve);
 	}
 
 	/**
@@ -114,6 +126,38 @@ public class GameSaver {
 		} catch (Exception i) {
 			// i.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 
+	 * @param filePath
+	 * @param backPath
+	 */
+	public void saveBackground(String filePath, String backPath){
+		try {
+			String sourcePathString = new File(new URI(backPath)).getAbsolutePath();
+			Path sourcePath = Paths.get(sourcePathString);
+			String targetPathString = "resources" + File.separator + "Background.png";
+			File backImageFile = new File(filePath + File.separator + targetPathString);
+			
+			backImageFile.getParentFile().mkdirs();
+			backImageFile.createNewFile();
+
+			Path targetPath = Paths.get(filePath + File.separator + targetPathString);
+			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
+		} catch (Exception e) {
+			// e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 
+	 * @param filePath
+	 * @param info
+	 */
+	public void saveGameInfo(String filePath, String info){
+		if(info.equals("")) return;
+		gameXMLFactory.addAchievement(info);
 	}
 
 	/**

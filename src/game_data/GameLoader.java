@@ -59,10 +59,32 @@ public class GameLoader {
 		addLevels(game, doc, folderPath);
 		addDefaults(game, doc, folderPath);
 		addSong(game, doc, folderPath);
+		addAchieve(game, doc, folderPath);
+		addBackground(game, doc, folderPath);
+		addInfo(game, doc, folderPath);
 
 		return game;
 	}
 
+	private void addAchieve(Game game, Document doc, String folderPath){
+		NodeList achieveNode = doc.getElementsByTagName("Achievement");
+		game.setName(achieveNode.item(0).getAttributes().item(0).getNodeValue());
+	}
+	
+	private void addBackground(Game game, Document doc, String folderPath){
+		try {
+			NodeList nodes = doc.getElementsByTagName("Resources");
+			game.setBackPath(folderPath + File.separator + nodes.item(0).getAttributes().item(0).getNodeValue());
+		}
+		catch (Exception e) {
+			game.setBackPath("");
+		}
+	}
+	
+	private void addInfo(Game game, Document doc, String folderPath){
+		NodeList infoNode = doc.getElementsByTagName("Info");
+		game.setName(infoNode.item(0).getAttributes().item(0).getNodeValue());
+	}
 	
 	/**
 	 * Method to add default entities to game after they are extracted from Document

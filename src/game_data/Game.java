@@ -16,6 +16,9 @@ public class Game {
 	private List<Level> levels;
 	private List<Entity> defaults;
 	private String songPath;
+	private String backPath;
+	private String info;
+	private String achievements;
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
 	 */
@@ -25,6 +28,9 @@ public class Game {
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
 		songPath = "";
+		setBackPath("");
+		setInfo("");
+		setAchievements("");
 	}
 	/**
 	 * @return the game's name.
@@ -77,5 +83,23 @@ public class Game {
 	 */
 	public void setSongPath(String songPath) {
 		this.songPath = songPath;
+	}
+	public String getBackPath() {
+		return backPath;
+	}
+	public void setBackPath(String backPath) {
+		this.backPath = backPath;
+	}
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	public String getAchievements() {
+		return achievements;
+	}
+	public void setAchievements(String achievements) {
+		this.achievements = achievements;
 	}
 }
