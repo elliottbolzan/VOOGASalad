@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -12,15 +11,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-
 import engine.Entity;
 import engine.game.Level;
 import exceptions.NotAGameFolderException;
@@ -33,14 +29,12 @@ public class GameLoader {
 	
 	/**
 	 * Loads game given the folder path and returns the entities and songpath necessary
-	 * @param folderPath
-	 * 			folderpath to load game from
+	 * @param gameFolderPath : folderpath to load game from
 	 * @return
-	 * @throws NotAGameFolderException
-	 * 			incorrect folder path exception
+	 * @throws NotAGameFolderException : incorrect folder path exception
 	 */
-	public Game loadGame(String folderPath) throws NotAGameFolderException {
-		File levelFolder = new File(folderPath + File.separator + "settings.xml");
+	public Game loadGame(String gameFolderPath) throws NotAGameFolderException {
+		File levelFolder = new File(gameFolderPath + File.separator + "settings.xml");
 		if (!levelFolder.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -48,15 +42,15 @@ public class GameLoader {
 		try {
 			DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
-			doc = docBuilder.parse(folderPath + File.separator + "settings.xml");
+			doc = docBuilder.parse(gameFolderPath + File.separator + "settings.xml");
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
 		Game game = new Game();
 		addName(game, doc);
-		addLevels(game, doc, folderPath);
-		addDefaults(game, doc, folderPath);
-		addSong(game, doc, folderPath);
+		addLevels(game, doc, gameFolderPath);
+		addDefaults(game, doc, gameFolderPath);
+		addSong(game, doc, gameFolderPath);
 
 		return game;
 	}

@@ -1,6 +1,7 @@
 package engine.game.gameloop;
 
 import engine.game.timer.TimerManager;
+import game_data.Game;
 
 /**
  * Contains information displayed on the Scorebar.
@@ -19,9 +20,11 @@ public class Scorebar {
 						// Scorebar values too! (also consider multiplayer)
 	private int score;
 	private int level;
+	private Game game;
 	
-	public Scorebar() {
-		timerManager = new TimerManager(120, false);
+	public Scorebar(Game game) {
+		this.timerManager = new TimerManager(120, false);
+		this.game = game;
 		lives = 5;
 		score = 0;
 		level = 1;
@@ -75,5 +78,12 @@ public class Scorebar {
 	
 	public void setLevel(int level){
 		this.level = level;
+	}
+	
+	public void saveFinalScore() {
+		//TODO : game data
+		//game.getHighScores();
+		//check if this score should be added
+		//game.setHighScores();
 	}
 }
