@@ -20,7 +20,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import player.PlayerMenu;
+import player.MainMenu;
+
 
 public class StartMenu extends BorderPane {
 
@@ -121,7 +122,7 @@ public class StartMenu extends BorderPane {
 	private void playGame() {
 		 String chosen = chooseGame();
 		 if(isSelected(chosen)){
-			 new PlayerMenu(chosen);
+			 new MainMenu(chosen);
 		 }
 	}
 

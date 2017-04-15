@@ -303,21 +303,13 @@ public class LayerEditor extends View
 	}
 
 	/**
-	 * Add a new layer to the LayerEditor.
-	 */
-	public void makeLayer()
-	{
-		newLayer();
-	}
-
-	/**
 	 * Make a new layer
 	 */
-	private void newLayer()
+	public void newLayer()
 	{
 		layerCount++;
 		layers.put(layerCount, new Layer());
-		workspace.setNewLayer(String.format("Layer %d", layerCount));
+		System.out.println(layerCount);
 		// newLayerSelected(layerCount);
 	}
 
@@ -415,7 +407,6 @@ public class LayerEditor extends View
 			layers.put(id, layers.get(id + 1));
 		});
 		layerCount--;
-		workspace.selectExistingLevel(layerCount);
 	}
 
 }

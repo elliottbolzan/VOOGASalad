@@ -23,13 +23,13 @@ public class GameLoop {
 	
 	public GameLoop(Scene gameScene, Game game){
 		//Instantiate GraphicsEngine
-		graphicsEngine = new GraphicsEngine();
+		graphicsEngine = new GraphicsEngine(game);
 		
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
 		
 		//Setup scorebar
-		Scorebar scorebar = new Scorebar();
+		Scorebar scorebar = new Scorebar(game);
 		graphicsEngine.setScorebar(scorebar);
 	
 		// Setup levelManager

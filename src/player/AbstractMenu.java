@@ -85,7 +85,7 @@ public abstract class AbstractMenu extends BorderPane implements Menu{
 	}
 	
 	public void back(Stage stage){
-		new PlayerMenu(stage, gameFolderPath);
+		new MainMenu(stage, gameFolderPath);
 	}
 	
 	protected Stage getStage(){
