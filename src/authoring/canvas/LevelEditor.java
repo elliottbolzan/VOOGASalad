@@ -137,7 +137,7 @@ public class LevelEditor extends View
 
 	private void addKeyActions()
 	{
-		this.setOnKeyPressed(e -> {
+		tabPane.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
 				copiedEntities.clear();
 				for (Layer layer : currentLevel.getLayers()) {
@@ -152,6 +152,38 @@ public class LevelEditor extends View
 					currentLevel.addEntity(entity.getEntity(), entity.getEntity().getX() + 25,
 							entity.getEntity().getY() + 25, currentLevel.getCurrentLayer()).setSelected(true);
 				}
+			}
+			if (e.getCode().equals(KeyCode.UP)) {
+				for (Layer currLayer : currentLevel.getLayers()) {
+					currLayer.getSelectedEntities().forEach(entity -> {
+						entity.moveYGrid(-1);
+					});
+				}
+				e.consume();
+			}
+			if (e.getCode().equals(KeyCode.DOWN)) {
+				for (Layer currLayer : currentLevel.getLayers()) {
+					currLayer.getSelectedEntities().forEach(entity -> {
+						entity.moveYGrid(1);
+					});
+				}
+				e.consume();
+			}
+			if (e.getCode().equals(KeyCode.RIGHT)) {
+				for (Layer currLayer : currentLevel.getLayers()) {
+					currLayer.getSelectedEntities().forEach(entity -> {
+						entity.moveXGrid(1);
+					});
+				}
+				e.consume();
+			}
+			if (e.getCode().equals(KeyCode.LEFT)) {
+				for (Layer currLayer : currentLevel.getLayers()) {
+					currLayer.getSelectedEntities().forEach(entity -> {
+						entity.moveXGrid(-1);
+					});
+				}
+				e.consume();
 			}
 		});
 	}
