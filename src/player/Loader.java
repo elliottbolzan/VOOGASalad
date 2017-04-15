@@ -3,12 +3,12 @@ package player;
 import game_data.Game;
 import game_data.GameData;
 
-public class IOModule {
+public class Loader {
 	private String gamePath;
 	private Game game;
 	private GameData data;
 	
-	public IOModule(String gameFolderPath){
+	public Loader(String gameFolderPath){
 		gamePath = gameFolderPath;
 		setup();
 	}
