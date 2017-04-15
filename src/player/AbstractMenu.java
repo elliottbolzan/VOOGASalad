@@ -29,13 +29,12 @@ public abstract class AbstractMenu extends BorderPane implements Menu{
 	private Stage stage;
 	private String gameFolderPath;
 	private String fontPath = resources.getString("FontPath");
-	private Game game;
-	private GameData data;
+	private Loader loader;
 
 	public AbstractMenu(Stage stage, String gameFolderPath, String title){
+		loader = new Loader(gameFolderPath);
 		loadFont();
 		setupView(stage, gameFolderPath, title);
-		setupData();
 	}
 
 	private void setupView(Stage stage, String gameFolderPath, String title){
@@ -49,16 +48,15 @@ public abstract class AbstractMenu extends BorderPane implements Menu{
 		setupBackButton();
 	}
 	
-	private void setupData(){
-		data = new GameData();
-		game = data.loadGame(gameFolderPath);
-	}
-	
 	private void setupBackButton(){
 		ImageView image = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream(getResources().getString("BackPath"))));
 		back = factory.makeImageButton("Back", image, e -> back(stage), false);
 		this.setBottom(backButton());
+	}
+	
+	protected Loader getLoader(){
+		return loader;
 	}
 	
 	protected void setTitle(String title){
@@ -68,14 +66,6 @@ public abstract class AbstractMenu extends BorderPane implements Menu{
 		titleLabel.setTextFill(Color.YELLOW);
 		this.setTop(titleLabel);
 		BorderPane.setAlignment(titleLabel, Pos.CENTER);
-	}
-	
-	protected Game getGame(){
-		return game;
-	}
-	
-	protected GameData getData(){
-		return data;
 	}
 	
 	protected ResourceBundle getResources(){

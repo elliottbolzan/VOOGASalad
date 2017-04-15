@@ -13,7 +13,7 @@ public class MainMenu extends AbstractMenu{
 		
 		setupScene();
 		stage.setScene(display());	
-		setTitle(getGame().getName());
+		setTitle(getLoader().loadGame().getName());
 		backButton().setOpacity(0.0);
 		stage.show();
 	}

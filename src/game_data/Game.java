@@ -5,6 +5,7 @@ import java.util.List;
 import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
+import player.Score;
 
 /**
  * @author Elliott Bolzan
@@ -20,6 +21,7 @@ public class Game {
 	private List<Entity> defaults;
 	private String songPath;
 	private CameraEntity camera;
+	private List<Score> scores;
 	
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
@@ -31,6 +33,7 @@ public class Game {
 		defaults = new ArrayList<Entity>();
 		songPath = "";
 		camera = new CameraEntity();
+		scores = new ArrayList<>();
 	}
 	
 	/**
@@ -107,4 +110,26 @@ public class Game {
 	public void setCamera(CameraEntity camera) {
 		this.camera = camera;
 	}
+	
+	/**
+	 * Add a new highscore
+	 * @param score the score when game ended
+	 * @param time  the time remaining when game ended
+	 */
+	public void setScore(String score, String time){
+		if(scores.size() < 10){
+			Score highscore = new Score(score, time);
+			scores.add(highscore);
+		}		
+	}
+	
+	/**
+	 * 
+	 * @return the list of highscores
+	 */
+	public List<Score> getScores(){
+		return scores;
+	}
+	
+	
 }
