@@ -8,20 +8,18 @@ import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Region;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import player.PlayerMenu;
 import player.PlayerMenu;
 
 public class StartMenu extends BorderPane {
@@ -29,6 +27,7 @@ public class StartMenu extends BorderPane {
 	private Stage stage;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Starter");
 	private String stylesheetPath = resources.getString("StylesheetPath");
+	private String toolbarPath = resources.getString("ToolStylePath");
 	private String iconPath = resources.getString("IconPath");
 	private String logoPath = resources.getString("LogoPath");
 
@@ -53,40 +52,37 @@ public class StartMenu extends BorderPane {
 		stage.setMinHeight(300);
 		stage.setOnCloseRequest(e -> System.exit(0));
 		stage.setScene(this.buildScene());
-		this.setCenter(this.buildView());
+		this.buildView();
 		stage.show();
 	}
 
 	private Scene buildScene() {
 		Scene scene = new Scene(this, 380, 300);
-		scene.getStylesheets().add(stylesheetPath);
+		scene.getStylesheets().addAll(stylesheetPath, toolbarPath);
 		return scene;
 	}
 
-	private StackPane buildView() {
-
-		StackPane pane = new StackPane();
-
+	private void buildView() {
 		ImageView imageView = new ImageView(new Image(logoPath));
 		imageView.setPreserveRatio(true);
 		imageView.setFitWidth(300);
-		StackPane.setAlignment(imageView, Pos.CENTER);
+		
+		HBox buttonBar = new HBox();
+		buttonBar.getStyleClass().setAll("segmented-button-bar");
+		Region spacer = new Region();
+		spacer.getStyleClass().setAll("spacer");
 
 		Button newButton = makeButton("NewButton", e -> this.newGame());
+		newButton.getStyleClass().addAll("first");
 		Button editButton = makeButton("EditButton", e -> this.editGame());
 		Button playButton = makeButton("PlayButton", e -> this.playGame());
-
-		HBox editOrPlayButtons = new HBox(0);
-		editOrPlayButtons.getChildren().addAll(editButton, playButton);
-
-		VBox buttonBox = new VBox(newButton, editOrPlayButtons);
-		buttonBox.setMaxHeight(60);
-		buttonBox.setPadding(new Insets(20));
-		StackPane.setAlignment(buttonBox, Pos.BOTTOM_CENTER);
+		playButton.getStyleClass().addAll("last");
+		buttonBar.getChildren().addAll(newButton, editButton, playButton);
+		buttonBar.setAlignment(Pos.CENTER);
+		ToolBar bar = new ToolBar(spacer, buttonBar);
 		
-		pane.getChildren().addAll(imageView, buttonBox);
-
-		return pane;
+		this.setTop(bar);
+		this.setCenter(imageView);
 	}
 
 	private void newGame() {
