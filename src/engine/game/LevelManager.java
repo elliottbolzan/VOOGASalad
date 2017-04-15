@@ -2,9 +2,7 @@ package engine.game;
 
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
-import exceptions.NotAGameFolderException;
 import game_data.Game;
-import game_data.GameData;
 
 /**
  * Holds all the levels in the current game and allows for game-wide behavior.

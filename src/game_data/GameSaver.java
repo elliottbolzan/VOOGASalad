@@ -51,7 +51,7 @@ public class GameSaver
 	
 	/**
 	 * Saves the document as a whole, after the XML serializing is done
-	 * @param parentDirectoryPath : parent directory of the game
+	 * @param gameFolderPath : top-level directory of the game
 	 */
 	private void saveDocument(String gameFolderPath) {
 		Document doc = gameXMLFactory.getDocument();
