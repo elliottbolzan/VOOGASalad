@@ -36,14 +36,15 @@ public class LayerPanel extends View {
 		this.workspace = workspace;
 		maker = new ComponentMaker(workspace.getResources());
 		myBox = new ComboBox<String>();
-		myBox.setValue("Layer 1");
+		myBox.getItems().add(workspace.getResources().getString("DefaultLayer"));
+		myBox.setValue(workspace.getResources().getString("DefaultLayer"));
 		configureEditing();
 	}
 
 	private void configureEditing() {
 		editorContainer = new VBox();
 		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
-		Button addLayerButton = maker.makeButton("AddLayerButton", e -> workspace.addLayer(), true);
+		Button addLayerButton = maker.makeButton("AddLayerButton", e -> addLayer(), true);
 		Button deleteLayerButton = maker.makeButton("DeleteLayerButton", e -> {
 			initCloseRequest(e);
 			delete();
@@ -54,6 +55,12 @@ public class LayerPanel extends View {
 		setCenter(editorContainer);
 	}
 
+	private void addLayer(){
+	workspace.addLayer();
+	myBox.getItems().add("Layer" + " "+ (myBox.getItems().size()+1));
+	myBox.setValue("Layer" + " "+ (myBox.getItems().size()));
+	}
+	
 	private void initCloseRequest(Event e) {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("ConfirmationContent");

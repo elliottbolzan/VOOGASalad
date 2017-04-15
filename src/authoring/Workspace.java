@@ -191,25 +191,13 @@ public class Workspace extends View
 	}
 
 	/**
-	 * Used at initialization, when the default layer created is not one that is
-	 * user-requested. The levelEditor must alert the ComboBox that the first
-	 * layer has been initialized, which it does through the workspace.
-	 * 
-	 * @param newLayer
-	 *            the layer to be created.
-	 */
-	public void setNewLayer(String newLayer) {
-		panel.updateLayerPanel(newLayer);
-	}
-
-	/**
 	 * addLayer is called from the panel whenever the user selects the option to
 	 * add another layer. The workspace instructs the levelEditor to create
 	 * another layer.
 	 * 
 	 */
 	public void addLayer() {
-		levelEditor.getCurrentLevel().makeLayer();
+		levelEditor.getCurrentLevel().newLayer();
 	}
 
 	/**
