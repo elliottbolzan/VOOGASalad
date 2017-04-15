@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import player.PlayerMenu;
+import player.PlayerMenu;
 
 public class StartMenu extends BorderPane {
 
