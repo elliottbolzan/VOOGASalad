@@ -4,6 +4,7 @@ import engine.Entity;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -130,7 +131,13 @@ public class EntityView extends VBox
 			ds.setOffsetX(7.0);
 			ds.setColor(Color.GRAY);
 			this.setEffect(ds);
-
+			this.setFocused(true);
+			this.setFocusTraversable(true);
+			this.setOnKeyPressed(e -> {
+				if (e.getCode().equals(KeyCode.RIGHT)) {
+				} else if (e.getCode().equals(KeyCode.LEFT)) {
+				}
+			});
 		} else {
 			this.setEffect(null);
 			this.setBorder(null);
