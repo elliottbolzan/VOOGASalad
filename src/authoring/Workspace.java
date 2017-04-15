@@ -20,14 +20,15 @@ import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
 
 /**
- * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford)
+ * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse Yue)
  *
  *         The container for the Game Authoring Environment. Displays a
  *         SplitPane, which contains the Panel and the Canvas. Serves as an
  *         intermediary between the default Entities, the Panel, and the Canvas.
  *
  */
-public class Workspace extends View {
+public class Workspace extends View
+{
 
 	private ResourceBundle resources;
 	private ComponentMaker maker;
@@ -40,7 +41,7 @@ public class Workspace extends View {
 	private Game game;
 	private DefaultEntities defaults;
 	private String path;
-
+	
 	/**
 	 * Creates the Workspace.
 	 * 
@@ -49,14 +50,15 @@ public class Workspace extends View {
 	 * @param path
 	 *            the path of the Game to be loaded.
 	 */
-	public Workspace(ResourceBundle resources, String path) {
+	public Workspace(ResourceBundle resources, String path)
+	{
 		super("Workspace");
+		this.path = path;
 		this.resources = resources;
 		setup();
-		this.path = path;
 		if (!path.equals("")) {
-			load(path);
-		}
+			load(path);		
+		}	
 	}
 
 	/**
@@ -69,7 +71,8 @@ public class Workspace extends View {
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup() {
+	private void setup()
+	{
 		game = new Game();
 		data = new GameData();
 		maker = new ComponentMaker(resources);
@@ -90,8 +93,10 @@ public class Workspace extends View {
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.setOnMouseEntered(e2 -> {
-				levelEditor.getCurrentLevel().addEntity(addedEntity, e2.getX(), e2.getY(),
-						levelEditor.getCurrentLevel().getCurrentLayer());
+				levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
+				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2.
+				// e2.getSceneY(),
+				// levelEditor.getCurrentLevel().getCurrentLayer());
 				levelEditor.setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});
@@ -112,7 +117,7 @@ public class Workspace extends View {
 	 * the Game.
 	 */
 	public void save() {
-		String path = "";
+		path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
 		File selectedDirectory = chooser.showDialog(getScene().getWindow());
@@ -128,11 +133,23 @@ public class Workspace extends View {
 	/**
 	 * Test the Game that is currently being designed.
 	 * 
-	 * @param game
-	 *            the Game to test.
+	 * @param game the Game to test.
+	 *            
 	 */
 	public void test(Game game) {
 		new BasicPlayer(game, path);
+	}
+	
+	/**
+	 * 
+	 * @returns if there is an existing path or not
+	 */
+	public boolean pathExists(){
+		if(path.equals("")){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	/**
@@ -227,7 +244,8 @@ public class Workspace extends View {
 	 * @param layer
 	 *            the identifier of the layer to be deleted.
 	 */
-	public void deleteLayer(int layer) {
+	public void deleteLayer(int layer)
+	{
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
 

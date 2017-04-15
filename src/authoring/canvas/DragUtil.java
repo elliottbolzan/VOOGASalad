@@ -36,8 +36,8 @@ public class DragUtil
 	private boolean initMinWidth;
 	private boolean initMinHeight;
 
-	private boolean xDragging;
-	private boolean yDragging;
+	private boolean xResizeDragging;
+	private boolean yResizeDragging;
 	private boolean moveDragging;
 
 	private DragUtil(EntityView entityDisplay, int gridSize)
@@ -59,66 +59,130 @@ public class DragUtil
 	 * @param gridSize
 	 *            the tile size of the grid that the EntityView is in.
 	 */
-	public static void makeDraggableResizable(EntityView region, int gridSize)
+	public static void makeDraggable(EntityView region, int gridSize)
 	{
 		final DragUtil resizer = new DragUtil(region, gridSize);
 
-		region.setOnMousePressed(new EventHandler<MouseEvent>()
+		region.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
 		{
+
 			@Override
 			public void handle(MouseEvent event)
 			{
-				resizer.mousePressed(event);
+				resizer.mousePressedMove(event);
 			}
+
 		});
-		region.setOnMouseDragged(new EventHandler<MouseEvent>()
+
+		region.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
 		{
+
 			@Override
 			public void handle(MouseEvent event)
 			{
-				resizer.mouseDragged(event);
+				resizer.mouseDraggedMove(event);
 			}
+
 		});
-		region.setOnMouseMoved(new EventHandler<MouseEvent>()
+		region.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>()
 		{
+
 			@Override
 			public void handle(MouseEvent event)
 			{
-				resizer.mouseOver(event);
+				resizer.mouseOverMove(event);
 			}
+
 		});
-		region.setOnMouseReleased(new EventHandler<MouseEvent>()
+		region.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
 		{
+
 			@Override
 			public void handle(MouseEvent event)
 			{
-				resizer.mouseReleased(event);
+				resizer.mouseReleasedMove(event);
 			}
+
 		});
 	}
 
-	private void mouseReleased(MouseEvent event)
+	public static void makeResizeable(EntityView region, int gridSize)
 	{
-		xDragging = false;
-		yDragging = false;
+		final DragUtil resizer = new DragUtil(region, gridSize);
+
+		region.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
+		{
+
+			@Override
+			public void handle(MouseEvent event)
+			{
+				resizer.mousePressedResize(event);
+			}
+
+		});
+
+		region.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
+		{
+
+			@Override
+			public void handle(MouseEvent event)
+			{
+				resizer.mouseDraggedResize(event);
+			}
+
+		});
+		region.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>()
+		{
+
+			@Override
+			public void handle(MouseEvent event)
+			{
+				resizer.mouseOverResize(event);
+			}
+
+		});
+		region.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
+		{
+
+			@Override
+			public void handle(MouseEvent event)
+			{
+				resizer.mouseReleasedResize(event);
+			}
+
+		});
+	}
+
+	private void mouseReleasedMove(MouseEvent event)
+	{
 		moveDragging = false;
 		region.setCursor(Cursor.DEFAULT);
 	}
 
-	private void mouseOver(MouseEvent event)
+	private void mouseReleasedResize(MouseEvent event)
 	{
-		if ((isInXDraggableZone(event) && isInYDraggableZone(event)) || (xDragging && yDragging)) {
-			region.setCursor(Cursor.SE_RESIZE);
-		} else if (isInXDraggableZone(event) || xDragging) {
-			region.setCursor(Cursor.E_RESIZE);
-		} else if (isInYDraggableZone(event) || yDragging) {
-			region.setCursor(Cursor.S_RESIZE);
-		} else if (isInMoveDraggableZone(event) && !moveDragging) {
+		xResizeDragging = false;
+		yResizeDragging = false;
+		region.setCursor(Cursor.DEFAULT);
+	}
+
+	private void mouseOverMove(MouseEvent event)
+	{
+		if (isInMoveDraggableZone(event) && !moveDragging) {
 			region.setCursor(Cursor.CLOSED_HAND);
 		} else if (moveDragging) {
 			region.setCursor(Cursor.NONE);
-		} else {
-			region.setCursor(Cursor.DEFAULT);
+		}
+	}
+
+	private void mouseOverResize(MouseEvent event)
+	{
+		if ((isInXDraggableZone(event) && isInYDraggableZone(event)) || (xResizeDragging && yResizeDragging)) {
+			region.setCursor(Cursor.SE_RESIZE);
+		} else if (isInXDraggableZone(event) || xResizeDragging) {
+			region.setCursor(Cursor.E_RESIZE);
+		} else if (isInYDraggableZone(event) || yResizeDragging) {
+			region.setCursor(Cursor.S_RESIZE);
 		}
 	}
 
@@ -138,9 +202,21 @@ public class DragUtil
 				&& event.getY() < region.getHeight() - RESIZE_MARGIN;
 	}
 
-	private void mouseDragged(MouseEvent event)
+	private void mouseDraggedMove(MouseEvent event)
 	{
-		if (xDragging && region.isSelected()) {
+		if (moveDragging) {
+			region.setCursor(Cursor.NONE);
+			double mouseX = event.getX();
+			double mouseY = event.getY();
+
+			region.setTranslateX(getTiledCoordinate(region.getTranslateX() + mouseX - region.getWidth() / 2));
+			region.setTranslateY(getTiledCoordinate(region.getTranslateY() + mouseY - region.getHeight() / 2));
+		}
+	}
+
+	private void mouseDraggedResize(MouseEvent event)
+	{
+		if (xResizeDragging && region.isSelected()) {
 
 			double mousex = event.getX();
 
@@ -154,7 +230,7 @@ public class DragUtil
 			x = mousex;
 		}
 
-		if (yDragging && region.isSelected()) {
+		if (yResizeDragging && region.isSelected()) {
 
 			double mousey = event.getY();
 
@@ -167,22 +243,22 @@ public class DragUtil
 
 			y = mousey;
 		}
+	}
 
-		if (moveDragging) {
-			region.setCursor(Cursor.NONE);
-			double mouseX = event.getX();
-			double mouseY = event.getY();
-
-			region.setTranslateX(getTiledCoordinate(region.getTranslateX() + mouseX - region.getWidth() / 2));
-			region.setTranslateY(getTiledCoordinate(region.getTranslateY() + mouseY - region.getHeight() / 2));
+	private void mousePressedMove(MouseEvent event)
+	{
+		if (isInMoveDraggableZone(event)) {
+			moveDragging = true;
+			x = event.getX();
+			y = event.getY();
 		}
 	}
 
-	private void mousePressed(MouseEvent event)
+	private void mousePressedResize(MouseEvent event)
 	{
 
 		if (isInXDraggableZone(event)) {
-			xDragging = true;
+			xResizeDragging = true;
 
 			if (!initMinWidth) {
 				region.setMinWidth(region.getWidth());
@@ -193,19 +269,13 @@ public class DragUtil
 		}
 
 		if (isInYDraggableZone(event)) {
-			yDragging = true;
+			yResizeDragging = true;
 
 			if (!initMinHeight) {
 				region.setMinHeight(region.getHeight());
 				untiledHeight = region.getHeight();
 				initMinHeight = true;
 			}
-			y = event.getY();
-		}
-
-		if (isInMoveDraggableZone(event)) {
-			moveDragging = true;
-			x = event.getX();
 			y = event.getY();
 		}
 	}

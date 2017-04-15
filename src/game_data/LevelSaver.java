@@ -1,22 +1,22 @@
 package game_data;
-import java.io.File;
+
 import java.io.StringWriter;
-import java.util.*;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-public class LevelSaver {
+
+public class LevelSaver
+{
 
 	private List<Element> entityNodes;
 	private String folderPath;
@@ -42,7 +42,7 @@ public class LevelSaver {
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("Entities");
@@ -67,11 +67,11 @@ public class LevelSaver {
 			e.printStackTrace();
 		}
 		doc = docBuilder.newDocument();
-		
+
 		Element rootsong = doc.createElement("songpath");
 		doc.appendChild(rootsong);
 		rootsong.setAttribute("songpath", songPath);
-		
+
 		return toString(doc);
 	}
 	
@@ -109,7 +109,7 @@ public class LevelSaver {
 	private void addLevelEntity(int entityNumber, Element entityNode, Element rootElement){
 		Element entity = doc.createElement("Entity");
 		rootElement.appendChild(entity);
-		Element importedEntityNode= (Element) doc.importNode(entityNode, true);
+		Element importedEntityNode = (Element) doc.importNode(entityNode, true);
 		entity.appendChild(importedEntityNode);
 	}
 }

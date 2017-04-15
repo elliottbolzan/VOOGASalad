@@ -12,6 +12,7 @@ import authoring.panel.display.EntityDisplay;
 import authoring.panel.settings.Settings;
 import authoring.views.CollapsibleView;
 import authoring.views.View;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 /**
@@ -71,8 +72,10 @@ public class Panel extends CollapsibleView {
 	private void setup() {
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		setCenter(maker.makeAccordion(subviews));
-		setBottom(new VBox(maker.makeButton("SaveButtonSettings", e -> workspace.save(), true),
-				maker.makeButton("TestButtonSettings", e -> workspace.test(workspace.getGame()), true)));
+		Button save = maker.makeButton("SaveButtonSettings", e -> workspace.save(), true);
+		Button test = maker.makeButton("TestButtonSettings", e -> workspace.test(workspace.getGame()), true);
+		test.setDisable(!workspace.pathExists());
+		setBottom(new VBox(save, test));
 	}
 
 	/**

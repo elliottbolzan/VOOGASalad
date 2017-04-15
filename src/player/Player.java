@@ -10,13 +10,14 @@ import game_data.GameData;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
@@ -27,10 +28,11 @@ import javafx.stage.Stage;
  * from a chosen file using the GameData interface.
  * 
  * @author Jay Doherty
+ * @author Jesse
  */
 public class Player extends BorderPane {
 
-	private static final int CONTROLS_HEIGHT = 60;
+	private static final int CONTROLS_HEIGHT = 45;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 	private String stylesheetPath = resources.getString("StylesheetPath");
 	private MediaPlayer songPlayer;
@@ -46,6 +48,8 @@ public class Player extends BorderPane {
 	private Game game;
 	private ComponentMaker factory;
 	private int count = 0;
+	private ImageView play;
+	private ImageView pause;
 
 	public Player(String dataFolderPath, ObservableList<String> saveStates) {
 		this.dataFolderPath = dataFolderPath;
@@ -90,16 +94,22 @@ public class Player extends BorderPane {
 
 	private void buildGameView() {
 		gameLoop = new GameLoop(scene, new GameData().loadGame(dataFolderPath));
-		this.setCenter(gameLoop.getGameView());
+		Overlay scorebar = gameLoop.getGameScorebar();
+		StackPane pane = new StackPane();
+		pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());
+		this.setCenter(pane);
 	}
 
 	private void buildControlBar() {
 		HBox controls = new HBox();
 		controls.setMaxSize(Double.MAX_VALUE, CONTROLS_HEIGHT);
+		
 
-		ImageView playImage = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PlayPausePath"))));
-		playButton = factory.makeImageButton("PauseButtonText", playImage, e -> this.togglePlayPause(isPaused), true);
+		pause = new ImageView(
+				new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PausePath"))));
+		play = new ImageView(
+				new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("PlayPath"))));
+		playButton = factory.makeImageButton("PauseButtonText", pause, e -> this.togglePlayPause(isPaused), true);
 		playButton.setPrefHeight(CONTROLS_HEIGHT);
 
 		Button restartButton = factory.makeButton("RestartButtonText", e -> this.restart(), true);
@@ -114,21 +124,23 @@ public class Player extends BorderPane {
 		Separator separator = new Separator();
 		HBox.setHgrow(separator, Priority.ALWAYS);
 
-		Label scorebar = gameLoop.getGameScorebar();
+		ToolBar toolbar = new ToolBar(playButton, restartButton, saveButton, exitButton);
 
-		controls.getChildren().addAll(playButton, restartButton, saveButton, exitButton, separator, scorebar);
+		controls.getChildren().addAll(playButton, restartButton, saveButton, exitButton, separator);
 
-		this.setTop(controls);
+		this.setTop(toolbar);
 	}
 
 	private void togglePlayPause(boolean play) {
 		if (play) {
 			isPaused = false;
 			playButton.setText(resources.getString("PauseButtonText"));
+			playButton.setGraphic(this.pause);
 			gameLoop.startTimeline();
 		} else {
 			isPaused = true;
 			playButton.setText(resources.getString("PlayButtonText"));
+			playButton.setGraphic(this.play);
 			gameLoop.pauseTimeline();
 		}
 	}

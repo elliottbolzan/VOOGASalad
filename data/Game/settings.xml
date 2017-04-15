@@ -1,14 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="Test"/><Levels><level><Entities>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="Game"/><Levels><level><Entities>
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>275.0</x>
+  <x>250.0</x>
   <y>175.0</y>
   <width>200.0</width>
   <height>300.0</height>
   <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources\MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -27,6 +28,7 @@
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources\MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>

@@ -23,10 +23,10 @@ public class GameData {
 	public Game loadGame(String folderPath) {
 		GameLoader gl = new GameLoader();
 		Game game = null;
-			try {
+		try {
 			game = gl.loadGame(folderPath);
 		} catch (NotAGameFolderException i) {
-			i.printStackTrace();
+			// i.printStackTrace();
 		}
 		return game;
 	}
