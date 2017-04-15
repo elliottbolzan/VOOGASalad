@@ -401,13 +401,7 @@ public class LayerEditor extends View
 			});
 		}
 		layers.remove(layer);
-		List<Integer> changedValues = layers.keySet().stream().filter(elt -> elt > layer).map(elt -> elt - 1)
-				.collect(Collectors.toList());
-		changedValues.stream().forEach(id -> {
-			layers.put(id, layers.get(id + 1));
-		});
 		layerCount--;
-		workspace.selectExistingLevel(layerCount);
 	}
 
 }

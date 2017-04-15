@@ -39,19 +39,20 @@ public class LayerPanel extends View {
 	private ComboBox<String> myBox;
 	private ComponentMaker maker;
 	private LabeledField nameField;
-	private Map<Integer, ObservableList<String>> nameList;
+	private Map<String, ArrayList<String>> nameList;
 	private ObservableList<String> selectionModel;
 
 	public LayerPanel(Workspace workspace) {
 		super(workspace.getResources().getString("LayerPanelTitle"));
 		this.workspace = workspace;
 		selectionModel = FXCollections.observableArrayList();
-		nameList = new HashMap<Integer, ObservableList<String>>();
+		nameList = new HashMap<String, ArrayList<String>>();
 		maker = new ComponentMaker(workspace.getResources());
 		myBox = new ComboBox<String>();
 		selectionModel.add(workspace.getResources().getString("DefaultLayer"));
-		myBox.getItems().add(workspace.getResources().getString("DefaultLayer"));
-		myBox.setValue(workspace.getResources().getString("DefaultLayer"));
+		//nameList.put(workspace.getResources().getString("DefaultLayer"), new ArrayList<String>(selectionModel));
+		myBox.setItems(selectionModel);
+		myBox.setValue(selectionModel.get(0));
 		configureEditing();
 	}
 
@@ -71,8 +72,8 @@ public class LayerPanel extends View {
 
 	private void addLayer(){
 	workspace.addLayer();
-	selectionModel.add("Layer" + " "+ (myBox.getItems().size()+1));
 	myBox.getItems().add("Layer" + " "+ (myBox.getItems().size()+1));
+	System.out.println(selectionModel);
 	myBox.setValue("Layer" + " "+ (myBox.getItems().size()));
 	}
 	
@@ -156,12 +157,23 @@ private void saveName(){
 	 * @param layerNum
 	 */
 
-	public void selectLevelBox(int layerNum) {
-		myBox.getItems().clear();
-		for (int i = 0; i < layerNum; i++) {
-			myBox.getItems().add(String.format("Layer %d", i + 1));
+	public void selectLevelBox(String oldLevel, String newLevel) {
+		if(!oldLevel.equals("+")){
+			nameList.put(oldLevel,new ArrayList<String>(selectionModel));
+			if(!newLevel.equals("+")){
+			selectionModel = FXCollections.observableArrayList(nameList.get(newLevel));
+			myBox.setItems(selectionModel);
+			myBox.setValue(selectionModel.get(0));
+			}
 		}
-		myBox.setValue(String.format("Layer %d", 1));
+		else{
+			selectionModel.clear();
+			selectionModel.add(workspace.getResources().getString("DefaultLayer"));
+			nameList.put(workspace.getResources().getString("DefaultLayer"), new ArrayList<String>(selectionModel));
+			myBox.setItems(selectionModel);
+			myBox.setValue(selectionModel.get(0));
+		}
+		
 	}
 
 }

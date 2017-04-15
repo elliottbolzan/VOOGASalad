@@ -108,7 +108,7 @@ public class Workspace extends View
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
-		this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
+		//this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
 	}
 
 	/**
@@ -220,8 +220,8 @@ public class Workspace extends View
 	 * @param newLevelNum
 	 *            the number of the new level.
 	 */
-	public void selectExistingLevel(int newLevelNum) {
-		panel.selectExistingLevelBox(newLevelNum);
+	public void selectExistingLevel(String oldLevel, String newLevel) {
+		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
 
 	/**
