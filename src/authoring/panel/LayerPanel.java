@@ -173,6 +173,21 @@ private void saveName(){
 		myBox.setItems(selectionModel);
 		myBox.setValue(selectionModel.get(0));
 		}
+	
+	/**
+	 * selectLevelBox is called whenever levels are switched and the set of
+	 * layers changes. The new level reports its new layer set to the workspace,
+	 * which, in turn passes the new layer count to the combobox.
+	 * 
+	 * @param layerNum
+	 */
+	public void selectLevelBox(int layerNum) {
+		myBox.getItems().clear();
+		for (int i = 0; i < layerNum; i++) {
+			myBox.getItems().add(String.format("Layer %d", i + 1));
+		}
+		myBox.setValue(String.format("Layer %d", 1));
+	}
 		
 	}
 

@@ -108,7 +108,7 @@ public class Workspace extends View
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
-		//this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
+		this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
 	}
 
 	/**
@@ -223,6 +223,11 @@ public class Workspace extends View
 	public void selectExistingLevel(String oldLevel, String newLevel) {
 		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
+	
+	public void selectExistingLevel(int count) {
+		panel.selectExistingLevelBox(count);
+	}
+	
 
 	/**
 	 * When the user instructs the layer panel to delete a layer, the workspace
