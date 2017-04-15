@@ -21,6 +21,7 @@ public class GameXMLFactory
 	private Element nameNode;
 	private Element levelsNode;
 	private Element defaultsNode;
+	private Element cameraNode;
 	private Element resourceNode;
 
 	/**
@@ -38,7 +39,7 @@ public class GameXMLFactory
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			// e.printStackTrace();
+			//TODO
 		}
 		doc = docBuilder.newDocument();
 
@@ -54,6 +55,9 @@ public class GameXMLFactory
 		defaultsNode = doc.createElement("Defaults");
 		rootElement.appendChild(defaultsNode);
 
+		cameraNode = doc.createElement("Camera");
+		rootElement.appendChild(cameraNode);
+		
 		resourceNode = doc.createElement("Resources");
 		rootElement.appendChild(resourceNode);
 	}
@@ -83,13 +87,21 @@ public class GameXMLFactory
 
 	/**
 	 * Adds a song path into XML file given the string
-	 * @param songPath
-	 * 			string song path to be added to XML
+	 * @param songPath : string song path to be added to XML
 	 */
 	public void addSong(String songPath) {
 		Attr attr = doc.createAttribute("Song");
 		attr.setValue(songPath);
 		resourceNode.setAttributeNode(attr);
+	}
+	
+	/**
+	 * Adds a song path into XML file given the string
+	 * @param songPath : string song path to be added to XML
+	 */
+	public void addCamera(Element cameraElement) {
+		Element importedCameraNode = (Element) doc.importNode(cameraElement, true);
+		cameraNode.appendChild(importedCameraNode);
 	}
 
 	/**

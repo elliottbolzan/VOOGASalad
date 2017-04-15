@@ -4,10 +4,10 @@ import javafx.geometry.Pos;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class PlayerMenu extends AbstractMenu{
+public class MainMenu extends AbstractMenu{
 	private String gameFolderPath;
 
-	public PlayerMenu(Stage stage, String gameFolderPath) {
+	public MainMenu(Stage stage, String gameFolderPath) {
 		super(stage, gameFolderPath, "PlayerTitle");
 		this.gameFolderPath = gameFolderPath;
 		
@@ -18,7 +18,7 @@ public class PlayerMenu extends AbstractMenu{
 		stage.show();
 	}
 	
-	public PlayerMenu(String gameFolderPath){
+	public MainMenu(String gameFolderPath){
 		this(new Stage(), gameFolderPath);
 	}
 	

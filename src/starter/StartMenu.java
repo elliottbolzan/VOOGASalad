@@ -21,8 +21,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import player.PlayerMenu;
-import player.PlayerMenu;
+import player.MainMenu;
+import player.MainMenu;
 
 public class StartMenu extends BorderPane {
 
@@ -125,7 +125,7 @@ public class StartMenu extends BorderPane {
 	private void playGame() {
 		 String chosen = chooseGame();
 		 if(isSelected(chosen)){
-			 new PlayerMenu(chosen);
+			 new MainMenu(chosen);
 		 }
 	}
 

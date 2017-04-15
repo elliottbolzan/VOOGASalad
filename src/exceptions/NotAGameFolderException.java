@@ -1,4 +1,4 @@
-package game_data;
+package exceptions;
 
 public class NotAGameFolderException extends Exception {
 
