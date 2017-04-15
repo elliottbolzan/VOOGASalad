@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import authoring.Workspace;
 import authoring.components.ComponentMaker;
+import authoring.components.LabeledField;
 import authoring.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,6 +31,7 @@ public class LayerPanel extends View {
 	private VBox editorContainer;
 	private ComboBox<String> myBox;
 	private ComponentMaker maker;
+	private LabeledField nameField;
 
 	public LayerPanel(Workspace workspace) {
 		super(workspace.getResources().getString("LayerPanelTitle"));
@@ -96,20 +98,29 @@ public class LayerPanel extends View {
 		};
 
 		Button velocityButton = maker.makeButton("SaveLayerSpeed", null, true);
-		editorContainer.getChildren().addAll(myBox, sliderBox, velocityButton);
+		createNameField();
+		editorContainer.getChildren().addAll(sliderBox, velocityButton);
 	}
 
-	/**
-	 * updateBox is called whenever the LayerEditor adds another layer and needs
-	 * to alert the combobox. The name of the new string name is passed back to
-	 * the combobox.
-	 * 
-	 * @param newLayer
-	 */
+private void createNameField(){
+	
+	HBox nameFieldBox = new HBox() {
+		{
+			setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
+			nameField = new LabeledField(workspace, "LayerPrompt", null, true);
+			Button nameButton = maker.makeButton("LayerSave", e->saveName(), true);
+			getChildren().addAll(nameField,nameButton);
+		}
+	};
+	editorContainer.getChildren().addAll(myBox, nameFieldBox); 
+}
 
-	public void updateBox(String newLayer) {
-		myBox.getItems().add(newLayer);
-	}
+private void saveName(){
+	//myBox.getSelectionModel().clearSelection();
+	myBox.getEditor().setText(nameField.getText());
+	
+	
+}
 
 	private void initLayerSelector() {
 		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
