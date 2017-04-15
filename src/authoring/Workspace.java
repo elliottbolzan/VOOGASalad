@@ -42,8 +42,6 @@ public class Workspace extends View
 	private DefaultEntities defaults;
 	private String path;
 	
-	private boolean pathExists;
-
 	/**
 	 * Creates the Workspace.
 	 * 
@@ -111,7 +109,6 @@ public class Workspace extends View
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
 		this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
-		pathExists = true;
 	}
 
 	/**
@@ -130,7 +127,6 @@ public class Workspace extends View
 		game.setLevels(levelEditor.getLevels());
 		if (!path.equals("")) {
 			data.saveGame(game, path);
-			pathExists = true;
 		}
 	}
 
@@ -149,7 +145,11 @@ public class Workspace extends View
 	 * @returns if there is an existing path or not
 	 */
 	public boolean pathExists(){
-		return pathExists;
+		if(path.equals("")){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	/**
