@@ -1,11 +1,7 @@
 package game_data;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
@@ -14,21 +10,15 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-
 import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
@@ -41,7 +31,7 @@ public class GameSaver
 	/**
 	 * Main method to save the entire game to the selected file path. Utilizes GameXMLFactory to create the XML file.
 	 * @param game : game to be saved
-	 * @param parentDirectoryPath : path where the game will be saved
+	 * @param parentDirectoryPath : path to the parent directory in which the game folder will be created and saved
 	 */
 	public void saveGame(Game game, String parentDirectoryPath) {
 		this.game = game;
@@ -56,28 +46,23 @@ public class GameSaver
 		saveSong(game.getSongPath(), gameFolderPath);
 		saveCamera(game.getCamera(), gameFolderPath);
 		
-		saveDocument(parentDirectoryPath);
+		saveDocument(gameFolderPath);
 	}
 	
 	/**
 	 * Saves the document as a whole, after the XML serializing is done
-	 * @param parentDirectoryPath : parent directory of the game
+	 * @param gameFolderPath : top-level directory of the game
 	 */
-	private void saveDocument(String parentDirectoryPath) {
+	private void saveDocument(String gameFolderPath) {
 		Document doc = gameXMLFactory.getDocument();
-		File levelDirectory = new File(parentDirectoryPath);
-		if (!levelDirectory.exists()) {
-			levelDirectory.mkdirs();
-		}
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(
-					new File(parentDirectoryPath + File.separator + game.getName() + File.separator + "settings.xml"));
+			StreamResult result = new StreamResult(new File(gameFolderPath + File.separator + "settings.xml"));
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
-			e.printStackTrace();
+			//TODO
 		}
 	}
 
