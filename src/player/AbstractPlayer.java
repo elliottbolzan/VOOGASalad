@@ -7,6 +7,7 @@ import engine.game.gameloop.GameLoop;
 import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
@@ -29,6 +30,7 @@ public abstract class AbstractPlayer extends BorderPane {
 		playSong();
 		buildStage();
 		buildGameView();
+		gameLoop.startTimeline();
 	}
 
 	private void buildStage() {
@@ -48,7 +50,10 @@ public abstract class AbstractPlayer extends BorderPane {
 	private void buildGameView() {
 		if (!path.equals("")) {
 			gameLoop = new GameLoop(scene, game);
-			this.setCenter(gameLoop.getGameView());
+			Overlay scorebar = gameLoop.getGameScorebar();
+			StackPane pane = new StackPane();
+			pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());
+			this.setCenter(pane);
 		}
 	}
 	
@@ -67,6 +72,8 @@ public abstract class AbstractPlayer extends BorderPane {
 	private void exit() {
 		if (!path.equals("")) {
 			gameLoop.pauseTimeline();
+			if (songPlayer != null)
+				songPlayer.pause();
 		}
 		stage.close();
 	}
