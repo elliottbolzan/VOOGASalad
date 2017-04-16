@@ -49,6 +49,21 @@ public class LayerEditor extends View
 		maker = new ComponentMaker(workspace.getResources());
 		setup();
 	}
+	
+	public LayerEditor clone(){
+		LayerEditor newLevel = new LayerEditor(workspace);
+		newLevel.setNumLayers(layerCount);
+		layers.keySet().stream().forEach(id -> {
+										for(EntityView entity: layers.get(id).getEntities()){
+											System.out.println(entity.getEntity().getX()+ " " + entity.getEntity().getY());
+											newLevel.addEntity(entity.getEntity(),entity.getEntity().getX(),
+													entity.getEntity().getY(),id);
+										};
+										
+		});	
+		System.out.println(newLevel.layers.get(1).getEntities().size());
+		return newLevel;
+	}
 
 	/**
 	 * Convert all of the Layers/entities currently in the LayerEditor to a
@@ -309,7 +324,6 @@ public class LayerEditor extends View
 	{
 		layerCount++;
 		layers.put(layerCount, new Layer());
-		System.out.println(layerCount);
 		// newLayerSelected(layerCount);
 	}
 

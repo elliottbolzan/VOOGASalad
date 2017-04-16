@@ -30,8 +30,7 @@ public class GameLoop {
 		graphicsEngine.setCamera(game.getCamera());
 		
 		//Setup scorebar
-		Scorebar scorebar = new Scorebar(game);
-		graphicsEngine.setScorebar(scorebar);
+		Scorebar scorebar = graphicsEngine.getScorebar();
 	
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
