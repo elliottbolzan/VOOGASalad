@@ -5,12 +5,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class MainMenu extends AbstractMenu{
-	private String gameFolderPath;
 
-	public MainMenu(Stage stage, String gameFolderPath) {
-		super(stage, gameFolderPath, "PlayerTitle");
-		this.gameFolderPath = gameFolderPath;
-		
+	public MainMenu(Stage stage, Loader loader) {
+		super(stage, loader, "PlayerTitle");	
 		setupScene();
 		stage.setScene(display());	
 		setTitle(getLoader().loadGame().getName());
@@ -18,18 +15,18 @@ public class MainMenu extends AbstractMenu{
 		stage.show();
 	}
 	
-	public MainMenu(String gameFolderPath){
-		this(new Stage(), gameFolderPath);
+	public MainMenu(Loader loader){
+		this(new Stage(), loader);
 	}
 	
 	private void setupScene(){
 		VBox menu = new VBox(8);
 
-		menu.getChildren().addAll(this.getFactory().makeButton("StartButton", e -> getStage().setScene(new LoadMenu(getStage(), gameFolderPath).display()), true),
-				getFactory().makeButton("Highscores", e -> getStage().setScene(new HighscoreMenu(getStage(), gameFolderPath).display()), true),
-				getFactory().makeButton("AchievementsButton", e -> getStage().setScene(new AchievementsMenu(getStage(), gameFolderPath).display()), true),
-				getFactory().makeButton("OptionsButton", e -> getStage().setScene(new OptionsMenu(getStage(), gameFolderPath).display()), true),
-				getFactory().makeButton("InfoButton", e -> getStage().setScene(new InfoMenu(getStage(), gameFolderPath).display()), true),
+		menu.getChildren().addAll(this.getFactory().makeButton("StartButton", e -> getStage().setScene(new LoadMenu(getStage(), getLoader()).display()), true),
+				getFactory().makeButton("Highscores", e -> getStage().setScene(new HighscoreMenu(getStage(), getLoader()).display()), true),
+				getFactory().makeButton("AchievementsButton", e -> getStage().setScene(new AchievementsMenu(getStage(), getLoader()).display()), true),
+				getFactory().makeButton("OptionsButton", e -> getStage().setScene(new OptionsMenu(getStage(), getLoader()).display()), true),
+				getFactory().makeButton("InfoButton", e -> getStage().setScene(new InfoMenu(getStage(), getLoader()).display()), true),
 				getFactory().makeButton("ExitButton", e -> getStage().close(), true));
 		
 		this.setCenter(menu);

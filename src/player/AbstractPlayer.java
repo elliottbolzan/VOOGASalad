@@ -47,7 +47,7 @@ public abstract class AbstractPlayer extends BorderPane {
 		stage.show();
 	}
 
-	private void buildGameView() {
+	protected void buildGameView() {
 		if (!path.equals("")) {
 			gameLoop = new GameLoop(scene, game);
 			Overlay scorebar = gameLoop.getGameScorebar();
@@ -69,7 +69,7 @@ public abstract class AbstractPlayer extends BorderPane {
 		}
 	}
 	
-	private void exit() {
+	protected void exit() {
 		if (!path.equals("")) {
 			gameLoop.pauseTimeline();
 			if (songPlayer != null)

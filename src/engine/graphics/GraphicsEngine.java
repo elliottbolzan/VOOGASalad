@@ -72,11 +72,11 @@ public class GraphicsEngine {
 	}
 	
 	/**
-	 * Sets the Scorebar. This is used to initialize the time/lives/score display values
-	 * @param currentManager 
+	 * Returns the scorebar used in the GameLoop
+	 * @return
 	 */
-	public void setScorebar(Scorebar currentManager) {
-		this.scorebar = currentManager;
+	public Scorebar getScorebar(){
+		return scorebar;
 	}
 	
 	/**
@@ -126,7 +126,7 @@ public class GraphicsEngine {
 	}
 	
 	private void updateScorebar() {
-		scorebarDisplay.setScore(Integer.toString(scorebar.getScore()));
+		scorebarDisplay.setScore(scorebar.getScore());
 		scorebarDisplay.setLives(Integer.toString(scorebar.getLives()));
 		scorebarDisplay.setLevel(Integer.toString(scorebar.getLevel()));
 		scorebarDisplay.setTime(scorebar.getTime());

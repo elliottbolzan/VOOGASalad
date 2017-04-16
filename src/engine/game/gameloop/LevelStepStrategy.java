@@ -107,6 +107,7 @@ public class LevelStepStrategy implements StepStrategy {
 			// parameter - no need to keep track of!
 			
 			nextStepStrategy = new GameOverStepStrategy();
+			graphicsEngine.getScorebar().saveFinalScore();
 		} else {
 			// screen.setNextScreen(screen);
 			nextStepStrategy = new LoseLifeStepStrategy();
@@ -161,6 +162,8 @@ public class LevelStepStrategy implements StepStrategy {
 	 */
 	public void startNextLevel() {
 		StepStrategy nextStepStrategy = new NextLevelStepStrategy();
+		graphicsEngine.getScorebar().saveFinalScore();
+		
 		info.setCurrentStepStrategy(nextStepStrategy);
 		screen.getTimeline().stop();
 		Screen nextScreen = new Screen(nextStepStrategy, levelManager, gameScene, graphicsEngine, info);
