@@ -18,6 +18,7 @@ import org.w3c.dom.NodeList;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.Entity;
+import engine.entities.CameraEntity;
 import engine.game.Level;
 import exceptions.NotAGameFolderException;
 
@@ -89,10 +90,10 @@ public class GameLoader {
 	 */
 	private void addCamera(Game game, Document doc, String gameFolderPath) {
 		//TODO
-		//Element cameraNode = (Element) doc.getElementsByTagName("Camera").item(0).getChildNodes().item(0);
-		//CameraEntity camera = (CameraEntity) getEntityFromElement(cameraNode);
-		//camera.setImagePath("file:" + gameFolderPath + File.separator + camera.getImagePath());
-		game.setCamera(null);
+		Element cameraNode = (Element) doc.getElementsByTagName("Camera").item(0);
+		Entity camera = getEntityFromElement(cameraNode);
+		camera.setImagePath("file:" + gameFolderPath + File.separator + camera.getImagePath());
+		game.setCamera((CameraEntity)camera);
 	}
 	
 	/**
@@ -196,7 +197,7 @@ public class GameLoader {
 			result = new StreamResult(new StringWriter());
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
-			e.printStackTrace();
+			//TODO
 		}
 		String strObject = result.getWriter().toString();
 		return strObject;

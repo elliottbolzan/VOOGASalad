@@ -73,7 +73,6 @@ public class LayerPanel extends View {
 	private void addLayer(){
 	workspace.addLayer();
 	myBox.getItems().add("Layer" + " "+ (myBox.getItems().size()+1));
-	System.out.println(selectionModel);
 	myBox.setValue("Layer" + " "+ (myBox.getItems().size()));
 	}
 	
@@ -161,12 +160,12 @@ private void saveName(){
 	 */
 
 	public void selectLevelBox(String oldLevel, String newLevel) {
+		nameList.put(oldLevel,new ArrayList<String>(selectionModel));
 		if(oldLevel.equals("+")){
-			selectionModel.clear();
-			selectionModel.add(workspace.getResources().getString("DefaultLayer"));
+			//selectionModel.clear();
+			//selectionModel.add(workspace.getResources().getString("DefaultLayer"));
 			nameList.put(newLevel, new ArrayList<String>(selectionModel));
 		}
-		nameList.put(oldLevel,new ArrayList<String>(selectionModel));
 		if(!newLevel.equals("+")){
 			selectionModel = FXCollections.observableArrayList(nameList.get(newLevel));
 			}

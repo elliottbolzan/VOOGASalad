@@ -11,6 +11,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,7 +25,6 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import player.Loader;
 import player.MainMenu;
-
 
 public class StartMenu extends BorderPane {
 
@@ -68,22 +70,22 @@ public class StartMenu extends BorderPane {
 		ImageView imageView = new ImageView(new Image(logoPath));
 		imageView.setPreserveRatio(true);
 		imageView.setFitWidth(300);
-		
+
 		HBox buttonBar = new HBox();
 		buttonBar.getStyleClass().setAll("segmented-button-bar");
 		Region spacer = new Region();
 		spacer.getStyleClass().setAll("spacer");
 
-		Button newButton = makeButton("NewButton", e -> this.newGame());
-		newButton.getStyleClass().addAll("first");
-		Button editButton = makeButton("EditButton", e -> this.editGame());
-		Button playButton = makeButton("PlayButton", e -> this.playGame());
-		playButton.getStyleClass().addAll("last");
-		buttonBar.getChildren().addAll(newButton, editButton, playButton);
-		buttonBar.setAlignment(Pos.CENTER);
-		ToolBar bar = new ToolBar(spacer, buttonBar);
+		MenuBar menuBar = new MenuBar();
 		
-		this.setTop(bar);
+		Menu menuFile = new Menu("File");
+		menuFile.getItems().addAll(makeMenuItem("NewButton", e -> newGame()), makeMenuItem("EditButton", e -> editGame()), makeMenuItem("PlayButton", e-> playGame()));
+
+		Menu menuEdit = new Menu("Help");
+		Menu menuView = new Menu("About");
+		menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
+
+		this.setTop(menuBar);
 		this.setCenter(imageView);
 	}
 
@@ -126,13 +128,11 @@ public class StartMenu extends BorderPane {
 			 new MainMenu(new Loader(chosen));
 		 }
 	}
-
-	private Button makeButton(String label, EventHandler<ActionEvent> handler) {
-		Button button = new Button(resources.getString(label));
-		button.setOnAction(handler);
-		HBox.setHgrow(button, Priority.ALWAYS);
-		button.setMaxWidth(Double.MAX_VALUE);
-		return button;
+	
+	private MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
+		MenuItem item = new MenuItem(resources.getString(titleProperty));
+		item.setOnAction(handler);
+		return item;
 	}
 
 	private boolean isOSX() {
