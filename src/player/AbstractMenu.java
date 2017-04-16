@@ -3,8 +3,6 @@ package player;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
-import game_data.Game;
-import game_data.GameData;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,21 +25,19 @@ public abstract class AbstractMenu extends BorderPane implements Menu{
 	private ComponentMaker factory;
 	private Button back;
 	private Stage stage;
-	private String gameFolderPath;
 	private String fontPath = resources.getString("FontPath");
 	private Loader loader;
 
-	public AbstractMenu(Stage stage, String gameFolderPath, String title){
-		loader = new Loader(gameFolderPath);
+	public AbstractMenu(Stage stage, Loader loader, String title){
+		this.loader = loader;
 		loadFont();
-		setupView(stage, gameFolderPath, title);
+		setupView(stage, title);
 	}
 
-	private void setupView(Stage stage, String gameFolderPath, String title){
+	private void setupView(Stage stage, String title){
 		this.stage = stage;
 		stage.setTitle(this.getResources().getString("PlayerTitle"));
 		stage.getIcons().add(new Image(this.getResources().getString("IconPath")));
-		this.gameFolderPath = gameFolderPath;
 		factory = new ComponentMaker(resources);
 
 		setTitle(resources.getString(title));
@@ -85,7 +81,7 @@ public abstract class AbstractMenu extends BorderPane implements Menu{
 	}
 	
 	public void back(Stage stage){
-		new MainMenu(stage, gameFolderPath);
+		new MainMenu(stage, loader);
 	}
 	
 	protected Stage getStage(){

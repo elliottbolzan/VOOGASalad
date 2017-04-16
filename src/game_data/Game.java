@@ -5,10 +5,12 @@ import java.util.List;
 import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import player.Score;
 
 /**
- * @author Elliott Bolzan
+ * @author Elliott Bolzan (Modified by Jesse Yue)
  * 
  *         This class represents a Game. It is designed to be shared through
  *         submodules: the GameData, Game Authoring Environment, Game Player and
@@ -21,7 +23,8 @@ public class Game {
 	private List<Entity> defaults;
 	private String songPath;
 	private CameraEntity camera;
-	private List<Score> scores;
+	private ObservableList<Score> scores;
+	private List<Score> scoresBase;
 	
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
@@ -33,7 +36,7 @@ public class Game {
 		defaults = new ArrayList<Entity>();
 		songPath = "";
 		camera = new CameraEntity();
-		scores = new ArrayList<>();
+		scores = FXCollections.observableList(addDefaults());
 	}
 	
 	/**
@@ -116,19 +119,45 @@ public class Game {
 	 * @param score the score when game ended
 	 * @param time  the time remaining when game ended
 	 */
-	public void setScore(String score, String time){
-		if(scores.size() < 10){
-			Score highscore = new Score(score, time);
-			scores.add(highscore);
-		}		
+	public void setScore(String score, String time, int timeValue){
+		for(int i = 0; i < scoresBase.size(); i++){
+			if(Integer.parseInt(score) > Integer.parseInt(scoresBase.get(i).getScore())){
+				shiftScores(i, score, time);	
+				break;
+			}else if(Integer.parseInt(score) == Integer.parseInt(scoresBase.get(i).getScore()) &&
+					timeValue > scoresBase.get(i).getTimeValue()){
+				shiftScores(i, score, time);
+				break;
+			}		
+		}
+	}
+	
+	private void shiftScores(int i, String score, String time){
+		//Shift scores down
+		for(int j = i; j < scoresBase.size() - 1; j++){
+			scoresBase.get(j+1).setScore(scoresBase.get(j).getScore());
+			scoresBase.get(j+1).setTime(scoresBase.get(j).getTime());
+		}
+		//Replace score
+		scoresBase.get(i).setScore(score);
+		scoresBase.get(i).setTime(time);
 	}
 	
 	/**
 	 * 
 	 * @return the list of highscores
 	 */
-	public List<Score> getScores(){
+	public ObservableList<Score> getScores(){
 		return scores;
+	}
+	
+	private List<Score> addDefaults(){
+		scoresBase = new ArrayList<>();
+		for(int i = 1; i <= 10; i++){
+			scoresBase.add(new Score(i));
+		}
+		
+		return scoresBase;
 	}
 	
 	

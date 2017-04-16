@@ -29,8 +29,7 @@ public class GameLoop {
 		observableBundle = new ObservableBundle();
 		
 		//Setup scorebar
-		Scorebar scorebar = new Scorebar(game);
-		graphicsEngine.setScorebar(scorebar);
+		Scorebar scorebar = graphicsEngine.getScorebar();
 	
 		// Setup levelManager
 		levelManager = new LevelManager(game);

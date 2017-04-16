@@ -37,6 +37,10 @@ public class Scorebar {
 	public String getTime() {
 		return timerManager.toString();
 	}
+	
+	public int getTimeValue(){
+		return timerManager.getMilliseconds();
+	}
 
 	public TimerManager getTimerManager() {
 		return timerManager;
@@ -54,8 +58,8 @@ public class Scorebar {
 		this.lives = lives;
 	}
 
-	public int getScore() {
-		return score;
+	public String getScore() {
+		return convertScore(score);
 	}
 
 	public void setScore(int score) {
@@ -85,5 +89,10 @@ public class Scorebar {
 		//game.getHighScores();
 		//check if this score should be added
 		//game.setHighScores();
+		game.setScore(getScore(), getTime(), getTimeValue());
+	}
+	
+	private String convertScore(int score){
+		return String.format("%06d", score);
 	}
 }

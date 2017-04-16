@@ -2,6 +2,7 @@ package player;
 
 import game_data.Game;
 import game_data.GameData;
+import javafx.collections.ObservableList;
 
 public class Loader {
 	private String gamePath;
@@ -18,6 +19,10 @@ public class Loader {
 		game = data.loadGame(gamePath);
 	}
 	
+	public String getGamePath(){
+		return gamePath;
+	}
+	
 	public Game loadGame(){
 		return game;
 	}
@@ -26,8 +31,16 @@ public class Loader {
 		return data;
 	}
 	
+	public String getSongPath(){
+		return game.getSongPath();
+	}
+	
 	public void saveGame(){
 		
+	}
+	
+	public ObservableList<Score> getScores(){
+		return game.getScores();
 	}
 
 }

@@ -19,19 +19,19 @@ public class LoadMenu extends AbstractMenu {
 	private ObservableList<Button> saveButtons;
 	private VBox saveButtonContainer;
 
-	public LoadMenu(Stage stage, String gameFolderPath) {
-		super(stage, gameFolderPath, "LoadTitle");
+	public LoadMenu(Stage stage, Loader loader) {
+		super(stage, loader, "LoadTitle");
 		saveStates = FXCollections.observableArrayList();
 		saveButtons = FXCollections.observableArrayList();
-		setupScene(stage, gameFolderPath);
+		setupScene(stage);
 	}
 
 	private void loadGame(Stage stage, String gameFolderPath) {
-		stage.close();
-		new Player(gameFolderPath, saveStates);
+		//stage.close();
+		new Player(gameFolderPath, saveStates, getLoader());
 	}
 
-	private void setupScene(Stage stage, String gameFolderPath) {
+	private void setupScene(Stage stage) {
 		saveButtonContainer = new VBox(5);
 
 		VBox container = new VBox(20);
@@ -39,7 +39,7 @@ public class LoadMenu extends AbstractMenu {
 		container.maxWidthProperty().bind(stage.widthProperty().multiply(0.3));
 		saveButtonContainer.maxWidthProperty().bind(container.maxWidthProperty());
 
-		Button newGameButton = this.getFactory().makeButton("NewGameButton", e -> this.loadGame(stage, gameFolderPath),
+		Button newGameButton = this.getFactory().makeButton("NewGameButton", e -> this.loadGame(stage, getLoader().getGamePath()),
 				true);
 		newGameButton.setTranslateY(50.0);
 
