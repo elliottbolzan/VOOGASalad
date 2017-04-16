@@ -73,7 +73,6 @@ public class LayerPanel extends View {
 	private void addLayer(){
 	workspace.addLayer();
 	myBox.getItems().add("Layer" + " "+ (myBox.getItems().size()+1));
-	System.out.println(selectionModel);
 	myBox.setValue("Layer" + " "+ (myBox.getItems().size()));
 	}
 	
