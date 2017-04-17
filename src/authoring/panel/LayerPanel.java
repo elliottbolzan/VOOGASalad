@@ -107,7 +107,7 @@ public class LayerPanel extends View {
 		};
 		VBox sliderBox = new VBox() {
 			{
-				setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
+				setSpacing(4);
 				Label label = new Label(workspace.getResources().getString("LayerSpeedPrompt"));
 				getChildren().addAll(velocitySlider, label);
 				setAlignment(Pos.CENTER);
