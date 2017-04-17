@@ -1,5 +1,6 @@
 package authoring.canvas;
 
+import authoring.Workspace;
 import engine.Entity;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -39,6 +40,7 @@ public class EntityView extends VBox
 	private ImageView image;
 	private int tileSize;
 	private boolean selected;
+	private Workspace workspace;
 
 	/**
 	 * Create an EntityView with the given gridSize and (x,y) position. The
@@ -55,8 +57,9 @@ public class EntityView extends VBox
 	 * @param y
 	 *            initial y position of the EntityView
 	 */
-	public EntityView(Entity entity, int gridSize, double x, double y)
+	public EntityView(Workspace workspace, Entity entity, int gridSize, double x, double y)
 	{
+		this.workspace = workspace;
 		this.entity = entity.clone();
 		this.image = new ImageView(new Image(entity.getImagePath()));
 		this.setMinHeight(entity.getHeight());
@@ -95,8 +98,8 @@ public class EntityView extends VBox
 		this.setMinWidth(getTiledCoordinate(image.getBoundsInLocal().getWidth()));
 		this.setMinHeight(getTiledCoordinate(image.getBoundsInLocal().getHeight()));
 
-		DragUtil.makeDraggable(this, gridSize);
-		DragUtil.makeResizeable(this, gridSize);
+		DragUtil.makeDraggable(workspace, this, gridSize);
+		DragUtil.makeResizeable(workspace, this, gridSize);
 	}
 
 	/**

@@ -125,7 +125,6 @@ public class Workspace extends View {
 				game.setLevels(levelEditor.getLevels());
 				if (!path.equals("")) {
 					data.saveGame(game, path);
-					Thread.sleep(5000);
 				}
 				return null;
 			}

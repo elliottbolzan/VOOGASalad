@@ -1,5 +1,6 @@
 package authoring.canvas;
 
+import authoring.Workspace;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
@@ -14,8 +15,7 @@ import javafx.scene.input.MouseEvent;
  * @author jimmy
  *
  */
-public class DragUtil
-{
+public class DragUtil {
 
 	/**
 	 * The margin around the control that a user can click in to start resizing
@@ -23,6 +23,7 @@ public class DragUtil
 	 */
 	private static final int RESIZE_MARGIN = 5;
 
+	private final Workspace workspace;
 	private final EntityView region;
 
 	private int tileSize;
@@ -40,8 +41,8 @@ public class DragUtil
 	private boolean yResizeDragging;
 	private boolean moveDragging;
 
-	private DragUtil(EntityView entityDisplay, int gridSize)
-	{
+	private DragUtil(Workspace workspace, EntityView entityDisplay, int gridSize) {
+		this.workspace = workspace;
 		region = entityDisplay;
 		tileSize = gridSize;
 	}
@@ -59,115 +60,95 @@ public class DragUtil
 	 * @param gridSize
 	 *            the tile size of the grid that the EntityView is in.
 	 */
-	public static void makeDraggable(EntityView region, int gridSize)
-	{
-		final DragUtil resizer = new DragUtil(region, gridSize);
+	public static void makeDraggable(Workspace workspace, EntityView region, int gridSize) {
+		final DragUtil resizer = new DragUtil(workspace, region, gridSize);
 
-		region.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
-		{
+		region.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mousePressedMove(event);
 			}
 
 		});
 
-		region.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
-		{
+		region.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseDraggedMove(event);
 			}
 
 		});
-		region.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>()
-		{
+		region.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseOverMove(event);
 			}
 
 		});
-		region.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
-		{
+		region.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseReleasedMove(event);
 			}
 
 		});
 	}
 
-	public static void makeResizeable(EntityView region, int gridSize)
-	{
-		final DragUtil resizer = new DragUtil(region, gridSize);
+	public static void makeResizeable(Workspace workspace, EntityView region, int gridSize) {
+		final DragUtil resizer = new DragUtil(workspace, region, gridSize);
 
-		region.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>()
-		{
+		region.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mousePressedResize(event);
 			}
 
 		});
 
-		region.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>()
-		{
+		region.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseDraggedResize(event);
 			}
 
 		});
-		region.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>()
-		{
+		region.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseOverResize(event);
 			}
 
 		});
-		region.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>()
-		{
+		region.addEventHandler(MouseEvent.MOUSE_RELEASED, new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				resizer.mouseReleasedResize(event);
 			}
 
 		});
 	}
 
-	private void mouseReleasedMove(MouseEvent event)
-	{
+	private void mouseReleasedMove(MouseEvent event) {
 		moveDragging = false;
 		region.setCursor(Cursor.DEFAULT);
 	}
 
-	private void mouseReleasedResize(MouseEvent event)
-	{
+	private void mouseReleasedResize(MouseEvent event) {
+		workspace.getDefaults().updateDefault(region.getEntity());
 		xResizeDragging = false;
 		yResizeDragging = false;
 		region.setCursor(Cursor.DEFAULT);
 	}
 
-	private void mouseOverMove(MouseEvent event)
-	{
+	private void mouseOverMove(MouseEvent event) {
 		if (isInMoveDraggableZone(event) && !moveDragging) {
 			region.setCursor(Cursor.CLOSED_HAND);
 		} else if (moveDragging) {
@@ -175,8 +156,7 @@ public class DragUtil
 		}
 	}
 
-	private void mouseOverResize(MouseEvent event)
-	{
+	private void mouseOverResize(MouseEvent event) {
 		if ((isInXDraggableZone(event) && isInYDraggableZone(event)) || (xResizeDragging && yResizeDragging)) {
 			region.setCursor(Cursor.SE_RESIZE);
 		} else if (isInXDraggableZone(event) || xResizeDragging) {
@@ -186,24 +166,20 @@ public class DragUtil
 		}
 	}
 
-	private boolean isInXDraggableZone(MouseEvent event)
-	{
+	private boolean isInXDraggableZone(MouseEvent event) {
 		return event.getX() > (region.getWidth() - RESIZE_MARGIN) && region.isSelected();
 	}
 
-	private boolean isInYDraggableZone(MouseEvent event)
-	{
+	private boolean isInYDraggableZone(MouseEvent event) {
 		return event.getY() > (region.getHeight() - RESIZE_MARGIN) && region.isSelected();
 	}
 
-	private boolean isInMoveDraggableZone(MouseEvent event)
-	{
+	private boolean isInMoveDraggableZone(MouseEvent event) {
 		return event.getX() > 0 && event.getX() < region.getWidth() - RESIZE_MARGIN && event.getY() > 0
 				&& event.getY() < region.getHeight() - RESIZE_MARGIN;
 	}
 
-	private void mouseDraggedMove(MouseEvent event)
-	{
+	private void mouseDraggedMove(MouseEvent event) {
 		if (moveDragging) {
 			region.setCursor(Cursor.NONE);
 			double mouseX = event.getX();
@@ -214,8 +190,7 @@ public class DragUtil
 		}
 	}
 
-	private void mouseDraggedResize(MouseEvent event)
-	{
+	private void mouseDraggedResize(MouseEvent event) {
 		if (xResizeDragging && region.isSelected()) {
 
 			double mousex = event.getX();
@@ -245,8 +220,7 @@ public class DragUtil
 		}
 	}
 
-	private void mousePressedMove(MouseEvent event)
-	{
+	private void mousePressedMove(MouseEvent event) {
 		if (isInMoveDraggableZone(event)) {
 			moveDragging = true;
 			x = event.getX();
@@ -257,8 +231,7 @@ public class DragUtil
 		}
 	}
 
-	private void mousePressedResize(MouseEvent event)
-	{
+	private void mousePressedResize(MouseEvent event) {
 
 		if (isInXDraggableZone(event)) {
 			xResizeDragging = true;
@@ -283,8 +256,7 @@ public class DragUtil
 		}
 	}
 
-	private double getTiledCoordinate(double coordinate)
-	{
+	private double getTiledCoordinate(double coordinate) {
 		double gridCoordinate = ((int) coordinate / tileSize) * tileSize;
 		if (coordinate % tileSize > tileSize / 2) {
 			return gridCoordinate + tileSize;

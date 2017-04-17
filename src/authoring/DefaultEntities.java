@@ -104,5 +104,14 @@ public class DefaultEntities {
 	public void updateCanvas(Entity entity) {
 		workspace.updateEntity(entity);
 	}
+	
+	public void updateDefault(Entity entity) {
+		for (Entity existing: entities) {
+			if (existing.getName().equals(entity.getName())) {
+				existing.widthProperty().set(entity.getWidth());
+				existing.heightProperty().set(entity.getHeight());
+			}
+		}
+	}
 
 }

@@ -1,7 +1,6 @@
 package authoring.components;
 
 import authoring.Workspace;
-import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
