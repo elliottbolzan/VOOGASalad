@@ -4,6 +4,7 @@ import engine.Entity;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -32,8 +33,7 @@ import javafx.scene.paint.Color;
  * @author jimmy
  *
  */
-public class EntityView extends VBox
-{
+public class EntityView extends VBox {
 	private Entity entity;
 	private ImageView image;
 	private int tileSize;
@@ -54,8 +54,7 @@ public class EntityView extends VBox
 	 * @param y
 	 *            initial y position of the EntityView
 	 */
-	public EntityView(Entity entity, int gridSize, double x, double y)
-	{
+	public EntityView(Entity entity, int gridSize, double x, double y) {
 		this.entity = entity.clone();
 		this.image = new ImageView(new Image(entity.getImagePath()));
 		this.setMinHeight(entity.getHeight());
@@ -78,8 +77,7 @@ public class EntityView extends VBox
 	 * @param y
 	 *            initial y position of the EntityView
 	 */
-	private void setup(int gridSize)
-	{
+	private void setup(int gridSize) {
 		this.setPrefHeight(10);
 		this.setPrefWidth(10);
 		image.fitWidthProperty().bind(this.minWidthProperty());
@@ -94,7 +92,8 @@ public class EntityView extends VBox
 		this.setMinWidth(getTiledCoordinate(image.getBoundsInLocal().getWidth()));
 		this.setMinHeight(getTiledCoordinate(image.getBoundsInLocal().getHeight()));
 
-		DragUtil.makeDraggableResizable(this, gridSize);
+		DragUtil.makeDraggable(this, gridSize);
+		DragUtil.makeResizeable(this, gridSize);
 	}
 
 	/**
@@ -104,8 +103,7 @@ public class EntityView extends VBox
 	 * 
 	 * @return the Entity that this EntityView represents.
 	 */
-	public Entity getEntity()
-	{
+	public Entity getEntity() {
 		return entity;
 	}
 
@@ -117,8 +115,7 @@ public class EntityView extends VBox
 	 * @param selected
 	 *            true if selected, false if not selected
 	 */
-	public void setSelected(boolean selected)
-	{
+	public void setSelected(boolean selected) {
 		this.selected = selected;
 		if (selected) {
 			Color borderColor = new Color(0, 0, 0, 0.2);
@@ -129,7 +126,13 @@ public class EntityView extends VBox
 			ds.setOffsetX(7.0);
 			ds.setColor(Color.GRAY);
 			this.setEffect(ds);
-
+			this.setFocused(true);
+			this.setFocusTraversable(true);
+			this.setOnKeyPressed(e -> {
+				if (e.getCode().equals(KeyCode.RIGHT)) {
+				} else if (e.getCode().equals(KeyCode.LEFT)) {
+				}
+			});
 		} else {
 			this.setEffect(null);
 			this.setBorder(null);
@@ -142,8 +145,7 @@ public class EntityView extends VBox
 	 * @param xAmount
 	 *            amount to move in the x direction.
 	 */
-	public void moveX(double xAmount)
-	{
+	public void moveX(double xAmount) {
 		this.setTranslateX(this.getTranslateX() + xAmount);
 	}
 
@@ -153,9 +155,28 @@ public class EntityView extends VBox
 	 * @param yAmount
 	 *            amount to move in the y direction.
 	 */
-	public void moveY(double yAmount)
-	{
+	public void moveY(double yAmount) {
 		this.setTranslateY(this.getTranslateY() + yAmount);
+	}
+
+	/**
+	 * Move by the given number of tiles in the x direction.
+	 * 
+	 * @param xGridAmount
+	 *            number of grid tiles to shift by
+	 */
+	public void moveXGrid(double xGridAmount) {
+		moveX(xGridAmount * tileSize);
+	}
+
+	/**
+	 * Move by the given number of tiles in the y direction.
+	 * 
+	 * @param yGridAmount
+	 *            number of grid tiles to shift by
+	 */
+	public void moveYGrid(double yGridAmount) {
+		moveY(yGridAmount * tileSize);
 	}
 
 	/**
@@ -163,14 +184,12 @@ public class EntityView extends VBox
 	 * 
 	 * @return true if this entity is selected, false if not selected.
 	 */
-	public boolean isSelected()
-	{
+	public boolean isSelected() {
 		return this.selected;
 	}
 
 	// TODO: This method is repeated in DragResizer and Canvas
-	private double getTiledCoordinate(double coordinate)
-	{
+	private double getTiledCoordinate(double coordinate) {
 		double gridCoordinate = ((int) coordinate / tileSize) * tileSize;
 		if (coordinate % tileSize > tileSize / 2) {
 			return gridCoordinate + tileSize;

@@ -4,8 +4,8 @@ import javafx.stage.Stage;
 
 public class InfoMenu extends AbstractMenu{
 
-	public InfoMenu(Stage stage, String gameFolderPath){
-		super(stage, gameFolderPath, "InfoTitle");
+	public InfoMenu(Stage stage, Loader loader){
+		super(stage, loader, "InfoTitle");
 	}
 
 }

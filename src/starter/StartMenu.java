@@ -8,26 +8,24 @@ import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import player.PlayerMenu;
+import player.Loader;
+import player.MainMenu;
 
 public class StartMenu extends BorderPane {
 
 	private Stage stage;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Starter");
 	private String stylesheetPath = resources.getString("StylesheetPath");
+	private String toolbarPath = resources.getString("ToolStylePath");
 	private String iconPath = resources.getString("IconPath");
 	private String logoPath = resources.getString("LogoPath");
 
@@ -52,40 +50,33 @@ public class StartMenu extends BorderPane {
 		stage.setMinHeight(300);
 		stage.setOnCloseRequest(e -> System.exit(0));
 		stage.setScene(this.buildScene());
-		this.setCenter(this.buildView());
+		this.buildView();
 		stage.show();
 	}
 
 	private Scene buildScene() {
 		Scene scene = new Scene(this, 380, 300);
-		scene.getStylesheets().add(stylesheetPath);
+		scene.getStylesheets().addAll(stylesheetPath, toolbarPath);
 		return scene;
 	}
 
-	private StackPane buildView() {
-
-		StackPane pane = new StackPane();
-
+	private void buildView() {
 		ImageView imageView = new ImageView(new Image(logoPath));
 		imageView.setPreserveRatio(true);
 		imageView.setFitWidth(300);
-		StackPane.setAlignment(imageView, Pos.CENTER);
 
-		Button newButton = makeButton("NewButton", e -> this.newGame());
-		Button editButton = makeButton("EditButton", e -> this.editGame());
-		Button playButton = makeButton("PlayButton", e -> this.playGame());
+		MenuBar menuBar = new MenuBar();
 
-		HBox editOrPlayButtons = new HBox(0);
-		editOrPlayButtons.getChildren().addAll(editButton, playButton);
+		Menu menuFile = new Menu(resources.getString("GameMenu"));
+		menuFile.getItems().addAll(makeMenuItem("NewButton", e -> newGame()),
+				makeMenuItem("EditButton", e -> editGame()), makeMenuItem("PlayButton", e -> playGame()));
 
-		VBox buttonBox = new VBox(newButton, editOrPlayButtons);
-		buttonBox.setMaxHeight(60);
-		buttonBox.setPadding(new Insets(20));
-		StackPane.setAlignment(buttonBox, Pos.BOTTOM_CENTER);
-		
-		pane.getChildren().addAll(imageView, buttonBox);
+		Menu menuEdit = new Menu(resources.getString("HelpMenu"));
+		Menu menuView = new Menu(resources.getString("AboutMenu"));
+		menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
 
-		return pane;
+		this.setTop(menuBar);
+		this.setCenter(imageView);
 	}
 
 	private void newGame() {
@@ -122,18 +113,16 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void playGame() {
-		 String chosen = chooseGame();
-		 if(isSelected(chosen)){
-			 new PlayerMenu(chosen);
-		 }
+		String chosen = chooseGame();
+		if (isSelected(chosen)) {
+			new MainMenu(new Loader(chosen));
+		}
 	}
 
-	private Button makeButton(String label, EventHandler<ActionEvent> handler) {
-		Button button = new Button(resources.getString(label));
-		button.setOnAction(handler);
-		HBox.setHgrow(button, Priority.ALWAYS);
-		button.setMaxWidth(Double.MAX_VALUE);
-		return button;
+	private MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
+		MenuItem item = new MenuItem(resources.getString(titleProperty));
+		item.setOnAction(handler);
+		return item;
 	}
 
 	private boolean isOSX() {

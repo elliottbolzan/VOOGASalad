@@ -2,8 +2,11 @@ package usecases;
 
 import authoring.AuthoringInternalAPI;
 import engine.Action;
+import engine.ActionInterface;
 import engine.Entity;
+import engine.EntityInterface;
 import engine.Event;
+import engine.EventInterface;
 
 /**
  * @author Jimmy Shackford
@@ -27,13 +30,13 @@ public class CreateBackgroundImage
 		// adds the background layer, represented as layer 1
 		authoring.newLayer();
 		// create the background image entity for the background layer (layer 1)
-		Entity background = authoring.createEntity("Backgrond", 1);
+		EntityInterface background = authoring.createEntity("Backgrond", 1);
 		// create the events for pressing the left or right arrow keys
-		Event rightKey = authoring.createEvent("RightKey");
-		Event leftKey = authoring.createEvent("LeftKey");
+		EventInterface rightKey = authoring.createEvent("RightKey");
+		EventInterface leftKey = authoring.createEvent("LeftKey");
 		// create the move left/right actions
-		Action moveRightAction = authoring.createAction("MoveRight");
-		Action moveLeftAction = authoring.createAction("MoveLeft");
+		ActionInterface moveRightAction = authoring.createAction("MoveRight");
+		ActionInterface moveLeftAction = authoring.createAction("MoveLeft");
 		// attach the left/right keys to the move left/right actions
 		authoring.addActionToEvent(rightKey, moveRightAction);
 		authoring.addActionToEvent(leftKey, moveLeftAction);
@@ -55,7 +58,7 @@ public class CreateBackgroundImage
 		// adds the background layer, represented as layer 1
 		authoring.newLayer();
 		// create the background image entity for the background layer (layer 1)
-		Entity background = authoring.createEntity("Background", 1);
+		EntityInterface background = authoring.createEntity("Background", 1);
 		// set the speed of the background image to a constant velocity (as in
 		// Mario).
 		// this constant velocity is randomly determined to be 10.

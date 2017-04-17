@@ -87,12 +87,11 @@ public class ComponentMaker {
 	 *            the property that provides a placeholder for the dialog.
 	 * @return a TextInputDialog.
 	 */
-	public TextInputDialog makeTextInputDialog(String titleProperty, String headerProperty, String contentProperty,
-			String placeholderProperty) {
-		TextInputDialog dialog = new TextInputDialog(resources.getString(placeholderProperty));
+	public TextInputDialog makeTextInputDialog(String titleProperty, String headerProperty, String promptProperty, String content) {
+		TextInputDialog dialog = new TextInputDialog(content);
 		dialog.setTitle(resources.getString(titleProperty));
 		dialog.setHeaderText(resources.getString(headerProperty));
-		dialog.setContentText(resources.getString(contentProperty));
+		dialog.setContentText(resources.getString(promptProperty));
 		return dialog;
 	}
 

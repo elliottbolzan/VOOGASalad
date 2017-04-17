@@ -20,40 +20,48 @@ import javafx.stage.Stage;
  * @author Jesse
  *
  */
-public abstract class AbstractMenu implements Menu{
+public abstract class AbstractMenu extends BorderPane implements Menu{
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
-	private BorderPane root;	
 	private ComponentMaker factory;
 	private Button back;
-	private String gameFolderPath;
 	private Stage stage;
 	private String fontPath = resources.getString("FontPath");
+	private Loader loader;
 
-	public AbstractMenu(Stage stage, String gameFolderPath, String title){
+	public AbstractMenu(Stage stage, Loader loader, String title){
+		this.loader = loader;
 		loadFont();
-		setupView(stage, gameFolderPath, title);
+		setupView(stage, title);
 	}
 
-	private void setupView(Stage stage, String gameFolderPath, String title){
-		root = new BorderPane();
+	private void setupView(Stage stage, String title){
 		this.stage = stage;
-		this.gameFolderPath = gameFolderPath;
+		stage.setTitle(this.getResources().getString("PlayerTitle"));
+		stage.getIcons().add(new Image(this.getResources().getString("IconPath")));
 		factory = new ComponentMaker(resources);
+
+		setTitle(resources.getString(title));
+		setupBackButton();
+	}
+	
+	private void setupBackButton(){
 		ImageView image = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream(getResources().getString("BackPath"))));
-		
 		back = factory.makeImageButton("Back", image, e -> back(stage), false);
-		getRoot().setBottom(backButton());
-		Label titleLabel = new Label(resources.getString(title));
+		this.setBottom(backButton());
+	}
+	
+	protected Loader getLoader(){
+		return loader;
+	}
+	
+	protected void setTitle(String title){
+		Label titleLabel = new Label(title);
 		titleLabel.setId("title");
 		titleLabel.setFont(Font.font(resources.getString("FontPath"), FontWeight.BOLD, 30));
 		titleLabel.setTextFill(Color.YELLOW);
-		getRoot().setTop(titleLabel);
+		this.setTop(titleLabel);
 		BorderPane.setAlignment(titleLabel, Pos.CENTER);
-	}
-	
-	protected BorderPane getRoot(){
-		return root;
 	}
 	
 	protected ResourceBundle getResources(){
@@ -73,11 +81,15 @@ public abstract class AbstractMenu implements Menu{
 	}
 	
 	public void back(Stage stage){
-		new PlayerMenu(stage, gameFolderPath);
+		new MainMenu(stage, loader);
+	}
+	
+	protected Stage getStage(){
+		return stage;
 	}
 	
 	public Scene display(){
-		Scene scene = new Scene(getRoot(), 1000, 600);
+		Scene scene = new Scene(this, 1000, 600);
 		scene.getStylesheets().add(getResources().getString("StylesheetPath"));
 		return scene;	
 	}

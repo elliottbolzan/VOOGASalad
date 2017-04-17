@@ -1,34 +1,38 @@
 package authoring;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
+import authoring.components.ProgressDialog;
 import authoring.panel.Panel;
 import authoring.views.View;
 import engine.Entity;
 import game_data.Game;
 import game_data.GameData;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
 
 /**
- * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford)
+ * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse
+ *         Yue)
  *
  *         The container for the Game Authoring Environment. Displays a
  *         SplitPane, which contains the Panel and the Canvas. Serves as an
  *         intermediary between the default Entities, the Panel, and the Canvas.
  *
  */
-public class Workspace extends View
-{
+public class Workspace extends View {
 
 	private ResourceBundle resources;
 	private ComponentMaker maker;
@@ -50,9 +54,9 @@ public class Workspace extends View
 	 * @param path
 	 *            the path of the Game to be loaded.
 	 */
-	public Workspace(ResourceBundle resources, String path)
-	{
+	public Workspace(ResourceBundle resources, String path) {
 		super("Workspace");
+		this.path = path;
 		this.resources = resources;
 		setup();
 		if (!path.equals("")) {
@@ -70,8 +74,7 @@ public class Workspace extends View
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		game = new Game();
 		data = new GameData();
 		maker = new ComponentMaker(resources);
@@ -116,6 +119,33 @@ public class Workspace extends View
 	 * the Game.
 	 */
 	public void save() {
+		TextInputDialog dialog = maker.makeTextInputDialog("SaveTitle", "SaveHeader", "SavePrompt", game.getName());
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresent(name -> save(name));
+	}
+	
+	private void save(String title) {
+		game.setName(title);
+		askForOutputPath();
+		ProgressDialog dialog = new ProgressDialog(this);
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws InterruptedException {
+				createGame();
+				if (!path.equals("")) {
+					data.saveGame(game, path);
+				}
+				return null;
+			}
+		};
+		task.setOnSucceeded(event -> {
+			dialog.getDialogStage().close();
+		});
+		Thread thread = new Thread(task);
+		thread.start();
+	}
+	
+	private void askForOutputPath() {
 		path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
@@ -123,10 +153,10 @@ public class Workspace extends View
 		if (selectedDirectory != null) {
 			path = selectedDirectory.getAbsolutePath();
 		}
-		game.setLevels(levelEditor.getLevels());
-		if (!path.equals("")) {
-			data.saveGame(game, path);
-		}
+	}
+	
+	private void askForName() {
+
 	}
 
 	/**
@@ -134,9 +164,27 @@ public class Workspace extends View
 	 * 
 	 * @param game
 	 *            the Game to test.
+	 * 
 	 */
-	public void test(Game game) {
+	public void test() {
+		createGame();
 		new BasicPlayer(game, path);
+	}
+	
+	private void createGame() {
+		game.setLevels(levelEditor.getLevels());
+	}
+
+	/**
+	 * 
+	 * @returns if there is an existing path or not
+	 */
+	public boolean pathExists() {
+		if (path.equals("")) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -178,25 +226,13 @@ public class Workspace extends View
 	}
 
 	/**
-	 * Used at initialization, when the default layer created is not one that is
-	 * user-requested. The levelEditor must alert the ComboBox that the first
-	 * layer has been initialized, which it does through the workspace.
-	 * 
-	 * @param newLayer
-	 *            the layer to be created.
-	 */
-	public void setNewLayer(String newLayer) {
-		panel.updateLayerPanel(newLayer);
-	}
-
-	/**
 	 * addLayer is called from the panel whenever the user selects the option to
 	 * add another layer. The workspace instructs the levelEditor to create
 	 * another layer.
 	 * 
 	 */
 	public void addLayer() {
-		levelEditor.getCurrentLevel().makeLayer();
+		levelEditor.getCurrentLevel().newLayer();
 	}
 
 	/**
@@ -219,8 +255,12 @@ public class Workspace extends View
 	 * @param newLevelNum
 	 *            the number of the new level.
 	 */
-	public void selectExistingLevel(int newLevelNum) {
-		panel.selectExistingLevelBox(newLevelNum);
+	public void selectExistingLevel(String oldLevel, String newLevel) {
+		panel.selectExistingLevelBox(oldLevel, newLevel);
+	}
+
+	public void selectExistingLevel(int count) {
+		panel.selectExistingLevelBox(count);
 	}
 
 	/**
@@ -231,8 +271,7 @@ public class Workspace extends View
 	 * @param layer
 	 *            the identifier of the layer to be deleted.
 	 */
-	public void deleteLayer(int layer)
-	{
+	public void deleteLayer(int layer) {
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
 
