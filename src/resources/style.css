@@ -79,3 +79,7 @@
 .menu-item:focused .label {
     -fx-text-fill: #3a3a3a;
 }
+
+.menu-bar { 
+	-fx-border-color: #3a3a3a;
+}
