@@ -34,7 +34,6 @@ import javafx.scene.shape.Circle;
  */
 public class Canvas extends View {
 
-	private Workspace workspace;
 	private final int TILE_SIZE = 25;
 	private final int DEFAULT_WIDTH = 800;
 	private final int DEFAULT_HEIGHT = 600;
@@ -49,7 +48,6 @@ public class Canvas extends View {
 
 	public Canvas(Workspace workspace) {
 		super(workspace.getResources().getString("CanvasTitle"));
-		this.workspace = workspace;
 		setup();
 	}
 
@@ -171,7 +169,7 @@ public class Canvas extends View {
 	 * @return EntityView that is displayed in the Canvas.
 	 */
 	public EntityView addEntity(Entity entity, double x, double y) {
-		EntityView newEntity = new EntityView(workspace, entity, TILE_SIZE, x, y);
+		EntityView newEntity = new EntityView(entity, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
 		newEntity.setTranslateY(tiledCoordinate.getY());

@@ -1,6 +1,5 @@
 package authoring.canvas;
 
-import authoring.Workspace;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
@@ -23,7 +22,6 @@ public class DragUtil {
 	 */
 	private static final int RESIZE_MARGIN = 5;
 
-	private final Workspace workspace;
 	private final EntityView region;
 
 	private int tileSize;
@@ -41,8 +39,7 @@ public class DragUtil {
 	private boolean yResizeDragging;
 	private boolean moveDragging;
 
-	private DragUtil(Workspace workspace, EntityView entityDisplay, int gridSize) {
-		this.workspace = workspace;
+	private DragUtil(EntityView entityDisplay, int gridSize) {
 		region = entityDisplay;
 		tileSize = gridSize;
 	}
@@ -60,8 +57,8 @@ public class DragUtil {
 	 * @param gridSize
 	 *            the tile size of the grid that the EntityView is in.
 	 */
-	public static void makeDraggable(Workspace workspace, EntityView region, int gridSize) {
-		final DragUtil resizer = new DragUtil(workspace, region, gridSize);
+	public static void makeDraggable(EntityView region, int gridSize) {
+		final DragUtil resizer = new DragUtil(region, gridSize);
 
 		region.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 
@@ -98,8 +95,8 @@ public class DragUtil {
 		});
 	}
 
-	public static void makeResizeable(Workspace workspace, EntityView region, int gridSize) {
-		final DragUtil resizer = new DragUtil(workspace, region, gridSize);
+	public static void makeResizeable(EntityView region, int gridSize) {
+		final DragUtil resizer = new DragUtil(region, gridSize);
 
 		region.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
 
@@ -142,7 +139,6 @@ public class DragUtil {
 	}
 
 	private void mouseReleasedResize(MouseEvent event) {
-		workspace.getDefaults().updateDefault(region.getEntity());
 		xResizeDragging = false;
 		yResizeDragging = false;
 		region.setCursor(Cursor.DEFAULT);

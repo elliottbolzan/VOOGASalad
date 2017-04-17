@@ -1,6 +1,7 @@
 package authoring;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
@@ -17,6 +18,7 @@ import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
@@ -117,12 +119,19 @@ public class Workspace extends View {
 	 * the Game.
 	 */
 	public void save() {
-		obtainOutputPath();
+		TextInputDialog dialog = maker.makeTextInputDialog("SaveTitle", "SaveHeader", "SavePrompt", game.getName());
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresent(name -> save(name));
+	}
+	
+	private void save(String title) {
+		game.setName(title);
+		askForOutputPath();
 		ProgressDialog dialog = new ProgressDialog(this);
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws InterruptedException {
-				game.setLevels(levelEditor.getLevels());
+				createGame();
 				if (!path.equals("")) {
 					data.saveGame(game, path);
 				}
@@ -136,7 +145,7 @@ public class Workspace extends View {
 		thread.start();
 	}
 	
-	private void obtainOutputPath() {
+	private void askForOutputPath() {
 		path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
@@ -144,6 +153,10 @@ public class Workspace extends View {
 		if (selectedDirectory != null) {
 			path = selectedDirectory.getAbsolutePath();
 		}
+	}
+	
+	private void askForName() {
+
 	}
 
 	/**
@@ -153,8 +166,13 @@ public class Workspace extends View {
 	 *            the Game to test.
 	 * 
 	 */
-	public void test(Game game) {
+	public void test() {
+		createGame();
 		new BasicPlayer(game, path);
+	}
+	
+	private void createGame() {
+		game.setLevels(levelEditor.getLevels());
 	}
 
 	/**

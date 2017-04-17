@@ -11,13 +11,11 @@ import authoring.components.ComponentMaker;
 import authoring.views.View;
 import engine.Entity;
 import engine.game.Level;
-import javafx.geometry.Bounds;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Rectangle;
 
 /**
  * LayerEditor keeps track of a Canvas and all of the layers on the canvas. Each
@@ -98,6 +96,8 @@ public class LayerEditor extends View {
 			}
 			concerned.forEach(entityView -> {
 				Entity toRemove = entityView.getEntity();
+				entity.widthProperty().set(toRemove.getWidth());
+				entity.heightProperty().set(toRemove.getHeight());
 				addEntity(entity, toRemove.getX(), toRemove.getY(), (int) toRemove.getZ());
 				canvas.removeEntity(entityView);
 			});
