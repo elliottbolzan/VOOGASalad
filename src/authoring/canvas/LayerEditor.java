@@ -283,7 +283,8 @@ public class LayerEditor extends View {
 	 */
 	public void newLayer() {
 		layerCount++;
-		layers.put(layerCount, new Layer());
+		Layer newLayer = new Layer("Layer" + " " + layerCount);
+		layers.put(layerCount, newLayer);
 		// newLayerSelected(layerCount);
 	}
 
@@ -374,6 +375,21 @@ public class LayerEditor extends View {
 			layers.put(id, layers.get(id + 1));
 		});
 		layerCount--;
+	}
+	/**
+	 * Set layer name, as requested by user
+	 * @param text
+	 */
+	public void setLayerName(String text) {
+		layers.get(currLayer).setLayerName(text);
+		System.out.println(currLayer + " " + layers.get(currLayer).getLayerName());
+	}
+	/**
+	 * Get layer name to send to combobox upon loading the game
+	 * @return
+	 */
+	public List<String> getLayerNames(){
+		return layers.values().stream().map(elt -> elt.getLayerName()).collect(Collectors.toList());
 	}
 
 }

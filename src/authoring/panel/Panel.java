@@ -108,8 +108,7 @@ public class Panel extends CollapsibleView {
 	public void selectExistingLevelBox(String oldLevel, String newLevel) {
 		layerPanel.selectLevelBox(oldLevel, newLevel);
 	}
-	public void selectExistingLevelBox(int count) {
-		layerPanel.selectLevelBox(count);
+	public void selectLoadedLevelBox(List<String> nameList) {
+		layerPanel.selectLevelBox(nameList);
 	}
-
 }

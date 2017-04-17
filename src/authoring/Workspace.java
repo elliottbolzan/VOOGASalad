@@ -1,6 +1,7 @@
 package authoring;
 
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -110,7 +111,7 @@ public class Workspace extends View {
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		panel.getSettings().load(game);
-		this.selectExistingLevel(levelEditor.getCurrentLevel().getLayerCount());
+		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerNames());
 	}
 
 	/**
@@ -259,8 +260,8 @@ public class Workspace extends View {
 		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
 
-	public void selectExistingLevel(int count) {
-		panel.selectExistingLevelBox(count);
+	public void selectLoadedLevel(List<String> nameList) {
+		panel.selectLoadedLevelBox(nameList);
 	}
 
 	/**
@@ -283,6 +284,13 @@ public class Workspace extends View {
 	 */
 	public void updateEntity(Entity entity) {
 		levelEditor.updateEntity(entity);
+	}
+/**
+ * Update layer name when user requests 
+ * @param text
+ */
+	public void setLayerName(String text) {
+		levelEditor.getCurrentLevel().setLayerName(text);
 	}
 
 }
