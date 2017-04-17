@@ -22,14 +22,10 @@ public class Scorebar {
 	private int level;
 	private Game game;
 	
-<<<<<<< HEAD
-	public Scorebar() {
-		timerManager = new TimerManager(120, false);
-=======
+
 	public Scorebar(Game game) {
 		this.timerManager = new TimerManager(120, false);
 		this.game = game;
->>>>>>> master
 		lives = 5;
 		score = 0;
 		level = 1;
@@ -88,8 +84,6 @@ public class Scorebar {
 	public void setLevel(int level){
 		this.level = level;
 	}
-<<<<<<< HEAD
-=======
 	
 	public void saveFinalScore() {
 		//TODO : game data
@@ -102,5 +96,4 @@ public class Scorebar {
 	private String convertScore(int score){
 		return String.format("%06d", score);
 	}
->>>>>>> master
 }
