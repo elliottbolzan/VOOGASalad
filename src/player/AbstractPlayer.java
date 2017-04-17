@@ -77,5 +77,8 @@ public abstract class AbstractPlayer extends BorderPane {
 		}
 		stage.close();
 	}
-
+	
+	protected GameLoop getRunningGameLoop() {
+		return this.gameLoop;
+	}
 }
