@@ -23,18 +23,20 @@ public class GameLoop {
 	
 	public GameLoop(Scene gameScene, Game game){
 		//Instantiate GraphicsEngine
-		graphicsEngine = new GraphicsEngine();
+		graphicsEngine = new GraphicsEngine(game);
 		
+		//TODO: what happens if level changes, camera gets reset??
+		//TODO: oh no this doesnt work. This CameraEntity isn't part of the level, so it doesn't get updated :(
+		graphicsEngine.setCamera(game.getCamera());
+		
+		//Setup scorebar
+		Scorebar scorebar = graphicsEngine.getScorebar();
+	
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
 		
-		//Setup scorebar
-		Scorebar scorebar = new Scorebar();
-		graphicsEngine.setScorebar(scorebar);
-	
 		// Setup levelManager
 		levelManager = new LevelManager(game);
-		//levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
 		
 		//Setup the first level screen
 		StepStrategy strategy = new LevelStepStrategy();

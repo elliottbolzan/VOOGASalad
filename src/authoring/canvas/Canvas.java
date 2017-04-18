@@ -35,7 +35,6 @@ import javafx.scene.shape.Circle;
 public class Canvas extends View
 {
 
-	private Workspace workspace;
 	private final int TILE_SIZE = 25;
 	private final int DEFAULT_WIDTH = 800;
 	private final int DEFAULT_HEIGHT = 600;
@@ -51,7 +50,6 @@ public class Canvas extends View
 	public Canvas(Workspace workspace)
 	{
 		super(workspace.getResources().getString("CanvasTitle"));
-		this.workspace = workspace;
 		setup();
 	}
 
