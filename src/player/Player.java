@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
-import engine.game.gameloop.GameLoop;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
