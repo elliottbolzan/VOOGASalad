@@ -71,17 +71,17 @@ public class Player extends AbstractPlayer {
 			isPaused = false;
 			playButton.setText(resources.getString("PauseButtonText"));
 			playButton.setGraphic(this.pauseImage);
-			getGameLoop().startTimeline();
+			this.getRunningGameLoop().startTimeline();
 		} else {
 			isPaused = true;
 			playButton.setText(resources.getString("PlayButtonText"));
 			playButton.setGraphic(this.playImage);
-			getGameLoop().pauseTimeline();
+			this.getRunningGameLoop().pauseTimeline();
 		}
 	}
 
 	private void restart() {
-		getGameLoop().pauseTimeline();
+		this.getRunningGameLoop().pauseTimeline();
 		this.buildGameView();
 		this.buildControlBar();
 		this.togglePlayPause(true);

@@ -8,19 +8,13 @@ import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import player.Loader;
@@ -71,18 +65,14 @@ public class StartMenu extends BorderPane {
 		imageView.setPreserveRatio(true);
 		imageView.setFitWidth(300);
 
-		HBox buttonBar = new HBox();
-		buttonBar.getStyleClass().setAll("segmented-button-bar");
-		Region spacer = new Region();
-		spacer.getStyleClass().setAll("spacer");
-
 		MenuBar menuBar = new MenuBar();
-		
-		Menu menuFile = new Menu("File");
-		menuFile.getItems().addAll(makeMenuItem("NewButton", e -> newGame()), makeMenuItem("EditButton", e -> editGame()), makeMenuItem("PlayButton", e-> playGame()));
 
-		Menu menuEdit = new Menu("Help");
-		Menu menuView = new Menu("About");
+		Menu menuFile = new Menu(resources.getString("GameMenu"));
+		menuFile.getItems().addAll(makeMenuItem("NewButton", e -> newGame()),
+				makeMenuItem("EditButton", e -> editGame()), makeMenuItem("PlayButton", e -> playGame()));
+
+		Menu menuEdit = new Menu(resources.getString("HelpMenu"));
+		Menu menuView = new Menu(resources.getString("AboutMenu"));
 		menuBar.getMenus().addAll(menuFile, menuEdit, menuView);
 
 		this.setTop(menuBar);
@@ -123,12 +113,12 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void playGame() {
-		 String chosen = chooseGame();
-		 if(isSelected(chosen)){
-			 new MainMenu(new Loader(chosen));
-		 }
+		String chosen = chooseGame();
+		if (isSelected(chosen)) {
+			new MainMenu(new Loader(chosen));
+		}
 	}
-	
+
 	private MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
 		MenuItem item = new MenuItem(resources.getString(titleProperty));
 		item.setOnAction(handler);

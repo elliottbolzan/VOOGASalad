@@ -1,34 +1,38 @@
 package authoring;
 
 import java.io.File;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
+import authoring.components.ProgressDialog;
 import authoring.panel.Panel;
 import authoring.views.View;
 import engine.Entity;
 import game_data.Game;
 import game_data.GameData;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
 
 /**
- * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse Yue)
+ * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse
+ *         Yue)
  *
  *         The container for the Game Authoring Environment. Displays a
  *         SplitPane, which contains the Panel and the Canvas. Serves as an
  *         intermediary between the default Entities, the Panel, and the Canvas.
  *
  */
-public class Workspace extends View
-{
+public class Workspace extends View {
 
 	private ResourceBundle resources;
 	private ComponentMaker maker;
@@ -41,7 +45,7 @@ public class Workspace extends View
 	private Game game;
 	private DefaultEntities defaults;
 	private String path;
-	
+
 	/**
 	 * Creates the Workspace.
 	 * 
@@ -50,15 +54,14 @@ public class Workspace extends View
 	 * @param path
 	 *            the path of the Game to be loaded.
 	 */
-	public Workspace(ResourceBundle resources, String path)
-	{
+	public Workspace(ResourceBundle resources, String path) {
 		super("Workspace");
 		this.path = path;
 		this.resources = resources;
 		setup();
 		if (!path.equals("")) {
-			load(path);		
-		}	
+			load(path);
+		}
 	}
 
 	/**
@@ -71,8 +74,7 @@ public class Workspace extends View
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		game = new Game();
 		data = new GameData();
 		maker = new ComponentMaker(resources);
@@ -117,6 +119,33 @@ public class Workspace extends View
 	 * the Game.
 	 */
 	public void save() {
+		TextInputDialog dialog = maker.makeTextInputDialog("SaveTitle", "SaveHeader", "SavePrompt", game.getName());
+		Optional<String> result = dialog.showAndWait();
+		result.ifPresent(name -> save(name));
+	}
+	
+	private void save(String title) {
+		game.setName(title);
+		askForOutputPath();
+		ProgressDialog dialog = new ProgressDialog(this);
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws InterruptedException {
+				createGame();
+				if (!path.equals("")) {
+					data.saveGame(game, path);
+				}
+				return null;
+			}
+		};
+		task.setOnSucceeded(event -> {
+			dialog.getDialogStage().close();
+		});
+		Thread thread = new Thread(task);
+		thread.start();
+	}
+	
+	private void askForOutputPath() {
 		path = "";
 		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
@@ -124,30 +153,36 @@ public class Workspace extends View
 		if (selectedDirectory != null) {
 			path = selectedDirectory.getAbsolutePath();
 		}
-		game.setLevels(levelEditor.getLevels());
-		if (!path.equals("")) {
-			data.saveGame(game, path);
-		}
+	}
+	
+	private void askForName() {
+
 	}
 
 	/**
 	 * Test the Game that is currently being designed.
 	 * 
-	 * @param game the Game to test.
-	 *            
+	 * @param game
+	 *            the Game to test.
+	 * 
 	 */
-	public void test(Game game) {
+	public void test() {
+		createGame();
 		new BasicPlayer(game, path);
 	}
 	
+	private void createGame() {
+		game.setLevels(levelEditor.getLevels());
+	}
+
 	/**
 	 * 
 	 * @returns if there is an existing path or not
 	 */
-	public boolean pathExists(){
-		if(path.equals("")){
+	public boolean pathExists() {
+		if (path.equals("")) {
 			return false;
-		}else{
+		} else {
 			return true;
 		}
 	}
@@ -223,11 +258,10 @@ public class Workspace extends View
 	public void selectExistingLevel(String oldLevel, String newLevel) {
 		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
-	
+
 	public void selectExistingLevel(int count) {
 		panel.selectExistingLevelBox(count);
 	}
-	
 
 	/**
 	 * When the user instructs the layer panel to delete a layer, the workspace
@@ -237,8 +271,7 @@ public class Workspace extends View
 	 * @param layer
 	 *            the identifier of the layer to be deleted.
 	 */
-	public void deleteLayer(int layer)
-	{
+	public void deleteLayer(int layer) {
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
 
