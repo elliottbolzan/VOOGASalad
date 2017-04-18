@@ -154,6 +154,17 @@ public class Canvas extends View
 		return scrollScreen;
 	}
 
+	public List<EntityView> getSelectedEntities()
+	{
+		List<EntityView> selected = new ArrayList<EntityView>();
+		entities.forEach(e -> {
+			if (e.isSelected()) {
+				selected.add(e);
+			}
+		});
+		return selected;
+	}
+
 	/**
 	 * Add an entity to the top-left corner of the canvas. This method makes a
 	 * clone of the given Entity and creates an actual EntityView from it ((The
@@ -183,7 +194,7 @@ public class Canvas extends View
 	 */
 	public EntityView addEntity(Entity entity, double x, double y)
 	{
-		EntityView newEntity = new EntityView(entity, TILE_SIZE, x, y);
+		EntityView newEntity = new EntityView(entity, this, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
 		newEntity.setTranslateY(tiledCoordinate.getY());

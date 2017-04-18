@@ -204,16 +204,6 @@ public class LayerEditor extends View
 	}
 
 	/**
-	 * Get the currently selected entity from the workspace's sidebar.
-	 * 
-	 * @return Workspace's currently selected entity.
-	 */
-	private Entity getCurrentEntity()
-	{
-		return workspace.getSelectedEntity();
-	}
-
-	/**
 	 * Place the entity at the position of the given MouseEvent.
 	 * 
 	 * @param e
@@ -263,15 +253,18 @@ public class LayerEditor extends View
 		addedEntity.getEntity().setZ(z);
 		setNumLayers(z);
 		layers.get(z).addEntity(addedEntity);
-		addedEntity.setOnMouseClicked(e -> {
-			if (!e.isShiftDown()) {
-				for (Layer layers : layers.values()) {
-					for (EntityView display : layers.getEntities()) {
-						selectEntity(display, false);
-					}
+		addedEntity.setOnMousePressed(e -> {
+			if (!e.isShiftDown() && !addedEntity.isSelected()) {
+				for (Layer layer : layers.values()) {
+					layer.getSelectedEntities().forEach(ent -> {
+						ent.setSelected(false);
+					});
 				}
 			}
 			selectEntity(addedEntity, !addedEntity.isSelected());
+		});
+		addedEntity.setOnMouseDragged(e -> {
+			addedEntity.setSelected(true);
 		});
 		return addedEntity;
 	}
