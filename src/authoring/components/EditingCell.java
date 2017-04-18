@@ -145,6 +145,8 @@ public class EditingCell extends TableCell<Parameter, Object> {
 				commitEdit(Integer.parseInt(input));
 			} else if (param.getParameterClass().equals(Double.class)) {
 				commitEdit(Double.parseDouble(input));
+			} else if (param.getParameterClass().equals(Boolean.class)){
+				commitEdit(Boolean.parseBoolean(input));
 			}
 			commitEdit(input);
 		} catch (Exception e) {
