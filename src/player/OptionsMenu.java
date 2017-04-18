@@ -21,6 +21,7 @@ public class OptionsMenu extends AbstractMenu{
 	private ScrollPane center;
 	private Map<String, Parameter> keys;
 	private Map<String, Parameter> keyReleases;
+	private List<Entity> entities;
 	private GridPane grid;
 	private int count = 0;
 	
@@ -57,7 +58,7 @@ public class OptionsMenu extends AbstractMenu{
 	}
 	
 	private void loadKeyBindings(){
-		List<Entity> entities = (List<Entity>) this.getLoader().loadGame().getLevels().get(0).getEntities();
+		entities = (List<Entity>) this.getLoader().loadGame().getLevels().get(0).getEntities();
 		for(int i = 0; i < entities.size(); i++){
 			//Get all the events of each entity
 			List<Event> events = entities.get(i).getEvents();
@@ -112,11 +113,12 @@ public class OptionsMenu extends AbstractMenu{
 	}
 	
 	private void keyPressAction(KeyCode e, TextField key, Label actionLabel){
-		keys.get(actionLabel.getText()).setObject(e);
+		keys.get(actionLabel.getText()).setObject(e);	
 		//Change associated key releases
 		if(keyReleases.get(key.getText()) != null){
 			keyReleases.get(key.getText()).setObject(e);
 		}
+		//this.getLoader().loadData().saveGame(this.getLoader().loadGame(), this.getLoader().getGamePath());
 		key.setText(e.toString());
 	}
 

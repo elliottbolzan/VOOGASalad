@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
-import engine.game.gameloop.GameLoop;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -24,7 +23,6 @@ public class Player extends AbstractPlayer {
 	private static final int CONTROLS_HEIGHT = 42;
 	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
 
-	private GameLoop gameLoop;
 	private Button playButton;
 	private boolean isPaused;
 	private ObservableList<String> saveStates;
@@ -73,17 +71,17 @@ public class Player extends AbstractPlayer {
 			isPaused = false;
 			playButton.setText(resources.getString("PauseButtonText"));
 			playButton.setGraphic(this.pauseImage);
-			gameLoop.startTimeline();
+			getGameLoop().startTimeline();
 		} else {
 			isPaused = true;
 			playButton.setText(resources.getString("PlayButtonText"));
 			playButton.setGraphic(this.playImage);
-			gameLoop.pauseTimeline();
+			getGameLoop().pauseTimeline();
 		}
 	}
 
 	private void restart() {
-		gameLoop.pauseTimeline();
+		getGameLoop().pauseTimeline();
 		this.buildGameView();
 		this.buildControlBar();
 		this.togglePlayPause(true);
