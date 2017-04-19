@@ -149,7 +149,9 @@ public class GraphicsEngine {
 		node.visibleProperty().bind(entity.isVisibleProperty());
 		entity.imagePathProperty().addListener(
 				(observer, oldPath, newPath) -> {
-					node.setImage(new Image(newPath));
+					System.out.println(newPath);
+					System.out.println("hi");
+					node.setImage(new Image(newPath));				
 			});
 	}
 	

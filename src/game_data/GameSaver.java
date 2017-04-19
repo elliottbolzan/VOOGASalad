@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -77,6 +79,7 @@ public class GameSaver
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(gameFolderPath + File.separator + filename));
 			transformer.transform(source, result);
@@ -187,12 +190,11 @@ public class GameSaver
 		String relativeImagePath = "resources" + File.separator + entity.getName() + "Image.png";
 		saveEntityImage(absoluteImagePath, relativeImagePath, gameFolderPath);
 		
-		entity.setImagePath(relativeImagePath);
+		//entity.setImagePath(relativeImagePath);
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
 		String xmlString = xStream.toXML(entity);
 		entity.setImagePath(absoluteImagePath);
-		
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 	

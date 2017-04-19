@@ -23,15 +23,20 @@ public class Loader {
 		data = new GameData();
 		game = data.loadGame(gamePath);
 		String path = game.getSongPath();
-		String uriString = new File(path).toURI().toString();
-		media = new MediaPlayer(new Media(uriString));
+		if(!path.equals("")){
+			String uriString = new File(path).toURI().toString();
+			media = new MediaPlayer(new Media(uriString));
+		}else{
+			media = null;
+		}
+		
 	}
 	
 	public String getGamePath(){
 		return gamePath;
 	}
 	
-	protected MediaPlayer getMediaPlayer(){
+	public MediaPlayer getMediaPlayer(){
 		return media;
 	}
 	

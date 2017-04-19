@@ -64,17 +64,21 @@ public class OptionsMenu extends AbstractMenu {
 			addControlRow(s, keys.get(s).getObject(), count);
 			count++;
 		}
-		this.addHeading(getGlot().get("Audio"), count);
-		count++;
+		if(getLoader().getMediaPlayer() != null){
+			this.addHeading(getGlot().get("Audio"), count);
+			count++;
+			
+			Slider volume = setupVolumeSlider();
+			grid.add(new Label("Master Volume"), 0, count);
+			grid.add(volume, 1, count);
+			count++;
+		}
 		
-		Slider volume = setupVolumeSlider();
-		grid.add(new Label("Master Volume"), 0, count);
-		grid.add(volume, 1, count);
-		count++;
 	}
 	
 	private Slider setupVolumeSlider(){
 		Slider volume = new Slider();	
+		
 		volume.setValue(getLoader().getMediaPlayer().getVolume());
 		volume.valueProperty().addListener(new InvalidationListener() {
 		    public void invalidated(Observable ov) {

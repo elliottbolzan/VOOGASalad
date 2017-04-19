@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="FlappyBird2"/><Levels><level><Entities>
+﻿<Game><Name GameName="FlappyBird2"/><Levels><level><Entities>
 <Entity>
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
@@ -75,7 +75,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
     <engine.events.CollisionEvent>
@@ -95,7 +94,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
     <engine.events.KeyPressEvent>
@@ -239,7 +237,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
     <engine.events.CollisionEvent>
@@ -259,7 +256,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
     <engine.events.KeyPressEvent>
