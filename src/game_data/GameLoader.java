@@ -34,8 +34,8 @@ public class GameLoader {
 	 * @return
 	 * @throws NotAGameFolderException : incorrect folder path exception
 	 */
-	public Game loadGame(String gameFolderPath) throws NotAGameFolderException {
-		File dataFile = new File(gameFolderPath + File.separator + "settings.xml");
+	public Game loadGame(String gameFolderPath, String saveName) throws NotAGameFolderException {
+		File dataFile = new File(gameFolderPath + File.separator + saveName);
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -43,7 +43,7 @@ public class GameLoader {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = factory.newDocumentBuilder();
-			doc = docBuilder.parse(gameFolderPath + File.separator + "settings.xml");
+			doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
 		} catch (Exception e) {
 			//TODO
 		}

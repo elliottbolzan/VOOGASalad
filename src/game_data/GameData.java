@@ -16,8 +16,15 @@ public class GameData {
 		gs.saveGame(game, folderPath);
 	}
 	
-	public void saveGameState(Game game, String folderPath, String id){
-		
+	/**
+	 * Saves the game to the chosen name
+	 * @param game
+	 * @param folderPath
+	 * @param saveName
+	 */
+	public void saveGameState(Game game, String folderPath, String saveName){
+		GameSaver gs = new GameSaver();
+		gs.saveGameState(game, folderPath, saveName);
 	}
 	
 	/**
@@ -30,10 +37,28 @@ public class GameData {
 		GameLoader gl = new GameLoader();
 		Game game = null;
 		try {
-			game = gl.loadGame(folderPath);
+			game = gl.loadGame(folderPath, "settings.xml");
 		} catch (NotAGameFolderException i) {
 			// i.printStackTrace();
 		}
 		return game;
 	}
+	
+	/**
+	 * Load a save file
+	 * @param folderPath
+	 * @param saveName
+	 * @return
+	 */
+	public Game loadGameState(String folderPath, String saveName){
+		GameLoader gl = new GameLoader();
+		Game game = null;
+		try {
+			game = gl.loadGame(folderPath, saveName);
+		} catch (NotAGameFolderException i) {
+			// i.printStackTrace();
+		}
+		return game;
+	}
+
 }

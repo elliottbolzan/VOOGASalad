@@ -39,8 +39,16 @@ public class Loader {
 		return game;
 	}
 	
+	protected void setGame(Game game){
+		this.game = game;
+	}
+	
 	protected GameData loadData(){
 		return data;
+	}
+	
+	protected void setData(GameData data){
+		this.data = data;
 	}
 	
 	protected String getSongPath(){
