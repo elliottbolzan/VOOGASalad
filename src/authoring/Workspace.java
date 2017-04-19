@@ -20,8 +20,10 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
+import player.Loader;
 import polyglot.Polyglot;
 import utils.views.View;
+
 
 /**
  * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse
@@ -164,8 +166,8 @@ public class Workspace extends View {
 	 * 
 	 */
 	public void test() {
-		createGame();
-		new BasicPlayer(game, path, polyglot, IOResources);
+		createGame();		
+		new BasicPlayer(new Loader(path), polyglot, IOResources);
 	}
 	
 	private void createGame() {

@@ -1,6 +1,5 @@
 package player;
 
-import java.io.File;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
@@ -9,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.DirectoryChooser;
 import polyglot.Polyglot;
 
 /**
@@ -35,9 +33,8 @@ public class Player extends AbstractPlayer {
 	private ImageView pauseImage;
 	private Loader loader;
 
-	public Player(String dataFolderPath, ObservableList<String> saveStates, Loader loader, Polyglot polyglot,
-			ResourceBundle IOResources) {
-		super(loader.loadGame(), loader.getGamePath(), polyglot, IOResources);
+	public Player(ObservableList<String> saveStates, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+		super(loader, polyglot, IOResources);
 		this.loader = loader;
 		this.saveStates = saveStates;
 		this.polyglot = polyglot;
@@ -95,18 +92,9 @@ public class Player extends AbstractPlayer {
 
 	private void save() {
 		count++;
-		String path = "";
-		String outputFolder = new File(IOResources.getString("GamesPath")).getAbsolutePath();
-		DirectoryChooser chooser = factory.makeDirectoryChooser(outputFolder, "GameSaverTitle");
-		File selectedDirectory = chooser.showDialog(getScene().getWindow());
-		if (selectedDirectory != null) {
-			path = selectedDirectory.getAbsolutePath();
-		}
-		if (!path.equals("")) {
-			loader.loadGame().setName("save" + count);
-			loader.loadData().saveGame(loader.loadGame(), path);
-		}
-		saveStates.add(path + File.separator + loader.loadGame().getName());
+		String saveName = "save"+"_"+count+".xml";
+		loader.loadData().saveGameState(loader.loadGame(), loader.getGamePath(), saveName);
+		saveStates.add(saveName);
 	}
 
 }

@@ -2,6 +2,8 @@ package player.menu;
 
 import java.util.ResourceBundle;
 
+import game_data.Game;
+import game_data.GameData;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -38,8 +40,18 @@ public class LoadMenu extends AbstractMenu {
 		setupScene(stage);
 	}
 
-	private void loadGame(Stage stage, String gameFolderPath) {
-		new Player(gameFolderPath, saveStates, getLoader(), polyglot, IOResources);
+	private void loadNewGame(Stage stage) {
+		//stage.close();
+		new Player(saveStates, getLoader(), polyglot, IOResources);
+	}
+	
+	private void loadSaveState(Stage stage, String saveName){
+		GameData data = new GameData();
+		Game game = data.loadGameState(getLoader().getGamePath(), saveName);
+		Loader loader = new Loader(getLoader().getGamePath());
+		loader.setData(data);
+		loader.setGame(game);
+		new Player(saveStates, loader, polyglot, IOResources);
 	}
 
 	private void setupScene(Stage stage) {
@@ -51,12 +63,11 @@ public class LoadMenu extends AbstractMenu {
 		saveButtonContainer.maxWidthProperty().bind(container.maxWidthProperty());
 
 		saveStates.addListener(new ListChangeListener<String>() {
-
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
 				if (saveStates.size() < 11) {
 					Button save = getFactory().makeButton(Integer.toString(saveStates.size()),
-							e -> loadGame(stage, saveStates.get(saveStates.size() - 1)), true);
+							e -> loadSaveState(stage, saveStates.get(saveStates.size() - 1)), true);
 					saveButtons.add(save);
 					saveButtonContainer.getChildren().add(save);
 				} else {
@@ -65,7 +76,7 @@ public class LoadMenu extends AbstractMenu {
 						int index = replacer.getButtonID();
 						// Changes button action to load new save
 						saveButtons.get(index).setOnAction(e1 -> {
-							loadGame(stage, saveStates.get(saveStates.size() - 1));
+							loadSaveState(stage, saveStates.get(saveStates.size() - 1));
 						});
 						replacer.close();
 					});
@@ -81,7 +92,7 @@ public class LoadMenu extends AbstractMenu {
 	@Override
 	public void addElements() {
 		Tile playTile = new Tile(getPolyglot().get("NewGameButton", Case.TITLE), "red",
-				e -> loadGame(getStage(), getLoader().getGamePath()));
+				e -> loadNewGame(getStage()));
 		addTiles(true, playTile);
 	}
 

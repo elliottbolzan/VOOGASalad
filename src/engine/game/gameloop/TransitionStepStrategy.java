@@ -14,7 +14,7 @@ import javafx.scene.Scene;
  *
  */
 public abstract class TransitionStepStrategy implements StepStrategy {
-	private static final String RESOURCES_NAME = "resources/TransitionScreen";
+	private static final String RESOURCES_NAME = "resources/Strings";
 	private static final int FRAME_DURATION = 150;
 
 	private int frameNumber = 1;

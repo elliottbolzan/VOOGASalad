@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import polyglot.Polyglot;
 
 /**
  * 
@@ -17,14 +18,17 @@ import javafx.scene.layout.VBox;
  *
  */
 public class Overlay extends BorderPane{
-	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
+	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 	
 	private Label score;
 	private Label lives;
 	private Label level;
 	private Label time;
 
-	public Overlay(){
+	public Overlay(Polyglot polyglot, ResourceBundle IOResources){
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
 		setup();	
 	}
 	
@@ -36,10 +40,10 @@ public class Overlay extends BorderPane{
 		
 		HBox container = new HBox(100);
 		container.setAlignment(Pos.CENTER);
-		container.getChildren().addAll(makeLabelBox(new Label(resources.getString("Score")), score),
-				makeImageBox(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(resources.getString("HeartPath")))), lives),
-				makeLabelBox(new Label(resources.getString("Level")), level),
-				makeLabelBox(new Label(resources.getString("Time")), time));
+		container.getChildren().addAll(makeLabelBox(new Label(polyglot.get("Score").get()), score),
+				makeImageBox(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("HeartPath")))), lives),
+				makeLabelBox(new Label(polyglot.get("Level").get()), level),
+				makeLabelBox(new Label(polyglot.get("Time").get()), time));
 		this.setTop(container);
 	}
 	

@@ -1,6 +1,5 @@
 package player;
 
-import java.io.File;
 import java.util.ResourceBundle;
 
 import engine.game.gameloop.GameLoop;
@@ -8,7 +7,6 @@ import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import polyglot.Case;
@@ -20,17 +18,21 @@ public abstract class AbstractPlayer extends BorderPane {
 	private ResourceBundle IOResources;
 	private MediaPlayer songPlayer;
 	
+	private Loader loader;
 	private Game game;
 	private GameLoop gameLoop;
 	private Stage stage;
 	private Scene scene;
 	private String path;
 
-	public AbstractPlayer(Game game, String dataFolderPath, Polyglot polyglot, ResourceBundle IOResources) {
-		this.game = game;
+
+	public AbstractPlayer(Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+		this.loader = loader;
+		this.game = loader.loadGame();
+		path = loader.getGamePath();
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
-		path = dataFolderPath;
+
 		playSong();
 		buildStage();
 		buildGameView();
@@ -53,8 +55,9 @@ public abstract class AbstractPlayer extends BorderPane {
 
 	protected void buildGameView() {
 		if (!path.equals("")) {
-			gameLoop = new GameLoop(scene, game);
-			Overlay scorebar = gameLoop.getGameScorebar();
+			Overlay scorebar = new Overlay(polyglot, IOResources);
+			gameLoop = new GameLoop(scene, game, scorebar);
+			
 			StackPane pane = new StackPane();
 			pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());
 			this.setCenter(pane);
@@ -63,9 +66,7 @@ public abstract class AbstractPlayer extends BorderPane {
 	
 	private void playSong() {
 		try {
-			String path = game.getSongPath();
-			String uriString = new File(path).toURI().toString();
-			songPlayer = new MediaPlayer(new Media(uriString));
+			songPlayer = loader.getMediaPlayer();
 			songPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 			songPlayer.play();
 		} catch (Exception e) {
