@@ -1,15 +1,10 @@
 package player;
 
-import javafx.geometry.Pos;
-import javafx.scene.control.TableCell;
 import java.util.ResourceBundle;
-
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableView.ResizeFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import polyglot.Polyglot;
 
 /**
@@ -61,7 +56,7 @@ public class HighscoreMenu extends AbstractMenu{
 	private TableColumn<Score, String> makeTimeColumn(){
 		TableColumn<Score, String>	time = new TableColumn<>("Time Left");
 		time.setCellValueFactory(new PropertyValueFactory<>("time"));
-		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.5));
+		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.4));
 		
 		return time;
 	}

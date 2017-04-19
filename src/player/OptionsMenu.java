@@ -15,6 +15,7 @@ import engine.Event;
 import engine.Parameter;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.binding.StringBinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -56,14 +57,14 @@ public class OptionsMenu extends AbstractMenu {
 		center.setContent(grid);
 
 		
-		this.addHeading(getResources().getString("Controls"), count);
+		this.addHeading(getGlot().get("Controls"), count);
 		count++;
 		
 		for(String s : keys.keySet()){
 			addControlRow(s, keys.get(s).getObject(), count);
 			count++;
 		}
-		this.addHeading(getResources().getString("Audio"), count);
+		this.addHeading(getGlot().get("Audio"), count);
 		count++;
 		
 		Slider volume = setupVolumeSlider();
@@ -129,8 +130,9 @@ public class OptionsMenu extends AbstractMenu {
 		grid.add(keyLabel, 1, row);
 	}
 	
-	private void addHeading(String heading, int row){
-		Label title = new Label(heading);
+	private void addHeading(StringBinding heading, int row){
+		Label title = new Label();
+		title.textProperty().bind(heading);
 		title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.BOLD, Font.getDefault().getSize()));
 		grid.add(title, 0, row, 2, 1);
 	}

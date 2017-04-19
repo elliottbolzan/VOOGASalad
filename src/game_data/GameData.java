@@ -16,6 +16,10 @@ public class GameData {
 		gs.saveGame(game, folderPath);
 	}
 	
+	public void saveGameState(Game game, String folderPath, String id){
+		
+	}
+	
 	/**
 	 * Public method that is called to load the game when the load game button is pressed
 	 * @param folderPath

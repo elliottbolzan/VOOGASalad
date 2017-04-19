@@ -55,8 +55,9 @@ public abstract class AbstractPlayer extends BorderPane {
 
 	protected void buildGameView() {
 		if (!path.equals("")) {
-			gameLoop = new GameLoop(scene, game);
-			Overlay scorebar = gameLoop.getGameScorebar();
+			Overlay scorebar = new Overlay(polyglot, IOResources);
+			gameLoop = new GameLoop(scene, game, scorebar);
+			
 			StackPane pane = new StackPane();
 			pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());
 			this.setCenter(pane);
