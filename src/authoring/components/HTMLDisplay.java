@@ -1,5 +1,6 @@
 package authoring.components;
 
+import javafx.beans.binding.StringBinding;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -17,12 +18,12 @@ public class HTMLDisplay extends Stage {
 	 * @param filePath the path to the HTML file to be displayed.
 	 * @param title the title of the HTMLDisplay.
 	 */
-	public HTMLDisplay(String filePath, String title) {
+	public HTMLDisplay(String filePath, StringBinding title) {
 		WebView browser = new WebView();
 		WebEngine webEngine = browser.getEngine();
 		webEngine.load(getClass().getClassLoader().getResource(filePath).toExternalForm());
 		Scene scene = new Scene(browser, 800, 600);
-		setTitle(title);
+		titleProperty().bind(title);
 		setScene(scene);
 	}
 

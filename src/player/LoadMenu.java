@@ -1,5 +1,7 @@
 package player;
 
+import java.util.ResourceBundle;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -7,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import polyglot.Polyglot;
 
 /**
  * 
@@ -18,9 +21,14 @@ public class LoadMenu extends AbstractMenu {
 	private ObservableList<String> saveStates;
 	private ObservableList<Button> saveButtons;
 	private VBox saveButtonContainer;
+	
+	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 
-	public LoadMenu(Stage stage, Loader loader) {
-		super(stage, loader, "LoadTitle");
+	public LoadMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, loader, "LoadTitle", polyglot, IOResources);
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
 		saveStates = FXCollections.observableArrayList();
 		saveButtons = FXCollections.observableArrayList();
 		setupScene(stage);
@@ -28,7 +36,7 @@ public class LoadMenu extends AbstractMenu {
 
 	private void loadGame(Stage stage, String gameFolderPath) {
 		//stage.close();
-		new Player(gameFolderPath, saveStates, getLoader());
+		new Player(gameFolderPath, saveStates, getLoader(), polyglot, IOResources);
 	}
 
 	private void setupScene(Stage stage) {

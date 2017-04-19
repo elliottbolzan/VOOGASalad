@@ -77,7 +77,7 @@
 }
 
 .menu-item:focused .label {
-    -fx-text-fill: #3a3a3a;
+    -fx-text-fill: -fx-accent;
 }
 
 .menu-bar { 
