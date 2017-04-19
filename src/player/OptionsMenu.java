@@ -8,13 +8,17 @@ import engine.Action;
 import engine.Entity;
 import engine.Event;
 import engine.Parameter;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class OptionsMenu extends AbstractMenu{
@@ -42,19 +46,42 @@ public class OptionsMenu extends AbstractMenu{
 	}
 	
 	private void setupView(){
-		StackPane container = new StackPane();
-		grid = new GridPane();
+		grid = new GridPane();		
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(20);
 		grid.setVgap(20);
 		center.setContent(grid);
 		
+		this.addHeading(getResources().getString("Controls"), count);
+		count++;
+		
 		for(String s : keys.keySet()){
-			addRow(s, keys.get(s).getObject(), count);
+			addControlRow(s, keys.get(s).getObject(), count);
 			count++;
 		}
-		container.getChildren().add(grid);
-		center.setContent(container);
+		this.addHeading(getResources().getString("Audio"), count);
+		count++;
+		
+		Slider volume = setupVolumeSlider();
+		grid.add(new Label("Master Volume"), 0, count);
+		grid.add(volume, 1, count);
+		count++;
+	}
+	
+	private Slider setupVolumeSlider(){
+		Slider volume = new Slider();	
+		volume.setValue(getLoader().getMediaPlayer().getVolume());
+		volume.valueProperty().addListener(new InvalidationListener() {
+		    public void invalidated(Observable ov) {
+		       if (volume.isValueChanging()) {
+		           getLoader().getMediaPlayer().setVolume(volume.getValue() / 100.0);	           
+		       }
+		    }
+		});
+		volume.setShowTickLabels(true);
+		volume.setShowTickMarks(true);
+		
+		return volume;
 	}
 	
 	private void loadKeyBindings(){
@@ -90,11 +117,17 @@ public class OptionsMenu extends AbstractMenu{
 		}
 	}
 	
-	private void addRow(String action, Object key, int row){
+	private void addControlRow(String action, Object key, int row){
 		Label actionLabel = new Label(action);
 		TextField keyLabel = makeKeyLabel(key.toString(), actionLabel);
 		grid.add(actionLabel, 0, row);
 		grid.add(keyLabel, 1, row);
+	}
+	
+	private void addHeading(String heading, int row){
+		Label title = new Label(heading);
+		title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.BOLD, Font.getDefault().getSize()));
+		grid.add(title, 0, row, 2, 1);
 	}
 	
 	private TextField makeKeyLabel(String key, Label actionLabel){

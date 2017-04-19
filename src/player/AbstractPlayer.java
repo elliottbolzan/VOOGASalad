@@ -1,6 +1,5 @@
 package player;
 
-import java.io.File;
 import java.util.ResourceBundle;
 
 import engine.game.gameloop.GameLoop;
@@ -8,7 +7,6 @@ import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
@@ -18,15 +16,17 @@ public abstract class AbstractPlayer extends BorderPane {
 	private String stylesheetPath = resources.getString("StylesheetPath");
 	private MediaPlayer songPlayer;
 	
+	private Loader loader;
 	private Game game;
 	private GameLoop gameLoop;
 	private Stage stage;
 	private Scene scene;
 	private String path;
 
-	public AbstractPlayer(Game game, String dataFolderPath) {
-		this.game = game;
-		path = dataFolderPath;
+	public AbstractPlayer(Loader loader) {
+		this.loader = loader;
+		this.game = loader.loadGame();
+		path = loader.getGamePath();
 		playSong();
 		buildStage();
 		buildGameView();
@@ -59,9 +59,7 @@ public abstract class AbstractPlayer extends BorderPane {
 	
 	private void playSong() {
 		try {
-			String path = game.getSongPath();
-			String uriString = new File(path).toURI().toString();
-			songPlayer = new MediaPlayer(new Media(uriString));
+			songPlayer = loader.getMediaPlayer();
 			songPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 			songPlayer.play();
 		} catch (Exception e) {

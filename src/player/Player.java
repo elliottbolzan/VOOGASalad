@@ -33,7 +33,7 @@ public class Player extends AbstractPlayer {
 	private Loader loader;
 
 	public Player(String dataFolderPath, ObservableList<String> saveStates, Loader loader) {
-		super(loader.loadGame(), loader.getGamePath());
+		super(loader);
 		this.loader = loader;
 		this.saveStates = saveStates;
 		factory = new ComponentMaker(resources);

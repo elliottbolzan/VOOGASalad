@@ -1,9 +1,13 @@
 package player;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.ResizeFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 /**
  * 
@@ -23,6 +27,7 @@ public class HighscoreMenu extends AbstractMenu{
 	@SuppressWarnings("unchecked")
 	private void setupScene(){
 		scoreTable = new TableView<>();
+
 		scoreTable.getColumns().setAll(makeRankColumn(), makeScoreColumn(), makeTimeColumn());
 		//scoreTable.setEditable(false);
 		
@@ -36,6 +41,8 @@ public class HighscoreMenu extends AbstractMenu{
 	private TableColumn<Score, Integer> makeRankColumn(){
 		TableColumn<Score, Integer>	rank = new TableColumn<>("Rank");
 		rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+		rank.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.1));
+		
 		
 		return rank;
 	}
@@ -43,6 +50,7 @@ public class HighscoreMenu extends AbstractMenu{
 	private TableColumn<Score, String> makeScoreColumn(){
 		TableColumn<Score, String> score = new TableColumn<>("Score");
 		score.setCellValueFactory(new PropertyValueFactory<Score, String>("score"));
+		score.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.5));
 		
 		return score;
 	}
@@ -50,8 +58,10 @@ public class HighscoreMenu extends AbstractMenu{
 	private TableColumn<Score, String> makeTimeColumn(){
 		TableColumn<Score, String>	time = new TableColumn<>("Time Left");
 		time.setCellValueFactory(new PropertyValueFactory<>("time"));
+		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.5));
 		
 		return time;
 	}
+
 
 }

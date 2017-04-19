@@ -22,6 +22,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
+import player.Loader;
 
 /**
  * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse
@@ -167,8 +168,8 @@ public class Workspace extends View {
 	 * 
 	 */
 	public void test() {
-		createGame();
-		new BasicPlayer(game, path);
+		createGame();		
+		new BasicPlayer(new Loader(path));
 	}
 	
 	private void createGame() {
