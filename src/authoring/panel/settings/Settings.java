@@ -126,5 +126,9 @@ public class Settings extends View {
 	private String getResource(String input) {
 		return workspace.getIOResources().getString(input);
 	}
+	
+	private String getString(String input){
+		return workspace.getPolyglot().get(input).get();
+	}
 
 }

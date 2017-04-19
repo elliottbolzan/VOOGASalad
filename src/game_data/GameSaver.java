@@ -190,7 +190,7 @@ public class GameSaver
 		String relativeImagePath = "resources" + File.separator + entity.getName() + "Image.png";
 		saveEntityImage(absoluteImagePath, relativeImagePath, gameFolderPath);
 		
-		//entity.setImagePath(relativeImagePath);
+		entity.setImagePath(relativeImagePath);
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
 		String xmlString = xStream.toXML(entity);
