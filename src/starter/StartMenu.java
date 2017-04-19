@@ -89,7 +89,7 @@ public class StartMenu extends BorderPane {
 		imageView.setPreserveRatio(true);
 		imageView.setFitWidth(300);
 		RotateTransition rt = new RotateTransition(Duration.millis(600), imageView);
-		rt.setByAngle(180);
+		rt.setByAngle(360);
 		rt.setCycleCount(2);
 		rt.setAutoReverse(true);
 		playIn(1, e -> rt.play());
