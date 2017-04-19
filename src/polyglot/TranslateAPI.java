@@ -28,7 +28,7 @@ import com.google.api.services.translate.model.TranslationsListResponse;
  */
 public class TranslateAPI {
 
-	private static final int MAX_CHARACTERS_PER_REQUEST = 800;
+	private static final int MAX_CHARACTERS_PER_REQUEST = 600;
 	private static final String APPLICATION_NAME = "VoogaSalad";
 	private String APIKey;
 	private Translate translate;
