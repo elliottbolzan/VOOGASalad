@@ -1,13 +1,18 @@
 package player;
 
+import java.io.File;
+
 import game_data.Game;
 import game_data.GameData;
 import javafx.collections.ObservableList;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Loader {
 	private String gamePath;
 	private Game game;
 	private GameData data;
+	private MediaPlayer media;
 	
 	public Loader(String gameFolderPath){
 		gamePath = gameFolderPath;
@@ -17,29 +22,49 @@ public class Loader {
 	private void setup(){
 		data = new GameData();
 		game = data.loadGame(gamePath);
+		String path = game.getSongPath();
+		if(!path.equals("")){
+			String uriString = new File(path).toURI().toString();
+			media = new MediaPlayer(new Media(uriString));
+		}else{
+			media = null;
+		}
+		
 	}
 	
 	public String getGamePath(){
 		return gamePath;
 	}
 	
-	public Game loadGame(){
+	public MediaPlayer getMediaPlayer(){
+		return media;
+	}
+	
+	protected Game loadGame(){
 		return game;
 	}
 	
-	public GameData loadData(){
+	protected void setGame(Game game){
+		this.game = game;
+	}
+	
+	protected GameData loadData(){
 		return data;
 	}
 	
-	public String getSongPath(){
+	protected void setData(GameData data){
+		this.data = data;
+	}
+	
+	protected String getSongPath(){
 		return game.getSongPath();
 	}
 	
-	public void saveGame(){
+	protected void saveGame(){
 		
 	}
 	
-	public ObservableList<Score> getScores(){
+	protected ObservableList<Score> getScores(){
 		return game.getScores();
 	}
 

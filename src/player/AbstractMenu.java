@@ -104,6 +104,10 @@ public abstract class AbstractMenu extends BorderPane implements Menu {
 	protected Stage getStage() {
 		return stage;
 	}
+	
+	protected Polyglot getGlot(){
+		return polyglot;
+	}
 
 	public Scene display() {
 		Scene scene = new Scene(this, 1000, 600);

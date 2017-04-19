@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -35,31 +37,51 @@ public class GameSaver
 	 */
 	public void saveGame(Game game, String parentDirectoryPath) {
 		this.game = game;
+		
 		gameXMLFactory = new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
 		
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
 		createFolder(gameFolderPath);
-		
+
 		saveLevels(game.getLevels(), gameFolderPath);
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), gameFolderPath);
 		saveCamera(game.getCamera(), gameFolderPath);
+		saveDocument(gameFolderPath, "settings.xml");
+	}
+	
+	/**
+	 * Saves the state of the game to a non hard coded file in the folder
+	 * @param game
+	 * @param parentDirectoryPath
+	 * @param saveName
+	 */
+	public void saveGameState(Game game, String gameFolderPath, String saveName){
+		this.game = game;
 		
-		saveDocument(gameFolderPath);
+		gameXMLFactory = new GameXMLFactory();
+		gameXMLFactory.setName(game.getName());
+		
+		saveDefaults(game.getDefaults(), gameFolderPath);
+		saveSong(game.getSongPath(), gameFolderPath);
+		saveCamera(game.getCamera(), gameFolderPath);
+		saveLevels(game.getLevels(), gameFolderPath);
+		saveDocument(gameFolderPath, saveName);
 	}
 	
 	/**
 	 * Saves the document as a whole, after the XML serializing is done
 	 * @param gameFolderPath : top-level directory of the game
 	 */
-	private void saveDocument(String gameFolderPath) {
+	private void saveDocument(String gameFolderPath, String filename) {
 		Document doc = gameXMLFactory.getDocument();
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(gameFolderPath + File.separator + "settings.xml"));
+			StreamResult result = new StreamResult(new File(gameFolderPath + File.separator + filename));
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
 			//TODO
@@ -168,12 +190,11 @@ public class GameSaver
 		String relativeImagePath = "resources" + File.separator + entity.getName() + "Image.png";
 		saveEntityImage(absoluteImagePath, relativeImagePath, gameFolderPath);
 		
-		entity.setImagePath(relativeImagePath);
+		//entity.setImagePath(relativeImagePath);
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
 		String xmlString = xStream.toXML(entity);
 		entity.setImagePath(absoluteImagePath);
-		
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 	

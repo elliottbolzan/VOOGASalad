@@ -34,8 +34,8 @@ public class GameLoader {
 	 * @return
 	 * @throws NotAGameFolderException : incorrect folder path exception
 	 */
-	public Game loadGame(String gameFolderPath) throws NotAGameFolderException {
-		File dataFile = new File(gameFolderPath + File.separator + "settings.xml");
+	public Game loadGame(String gameFolderPath, String saveName) throws NotAGameFolderException {
+		File dataFile = new File(gameFolderPath + File.separator + saveName);
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -43,7 +43,7 @@ public class GameLoader {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = factory.newDocumentBuilder();
-			doc = docBuilder.parse(gameFolderPath + File.separator + "settings.xml");
+			doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
 		} catch (Exception e) {
 			//TODO
 		}
@@ -76,7 +76,7 @@ public class GameLoader {
 	private void addSong(Game game, Document doc, String gameFolderPath) {
 		try {
 			NodeList songNodes = doc.getElementsByTagName("Resources");
-			game.setSongPath(gameFolderPath + File.separator + songNodes.item(0).getAttributes().item(0).getNodeValue());
+			game.setSongPath(gameFolderPath + File.separator + convertPathForSystem(songNodes.item(0).getAttributes().item(0).getNodeValue()));
 		} catch (Exception e) {
 			game.setSongPath("");
 		}
@@ -92,7 +92,7 @@ public class GameLoader {
 		//TODO
 		Element cameraNode = (Element) doc.getElementsByTagName("Camera").item(0);
 		Entity camera = getEntityFromElement(cameraNode);
-		camera.setImagePath("file:" + gameFolderPath + File.separator + camera.getImagePath());
+		camera.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(camera.getImagePath()));
 		game.setCamera((CameraEntity)camera);
 	}
 	
@@ -154,11 +154,31 @@ public class GameLoader {
 		for (int i = 0; i < entitiesList.getLength(); i++) {
 			if (entitiesList.item(i).getNodeName().equals("Entity")) {
 				Entity instantiatedEntity = getEntityFromElement((Element) entitiesList.item(i));
-				instantiatedEntity.setImagePath("file:" + gameFolderPath + File.separator + instantiatedEntity.getImagePath());
+				instantiatedEntity.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(instantiatedEntity.getImagePath()));
 				entityList.add(instantiatedEntity);
 			}
 		}
 		return entityList;
+	}
+	
+	/**
+	 * Converts file separators to match the system
+	 * @param path
+	 * @return
+	 */
+	private String convertPathForSystem(String path){
+		String newPath = path;
+		if(File.separator.equals("/")){
+			if(path.contains("\\")){
+				newPath = path.replace("\\", File.separator);
+			}		
+		}else{
+			if(path.contains("/")){
+				newPath = path.replace("/", File.separator);
+			} 
+		}
+
+		return newPath;
 	}
 
 	/**
