@@ -3,7 +3,6 @@ package player;
 import java.util.ResourceBundle;
 
 import engine.game.gameloop.GameLoop;
-import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -13,28 +12,22 @@ import polyglot.Polyglot;
 
 public abstract class AbstractPlayer extends BorderPane {
 
+	private Stage stage;
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private MediaPlayer songPlayer;
 	
 	private Loader loader;
-	private Game game;
 	private GameLoop gameLoop;
-	private Stage stage;
 	private Scene gameScene;
 	private Scene loadScene;
-	private String path;
-
 
 	public AbstractPlayer(Stage primaryStage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
 		this.stage = primaryStage;
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
-		
 		this.loader = loader;
-		this.game = loader.loadGame();
-		path = loader.getGamePath();
-
+		
 		playSong();
 		buildStage();
 		buildGameView();
@@ -51,9 +44,9 @@ public abstract class AbstractPlayer extends BorderPane {
 	}
 
 	protected void buildGameView() {
-		if (!path.equals("")) {
+		if (!loader.getGamePath().equals("")) {
 			Overlay scorebar = new Overlay(polyglot, IOResources);
-			gameLoop = new GameLoop(gameScene, game, scorebar);
+			gameLoop = new GameLoop(gameScene, loader.loadGame(), scorebar);
 			
 			StackPane pane = new StackPane();
 			pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());
@@ -72,7 +65,7 @@ public abstract class AbstractPlayer extends BorderPane {
 	}
 	
 	protected void exit() {
-		if (!path.equals("")) {
+		if (!loader.getGamePath().equals("")) {
 			gameLoop.pauseTimeline();
 			if (songPlayer != null) { 
 				songPlayer.pause();
@@ -87,5 +80,13 @@ public abstract class AbstractPlayer extends BorderPane {
 	
 	protected Loader getLoader() {
 		return this.loader;
+	}
+	
+	protected ResourceBundle getResources() {
+		return IOResources;
+	}
+	
+	protected Polyglot getPolyglot() {
+		return polyglot;
 	}
 }

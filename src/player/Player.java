@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import polyglot.Polyglot;
 
@@ -23,9 +22,6 @@ public class Player extends AbstractPlayer {
 
 	private static final int CONTROLS_HEIGHT = 42;
 
-	private ResourceBundle IOResources;
-	private Polyglot polyglot;
-
 	private Button playButton;
 	private boolean isPaused;
 	private ObservableList<String> saveStates;
@@ -36,8 +32,6 @@ public class Player extends AbstractPlayer {
 	public Player(Stage primaryStage, ObservableList<String> saveStates, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
 		super(primaryStage, loader, polyglot, IOResources);
 		this.saveStates = saveStates;
-		this.polyglot = polyglot;
-		this.IOResources = IOResources;
 		
 		this.buildControlBar();
 
@@ -45,16 +39,16 @@ public class Player extends AbstractPlayer {
 	}
 
 	private void buildControlBar() {
-		ComponentMaker factory = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		ComponentMaker factory = new ComponentMaker(this.getPolyglot(), this.getResources().getString("StylesheetPath"));
 		
 		pauseImage = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("PausePath"))));
+				new Image(getClass().getClassLoader().getResourceAsStream(this.getResources().getString("PausePath"))));
 		playImage = new ImageView(
-				new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("PlayPath"))));
+				new Image(getClass().getClassLoader().getResourceAsStream(this.getResources().getString("PlayPath"))));
 		playButton = factory.makeImageButton("PauseButtonText", pauseImage, e -> this.togglePlayPause(isPaused), true);
 		playButton.setPrefHeight(CONTROLS_HEIGHT);
 
-		ImageView restartImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("RestartPath"))));
+		ImageView restartImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(this.getResources().getString("RestartPath"))));
 		Button restartButton = factory.makeImageButton("RestartButtonText", restartImage, e -> this.restart(), true);
 		restartButton.setPrefHeight(CONTROLS_HEIGHT);
 
@@ -71,12 +65,12 @@ public class Player extends AbstractPlayer {
 	private void togglePlayPause(boolean play) {
 		if (play) {
 			isPaused = false;
-			playButton.textProperty().bind(polyglot.get("PauseButtonText"));
+			playButton.textProperty().bind(this.getPolyglot().get("PauseButtonText"));
 			playButton.setGraphic(this.pauseImage);
 			this.getRunningGameLoop().startTimeline();
 		} else {
 			isPaused = true;
-			playButton.textProperty().bind(polyglot.get("PlayButtonText"));
+			playButton.textProperty().bind(this.getPolyglot().get("PlayButtonText"));
 			playButton.setGraphic(this.playImage);
 			this.getRunningGameLoop().pauseTimeline();
 		}
