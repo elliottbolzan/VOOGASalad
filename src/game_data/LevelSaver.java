@@ -15,29 +15,30 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class LevelSaver
-{
+public class LevelSaver {
 
 	private List<Element> entityNodes;
 	private String folderPath;
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document doc;
-	
+
 	/**
 	 * Constructor of levelsaver, giving the input elements
+	 * 
 	 * @param inputentitynodes
-	 * 		initialize entity nodes to this
+	 *            initialize entity nodes to this
 	 */
-	public LevelSaver(List<Element> inputentitynodes){
-		entityNodes=inputentitynodes;
+	public LevelSaver(List<Element> inputentitynodes) {
+		entityNodes = inputentitynodes;
 	}
 
 	/**
 	 * Saves the level and returns the string from the document builder
+	 * 
 	 * @return
 	 */
-	public String saveLevel(){
+	public String saveLevel() {
 		docFactory = DocumentBuilderFactory.newInstance();
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
@@ -47,19 +48,20 @@ public class LevelSaver
 		doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("Entities");
 		doc.appendChild(rootElement);
-		for(int i=0;i<entityNodes.size();i++){
-			addLevelEntity(i+1, entityNodes.get(i),rootElement);
+		for (int i = 0; i < entityNodes.size(); i++) {
+			addLevelEntity(i + 1, entityNodes.get(i), rootElement);
 		}
 		return toString(doc);
 	}
-	
+
 	/**
 	 * Saves the song string path and returns the document string
+	 * 
 	 * @param songPath
-	 * 			song path to be saved
+	 *            song path to be saved
 	 * @return
 	 */
-	public String saveSong(String songPath){
+	public String saveSong(String songPath) {
 		docFactory = DocumentBuilderFactory.newInstance();
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
@@ -74,39 +76,41 @@ public class LevelSaver
 
 		return toString(doc);
 	}
-	
+
 	/**
 	 * Helper method to convert a Document into an XML string
+	 * 
 	 * @param doc
 	 * @return
 	 */
 	public String toString(Document doc) {
-	    try {
-	        StringWriter sw = new StringWriter();
-	        TransformerFactory tf = TransformerFactory.newInstance();
-	        Transformer transformer = tf.newTransformer();
-	        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-	        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-	        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-	        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+		try {
+			StringWriter sw = new StringWriter();
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer = tf.newTransformer();
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+			transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
-	        transformer.transform(new DOMSource(doc), new StreamResult(sw));
-	        return sw.toString();
-	    } catch (Exception ex) {
-	        throw new RuntimeException("Error converting to String", ex);
-	    }
+			transformer.transform(new DOMSource(doc), new StreamResult(sw));
+			return sw.toString();
+		} catch (Exception ex) {
+			throw new RuntimeException("Error converting to String", ex);
+		}
 	}
-	
+
 	/**
 	 * Adds a level entity from the entity element node (into the XML file)
+	 * 
 	 * @param entityNumber
-	 * 				the number of the entity
+	 *            the number of the entity
 	 * @param entityNode
-	 * 				element node to be written into XML
+	 *            element node to be written into XML
 	 * @param rootElement
-	 * 				rootelement to be used to append the entity too
+	 *            rootelement to be used to append the entity too
 	 */
-	private void addLevelEntity(int entityNumber, Element entityNode, Element rootElement){
+	private void addLevelEntity(int entityNumber, Element entityNode, Element rootElement) {
 		Element entity = doc.createElement("Entity");
 		rootElement.appendChild(entity);
 		Element importedEntityNode = (Element) doc.importNode(entityNode, true);
