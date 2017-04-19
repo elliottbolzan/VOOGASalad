@@ -7,6 +7,10 @@ import java.util.ResourceBundle;
 
 import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -16,8 +20,11 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import player.Loader;
 import player.MainMenu;
 import polyglot.Case;
@@ -70,21 +77,49 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void buildView() {
+		playSong();
+		ImageView logo = createLogo();
+		MenuBar menuBar = createMenu();
+		this.setTop(menuBar);
+		this.setCenter(logo);
+	}
 
+	private ImageView createLogo() {
 		ImageView imageView = new ImageView(new Image(IOResources.getString("LogoPath")));
 		imageView.setPreserveRatio(true);
 		imageView.setFitWidth(300);
+		RotateTransition rt = new RotateTransition(Duration.millis(600), imageView);
+		rt.setByAngle(180);
+		rt.setCycleCount(2);
+		rt.setAutoReverse(true);
+		playIn(1, e -> rt.play());
+		return imageView;
+	}
 
+	private MenuBar createMenu() {
 		MenuBar menuBar = new MenuBar();
 		Menu menuFile = makeMenu("GameMenu");
 		menuFile.getItems().addAll(makeMenuItem("NewButton", e -> newGame()),
 				makeMenuItem("EditButton", e -> editGame()), makeMenuItem("PlayButton", e -> playGame()));
 		Menu languageMenu = makeLanguageMenu();
 		menuBar.getMenus().addAll(menuFile, languageMenu);
+		menuBar.setOpacity(0);
+		FadeTransition ft = new FadeTransition(Duration.millis(300), menuBar);
+		ft.setFromValue(0.0);
+		ft.setToValue(1.0);
+		playIn(3.5, e -> ft.play());
+		return menuBar;
+	}
+	
+	private void playIn(double seconds, EventHandler<ActionEvent> handler) {
+		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(seconds), handler));
+		timeline.play();
+	}
 
-		this.setTop(menuBar);
-		this.setCenter(imageView);
-
+	private void playSong() {
+		Media media = new Media(new File("src/resources/intro.mp3").toURI().toString());
+		MediaPlayer mediaPlayer = new MediaPlayer(media);
+		playIn(1, e -> mediaPlayer.play());
 	}
 
 	private void newGame() {
@@ -144,7 +179,8 @@ public class StartMenu extends BorderPane {
 
 	private Menu makeLanguageMenu() {
 		Menu languageMenu = makeMenu("LanguageMenu");
-		MenuItem pickLanguage = makeMenuItem("PickLanguageItem", e -> new LanguagePicker(polyglot, IOResources, languages));
+		MenuItem pickLanguage = makeMenuItem("PickLanguageItem",
+				e -> new LanguagePicker(polyglot, IOResources, languages));
 		languageMenu.getItems().add(pickLanguage);
 		return languageMenu;
 	}
