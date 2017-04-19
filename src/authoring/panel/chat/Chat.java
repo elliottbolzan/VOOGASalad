@@ -3,7 +3,7 @@ package authoring.panel.chat;
 import java.util.Random;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

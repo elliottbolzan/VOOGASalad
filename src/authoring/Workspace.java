@@ -8,7 +8,6 @@ import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
 import authoring.components.ProgressDialog;
 import authoring.panel.Panel;
-import authoring.views.View;
 import engine.Entity;
 import game_data.Game;
 import game_data.GameData;
@@ -23,6 +22,7 @@ import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
 import player.Loader;
 import polyglot.Polyglot;
+import utils.views.View;
 
 
 /**

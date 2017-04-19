@@ -4,7 +4,7 @@ import java.io.File;
 import java.nio.file.Paths;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import game_data.Game;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;

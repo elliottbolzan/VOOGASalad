@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import engine.Entity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

@@ -76,6 +76,7 @@ public class LanguagePicker {
 	private void selected(String language) {
 		try {
 			polyglot.setLanguage(language);
+			stage.close();
 		} catch (PolyglotException exception) {
 			System.out.println(exception.getMessage());
 		}

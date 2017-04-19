@@ -1,4 +1,4 @@
-package authoring.views;
+package utils.views;
 
 import authoring.Workspace;
 import authoring.components.Direction;

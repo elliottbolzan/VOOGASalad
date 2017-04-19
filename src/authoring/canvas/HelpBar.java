@@ -2,7 +2,7 @@ package authoring.canvas;
 
 import authoring.Workspace;
 import authoring.components.HTMLDisplay;
-import authoring.views.View;
+import utils.views.View;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

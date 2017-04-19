@@ -4,8 +4,7 @@ import authoring.Workspace;
 import authoring.panel.creation.editors.EntityEditor;
 import authoring.panel.creation.pickers.*;
 import authoring.panel.display.EntityDisplay;
-import authoring.views.ConcreteView;
-import authoring.views.View;
+import utils.views.View;
 import engine.Entity;
 import engine.Event;
 import engine.game.EngineController;
@@ -23,12 +22,11 @@ import javafx.stage.Stage;
  *         serves as a wrapper for four main parts: the EntityInfo, the
  *         EntityEditor, the EventPicker, and the ActionPicker.
  */
-public class EntityMaker {
+public class EntityMaker extends View {
 
 	private Workspace workspace;
 	private EntityDisplay display;
 	private Stage stage;
-	private View view;
 	private SplitPane pane;
 	private EngineController engine;
 
@@ -68,14 +66,13 @@ public class EntityMaker {
 	}
 
 	private void setupView(Entity entity) {
-		view = new ConcreteView();
 		entityEditor = new EntityEditor(workspace, entity.clone(), engine.getAllEntities());
 		entityInfo = new EntityInfo(workspace, this);
 		eventPicker = new EventPicker(workspace, this);
 		actionPicker = new ActionPicker(workspace, this);
 		pane = new SplitPane(entityInfo, entityEditor, eventPicker, actionPicker);
 		pane.setDividerPositions(0.25, 0.5, 0.75);
-		view.setCenter(pane);
+		setCenter(pane);
 	}
 
 	private void setupStage() {
@@ -89,7 +86,7 @@ public class EntityMaker {
 	}
 
 	private Scene createScene() {
-		Scene scene = new Scene(view, 800, 400);
+		Scene scene = new Scene(this, 800, 400);
 		scene.getStylesheets().add(workspace.getIOResources().getString("StylesheetPath"));
 		return scene;
 	}
