@@ -1,8 +1,8 @@
 package authoring.views;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
 import authoring.components.Direction;
+import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -35,9 +35,9 @@ public abstract class CollapsibleView extends View {
 	 * @param hasToolbar
 	 *            whether a toolbar should be displayed.
 	 */
-	public CollapsibleView(Workspace workspace, SplitPane owner, String title, int dividerIndex, Direction collapseDirection,
-			boolean hasToolbar) {
-		super(title);
+	public CollapsibleView(Workspace workspace, SplitPane owner, StringBinding titleProperty, int dividerIndex,
+			Direction collapseDirection, boolean hasToolbar) {
+		super(titleProperty);
 		this.workspace = workspace;
 		this.owner = owner;
 		this.dividerIndex = dividerIndex;
@@ -54,8 +54,10 @@ public abstract class CollapsibleView extends View {
 		HBox spacing = new HBox();
 		spacing.maxWidth(Double.MAX_VALUE);
 		HBox.setHgrow(spacing, Priority.ALWAYS);
-		ToolBar toolBar = new ToolBar(new Label(getTitle()), spacing,
-				makeMinimizeButton(workspace.getResources().getString("MinimizePath")));
+		Label title = new Label();
+		title.textProperty().bind(getTitle());
+		ToolBar toolBar = new ToolBar(title, spacing,
+				makeMinimizeButton(workspace.getIOResources().getString("MinimizePath")));
 		toolBar.setPrefSize(getWidth(), 18);
 		setTop(toolBar);
 	}
@@ -68,8 +70,7 @@ public abstract class CollapsibleView extends View {
 	 * @return a minimize button.
 	 */
 	private Button makeMinimizeButton(String imagePath) {
-		ComponentMaker componentMaker = new ComponentMaker(workspace.getResources());
-		return componentMaker.makeTabButton(imagePath, e -> minimize(), "minimize", 16, 10);
+		return workspace.getMaker().makeTabButton(imagePath, e -> minimize(), "minimize", 16, 10);
 	}
 
 	/**

@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
 import authoring.views.View;
 import engine.Entity;
 import engine.game.Level;
@@ -31,7 +30,6 @@ public class LayerEditor extends View {
 	private Map<Integer, Layer> layers;
 	private int layerCount;
 	private int currLayer;
-	private ComponentMaker maker;
 
 	/**
 	 * Make a new LayerEditor.
@@ -40,9 +38,7 @@ public class LayerEditor extends View {
 	 *            Workspace that the LayerEditor will be in.
 	 */
 	public LayerEditor(Workspace workspace) {
-		super("");
 		this.workspace = workspace;
-		maker = new ComponentMaker(workspace.getResources());
 		setup();
 	}
 
@@ -325,9 +321,8 @@ public class LayerEditor extends View {
 	 * Show an error message
 	 */
 	private void showSelectMessage() {
-		ComponentMaker maker = new ComponentMaker(workspace.getResources());
-		String message = workspace.getResources().getString("SelectAnEntity");
-		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
+		Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
+				workspace.getPolyglot().get("SelectAnEntity"));
 		alert.show();
 	}
 
@@ -348,8 +343,8 @@ public class LayerEditor extends View {
 	 */
 	public void deleteLayer(int layer) {
 		if (layerCount == 1) {
-			String message = workspace.getResources().getString("LayerError");
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
+			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
+					workspace.getPolyglot().get("LayerError"));
 			alert.showAndWait();
 		} else {
 			executeDelete(layer);

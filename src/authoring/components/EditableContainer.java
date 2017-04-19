@@ -10,6 +10,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import polyglot.Case;
 
 /**
  * @author Elliott Bolzan
@@ -34,8 +35,8 @@ public abstract class EditableContainer extends View {
 	 * @param title
 	 *            the title of the EditableContainer.
 	 */
-	public EditableContainer(Workspace workspace, String title) {
-		super(title);
+	public EditableContainer(Workspace workspace, String titleProperty) {
+		super(workspace.getPolyglot().get(titleProperty, Case.TITLE));
 		this.workspace = workspace;
 		setup();
 	}
@@ -50,11 +51,10 @@ public abstract class EditableContainer extends View {
 	}
 
 	private void createButtons() {
-		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		VBox buttonBox = new VBox();
-		Button newButton = maker.makeButton("New", e -> createNew(), true);
-		Button editButton = maker.makeButton("Edit", e -> edit(), true);
-		Button deleteButton = maker.makeButton("Delete", e -> delete(), true);
+		Button newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
+		Button editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
+		Button deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
 		HBox modificationButtons = new HBox(editButton, deleteButton);
 		buttonBox.getChildren().addAll(newButton, modificationButtons);
 		setBottom(buttonBox);
@@ -70,9 +70,8 @@ public abstract class EditableContainer extends View {
 	 */
 	public boolean selectionExists(Object object) {
 		if (object == null) {
-			ComponentMaker maker = new ComponentMaker(workspace.getResources());
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
-					workspace.getResources().getString("PickSomething"));
+			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
+					workspace.getPolyglot().get("PickSomething"));
 			alert.show();
 		}
 		return object != null;

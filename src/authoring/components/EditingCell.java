@@ -21,10 +21,10 @@ import javafx.scene.input.KeyEvent;
  */
 public class EditingCell extends TableCell<Parameter, Object> {
 
+	private Workspace workspace;
 	private TextField textField;
 	private KeyCodeField keyCodeField;
 	private String invalidEdit;
-	private ComponentMaker maker;
 
 	/**
 	 * Creates an EditingCell.
@@ -33,8 +33,8 @@ public class EditingCell extends TableCell<Parameter, Object> {
 	 *            the workspace that owns the Cell.
 	 */
 	public EditingCell(Workspace workspace) {
-		maker = new ComponentMaker(workspace.getResources());
-		invalidEdit = workspace.getResources().getString("InvalidEdit");
+		this.workspace = workspace;
+		invalidEdit = workspace.getPolyglot().get("InvalidEdit").get();
 	}
 
 	@Override
@@ -149,7 +149,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 			commitEdit(input);
 		} catch (Exception e) {
 			String content = String.format(invalidEdit, param.getParameterClass().getSimpleName());
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
+			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
 			alert.show();
 		}
 	}

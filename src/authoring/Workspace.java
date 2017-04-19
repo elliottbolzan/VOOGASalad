@@ -16,12 +16,12 @@ import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import player.BasicPlayer;
+import polyglot.Polyglot;
 
 /**
  * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse
@@ -34,7 +34,8 @@ import player.BasicPlayer;
  */
 public class Workspace extends View {
 
-	private ResourceBundle resources;
+	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 	private ComponentMaker maker;
 	private GameData data;
 
@@ -49,15 +50,15 @@ public class Workspace extends View {
 	/**
 	 * Creates the Workspace.
 	 * 
-	 * @param resources
+	 * @param IOResources
 	 *            the ResourceBundle that pertains to this Workspace.
 	 * @param path
 	 *            the path of the Game to be loaded.
 	 */
-	public Workspace(ResourceBundle resources, String path) {
-		super("Workspace");
+	public Workspace(String path, Polyglot polyglot, ResourceBundle IOResources) {
 		this.path = path;
-		this.resources = resources;
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
 		setup();
 		if (!path.equals("")) {
 			load(path);
@@ -77,14 +78,14 @@ public class Workspace extends View {
 	private void setup() {
 		game = new Game();
 		data = new GameData();
-		maker = new ComponentMaker(resources);
+		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
 		defaults = new DefaultEntities(this);
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
-		pane.setDividerPositions(Double.parseDouble(resources.getString("DividerPosition")));
-		setPadding(new Insets(Integer.parseInt(resources.getString("WorkSpaceInsets"))));
+		pane.setDividerPositions(0.25);
+		setPadding(new Insets(5));
 		setCenter(pane);
 		dragToAddEntity();
 	}
@@ -147,16 +148,12 @@ public class Workspace extends View {
 	
 	private void askForOutputPath() {
 		path = "";
-		String outputFolder = new File(resources.getString("GamesPath")).getAbsolutePath();
+		String outputFolder = new File(IOResources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
 		File selectedDirectory = chooser.showDialog(getScene().getWindow());
 		if (selectedDirectory != null) {
 			path = selectedDirectory.getAbsolutePath();
 		}
-	}
-	
-	private void askForName() {
-
 	}
 
 	/**
@@ -168,7 +165,7 @@ public class Workspace extends View {
 	 */
 	public void test() {
 		createGame();
-		new BasicPlayer(game, path);
+		new BasicPlayer(game, path, polyglot, IOResources);
 	}
 	
 	private void createGame() {
@@ -186,12 +183,20 @@ public class Workspace extends View {
 			return true;
 		}
 	}
+	
+	public ComponentMaker getMaker() {
+		return maker;
+	}
+	
+	public Polyglot getPolyglot() {
+		return polyglot;
+	}
 
 	/**
 	 * @return the ResourceBundle for this View's descendants.
 	 */
-	public ResourceBundle getResources() {
-		return resources;
+	public ResourceBundle getIOResources() {
+		return IOResources;
 	}
 
 	/**
@@ -213,16 +218,6 @@ public class Workspace extends View {
 	 */
 	public Entity getSelectedEntity() {
 		return defaults.getSelectedEntity();
-	}
-
-	/**
-	 * Show an error message to the user.
-	 * 
-	 * @param message
-	 *            the message to be shown.
-	 */
-	public void showMessage(String message) {
-		maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).showAndWait();
 	}
 
 	/**

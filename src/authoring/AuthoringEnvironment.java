@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import polyglot.Polyglot;
 
 /**
  * @author Elliott Bolzan
@@ -13,7 +14,8 @@ import javafx.stage.Stage;
  */
 public class AuthoringEnvironment {
 
-	private ResourceBundle resources = ResourceBundle.getBundle("resources/AuthoringEnvironment");
+	private ResourceBundle IOResources;
+	private Polyglot polyglot;
 	private String gamePath;
 
 	/**
@@ -22,21 +24,23 @@ public class AuthoringEnvironment {
 	 * @param gamePath
 	 *            the path of the Game to be loaded.
 	 */
-	public AuthoringEnvironment(String gamePath) {
+	public AuthoringEnvironment(String gamePath, Polyglot polyglot, ResourceBundle IOResources) {
 		this.gamePath = gamePath;
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
 		setupStage();
 	}
 
 	/**
 	 * Creates a new AuthoringEnvironment.
 	 */
-	public AuthoringEnvironment() {
-		this("");
+	public AuthoringEnvironment(Polyglot polyglot, ResourceBundle IOResources) {
+		this("", polyglot, IOResources);
 	}
 
 	private void setupStage() {
 		Stage stage = new Stage();
-		stage.setTitle(resources.getString("Title"));
+		stage.titleProperty().bind(polyglot.get("AuthoringEnvironmentTitle"));
 		stage.setMinWidth(600);
 		stage.setMinHeight(300);
 		stage.setScene(createScene());
@@ -44,8 +48,8 @@ public class AuthoringEnvironment {
 	}
 
 	private Scene createScene() {
-		Scene scene = new Scene(new Workspace(resources, gamePath), 1000, 600);
-		scene.getStylesheets().add(resources.getString("StylesheetPath"));
+		Scene scene = new Scene(new Workspace(gamePath, polyglot, IOResources), 1000, 600);
+		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 		return scene;
 	}
 

@@ -28,8 +28,8 @@ public class LabeledField extends View {
 	 * @param editable whether the TextField should be editable or not.
 	 */
 	public LabeledField(Workspace workspace, String labelProperty, String text, boolean editable) {
-		super("");
-		Label label = new Label(workspace.getResources().getString(labelProperty));
+		Label label = new Label();
+		label.textProperty().bind(workspace.getPolyglot().get(labelProperty));
 		label.setMinWidth(Region.USE_PREF_SIZE);
 		label.setPadding(new Insets(5));
 		field = new TextField(text);

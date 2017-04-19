@@ -47,7 +47,7 @@ public class Canvas extends View {
 	private double height;
 
 	public Canvas(Workspace workspace) {
-		super(workspace.getResources().getString("CanvasTitle"));
+		super(workspace.getPolyglot().get("CanvasTitle"));
 		setup();
 	}
 

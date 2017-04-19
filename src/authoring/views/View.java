@@ -1,5 +1,6 @@
 package authoring.views;
 
+import javafx.beans.binding.StringBinding;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -21,21 +22,25 @@ import javafx.scene.layout.BorderPane;
  */
 public abstract class View extends BorderPane {
 
-	private String title;
+	private StringBinding title;
 
 	/**
-	 * Create a View and initialize its label.
+	 * Create a View.
 	 */
-	public View(String title) {
+	public View(StringBinding title) {
 		this.title = title;
 		setMinSize(0, 0);
 	}
 
+	public View() {
+		this(null);
+	}
+
 	/**
-	 * @return a String representing the View's title.
+	 * @return a StringBinding representing the View's title.
 	 */
-	public String getTitle() {
+	public StringBinding getTitle() {
 		return title;
 	}
-	
+
 }

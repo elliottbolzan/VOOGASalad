@@ -4,7 +4,6 @@ import java.io.File;
 import java.nio.file.Paths;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
 import authoring.views.View;
 import game_data.Game;
 import javafx.geometry.HPos;
@@ -16,6 +15,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
+import polyglot.Case;
 
 /**
  * The Settings sub-panel provides the user with the option of selecting his or
@@ -31,7 +31,6 @@ import javafx.stage.FileChooser;
 public class Settings extends View {
 
 	private Workspace workspace;
-	private ComponentMaker maker;
 	private TextField songField;
 	private TextField imageField;
 
@@ -43,13 +42,12 @@ public class Settings extends View {
 	 * @param workspace
 	 */
 	public Settings(Workspace workspace) {
-		super(workspace.getResources().getString("SettingsTitle"));
+		super(workspace.getPolyglot().get("SettingsTitle", Case.TITLE));
 		this.workspace = workspace;
 		setup();
 	}
 
 	private void setup() {
-		maker = new ComponentMaker(workspace.getResources());
 		GridPane grid = createGrid();
 		createSongSection(grid);
 		createImageSection(grid);
@@ -57,10 +55,11 @@ public class Settings extends View {
 	}
 	
 	private void createSongSection(GridPane grid) {
-		Label songLabel = new Label(workspace.getResources().getString("SongLabel"));
+		Label songLabel = new Label();
+		songLabel.textProperty().bind(workspace.getPolyglot().get("SongLabel"));
 		songField = new TextField(fileName(workspace.getGame().getSongPath()));
 		songField.setEditable(false);
-		Button songButton = maker.makeButton("MusicSelect",
+		Button songButton = workspace.getMaker().makeButton("MusicSelect",
 				e -> pickMedia(songField, getResource("MusicChooserTitle"), getResource("MusicChooserExtensions")),
 				true);
 		GridPane.setHalignment(songLabel, HPos.LEFT);
@@ -72,10 +71,11 @@ public class Settings extends View {
 	}
 	
 	private void createImageSection(GridPane grid) {
-		Label imageLabel = new Label(workspace.getResources().getString("BackgroundLabel"));
+		Label imageLabel = new Label();
+		imageLabel.textProperty().bind(workspace.getPolyglot().get("BackgroundLabel"));
 		imageField = new TextField();
 		imageField.setEditable(false);
-		Button imageButton = maker.makeButton("MusicSelect",
+		Button imageButton = workspace.getMaker().makeButton("MusicSelect",
 				e -> pickMedia(imageField, getResource("ImageChooserTitle"), getResource("ImageChooserExtension1"),
 						getResource("ImageChooserExtension2")),
 				true);
@@ -94,7 +94,7 @@ public class Settings extends View {
 		grid.setVgap(5);
 		ColumnConstraints column1 = new ColumnConstraints(70);
 		ColumnConstraints column2 = new ColumnConstraints(50, 150, 300);
-		ColumnConstraints column3 = new ColumnConstraints(50);
+		ColumnConstraints column3 = new ColumnConstraints(70);
 		column2.setHgrow(Priority.ALWAYS);
 		grid.getColumnConstraints().addAll(column1, column2, column3);
 		return grid;
@@ -105,8 +105,8 @@ public class Settings extends View {
 	}
 
 	private void pickMedia(TextField field, String extensionName, String... type) {
-		String directory = System.getProperty("user.dir") + workspace.getResources().getString("DefaultDirectory");
-		FileChooser chooser = maker.makeFileChooser(directory, extensionName, type);
+		String directory = System.getProperty("user.dir") + workspace.getIOResources().getString("DefaultDirectory");
+		FileChooser chooser = workspace.getMaker().makeFileChooser(directory, extensionName, type);
 		File selectedFile = chooser.showOpenDialog(getScene().getWindow());
 		if (selectedFile != null) {
 			String absolute = selectedFile.getAbsolutePath();
@@ -124,7 +124,7 @@ public class Settings extends View {
 	}
 
 	private String getResource(String input) {
-		return workspace.getResources().getString(input);
+		return workspace.getIOResources().getString(input);
 	}
 
 }
