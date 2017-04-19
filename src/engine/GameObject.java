@@ -17,11 +17,12 @@ public abstract class GameObject {
 	private transient ResourceBundle resources;
 	private List<Parameter> params;
 	private Entity entity;
-	private transient ResourceBundle gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
+	private transient ResourceBundle gameObjectExceptions;
 	private GameInfo info;
 
 	public GameObject(String name) {
 		resources = ResourceBundle.getBundle("resources/" + name);
+		gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
 		params = new ArrayList<Parameter>();
 	}
 
