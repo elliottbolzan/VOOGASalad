@@ -11,8 +11,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import player.Loader;
-import player.MainMenu;
-import player.Menu;
 import player.PlayerView;
 import polyglot.Polyglot;
 
@@ -82,6 +80,8 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	
 	private void setupView(String title) {
 		stage.getIcons().add(new Image(getResources().getString("IconPath")));
+		stage.setMinWidth(420);
+		stage.setMinHeight(600);
 		setupGrid();
 	}
 	

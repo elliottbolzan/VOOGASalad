@@ -52,12 +52,12 @@ public class Polyglot {
 	 *             an exception thrown if the provided parameters are incorrect.
 	 */
 	public Polyglot(String APIKey, String pathToResourceBundle, Locale locale) throws PolyglotException {
+		resources = ResourceBundle.getBundle(PATH_TO_EXCEPTION_MESSAGES);
 		try {
 			translateAPI = new TranslateAPI(APIKey);
 		} catch (Exception e) {
 			throw new PolyglotException(resources.getString("SetupFailure"), e);
 		}
-		resources = ResourceBundle.getBundle(PATH_TO_EXCEPTION_MESSAGES);
 		manager = new LanguageManager(pathToResourceBundle, locale);
 	}
 

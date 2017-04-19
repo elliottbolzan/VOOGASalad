@@ -6,10 +6,12 @@ import javafx.animation.FadeTransition;
 import javafx.beans.binding.StringBinding;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 import utils.views.View;
 
@@ -28,7 +30,6 @@ public class Tile extends View {
 		GridPane.setVgrow(this, Priority.ALWAYS);
 		GridPane.setValignment(this, VPos.TOP);
 		setOnMouseClicked(handler);
-		setMaxHeight(200);
 		createTitle(titleBinding);
 		setOpacity(0);
 		animate();
@@ -38,6 +39,9 @@ public class Tile extends View {
 		Label title = new Label();
 		title.getStyleClass().add("tile-title");
 		title.textProperty().bind(titleBinding);
+		title.setWrapText(true);
+		title.setPadding(new Insets(10));
+		title.setTextAlignment(TextAlignment.CENTER);
 		setCenter(title);
 	}
 	

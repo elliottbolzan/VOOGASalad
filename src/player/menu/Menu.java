@@ -1,4 +1,4 @@
-package player;
+package player.menu;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;

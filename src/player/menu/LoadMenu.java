@@ -1,4 +1,4 @@
-package player;
+package player.menu;
 
 import java.util.ResourceBundle;
 
@@ -9,8 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import player.menu.AbstractMenu;
-import player.menu.Tile;
+import player.Loader;
+import player.Player;
+import player.ReplaceSaveMenu;
 import polyglot.Case;
 import polyglot.Polyglot;
 

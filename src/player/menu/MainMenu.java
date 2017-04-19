@@ -1,10 +1,12 @@
-package player;
+package player.menu;
 
 import java.util.ResourceBundle;
 
 import javafx.stage.Stage;
-import player.menu.AbstractMenu;
-import player.menu.Tile;
+import player.AchievementsMenu;
+import player.HighscoreMenu;
+import player.Loader;
+import player.OptionsMenu;
 import polyglot.Case;
 import polyglot.Polyglot;
 

@@ -1,7 +1,7 @@
 package usecases;
 
 import javafx.scene.control.Button;
-import player.Menu;
+import player.menu.Menu;
 
 /**
  * 
