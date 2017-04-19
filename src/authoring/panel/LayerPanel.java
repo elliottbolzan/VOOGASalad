@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import authoring.Workspace;
 import authoring.components.LabeledField;
-import authoring.views.View;
+import utils.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

@@ -20,8 +20,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -77,7 +75,6 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void buildView() {
-		playSong();
 		ImageView logo = createLogo();
 		MenuBar menuBar = createMenu();
 		this.setTop(menuBar);
@@ -114,12 +111,6 @@ public class StartMenu extends BorderPane {
 	private void playIn(double seconds, EventHandler<ActionEvent> handler) {
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(seconds), handler));
 		timeline.play();
-	}
-
-	private void playSong() {
-		Media media = new Media(new File("src/resources/intro.mp3").toURI().toString());
-		MediaPlayer mediaPlayer = new MediaPlayer(media);
-		playIn(1, e -> mediaPlayer.play());
 	}
 
 	private void newGame() {

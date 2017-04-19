@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import engine.Entity;
 import engine.game.Level;
 import javafx.scene.Node;

@@ -21,7 +21,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 
-public class OptionsMenu extends AbstractMenu {
+public class OptionsMenu extends PlayerView {
+	
+	private Loader loader;
 	private ScrollPane center;
 	private Map<String, Parameter> keys;
 	private Map<String, Parameter> keyReleases;
@@ -30,7 +32,8 @@ public class OptionsMenu extends AbstractMenu {
 	private int count = 0;
 
 	public OptionsMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(stage, loader, "OptionsTitle", polyglot, IOResources);
+		super(polyglot, IOResources);
+		this.loader = loader;
 		setup();
 	}
 
@@ -61,7 +64,7 @@ public class OptionsMenu extends AbstractMenu {
 	}
 
 	private void loadKeyBindings() {
-		entities = (List<Entity>) this.getLoader().loadGame().getLevels().get(0).getEntities();
+		entities = (List<Entity>) loader.loadGame().getLevels().get(0).getEntities();
 		for (int i = 0; i < entities.size(); i++) {
 			// Get all the events of each entity
 			List<Event> events = entities.get(i).getEvents();

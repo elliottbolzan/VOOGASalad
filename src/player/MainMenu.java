@@ -2,24 +2,18 @@ package player;
 
 import java.util.ResourceBundle;
 
-import javafx.geometry.Pos;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import player.menu.AbstractMenu;
+import player.menu.Tile;
+import polyglot.Case;
 import polyglot.Polyglot;
 
 public class MainMenu extends AbstractMenu {
 
-	private Polyglot polyglot;
-	private ResourceBundle IOResources;
-
 	public MainMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
 		super(stage, loader, "PlayerTitle", polyglot, IOResources);
-		this.polyglot = polyglot;
-		this.IOResources = IOResources;
-		setupScene();
-		stage.setScene(display());
-		setTitleFixed(getLoader().loadGame().getName());
-		backButton().setOpacity(0.0);
+		stage.setScene(createScene());
+		stage.setTitle(getLoader().loadGame().getName());
 		stage.show();
 	}
 
@@ -27,35 +21,19 @@ public class MainMenu extends AbstractMenu {
 		this(new Stage(), loader, polyglot, IOResources);
 	}
 
-	private void setupScene() {
-		VBox menu = new VBox(8);
-
-		menu.getChildren().addAll(
-				this.getFactory().makeButton("StartButton",
-						e -> getStage()
-								.setScene(new LoadMenu(getStage(), getLoader(), polyglot, IOResources).display()),
-						true),
-				getFactory().makeButton("Highscores",
-						e -> getStage()
-								.setScene(new HighscoreMenu(getStage(), getLoader(), polyglot, IOResources).display()),
-						true),
-				getFactory().makeButton("AchievementsButton",
-						e -> getStage().setScene(
-								new AchievementsMenu(getStage(), getLoader(), polyglot, IOResources).display()),
-						true),
-				getFactory().makeButton("OptionsButton",
-						e -> getStage()
-								.setScene(new OptionsMenu(getStage(), getLoader(), polyglot, IOResources).display()),
-						true),
-				getFactory().makeButton("InfoButton",
-						e -> getStage()
-								.setScene(new InfoMenu(getStage(), getLoader(), polyglot, IOResources).display()),
-						true),
-				getFactory().makeButton("ExitButton", e -> getStage().close(), true));
-
-		this.setCenter(menu);
-		menu.setAlignment(Pos.CENTER);
-		menu.maxWidthProperty().bind(getStage().widthProperty().multiply(0.3));
+	@Override
+	public void addElements() {
+		Tile playTile = new Tile(getPolyglot().get("StartButton", Case.TITLE), "red", e -> getStage()
+				.setScene(new LoadMenu(getStage(), getLoader(), getPolyglot(), getResources()).createScene()));
+		Tile scoresTile = new Tile(getPolyglot().get("Highscores", Case.TITLE), "orange", e -> getStage()
+				.setScene(new HighscoreMenu(getStage(), getLoader(), getPolyglot(), getResources()).createScene()));
+		Tile achievementsTile = new Tile(getPolyglot().get("AchievementsButton", Case.TITLE), "yellow", e -> getStage()
+				.setScene(new AchievementsMenu(getStage(), getLoader(), getPolyglot(), getResources()).createScene()));
+		Tile optionsTile = new Tile(getPolyglot().get("OptionsButton", Case.TITLE), "green", e -> getStage()
+				.setScene(new OptionsMenu(getStage(), getLoader(), getPolyglot(), getResources()).createScene()));
+		Tile infoTile = new Tile(getPolyglot().get("InfoButton", Case.TITLE), "blue", e -> getStage()
+				.setScene(new OptionsMenu(getStage(), getLoader(), getPolyglot(), getResources()).createScene()));
+		addTiles(false, playTile, scoresTile, achievementsTile, optionsTile, infoTile);
 	}
 
 }

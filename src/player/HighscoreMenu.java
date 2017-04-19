@@ -13,12 +13,14 @@ import polyglot.Polyglot;
  * @author Jesse
  *
  */
-public class HighscoreMenu extends AbstractMenu{
+public class HighscoreMenu extends PlayerView {
 	
 	private TableView<Score> scoreTable;	
+	private Loader loader;
 
 	public HighscoreMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(stage, loader, "Highscores", polyglot, IOResources);
+		super(polyglot, IOResources);
+		this.loader = loader;
 		setupScene();
 		loadScores();
 	}
@@ -27,13 +29,11 @@ public class HighscoreMenu extends AbstractMenu{
 	private void setupScene(){
 		scoreTable = new TableView<>();
 		scoreTable.getColumns().setAll(makeRankColumn(), makeScoreColumn(), makeTimeColumn());
-		//scoreTable.setEditable(false);
-		
 		this.setCenter(scoreTable);
 	}
 	
 	private void loadScores(){
-		scoreTable.setItems(getLoader().getScores());
+		scoreTable.setItems(loader.getScores());
 	}
 	
 	private TableColumn<Score, Integer> makeRankColumn(){
