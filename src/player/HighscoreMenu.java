@@ -2,12 +2,15 @@ package player;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
+import java.util.ResourceBundle;
+
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.ResizeFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import polyglot.Polyglot;
 
 /**
  * 
@@ -18,8 +21,8 @@ public class HighscoreMenu extends AbstractMenu{
 	
 	private TableView<Score> scoreTable;	
 
-	public HighscoreMenu(Stage stage, Loader loader) {
-		super(stage, loader, "Highscores");
+	public HighscoreMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, loader, "Highscores", polyglot, IOResources);
 		setupScene();
 		loadScores();
 	}

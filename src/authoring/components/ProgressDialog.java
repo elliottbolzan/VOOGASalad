@@ -38,7 +38,7 @@ public class ProgressDialog {
 		stage.initStyle(StageStyle.UNIFIED);
 		stage.setResizable(false);
 		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.setTitle(workspace.getResources().getString("ProgressTitle"));
+		stage.titleProperty().bind(workspace.getPolyglot().get("ProgressTitle"));
 	}
 	
 	private void setupView() {
@@ -46,14 +46,15 @@ public class ProgressDialog {
 		progressBar.setPrefSize(Double.MAX_VALUE, 30);
 		progressBar.setPadding(new Insets(5));
 		HBox.setHgrow(progressBar, Priority.ALWAYS);
-		Label info = new Label(workspace.getResources().getString("ProgressContent"));
+		Label info = new Label();
+		info.textProperty().bind(workspace.getPolyglot().get("ProgressContent"));
 		VBox box = new VBox();
 		box.setSpacing(10);
 		box.setAlignment(Pos.CENTER);
 		box.getChildren().addAll(progressBar, info);
 		box.setPadding(new Insets(20));
 		Scene scene = new Scene(box, 300, 80);
-		scene.getStylesheets().add(workspace.getResources().getString("StylesheetPath"));
+		scene.getStylesheets().add(workspace.getIOResources().getString("StylesheetPath"));
 		stage.setScene(scene);
 	}
 

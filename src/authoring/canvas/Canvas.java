@@ -32,7 +32,8 @@ import javafx.scene.shape.Circle;
  * @author jimmy
  *
  */
-public class Canvas extends View {
+public class Canvas extends View
+{
 
 	private final int TILE_SIZE = 25;
 	private final int DEFAULT_WIDTH = 800;
@@ -47,14 +48,15 @@ public class Canvas extends View {
 	private double height;
 
 	public Canvas(Workspace workspace) {
-		super(workspace.getResources().getString("CanvasTitle"));
+		super(workspace.getPolyglot().get("CanvasTitle"));
 		setup();
 	}
 
 	/**
 	 * Remove all of the entities from within the canvas.
 	 */
-	public void clear() {
+	public void clear()
+	{
 		setup();
 	}
 
@@ -66,7 +68,8 @@ public class Canvas extends View {
 	 *            EventHandler that determines what happens when the mouse is
 	 *            clicked on the pane of the Canvas.
 	 */
-	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler) {
+	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler)
+	{
 		canvas.setOnMouseClicked(eventHandler);
 	}
 
@@ -78,7 +81,8 @@ public class Canvas extends View {
 	 *            EventHandler that determines what happens when the mouse is
 	 *            dragged on the pane of the Canvas.
 	 */
-	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler) {
+	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler)
+	{
 		canvas.setOnMouseDragged(eventHandler);
 	}
 
@@ -86,7 +90,8 @@ public class Canvas extends View {
 	 * Set up the canvas (set all of its entities and displays to the default
 	 * ones).
 	 */
-	private void setup() {
+	private void setup()
+	{
 		gridNodes = new Group();
 		// entityRegions = new HashMap<Node, Region>();
 		entities = new ArrayList<EntityView>();
@@ -99,7 +104,8 @@ public class Canvas extends View {
 	 * 
 	 * @return x value of top-left corner of scroll panel.
 	 */
-	public double getXScrollAmount() {
+	public double getXScrollAmount()
+	{
 		double viewPortX = scrollScreen.getViewportBounds().getWidth();
 		return scrollScreen.getHvalue() * (width - viewPortX);
 	}
@@ -109,7 +115,8 @@ public class Canvas extends View {
 	 * 
 	 * @return y value of top-left corner.
 	 */
-	public double getYScrollAmount() {
+	public double getYScrollAmount()
+	{
 		double viewportY = scrollScreen.getViewportBounds().getHeight();
 		return scrollScreen.getVvalue() * (height - viewportY);
 	}
@@ -119,7 +126,8 @@ public class Canvas extends View {
 	 * 
 	 * @return canvas tile size.
 	 */
-	public double getTileSize() {
+	public double getTileSize()
+	{
 		return TILE_SIZE;
 	}
 
@@ -128,7 +136,8 @@ public class Canvas extends View {
 	 * 
 	 * @return ScrollPane scroller for canvas
 	 */
-	private ScrollPane createScroller() {
+	private ScrollPane createScroller()
+	{
 		scrollScreen = new ScrollPane();
 		canvas = new Pane();
 		canvas.setPrefHeight(height);
@@ -142,6 +151,17 @@ public class Canvas extends View {
 		return scrollScreen;
 	}
 
+	public List<EntityView> getSelectedEntities()
+	{
+		List<EntityView> selected = new ArrayList<EntityView>();
+		entities.forEach(e -> {
+			if (e.isSelected()) {
+				selected.add(e);
+			}
+		});
+		return selected;
+	}
+
 	/**
 	 * Add an entity to the top-left corner of the canvas. This method makes a
 	 * clone of the given Entity and creates an actual EntityView from it ((The
@@ -151,7 +171,8 @@ public class Canvas extends View {
 	 *            Entity to be added to the canvas.
 	 * @return EntityView that is displayed in the Canvas.
 	 */
-	public EntityView addEntity(Entity entity) {
+	public EntityView addEntity(Entity entity)
+	{
 		return this.addEntity(entity, 0, 0);
 	}
 
@@ -168,8 +189,9 @@ public class Canvas extends View {
 	 *            y position
 	 * @return EntityView that is displayed in the Canvas.
 	 */
-	public EntityView addEntity(Entity entity, double x, double y) {
-		EntityView newEntity = new EntityView(entity, TILE_SIZE, x, y);
+	public EntityView addEntity(Entity entity, double x, double y)
+	{
+		EntityView newEntity = new EntityView(entity, this, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
 		newEntity.setTranslateY(tiledCoordinate.getY());
@@ -188,7 +210,8 @@ public class Canvas extends View {
 	 * @param entity
 	 *            EntityView to be removed from the Canvas.
 	 */
-	public void removeEntity(EntityView entity) {
+	public void removeEntity(EntityView entity)
+	{
 		entities.remove(entity);
 		canvas.getChildren().remove(entity);
 	}
@@ -196,7 +219,8 @@ public class Canvas extends View {
 	/**
 	 * Draw the grid for the Canvas
 	 */
-	private void drawGrid() {
+	private void drawGrid()
+	{
 		for (int i = 0; i < width / TILE_SIZE; i++) {
 			for (int j = 0; j < height / TILE_SIZE; j++) {
 				drawGridDot(i, j);
@@ -212,7 +236,8 @@ public class Canvas extends View {
 	 * @param tileY
 	 *            y coordinate of the grid dot
 	 */
-	private void drawGridDot(double tileX, double tileY) {
+	private void drawGridDot(double tileX, double tileY)
+	{
 		Circle gridMarker = new Circle();
 		gridMarker.setCenterX(tileX * TILE_SIZE);
 		gridMarker.setCenterY(tileY * TILE_SIZE);
@@ -231,11 +256,14 @@ public class Canvas extends View {
 	 * @param entity
 	 *            EntityView to bind the scrollbar to.
 	 */
-	private void makeDraggable(EntityView entity) {
-		entity.translateXProperty().addListener(new ChangeListener<Number>() {
+	private void makeDraggable(EntityView entity)
+	{
+		entity.translateXProperty().addListener(new ChangeListener<Number>()
+		{
 
 			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldX, Number newX) {
+			public void changed(ObservableValue<? extends Number> observable, Number oldX, Number newX)
+			{
 				scrollScreen.setHvalue(newX.doubleValue() / (width - entity.getWidth()));
 				if (newX.intValue() < 0) {
 					entity.setTranslateX(0);
@@ -247,10 +275,12 @@ public class Canvas extends View {
 
 		});
 
-		entity.translateYProperty().addListener(new ChangeListener<Number>() {
+		entity.translateYProperty().addListener(new ChangeListener<Number>()
+		{
 
 			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldY, Number newY) {
+			public void changed(ObservableValue<? extends Number> observable, Number oldY, Number newY)
+			{
 				scrollScreen.setVvalue(newY.doubleValue() / (height - entity.getHeight()));
 				if (newY.intValue() < 0) {
 					entity.setTranslateY(0);
@@ -274,7 +304,8 @@ public class Canvas extends View {
 	 * This method draws the current bounds of the grid and updates the bounds
 	 * of the layer.
 	 */
-	private void updateDisplay() {
+	private void updateDisplay()
+	{
 		updateCanvasBounds();
 		canvas.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		gridNodes.getChildren().clear();
@@ -287,7 +318,8 @@ public class Canvas extends View {
 	 * Updates the bounds of the canvas based on the position of the entity
 	 * furthest from the origin in each direction (x and y)
 	 */
-	private void updateCanvasBounds() {
+	private void updateCanvasBounds()
+	{
 		double maxX = DEFAULT_WIDTH;
 		double maxY = DEFAULT_HEIGHT;
 		for (EntityView entity : entities) {
@@ -314,7 +346,8 @@ public class Canvas extends View {
 	 *            y position
 	 * @return tiled coordinate of the given input.
 	 */
-	private Point2D getTiledCoordinate(double x, double y) {
+	private Point2D getTiledCoordinate(double x, double y)
+	{
 		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
 		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
 		return new Point2D(gridX, gridY);

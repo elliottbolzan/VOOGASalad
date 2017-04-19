@@ -1,5 +1,10 @@
 package player;
 
+import java.util.ResourceBundle;
+
+import javafx.stage.Stage;
+import polyglot.Polyglot;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,38 +24,37 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 
-public class OptionsMenu extends AbstractMenu{
+public class OptionsMenu extends AbstractMenu {
 	private ScrollPane center;
 	private Map<String, Parameter> keys;
 	private Map<String, Parameter> keyReleases;
 	private List<Entity> entities;
 	private GridPane grid;
 	private int count = 0;
-	
-	public OptionsMenu(Stage stage, Loader loader){
-		super(stage, loader, "OptionsTitle");
+
+	public OptionsMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, loader, "OptionsTitle", polyglot, IOResources);
 		setup();
 	}
 
-	private void setup(){
+	private void setup() {
 		center = new ScrollPane();
 		center.setFitToWidth(true);
 		keys = new HashMap<>();
 		keyReleases = new HashMap<>();
 		this.setCenter(center);
-		
 		loadKeyBindings();
 		setupView();
 	}
-	
+
 	private void setupView(){
 		grid = new GridPane();		
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(20);
 		grid.setVgap(20);
 		center.setContent(grid);
+
 		
 		this.addHeading(getResources().getString("Controls"), count);
 		count++;
@@ -83,36 +87,37 @@ public class OptionsMenu extends AbstractMenu{
 		
 		return volume;
 	}
-	
-	private void loadKeyBindings(){
+
+	private void loadKeyBindings() {
 		entities = (List<Entity>) this.getLoader().loadGame().getLevels().get(0).getEntities();
-		for(int i = 0; i < entities.size(); i++){
-			//Get all the events of each entity
+		for (int i = 0; i < entities.size(); i++) {
+			// Get all the events of each entity
 			List<Event> events = entities.get(i).getEvents();
-			for(int j = 0; j < events.size(); j++){
-				//Get parameters and actions for each event
+			for (int j = 0; j < events.size(); j++) {
+				// Get parameters and actions for each event
 				List<Parameter> params = events.get(j).getParams();
 				List<Action> actions = events.get(j).getActions();
-				
-				for(int k = 0; k < params.size(); k++){
-					//Look for Key parameters
-					if(params.get(k).getName().equals("Key")){
-						//If the action has no parameters then its a key release event and will be ignored
-						if(actions.get(k).getParams().size() > 0){
-							//name of action associated with key event
+
+				for (int k = 0; k < params.size(); k++) {
+					// Look for Key parameters
+					if (params.get(k).getName().equals("Key")) {
+						// If the action has no parameters then its a key
+						// release event and will be ignored
+						if (actions.get(k).getParams().size() > 0) {
+							// name of action associated with key event
 							String action = actions.get(k).getParams().get(0).getName();
-							//value for the action
+							// value for the action
 							String value = actions.get(k).getParams().get(0).getObject().toString();
-							//The Parameter with key value
+							// The Parameter with key value
 							Parameter key = params.get(k);
-							String actionValue = action+" "+value;
+							String actionValue = action + " " + value;
 							keys.put(actionValue, key);
-						}else{
-							//map key value to the parameter
+						} else {
+							// map key value to the parameter
 							keyReleases.put(params.get(k).getObject().toString(), params.get(k));
-						}					
+						}
 					}
-				}				
+				}
 			}
 		}
 	}
@@ -135,23 +140,24 @@ public class OptionsMenu extends AbstractMenu{
 		keyLabel.setText(key);
 		keyLabel.setEditable(false);
 		keyLabel.setOnMouseClicked(e -> keyLabelAction(keyLabel, actionLabel));
-		
+
 		return keyLabel;
 	}
-	
-	private void keyLabelAction(TextField key, Label actionLabel){
+
+	private void keyLabelAction(TextField key, Label actionLabel) {
 		key.setEditable(true);
 		key.setOnKeyPressed(e -> keyPressAction(e.getCode(), key, actionLabel));
 		key.setEditable(false);
 	}
-	
-	private void keyPressAction(KeyCode e, TextField key, Label actionLabel){
-		keys.get(actionLabel.getText()).setObject(e);	
-		//Change associated key releases
-		if(keyReleases.get(key.getText()) != null){
+
+	private void keyPressAction(KeyCode e, TextField key, Label actionLabel) {
+		keys.get(actionLabel.getText()).setObject(e);
+		// Change associated key releases
+		if (keyReleases.get(key.getText()) != null) {
 			keyReleases.get(key.getText()).setObject(e);
 		}
-		//this.getLoader().loadData().saveGame(this.getLoader().loadGame(), this.getLoader().getGamePath());
+		// this.getLoader().loadData().saveGame(this.getLoader().loadGame(),
+		// this.getLoader().getGamePath());
 		key.setText(e.toString());
 	}
 

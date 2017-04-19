@@ -9,11 +9,13 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import polyglot.Case;
+import polyglot.Polyglot;
 
 public abstract class AbstractPlayer extends BorderPane {
 
-	private ResourceBundle resources = ResourceBundle.getBundle("resources/Player");
-	private String stylesheetPath = resources.getString("StylesheetPath");
+	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 	private MediaPlayer songPlayer;
 	
 	private Loader loader;
@@ -23,10 +25,14 @@ public abstract class AbstractPlayer extends BorderPane {
 	private Scene scene;
 	private String path;
 
-	public AbstractPlayer(Loader loader) {
+
+	public AbstractPlayer(Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
 		this.loader = loader;
 		this.game = loader.loadGame();
 		path = loader.getGamePath();
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
+
 		playSong();
 		buildStage();
 		buildGameView();
@@ -35,13 +41,13 @@ public abstract class AbstractPlayer extends BorderPane {
 
 	private void buildStage() {
 		stage = new Stage();
-		stage.setTitle(resources.getString("PlayerTitle"));
+		stage.titleProperty().bind(polyglot.get("PlayerTitle", Case.TITLE));
 		stage.setMinWidth(600);
 		stage.setMinHeight(600);
 		stage.setOnCloseRequest(e -> this.exit());
 
 		scene = new Scene(this, 600, 600);
-		scene.getStylesheets().add(stylesheetPath);
+		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 
 		stage.setScene(scene);
 		stage.show();
