@@ -26,7 +26,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class OptionsMenu extends AbstractMenu {
+public class OptionsMenu extends PlayerView {
+
+	private Loader loader;
 	private ScrollPane center;
 	private Map<String, Parameter> keys;
 	private Map<String, Parameter> keyReleases;
@@ -35,7 +37,8 @@ public class OptionsMenu extends AbstractMenu {
 	private int count = 0;
 
 	public OptionsMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(stage, loader, "OptionsTitle", polyglot, IOResources);
+		super(polyglot, IOResources);
+		this.loader = loader;
 		setup();
 	}
 
@@ -49,52 +52,51 @@ public class OptionsMenu extends AbstractMenu {
 		setupView();
 	}
 
-	private void setupView(){
-		grid = new GridPane();		
+	private void setupView() {
+		grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(20);
 		grid.setVgap(20);
 		center.setContent(grid);
 
-		
-		this.addHeading(getGlot().get("Controls"), count);
+		this.addHeading(getPolyglot().get("Controls"), count);
 		count++;
-		
-		for(String s : keys.keySet()){
+
+		for (String s : keys.keySet()) {
 			addControlRow(s, keys.get(s).getObject(), count);
 			count++;
 		}
-		if(getLoader().getMediaPlayer() != null){
-			this.addHeading(getGlot().get("Audio"), count);
+		if (loader.getMediaPlayer() != null) {
+			this.addHeading(getPolyglot().get("Audio"), count);
 			count++;
-			
+
 			Slider volume = setupVolumeSlider();
 			grid.add(new Label("Master Volume"), 0, count);
 			grid.add(volume, 1, count);
 			count++;
 		}
-		
+
 	}
-	
-	private Slider setupVolumeSlider(){
-		Slider volume = new Slider();	
-		
-		volume.setValue(getLoader().getMediaPlayer().getVolume());
+
+	private Slider setupVolumeSlider() {
+		Slider volume = new Slider();
+
+		volume.setValue(loader.getMediaPlayer().getVolume());
 		volume.valueProperty().addListener(new InvalidationListener() {
-		    public void invalidated(Observable ov) {
-		       if (volume.isValueChanging()) {
-		           getLoader().getMediaPlayer().setVolume(volume.getValue() / 100.0);	           
-		       }
-		    }
+			public void invalidated(Observable ov) {
+				if (volume.isValueChanging()) {
+					loader.getMediaPlayer().setVolume(volume.getValue() / 100.0);
+				}
+			}
 		});
 		volume.setShowTickLabels(true);
 		volume.setShowTickMarks(true);
-		
+
 		return volume;
 	}
 
 	private void loadKeyBindings() {
-		entities = (List<Entity>) this.getLoader().loadGame().getLevels().get(0).getEntities();
+		entities = (List<Entity>) loader.loadGame().getLevels().get(0).getEntities();
 		for (int i = 0; i < entities.size(); i++) {
 			// Get all the events of each entity
 			List<Event> events = entities.get(i).getEvents();
@@ -126,22 +128,22 @@ public class OptionsMenu extends AbstractMenu {
 			}
 		}
 	}
-	
-	private void addControlRow(String action, Object key, int row){
+
+	private void addControlRow(String action, Object key, int row) {
 		Label actionLabel = new Label(action);
 		TextField keyLabel = makeKeyLabel(key.toString(), actionLabel);
 		grid.add(actionLabel, 0, row);
 		grid.add(keyLabel, 1, row);
 	}
-	
-	private void addHeading(StringBinding heading, int row){
+
+	private void addHeading(StringBinding heading, int row) {
 		Label title = new Label();
 		title.textProperty().bind(heading);
 		title.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.BOLD, Font.getDefault().getSize()));
 		grid.add(title, 0, row, 2, 1);
 	}
-	
-	private TextField makeKeyLabel(String key, Label actionLabel){
+
+	private TextField makeKeyLabel(String key, Label actionLabel) {
 		TextField keyLabel = new TextField();
 		keyLabel.setText(key);
 		keyLabel.setEditable(false);

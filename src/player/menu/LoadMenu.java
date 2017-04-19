@@ -1,4 +1,4 @@
-package player;
+package player.menu;
 
 import java.util.ResourceBundle;
 
@@ -11,6 +11,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import player.Loader;
+import player.Player;
+import player.ReplaceSaveMenu;
+import polyglot.Case;
 import polyglot.Polyglot;
 
 /**
@@ -23,7 +27,7 @@ public class LoadMenu extends AbstractMenu {
 	private ObservableList<String> saveStates;
 	private ObservableList<Button> saveButtons;
 	private VBox saveButtonContainer;
-	
+
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 
@@ -57,9 +61,6 @@ public class LoadMenu extends AbstractMenu {
 		container.maxWidthProperty().bind(stage.widthProperty().multiply(0.3));
 		saveButtonContainer.maxWidthProperty().bind(container.maxWidthProperty());
 
-		Button newGameButton = this.getFactory().makeButton("NewGameButton", e -> this.loadNewGame(stage), true);
-		newGameButton.setTranslateY(50.0);
-
 		saveStates.addListener(new ListChangeListener<String>() {
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
@@ -83,9 +84,15 @@ public class LoadMenu extends AbstractMenu {
 			}
 		});
 
-		container.getChildren().addAll(newGameButton, saveButtonContainer);
-		this.setCenter(container);
+		container.getChildren().addAll(saveButtonContainer);
+		//this.setCenter(container);
+	}
 
+	@Override
+	public void addElements() {
+		Tile playTile = new Tile(getPolyglot().get("NewGameButton", Case.TITLE), "red",
+				e -> loadNewGame(getStage()));
+		addTiles(true, playTile);
 	}
 
 }

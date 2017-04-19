@@ -1,4 +1,4 @@
-package authoring.views;
+package utils.views;
 
 import javafx.beans.binding.StringBinding;
 import javafx.scene.layout.BorderPane;
