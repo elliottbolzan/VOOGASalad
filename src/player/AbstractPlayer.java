@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import polyglot.Case;
 import polyglot.Polyglot;
 
 public abstract class AbstractPlayer extends BorderPane {
@@ -22,16 +21,19 @@ public abstract class AbstractPlayer extends BorderPane {
 	private Game game;
 	private GameLoop gameLoop;
 	private Stage stage;
-	private Scene scene;
+	private Scene gameScene;
+	private Scene loadScene;
 	private String path;
 
 
-	public AbstractPlayer(Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+	public AbstractPlayer(Stage primaryStage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+		this.stage = primaryStage;
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
+		
 		this.loader = loader;
 		this.game = loader.loadGame();
 		path = loader.getGamePath();
-		this.polyglot = polyglot;
-		this.IOResources = IOResources;
 
 		playSong();
 		buildStage();
@@ -40,23 +42,18 @@ public abstract class AbstractPlayer extends BorderPane {
 	}
 
 	private void buildStage() {
-		stage = new Stage();
-		stage.titleProperty().bind(polyglot.get("PlayerTitle", Case.TITLE));
-		stage.setMinWidth(600);
-		stage.setMinHeight(600);
-		stage.setOnCloseRequest(e -> this.exit());
+		loadScene = stage.getScene();
+		
+		gameScene = new Scene(this, 600, 600);
+		gameScene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 
-		scene = new Scene(this, 600, 600);
-		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
-
-		stage.setScene(scene);
-		stage.show();
+		stage.setScene(gameScene);
 	}
 
 	protected void buildGameView() {
 		if (!path.equals("")) {
 			Overlay scorebar = new Overlay(polyglot, IOResources);
-			gameLoop = new GameLoop(scene, game, scorebar);
+			gameLoop = new GameLoop(gameScene, game, scorebar);
 			
 			StackPane pane = new StackPane();
 			pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());
@@ -70,21 +67,25 @@ public abstract class AbstractPlayer extends BorderPane {
 			songPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 			songPlayer.play();
 		} catch (Exception e) {
-
+			//TODO
 		}
 	}
 	
 	protected void exit() {
 		if (!path.equals("")) {
 			gameLoop.pauseTimeline();
-			if (songPlayer != null)
+			if (songPlayer != null) { 
 				songPlayer.pause();
+			}
 		}
-		stage.close();
+		stage.setScene(loadScene);
 	}
 
 	protected GameLoop getRunningGameLoop() {
 		return this.gameLoop;
 	}
-
+	
+	protected Loader getLoader() {
+		return this.loader;
+	}
 }
