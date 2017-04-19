@@ -13,96 +13,86 @@ import exceptions.GameObjectException;
  *         types of game objects, such as getting names and descriptions to
  *         display to the user, getting and setting parameters, cloning and etc
  */
-public abstract class GameObject
-{
-	private transient ResourceBundle resources;
+public abstract class GameObject {
+	private transient ResourceBundle resources, notTranslatedResources;
 	private List<Parameter> params;
 	private Entity entity;
-	private transient ResourceBundle gameObjectExceptions;
 	private GameInfo info;
 
-	public GameObject(String name)
-	{
-		resources = ResourceBundle.getBundle("resources/" + name);
-		gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
+	public GameObject(String name) {
+		resources = ResourceBundle.getBundle("resources/Strings");
+		notTranslatedResources = ResourceBundle.getBundle("resources/IO");
 		params = new ArrayList<Parameter>();
 	}
 
-	public String getDisplayName()
-	{
+	public String getDisplayName() {
 		return resources.getString(getClass().getSimpleName().toString());
 	}
 
-	public String getDisplayDescription()
-	{
+	public String getDisplayDescription() {
 		return resources.getString(getClass().getSimpleName() + "Description");
 	}
 
-	public List<Parameter> getParams()
-	{
+	public String getResource(String name) {
+		return resources.getString(name);
+	}
+
+	public String getNotTranslatedResource(String name) {
+		return notTranslatedResources.getString(name);
+	}
+
+	public List<Parameter> getParams() {
 		return params;
 	}
 
-	public void addParam(Parameter param)
-	{
+	public void addParam(Parameter param) {
 		params.add(param);
 	}
 
-	public void updateParam(String name, Object value)
-	{
+	public void updateParam(String name, Object value) {
 		findParameter(name).setObject(value);
 	}
 
-	public void setParams(List<Parameter> params)
-	{
+	public void setParams(List<Parameter> params) {
 		this.params = params;
 	}
 
-	public Object getParam(String name)
-	{
+	public Object getParam(String name) {
 		return findParameter(name).getObject();
 	}
 
-	public void setEntity(Entity entity)
-	{
+	public void setEntity(Entity entity) {
 		this.entity = entity;
 	}
 
-	public Entity getEntity()
-	{
+	public Entity getEntity() {
 		return entity;
 	}
 
-	private Parameter findParameter(String name)
-	{
+	private Parameter findParameter(String name) {
 		try {
 			for (Parameter param : params) {
 				if (param.getName().equals(name))
 					return param;
 			}
 		} catch (Exception e) {
-			throw new GameObjectException(gameObjectExceptions.getString("NoParameter"));
+			throw new GameObjectException(notTranslatedResources.getString("NoParameter"));
 		}
 		return null;
 	}
 
-	public GameInfo getGameInfo()
-	{
+	public GameInfo getGameInfo() {
 		return this.info;
 	}
 
-	public void setGameInfo(GameInfo info)
-	{
+	public void setGameInfo(GameInfo info) {
 		this.info = info;
 	}
 
-	private GameObject getInstance()
-	{
+	private GameObject getInstance() {
 		try {
 			return getClass().getConstructor().newInstance();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			return null;
 		}
 	}
@@ -114,12 +104,10 @@ public abstract class GameObject
 	 * @return copy of this game object.
 	 */
 	@Override
-	public GameObject clone()
-	{
+	public GameObject clone() {
 		GameObject copy = getInstance();
 		copy.setGameInfo(getGameInfo());
 		List<Parameter> params = new ArrayList<Parameter>();
-
 		params.addAll(getParams().stream().map(s -> {
 			return new Parameter(s.getName(), s.getParameterClass(), s.getObject());
 		}).collect(Collectors.toList()));
