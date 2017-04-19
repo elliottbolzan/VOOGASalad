@@ -80,8 +80,7 @@ public class StartMenu extends BorderPane {
 		menuFile.getItems().addAll(makeMenuItem("NewButton", e -> newGame()),
 				makeMenuItem("EditButton", e -> editGame()), makeMenuItem("PlayButton", e -> playGame()));
 		Menu languageMenu = makeLanguageMenu();
-		Menu menuHelp = makeMenu("HelpMenu");
-		menuBar.getMenus().addAll(menuFile, languageMenu, menuHelp);
+		menuBar.getMenus().addAll(menuFile, languageMenu);
 
 		this.setTop(menuBar);
 		this.setCenter(imageView);

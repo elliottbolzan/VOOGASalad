@@ -52,7 +52,7 @@ public class GameLoader {
 		addLevels(game, doc, gameFolderPath);
 		addDefaults(game, doc, gameFolderPath);
 		addSong(game, doc, gameFolderPath);
-		addCamera(game, doc, gameFolderPath);
+		//addCamera(game, doc, gameFolderPath);
 
 		return game;
 	}
