@@ -1,5 +1,7 @@
 package authoring.canvas;
 
+import java.util.List;
+
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
@@ -181,8 +183,13 @@ public class DragUtil {
 			double mouseX = event.getX();
 			double mouseY = event.getY();
 
-			region.setTranslateX(getTiledCoordinate(region.getTranslateX() + mouseX - region.getWidth() / 2));
-			region.setTranslateY(getTiledCoordinate(region.getTranslateY() + mouseY - region.getHeight() / 2));
+			List<EntityView> movedEntities = region.getSelectedNeighbors();
+			movedEntities.add(region);
+
+			for (EntityView entity : movedEntities) {
+				entity.setTranslateX(getTiledCoordinate(entity.getTranslateX() + mouseX - entity.getWidth() / 2));
+				entity.setTranslateY(getTiledCoordinate(entity.getTranslateY() + mouseY - entity.getHeight() / 2));
+			}
 		}
 	}
 
@@ -221,9 +228,6 @@ public class DragUtil {
 			moveDragging = true;
 			x = event.getX();
 			y = event.getY();
-		}
-		if (!event.isShiftDown()) {
-			region.setSelected(true);
 		}
 	}
 

@@ -77,9 +77,39 @@
 }
 
 .menu-item:focused .label {
-    -fx-text-fill: #3a3a3a;
+    -fx-text-fill: -fx-accent;
 }
 
 .menu-bar { 
 	-fx-border-color: #3a3a3a;
+}
+
+.red {
+	-fx-background-color: #F22613;
+}
+
+.yellow {
+	-fx-background-color: #F7CA18;
+}
+
+.blue {
+	-fx-background-color: #19B5FE;
+}
+
+.green {
+	-fx-background-color: #2ECC71;
+}
+
+.gray {
+	-fx-background-color: #6C7A89;
+}
+
+.orange {
+	-fx-background-color: #F9690E;
+}
+
+.tile-title {
+	-fx-text-fill: white;
+	-fx-font-size: 18pt;
+	-fx-font-weight: bold;
 }

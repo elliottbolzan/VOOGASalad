@@ -21,9 +21,9 @@ public class GameLoop {
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
 	
-	public GameLoop(Scene gameScene, Game game){
+	public GameLoop(Scene gameScene, Game game, Overlay overlay){
 		//Instantiate GraphicsEngine
-		graphicsEngine = new GraphicsEngine(game);
+		graphicsEngine = new GraphicsEngine(game, overlay);
 		
 		//TODO: what happens if level changes, camera gets reset??
 		//TODO: oh no this doesnt work. This CameraEntity isn't part of the level, so it doesn't get updated :(
@@ -55,10 +55,6 @@ public class GameLoop {
 	
 	public Pane getGameView() {
 		return graphicsEngine.getView();
-	}
-	
-	public Overlay getGameScorebar() {
-		return graphicsEngine.getScorebarDisplay();
 	}
 }
 
