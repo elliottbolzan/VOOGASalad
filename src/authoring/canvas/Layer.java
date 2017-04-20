@@ -13,6 +13,7 @@ import java.util.List;
 public class Layer
 {
 	private List<EntityView> entities;
+	private String name;
 
 	/*
 	 * Make a new Layer, which represents a list of EntityViews.
@@ -20,6 +21,29 @@ public class Layer
 	public Layer()
 	{
 		entities = new ArrayList<EntityView>();
+		name = null;
+	}
+	
+	public Layer(String s)
+	{
+		entities = new ArrayList<EntityView>();
+		name = s;
+	}
+	
+	
+	/**
+	 * Set layer name
+	 */
+	public void setLayerName(String s){
+		this.name = s;
+	}
+	
+	/**
+	 * Get layer name
+	 * @return String name
+	 */
+	public String getLayerName(){
+		return this.name;
 	}
 
 	/**

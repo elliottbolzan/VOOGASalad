@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import engine.Entity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -48,9 +48,8 @@ public class Canvas extends View
 	private double width;
 	private double height;
 
-	public Canvas(Workspace workspace)
-	{
-		super(workspace.getResources().getString("CanvasTitle"));
+	public Canvas(Workspace workspace) {
+		super(workspace.getPolyglot().get("CanvasTitle"));
 		setup();
 	}
 

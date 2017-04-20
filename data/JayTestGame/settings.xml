@@ -368,12 +368,12 @@
   <EntityType>Camera</EntityType>
   <x>0.0</x>
   <y>0.0</y>
-  <width>0.0</width>
-  <height>0.0</height>
+  <width>50.0</width>
+  <height>50.0</height>
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
-  <isVisible>true</isVisible>
+  <isVisible>false</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>

@@ -22,6 +22,7 @@ public class Scorebar {
 	private int level;
 	private Game game;
 	
+
 	public Scorebar(Game game) {
 		this.timerManager = new TimerManager(120, false);
 		this.game = game;

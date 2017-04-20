@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
-import authoring.views.View;
 import engine.Entity;
 import engine.game.Level;
 import javafx.scene.Node;
@@ -16,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import utils.views.View;
 
 /**
  * LayerEditor keeps track of a Canvas and all of the layers on the canvas. Each
@@ -32,7 +31,6 @@ public class LayerEditor extends View
 	private Map<Integer, Layer> layers;
 	private int layerCount;
 	private int currLayer;
-	private ComponentMaker maker;
 
 	/**
 	 * Make a new LayerEditor.
@@ -42,9 +40,7 @@ public class LayerEditor extends View
 	 */
 	public LayerEditor(Workspace workspace)
 	{
-		super("");
 		this.workspace = workspace;
-		maker = new ComponentMaker(workspace.getResources());
 		setup();
 	}
 
@@ -303,7 +299,8 @@ public class LayerEditor extends View
 	public void newLayer()
 	{
 		layerCount++;
-		layers.put(layerCount, new Layer());
+		Layer newLayer = new Layer("Layer" + " " + layerCount);
+		layers.put(layerCount, newLayer);
 		// newLayerSelected(layerCount);
 	}
 
@@ -349,9 +346,8 @@ public class LayerEditor extends View
 	 */
 	private void showSelectMessage()
 	{
-		ComponentMaker maker = new ComponentMaker(workspace.getResources());
-		String message = workspace.getResources().getString("SelectAnEntity");
-		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
+		Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
+				workspace.getPolyglot().get("SelectAnEntity"));
 		alert.show();
 	}
 
@@ -374,8 +370,8 @@ public class LayerEditor extends View
 	public void deleteLayer(int layer)
 	{
 		if (layerCount == 1) {
-			String message = workspace.getResources().getString("LayerError");
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
+			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
+					workspace.getPolyglot().get("LayerError"));
 			alert.showAndWait();
 		} else {
 			executeDelete(layer);
@@ -401,6 +397,27 @@ public class LayerEditor extends View
 			layers.put(id, layers.get(id + 1));
 		});
 		layerCount--;
+	}
+
+	/**
+	 * Set layer name, as requested by user
+	 * 
+	 * @param text
+	 */
+	public void setLayerName(String text)
+	{
+		layers.get(currLayer).setLayerName(text);
+		System.out.println(currLayer + " " + layers.get(currLayer).getLayerName());
+	}
+
+	/**
+	 * Get layer name to send to combobox upon loading the game
+	 * 
+	 * @return
+	 */
+	public List<String> getLayerNames()
+	{
+		return layers.values().stream().map(elt -> elt.getLayerName()).collect(Collectors.toList());
 	}
 
 }

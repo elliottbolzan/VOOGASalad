@@ -1,7 +1,6 @@
 package authoring.panel.creation.pickers;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.ActionEditor;
 import engine.Action;
@@ -26,7 +25,6 @@ public class ActionPicker extends Picker {
 	private EntityMaker editor;
 	private EngineController engine = new EngineController();
 	private ListView<Action> list;
-	private ComponentMaker maker;
 
 	/** 
 	 * Creates an ActionPicker.
@@ -36,7 +34,6 @@ public class ActionPicker extends Picker {
 	public ActionPicker(Workspace workspace, EntityMaker editor) {
 		super(workspace, "ActionPickerTitle", editor);
 		this.editor = editor;
-		maker = new ComponentMaker(workspace.getResources());
 		update();
 	}
 
@@ -46,7 +43,9 @@ public class ActionPicker extends Picker {
 	@Override
 	public void createContainer() {
 		list = new ListView<Action>();
-		list.setPlaceholder(new Label(getWorkspace().getResources().getString("EmptyActions")));
+		Label placeholder = new Label();
+		placeholder.textProperty().bind(getWorkspace().getPolyglot().get("EmptyActions"));
+		list.setPlaceholder(placeholder);
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
 		list.setCellFactory(param -> new ListCell<Action>() {
@@ -73,7 +72,7 @@ public class ActionPicker extends Picker {
 			setCurrentlyEditing(null);
 			showEditor();
 		} else {
-			editor.showMessage(getWorkspace().getResources().getString("NoEventSelected"));
+			editor.showMessage(getWorkspace().getPolyglot().get("NoEventSelected").get());
 		}
 	}
 
@@ -140,7 +139,7 @@ public class ActionPicker extends Picker {
 	public void showEditor() {
 		ActionEditor editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
 				engine.getAllActions());
-		maker.display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
+		getWorkspace().getMaker().display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 
 	/* (non-Javadoc)

@@ -21,10 +21,10 @@ import javafx.scene.input.KeyEvent;
  */
 public class EditingCell extends TableCell<Parameter, Object> {
 
+	private Workspace workspace;
 	private TextField textField;
 	private KeyCodeField keyCodeField;
 	private String invalidEdit;
-	private ComponentMaker maker;
 
 	/**
 	 * Creates an EditingCell.
@@ -33,8 +33,8 @@ public class EditingCell extends TableCell<Parameter, Object> {
 	 *            the workspace that owns the Cell.
 	 */
 	public EditingCell(Workspace workspace) {
-		maker = new ComponentMaker(workspace.getResources());
-		invalidEdit = workspace.getResources().getString("InvalidEdit");
+		this.workspace = workspace;
+		invalidEdit = workspace.getPolyglot().get("InvalidEdit").get();
 	}
 
 	@Override
@@ -141,15 +141,17 @@ public class EditingCell extends TableCell<Parameter, Object> {
 		Parameter param = (Parameter) getTableRow().getItem();
 		String input = textField.getText();
 		try {
-			if (param.getParameterClass().equals(Integer.class)) {
+			if (param.getParameterClass().equals(Integer.class) || param.getParameterClass().equals(int.class)) {
 				commitEdit(Integer.parseInt(input));
-			} else if (param.getParameterClass().equals(Double.class)) {
+			} else if (param.getParameterClass().equals(Double.class) || param.getParameterClass().equals(double.class)) {
 				commitEdit(Double.parseDouble(input));
+			} else if (param.getParameterClass().equals(Boolean.class) || param.getParameterClass().equals(boolean.class)){
+				commitEdit(Boolean.parseBoolean(input));
 			}
 			commitEdit(input);
 		} catch (Exception e) {
 			String content = String.format(invalidEdit, param.getParameterClass().getSimpleName());
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
+			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
 			alert.show();
 		}
 	}

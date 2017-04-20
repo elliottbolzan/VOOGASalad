@@ -4,16 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
 import authoring.components.Direction;
-import authoring.panel.achievements.Achievements;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.settings.Settings;
-import authoring.views.CollapsibleView;
-import authoring.views.View;
+import utils.views.CollapsibleView;
+import utils.views.View;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import polyglot.Case;
 
 /**
  * @author Elliott Bolzan
@@ -30,7 +29,6 @@ public class Panel extends CollapsibleView {
 	private EntityDisplay entityDisplay;
 	private Settings settings;
 	private LayerPanel layerPanel;
-	private Achievements achievements;
 
 	/**
 	 * Returns a Panel.
@@ -42,13 +40,12 @@ public class Panel extends CollapsibleView {
 	 *            SplitPane that owns it.
 	 */
 	public Panel(Workspace workspace, int index) {
-		super(workspace, workspace.getPane(), workspace.getResources().getString("PanelTitle"), index, Direction.LEFT,
+		super(workspace, workspace.getPane(), workspace.getPolyglot().get("PanelTitle", Case.TITLE), index, Direction.LEFT,
 				true);
 		this.workspace = workspace;
 		entityDisplay = new EntityDisplay(workspace);
 		settings = new Settings(workspace);
 		layerPanel = new LayerPanel(workspace);
-		achievements = new Achievements(workspace);
 		createSubviews();
 		setup();
 	}
@@ -62,7 +59,6 @@ public class Panel extends CollapsibleView {
 		subviews.add(entityDisplay);
 		subviews.add(new Chat(workspace));
 		subviews.add(layerPanel);
-		subviews.add(achievements);
 		subviews.add(settings);
 	}
 
@@ -70,10 +66,9 @@ public class Panel extends CollapsibleView {
 	 * Create the Accordion and add it to the view.
 	 */
 	private void setup() {
-		ComponentMaker maker = new ComponentMaker(workspace.getResources());
-		setCenter(maker.makeAccordion(subviews));
-		Button save = maker.makeButton("SaveButtonSettings", e -> workspace.save(), true);
-		Button test = maker.makeButton("TestButtonSettings", e -> workspace.test(), true);
+		setCenter(workspace.getMaker().makeAccordion(subviews));
+		Button save = workspace.getMaker().makeButton("SaveButtonSettings", e -> workspace.save(), true);
+		Button test = workspace.getMaker().makeButton("TestButtonSettings", e -> workspace.test(), true);
 		//test.setDisable(!workspace.pathExists());
 		setBottom(new VBox(save, test));
 	}
@@ -108,8 +103,12 @@ public class Panel extends CollapsibleView {
 	public void selectExistingLevelBox(String oldLevel, String newLevel) {
 		layerPanel.selectLevelBox(oldLevel, newLevel);
 	}
-	public void selectExistingLevelBox(int count) {
-		layerPanel.selectLevelBox(count);
+	public void selectLoadedLevelBox(List<String> nameList) {
+		layerPanel.selectLevelBox(nameList);
 	}
 
+	public void selectLoadedLevelBox(int layerCount) {
+		layerPanel.selectLevelBox(layerCount);
+		
+	}
 }

@@ -56,7 +56,8 @@ public abstract class Picker extends EditableContainer {
 	}
 
 	private void createTypeBox() {
-		Label label = new Label(getWorkspace().getResources().getString(titleProperty));
+		Label label = new Label();
+		label.textProperty().bind(getWorkspace().getPolyglot().get(titleProperty));
 		label.setPadding(new Insets(5));
 		HBox box = new HBox();
 		box.getChildren().add(label);

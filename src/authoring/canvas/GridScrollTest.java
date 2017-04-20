@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import polyglot.Polyglot;
+import polyglot.PolyglotException;
 
 /**
  * Some code based off of
@@ -33,7 +35,13 @@ public class GridScrollTest extends Application
 		ExpandablePane exp = new ExpandablePane();
 		Entity ent = new CharacterEntity();
 		ResourceBundle resources = ResourceBundle.getBundle("resources/AuthoringEnvironment");
-		EntityView entity = new EntityView(ent, new Canvas(new Workspace(resources, "")), 25, 0, 0);
+		final String KEY = "AIzaSyCOWQRgYSfbiNnOdIRPBcuY6iLTqwfmOc4";
+		Polyglot polyglot = null;
+		try {
+			polyglot = new Polyglot(KEY, "resources/Strings");
+		} catch (PolyglotException e) {
+		}
+		EntityView entity = new EntityView(ent, new Canvas(new Workspace("", polyglot, resources)), 25, 0, 0);
 		exp.addEntity(entity, 200, 200);
 		group.getChildren().add(exp);
 		ZoomablePane zoomPane = new ZoomablePane(group);
