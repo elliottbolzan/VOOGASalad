@@ -1,6 +1,7 @@
 package game_data;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,9 @@ import exceptions.NotAGameFolderException;
 // Give Entities the absolute paths.
 
 public class GameLoader {
-	
+
+	private Unpackager unzip;
+
 	/**
 	 * Loads game given the folder path and returns the entities and songpath necessary
 	 * @param gameFolderPath : folderpath to load game from
@@ -35,6 +38,14 @@ public class GameLoader {
 	 * @throws NotAGameFolderException : incorrect folder path exception
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws NotAGameFolderException {
+		unzip = new Unpackager();
+		if(gameFolderPath.contains(".zip")){
+			try {
+				unzip.unzip(gameFolderPath, gameFolderPath);
+			} catch (IOException e1) {
+			}
+		}
+
 		File dataFile = new File(gameFolderPath + File.separator + saveName);
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
@@ -45,7 +56,6 @@ public class GameLoader {
 			DocumentBuilder docBuilder = factory.newDocumentBuilder();
 			doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
 		} catch (Exception e) {
-			//TODO
 		}
 		Game game = new Game();
 		addName(game, doc);
@@ -61,15 +71,9 @@ public class GameLoader {
 
 	private void addAchieve(Game game, Document doc, String folderPath){
 		NodeList achieveNode = doc.getElementsByTagName("Achievements");
-		System.out.println("item0 " + achieveNode.item(0));
-		System.out.println("item0 attr " + achieveNode.item(0).getAttributes());
-		System.out.println("item 0 attr item 0 " + achieveNode.item(0).getAttributes().item(0));
-		System.out.println(achieveNode.item(0).getAttributes().item(0).getNodeValue());
-
-
 		game.setName(achieveNode.item(0).getAttributes().item(0).getNodeValue());
 	}
-	
+
 	private void addBackground(Game game, Document doc, String folderPath){
 		try {
 			NodeList nodes = doc.getElementsByTagName("Resources");
@@ -79,12 +83,12 @@ public class GameLoader {
 			game.setBackPath("");
 		}
 	}
-	
+
 	private void addInfo(Game game, Document doc, String folderPath){
 		NodeList infoNode = doc.getElementsByTagName("GameInfo");
 		game.setName(infoNode.item(0).getAttributes().item(0).getNodeValue());
 	}
-	
+
 	/**
 	 * Adds game name from document to game
 	 * @param game : game where name is to be added
@@ -94,7 +98,7 @@ public class GameLoader {
 		NodeList nameNodes = doc.getElementsByTagName("Name");
 		game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
 	}
-	
+
 	/**
 	 * Adds game song from document to game
 	 * @param game : game where song is to be added
@@ -109,7 +113,7 @@ public class GameLoader {
 			game.setSongPath("");
 		}
 	}
-	
+
 	/**
 	 * Adds game camera from document to game
 	 * @param game : game where song is to be added
@@ -123,7 +127,7 @@ public class GameLoader {
 		camera.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(camera.getImagePath()));
 		game.setCamera((CameraEntity)camera);
 	}
-	
+
 	/**
 	 * Method to add default entities to game after they are extracted from Document
 	 * @param game : game object containing entities needed to be added
@@ -154,7 +158,7 @@ public class GameLoader {
 		}
 		game.setLevels(gameLevels);
 	}
-	
+
 	/**
 	 * Converts an element from the XML into a level by filling it with entities
 	 * @param levelElement : extracted level element from XML
@@ -169,7 +173,7 @@ public class GameLoader {
 		}
 		return returnedLevel;
 	}
-	
+
 	/**
 	 * Method to extract entities from nodes and return so game can be populated
 	 * @param entitiesNode : node of entities that will be extracted
@@ -188,7 +192,7 @@ public class GameLoader {
 		}
 		return entityList;
 	}
-	
+
 	/**
 	 * Converts file separators to match the system
 	 * @param path

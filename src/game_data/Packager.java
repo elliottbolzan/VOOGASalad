@@ -11,88 +11,75 @@ import java.util.zip.ZipOutputStream;
 
 public class Packager
 {
-    public void packZip(File output, List<File> sources) throws IOException
-    {
-        System.out.println("Packaging to " + output.getName());
-        ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(output));
-        zipOut.setLevel(Deflater.DEFAULT_COMPRESSION);
+	public void packZip(File output, List<File> sources) throws IOException
+	{
+		ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(output));
+		zipOut.setLevel(Deflater.DEFAULT_COMPRESSION);
 
-        for (File source : sources)
-        {
-            if (source.isDirectory())
-            {
-                zipDir(zipOut, "", source);
-            } else
-            {
-                zipFile(zipOut, "", source);
-            }
-        }
-        zipOut.flush();
-        zipOut.close();
-        System.out.println("Done");
-    }
+		for (File source : sources)
+		{
+			if (source.isDirectory())
+			{
+				zipDir(zipOut, "", source);
+			} else
+			{
+				zipFile(zipOut, "", source);
+			}
+		}
+		zipOut.flush();
+		zipOut.close();
+	}
 
-    private String buildPath(String path, String file)
-    {
-        if (path == null || path.isEmpty())
-        {
-            return file;
-        } else
-        {
-            return path + "/" + file;
-        }
-    }
+	private String buildPath(String path, String file)
+	{
+		if (path == null || path.isEmpty())
+		{
+			return file;
+		} else
+		{
+			return path + "/" + file;
+		}
+	}
 
-    private void zipDir(ZipOutputStream zos, String path, File dir) throws IOException
-    {
-        if (!dir.canRead())
-        {
-            System.out.println("Cannot read " + dir.getCanonicalPath() + " (maybe because of permissions)");
-            return;
-        }
+	private void zipDir(ZipOutputStream zos, String path, File dir) throws IOException
+	{
+		if (!dir.canRead())
+		{            return; }
 
-        File[] files = dir.listFiles();
-        path = buildPath(path, dir.getName());
-        System.out.println("Adding Directory " + path);
+		File[] files = dir.listFiles();
+		path = buildPath(path, dir.getName());
 
-        for (File source : files)
-        {
-            if (source.isDirectory())
-            {
-                zipDir(zos, path, source);
-            } else
-            {
-                zipFile(zos, path, source);
-            }
-        }
+		for (File source : files)
+		{
+			if (source.isDirectory())
+			{
+				zipDir(zos, path, source);
+			} else
+			{
+				zipFile(zos, path, source);
+			}
+		}
+	}
 
-        System.out.println("Leaving Directory " + path);
-    }
+	private void zipFile(ZipOutputStream zos, String path, File file) throws IOException
+	{
+		if (!file.canRead())
+		{
+			return;
+		}
 
-    private void zipFile(ZipOutputStream zos, String path, File file) throws IOException
-    {
-        if (!file.canRead())
-        {
-            System.out.println("Cannot read " + file.getCanonicalPath() + " (maybe because of permissions)");
-            return;
-        }
+		zos.putNextEntry(new ZipEntry(buildPath(path, file.getName())));
 
-        System.out.println("Compressing " + file.getName());
-        zos.putNextEntry(new ZipEntry(buildPath(path, file.getName())));
+		FileInputStream fis = new FileInputStream(file);
 
-        FileInputStream fis = new FileInputStream(file);
+		byte[] buffer = new byte[4092];
+		int byteCount = 0;
+		while ((byteCount = fis.read(buffer)) != -1)
+		{
+			zos.write(buffer, 0, byteCount);
+		}
 
-        byte[] buffer = new byte[4092];
-        int byteCount = 0;
-        while ((byteCount = fis.read(buffer)) != -1)
-        {
-            zos.write(buffer, 0, byteCount);
-            System.out.print('.');
-            System.out.flush();
-        }
-        System.out.println();
-
-        fis.close();
-        zos.closeEntry();
-    }
+		fis.close();
+		zos.closeEntry();
+	}
 }

@@ -39,12 +39,12 @@ public class GameSaver
 	 */
 	public void saveGame(Game game, String parentDirectoryPath) {
 		this.game = game;
-		
+
 		gameXMLFactory = new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
 		zipper = new Packager();
-		
-		
+
+
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
 		createFolder(gameFolderPath);
 
@@ -53,28 +53,45 @@ public class GameSaver
 		saveSong(game.getSongPath(), gameFolderPath);
 		saveBackground(gameFolderPath, game.getSongPath());
 		saveCamera(game.getCamera(), gameFolderPath);
-		saveAchievements("hi", gameFolderPath);
-		saveGameInfo(gameFolderPath, "hi");
+		saveAchievements("achievements", gameFolderPath);
+		saveGameInfo(gameFolderPath, "info");
 		saveDocument(gameFolderPath, "settings.xml");
 		try {
-			zipDoc(gameFolderPath);
+			zipDoc(parentDirectoryPath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void zipDoc(String path) throws IOException{
 		List<File> toCompress = new ArrayList<File>();
 		File dir = new File(path + File.separator + game.getName());
-		  File[] directoryListing = dir.listFiles();
-		  if (directoryListing != null) {
-		    for (File child : directoryListing) {
-		    	toCompress.add(child);
-		    }
-		  }
-		zipper.packZip(new File(path + File.separator + "testzip.zip"), toCompress);
+		File[] allFiles = dir.listFiles();
+		if (allFiles != null) {
+			for (File child : allFiles) {
+				toCompress.add(child);
+			}
+		}
+		zipper.packZip(new File(path + File.separator + game.getName() + ".zip"), toCompress);
+		deleteDir(dir);
 	}
-	
+
+	private boolean deleteDir(File dir){
+		dir.listFiles();
+		File[] files = dir.listFiles();	    		
+		if(null!=files){
+			for(int i=0; i<files.length; i++) {
+				if(files[i].isDirectory()) {
+					deleteDir(files[i]);
+				}
+				else {
+					files[i].delete();
+				}
+			}
+		}
+		return(dir.delete());
+	}
+
 	/**
 	 * Saves the state of the game to a non hard coded file in the folder
 	 * @param game
@@ -83,18 +100,18 @@ public class GameSaver
 	 */
 	public void saveGameState(Game game, String gameFolderPath, String saveName){
 		this.game = game;
-		
+
 		gameXMLFactory = new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
-		
+
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), gameFolderPath);
 		saveCamera(game.getCamera(), gameFolderPath);
 		saveLevels(game.getLevels(), gameFolderPath);
 		saveDocument(gameFolderPath, saveName);
-		
+
 	}
-	
+
 	/**
 	 * Saves the document as a whole, after the XML serializing is done
 	 * @param gameFolderPath : top-level directory of the game
@@ -148,7 +165,7 @@ public class GameSaver
 			String relativePath = "resources" + File.separator + game.getName() + ".mp3";
 			game.setSongPath(relativePath);
 			gameXMLFactory.addSong(relativePath);
-			
+
 			File originalSongFile = new File(originalSongPath);
 			String savedSongPath = gameFolderPath + File.separator + relativePath;
 			this.makeFile(savedSongPath);
@@ -157,7 +174,7 @@ public class GameSaver
 			//TODO
 		}
 	}	
-	
+
 	/**
 	 * Saves achievements into XML file
 	 * @param achieve
@@ -167,7 +184,7 @@ public class GameSaver
 		if(achieve.equals("")) return;
 		gameXMLFactory.addAchievement(achieve);
 	}
-	
+
 	/**
 	 * @param camera
 	 * @param gameFolderPath
@@ -176,7 +193,7 @@ public class GameSaver
 		Element cameraElement = this.getEntityAsXML(camera, gameFolderPath);
 		gameXMLFactory.addCamera(cameraElement);
 	}
-	
+
 	/**
 	 * Saves the image path of the entities into XML file
 	 * @param entity : entity's image path to be saved
@@ -192,7 +209,7 @@ public class GameSaver
 			//TODO
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param filePath
@@ -204,17 +221,16 @@ public class GameSaver
 			Path sourcePath = Paths.get(sourcePathString);
 			String targetPathString = "resources" + File.separator + "Background.png";
 			File backImageFile = new File(filePath + File.separator + targetPathString);
-			
+
 			backImageFile.getParentFile().mkdirs();
 			backImageFile.createNewFile();
 
 			Path targetPath = Paths.get(filePath + File.separator + targetPathString);
 			Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 		} catch (Exception e) {
-			// e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param filePath
@@ -234,17 +250,17 @@ public class GameSaver
 	 */
 	private Element getEntityListAsXML(Collection<Entity> entities, String gameFolderPath) {
 		List<Element> entityNodes = new ArrayList<Element>();
-		
+
 		for(Entity entity : entities) {
 			Element entityNode = getEntityAsXML(entity, gameFolderPath);
 			entityNodes.add(entityNode);
 		}
-		
+
 		LevelSaver ls = new LevelSaver(entityNodes);
 		String xmlLevel = ls.saveLevel();
 		return gameXMLFactory.stringToElement(xmlLevel);
 	}
-	
+
 	/**
 	 * Converts an entity into an element node to be used in XML.
 	 * Also saves the entity's image into game resources.
@@ -256,7 +272,7 @@ public class GameSaver
 		String absoluteImagePath = entity.getImagePath();
 		String relativeImagePath = "resources" + File.separator + entity.getName() + "Image.png";
 		saveEntityImage(absoluteImagePath, relativeImagePath, gameFolderPath);
-		
+
 		entity.setImagePath(relativeImagePath);
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
@@ -264,7 +280,7 @@ public class GameSaver
 		entity.setImagePath(absoluteImagePath);
 		return gameXMLFactory.stringToElement(xmlString);
 	}
-	
+
 	/**
 	 * Creates the folder for the game
 	 */
@@ -274,7 +290,7 @@ public class GameSaver
 			folder.mkdirs();
 		}
 	}
-	
+
 	/**
 	 * Makes a a new empty file for the given path.
 	 */
@@ -283,7 +299,7 @@ public class GameSaver
 		file.getParentFile().mkdirs();
 		file.createNewFile();
 	}
-	
+
 	/**
 	 * Copies the contents of one file to a destination file path.
 	 */
@@ -292,6 +308,6 @@ public class GameSaver
 		Path targetPath = Paths.get(destinationPath);
 		Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 	}
-	
-	
+
+
 }
