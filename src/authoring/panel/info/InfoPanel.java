@@ -26,7 +26,7 @@ public class InfoPanel extends View{
 	}
 	
 	private void save(){
-		
+		workspace.getGame().setInfo(editor.getHtmlText());
 	}
 
 
