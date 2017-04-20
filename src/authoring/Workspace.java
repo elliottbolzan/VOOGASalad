@@ -171,9 +171,10 @@ public class Workspace extends View {
 	 */
 	public void test() {
 		createGame();	
-		//Stage stage = new Stage();
-		//new Player(stage, new Loader(path), polyglot, IOResources);
-		//stage.show();
+		Stage stage = new Stage();
+		//TODO: maybe player should be easier to instantiate. This isn't great.
+		new Player(stage, null, new Loader(path), polyglot, IOResources);
+		stage.show();
 	}
 	
 	private void createGame() {

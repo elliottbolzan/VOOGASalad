@@ -71,7 +71,11 @@ public abstract class AbstractPlayer extends BorderPane {
 				songPlayer.pause();
 			}
 		}
-		stage.setScene(loadScene);
+		if(loadScene != null) {
+			stage.setScene(loadScene);
+		} else {
+			stage.close();
+		}
 	}
 
 	protected GameLoop getRunningGameLoop() {

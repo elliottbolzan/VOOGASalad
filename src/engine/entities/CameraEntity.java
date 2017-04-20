@@ -10,9 +10,12 @@ import engine.events.AlwaysEvent;
  *
  */
 public class CameraEntity extends Entity {
-
-	public CameraEntity() {
-		//this.setIsVisible(false); TODO: for now let's make cameras visible so its easy to see whats happening
+	
+	public CameraEntity() {		
+		this.setName("Camera");
+		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
+		//this.setIsVisible(false); //TODO: for now leave the camera image visible for testing
+		this.setZ(-1);
 		this.setupAlwaysMoveEvent();
 	}
 	

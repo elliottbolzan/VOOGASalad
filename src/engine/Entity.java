@@ -27,23 +27,21 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public Entity()
 	{
 		super("Entity");
-		try {
-			setup("Mario", new File("src/resources/images/mario.png").toURI().toURL().toExternalForm());
-		} catch (MalformedURLException e) {
-			//TODO
-		}
+		this.setup();
+		this.setName("Mario");
+		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
 	}
 
-	private void setup(String name, String imagePath)
+	private void setup()
 	{
-		x = new SimpleDoubleProperty();
-		y = new SimpleDoubleProperty();
-		width = new SimpleDoubleProperty();
-		height = new SimpleDoubleProperty();
-		zIndex = new SimpleDoubleProperty();
+		x = new SimpleDoubleProperty(0);
+		y = new SimpleDoubleProperty(0);
+		width = new SimpleDoubleProperty(0);
+		height = new SimpleDoubleProperty(0);
+		zIndex = new SimpleDoubleProperty(0);
 		events = new ArrayList<Event>();
-		this.name = new SimpleStringProperty(name);
-		this.imagePath = new SimpleStringProperty(imagePath);
+		this.name = new SimpleStringProperty();
+		this.imagePath = new SimpleStringProperty();
 		isVisible = new SimpleBooleanProperty(true);
 	}
 
