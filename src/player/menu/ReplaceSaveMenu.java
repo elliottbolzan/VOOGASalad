@@ -38,7 +38,6 @@ public class ReplaceSaveMenu {
 		BorderPane.setAlignment(prompt, Pos.CENTER);
 		root.setCenter(saves);
 		stage.setScene(scene);
-		
 	}
 	
 	public void display(EventHandler<MouseEvent> e){
