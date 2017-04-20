@@ -1,49 +1,46 @@
 package player;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import java.util.ResourceBundle;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import polyglot.Polyglot;
 
-public class HighscoreMenu extends AbstractMenu{
+/**
+ * 
+ * @author Jesse
+ *
+ */
+public class HighscoreMenu extends PlayerView {
 	
 	private TableView<Score> scoreTable;	
-	private ObservableList<Score> scores;
+	private Loader loader;
 
-	//Have both scores and times give ability to sort by either
-
-	public HighscoreMenu(Stage stage, String gameFolderPath) {
-		super(stage, gameFolderPath, "Highscores");
+	public HighscoreMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+		super(polyglot, IOResources);
+		this.loader = loader;
 		setupScene();
 		loadScores();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void setupScene(){
 		scoreTable = new TableView<>();
+
 		scoreTable.getColumns().setAll(makeRankColumn(), makeScoreColumn(), makeTimeColumn());
-		scoreTable.setEditable(false);
-		
 		this.setCenter(scoreTable);
 	}
 	
 	private void loadScores(){
-		//test
-		Score score = new Score(1, "0001", "01:57:69");
-		List<Score> scores = new ArrayList<>();
-		scores.add(score);
-		
-		this.scores = FXCollections.observableArrayList(addDefaults(scores));
-		scoreTable.setItems(this.scores);
+		scoreTable.setItems(loader.getScores());
 	}
 	
 	private TableColumn<Score, Integer> makeRankColumn(){
 		TableColumn<Score, Integer>	rank = new TableColumn<>("Rank");
 		rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+		rank.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.1));
+		
 		
 		return rank;
 	}
@@ -51,6 +48,7 @@ public class HighscoreMenu extends AbstractMenu{
 	private TableColumn<Score, String> makeScoreColumn(){
 		TableColumn<Score, String> score = new TableColumn<>("Score");
 		score.setCellValueFactory(new PropertyValueFactory<Score, String>("score"));
+		score.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.5));
 		
 		return score;
 	}
@@ -58,18 +56,10 @@ public class HighscoreMenu extends AbstractMenu{
 	private TableColumn<Score, String> makeTimeColumn(){
 		TableColumn<Score, String>	time = new TableColumn<>("Time Left");
 		time.setCellValueFactory(new PropertyValueFactory<>("time"));
+		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.4));
 		
 		return time;
 	}
-	
-	private List<Score> addDefaults(List<Score> scores){
-		for(int i = scores.size(); i < 10; i++){
-			scores.add(new Score(i+1));
-		}
-		
-		return scores;
-	}
-	
-	
+
 
 }

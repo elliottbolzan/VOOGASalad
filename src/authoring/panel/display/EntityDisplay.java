@@ -29,7 +29,7 @@ public class EntityDisplay extends EditableContainer {
 	 * @param workspace the workspace that owns the EntityDisplay.
 	 */
 	public EntityDisplay(Workspace workspace) {
-		super(workspace, workspace.getResources().getString("EntityDisplayTitle"));
+		super(workspace, "EntityDisplayTitle");
 	}
 
 	/**
@@ -86,7 +86,9 @@ public class EntityDisplay extends EditableContainer {
 	@Override
 	public void createContainer() {
 		list = new ListView<Entity>();
-		list.setPlaceholder(new Label(getWorkspace().getResources().getString("EmptyEntities")));
+		Label placeholder = new Label();
+		placeholder.textProperty().bind(getWorkspace().getPolyglot().get("EmptyEntities"));
+		list.setPlaceholder(placeholder);
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
 		list.setCellFactory(param -> new ListCell<Entity>() {

@@ -1,5 +1,7 @@
 package authoring.canvas;
 
+import java.util.List;
+
 import engine.Entity;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -39,6 +41,7 @@ public class EntityView extends VBox
 	private ImageView image;
 	private int tileSize;
 	private boolean selected;
+	private Canvas canvas;
 
 	/**
 	 * Create an EntityView with the given gridSize and (x,y) position. The
@@ -55,10 +58,11 @@ public class EntityView extends VBox
 	 * @param y
 	 *            initial y position of the EntityView
 	 */
-	public EntityView(Entity entity, int gridSize, double x, double y)
+	public EntityView(Entity entity, Canvas canvas, int gridSize, double x, double y)
 	{
 		this.entity = entity.clone();
 		this.image = new ImageView(new Image(entity.getImagePath()));
+		this.canvas = canvas;
 		this.setMinHeight(entity.getHeight());
 		this.setMinWidth(entity.getWidth());
 		this.tileSize = gridSize;
@@ -164,6 +168,20 @@ public class EntityView extends VBox
 	public void moveY(double yAmount)
 	{
 		this.setTranslateY(this.getTranslateY() + yAmount);
+	}
+
+	/**
+	 * Gets every EntityView in the same Canvas that is also selected.
+	 * 
+	 * @return EntityViews in same canvas that are also selected.
+	 */
+	public List<EntityView> getSelectedNeighbors()
+	{
+		List<EntityView> selectedNeighbors = canvas.getSelectedEntities();
+		if (selectedNeighbors.contains(this)) {
+			selectedNeighbors.remove(this);
+		}
+		return selectedNeighbors;
 	}
 
 	/**

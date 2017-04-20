@@ -9,6 +9,7 @@
   <zIndex>1.0</zIndex>
   <name>Brick</name>
   <imagePath>resources/BrickImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -26,6 +27,7 @@
   <zIndex>1.0</zIndex>
   <name>Brick</name>
   <imagePath>resources/BrickImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -43,6 +45,7 @@
   <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -75,7 +78,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
     <engine.events.CollisionEvent>
@@ -95,7 +97,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
     <engine.events.KeyPressEvent>
@@ -155,6 +156,7 @@
   <zIndex>1.0</zIndex>
   <name>Brick</name>
   <imagePath>resources/BrickImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -172,6 +174,7 @@
   <zIndex>1.0</zIndex>
   <name>Brick</name>
   <imagePath>resources/BrickImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -189,6 +192,7 @@
   <zIndex>1.0</zIndex>
   <name>Goal</name>
   <imagePath>resources/GoalImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -207,6 +211,7 @@
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -239,7 +244,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
     <engine.events.CollisionEvent>
@@ -259,7 +263,6 @@
       </actions>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
-        <secondName/>
       </collision>
     </engine.events.CollisionEvent>
     <engine.events.KeyPressEvent>
@@ -319,6 +322,7 @@
   <zIndex>0.0</zIndex>
   <name>Brick</name>
   <imagePath>resources/BrickImage.png</imagePath>
+  <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
@@ -326,4 +330,19 @@
   <events/>
 </engine.entities.BlockEntity>
 </Entity>
-</Entities></Defaults><Resources/></Game>
+</Entities></Defaults><Camera><engine.entities.CameraEntity>
+  <EntityType>Camera</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>50.0</width>
+  <height>50.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Mario</name>
+  <imagePath>resources/MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.CameraEntity></Camera><Resources/></Game>

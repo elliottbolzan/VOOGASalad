@@ -10,6 +10,7 @@ public class TimerEvent extends Event {
 
 	public TimerEvent() {
 		addParam(new Parameter("Time", Integer.class, 0));
+		addParam(new Parameter("Less Than", Boolean.class, true));
 	}
 
 	public void setComparsion(boolean lessThan, boolean equalTo) {
@@ -26,13 +27,12 @@ public class TimerEvent extends Event {
 		catch(NullPointerException e){ 
 			System.out.println("Game Info = " + getGameInfo());
 		}
-		if (lessThan && equalTo) {
+		System.out.println((Boolean)getParam("Less Than"));
+		if ((Boolean) getParam("Less Than")) {
+			System.out.println(time <= (Integer) getParam("Time"));
 			return time <= (Integer) getParam("Time");
-		} else if (lessThan && !equalTo) {
-			return time < (Integer) getParam("Time");
-		} else if (!lessThan && !equalTo) {
+		} else {
 			return time > (Integer) getParam("Time");
 		}
-		return time >= (Integer) getParam("Time");
 	}
 }

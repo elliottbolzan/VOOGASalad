@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import engine.Entity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,7 +35,6 @@ import javafx.scene.shape.Circle;
 public class Canvas extends View
 {
 
-	private Workspace workspace;
 	private final int TILE_SIZE = 25;
 	private final int DEFAULT_WIDTH = 800;
 	private final int DEFAULT_HEIGHT = 600;
@@ -48,10 +47,8 @@ public class Canvas extends View
 	private double width;
 	private double height;
 
-	public Canvas(Workspace workspace)
-	{
-		super(workspace.getResources().getString("CanvasTitle"));
-		this.workspace = workspace;
+	public Canvas(Workspace workspace) {
+		super(workspace.getPolyglot().get("CanvasTitle"));
 		setup();
 	}
 
@@ -154,6 +151,17 @@ public class Canvas extends View
 		return scrollScreen;
 	}
 
+	public List<EntityView> getSelectedEntities()
+	{
+		List<EntityView> selected = new ArrayList<EntityView>();
+		entities.forEach(e -> {
+			if (e.isSelected()) {
+				selected.add(e);
+			}
+		});
+		return selected;
+	}
+
 	/**
 	 * Add an entity to the top-left corner of the canvas. This method makes a
 	 * clone of the given Entity and creates an actual EntityView from it ((The
@@ -183,7 +191,7 @@ public class Canvas extends View
 	 */
 	public EntityView addEntity(Entity entity, double x, double y)
 	{
-		EntityView newEntity = new EntityView(entity, TILE_SIZE, x, y);
+		EntityView newEntity = new EntityView(entity, this, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
 		newEntity.setTranslateY(tiledCoordinate.getY());

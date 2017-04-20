@@ -7,25 +7,25 @@ import java.util.Map;
 import java.util.Optional;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
 import authoring.components.LabeledField;
-import authoring.views.View;
+import utils.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import polyglot.Case;
 
 /**
  * 
@@ -35,52 +35,47 @@ import javafx.scene.text.Text;
 public class LayerPanel extends View {
 
 	private Workspace workspace;
-	private VBox editorContainer;
 	private ComboBox<String> myBox;
-	private ComponentMaker maker;
 	private LabeledField nameField;
 	private Map<String, ArrayList<String>> nameList;
 	private ObservableList<String> selectionModel;
 
 	public LayerPanel(Workspace workspace) {
-		super(workspace.getResources().getString("LayerPanelTitle"));
+		super(workspace.getPolyglot().get("LayerPanelTitle", Case.TITLE));
 		this.workspace = workspace;
 		selectionModel = FXCollections.observableArrayList();
 		nameList = new HashMap<String, ArrayList<String>>();
-		maker = new ComponentMaker(workspace.getResources());
 		myBox = new ComboBox<String>();
-		selectionModel.add(workspace.getResources().getString("DefaultLayer"));
-		//nameList.put(workspace.getResources().getString("DefaultLayer"), new ArrayList<String>(selectionModel));
+		selectionModel.add(workspace.getPolyglot().get("DefaultLayer").get());
 		myBox.setItems(selectionModel);
 		myBox.setValue(selectionModel.get(0));
-		configureEditing();
+		myBox.setPrefWidth(Double.MAX_VALUE);
+		setupView();
 	}
 
-	private void configureEditing() {
-		editorContainer = new VBox();
-		editorContainer.setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
-		Button addLayerButton = maker.makeButton("AddLayerButton", e -> addLayer(), true);
-		Button deleteLayerButton = maker.makeButton("DeleteLayerButton", e -> {
+	private void setupView() {
+		VBox container = new VBox(8);
+		initLayerSelector();
+		Button addButton = workspace.getMaker().makeButton("AddLayerButton", e -> addLayer(), true);
+		Button deleteButton = workspace.getMaker().makeButton("DeleteLayerButton", e -> {
 			initCloseRequest(e);
 			delete();
 		}, true);
-		initLayerSelector();
-		configureVelocitySettings();
-		editorContainer.getChildren().addAll(addLayerButton, deleteLayerButton);
-		setCenter(editorContainer);
+		container.getChildren().addAll(new VBox(myBox, addButton), new Separator(), createNameField(), new Separator(),
+				createVelocitySlider(), new Separator(), deleteButton);
+		container.setPadding(new Insets(20));
+		setCenter(container);
 	}
 
-	private void addLayer(){
-	workspace.addLayer();
-	myBox.getItems().add("Layer" + " "+ (myBox.getItems().size()+1));
-	System.out.println(selectionModel);
-	myBox.setValue("Layer" + " "+ (myBox.getItems().size()));
+	private void addLayer() {
+		workspace.addLayer();
+		myBox.getItems().add("Layer" + " " + (myBox.getItems().size() + 1));
+		myBox.setValue("Layer" + " " + (myBox.getItems().size()));
 	}
-	
+
 	private void initCloseRequest(Event e) {
-		ComponentMaker maker = new ComponentMaker(workspace.getResources());
-		String message = workspace.getResources().getString("ConfirmationContent");
-		Alert alert = maker.makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader", message);
+		Alert alert = workspace.getMaker().makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader",
+				workspace.getPolyglot().get("ConfirmationContent"));
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() != ButtonType.OK) {
 			e.consume();
@@ -88,65 +83,66 @@ public class LayerPanel extends View {
 	}
 
 	private void delete() {
-		//int layer = Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split(" ")[1]);
-		workspace.deleteLayer(myBox.getSelectionModel().getSelectedIndex()+1);
+		// int layer =
+		// Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split("
+		// ")[1]);
+		workspace.deleteLayer(myBox.getSelectionModel().getSelectedIndex() + 1);
 		selectionModel.remove(myBox.getSelectionModel().getSelectedIndex());
 		myBox.setItems(selectionModel);
 		myBox.setValue(selectionModel.get(0));
 	}
 
-	private void configureVelocitySettings() {
+	private VBox createVelocitySlider() {
 		Slider velocitySlider = new Slider() {
 			{
 				setMin(0);
 				setMax(100);
-				setValue(0);
+				setValue(50);
+				setMajorTickUnit(25);
+				setShowTickLabels(true);
+				setShowTickMarks(true);
 			}
 		};
-
-		HBox sliderBox = new HBox() {
+		VBox sliderBox = new VBox() {
 			{
-				setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
-				Text t = new Text(workspace.getResources().getString("LayerSpeedPrompt"));
-				t.setFill(Color.WHITE);
-				getChildren().addAll(t, velocitySlider);
+				setSpacing(4);
+				Label label = new Label();
+				label.textProperty().bind(workspace.getPolyglot().get("LayerSpeedPrompt"));
+				getChildren().addAll(velocitySlider, label);
+				setAlignment(Pos.CENTER);
 			}
 		};
-
-		Button velocityButton = maker.makeButton("SaveLayerSpeed", null, true);
-		createNameField();
-		editorContainer.getChildren().addAll(sliderBox, velocityButton);
+		return sliderBox;
 	}
 
-private void createNameField(){
-	
-	HBox nameFieldBox = new HBox() {
-		{
-			setSpacing(Integer.parseInt(workspace.getResources().getString("SettingsSpacing")));
-			nameField = new LabeledField(workspace, "LayerPrompt", null, true);
-			getChildren().addAll(nameField);
+	private VBox createNameField() {
+		Button nameButton = workspace.getMaker().makeButton("LayerSave", e -> saveName(), true);
+		return new VBox() {
+			{
+				setSpacing(8);
+				nameField = new LabeledField(workspace, "LayerPrompt", null, true);
+				getChildren().addAll(nameField, nameButton);
+			}
+		};
+	}
+
+	private void saveName() {
+		if (nameField.getText() != null) {
+			selectionModel.set(myBox.getSelectionModel().getSelectedIndex(), nameField.getText());
+			myBox.setItems(selectionModel);
+			myBox.setValue(nameField.getText());
+			workspace.setLayerName(nameField.getText());
+			nameField.setText(null);
 		}
-	};
-	Button nameButton = maker.makeButton("LayerSave", e->saveName(), true);
-	editorContainer.getChildren().addAll(myBox, nameFieldBox,nameButton); 
-}
-
-private void saveName(){
-	if(nameField.getText()!=null){
-	selectionModel.set(myBox.getSelectionModel().getSelectedIndex(), nameField.getText());
-	myBox.setItems(selectionModel);
-	myBox.setValue(nameField.getText());
-	nameField.setText(null);
 	}
-}
 
 	private void initLayerSelector() {
-		myBox.setPromptText(workspace.getResources().getString("LayerBoxPrompt"));
+		myBox.promptTextProperty().bind(workspace.getPolyglot().get("LayerBoxPrompt"));
 		myBox.valueProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 				if (newValue != null) {
-					workspace.selectLayer(myBox.getSelectionModel().getSelectedIndex()+1);
+					workspace.selectLayer(myBox.getSelectionModel().getSelectedIndex() + 1);
 				}
 			}
 		});
@@ -161,19 +157,19 @@ private void saveName(){
 	 */
 
 	public void selectLevelBox(String oldLevel, String newLevel) {
-		if(oldLevel.equals("+")){
-			selectionModel.clear();
-			selectionModel.add(workspace.getResources().getString("DefaultLayer"));
+		nameList.put(oldLevel, new ArrayList<String>(selectionModel));
+		if (oldLevel.equals("+")) {
+			// selectionModel.clear();
+			// selectionModel.add(workspace.getResources().getString("DefaultLayer"));
 			nameList.put(newLevel, new ArrayList<String>(selectionModel));
 		}
-		nameList.put(oldLevel,new ArrayList<String>(selectionModel));
-		if(!newLevel.equals("+")){
+		if (!newLevel.equals("+")) {
 			selectionModel = FXCollections.observableArrayList(nameList.get(newLevel));
-			}
+		}
 		myBox.setItems(selectionModel);
 		myBox.setValue(selectionModel.get(0));
-		}
-	
+	}
+
 	/**
 	 * selectLevelBox is called whenever levels are switched and the set of
 	 * layers changes. The new level reports its new layer set to the workspace,
@@ -181,6 +177,13 @@ private void saveName(){
 	 * 
 	 * @param layerNum
 	 */
+	public void selectLevelBox(List<String> loadedList) {
+		myBox.getItems().clear();
+		selectionModel = FXCollections.observableArrayList(loadedList);
+		myBox.setItems(selectionModel);
+		myBox.setValue(selectionModel.get(0));
+	}
+	
 	public void selectLevelBox(int layerNum) {
 		myBox.getItems().clear();
 		for (int i = 0; i < layerNum; i++) {
@@ -188,6 +191,6 @@ private void saveName(){
 		}
 		myBox.setValue(String.format("Layer %d", 1));
 	}
-		
-	}
 
+
+}

@@ -1,6 +1,6 @@
 package authoring.components.thumbnail;
 
-import authoring.views.View;
+import utils.views.View;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +15,6 @@ public abstract class Thumbnail extends View {
 	private ImageView imageView = new ImageView();
 
 	public Thumbnail(int width, int height) {
-		super("Thumbnail");
 		image = new SimpleObjectProperty<Image>();
 		imageView.setFitWidth(width);
 		imageView.setFitHeight(height);

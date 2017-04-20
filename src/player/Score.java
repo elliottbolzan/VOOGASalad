@@ -1,5 +1,6 @@
 package player;
 
+import engine.game.timer.TimerManager;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,19 +10,21 @@ public class Score {
 	private IntegerProperty rank;
 	private StringProperty score;
 	private StringProperty time;
+	private TimerManager manager;
 	
 	public Score(int rank){
-		this(rank, "0000", "00:00:00");
+		this(rank, "000000", new TimerManager(0.0, false));
 	}
 	
-	public Score(String score, String time){
+	public Score(String score, TimerManager time){
 		this(0, score, time);
 	}
 	
-	public Score(int rank, String score, String time){
+	public Score(int rank, String score, TimerManager time){
+		manager = time;
 		this.rank = new SimpleIntegerProperty(rank);
 		this.score = new SimpleStringProperty(score);
-		this.time = new SimpleStringProperty(time);
+		this.time = new SimpleStringProperty(time.toString());
 	}
 	
 	public IntegerProperty rankProperty(){
@@ -58,5 +61,9 @@ public class Score {
 	
 	public String getTime(){
 		return timeProperty().get();
+	}
+	
+	public int getTimeValue(){
+		return manager.getMilliseconds();
 	}
 }

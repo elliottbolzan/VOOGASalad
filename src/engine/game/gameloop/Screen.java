@@ -19,12 +19,12 @@ public class Screen{
 	private StepStrategy currentStepStrategy; //immutable
 	private Timeline timeline;
 	
-	public Screen(StepStrategy currentStepStrategy, LevelManager levelManager, Scene gameScene, GraphicsEngine graphicsEngine, GameInfo info){
+	public Screen(StepStrategy currentStepStrategy, Scene gameScene, GraphicsEngine graphicsEngine, GameInfo info){
 		info.setCurrentScreen(this);
 		this.currentStepStrategy = currentStepStrategy;
 		setupTimeline();
 		//System.out.println(timeline + "Timeline instantiated in Screen with StepStrategy" + this.currentStepStrategy);
-		currentStepStrategy.setup(levelManager, gameScene, this, graphicsEngine, info);
+		currentStepStrategy.setup(gameScene, this, graphicsEngine, info);
 	}
 	
 	private void setupTimeline(){

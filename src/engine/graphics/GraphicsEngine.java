@@ -35,17 +35,17 @@ public class GraphicsEngine {
 	private Collection<ImageView> nodes;
 	private CameraEntity camera;
 	private Scorebar scorebar;
+	private Overlay overlay;
 	
 	private Pane displayArea;
-	private Overlay scorebarDisplay;
 	
-	public GraphicsEngine(Game game) {
+	public GraphicsEngine(Game game, Overlay overlay) {
 		this.camera = new CameraEntity();
 		this.entities = new ArrayList<Entity>();
 		this.nodes = new ArrayList<ImageView>();
 		this.scorebar = new Scorebar(game);
+		this.overlay = overlay;
 		this.setupView();
-		this.setupScorebar();
 	}
 	
 	/**
@@ -56,11 +56,10 @@ public class GraphicsEngine {
 	}
 	
 	/**
-	 * @return the display for time/lives/score
+	 * @return the camera used to move around the display
 	 */
-
-	public Overlay getScorebarDisplay(){
-		return scorebarDisplay;
+	public CameraEntity getCamera() {
+		return this.camera;
 	}
 	
 	/**
@@ -72,11 +71,11 @@ public class GraphicsEngine {
 	}
 	
 	/**
-	 * Sets the Scorebar. This is used to initialize the time/lives/score display values
-	 * @param currentManager 
+	 * Returns the scorebar used in the GameLoop
+	 * @return
 	 */
-	public void setScorebar(Scorebar currentManager) {
-		this.scorebar = currentManager;
+	public Scorebar getScorebar(){
+		return scorebar;
 	}
 	
 	/**
@@ -126,10 +125,10 @@ public class GraphicsEngine {
 	}
 	
 	private void updateScorebar() {
-		scorebarDisplay.setScore(Integer.toString(scorebar.getScore()));
-		scorebarDisplay.setLives(Integer.toString(scorebar.getLives()));
-		scorebarDisplay.setLevel(Integer.toString(scorebar.getLevel()));
-		scorebarDisplay.setTime(scorebar.getTime());
+		overlay.setScore(scorebar.getScore());
+		overlay.setLives(Integer.toString(scorebar.getLives()));
+		overlay.setLevel(Integer.toString(scorebar.getLevel()));
+		overlay.setTime(scorebar.getTime());
 	}
 	
 	private void clearView() {
@@ -155,9 +154,9 @@ public class GraphicsEngine {
 		node.yProperty().bind(entity.yProperty());
 		node.setTranslateZ(entity.getZ());
 		node.visibleProperty().bind(entity.isVisibleProperty());
-		entity.imagePathProperty().addListener(
-				(observer, oldPath, newPath) -> node.setImage(new Image(newPath))
-		);
+		entity.imagePathProperty().addListener( (observer, oldPath, newPath) -> {
+			node.setImage(new Image(newPath));				
+		});
 	}
 	
 	private void sortViewByZIndex() {
@@ -172,11 +171,6 @@ public class GraphicsEngine {
 		VBox.setVgrow(displayArea, Priority.ALWAYS);
 		this.clipAtEdges(displayArea);
 		this.updateView();
-	}
-	
-	private void setupScorebar() {
-		scorebarDisplay = new Overlay();
-		this.updateScorebar();
 	}
 	
 	private void clipAtEdges(Pane pane) {

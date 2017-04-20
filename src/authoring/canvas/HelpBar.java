@@ -2,7 +2,7 @@ package authoring.canvas;
 
 import authoring.Workspace;
 import authoring.components.HTMLDisplay;
-import authoring.views.View;
+import utils.views.View;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -15,21 +15,21 @@ import javafx.scene.layout.Priority;
  *
  */
 public class HelpBar extends View {
-	
+
 	private Workspace workspace;
-	
+
 	/**
 	 * @param title
 	 */
 	public HelpBar(Workspace workspace) {
-		super("");
 		this.workspace = workspace;
 		setup();
 	}
-	
+
 	private void setup() {
 		ToolBar bar = new ToolBar();
-		Label instructions = new Label(workspace.getResources().getString("Instructions"));
+		Label instructions = new Label();
+		instructions.textProperty().bind(workspace.getPolyglot().get("Instructions"));
 		instructions.setPadding(new Insets(4));
 		HBox box = new HBox(instructions);
 		HBox.setHgrow(box, Priority.ALWAYS);
@@ -38,10 +38,11 @@ public class HelpBar extends View {
 		setCenter(instructions);
 		setOnMouseClicked(e -> mouseClicked());
 	}
-	
+
 	private void mouseClicked() {
-    	HTMLDisplay display = new HTMLDisplay(workspace.getResources().getString("HelpPath"), workspace.getResources().getString("HelpTitle"));
-    	display.show();
+		HTMLDisplay display = new HTMLDisplay(workspace.getIOResources().getString("HelpPath"),
+				workspace.getPolyglot().get("HelpTitle"));
+		display.show();
 	}
 
 }

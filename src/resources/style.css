@@ -1,12 +1,12 @@
 .root {
+    -fx-base: black;
+    -fx-background: -fx-base;
+    -fx-accent: #e7b300;
     -fx-font-size: 10pt;
     -fx-font-family: Helvetica, Arial, sans-serif;
-    -fx-base: #1d1d1d;
-    -fx-background: #1d1d1d;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
-    -fx-accent: #e7b300;
-    -fx-control-inner-background: #1d1d1d;
+    -fx-control-inner-background: -fx-base;
 }
 
 .text-field, .text-area {
@@ -53,7 +53,7 @@
 }
 
 .tab-pane {
-    -fx-tab-min-width:90px;
+    -fx-tab-min-width: 90px;
 }
 
 .tab-pane .tab:selected {
@@ -64,6 +64,52 @@
     -fx-alignment: CENTER;
 }
 
-/*.scroll-pane > .viewport {
-   -fx-background-color: white;
-}*/
+.menu {
+    -fx-background: -fx-base;
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+}
+
+.menu-item:focused {
+     -fx-background-color: -fx-base;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: -fx-accent;
+}
+
+.menu-bar { 
+	-fx-border-color: #3a3a3a;
+}
+
+.red {
+	-fx-background-color: #F22613;
+}
+
+.yellow {
+	-fx-background-color: #F7CA18;
+}
+
+.blue {
+	-fx-background-color: #19B5FE;
+}
+
+.green {
+	-fx-background-color: #2ECC71;
+}
+
+.gray {
+	-fx-background-color: #6C7A89;
+}
+
+.orange {
+	-fx-background-color: #F9690E;
+}
+
+.tile-title {
+	-fx-text-fill: white;
+	-fx-font-size: 18pt;
+	-fx-font-weight: bold;
+}

@@ -1,7 +1,6 @@
 package authoring.panel.creation.pickers;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.EventEditor;
 import engine.Event;
@@ -26,7 +25,6 @@ public class EventPicker extends Picker {
 	private EntityMaker entityMaker;
 	private EngineController engine = new EngineController();
 	private ListView<Event> list;
-	private ComponentMaker componentMaker;
 
 	/**
 	 * Creates an EventPicker.
@@ -36,7 +34,6 @@ public class EventPicker extends Picker {
 	public EventPicker(Workspace workspace, EntityMaker entityMaker) {
 		super(workspace, "EventPickerTitle", entityMaker);
 		this.entityMaker = entityMaker;
-		componentMaker = new ComponentMaker(workspace.getResources());
 		update();
 	}
 
@@ -46,7 +43,9 @@ public class EventPicker extends Picker {
 	@Override
 	public void createContainer() {
 		list = new ListView<Event>();
-		list.setPlaceholder(new Label(getWorkspace().getResources().getString("EmptyEvents")));
+		Label placeholder = new Label();
+		placeholder.textProperty().bind(getWorkspace().getPolyglot().get("EmptyEvents"));
+		list.setPlaceholder(placeholder);
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
 		list.setCellFactory(param -> new ListCell<Event>() {
@@ -141,7 +140,7 @@ public class EventPicker extends Picker {
 	public void showEditor() {
 		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
 				engine.getAllEvents());
-		componentMaker.display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
+		getWorkspace().getMaker().display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 
 	/* (non-Javadoc)

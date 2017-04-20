@@ -11,10 +11,6 @@ import engine.game.gameloop.LevelStepStrategy;
  *
  */
 public class DieAction extends Action{
-	
-	public DieAction() {
-
-	}
 
 	@Override
 	public void act() {

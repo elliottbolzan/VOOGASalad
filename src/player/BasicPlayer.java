@@ -1,11 +1,14 @@
 package player;
 
-import game_data.Game;
+import java.util.ResourceBundle;
 
-public class BasicPlayer extends AbstractPlayer{
-	
-	public BasicPlayer(Game game, String dataFolderPath){
-		super(game, dataFolderPath);
+import javafx.stage.Stage;
+import polyglot.Polyglot;
+
+public class BasicPlayer extends AbstractPlayer {
+
+	public BasicPlayer(Stage primaryStage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
+		super(primaryStage, loader, polyglot, IOResources);
 	}
 
 }
