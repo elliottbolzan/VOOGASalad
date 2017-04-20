@@ -289,12 +289,5 @@ public class Workspace extends View {
 	public void updateEntity(Entity entity) {
 		levelEditor.updateEntity(entity);
 	}
-/**
- * Update layer name when user requests 
- * @param text
- */
-	public void setLayerName(String text) {
-		levelEditor.getCurrentLevel().setLayerName(text);
-	}
 
 }

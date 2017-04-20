@@ -30,21 +30,6 @@ public class Layer
 		name = s;
 	}
 	
-	
-	/**
-	 * Set layer name
-	 */
-	public void setLayerName(String s){
-		this.name = s;
-	}
-	
-	/**
-	 * Get layer name
-	 * @return String name
-	 */
-	public String getLayerName(){
-		return this.name;
-	}
 
 	/**
 	 * Get the list of EntityViews that is represented by this Layer.

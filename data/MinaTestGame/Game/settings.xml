@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="Game"/><Levels><level><Entities>
+<Entity>
+<engine.entities.CharacterEntity>
+  <EntityType>Character</EntityType>
+  <x>225.0</x>
+  <y>200.0</y>
+  <width>200.0</width>
+  <height>300.0</height>
+  <zIndex>4.0</zIndex>
+  <name>Mario</name>
+  <imagePath>resources\MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>1.0</yAcceleration>
+  <events/>
+</engine.entities.CharacterEntity>
+</Entity>
+</Entities></level></Levels><Defaults><Entities>
+<Entity>
+<engine.entities.CharacterEntity>
+  <EntityType>Character</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>0.0</width>
+  <height>0.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Mario</name>
+  <imagePath>resources\MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>1.0</yAcceleration>
+  <events/>
+</engine.entities.CharacterEntity>
+</Entity>
+</Entities></Defaults><Camera><engine.entities.CameraEntity>
+  <EntityType>Camera</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>0.0</width>
+  <height>0.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Mario</name>
+  <imagePath>resources\MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.CameraEntity></Camera><Resources/></Game>
