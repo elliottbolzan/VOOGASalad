@@ -1,10 +1,7 @@
 package engine;
 
-import engine.game.gameloop.LevelStepStrategy;
 import engine.game.gameloop.ObservableBundle;
 import engine.game.gameloop.Scorebar;
-import engine.game.gameloop.Screen;
-import engine.game.gameloop.StepStrategy;
 
 /**
  * @author nikita matt This class is used to convey information about the
@@ -32,10 +29,16 @@ public class GameInfo {
 	public ObservableBundle getObservableBundle() {
 		return bundle;
 	}
-
+	
+	public LevelEnder getLevelEnder(){
+		return levelEnder;
+	}
+	
+	/*
 	public StepStrategy getCurrentStepStrategy() {
 		return currentStepStrategy;
 	}
+	*/
 
 	public Scorebar getScorebar() {
 		return scorebar;

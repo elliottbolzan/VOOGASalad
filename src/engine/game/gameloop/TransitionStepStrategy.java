@@ -55,7 +55,6 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber(levelManager));
 		if (hasNextLevel && hasNextScreen(levelManager)) {
 			StepStrategy nextStepStrategy = getNextStepStrategy(levelManager);
-			info.setCurrentStepStrategy(nextStepStrategy);
 			levelManager.setCurrentStepStrategy(nextStepStrategy);
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
 			nextScreen.getTimeline().play();
