@@ -38,10 +38,10 @@
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>125.0</x>
-  <y>0.0</y>
-  <width>125.0</width>
-  <height>200.0</height>
+  <x>150.0</x>
+  <y>25.0</y>
+  <width>100.0</width>
+  <height>175.0</height>
   <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
@@ -188,16 +188,16 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.FacebookPostAction>
+        <engine.actions.FacebookPostMessageAction>
           <params>
             <engine.Parameter>
               <name>Message</name>
               <clazz>java.lang.String</clazz>
-              <obj class="string">TESTTEST</obj>
+              <obj class="string">TEST </obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.FacebookPostAction>
+        </engine.actions.FacebookPostMessageAction>
       </actions>
     </engine.events.KeyPressEvent>
   </events>
@@ -393,16 +393,16 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.FacebookPostAction>
+        <engine.actions.FacebookPostMessageAction>
           <params>
             <engine.Parameter>
               <name>Message</name>
               <clazz>java.lang.String</clazz>
-              <obj class="string">TESTTEST</obj>
+              <obj class="string">TEST </obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.FacebookPostAction>
+        </engine.actions.FacebookPostMessageAction>
       </actions>
     </engine.events.KeyPressEvent>
   </events>
