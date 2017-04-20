@@ -7,39 +7,39 @@ import game_data.GameData;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import player.score.Score;
 
 public class Loader {
-	private String gamePath;
+	private String gameFolderPath;
 	private Game game;
-	private GameData data;
-	private MediaPlayer media;
-
-	public Loader(String gameFolderPath) {
-		gamePath = gameFolderPath;
-		setup();
-	}
-
-	private void setup() {
-		data = new GameData();
-		game = data.loadGame(gamePath);
-		String path = game.getSongPath();
-		if (!path.equals("")) {
-			String uriString = new File(path).toURI().toString();
-			media = new MediaPlayer(new Media(uriString));
-		} else {
-			media = null;
+	
+	private MediaPlayer songPlayer;
+	private ObservableList<String> saveStates;
+	private int count = 0;
+	
+	public Loader(String gameFolderPath, ObservableList<String> saveStates) {
+		this.gameFolderPath = gameFolderPath;
+		
+		GameData data = new GameData();
+		this.game = data.loadGame(gameFolderPath);
+		
+		this.saveStates = saveStates;
+		
+		if (!this.getGame().getSongPath().equals("")) {
+			String uriString = new File(game.getSongPath()).toURI().toString();
+			songPlayer = new MediaPlayer(new Media(uriString));
 		}
 	}
 
 	public String getGamePath() {
-		return gamePath;
+		return gameFolderPath;
 	}
-
+	
 	public MediaPlayer getMediaPlayer() {
-		return media;
+		return songPlayer;
 	}
 
-	public Game loadGame() {
+	public Game getGame() {
 		return game;
 	}
 
@@ -47,24 +47,32 @@ public class Loader {
 		this.game = game;
 	}
 
-	public GameData loadData() {
-		return data;
-	}
-
-	public void setData(GameData data) {
-		this.data = data;
-	}
-
 	protected String getSongPath() {
 		return game.getSongPath();
 	}
 
-	protected void saveGame() {
-
-	}
-
-	protected ObservableList<Score> getScores() {
+	public ObservableList<Score> getScores() {
 		return game.getScores();
 	}
-
+	
+	public void playSong() {
+		if(songPlayer != null) {
+			songPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+			songPlayer.play();
+		}
+	}
+	
+	public void pauseSong() {
+		if(songPlayer != null) {
+			songPlayer.pause();
+		}
+	}
+	
+	public void saveGame() {
+		count++;
+		String saveName = "save" + "_" + count + ".xml";
+		GameData saver = new GameData();
+		saver.saveGameState(this.getGame(), gameFolderPath, saveName);
+		saveStates.add(saveName);
+	}
 }
