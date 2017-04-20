@@ -39,7 +39,7 @@ public class GameLoop {
 		
 		//Setup the first level screen
 		StepStrategy strategy = new LevelStepStrategy();
-		GameInfo info = new GameInfo(observableBundle, strategy, scorebar, level1Screen, levelManager);
+		GameInfo info = new GameInfo(observableBundle, strategy, scorebar, level1Screen, levelManager, graphicsEngine);
 		this.info = info;
 		level1Screen = new Screen(strategy, gameScene, graphicsEngine, info);
 	}

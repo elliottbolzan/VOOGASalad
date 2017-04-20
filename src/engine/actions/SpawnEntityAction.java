@@ -28,6 +28,7 @@ public class SpawnEntityAction extends Action {
 		CollisionSide collisionSide = getCollisionSide(side.toUpperCase());
 		collisionSide.placeEntity(getEntity(), newEntity);
 		newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
+		newEntity.getGameInfo().getGraphicsEngine().updateView();
 	}
 
 	private CollisionSide getCollisionSide(String side) {
