@@ -20,9 +20,18 @@ public abstract class GameObject {
 	private GameInfo info;
 
 	public GameObject(String name) {
+		setUpResources();
+		params = new ArrayList<Parameter>();
+	}
+
+	public Object readResolve() {
+		setUpResources();
+		return this;
+	}
+
+	private void setUpResources() {
 		resources = ResourceBundle.getBundle("resources/Strings");
 		notTranslatedResources = ResourceBundle.getBundle("resources/IO");
-		params = new ArrayList<Parameter>();
 	}
 
 	public String getDisplayName() {

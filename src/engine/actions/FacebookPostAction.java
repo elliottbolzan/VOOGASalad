@@ -17,7 +17,7 @@ public class FacebookPostAction extends Action {
 	}
 
 	/**
-	 * Post a message on Facebook. Show an alert showing sucess or failure of the
+	 * Post a message on Facebook. Show an alert showing success or failure of the
 	 * post.
 	 */
 	@Override
