@@ -25,7 +25,8 @@ import javafx.scene.input.MouseEvent;
  * @author jimmy Modified by Mina Mungekar
  *
  */
-public class LayerEditor extends View {
+public class LayerEditor extends View
+{
 	private Workspace workspace;
 	private Canvas canvas;
 	private Map<Integer, Layer> layers;
@@ -39,14 +40,17 @@ public class LayerEditor extends View {
 	 * @param workspace
 	 *            Workspace that the LayerEditor will be in.
 	 */
-	public LayerEditor(Workspace workspace) {
+	public LayerEditor(Workspace workspace)
+	{
 		super("");
 		this.workspace = workspace;
 		maker = new ComponentMaker(workspace.getResources());
 		setup();
 	}
 
-	public LayerEditor clone() {
+	@Override
+	public LayerEditor clone()
+	{
 		LayerEditor newLevel = new LayerEditor(workspace);
 		newLevel.setNumLayers(layerCount);
 		layers.keySet().stream().forEach(id -> {
@@ -67,7 +71,8 @@ public class LayerEditor extends View {
 	 * 
 	 * @return Level object represented by this LayerEditor.
 	 */
-	public Level getLevel() {
+	public Level getLevel()
+	{
 		Level thisLevel = new Level();
 		for (Layer layer : layers.values()) {
 			for (EntityView entity : layer.getEntities()) {
@@ -85,7 +90,8 @@ public class LayerEditor extends View {
 	 * @param entity
 	 *            the Entity to be edited.
 	 */
-	public void updateEntity(Entity entity) {
+	public void updateEntity(Entity entity)
+	{
 		for (Layer layer : layers.values()) {
 			List<EntityView> concerned = new ArrayList<>();
 			for (EntityView entityView : layer.getEntities()) {
@@ -112,7 +118,8 @@ public class LayerEditor extends View {
 	 * @param level
 	 *            Level to be loaded
 	 */
-	public void loadLevel(Level level) {
+	public void loadLevel(Level level)
+	{
 		this.clear();
 		canvas.clear();
 		for (Entity entity : level.getEntities()) {
@@ -121,7 +128,8 @@ public class LayerEditor extends View {
 		selectLayer(1);
 	}
 
-	public List<Layer> getLayers() {
+	public List<Layer> getLayers()
+	{
 		return new ArrayList<Layer>(layers.values());
 	}
 
@@ -130,7 +138,8 @@ public class LayerEditor extends View {
 	 * 
 	 * @return Currently selected layer.
 	 */
-	public int getCurrentLayer() {
+	public int getCurrentLayer()
+	{
 		return currLayer;
 	}
 
@@ -138,7 +147,8 @@ public class LayerEditor extends View {
 	 * Clear all o the layers/entities currently in the LayerEditor and
 	 * reinitialize the LayerEditor.
 	 */
-	private void clear() {
+	private void clear()
+	{
 		while (layerCount > 1) {
 			executeDelete(layerCount);
 		}
@@ -148,7 +158,8 @@ public class LayerEditor extends View {
 	/*
 	 * Initialize the LayerEditor.
 	 */
-	private void setup() {
+	private void setup()
+	{
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
 		layers = new HashMap<Integer, Layer>();
@@ -163,7 +174,8 @@ public class LayerEditor extends View {
 	 * currently selected entities ctrl + 'C' --> copy currently selected
 	 * entities ctrl + 'V' --> paste currently selected entities
 	 */
-	private void addKeyActions() {
+	private void addKeyActions()
+	{
 		workspace.setFocusTraversable(true);
 		workspace.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
@@ -214,7 +226,8 @@ public class LayerEditor extends View {
 	 * @param e
 	 *            MouseEvent to place the entity at.
 	 */
-	public void addEntity(Entity entity, MouseEvent e) {
+	public void addEntity(Entity entity, MouseEvent e)
+	{
 		try {
 			addEntity(entity, e.getX() + canvas.getXScrollAmount(), e.getY() + canvas.getYScrollAmount(), currLayer);
 		} catch (Exception exception) {
@@ -236,7 +249,8 @@ public class LayerEditor extends View {
 	 *            layer to place the Entity in
 	 * @return EntityView that was added.
 	 */
-	public EntityView addEntity(Entity entity, double x, double y, int z) {
+	public EntityView addEntity(Entity entity, double x, double y, int z)
+	{
 		EntityView addedEntity = canvas.addEntity(entity, x, y);
 		addedEntity.getEntity().setZ(z);
 		setNumLayers(z);
@@ -265,7 +279,8 @@ public class LayerEditor extends View {
 	 * @param selected
 	 *            true if selected, false if deselected
 	 */
-	private void selectEntity(EntityView entity, boolean selected) {
+	private void selectEntity(EntityView entity, boolean selected)
+	{
 		entity.setSelected(selected);
 	}
 
@@ -275,7 +290,8 @@ public class LayerEditor extends View {
 	 * @param z
 	 *            Number for last layer in this LayerEditor
 	 */
-	private void setNumLayers(int z) {
+	private void setNumLayers(int z)
+	{
 		while (layerCount < z) {
 			newLayer();
 		}
@@ -284,7 +300,8 @@ public class LayerEditor extends View {
 	/**
 	 * Make a new layer
 	 */
-	public void newLayer() {
+	public void newLayer()
+	{
 		layerCount++;
 		layers.put(layerCount, new Layer());
 		// newLayerSelected(layerCount);
@@ -296,11 +313,13 @@ public class LayerEditor extends View {
 	 * @param newLayer
 	 *            Layer to be selected.
 	 */
-	public void selectLayer(int newLayer) {
+	public void selectLayer(int newLayer)
+	{
 		newLayerSelected(newLayer);
 	}
 
-	private void newLayerSelected(int newVal) {
+	private void newLayerSelected(int newVal)
+	{
 		for (Layer layer : layers.values()) {
 			for (Node entity : layer.getEntities()) {
 				entity.setOpacity(0.3);
@@ -318,7 +337,8 @@ public class LayerEditor extends View {
 	/**
 	 * Select this LayerEditor (select the first layer)
 	 */
-	public void select() {
+	public void select()
+	{
 		this.selectLayer(1);
 		// allow this layer to have key actions
 		addKeyActions();
@@ -327,7 +347,8 @@ public class LayerEditor extends View {
 	/**
 	 * Show an error message
 	 */
-	private void showSelectMessage() {
+	private void showSelectMessage()
+	{
 		ComponentMaker maker = new ComponentMaker(workspace.getResources());
 		String message = workspace.getResources().getString("SelectAnEntity");
 		Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
@@ -339,7 +360,8 @@ public class LayerEditor extends View {
 	 * 
 	 * @return Current number of layers.
 	 */
-	public int getLayerCount() {
+	public int getLayerCount()
+	{
 		return layerCount;
 	}
 
@@ -349,7 +371,8 @@ public class LayerEditor extends View {
 	 * @param layer
 	 *            Layer to be deleted
 	 */
-	public void deleteLayer(int layer) {
+	public void deleteLayer(int layer)
+	{
 		if (layerCount == 1) {
 			String message = workspace.getResources().getString("LayerError");
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message);
@@ -364,7 +387,8 @@ public class LayerEditor extends View {
 	 * 
 	 * @param layer
 	 */
-	private void executeDelete(int layer) {
+	private void executeDelete(int layer)
+	{
 		if (layers.get(layer).getEntities().size() != 0) {
 			layers.get(layer).getEntities().stream().forEach(id -> {
 				canvas.removeEntity(id);

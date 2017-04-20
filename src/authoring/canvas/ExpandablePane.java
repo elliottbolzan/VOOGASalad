@@ -1,20 +1,13 @@
 package authoring.canvas;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import authoring.Workspace;
-import authoring.views.View;
-import engine.Entity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -24,33 +17,24 @@ import javafx.scene.shape.Circle;
 
 /**
  * 
- * The Canvas is where you can drag Entities to create your own level. It can
- * contain multiple layers for backgrounds and foregrounds (layers). The layers
- * are mostly used to specify the order in which entities . The Canvas is
- * located in the center of the workspace. The top-left corner of the canvas is
- * set to be the origin (0,0) of the coordinate system.
- * 
  * @author jimmy
  *
  */
-public class Canvas extends View
+public class ExpandablePane extends Pane
 {
 
 	private final int TILE_SIZE = 25;
-	private final int DEFAULT_WIDTH = 800;
-	private final int DEFAULT_HEIGHT = 600;
+	private final int DEFAULT_WIDTH = 8000;
+	private final int DEFAULT_HEIGHT = 6000;
 
 	private Group gridNodes;
-	private ScrollPane scrollScreen;
-	private List<EntityView> entities;
-	private Pane canvas;
 
 	private double width;
 	private double height;
 
-	public Canvas(Workspace workspace)
+	public ExpandablePane()
 	{
-		super(workspace.getResources().getString("CanvasTitle"));
+		super();
 		setup();
 	}
 
@@ -72,7 +56,7 @@ public class Canvas extends View
 	 */
 	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler)
 	{
-		canvas.setOnMouseClicked(eventHandler);
+		this.setOnMouseClicked(eventHandler);
 	}
 
 	/**
@@ -85,7 +69,7 @@ public class Canvas extends View
 	 */
 	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler)
 	{
-		canvas.setOnMouseDragged(eventHandler);
+		this.setOnMouseDragged(eventHandler);
 	}
 
 	/**
@@ -95,66 +79,9 @@ public class Canvas extends View
 	private void setup()
 	{
 		gridNodes = new Group();
+		this.getChildren().add(gridNodes);
 		// entityRegions = new HashMap<Node, Region>();
-		entities = new ArrayList<EntityView>();
-		scrollScreen = createScroller();
-		this.setCenter(scrollScreen);
 
-		scrollScreen.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>()
-		{
-			@Override
-			public void handle(ScrollEvent event)
-			{
-				double zoomFactor = 1.05;
-				double deltaY = event.getDeltaY();
-				if (deltaY < 0) {
-					zoomFactor = 2.0 - zoomFactor;
-				}
-				canvas.setScaleX(canvas.getScaleX() * zoomFactor);
-				canvas.setScaleY(canvas.getScaleY() * zoomFactor);
-				// canvas.setTranslateX(0 - (canvas.getScene().getWidth() *
-				// canvas.getScaleX()) / 4);
-				// canvas.setTranslateY(0 - (canvas.getScene().getHeight() *
-				// canvas.getScaleY()) / 4);
-				// canvas.setTranslateX(-1
-				// * (scrollScreen.getViewportBounds().getWidth() -
-				// (canvas.getScaleX() * canvas.getWidth())) / 2);
-				// canvas.setTranslateY(
-				// -1 * (scrollScreen.getViewportBounds().getHeight() -
-				// (canvas.getScaleY() * canvas.getHeight()))
-				// / 2);
-				System.out.println(canvas.getScaleX());
-				System.out.println(canvas.getScaleY());
-				// scrollScreen.setHmax(canvas.getScaleX());
-				// scrollScreen.setVmax(canvas.getScaleY());
-				scrollScreen.setMaxHeight(canvas.getHeight());
-				scrollScreen.setMaxWidth(canvas.getWidth());
-				event.consume();
-				updateDisplay();
-			}
-		});
-	}
-
-	/**
-	 * Gets the current x value of the top-left corner.
-	 * 
-	 * @return x value of top-left corner of scroll panel.
-	 */
-	public double getXScrollAmount()
-	{
-		double viewPortX = scrollScreen.getViewportBounds().getWidth();
-		return scrollScreen.getHvalue() * (width - viewPortX);
-	}
-
-	/**
-	 * Gets the current y value of the top-left corner.
-	 * 
-	 * @return y value of top-left corner.
-	 */
-	public double getYScrollAmount()
-	{
-		double viewportY = scrollScreen.getViewportBounds().getHeight();
-		return scrollScreen.getVvalue() * (height - viewportY);
 	}
 
 	/**
@@ -168,37 +95,6 @@ public class Canvas extends View
 	}
 
 	/**
-	 * Creates the scroller for the canvas.
-	 * 
-	 * @return ScrollPane scroller for canvas
-	 */
-	private ScrollPane createScroller()
-	{
-		scrollScreen = new ScrollPane();
-		canvas = new Pane();
-		canvas.setPrefHeight(height);
-		canvas.setPrefWidth(width);
-		canvas.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-
-		canvas.getChildren().add(gridNodes);
-		scrollScreen.setContent(canvas);
-		// clickToAddEntity();
-		updateDisplay();
-		return scrollScreen;
-	}
-
-	public List<EntityView> getSelectedEntities()
-	{
-		List<EntityView> selected = new ArrayList<EntityView>();
-		entities.forEach(e -> {
-			if (e.isSelected()) {
-				selected.add(e);
-			}
-		});
-		return selected;
-	}
-
-	/**
 	 * Add an entity to the top-left corner of the canvas. This method makes a
 	 * clone of the given Entity and creates an actual EntityView from it ((The
 	 * EntityView is what is actually displayed in the Canvas.)
@@ -207,9 +103,9 @@ public class Canvas extends View
 	 *            Entity to be added to the canvas.
 	 * @return EntityView that is displayed in the Canvas.
 	 */
-	public EntityView addEntity(Entity entity)
+	public void addNode(Node node)
 	{
-		return this.addEntity(entity, 0, 0);
+		this.addEntity(node, 0, 0);
 	}
 
 	/**
@@ -225,19 +121,16 @@ public class Canvas extends View
 	 *            y position
 	 * @return EntityView that is displayed in the Canvas.
 	 */
-	public EntityView addEntity(Entity entity, double x, double y)
+	public void addEntity(Node node, double x, double y)
 	{
-		EntityView newEntity = new EntityView(entity, this, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
-		newEntity.setTranslateX(tiledCoordinate.getX());
-		newEntity.setTranslateY(tiledCoordinate.getY());
-		entities.add(newEntity);
-		canvas.getChildren().add(newEntity);
+		node.setTranslateX(tiledCoordinate.getX());
+		node.setTranslateY(tiledCoordinate.getY());
+		this.getChildren().add(node);
 
-		makeDraggable(newEntity);
+		makeDraggable(node);
 		updateCanvasBounds();
 		updateDisplay();
-		return newEntity;
 	}
 
 	/**
@@ -246,10 +139,9 @@ public class Canvas extends View
 	 * @param entity
 	 *            EntityView to be removed from the Canvas.
 	 */
-	public void removeEntity(EntityView entity)
+	public void removeEntity(Node node)
 	{
-		entities.remove(entity);
-		canvas.getChildren().remove(entity);
+		this.getChildren().remove(node);
 	}
 
 	/**
@@ -292,9 +184,9 @@ public class Canvas extends View
 	 * @param entity
 	 *            EntityView to bind the scrollbar to.
 	 */
-	private void makeDraggable(EntityView entity)
+	private void makeDraggable(Node node)
 	{
-		entity.translateXProperty().addListener(new ChangeListener<Number>()
+		node.translateXProperty().addListener(new ChangeListener<Number>()
 		{
 
 			@Override
@@ -303,9 +195,13 @@ public class Canvas extends View
 				// scrollScreen.setHvalue(newX.doubleValue() / (width -
 				// entity.getWidth()));
 				// if (newX.intValue() < 0) {
-				// entity.setTranslateX(0);
+				// node.setTranslateX(0);
 				// } else
-				if (newX.intValue() + entity.getWidth() > width) {
+				if (newX.intValue() + node.getBoundsInLocal().getWidth() > width) {
+					// gridNodes.getChildren().clear();
+					// drawGrid();
+					updateCanvasBounds();
+				} else if (newX.intValue() < 0) {
 					updateCanvasBounds();
 				}
 				updateDisplay();
@@ -313,7 +209,7 @@ public class Canvas extends View
 
 		});
 
-		entity.translateYProperty().addListener(new ChangeListener<Number>()
+		node.translateYProperty().addListener(new ChangeListener<Number>()
 		{
 
 			@Override
@@ -322,9 +218,12 @@ public class Canvas extends View
 				// scrollScreen.setVvalue(newY.doubleValue() / (height -
 				// entity.getHeight()));
 				// if (newY.intValue() < 0) {
-				// entity.setTranslateY(0);
+				// node.setTranslateY(0);
 				// } else
-				if (newY.intValue() + entity.getHeight() > height) {
+
+				if (newY.intValue() + node.getBoundsInLocal().getHeight() > height) {
+					// gridNodes.getChildren().clear();
+					// drawGrid();
 					updateCanvasBounds();
 				}
 				updateDisplay();
@@ -332,12 +231,14 @@ public class Canvas extends View
 
 		});
 
-		entity.minHeightProperty().addListener(e -> {
-			updateDisplay();
-		});
-		entity.minWidthProperty().addListener(e -> {
-			updateDisplay();
-		});
+		// TODO: Fix height, width resizing updating display
+
+		// node.minHeightProperty().addListener(e -> {
+		// updateDisplay();
+		// });
+		// node.minWidthProperty().addListener(e -> {
+		// updateDisplay();
+		// });
 	}
 
 	/**
@@ -347,11 +248,11 @@ public class Canvas extends View
 	private void updateDisplay()
 	{
 		updateCanvasBounds();
-		canvas.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-		gridNodes.getChildren().clear();
-		drawGrid();
-		canvas.setPrefHeight(height);
-		canvas.setPrefWidth(width);
+		this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+		// gridNodes.getChildren().clear();
+		// drawGrid();
+		this.setPrefHeight(height);
+		this.setPrefWidth(width);
 	}
 
 	/**
@@ -362,13 +263,13 @@ public class Canvas extends View
 	{
 		double minX = 0;
 		double minY = 0;
-		double maxX = DEFAULT_WIDTH;
-		double maxY = DEFAULT_HEIGHT;
-		for (EntityView entity : entities) {
-			double nodeMaxX = entity.getTranslateX() + entity.getBoundsInParent().getWidth();
-			double nodeMaxY = entity.getTranslateY() + entity.getBoundsInParent().getHeight();
-			double nodeMinX = entity.getTranslateX();
-			double nodeMinY = entity.getTranslateY();
+		double maxX = width;
+		double maxY = height;
+		for (Node node : this.getChildren()) {
+			double nodeMaxX = node.getTranslateX() + node.getBoundsInParent().getWidth();
+			double nodeMaxY = node.getTranslateY() + node.getBoundsInParent().getHeight();
+			double nodeMinX = node.getTranslateX();
+			double nodeMinY = node.getTranslateY();
 			if (nodeMaxX > maxX) {
 				maxX = nodeMaxX;
 			}
@@ -381,11 +282,15 @@ public class Canvas extends View
 			if (nodeMinY < minY) {
 				minY = nodeMinY;
 			}
+			if (node.getTranslateX() < 0) {
+				node.setTranslateX(0);
+			}
+			if (node.getTranslateY() < 0) {
+				node.setTranslateY(0);
+			}
 		}
 		this.width = maxX - minX;
 		this.height = maxY - minY;
-		canvas.setTranslateX(minX / 2);
-		canvas.setTranslateY(minY / 2);
 	}
 
 	/**
