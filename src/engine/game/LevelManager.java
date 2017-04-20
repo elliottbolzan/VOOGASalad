@@ -89,26 +89,6 @@ public class LevelManager {
 	}
 
 	/**
-	 * External Engine API. Called by the Game Player during gameplay. Pulls up
-	 * the pause menu.
-	 * 
-	 * @return
-	 */
-	public void pause() {
-
-	}
-
-	/**
-	 * External Engine API. Called by the GAE during editing and uses methods
-	 * from Game Data.
-	 * 
-	 * @return
-	 */
-	public void saveCurrentLevel() {
-
-	}
-
-	/**
 	 * Called only from GAE. (Maybe don't need this method?). Once game play
 	 * phase begins, level state should never be saved (unless add checkpoints).
 	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
@@ -128,17 +108,6 @@ public class LevelManager {
 	}
 
 	/**
-	 * External Engine API. Called by the GAE during editing and uses methods
-	 * from Game Data.
-	 * 
-	 * @param filename
-	 * @return
-	 */
-	public void openLevel(String filename) {
-
-	}
-
-	/**
 	 * Since never save levels' state during gameplay, can call this method at
 	 * any point during game loop to get levels' initial states.
 	 * 
@@ -147,23 +116,12 @@ public class LevelManager {
 
 	public void loadAllSavedLevels() {
 		levels.removeAll();
-		levels.addAll(game.getLevels()); // TODO
-																	// uncomment
-																	// once
-																	// GameData
-																	// is added
-		/*
-		 * levels.add(new Level()); //TODO: remove this after testing
-		 * levels.add(new Level()); levels.add(new Level());
-		 * System.out.println("The Levels SelectionGroup has List: " +
-		 * levels.getListRepresentation());
-		 * System.out.println("Loaded the current level");
-		 */
+		//GameData loader = new GameData()
+		levels.addAll(game.getLevels());
+		
+		//1. Make a cloneGame() method in game - would be nice to clone ALL FIELDS in GAME
+		//2. 
 	}
-
-	/*
-	 * public void startCurrentLevel() { getCurrentLevel().start(); }
-	 */
 
 	public SelectionGroup<Level> getLevels() {
 		return levels;
