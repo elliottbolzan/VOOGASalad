@@ -24,6 +24,9 @@ public class GameXMLFactory
 	private Element defaultsNode;
 	private Element cameraNode;
 	private Element resourceNode;
+	private Element achieveNode;
+	private Element backgroundNode;
+	private Element infoNode;
 	private ResourceManager rm;
 
 	/**
@@ -65,6 +68,14 @@ public class GameXMLFactory
 		resourceNode = doc.createElement(rm.getResourceTitle());
 		rootElement.appendChild(resourceNode);
 		
+//		achieveNode = doc.createElement("Achievements");
+//		rootElement.appendChild(achieveNode);
+//		
+//		backgroundNode = doc.createElement("Background");
+//		rootElement.appendChild(backgroundNode);
+		
+		infoNode = doc.createElement("GameInfo");
+		rootElement.appendChild(infoNode);
 	}
 	
 	/**
@@ -101,6 +112,26 @@ public class GameXMLFactory
 	}
 	
 	/**
+	 * 
+	 * @param achieve
+	 */
+	public void addAchievement(String achieve){
+		Attr attr = doc.createAttribute("Achievement");
+		attr.setValue(achieve);;
+		achieveNode.setAttributeNode(attr);
+	}
+	
+	/**
+	 * 
+	 * @param info
+	 */
+	public void addInfo(String info){
+		Attr attr = doc.createAttribute("Info");
+		attr.setValue(info);
+		infoNode.setAttributeNode(attr);
+	}
+	
+	/**
 	 * Adds a song path into XML file given the string
 	 * @param songPath : string song path to be added to XML
 	 */
@@ -109,6 +140,16 @@ public class GameXMLFactory
 		cameraNode.appendChild(importedCameraNode);
 	}
 
+	/**
+	 * 
+	 * @param backPath
+	 */
+	public void addBackground(String backPath){
+		Attr attr = doc.createAttribute("Background");
+		attr.setValue(backPath);
+		backgroundNode.setAttributeNode(attr);
+	}
+	
 	/**
 	 * Adds the default entities into XML given the element
 	 * @param defaultEntity
@@ -140,8 +181,10 @@ public class GameXMLFactory
 	 */
 	public Element stringToElement(String xmlString) {
 		try {
+			InputSource is = new InputSource(new ByteArrayInputStream(xmlString.getBytes()));
+			is.setEncoding("UTF-8");
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder()
-					.parse(new ByteArrayInputStream(xmlString.getBytes())).getDocumentElement();
+					.parse(is).getDocumentElement();
 		} catch (SAXException e) {
 		
 		} catch (IOException e) {
