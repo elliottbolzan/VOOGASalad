@@ -1,14 +1,17 @@
-package player;
+package player.launcher;
 
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
+import game_data.Game;
+import game_data.GameData;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import player.Loader;
 import polyglot.Polyglot;
 
 /**
@@ -18,29 +21,30 @@ import polyglot.Polyglot;
  * @author Jay Doherty
  * @author Jesse
  */
-public class Player extends AbstractPlayer {
+public class FullPlayer extends AbstractPlayer {
 
 	private static final int CONTROLS_HEIGHT = 42;
 
 	private Button playButton;
 	private boolean isPaused;
-	private ObservableList<String> saveStates;
-	private int count = 0;
 	private ImageView playImage;
 	private ImageView pauseImage;
 
-	public Player(Stage primaryStage, ObservableList<String> saveStates, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(primaryStage, loader, polyglot, IOResources);
-		this.saveStates = saveStates;
-		
+	private Loader mediaManager;
+
+	public FullPlayer(Stage primaryStage, Game game, Loader mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+		super(primaryStage, game, polyglot, IOResources);
+		this.mediaManager = mediaManager;
+
 		this.buildControlBar();
+		this.playSong();
 
 		this.togglePlayPause(true);
 	}
 
 	private void buildControlBar() {
-		ComponentMaker factory = new ComponentMaker(this.getPolyglot(), this.getResources().getString("StylesheetPath"));
-		
+		ComponentMaker factory = this.getFactory();
+
 		pauseImage = new ImageView(
 				new Image(getClass().getClassLoader().getResourceAsStream(this.getResources().getString("PausePath"))));
 		playImage = new ImageView(
@@ -48,7 +52,8 @@ public class Player extends AbstractPlayer {
 		playButton = factory.makeImageButton("PauseButtonText", pauseImage, e -> this.togglePlayPause(isPaused), true);
 		playButton.setPrefHeight(CONTROLS_HEIGHT);
 
-		ImageView restartImage = new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(this.getResources().getString("RestartPath"))));
+		ImageView restartImage = new ImageView(new Image(
+				getClass().getClassLoader().getResourceAsStream(this.getResources().getString("RestartPath"))));
 		Button restartButton = factory.makeImageButton("RestartButtonText", restartImage, e -> this.restart(), true);
 		restartButton.setPrefHeight(CONTROLS_HEIGHT);
 
@@ -61,7 +66,7 @@ public class Player extends AbstractPlayer {
 		ToolBar toolbar = new ToolBar(playButton, restartButton, saveButton, exitButton);
 		this.setTop(toolbar);
 	}
-
+	
 	private void togglePlayPause(boolean play) {
 		if (play) {
 			isPaused = false;
@@ -75,18 +80,24 @@ public class Player extends AbstractPlayer {
 			this.getRunningGameLoop().pauseTimeline();
 		}
 	}
-
+	
 	private void restart() {
 		this.getRunningGameLoop().pauseTimeline();
 		this.buildGameView();
 		this.buildControlBar();
 		this.togglePlayPause(true);
 	}
-
+	
+	private void playSong() {
+		mediaManager.playSong();
+	}
+	
 	private void save() {
-		count++;
-		String saveName = "save"+"_"+count+".xml";
-		this.getLoader().loadData().saveGameState(this.getLoader().loadGame(), this.getLoader().getGamePath(), saveName);
-		saveStates.add(saveName);
+		mediaManager.saveGame();
+	}
+	
+	protected void exit() {
+		super.exit();
+		mediaManager.pauseSong();
 	}
 }

@@ -6,7 +6,7 @@ import engine.graphics.GraphicsEngine;
 import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import player.Overlay;
+import player.score.Overlay;
 
 /**
  * Manages the highest level of time flow in the game. The client class for the game loop.
