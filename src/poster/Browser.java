@@ -18,17 +18,19 @@ public class Browser {
 	private Stage primaryStage;
 	private static final int BROWSER_WIDTH = 640;
 	private static final int BROWSER_HEIGHT = 480;
+	private FacebookPoster poster;
 
 	/**
 	 * Create a new browser. It will be used to log the user into Facebook in
 	 * order to authorize posting on the user's behalf.
 	 * 
-	 * @param stage
-	 *            the stage on which the browser will be displayed.
 	 * @param oauthRequestUrl
 	 *            the Facebook url to which to point the browser.
+	 * @param poster
+	 *            the FacebookPoster that this browser belongs to
 	 */
-	public Browser(String oauthRequestUrl) {
+	public Browser(String oauthRequestUrl, FacebookPoster poster) {
+		this.poster = poster;
 		setup(oauthRequestUrl);
 	}
 
@@ -40,6 +42,7 @@ public class Browser {
 			@Override
 			public void run() {
 				primaryStage.close();
+				System.out.println("CLOSED BROWSER");
 			}
 		});
 	}
@@ -63,6 +66,7 @@ public class Browser {
 		root.getChildren().add(myBrowser);
 		primaryStage.setScene(new Scene(root, BROWSER_WIDTH, BROWSER_HEIGHT));
 		primaryStage.setResizable(false);
+		primaryStage.setOnCloseRequest(e -> poster.finish(false));
 		primaryStage.show();
 	}
 }
