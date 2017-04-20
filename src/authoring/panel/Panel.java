@@ -7,6 +7,7 @@ import authoring.Workspace;
 import authoring.components.Direction;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
+import authoring.panel.info.InfoPanel;
 import authoring.panel.settings.Settings;
 import utils.views.CollapsibleView;
 import utils.views.View;
@@ -29,6 +30,7 @@ public class Panel extends CollapsibleView {
 	private EntityDisplay entityDisplay;
 	private Settings settings;
 	private LayerPanel layerPanel;
+	private InfoPanel info;
 
 	/**
 	 * Returns a Panel.
@@ -46,6 +48,7 @@ public class Panel extends CollapsibleView {
 		entityDisplay = new EntityDisplay(workspace);
 		settings = new Settings(workspace);
 		layerPanel = new LayerPanel(workspace);
+		info = new InfoPanel(workspace);
 		createSubviews();
 		setup();
 	}
@@ -59,6 +62,7 @@ public class Panel extends CollapsibleView {
 		subviews.add(entityDisplay);
 		subviews.add(new Chat(workspace));
 		subviews.add(layerPanel);
+		subviews.add(info);
 		subviews.add(settings);
 	}
 
