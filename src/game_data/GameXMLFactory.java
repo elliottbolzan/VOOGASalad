@@ -140,8 +140,10 @@ public class GameXMLFactory
 	 */
 	public Element stringToElement(String xmlString) {
 		try {
+			InputSource is = new InputSource(new ByteArrayInputStream(xmlString.getBytes()));
+			is.setEncoding("UTF-8");
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder()
-					.parse(new ByteArrayInputStream(xmlString.getBytes())).getDocumentElement();
+					.parse(is).getDocumentElement();
 		} catch (SAXException e) {
 		
 		} catch (IOException e) {
