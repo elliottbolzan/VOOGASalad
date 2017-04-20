@@ -16,14 +16,13 @@ import javafx.util.Duration;
  */
 public class Screen{
 	public static final int FRAME_TIME_MILLISECONDS = 10;
-	private StepStrategy currentStepStrategy; //immutable
+	private StepStrategy currentStepStrategy;
 	private Timeline timeline;
 	
 	public Screen(StepStrategy currentStepStrategy, LevelManager levelManager, Scene gameScene, GraphicsEngine graphicsEngine, GameInfo info){
 		info.setCurrentScreen(this);
 		this.currentStepStrategy = currentStepStrategy;
 		setupTimeline();
-		//System.out.println(timeline + "Timeline instantiated in Screen with StepStrategy" + this.currentStepStrategy);
 		currentStepStrategy.setup(levelManager, gameScene, this, graphicsEngine, info);
 	}
 	
@@ -45,8 +44,6 @@ public class Screen{
 	
 	private void step(){
 		currentStepStrategy.step();
-		//game.setCurrentStepStrategy(currentStepStrategy);
-		//Make sure to call start() for the next screen when implement in StepStrategy subclasses! - no need for step() in GameLoop anymore
 	}
 	
 	public StepStrategy getCurrentStepStrategy(){
