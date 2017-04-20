@@ -31,6 +31,7 @@ import player.menu.MainMenu;
 import polyglot.Case;
 import polyglot.Polyglot;
 import polyglot.PolyglotException;
+import starter.exporter.Exporter;
 
 public class StartMenu extends BorderPane {
 
@@ -53,6 +54,7 @@ public class StartMenu extends BorderPane {
 		this.maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
 		this.setIcon();
 		this.buildStage();
+		//new Exporter();
 	}
 
 	private void setIcon() {
@@ -157,6 +159,35 @@ public class StartMenu extends BorderPane {
 			new MainMenu(new Loader(chosen), polyglot, IOResources);
 		}
 	}
+	
+	/*
+	 private Game chooseGame() {
+		DirectoryChooser chooser = maker.makeDirectoryChooser(
+				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"), "ChooserTitle");
+		File selectedDirectory = chooser.showDialog(stage);
+		try {
+			return new GameData().loadGame(selectedDirectory.getAbsolutePath());
+		}
+		catch (Exception e) {
+			// show message
+			return null;
+		}
+	}
+
+	private void editGame() {
+		Game game = chooseGame();
+		if (game != null) {
+			new AuthoringEnvironment(game, polyglot, IOResources);
+		}
+	}
+
+	private void playGame() {
+		Game game = chooseGame();
+		if (game != null) {
+			new MainMenu(new Loader(game), polyglot, IOResources);
+		}
+	}
+*/
 
 	private MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
 		MenuItem item = new MenuItem();

@@ -34,7 +34,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 	 */
 	public EditingCell(Workspace workspace) {
 		this.workspace = workspace;
-		invalidEdit = workspace.getPolyglot().get("InvalidEdit").get();
+		invalidEdit = workspace.getPolyglot().getOriginal("InvalidEdit");
 	}
 
 	@Override
