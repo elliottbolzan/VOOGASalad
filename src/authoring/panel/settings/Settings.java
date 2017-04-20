@@ -60,7 +60,7 @@ public class Settings extends View {
 		songField = new TextField(fileName(workspace.getGame().getSongPath()));
 		songField.setEditable(false);
 		Button songButton = workspace.getMaker().makeButton("MusicSelect",
-				e -> pickMedia(songField, getResource("MusicChooserTitle"), getResource("MusicChooserExtensions")),
+				e -> pickMedia(songField, getString("MusicChooserTitle"), getResource("MusicChooserExtensions")),
 				true);
 		GridPane.setHalignment(songLabel, HPos.LEFT);
 		grid.add(songLabel, 0, 0);
@@ -76,7 +76,7 @@ public class Settings extends View {
 		imageField = new TextField();
 		imageField.setEditable(false);
 		Button imageButton = workspace.getMaker().makeButton("MusicSelect",
-				e -> pickMedia(imageField, getResource("ImageChooserTitle"), getResource("ImageChooserExtension1"),
+				e -> pickMedia(imageField, getString("ImageChooserTitle"), getResource("ImageChooserExtension1"),
 						getResource("ImageChooserExtension2")),
 				true);
 		GridPane.setHalignment(imageLabel, HPos.LEFT);
@@ -111,7 +111,7 @@ public class Settings extends View {
 		if (selectedFile != null) {
 			String absolute = selectedFile.getAbsolutePath();
 			field.setText(fileName(absolute));
-			if (extensionName.equals(getResource("MusicChooserTitle"))) {
+			if (extensionName.equals(getString("MusicChooserTitle"))) {
 				workspace.getGame().setSongPath(absolute);
 			} else {
 				// workspace.getGame().setBackgroundPath(absolute);

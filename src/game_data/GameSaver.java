@@ -194,6 +194,7 @@ public class GameSaver
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
 		String xmlString = xStream.toXML(entity);
+		
 		entity.setImagePath(absoluteImagePath);
 		return gameXMLFactory.stringToElement(xmlString);
 	}

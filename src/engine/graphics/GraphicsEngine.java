@@ -1,5 +1,6 @@
 package engine.graphics;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -149,9 +150,13 @@ public class GraphicsEngine {
 		node.visibleProperty().bind(entity.isVisibleProperty());
 		entity.imagePathProperty().addListener(
 				(observer, oldPath, newPath) -> {
-					System.out.println(newPath);
-					System.out.println("hi");
-					node.setImage(new Image(newPath));				
+					try{
+						node.setImage(new Image(newPath));
+					}catch(Exception e){
+						node.setImage(new Image(oldPath));
+					}
+							
+									
 			});
 	}
 	

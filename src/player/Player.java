@@ -1,5 +1,6 @@
 package player;
 
+import java.io.File;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
@@ -8,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.DirectoryChooser;
 import polyglot.Polyglot;
 
 /**
@@ -93,7 +95,8 @@ public class Player extends AbstractPlayer {
 	private void save() {
 		count++;
 		String saveName = "save"+"_"+count+".xml";
-		loader.loadData().saveGameState(loader.loadGame(), loader.getGamePath(), saveName);
+//		loader.loadData().saveGameState(loader.loadGame(), loader.getGamePath(), saveName);
+
 		saveStates.add(saveName);
 	}
 

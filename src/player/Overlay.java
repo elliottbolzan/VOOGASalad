@@ -2,6 +2,7 @@ package player;
 
 import java.util.ResourceBundle;
 
+import javafx.beans.binding.StringBinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -40,14 +41,15 @@ public class Overlay extends BorderPane{
 		
 		HBox container = new HBox(100);
 		container.setAlignment(Pos.CENTER);
-		container.getChildren().addAll(makeLabelBox(new Label(polyglot.get("Score").get()), score),
+		container.getChildren().addAll(makeLabelBox(new Label(), polyglot.get("Score"), score),
 				makeImageBox(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("HeartPath")))), lives),
-				makeLabelBox(new Label(polyglot.get("Level").get()), level),
-				makeLabelBox(new Label(polyglot.get("Time").get()), time));
+				makeLabelBox(new Label(), polyglot.get("Level"), level),
+				makeLabelBox(new Label(), polyglot.get("Time"), time));
 		this.setTop(container);
 	}
 	
-	private VBox makeLabelBox(Label title, Label value){
+	private VBox makeLabelBox(Label title, StringBinding titleValue, Label value){
+		title.textProperty().bind(titleValue);
 		VBox box = new VBox(5);
 		box.getChildren().addAll(title, value);
 		box.setAlignment(Pos.CENTER);
