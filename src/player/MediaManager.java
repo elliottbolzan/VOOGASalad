@@ -9,23 +9,22 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import player.score.Score;
 
-public class Loader {
+public class MediaManager {
 	private String gameFolderPath;
-	private Game game;
 	
 	private MediaPlayer songPlayer;
 	private ObservableList<String> saveStates;
 	private int count = 0;
 	
-	public Loader(String gameFolderPath, ObservableList<String> saveStates) {
+	public MediaManager(String gameFolderPath, ObservableList<String> saveStates) {
 		this.gameFolderPath = gameFolderPath;
 		
 		GameData data = new GameData();
-		this.game = data.loadGame(gameFolderPath);
+		Game game = data.loadGame(gameFolderPath);
 		
 		this.saveStates = saveStates;
 		
-		if (!this.getGame().getSongPath().equals("")) {
+		if (!game.getSongPath().equals("")) {
 			String uriString = new File(game.getSongPath()).toURI().toString();
 			songPlayer = new MediaPlayer(new Media(uriString));
 		}
@@ -39,21 +38,13 @@ public class Loader {
 		return songPlayer;
 	}
 
-	public Game getGame() {
-		return game;
-	}
-
-	public void setGame(Game game) {
-		this.game = game;
-	}
-
-	protected String getSongPath() {
-		return game.getSongPath();
-	}
-
-	public ObservableList<Score> getScores() {
-		return game.getScores();
-	}
+//	protected String getSongPath() {
+//		return game.getSongPath();
+//	}
+//
+//	public ObservableList<Score> getScores() {
+//		return game.getScores();
+//	}
 	
 	public void playSong() {
 		if(songPlayer != null) {
@@ -68,11 +59,11 @@ public class Loader {
 		}
 	}
 	
-	public void saveGame() {
+	public void saveGame(Game game) {
 		count++;
 		String saveName = "save" + "_" + count + ".xml";
 		GameData saver = new GameData();
-		saver.saveGameState(this.getGame(), gameFolderPath, saveName);
+		saver.saveGameState(game, gameFolderPath, saveName);
 		saveStates.add(saveName);
 	}
 }

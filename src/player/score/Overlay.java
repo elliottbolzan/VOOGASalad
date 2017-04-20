@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import polyglot.Case;
 import polyglot.Polyglot;
 
 /**
@@ -41,10 +42,10 @@ public class Overlay extends BorderPane{
 		
 		HBox container = new HBox(100);
 		container.setAlignment(Pos.CENTER);
-		container.getChildren().addAll(makeLabelBox(new Label(), polyglot.get("Score"), score),
+		container.getChildren().addAll(makeLabelBox(new Label(), polyglot.get("Score", Case.UPPER), score),
 				makeImageBox(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("HeartPath")))), lives),
-				makeLabelBox(new Label(), polyglot.get("Level"), level),
-				makeLabelBox(new Label(), polyglot.get("Time"), time));
+				makeLabelBox(new Label(), polyglot.get("Level", Case.UPPER), level),
+				makeLabelBox(new Label(), polyglot.get("Time", Case.UPPER), time));
 		this.setTop(container);
 	}
 	
