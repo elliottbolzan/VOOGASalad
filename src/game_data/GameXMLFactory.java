@@ -65,11 +65,11 @@ public class GameXMLFactory
 		resourceNode = doc.createElement("Resources");
 		rootElement.appendChild(resourceNode);
 		
-		achieveNode = doc.createElement("Achievements");
-		rootElement.appendChild(achieveNode);
-		
-		backgroundNode = doc.createElement("Background");
-		rootElement.appendChild(backgroundNode);
+//		achieveNode = doc.createElement("Achievements");
+//		rootElement.appendChild(achieveNode);
+//		
+//		backgroundNode = doc.createElement("Background");
+//		rootElement.appendChild(backgroundNode);
 		
 		infoNode = doc.createElement("GameInfo");
 		rootElement.appendChild(infoNode);

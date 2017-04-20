@@ -39,14 +39,15 @@ public class GameLoader {
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws NotAGameFolderException {
 		unzip = new Unpackager();
+		String newPath = "";
+
 		if(gameFolderPath.contains(".zip")){
-			try {
-				unzip.unzip(gameFolderPath, gameFolderPath);
-			} catch (IOException e1) {
-			}
+			newPath = gameFolderPath.replace(".zip", "");
+			unzip.unzip(gameFolderPath, newPath);
 		}
 
-		File dataFile = new File(gameFolderPath + File.separator + saveName);
+		File dataFile = new File(newPath + File.separator + saveName);
+
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -54,18 +55,21 @@ public class GameLoader {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = factory.newDocumentBuilder();
-			doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
+			doc = docBuilder.parse(newPath + File.separator + saveName);
 		} catch (Exception e) {
 		}
 		Game game = new Game();
+
 		addName(game, doc);
-		addLevels(game, doc, gameFolderPath);
-		addDefaults(game, doc, gameFolderPath);
-		addSong(game, doc, gameFolderPath);
-		addAchieve(game, doc, gameFolderPath);
-		addBackground(game, doc, gameFolderPath);
-		addInfo(game, doc, gameFolderPath);
-		addCamera(game, doc, gameFolderPath);
+		addLevels(game, doc, newPath);
+		addDefaults(game, doc, newPath);
+		addSong(game, doc, newPath);
+		//addAchieve(game, doc, newPath);
+		//addBackground(game, doc, newPath);
+		addInfo(game, doc, newPath);
+		addCamera(game, doc, newPath);
+		
+
 		return game;
 	}
 

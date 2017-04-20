@@ -63,13 +63,8 @@ public class Packager
 
 	private void zipFile(ZipOutputStream zos, String path, File file) throws IOException
 	{
-		if (!file.canRead())
-		{
-			return;
-		}
-
+		if (!file.canRead()) return;
 		zos.putNextEntry(new ZipEntry(buildPath(path, file.getName())));
-
 		FileInputStream fis = new FileInputStream(file);
 
 		byte[] buffer = new byte[4092];

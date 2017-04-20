@@ -51,10 +51,10 @@ public class GameSaver
 		saveLevels(game.getLevels(), gameFolderPath);
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), gameFolderPath);
-		saveBackground(gameFolderPath, game.getSongPath());
+		//saveBackground(gameFolderPath, game.getSongPath());
 		saveCamera(game.getCamera(), gameFolderPath);
-		saveAchievements("achievements", gameFolderPath);
-		saveGameInfo(gameFolderPath, "info");
+		//saveAchievements("achievements", gameFolderPath);
+		saveGameInfo(gameFolderPath, "information about game");
 		saveDocument(gameFolderPath, "settings.xml");
 		try {
 			zipDoc(parentDirectoryPath);

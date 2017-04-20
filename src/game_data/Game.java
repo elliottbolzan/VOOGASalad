@@ -39,7 +39,7 @@ public class Game {
 		defaults = new ArrayList<Entity>();
 		songPath = "";
 		setBackPath("");
-		setInfo("");
+		setInfo("Information about game");
 		setAchievements("");
 		camera = new CameraEntity();
 		scores = FXCollections.observableList(addDefaults());
