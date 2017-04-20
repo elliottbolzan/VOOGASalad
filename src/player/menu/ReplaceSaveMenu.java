@@ -1,4 +1,4 @@
-package player;
+package player.menu;
 
 
 import java.util.ResourceBundle;

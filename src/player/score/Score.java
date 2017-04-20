@@ -1,4 +1,4 @@
-package player;
+package player.score;
 
 import engine.game.timer.TimerManager;
 import javafx.beans.property.IntegerProperty;

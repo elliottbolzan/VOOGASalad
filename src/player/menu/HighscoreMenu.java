@@ -1,10 +1,13 @@
-package player;
+package player.menu;
 
 import java.util.ResourceBundle;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import player.Loader;
+import player.PlayerView;
+import player.score.Score;
 import polyglot.Polyglot;
 
 /**

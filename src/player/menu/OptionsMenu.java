@@ -1,8 +1,10 @@
-package player;
+package player.menu;
 
 import java.util.ResourceBundle;
 
 import javafx.stage.Stage;
+import player.Loader;
+import player.PlayerView;
 import polyglot.Polyglot;
 
 import java.util.HashMap;
@@ -96,7 +98,7 @@ public class OptionsMenu extends PlayerView {
 	}
 
 	private void loadKeyBindings() {
-		entities = (List<Entity>) loader.loadGame().getLevels().get(0).getEntities();
+		entities = (List<Entity>) loader.getGame().getLevels().get(0).getEntities();
 		for (int i = 0; i < entities.size(); i++) {
 			// Get all the events of each entity
 			List<Event> events = entities.get(i).getEvents();

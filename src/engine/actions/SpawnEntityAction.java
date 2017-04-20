@@ -16,47 +16,46 @@ public class SpawnEntityAction extends Action {
 		// addParam(new Parameter("Entity Type", String.class, ""));
 		addParam(new Parameter("Entity Name", String.class, ""));
 		addParam(new Parameter("Side", String.class, ""));
-		addParam(new Parameter("X Speed", double.class, 0));
-		addParam(new Parameter("Y Speed", double.class, 0));
+		addParam(new Parameter("X Speed", double.class, 0.0));
+		addParam(new Parameter("Y Speed", double.class, 0.0));
+		addParam(new Parameter("X Acceleration", double.class, 0.0));
+		addParam(new Parameter("Y Acceleration", double.class, 0.0));
 	}
 
 	@Override
 	public void act() {
-		System.out.println("INSIDE ACT");
-		Platform.runLater(new Runnable(){
+		Platform.runLater(new Runnable() {
 			@Override
-			public void run(){
-				System.out.println("INSIDE RUN");
+			public void run() {
 				Entity newEntity = null;
 				for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
-					if (((String) getParam("Entity Name")).equals(entity.getName()))
+					if (((String) getParam("Entity Name")).equals(entity.getName())) {
 						newEntity = entity.clone();
+						break;
+					}
 				}
-				newEntity.setX((Double) getParam("X Speed"));
-				newEntity.setY((Double) getParam("Y Speed"));
+				newEntity.setXSpeed((Double) getParam("X Speed"));
+				newEntity.setYSpeed((Double) getParam("Y Speed"));
+				newEntity.setXAcceleration((Double) getParam("X Acceleration"));
+				newEntity.setYAcceleration((Double) getParam("Y Acceleration"));
 				String side = ((String) getParam("Side"));
 				CollisionSide collisionSide = getCollisionSide(side.toUpperCase());
 				collisionSide.placeEntity(getEntity(), newEntity);
 				if (newEntity.getXSpeed() != 0 || newEntity.getYSpeed() != 0) {
 					Event event = new AlwaysEvent();
-					event.addAction(new MoveAction());
+					event.setEntity(newEntity);
+					Action moveAction = new MoveAction();
+					moveAction.setEntity(newEntity);
+					event.addAction(moveAction);
 					newEntity.addEvent(event);
 				}
 				newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
+				newEntity.getGameInfo().getGraphicsEngine().updateView();
 			}
 		});
-//		newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
 	}
 
 	private CollisionSide getCollisionSide(String side) {
-		try {
-			//Class<?> clazz = Class.forName("engine.CollisionSide." + side);
-			CollisionSide collisionSide = CollisionSide.valueOf(side); 
-			//Constructor<?> ctor = clazz.getDeclaredConstructor();
-			return collisionSide;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+			return CollisionSide.valueOf(side);
 	}
 }
