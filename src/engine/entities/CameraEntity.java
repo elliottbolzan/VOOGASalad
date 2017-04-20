@@ -1,6 +1,7 @@
 package engine.entities;
 
 import engine.Entity;
+import engine.actions.FollowAction;
 import engine.actions.MoveAction;
 import engine.events.AlwaysEvent;
 
@@ -12,11 +13,14 @@ import engine.events.AlwaysEvent;
 public class CameraEntity extends Entity {
 	
 	public CameraEntity() {		
+		//this.setWidth(600);
+		//this.setHeight(600);
 		this.setName("Camera");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
-		//this.setIsVisible(false); //TODO: for now leave the camera image visible for testing
 		this.setZ(-1);
-		this.setupAlwaysMoveEvent();
+		//this.setIsVisible(false); //TODO: for now leave the camera image visible for testing
+		//this.setupAlwaysMoveEvent();
+		//this.setupAlwaysFollowEvent();
 	}
 	
 	private void setupAlwaysMoveEvent() {
@@ -25,6 +29,17 @@ public class CameraEntity extends Entity {
 		
 		AlwaysEvent always = new AlwaysEvent();
 		always.addAction(move);
+		
+		this.addEvent(always);
+	}
+	
+	private void setupAlwaysFollowEvent() {
+		FollowAction follow = new FollowAction();
+		follow.setEntity(this);
+		follow.updateParam("Leader Entity", "Mario");
+		
+		AlwaysEvent always = new AlwaysEvent();
+		always.addAction(follow);
 		
 		this.addEvent(always);
 	}

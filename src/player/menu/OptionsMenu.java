@@ -26,12 +26,12 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 public class OptionsMenu extends AbstractMenu {
 
-	private MediaManager loader;
 	private ScrollPane center;
 	private Map<String, Parameter> keys;
 	private Map<String, Parameter> keyReleases;
@@ -39,9 +39,8 @@ public class OptionsMenu extends AbstractMenu {
 	private GridPane grid;
 	private int count = 0;
 
-	public OptionsMenu(Stage stage, Game game, MediaManager loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(stage, game, loader, "OptionsTitle", polyglot, IOResources);
-		this.loader = loader;
+	public OptionsMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, game, mediaManager, "OptionsTitle", polyglot, IOResources);
 		setup();
 	}
 
@@ -69,7 +68,7 @@ public class OptionsMenu extends AbstractMenu {
 			addControlRow(s, keys.get(s).getObject(), count);
 			count++;
 		}
-		if (loader.getMediaPlayer() != null) {
+		if (this.getLoader().getMediaPlayer() != null) {
 			this.addHeading(getPolyglot().get("Audio"), count);
 			count++;
 
@@ -83,12 +82,13 @@ public class OptionsMenu extends AbstractMenu {
 
 	private Slider setupVolumeSlider() {
 		Slider volume = new Slider();
-
-		volume.setValue(loader.getMediaPlayer().getVolume());
+		MediaPlayer songPlayer = this.getLoader().getMediaPlayer();
+		
+		volume.setValue(songPlayer.getVolume());
 		volume.valueProperty().addListener(new InvalidationListener() {
 			public void invalidated(Observable ov) {
 				if (volume.isValueChanging()) {
-					loader.getMediaPlayer().setVolume(volume.getValue() / 100.0);
+					songPlayer.setVolume(volume.getValue() / 100.0);
 				}
 			}
 		});

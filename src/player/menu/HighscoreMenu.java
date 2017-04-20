@@ -17,16 +17,12 @@ import polyglot.Polyglot;
  * @author Jesse
  *
  */
-public class HighscoreMenu extends PlayerView {
+public class HighscoreMenu extends AbstractMenu {
 	
 	private TableView<Score> scoreTable;	
-	private MediaManager loader;
-	private Game game;
 
-	public HighscoreMenu(Stage stage, Game game, MediaManager loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(polyglot, IOResources);
-		this.loader = loader;
-		this.game = game;
+	public HighscoreMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, game, mediaManager, "HighscoreTitle", polyglot, IOResources);
 		setupScene();
 		loadScores();
 	}
@@ -40,7 +36,7 @@ public class HighscoreMenu extends PlayerView {
 	}
 	
 	private void loadScores(){
-		scoreTable.setItems(game.getScores());
+		scoreTable.setItems(this.getGame().getScores());
 	}
 	
 	private TableColumn<Score, Integer> makeRankColumn(){
@@ -68,5 +64,9 @@ public class HighscoreMenu extends PlayerView {
 		return time;
 	}
 
-
+	@Override
+	public void addElements() {
+		// TODO Auto-generated method stub
+		
+	}
 }

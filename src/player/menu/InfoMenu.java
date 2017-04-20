@@ -9,6 +9,7 @@ import player.MediaManager;
 import polyglot.Polyglot;
 
 public class InfoMenu extends AbstractMenu {
+
 	private Game game;
 
 	public InfoMenu(Stage stage, Game game, MediaManager loader, Polyglot polyglot, ResourceBundle IOResources) {

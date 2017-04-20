@@ -26,15 +26,16 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	private Button back;
 	private Stage stage;
 	private String fontPath;
-	private MediaManager loader;
-	private Game game;
 	private GridPane grid;
+	
+	private MediaManager mediaManager;
+	private Game game;
 
-	public AbstractMenu(Stage stage, Game game, MediaManager loader, String title, Polyglot polyglot, ResourceBundle IOResources) {
+	public AbstractMenu(Stage stage, Game game, MediaManager mediaManager, String title, Polyglot polyglot, ResourceBundle IOResources) {
 		super(polyglot, IOResources);
 		this.game = game;
 		this.stage = stage;
-		this.loader = loader;
+		this.mediaManager = mediaManager;
 		this.fontPath = IOResources.getString("FontPath");
 		loadFont();
 		setupView(title);
@@ -44,7 +45,7 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	public abstract void addElements();
 	
 	protected MediaManager getLoader() {
-		return loader;
+		return mediaManager;
 	}
 	
 	protected Stage getStage() {
@@ -107,7 +108,6 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	}
 
 	public void back(Stage stage) {
-		new MainMenu(stage, game, loader, getPolyglot(), getResources());
+		new MainMenu(stage, game, mediaManager, getPolyglot(), getResources());
 	}
-	
 }
