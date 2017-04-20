@@ -27,9 +27,10 @@ public class GameLoop {
 		Scorebar scorebar = graphicsEngine.getScorebar();
 		ObservableBundle observableBundle = new ObservableBundle(gameScene);
 		
+		levelManager = new LevelManager(game, new LevelStepStrategy());
 		LevelEnder levelEnder = new LevelEnder(levelManager, graphicsEngine);
 		GameInfo info = new GameInfo(observableBundle, scorebar, levelEnder);
-		Screen level1Screen = new Screen(new LevelManager(game, new LevelStepStrategy()), graphicsEngine, info);
+		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
 		levelManager.setCurrentScreen(level1Screen);
 		levelEnder.setInfo(info);
 	}

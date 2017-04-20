@@ -44,7 +44,7 @@ public class LevelEnder {
 	 * 
 	 * @param gameOver
 	 */
-	//TODO Rename die()
+
 	public void die(boolean gameOver) {
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			info.getObservableBundle().detachEntityFromAll(entity);
