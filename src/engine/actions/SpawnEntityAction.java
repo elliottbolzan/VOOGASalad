@@ -1,0 +1,45 @@
+package engine.actions;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import engine.Action;
+import engine.CollisionSide;
+import engine.Entity;
+import engine.Parameter;
+import engine.game.EngineController;
+
+public class SpawnEntityAction extends Action {
+
+	public SpawnEntityAction(){
+		addParam(new Parameter("Entity Type", String.class, ""));
+		addParam(new Parameter("Entity Name", String.class, ""));
+		addParam(new Parameter("Side", String.class, ""));
+		addParam(new Parameter("X Speed", double.class, 0));
+		addParam(new Parameter("Y Speed", double.class, 0));
+	}
+	
+	@Override
+	public void act() {
+		EngineController controller = new EngineController();
+		Entity newEntity = controller.createEntity((String)getParam("Entity"));
+		newEntity.setX((double)getParam("X Speed"));
+		newEntity.setY((double)getParam("Y Speed"));
+		String side = ((String)getParam("Side"));
+		side = capitalizeFirstLetter(side);
+		
+	}
+	private String capitalizeFirstLetter(String input){
+		return input.substring(0, 1).toUpperCase() + input.substring(1).toLowerCase();
+	}
+	
+	private CollisionSide getCollisionSide(String side){	
+		try {
+			Class<?> clazz = Class.forName("engine.CollisionSide." + side);
+			Constructor<?> ctor = clazz.getDeclaredConstructor();
+			return (CollisionSide)ctor.newInstance();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+}
