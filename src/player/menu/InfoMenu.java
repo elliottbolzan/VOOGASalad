@@ -20,7 +20,7 @@ public class InfoMenu extends AbstractMenu {
 	public void addElements() {
 		WebView view = new WebView();
 		WebEngine engine = view.getEngine();
-		if(game.getInfo() != ""){
+		if(game.getInfo() != null){
 			engine.loadContent(game.getInfo());
 		}
 		
