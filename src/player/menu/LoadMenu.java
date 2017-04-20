@@ -31,7 +31,7 @@ public class LoadMenu extends AbstractMenu {
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 
-	public LoadMenu(Stage stage, MediaManager loader, Game game, Polyglot polyglot, ResourceBundle IOResources) {
+	public LoadMenu(Stage stage, Game game, MediaManager loader, Polyglot polyglot, ResourceBundle IOResources) {
 		super(stage, game, loader, "LoadTitle", polyglot, IOResources);
 		this.game = game;
 		this.polyglot = polyglot;
