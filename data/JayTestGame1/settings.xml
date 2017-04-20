@@ -593,4 +593,4 @@
   <xAcceleration>0.0</xAcceleration>
   <yAcceleration>0.0</yAcceleration>
   <events/>
-</engine.entities.CameraEntity></Camera><Resources Song="resources/JayTestGame1.mp3"/></Game>
+</engine.entities.CameraEntity></Camera><Resources Song="resources/JayTestGame1.mp3"/><GameInfo Info="information about game"/></Game>

@@ -12,7 +12,7 @@ import engine.actions.MoveAction;
 import engine.actions.NextLevelAction;
 import engine.actions.WalkAction;
 import engine.actions.ZeroHorizontalSpeedAction;
-import engine.actions.ZeroVerticalSpeedAction;
+import engine.actions.ZeroDownSpeedAction;
 import engine.entities.BlockEntity;
 import engine.entities.CharacterEntity;
 import engine.entities.CameraEntity;
