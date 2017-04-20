@@ -8,11 +8,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import player.Loader;
+import player.MediaManager;
 import player.launcher.FullPlayer;
 import polyglot.Case;
 import polyglot.Polyglot;
@@ -27,12 +26,14 @@ public class LoadMenu extends AbstractMenu {
 	private ObservableList<String> saveStates;
 	private ObservableList<Button> saveButtons;
 	private VBox saveButtonContainer;
+	private Game game;
 
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 
-	public LoadMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(stage, loader, "LoadTitle", polyglot, IOResources);
+	public LoadMenu(Stage stage, MediaManager loader, Game game, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, game, loader, "LoadTitle", polyglot, IOResources);
+		this.game = game;
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
 		saveStates = FXCollections.observableArrayList();
@@ -41,14 +42,13 @@ public class LoadMenu extends AbstractMenu {
 	}
 
 	private void loadNewGame(Stage stage) {
-		new FullPlayer(stage, getLoader().getGame(), getLoader(), polyglot, IOResources);
+		new FullPlayer(stage, game, getLoader(), polyglot, IOResources);
 	}
 	
 	private void loadSaveState(Stage stage, String saveName){
 		GameData data = new GameData();
 		Game game = data.loadGameState(getLoader().getGamePath(), saveName);
-		Loader loader = new Loader(getLoader().getGamePath(), saveStates);
-		loader.setGame(game);
+		MediaManager loader = new MediaManager(getLoader().getGamePath(), saveStates);
 		new FullPlayer(stage, game, loader, polyglot, IOResources);
 	}
 

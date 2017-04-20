@@ -2,6 +2,7 @@ package player.menu;
 
 import java.util.ResourceBundle;
 
+import game_data.Game;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -10,7 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import player.Loader;
+import player.MediaManager;
 import player.PlayerView;
 import polyglot.Polyglot;
 
@@ -25,11 +26,13 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	private Button back;
 	private Stage stage;
 	private String fontPath;
-	private Loader loader;
+	private MediaManager loader;
+	private Game game;
 	private GridPane grid;
 
-	public AbstractMenu(Stage stage, Loader loader, String title, Polyglot polyglot, ResourceBundle IOResources) {
+	public AbstractMenu(Stage stage, Game game, MediaManager loader, String title, Polyglot polyglot, ResourceBundle IOResources) {
 		super(polyglot, IOResources);
+		this.game = game;
 		this.stage = stage;
 		this.loader = loader;
 		this.fontPath = IOResources.getString("FontPath");
@@ -40,7 +43,7 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	
 	public abstract void addElements();
 	
-	protected Loader getLoader() {
+	protected MediaManager getLoader() {
 		return loader;
 	}
 	
@@ -48,6 +51,10 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 		return stage;
 	}
 
+	protected Game getGame() {
+		return game;
+	}
+	
 	protected Button backButton() {
 		return back;
 	}
@@ -100,7 +107,7 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	}
 
 	public void back(Stage stage) {
-		new MainMenu(stage, loader, getPolyglot(), getResources());
+		new MainMenu(stage, game, loader, getPolyglot(), getResources());
 	}
 	
 }
