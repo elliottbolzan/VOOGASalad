@@ -24,7 +24,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -128,7 +127,7 @@ public class StartMenu extends BorderPane {
 
 	private String chooseGame() {
 		FileChooser chooser = maker.makeFileChooser(
-				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"),"ChooserTitle", "*.zip");
+				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"), "ZIP", "*.zip");
 		File selectedDirectory = chooser.showOpenDialog(stage);
 		if (selectedDirectory == null) {
 			return "";
@@ -136,6 +135,7 @@ public class StartMenu extends BorderPane {
 			return selectedDirectory.getAbsolutePath();
 		}
 	}
+
 
 	private boolean isSelected(String selectedDirectory) {
 		if (selectedDirectory == "") {
