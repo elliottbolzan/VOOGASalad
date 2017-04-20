@@ -41,8 +41,7 @@ public class LoadMenu extends AbstractMenu {
 	}
 
 	private void loadNewGame(Stage stage) {
-		//stage.close();
-		new Player(saveStates, getLoader(), polyglot, IOResources);
+		new Player(stage, saveStates, getLoader(), polyglot, IOResources);
 	}
 	
 	private void loadSaveState(Stage stage, String saveName){
@@ -51,7 +50,7 @@ public class LoadMenu extends AbstractMenu {
 		Loader loader = new Loader(getLoader().getGamePath());
 		loader.setData(data);
 		loader.setGame(game);
-		new Player(saveStates, loader, polyglot, IOResources);
+		new Player(stage, saveStates, loader, polyglot, IOResources);
 	}
 
 	private void setupScene(Stage stage) {

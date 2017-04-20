@@ -20,8 +20,10 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import player.BasicPlayer;
 import player.Loader;
+import player.Player;
 import polyglot.Polyglot;
 import utils.views.View;
 
@@ -168,8 +170,11 @@ public class Workspace extends View {
 	 * 
 	 */
 	public void test() {
-		createGame();		
-		new BasicPlayer(new Loader(path), polyglot, IOResources);
+		createGame();	
+		Stage stage = new Stage();
+		//TODO: maybe player should be easier to instantiate. This isn't great.
+		new Player(stage, null, new Loader(path), polyglot, IOResources);
+		stage.show();
 	}
 	
 	private void createGame() {
