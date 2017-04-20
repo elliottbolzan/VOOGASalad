@@ -167,6 +167,28 @@ public class EntityView extends VBox
 	}
 
 	/**
+	 * Move by the given number of tiles in the x direction.
+	 * 
+	 * @param xGridAmount
+	 *            number of grid tiles to shift by
+	 */
+	public void moveXGrid(double xGridAmount)
+	{
+		moveX(xGridAmount * tileSize);
+	}
+
+	/**
+	 * Move by the given number of tiles in the y direction.
+	 * 
+	 * @param yGridAmount
+	 *            number of grid tiles to shift by
+	 */
+	public void moveYGrid(double yGridAmount)
+	{
+		moveY(yGridAmount * tileSize);
+	}
+
+	/**
 	 * Returns whether or not this EntityView is selected.
 	 * 
 	 * @return true if this entity is selected, false if not selected.

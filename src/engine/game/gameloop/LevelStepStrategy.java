@@ -105,6 +105,7 @@ public class LevelStepStrategy implements StepStrategy {
 		if (gameOver) {
 			// screen.setNextScreen(screen); //TODO get rid of next screen
 			// parameter - no need to keep track of!
+			
 			nextStepStrategy = new GameOverStepStrategy();
 		} else {
 			// screen.setNextScreen(screen);

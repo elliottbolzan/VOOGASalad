@@ -2,7 +2,6 @@ package usecases;
 
 import engine.ActionInterface;
 import engine.CollisionInterface;
-import engine.CollisionEventInterface;
 import engine.EntityInterface;
 import engine.EventInterface;
 import engine.GameInterface;

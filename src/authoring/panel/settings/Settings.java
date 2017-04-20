@@ -88,7 +88,7 @@ public class Settings extends View {
 		if (selectedFile != null) {
 			String absolute = selectedFile.getAbsolutePath();
 			field.setText(fileName(absolute));
-			if(getResource(extensionName).equals("MusicChooserTitle")){		
+			if(extensionName.equals(getResource("MusicChooserTitle"))){		
 				workspace.getGame().setSongPath(absolute);
 			}else{
 				//workspace.getGame().setBackgroundPath(absolute);
