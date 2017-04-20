@@ -42,7 +42,6 @@ public class Browser {
 			@Override
 			public void run() {
 				primaryStage.close();
-				System.out.println("CLOSED BROWSER");
 			}
 		});
 	}

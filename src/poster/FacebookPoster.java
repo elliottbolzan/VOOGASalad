@@ -148,8 +148,6 @@ public class FacebookPoster {
 			GraphResponse publishMessageResponse = image == null ? postMessage(facebookClient)
 					: postImage(facebookClient);
 		} catch (Exception e) {
-			//e.printStackTrace();
-			System.out.println("IN HERE");
 			finish(false);
 			return;
 		}
@@ -198,7 +196,6 @@ public class FacebookPoster {
 	protected void finish(boolean condition) {
 		serverThread.stop();
 		browser.close();
-		System.out.println("FINISHED");
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
