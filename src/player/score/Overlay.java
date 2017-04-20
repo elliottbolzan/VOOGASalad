@@ -1,4 +1,4 @@
-package player;
+package player.score;
 
 import java.util.ResourceBundle;
 

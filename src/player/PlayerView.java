@@ -38,22 +38,21 @@ public class PlayerView extends View {
 		setMinSize(420, 600);
 	}
 	
-	public Polyglot getPolyglot() {
-		return polyglot;
-	}
-	
-	public ResourceBundle getResources() {
-		return IOResources;
-	}
-	
-	public Scene createScene() {
-		Scene scene = new Scene(this, 420, 600);
+	public Scene createScene(double width, double height) {
+		Scene scene = new Scene(this, width, height);
 		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 		return scene;
 	}
 	
-	public ComponentMaker getFactory() {
+	protected Polyglot getPolyglot() {
+		return polyglot;
+	}
+	
+	protected ResourceBundle getResources() {
+		return IOResources;
+	}
+	
+	protected ComponentMaker getFactory() {
 		return factory;
 	}
-
 }

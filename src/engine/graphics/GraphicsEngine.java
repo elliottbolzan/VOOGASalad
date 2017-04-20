@@ -19,7 +19,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import player.Overlay;
+import player.score.Overlay;
 
 /**
  * @author Jay Doherty
@@ -53,6 +53,13 @@ public class GraphicsEngine {
 	 */
 	public Pane getView() {
 		return displayArea;
+	}
+	
+	/**
+	 * @return the camera used to move around the display
+	 */
+	public CameraEntity getCamera() {
+		return this.camera;
 	}
 	
 	/**
@@ -147,12 +154,9 @@ public class GraphicsEngine {
 		node.yProperty().bind(entity.yProperty());
 		node.setTranslateZ(entity.getZ());
 		node.visibleProperty().bind(entity.isVisibleProperty());
-		entity.imagePathProperty().addListener(
-				(observer, oldPath, newPath) -> {
-					System.out.println(newPath);
-					System.out.println("hi");
-					node.setImage(new Image(newPath));				
-			});
+		entity.imagePathProperty().addListener( (observer, oldPath, newPath) -> {
+			node.setImage(new Image(newPath));				
+		});
 	}
 	
 	private void sortViewByZIndex() {

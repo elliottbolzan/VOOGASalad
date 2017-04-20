@@ -156,7 +156,7 @@ public class StartMenu extends BorderPane {
 	private void playGame() {
 		String chosen = chooseGame();
 		if (isSelected(chosen)) {
-			new MainMenu(new Loader(chosen), polyglot, IOResources);
+			new MainMenu(new Loader(chosen, null), polyglot, IOResources);
 		}
 	}
 	

@@ -22,6 +22,6 @@ public interface Menu {
 	 * 
 	 * @return
 	 */
-	public Scene createScene();
+	public Scene createScene(double width, double height);
 
 }

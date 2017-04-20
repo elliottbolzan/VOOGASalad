@@ -8,12 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import player.Loader;
-import player.Player;
-import player.ReplaceSaveMenu;
+import player.launcher.FullPlayer;
 import polyglot.Case;
 import polyglot.Polyglot;
 
@@ -41,17 +41,15 @@ public class LoadMenu extends AbstractMenu {
 	}
 
 	private void loadNewGame(Stage stage) {
-		//stage.close();
-		new Player(saveStates, getLoader(), polyglot, IOResources);
+		new FullPlayer(stage, getLoader().getGame(), getLoader(), polyglot, IOResources);
 	}
 	
 	private void loadSaveState(Stage stage, String saveName){
 		GameData data = new GameData();
 		Game game = data.loadGameState(getLoader().getGamePath(), saveName);
-		Loader loader = new Loader(getLoader().getGamePath());
-		loader.setData(data);
+		Loader loader = new Loader(getLoader().getGamePath(), saveStates);
 		loader.setGame(game);
-		new Player(saveStates, loader, polyglot, IOResources);
+		new FullPlayer(stage, game, loader, polyglot, IOResources);
 	}
 
 	private void setupScene(Stage stage) {
@@ -95,5 +93,4 @@ public class LoadMenu extends AbstractMenu {
 				e -> loadNewGame(getStage()));
 		addTiles(true, playTile);
 	}
-
 }
