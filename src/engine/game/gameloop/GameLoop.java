@@ -1,6 +1,7 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
+import engine.LevelEnder;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import game_data.Game;
@@ -15,11 +16,8 @@ import player.Overlay;
  *
  */
 public class GameLoop {
-	private ObservableBundle observableBundle;
 	private LevelManager levelManager;
-	private Screen level1Screen;
 	private GraphicsEngine graphicsEngine;
-	private GameInfo info;
 	
 	public GameLoop(Scene gameScene, Game game, Overlay overlay){
 		graphicsEngine = new GraphicsEngine(game, overlay);
@@ -27,21 +25,21 @@ public class GameLoop {
 		//TODO: oh no this doesnt work. This CameraEntity isn't part of the level, so it doesn't get updated :(
 		graphicsEngine.setCamera(game.getCamera());
 		Scorebar scorebar = graphicsEngine.getScorebar();
-		observableBundle = new ObservableBundle();
-		levelManager = new LevelManager(game);
+		ObservableBundle observableBundle = new ObservableBundle(gameScene);
 		
-		StepStrategy strategy = new LevelStepStrategy();
-		GameInfo info = new GameInfo(observableBundle, strategy, scorebar, level1Screen);
-		this.info = info;
-		level1Screen = new Screen(strategy, levelManager, gameScene, graphicsEngine, info);
+		LevelEnder levelEnder = new LevelEnder(levelManager, graphicsEngine);
+		GameInfo info = new GameInfo(observableBundle, scorebar, levelEnder);
+		Screen level1Screen = new Screen(new LevelManager(game, new LevelStepStrategy()), graphicsEngine, info);
+		levelManager.setCurrentScreen(level1Screen);
+		levelEnder.setInfo(info);
 	}
 	
 	public void startTimeline(){
-		info.getCurrentScreen().start();
+		levelManager.getCurrentScreen().start();
 	}
 	
 	public void pauseTimeline(){
-		info.getCurrentScreen().pause();
+		levelManager.getCurrentScreen().pause();
 	}
 	
 	public Pane getGameView() {

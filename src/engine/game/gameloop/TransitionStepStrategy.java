@@ -5,7 +5,6 @@ import java.util.ResourceBundle;
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import javafx.scene.Scene;
 
 /**
  * StepStrategy for transition screen displaying messages like "Game Over" or "You won" (read 
@@ -21,9 +20,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	private String resourceFileTextName;
 
 	private LevelManager levelManager;
-	private Scene gameScene;
 	private GraphicsEngine graphicsEngine;
-	private Screen screen;
 	private GameInfo info;
 
 	public TransitionStepStrategy(String resourceFileTextName) {
@@ -31,12 +28,10 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	}
 
 	@Override
-	public void setup(LevelManager levelManager, Scene gameScene, Screen screen, GraphicsEngine graphicsEngine,
+	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine,
 			GameInfo info) {
 		this.levelManager = levelManager;
-		this.gameScene = gameScene;
 		this.graphicsEngine = graphicsEngine;
-		this.screen = screen;
 		this.info = info;
 		graphicsEngine.fillScreenWithText(ResourceBundle.getBundle(RESOURCES_NAME).getString(resourceFileTextName));
 	}
@@ -56,12 +51,13 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	protected abstract boolean hasNextScreen(LevelManager levelManager);
 
 	private void moveToNextScreen() {
-		screen.getTimeline().stop();
+		levelManager.getCurrentScreen().getTimeline().stop();
 		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber(levelManager));
 		if (hasNextLevel && hasNextScreen(levelManager)) {
 			StepStrategy nextStepStrategy = getNextStepStrategy(levelManager);
 			info.setCurrentStepStrategy(nextStepStrategy);
-			Screen nextScreen = new Screen(nextStepStrategy, levelManager, gameScene, graphicsEngine, info);
+			levelManager.setCurrentStepStrategy(nextStepStrategy);
+			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
 			nextScreen.getTimeline().play();
 		}
 		// TODO Throw exception here or do something...

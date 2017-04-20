@@ -5,7 +5,6 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Scene;
 import javafx.util.Duration;
 
 /**
@@ -16,14 +15,14 @@ import javafx.util.Duration;
  */
 public class Screen{
 	public static final int FRAME_TIME_MILLISECONDS = 10;
-	private StepStrategy currentStepStrategy;
 	private Timeline timeline;
+	private LevelManager levelManager;
 	
-	public Screen(StepStrategy currentStepStrategy, LevelManager levelManager, Scene gameScene, GraphicsEngine graphicsEngine, GameInfo info){
-		info.setCurrentScreen(this);
-		this.currentStepStrategy = currentStepStrategy;
+	public Screen(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info){
+		this.levelManager = levelManager;
+		levelManager.setCurrentScreen(this);
 		setupTimeline();
-		currentStepStrategy.setup(levelManager, gameScene, this, graphicsEngine, info);
+		levelManager.getCurrentStepStrategy().setup(levelManager, graphicsEngine, info);
 	}
 	
 	private void setupTimeline(){
@@ -43,11 +42,7 @@ public class Screen{
 	}
 	
 	private void step(){
-		currentStepStrategy.step();
-	}
-	
-	public StepStrategy getCurrentStepStrategy(){
-		return currentStepStrategy;
+		levelManager.getCurrentStepStrategy().step();
 	}
 	
 	public Timeline getTimeline(){

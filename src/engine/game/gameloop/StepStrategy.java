@@ -3,7 +3,6 @@ package engine.game.gameloop;
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import javafx.scene.Scene;
 
 /**
  * The interface for the Strategy Design Pattern whose subclasses can be substituted for 
@@ -19,7 +18,7 @@ public interface StepStrategy {
 	 * when Screen's constructor is called. 
 	 * @param info 
 	 */
-	public void setup(LevelManager levelManager, Scene gameScene, Screen screen, GraphicsEngine graphicsEngine, GameInfo info);
+	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info);
 	
 	/**
 	 * Called from Screen's step() method on every iteration of the Timeline.

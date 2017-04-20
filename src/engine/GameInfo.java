@@ -1,5 +1,6 @@
 package engine;
 
+import engine.game.gameloop.LevelStepStrategy;
 import engine.game.gameloop.ObservableBundle;
 import engine.game.gameloop.Scorebar;
 import engine.game.gameloop.Screen;
@@ -12,23 +13,21 @@ import engine.game.gameloop.StepStrategy;
  *         that observe that status (actions, events, etc).
  */
 public class GameInfo {
-	private ObservableBundle bundle; // immutable/no setter (same for whole
-										// game, only set once in constructor)
-	private StepStrategy currentStepStrategy;
-	private Scorebar scorebar; // immutable/no setter (same for whole game, only
-								// set once in constructor)
-	private Screen currentScreen;
-
-	public GameInfo(ObservableBundle bundle, StepStrategy strategy, Scorebar scorebar, Screen screen) {
+	private ObservableBundle bundle; // immutable/no setter (same for whole game)
+	private Scorebar scorebar; // immutable/no setter (same for whole game)
+	private LevelEnder levelEnder;
+	
+	public GameInfo(ObservableBundle bundle, Scorebar scorebar, LevelEnder levelEnder) {
 		this.bundle = bundle;
-		this.currentStepStrategy = strategy;
 		this.scorebar = scorebar;
-		this.currentScreen = screen;
+		this.levelEnder = levelEnder;
 	}
 
+	/*
 	public void setCurrentStepStrategy(StepStrategy strategy) {
 		this.currentStepStrategy = strategy;
 	}
+	*/
 
 	public ObservableBundle getObservableBundle() {
 		return bundle;
@@ -41,12 +40,18 @@ public class GameInfo {
 	public Scorebar getScorebar() {
 		return scorebar;
 	}
-
-	public Screen getCurrentScreen() {
-		return currentScreen;
-	}
-
+	
+	/*
 	public void setCurrentScreen(Screen currentScreen) {
 		this.currentScreen = currentScreen;
 	}
+	*/
+	
+	//I think may not be necessary because all fields are now immutable (just set once through constructor)!
+	/*
+	public void updateFieldsBeforeAct(LevelStepStrategy levelStepStrategy){
+		 this.currentScreen = levelStepStrategy.getCurrentScreen();
+		 this.currentLevelEnder = levelStepStrategy.getLevelEnder();
+	}
+	*/
 }

@@ -1,5 +1,7 @@
 package engine.game;
 
+import engine.game.gameloop.Screen;
+import engine.game.gameloop.StepStrategy;
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
 import game_data.Game;
@@ -19,15 +21,34 @@ public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
 	private int currentLevel; // one-indexed
 	private Game game;
+	private Screen currentScreen;
+	private StepStrategy currentStepStrategy;
 
-	public LevelManager(Game game) {
+	public LevelManager(Game game, StepStrategy currentStepStrategy) {
 		levels = new ListSG<>(); // TODO: Change to reflection, or something
 									// more modular
 
 		currentLevel = 1;
 		this.game = game;
+		this.currentStepStrategy = currentStepStrategy;
 	}
 
+	public Screen getCurrentScreen() {
+		return currentScreen;
+	}
+
+	public void setCurrentScreen(Screen currentScreen) {
+		this.currentScreen = currentScreen;
+	}
+
+	public StepStrategy getCurrentStepStrategy() {
+		return currentStepStrategy;
+	}
+
+	public void setCurrentStepStrategy(StepStrategy currentStepStrategy) {
+		this.currentStepStrategy = currentStepStrategy;
+	}
+	
 	/**
 	 * External Engine API. Needed for authoring.
 	 * 
