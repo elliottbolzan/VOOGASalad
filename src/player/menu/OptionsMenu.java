@@ -4,7 +4,6 @@ import java.util.ResourceBundle;
 
 import javafx.stage.Stage;
 import player.MediaManager;
-import player.PlayerView;
 import polyglot.Polyglot;
 
 import java.util.HashMap;
