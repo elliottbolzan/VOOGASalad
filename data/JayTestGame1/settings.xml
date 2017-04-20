@@ -38,10 +38,10 @@
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>75.0</x>
-  <y>0.0</y>
-  <width>125.0</width>
-  <height>150.0</height>
+  <x>125.0</x>
+  <y>100.0</y>
+  <width>100.0</width>
+  <height>100.0</height>
   <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
@@ -213,11 +213,6 @@
         <engine.actions.SpawnEntityAction>
           <params>
             <engine.Parameter>
-              <name>Y Speed</name>
-              <clazz>double</clazz>
-              <obj class="int">0</obj>
-            </engine.Parameter>
-            <engine.Parameter>
               <name>Entity Name</name>
               <clazz>java.lang.String</clazz>
               <obj class="string">Coin</obj>
@@ -230,7 +225,12 @@
             <engine.Parameter>
               <name>X Speed</name>
               <clazz>double</clazz>
-              <obj class="string">10</obj>
+              <obj class="double">10.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Y Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -455,11 +455,6 @@
         <engine.actions.SpawnEntityAction>
           <params>
             <engine.Parameter>
-              <name>Y Speed</name>
-              <clazz>double</clazz>
-              <obj class="int">0</obj>
-            </engine.Parameter>
-            <engine.Parameter>
               <name>Entity Name</name>
               <clazz>java.lang.String</clazz>
               <obj class="string">Coin</obj>
@@ -472,7 +467,12 @@
             <engine.Parameter>
               <name>X Speed</name>
               <clazz>double</clazz>
-              <obj class="string">10</obj>
+              <obj class="double">10.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Y Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
