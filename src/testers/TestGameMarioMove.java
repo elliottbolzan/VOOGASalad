@@ -21,8 +21,8 @@ public class TestGameMarioMove extends Application{
 		//The Game Player must give me all parameters to the GameLoop constructor, since GameLoop is instantiated in it
 		Game game = new Game();
 		Scene scene = new Scene(new Group(), 250, 250, Color.BLUE);
-		GameLoop gameLoop = new GameLoop(scene, game, null);
-		gameLoop.startTimeline();
+//		GameLoop gameLoop = new GameLoop(scene, game);
+//		gameLoop.startTimeline();
 	}
 
 }

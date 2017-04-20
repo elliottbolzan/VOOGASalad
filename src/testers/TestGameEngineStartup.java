@@ -31,8 +31,7 @@ public class TestGameEngineStartup extends Application{
 		//----------------------PRETEND ARE IN ENTIRELY SEPARATE MAIN METHODS---------------
 		//Playing phase (the following code is in the Game Player)
 		Scene scene = new Scene(new Group(), 250, 250, Color.BLUE);
-		Overlay overlay = new Overlay(null, null);
-		GameLoop gameLoop = new GameLoop(scene, game, overlay);
-		gameLoop.startTimeline();
+//		GameLoop gameLoop = new GameLoop(scene, game);
+//		gameLoop.startTimeline();
 	}
 }
