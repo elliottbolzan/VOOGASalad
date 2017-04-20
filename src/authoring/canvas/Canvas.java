@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import engine.Entity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,7 +35,6 @@ import javafx.scene.shape.Circle;
 public class Canvas extends View
 {
 
-	private Workspace workspace;
 	private final int TILE_SIZE = 25;
 	private final int DEFAULT_WIDTH = 800;
 	private final int DEFAULT_HEIGHT = 600;
@@ -48,10 +47,8 @@ public class Canvas extends View
 	private double width;
 	private double height;
 
-	public Canvas(Workspace workspace)
-	{
-		super(workspace.getResources().getString("CanvasTitle"));
-		this.workspace = workspace;
+	public Canvas(Workspace workspace) {
+		super(workspace.getPolyglot().get("CanvasTitle"));
 		setup();
 	}
 
@@ -103,6 +100,38 @@ public class Canvas extends View
 	}
 
 	/**
+	 * Gets the current x value of the top-left corner.
+	 * 
+	 * @return x value of top-left corner of scroll panel.
+	 */
+	public double getXScrollAmount()
+	{
+		double viewPortX = scrollScreen.getViewportBounds().getWidth();
+		return scrollScreen.getHvalue() * (width - viewPortX);
+	}
+
+	/**
+	 * Gets the current y value of the top-left corner.
+	 * 
+	 * @return y value of top-left corner.
+	 */
+	public double getYScrollAmount()
+	{
+		double viewportY = scrollScreen.getViewportBounds().getHeight();
+		return scrollScreen.getVvalue() * (height - viewportY);
+	}
+
+	/**
+	 * Returns the size of each tile in the Canvas.
+	 * 
+	 * @return canvas tile size.
+	 */
+	public double getTileSize()
+	{
+		return TILE_SIZE;
+	}
+
+	/**
 	 * Creates the scroller for the canvas.
 	 * 
 	 * @return ScrollPane scroller for canvas
@@ -120,6 +149,17 @@ public class Canvas extends View
 		// clickToAddEntity();
 		updateDisplay();
 		return scrollScreen;
+	}
+
+	public List<EntityView> getSelectedEntities()
+	{
+		List<EntityView> selected = new ArrayList<EntityView>();
+		entities.forEach(e -> {
+			if (e.isSelected()) {
+				selected.add(e);
+			}
+		});
+		return selected;
 	}
 
 	/**
@@ -151,7 +191,7 @@ public class Canvas extends View
 	 */
 	public EntityView addEntity(Entity entity, double x, double y)
 	{
-		EntityView newEntity = new EntityView(entity, TILE_SIZE, x, y);
+		EntityView newEntity = new EntityView(entity, this, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
 		newEntity.setTranslateY(tiledCoordinate.getY());

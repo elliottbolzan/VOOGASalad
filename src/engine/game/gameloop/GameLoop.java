@@ -5,8 +5,8 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import game_data.Game;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import player.Overlay;
 
 /**
  * Manages the highest level of time flow in the game. The client class for the game loop.
@@ -21,20 +21,22 @@ public class GameLoop {
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
 	
-	public GameLoop(Scene gameScene, Game game){
+	public GameLoop(Scene gameScene, Game game, Overlay overlay){
 		//Instantiate GraphicsEngine
-		graphicsEngine = new GraphicsEngine();
+		graphicsEngine = new GraphicsEngine(game, overlay);
 		
+		//TODO: what happens if level changes, camera gets reset??
+		//TODO: oh no this doesnt work. This CameraEntity isn't part of the level, so it doesn't get updated :(
+		graphicsEngine.setCamera(game.getCamera());
+		
+		//Setup scorebar
+		Scorebar scorebar = graphicsEngine.getScorebar();
+	
 		// Setup Observables - at beginning of entire game only
 		observableBundle = new ObservableBundle();
 		
-		//Setup scorebar
-		Scorebar scorebar = new Scorebar();
-		graphicsEngine.setScorebar(scorebar);
-	
 		// Setup levelManager
 		levelManager = new LevelManager(game);
-		//levelManager.loadAllSavedLevels();  //now done within LevelStepStrategy to refresh levels when they restart
 		
 		//Setup the first level screen
 		StepStrategy strategy = new LevelStepStrategy();
@@ -53,10 +55,6 @@ public class GameLoop {
 	
 	public Pane getGameView() {
 		return graphicsEngine.getView();
-	}
-	
-	public Label getGameScorebar() {
-		return graphicsEngine.getScorebarDisplay();
 	}
 }
 

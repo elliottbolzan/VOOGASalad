@@ -2,10 +2,14 @@ package engine.graphics;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import engine.entities.CameraEntity;
 import engine.Entity;
 import engine.game.gameloop.Scorebar;
+import javafx.geometry.Pos;
+import game_data.Game;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +19,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import player.Overlay;
 
 /**
  * @author Jay Doherty
@@ -30,17 +35,17 @@ public class GraphicsEngine {
 	private Collection<ImageView> nodes;
 	private CameraEntity camera;
 	private Scorebar scorebar;
+	private Overlay overlay;
 	
 	private Pane displayArea;
-	private Label scorebarDisplay;
 	
-	public GraphicsEngine() {
+	public GraphicsEngine(Game game, Overlay overlay) {
 		this.camera = new CameraEntity();
 		this.entities = new ArrayList<Entity>();
 		this.nodes = new ArrayList<ImageView>();
-		this.scorebar = new Scorebar();
+		this.scorebar = new Scorebar(game);
+		this.overlay = overlay;
 		this.setupView();
-		this.setupScorebar();
 	}
 	
 	/**
@@ -48,13 +53,6 @@ public class GraphicsEngine {
 	 */
 	public Pane getView() {
 		return displayArea;
-	}
-	
-	/**
-	 * @return the display for time/lives/score
-	 */
-	public Label getScorebarDisplay() {
-		return scorebarDisplay;
 	}
 	
 	/**
@@ -66,11 +64,11 @@ public class GraphicsEngine {
 	}
 	
 	/**
-	 * Sets the Scorebar. This is used to initialize the time/lives/score display values
-	 * @param currentManager 
+	 * Returns the scorebar used in the GameLoop
+	 * @return
 	 */
-	public void setScorebar(Scorebar currentManager) {
-		this.scorebar = currentManager;
+	public Scorebar getScorebar(){
+		return scorebar;
 	}
 	
 	/**
@@ -83,14 +81,6 @@ public class GraphicsEngine {
 	}
 	
 	/**
-	 * Call this every frame to animate the camera.
-	 */
-	public void updateFrame() {
-		this.updateCamera();
-		this.updateScorebar();
-	}
-	
-	/**
 	 * Clears the display and places text on the screen.
 	 * @param text : 
 	 */
@@ -99,7 +89,16 @@ public class GraphicsEngine {
 		Label label = new Label(text);
 		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
 		label.setFont(new Font(displayArea.getWidth()/text.length()));
+		label.setAlignment(Pos.CENTER);
 		displayArea.getChildren().add(label);
+	}
+	
+	/**
+	 * Call this every frame to animate the camera.
+	 */
+	public void updateFrame() {
+		this.updateCamera();
+		this.updateScorebar();
 	}
 	
 	/**
@@ -108,6 +107,7 @@ public class GraphicsEngine {
 	public void updateView() {
 		this.clearView();
 		this.drawAllEntities();
+		this.sortViewByZIndex();
 	}
 	
 	private void updateCamera() {
@@ -118,7 +118,10 @@ public class GraphicsEngine {
 	}
 	
 	private void updateScorebar() {
-		scorebarDisplay.setText(String.format("Time: %s \nLives: %s \nScore: %s", scorebar.getTime(), scorebar.getLives(), scorebar.getScore()));
+		overlay.setScore(scorebar.getScore());
+		overlay.setLives(Integer.toString(scorebar.getLives()));
+		overlay.setLevel(Integer.toString(scorebar.getLevel()));
+		overlay.setTime(scorebar.getTime());
 	}
 	
 	private void clearView() {
@@ -133,15 +136,28 @@ public class GraphicsEngine {
 		NodeFactory factory = new NodeFactory();
 		for(Entity entity : entities) {
 			ImageView node = (ImageView)factory.getNodeFromEntity(entity);
-			node.xProperty().bind(entity.xProperty());
-			node.yProperty().bind(entity.yProperty());
-			node.visibleProperty().bind(entity.isVisibleProperty());
-			entity.imagePathProperty().addListener(
-					(observer, oldPath, newPath) -> node.setImage(new Image(newPath))
-			);
+			this.makeBindings(node, entity);
 			this.nodes.add(node);
 			displayArea.getChildren().add(node);	
 		}
+	}
+	
+	private void makeBindings(ImageView node, Entity entity) {
+		node.xProperty().bind(entity.xProperty());
+		node.yProperty().bind(entity.yProperty());
+		node.setTranslateZ(entity.getZ());
+		node.visibleProperty().bind(entity.isVisibleProperty());
+		entity.imagePathProperty().addListener(
+				(observer, oldPath, newPath) -> {
+					System.out.println(newPath);
+					System.out.println("hi");
+					node.setImage(new Image(newPath));				
+			});
+	}
+	
+	private void sortViewByZIndex() {
+		List<Node> sortedNodes = displayArea.getChildren().sorted((a,b) -> {return Double.compare(b.getTranslateZ(), a.getTranslateZ());});
+		displayArea.getChildren().setAll(sortedNodes); 
 	}
 	
 	private void setupView() {
@@ -150,12 +166,7 @@ public class GraphicsEngine {
 		HBox.setHgrow(displayArea, Priority.ALWAYS);
 		VBox.setVgrow(displayArea, Priority.ALWAYS);
 		this.clipAtEdges(displayArea);
-		this.drawAllEntities();
-	}
-	
-	private void setupScorebar() {
-		scorebarDisplay = new Label();
-		this.updateScorebar();
+		this.updateView();
 	}
 	
 	private void clipAtEdges(Pane pane) {

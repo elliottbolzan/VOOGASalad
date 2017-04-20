@@ -5,10 +5,11 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import engine.Event;
-import engine.entities.CharacterEntity;
+
 import engine.Action;
 import engine.Entity;
+import engine.Event;
+import engine.entities.CharacterEntity;
 
 /**
  * @author nikita This class is used for communication between game engine and
@@ -55,7 +56,8 @@ public class EngineController {
 	}
 
 	private String getClassName(String string, String type) {
-		resources = ResourceBundle.getBundle("resources/" + type);
+		// resources = ResourceBundle.getBundle("resources/" + type);
+		resources = ResourceBundle.getBundle("resources/Strings");
 		Enumeration<String> enumeration = resources.getKeys();
 		while (enumeration.hasMoreElements()) {
 			String className = enumeration.nextElement();
@@ -69,9 +71,12 @@ public class EngineController {
 	private List<String> findClasses(String path, String type) {
 		List<Class<?>> classes = finder.find(path);
 		return classes.stream().map(s -> {
-			resources = ResourceBundle.getBundle("resources/" + type);
-			return resources.getString(s.getSimpleName().toString());
-		}).collect(Collectors.toList());
+			if (!s.isAnonymousClass()) {
+				resources = ResourceBundle.getBundle("resources/Strings");
+				return resources.getString(s.getSimpleName().toString());
+			}
+			return null;
+		}).filter(p -> p != null).collect(Collectors.toList());
 	}
 
 	private Object getInstance(String path, String type) {
@@ -80,7 +85,7 @@ public class EngineController {
 			Constructor<?> ctor = clazz.getDeclaredConstructor();
 			return ctor.newInstance();
 		} catch (Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			return null;
 		}
 	}

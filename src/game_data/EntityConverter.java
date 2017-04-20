@@ -65,6 +65,19 @@ public class EntityConverter implements Converter {
 		writer.close();
 	}
 
+	/**
+	 * write the values of the entities into their respective
+	 * double/string/boolean values
+	 * 
+	 * @param entity
+	 *            entity to be written
+	 * @param fields
+	 *            fields within entity to be written
+	 * @param writer
+	 *            writer object
+	 * @param context
+	 *            context for writing
+	 */
 	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer,
 			MarshallingContext context) {
 		for (Field field : fields) {
@@ -77,7 +90,7 @@ public class EntityConverter implements Converter {
 				value = field.get(entity);
 			} catch (Exception e) {
 				// TODO remove print stack trace
-				e.printStackTrace();
+				// e.printStackTrace();
 			}
 			if (value != null) {
 				writer.startNode(name);
@@ -107,9 +120,7 @@ public class EntityConverter implements Converter {
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		EngineController controller = new EngineController();
-
 		reader.moveDown();
-
 		Entity entity = controller.createEntity(reader.getValue());
 		reader.moveUp();
 
@@ -146,8 +157,6 @@ public class EntityConverter implements Converter {
 			}
 			reader.moveUp();
 		}
-
 		return entity;
 	}
-
 }

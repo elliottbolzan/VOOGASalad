@@ -3,9 +3,9 @@ package authoring.components;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
-import authoring.views.View;
+import utils.views.View;
+import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -23,6 +23,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import polyglot.Case;
+import polyglot.Polyglot;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
@@ -34,7 +36,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
  */
 public class ComponentMaker {
 
-	private ResourceBundle resources;
+	private Polyglot polyglot;
+	private String stylesheetPath;
 
 	/**
 	 * Returns a Factory.
@@ -42,8 +45,9 @@ public class ComponentMaker {
 	 * @param resources
 	 *            the ResourceBundle that the Factory makes use of.
 	 */
-	public ComponentMaker(ResourceBundle resources) {
-		this.resources = resources;
+	public ComponentMaker(Polyglot polyglot, String stylesheetPath) {
+		this.polyglot = polyglot;
+		this.stylesheetPath = stylesheetPath;
 	}
 
 	/**
@@ -71,7 +75,7 @@ public class ComponentMaker {
 	 */
 	public DirectoryChooser makeDirectoryChooser(String path, String titleProperty) {
 		DirectoryChooser chooser = new DirectoryChooser();
-		chooser.setTitle(resources.getString(titleProperty));
+		chooser.titleProperty().bind(polyglot.get(titleProperty));
 		chooser.setInitialDirectory(new File(path));
 		return chooser;
 	}
@@ -87,12 +91,11 @@ public class ComponentMaker {
 	 *            the property that provides a placeholder for the dialog.
 	 * @return a TextInputDialog.
 	 */
-	public TextInputDialog makeTextInputDialog(String titleProperty, String headerProperty, String contentProperty,
-			String placeholderProperty) {
-		TextInputDialog dialog = new TextInputDialog(resources.getString(placeholderProperty));
-		dialog.setTitle(resources.getString(titleProperty));
-		dialog.setHeaderText(resources.getString(headerProperty));
-		dialog.setContentText(resources.getString(contentProperty));
+	public TextInputDialog makeTextInputDialog(String titleProperty, String headerProperty, String promptProperty, String content) {
+		TextInputDialog dialog = new TextInputDialog(content);
+		dialog.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		dialog.headerTextProperty().bind(polyglot.get(headerProperty));
+		dialog.contentTextProperty().bind(polyglot.get(promptProperty));
 		return dialog;
 	}
 
@@ -108,10 +111,21 @@ public class ComponentMaker {
 	 * @return the Alert.
 	 */
 	public Alert makeAlert(AlertType type, String titleProperty, String headerProperty, String content) {
-		Alert alert = new Alert(type);
-		alert.setTitle(resources.getString(titleProperty));
-		alert.setHeaderText(resources.getString(headerProperty));
+		Alert alert = alertHelper(type, titleProperty, headerProperty);
 		alert.setContentText(content);
+		return alert;
+	}
+	
+	public Alert makeAlert(AlertType type, String titleProperty, String headerProperty, StringBinding content) {
+		Alert alert = alertHelper(type, titleProperty, headerProperty);
+		alert.contentTextProperty().bind(content);
+		return alert;
+	}
+	
+	private Alert alertHelper(AlertType type, String titleProperty, String headerProperty) {
+		Alert alert = new Alert(type);
+		alert.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		alert.headerTextProperty().bind(polyglot.get(headerProperty, Case.TITLE));
 		return alert;
 	}
 
@@ -126,7 +140,9 @@ public class ComponentMaker {
 		Accordion accordion = new Accordion();
 		List<TitledPane> titledPanes = new ArrayList<TitledPane>();
 		for (int i = 0; i < subviews.size(); i++) {
-			TitledPane pane = new TitledPane(subviews.get(i).getTitle(), subviews.get(i));
+			TitledPane pane = new TitledPane();
+			pane.textProperty().bind(subviews.get(i).getTitle());
+			pane.setContent(subviews.get(i));
 			titledPanes.add(pane);
 		}
 		accordion.getPanes().addAll(titledPanes);
@@ -144,7 +160,8 @@ public class ComponentMaker {
 	 * @return a Button.
 	 */
 	public Button makeButton(String property, EventHandler<ActionEvent> handler, boolean fill) {
-		Button button = new Button(resources.getString(property));
+		Button button = new Button();
+		button.textProperty().bind(polyglot.get(property, Case.TITLE));
 		button.setOnAction(handler);
 		if (fill) {
 			HBox.setHgrow(button, Priority.ALWAYS);
@@ -174,7 +191,7 @@ public class ComponentMaker {
 		button.getStyleClass().add(style);
 		return button;
 	}
-	
+
 	/**
 	 * @param property
 	 *            the property that provides the title of the Button.
@@ -185,7 +202,9 @@ public class ComponentMaker {
 	 * @return a Button.
 	 */
 	public Button makeImageButton(String property, ImageView image, EventHandler<ActionEvent> handler, boolean fill) {
-		Button button = new Button(resources.getString(property), image);
+		Button button = new Button();
+		button.textProperty().bind(polyglot.get(property));
+		button.setGraphic(image);
 		button.setOnAction(handler);
 		if (fill) {
 			HBox.setHgrow(button, Priority.ALWAYS);
@@ -197,9 +216,9 @@ public class ComponentMaker {
 	public void display(String titleProperty, double width, double height, View view, Modality modality) {
 		Stage stage = new Stage();
 		stage.initModality(modality);
-		stage.setTitle(resources.getString(titleProperty));
+		stage.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		Scene scene = new Scene(view, width, height);
-		scene.getStylesheets().add(resources.getString("StylesheetPath"));
+		scene.getStylesheets().add(stylesheetPath);
 		stage.setScene(scene);
 		stage.show();
 		stage.centerOnScreen();

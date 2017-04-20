@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import authoring.components.ComponentMaker;
 import authoring.components.EditingCell;
-import authoring.views.View;
+import utils.views.View;
 import engine.GameObject;
 import engine.Parameter;
 import javafx.collections.FXCollections;
@@ -26,10 +25,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import polyglot.Case;
 
 /**
  * @author Elliott Bolzan
  *
+ *         A superclass for a number of editors in the Authoring Environment.
+ *         All editors have commonalities: they have a ComboBox from which the
+ *         user can choose the nature of that which is being edited, and they
+ *         display the parameters for that which was selected. Finally, they all
+ *         need to provide a save option. This is why this functionality was
+ *         regrouped in one superclass.
  */
 public abstract class Editor extends View {
 
@@ -40,17 +46,23 @@ public abstract class Editor extends View {
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 	private TableView<Parameter> table;
 	private boolean showSave;
-	private ComponentMaker maker;
 
 	/**
-	 * @param title
+	 * Creates an Editor.
+	 * 
+	 * @param workspace
+	 *            the workspace that owns the Editor.
+	 * @param elements
+	 *            the elements to display.
+	 * @param object
+	 *            the object to (optionally) edit.
+	 * @param showSave
+	 *            whether the save button should be shown.
 	 */
 	public Editor(Workspace workspace, List<String> elements, GameObject object, boolean showSave) {
-		super("");
 		this.workspace = workspace;
 		this.elements = elements;
 		this.showSave = showSave;
-		maker = new ComponentMaker(workspace.getResources());
 		setupView(object);
 		if (object != null)
 			update(object);
@@ -71,7 +83,7 @@ public abstract class Editor extends View {
 		comboBox.setOnAction((e) -> selected(comboBox.getSelectionModel().getSelectedItem()));
 		comboBox.prefWidthProperty().bind(widthProperty());
 		if (object == null) {
-			comboBox.setValue(workspace.getResources().getString("Type"));
+			comboBox.setValue(workspace.getPolyglot().get("Type", Case.TITLE).get());
 		} else {
 			comboBox.setValue(object.getDisplayName());
 		}
@@ -89,7 +101,9 @@ public abstract class Editor extends View {
 	private void createTable(GameObject object) {
 		table = new TableView<>();
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		table.setPlaceholder(new Label(workspace.getResources().getString("NoParameters")));
+		Label placeholder = new Label();
+		placeholder.textProperty().bind(workspace.getPolyglot().get("NoParameters"));
+		table.setPlaceholder(placeholder);
 		table.prefHeightProperty().bind(heightProperty());
 		table.setEditable(true);
 		ObservableList<Parameter> items = FXCollections.observableArrayList(parameters);
@@ -102,13 +116,15 @@ public abstract class Editor extends View {
 	}
 
 	private TableColumn<Parameter, Object> makeKeyColumn() {
-		TableColumn<Parameter, Object> column = new TableColumn<>("Key");
+		TableColumn<Parameter, Object> column = new TableColumn<>();
+		column.textProperty().bind(workspace.getPolyglot().get("Key"));
 		column.setCellValueFactory(new PropertyValueFactory<Parameter, Object>("name"));
 		return column;
 	}
 
 	private TableColumn<Parameter, Object> makeValueColumn() {
-		TableColumn<Parameter, Object> column = new TableColumn<>("Value");
+		TableColumn<Parameter, Object> column = new TableColumn<>();
+		column.textProperty().bind(workspace.getPolyglot().get("Value"));
 		column.setCellValueFactory(new PropertyValueFactory<Parameter, Object>("object"));
 		column.setCellFactory(new Callback<TableColumn<Parameter, Object>, TableCell<Parameter, Object>>() {
 			@Override
@@ -130,7 +146,7 @@ public abstract class Editor extends View {
 	}
 
 	private void createButtonBox() {
-		Button saveButton = maker.makeButton("TableEditorSaveButton", e -> save(), true);
+		Button saveButton = workspace.getMaker().makeButton("TableEditorSaveButton", e -> save(), true);
 		setBottom(saveButton);
 	}
 
@@ -141,19 +157,18 @@ public abstract class Editor extends View {
 	}
 
 	private void save() {
-		System.out.println(comboBoxHasSelection());
 		if (!comboBoxHasSelection()) {
-			String content = workspace.getResources().getString("PickSomething");
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
+			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
+					workspace.getPolyglot().get("PickSomething"));
 			alert.show();
 			return;
 		}
 		((Stage) getScene().getWindow()).close();
 		save(parameters);
 	}
-	
+
 	private boolean comboBoxHasSelection() {
-		return !comboBox.getValue().equals(workspace.getResources().getString("Type"));
+		return !comboBox.getValue().equals(workspace.getPolyglot().get("Type").get());
 	}
 
 	private void addToParameters(Parameter updatedParameter) {
@@ -161,8 +176,21 @@ public abstract class Editor extends View {
 		parameters.add(updatedParameter);
 	}
 
+	/**
+	 * Called when the user has selected an element from the ComboBox.
+	 * Implementations can have widely varying reactions to this event.
+	 * 
+	 * @param string
+	 *            the element selected by the user.
+	 */
 	public abstract void selected(String string);
 
+	/**
+	 * Called when the user presses the save button.
+	 * 
+	 * @param data
+	 *            the parameters that the user has entered and edited.
+	 */
 	public abstract void save(List<Parameter> data);
 
 }

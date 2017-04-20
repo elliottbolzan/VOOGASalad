@@ -14,15 +14,24 @@ import exceptions.GameObjectException;
  *         display to the user, getting and setting parameters, cloning and etc
  */
 public abstract class GameObject {
-	private transient ResourceBundle resources;
+	private transient ResourceBundle resources, notTranslatedResources;
 	private List<Parameter> params;
 	private Entity entity;
-	private transient ResourceBundle gameObjectExceptions = ResourceBundle.getBundle("resources/GameObjectExceptions");
 	private GameInfo info;
 
 	public GameObject(String name) {
-		resources = ResourceBundle.getBundle("resources/" + name);
+		setUpResources();
 		params = new ArrayList<Parameter>();
+	}
+
+	public Object readResolve() {
+		setUpResources();
+		return this;
+	}
+
+	private void setUpResources() {
+		resources = ResourceBundle.getBundle("resources/Strings");
+		notTranslatedResources = ResourceBundle.getBundle("resources/IO");
 	}
 
 	public String getDisplayName() {
@@ -31,6 +40,14 @@ public abstract class GameObject {
 
 	public String getDisplayDescription() {
 		return resources.getString(getClass().getSimpleName() + "Description");
+	}
+
+	public String getResource(String name) {
+		return resources.getString(name);
+	}
+
+	public String getNotTranslatedResource(String name) {
+		return notTranslatedResources.getString(name);
 	}
 
 	public List<Parameter> getParams() {
@@ -68,7 +85,7 @@ public abstract class GameObject {
 					return param;
 			}
 		} catch (Exception e) {
-			throw new GameObjectException(gameObjectExceptions.getString("NoParameter"));
+			throw new GameObjectException(notTranslatedResources.getString("NoParameter"));
 		}
 		return null;
 	}
@@ -85,8 +102,6 @@ public abstract class GameObject {
 		try {
 			return getClass().getConstructor().newInstance();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return null;
 		}
 	}
@@ -97,11 +112,11 @@ public abstract class GameObject {
 	 * 
 	 * @return copy of this game object.
 	 */
+	@Override
 	public GameObject clone() {
 		GameObject copy = getInstance();
 		copy.setGameInfo(getGameInfo());
 		List<Parameter> params = new ArrayList<Parameter>();
-
 		params.addAll(getParams().stream().map(s -> {
 			return new Parameter(s.getName(), s.getParameterClass(), s.getObject());
 		}).collect(Collectors.toList()));

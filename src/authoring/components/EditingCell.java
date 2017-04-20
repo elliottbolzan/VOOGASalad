@@ -13,18 +13,28 @@ import javafx.scene.input.KeyEvent;
 
 /**
  * @author Elliott Bolzan
+ * 
+ *         A custom TableView cell used for displaying and editing both normal
+ *         input (Strings, Numbers) and more complex inputs, like KeyCodes.
+ *         Could be extended to provide different inputs, eventually.
  *
  */
 public class EditingCell extends TableCell<Parameter, Object> {
 
+	private Workspace workspace;
 	private TextField textField;
 	private KeyCodeField keyCodeField;
 	private String invalidEdit;
-	private ComponentMaker maker;
 
+	/**
+	 * Creates an EditingCell.
+	 * 
+	 * @param workspace
+	 *            the workspace that owns the Cell.
+	 */
 	public EditingCell(Workspace workspace) {
-		maker = new ComponentMaker(workspace.getResources());
-		invalidEdit = workspace.getResources().getString("InvalidEdit");
+		this.workspace = workspace;
+		invalidEdit = workspace.getPolyglot().get("InvalidEdit").get();
 	}
 
 	@Override
@@ -52,6 +62,11 @@ public class EditingCell extends TableCell<Parameter, Object> {
 		setGraphic(null);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javafx.scene.control.Cell#updateItem(java.lang.Object, boolean)
+	 */
 	@Override
 	public void updateItem(Object item, boolean empty) {
 		super.updateItem(item, empty);
@@ -115,6 +130,9 @@ public class EditingCell extends TableCell<Parameter, Object> {
 		return getItem() == null ? "" : getItem().toString();
 	}
 
+	/**
+	 * @return the current KeyCode for the cell.
+	 */
 	public KeyCode getKeyCode() {
 		return getItem() == null ? null : (KeyCode) getItem();
 	}
@@ -127,11 +145,13 @@ public class EditingCell extends TableCell<Parameter, Object> {
 				commitEdit(Integer.parseInt(input));
 			} else if (param.getParameterClass().equals(Double.class)) {
 				commitEdit(Double.parseDouble(input));
+			} else if (param.getParameterClass().equals(Boolean.class)){
+				commitEdit(Boolean.parseBoolean(input));
 			}
 			commitEdit(input);
 		} catch (Exception e) {
 			String content = String.format(invalidEdit, param.getParameterClass().getSimpleName());
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
+			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
 			alert.show();
 		}
 	}
