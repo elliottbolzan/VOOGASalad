@@ -1,13 +1,7 @@
 package engine.game.gameloop;
 
 import engine.Entity;
-import engine.Event;
 import engine.GameInfo;
-import engine.events.CollisionEvent;
-import engine.events.KeyPressEvent;
-import engine.events.KeyReleaseEvent;
-import engine.events.TimerEvent;
-import engine.game.LevelManager;
 import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
 import engine.game.eventobserver.TimerObservable;

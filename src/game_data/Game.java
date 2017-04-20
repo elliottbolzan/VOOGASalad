@@ -42,18 +42,22 @@ public class Game {
 	/**
 	 * Create a deepcopy of List<Level> by copying clones of the entities in each
 	 * constituent Level. Uses GameObject's clone() method to accomplish this.
-	 * @return
+	 * @return the clone of levels
 	 */
 	public List<Level> cloneLevels(){
 		 List<Level> cloneOfLevels = new ArrayList<Level>();
 		 for(Level level : levels){
-			  Level cloneOfLevel = new Level();
-			  for(Entity entity : level.getEntities()){
-				  cloneOfLevel.addEntity(entity.clone());
-			  }
-			  cloneOfLevels.add(cloneOfLevel);
+			  cloneOfLevels.add(cloneLevel(level));
 		 }
 		 return cloneOfLevels;
+	}
+	
+	public Level cloneLevel(Level level){
+		  Level cloneOfLevel = new Level();
+		  for(Entity entity : level.getEntities()){
+			  cloneOfLevel.addEntity(entity.clone());
+		  }
+		  return cloneOfLevel;
 	}
 	
 	/**

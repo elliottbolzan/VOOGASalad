@@ -21,13 +21,12 @@ public class GameLoop {
 	
 	public GameLoop(Scene gameScene, Game game, Overlay overlay){
 		graphicsEngine = new GraphicsEngine(game, overlay);
-		//TODO: what happens if level changes, camera gets reset??
-		//TODO: oh no this doesnt work. This CameraEntity isn't part of the level, so it doesn't get updated :(
 		graphicsEngine.setCamera(game.getCamera());
 		Scorebar scorebar = graphicsEngine.getScorebar();
 		ObservableBundle observableBundle = new ObservableBundle(gameScene);
 		
 		levelManager = new LevelManager(game, new LevelStepStrategy());
+		levelManager.loadAllSavedLevels();
 		LevelEnder levelEnder = new LevelEnder(levelManager, graphicsEngine);
 		GameInfo info = new GameInfo(observableBundle, scorebar, levelEnder);
 		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);

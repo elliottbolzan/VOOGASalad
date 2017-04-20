@@ -19,15 +19,15 @@ import game_data.Game;
  */
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
+	private SelectionGroup<Level> levelsInInitialState;
 	private int currentLevel; // one-indexed
 	private Game game;
 	private Screen currentScreen;
 	private StepStrategy currentStepStrategy;
 
 	public LevelManager(Game game, StepStrategy currentStepStrategy) {
-		levels = new ListSG<>(); // TODO: Change to reflection, or something
-									// more modular
-
+		levels = new ListSG<>();
+		levelsInInitialState = new ListSG<>();
 		currentLevel = 1;
 		this.game = game;
 		this.currentStepStrategy = currentStepStrategy;
@@ -114,13 +114,16 @@ public class LevelManager {
 	 * @param filename
 	 */
 
+	//Call once at beginning of the game
 	public void loadAllSavedLevels() {
-		levels.removeAll();
-		//GameData loader = new GameData()
+		//levels.removeAll();
+		levelsInInitialState.addAll(game.cloneLevels());
 		levels.addAll(game.getLevels());
-		
-		//1. Make a cloneGame() method in game - would be nice to clone ALL FIELDS in GAME
-		//2. 
+	}
+	
+	//Call when start up a level (first time AND after die)
+	public void resetCurrentLevel(){
+		levels.set(currentLevel - 1, game.cloneLevel(levelsInInitialState.get(currentLevel - 1)));
 	}
 
 	public SelectionGroup<Level> getLevels() {

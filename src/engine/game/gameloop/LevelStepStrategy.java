@@ -28,7 +28,7 @@ public class LevelStepStrategy implements StepStrategy {
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
 		
-		levelManager.loadAllSavedLevels();
+		levelManager.resetCurrentLevel();
 		info.getScorebar().resetTimerManager();
 		addInfoToEntities();
 		setupGameView();
