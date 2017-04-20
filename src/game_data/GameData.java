@@ -37,7 +37,6 @@ public class GameData {
 		GameLoader gl = new GameLoader();
 		Game game = null;
 		try {
-			System.out.println("FOLDER " + folderPath);
 			game = gl.loadGame(folderPath, "settings.xml");
 		} catch (NotAGameFolderException i) {
 			// i.printStackTrace();
