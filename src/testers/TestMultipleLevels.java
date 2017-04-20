@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import player.score.Overlay;
 
 /**
  * Note to self: Use Case 3
@@ -24,7 +25,7 @@ public class TestMultipleLevels extends Application {
 		// constructor, since GameLoop is instantiated in it
 		Game game = new Game();
 		Scene scene = new Scene(new Group(), 250, 250, Color.BLUE);
-		GameLoop gameLoop = new GameLoop(scene, game);
+		GameLoop gameLoop = new GameLoop(scene, game, new Overlay(null, null));
 		gameLoop.startTimeline();
 	}
 }

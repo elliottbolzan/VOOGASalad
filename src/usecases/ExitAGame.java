@@ -15,7 +15,7 @@ public class ExitAGame {
 		//Button is created for exiting
 		Button exit = new Button("Exit");
 		//Upon clicking, user is taken back to the player main menu
-		exit.setOnAction(e -> mainmenu.createScene());
+		exit.setOnAction(e -> mainmenu.createScene(420, 600));
 	}
 
 }
