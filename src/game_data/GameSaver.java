@@ -24,6 +24,7 @@ import engine.entities.CameraEntity;
 import engine.game.Level;
 public class GameSaver
 {
+	private static final String SETTINGS_FILE_NAME = "settings.xml";
 	private Game game;
 	private GameXMLFactory gameXMLFactory;
 	/**
@@ -44,7 +45,7 @@ public class GameSaver
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), gameFolderPath);
 		saveCamera(game.getCamera(), gameFolderPath);
-		saveDocument(gameFolderPath, "settings.xml");
+		saveDocument(gameFolderPath, SETTINGS_FILE_NAME);
 	}
 	
 	/**

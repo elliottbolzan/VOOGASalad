@@ -21,6 +21,7 @@ public class ResourceManager {
     private final static String LEVEL_ELEMENT = "LevelElement";
     private final static String SONG_RESOURCE_ELEMENT = "SongResourceElement";
     private final static String ENTITY_ELEMENT= "EntityElement";
+    private final static String ENTITY_STATE = "EntityState";
     private Properties prop;
     
 	public ResourceManager(){
@@ -86,6 +87,10 @@ public class ResourceManager {
 	
 	public String getEntityElement(){
 		return prop.getProperty(ENTITY_ELEMENT);
+	}
+	
+	public String getEntityState(){
+		return prop.getProperty(ENTITY_STATE);
 	}
 	}
 	
