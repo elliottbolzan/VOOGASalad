@@ -7,7 +7,7 @@ import engine.entities.CameraEntity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import player.Score;
+import player.score.Score;
 
 /**
  * @author Elliott Bolzan (Modified by Jesse Yue)

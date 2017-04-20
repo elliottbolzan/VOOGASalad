@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="GameTeste"/><Levels><level><Entities>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="Game"/><Levels><level><Entities>
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>200.0</x>
-  <y>175.0</y>
+  <x>325.0</x>
+  <y>100.0</y>
   <width>200.0</width>
   <height>300.0</height>
   <zIndex>1.0</zIndex>
   <name>Mario</name>
-  <imagePath>resources/MarioImage.png</imagePath>
+  <imagePath>resources\MarioImage.png</imagePath>
   <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
@@ -27,7 +27,7 @@
   <height>0.0</height>
   <zIndex>0.0</zIndex>
   <name>Mario</name>
-  <imagePath>resources/MarioImage.png</imagePath>
+  <imagePath>resources\MarioImage.png</imagePath>
   <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
@@ -42,23 +42,13 @@
   <y>0.0</y>
   <width>0.0</width>
   <height>0.0</height>
-  <zIndex>-1.0</zIndex>
-  <name>Camera</name>
-  <imagePath>resources/CameraImage.png</imagePath>
+  <zIndex>0.0</zIndex>
+  <name>Mario</name>
+  <imagePath>resources\MarioImage.png</imagePath>
   <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
   <yAcceleration>0.0</yAcceleration>
-  <events>
-    <engine.events.AlwaysEvent>
-      <params/>
-      <actions>
-        <engine.actions.MoveAction>
-          <params/>
-          <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
-        </engine.actions.MoveAction>
-      </actions>
-    </engine.events.AlwaysEvent>
-  </events>
-</engine.entities.CameraEntity></Camera><Resources/><GameInfo Info="information about game"/></Game>
+  <events/>
+</engine.entities.CameraEntity></Camera><Resources/></Game>

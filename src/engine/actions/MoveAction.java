@@ -5,7 +5,6 @@ import engine.Entity;
 import engine.game.gameloop.Screen;
 
 public class MoveAction extends Action {
-
 	public static final double TIME_STEP = Screen.FRAME_TIME_MILLISECONDS / 50.0;
 
 	@Override

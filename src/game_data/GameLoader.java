@@ -30,7 +30,7 @@ import exceptions.NotAGameFolderException;
 public class GameLoader {
 
 	private Unpackager unzip;
-
+	private ResourceManager rm;
 	/**
 	 * Loads game given the folder path and returns the entities and songpath necessary
 	 * @param gameFolderPath : folderpath to load game from
@@ -47,6 +47,7 @@ public class GameLoader {
 		}
 
 		File dataFile = new File(newPath + File.separator + saveName);
+		rm = new ResourceManager();
 
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
@@ -99,7 +100,7 @@ public class GameLoader {
 	 * @param doc : Document that contains game name, extracted by XML
 	 */
 	private void addName(Game game, Document doc) {
-		NodeList nameNodes = doc.getElementsByTagName("Name");
+		NodeList nameNodes = doc.getElementsByTagName(rm.getNameTitle());
 		game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
 	}
 
@@ -111,7 +112,7 @@ public class GameLoader {
 	 */
 	private void addSong(Game game, Document doc, String gameFolderPath) {
 		try {
-			NodeList songNodes = doc.getElementsByTagName("Resources");
+			NodeList songNodes = doc.getElementsByTagName(rm.getResourceTitle());
 			game.setSongPath(gameFolderPath + File.separator + convertPathForSystem(songNodes.item(0).getAttributes().item(0).getNodeValue()));
 		} catch (Exception e) {
 			game.setSongPath("");
@@ -126,7 +127,7 @@ public class GameLoader {
 	 */
 	private void addCamera(Game game, Document doc, String gameFolderPath) {
 		//TODO
-		Element cameraNode = (Element) doc.getElementsByTagName("Camera").item(0);
+		Element cameraNode = (Element) doc.getElementsByTagName(rm.getCameraTitle()).item(0);
 		Entity camera = getEntityFromElement(cameraNode);
 		camera.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(camera.getImagePath()));
 		game.setCamera((CameraEntity)camera);
@@ -139,7 +140,7 @@ public class GameLoader {
 	 * @param gameFolderPath : top-level directory of the game
 	 */
 	private void addDefaults(Game game, Document doc, String gameFolderPath) {
-		NodeList defaultsNode = doc.getElementsByTagName("Defaults");
+		NodeList defaultsNode = doc.getElementsByTagName(rm.getDefaultsTitle());
 		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0);
 		game.setDefaults(getEntities(entitiesNode, gameFolderPath));
 	}
@@ -151,7 +152,7 @@ public class GameLoader {
 	 * @param gameFolderPath : top-level directory of the game
 	 */
 	private void addLevels(Game game, Document doc, String gameFolderPath) {
-		NodeList levelsNode = doc.getElementsByTagName("Levels");
+		NodeList levelsNode = doc.getElementsByTagName(rm.getLevelsTitle());
 		NodeList levelsList = levelsNode.item(0).getChildNodes();
 		List<Level> gameLevels = new ArrayList<Level>();
 
@@ -188,7 +189,7 @@ public class GameLoader {
 		NodeList entitiesList = entitiesNode.getChildNodes();
 		List<Entity> entityList = new ArrayList<Entity>();
 		for (int i = 0; i < entitiesList.getLength(); i++) {
-			if (entitiesList.item(i).getNodeName().equals("Entity")) {
+			if (entitiesList.item(i).getNodeName().equals(rm.getEntityState())) {
 				Entity instantiatedEntity = getEntityFromElement((Element) entitiesList.item(i));
 				instantiatedEntity.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(instantiatedEntity.getImagePath()));
 				entityList.add(instantiatedEntity);
