@@ -30,6 +30,7 @@ public class GameSaver
 {
 	private Game game;
 	private GameXMLFactory gameXMLFactory;
+	private Packager zipper;
 
 	/**
 	 * Main method to save the entire game to the selected file path. Utilizes GameXMLFactory to create the XML file.
@@ -41,6 +42,7 @@ public class GameSaver
 		
 		gameXMLFactory = new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
+		zipper = new Packager();
 		
 		
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
@@ -54,6 +56,23 @@ public class GameSaver
 		saveAchievements("hi", gameFolderPath);
 		saveGameInfo(gameFolderPath, "hi");
 		saveDocument(gameFolderPath, "settings.xml");
+		try {
+			zipDoc(gameFolderPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void zipDoc(String path) throws IOException{
+		List<File> toCompress = new ArrayList<File>();
+		File dir = new File(path + File.separator + game.getName());
+		  File[] directoryListing = dir.listFiles();
+		  if (directoryListing != null) {
+		    for (File child : directoryListing) {
+		    	toCompress.add(child);
+		    }
+		  }
+		zipper.packZip(new File(path + File.separator + "testzip.zip"), toCompress);
 	}
 	
 	/**
@@ -273,4 +292,6 @@ public class GameSaver
 		Path targetPath = Paths.get(destinationPath);
 		Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 	}
+	
+	
 }

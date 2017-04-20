@@ -109,7 +109,6 @@ public class GameXMLFactory
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * 
 	 * @param achieve
 	 */
