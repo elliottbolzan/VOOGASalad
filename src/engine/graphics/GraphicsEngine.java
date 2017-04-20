@@ -56,6 +56,13 @@ public class GraphicsEngine {
 	}
 	
 	/**
+	 * @return the camera used to move around the display
+	 */
+	public CameraEntity getCamera() {
+		return this.camera;
+	}
+	
+	/**
 	 * Sets the camera used to move around the display
 	 * @param newCamera
 	 */
@@ -147,12 +154,9 @@ public class GraphicsEngine {
 		node.yProperty().bind(entity.yProperty());
 		node.setTranslateZ(entity.getZ());
 		node.visibleProperty().bind(entity.isVisibleProperty());
-		entity.imagePathProperty().addListener(
-				(observer, oldPath, newPath) -> {
-					System.out.println(newPath);
-					System.out.println("hi");
-					node.setImage(new Image(newPath));				
-			});
+		entity.imagePathProperty().addListener( (observer, oldPath, newPath) -> {
+			node.setImage(new Image(newPath));				
+		});
 	}
 	
 	private void sortViewByZIndex() {

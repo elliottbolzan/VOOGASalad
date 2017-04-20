@@ -53,6 +53,7 @@ public class LevelStepStrategy implements StepStrategy {
 		this.screen = screen;
 		this.info = info;
 		levelManager.loadAllSavedLevels(); //To reset initial state of level
+		levelManager.getCurrentLevel().addEntity(graphicsEngine.getCamera());	//TODO: add the camera in a cleaner way
 		// TODO get filename here
 		
 		info.getScorebar().resetTimerManager();
