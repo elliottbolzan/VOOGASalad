@@ -1,5 +1,4 @@
 package game_data;
-
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -24,12 +22,11 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
-
 public class GameSaver
 {
+	private static final String SETTINGS_FILE_NAME = "settings.xml";
 	private Game game;
 	private GameXMLFactory gameXMLFactory;
-
 	/**
 	 * Main method to save the entire game to the selected file path. Utilizes GameXMLFactory to create the XML file.
 	 * @param game : game to be saved
@@ -39,16 +36,16 @@ public class GameSaver
 		this.game = game;
 		
 		gameXMLFactory = new GameXMLFactory();
+
 		gameXMLFactory.setName(game.getName());
 		
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
 		createFolder(gameFolderPath);
-
 		saveLevels(game.getLevels(), gameFolderPath);
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), gameFolderPath);
 		saveCamera(game.getCamera(), gameFolderPath);
-		saveDocument(gameFolderPath, "settings.xml");
+		saveDocument(gameFolderPath, SETTINGS_FILE_NAME);
 	}
 	
 	/**
@@ -87,7 +84,6 @@ public class GameSaver
 			//TODO
 		}
 	}
-
 	/**
 	 * Saves the default entities into XML.
 	 * @param defaults : List of entities that are defaults, to be saved into XML
@@ -97,7 +93,6 @@ public class GameSaver
 		Element levelElement = this.getEntityListAsXML(defaults, gameFolderPath);
 		gameXMLFactory.addDefaultEntity(levelElement);
 	}
-
 	/**
 	 * Saves the list of levels (list of entities) that will be written into XML.
 	 * @param levels : list of levels to be written to XML
@@ -109,7 +104,6 @@ public class GameSaver
 			gameXMLFactory.addLevel(levelElement);
 		}
 	}
-
 	/**
 	 * Saves the song path into the XML game file
 	 * @param gameFolderPath : top-level directory of the game
@@ -157,7 +151,6 @@ public class GameSaver
 			//TODO
 		}
 	}
-
 	/**
 	 * Generates a XML Element given a list of entities. Also saves the images of all entities
 	 * in the process.

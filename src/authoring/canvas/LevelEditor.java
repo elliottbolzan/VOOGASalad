@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import engine.Entity;
 import engine.game.Level;
 import javafx.beans.value.ChangeListener;

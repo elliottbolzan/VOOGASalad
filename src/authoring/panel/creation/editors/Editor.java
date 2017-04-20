@@ -5,7 +5,7 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.components.EditingCell;
-import authoring.views.View;
+import utils.views.View;
 import engine.GameObject;
 import engine.Parameter;
 import javafx.collections.FXCollections;

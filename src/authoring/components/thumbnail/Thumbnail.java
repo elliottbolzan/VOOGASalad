@@ -1,6 +1,6 @@
 package authoring.components.thumbnail;
 
-import authoring.views.View;
+import utils.views.View;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

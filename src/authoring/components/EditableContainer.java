@@ -1,7 +1,7 @@
 package authoring.components;
 
 import authoring.Workspace;
-import authoring.views.View;
+import utils.views.View;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

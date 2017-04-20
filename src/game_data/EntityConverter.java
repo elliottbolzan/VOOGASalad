@@ -18,8 +18,7 @@ import javafx.beans.property.SimpleStringProperty;
  * @author nikita This class is used by xStream to convert Entities to XML and
  *         load Entities from XML.
  */
-public class EntityConverter implements Converter
-{
+public class EntityConverter implements Converter {
 	/**
 	 * Check if this converter can convert an instance of the class provided.
 	 * 
@@ -28,8 +27,7 @@ public class EntityConverter implements Converter
 	 * @return if the converter can convert this type of class
 	 */
 	@Override
-	public boolean canConvert(Class arg0)
-	{
+	public boolean canConvert(Class arg0) {
 		try {
 			return arg0.equals(Entity.class) || arg0.getSuperclass().equals(Entity.class);
 		} catch (Exception e) {
@@ -49,8 +47,7 @@ public class EntityConverter implements Converter
 	 *            automatically
 	 */
 	@Override
-	public void marshal(Object arg0, HierarchicalStreamWriter writer, MarshallingContext context)
-	{
+	public void marshal(Object arg0, HierarchicalStreamWriter writer, MarshallingContext context) {
 		Entity entity = (Entity) arg0;
 		writer.startNode("EntityType");
 		writer.setValue(entity.getDisplayName());
@@ -67,21 +64,22 @@ public class EntityConverter implements Converter
 
 		writer.close();
 	}
-	
-	/**
-	 * write the values of the entities into their respective double/string/boolean values
-	 * @param entity 
-	 * 				entity to be written
-	 * @param fields 
-	 * 				fields within entity to be written
-	 * @param writer 
-	 * 				writer object
-	 * @param context 
-	 * 				context for writing
-	 */
 
-	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer, MarshallingContext context)
-	{
+	/**
+	 * write the values of the entities into their respective
+	 * double/string/boolean values
+	 * 
+	 * @param entity
+	 *            entity to be written
+	 * @param fields
+	 *            fields within entity to be written
+	 * @param writer
+	 *            writer object
+	 * @param context
+	 *            context for writing
+	 */
+	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer,
+			MarshallingContext context) {
 		for (Field field : fields) {
 			if (java.lang.reflect.Modifier.isStatic(field.getModifiers()))
 				continue;
@@ -120,12 +118,9 @@ public class EntityConverter implements Converter
 	 * @return the entity converted from the XML
 	 */
 	@Override
-	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context)
-	{
+	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		EngineController controller = new EngineController();
-
 		reader.moveDown();
-
 		Entity entity = controller.createEntity(reader.getValue());
 		reader.moveUp();
 
@@ -162,8 +157,6 @@ public class EntityConverter implements Converter
 			}
 			reader.moveUp();
 		}
-
 		return entity;
 	}
-
 }

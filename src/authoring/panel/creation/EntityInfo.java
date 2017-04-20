@@ -4,7 +4,7 @@ import java.io.File;
 
 import authoring.Workspace;
 import authoring.components.thumbnail.FixedThumbnail;
-import authoring.views.View;
+import utils.views.View;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

@@ -35,11 +35,11 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	}
 
 	@Override
-	public void setup(LevelManager levelManager, Scene gameScene, Screen screen, GraphicsEngine graphicsEngine,
+	public void setup( Scene gameScene, Screen screen, GraphicsEngine graphicsEngine,
 			GameInfo info) {
 		// TODO These are just being used to pass to next level - too many
 		// parameters in method names; find a better way!
-		this.levelManager = levelManager;
+		this.levelManager = info.getLevelManager();
 		this.gameScene = gameScene;
 		this.graphicsEngine = graphicsEngine;
 		this.screen = screen;
@@ -98,7 +98,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		if (hasNextLevel && hasNextScreen(levelManager)) {
 			StepStrategy nextStepStrategy = getNextStepStrategy(levelManager);
 			info.setCurrentStepStrategy(nextStepStrategy);
-			Screen nextScreen = new Screen(nextStepStrategy, levelManager, gameScene, graphicsEngine, info);
+			Screen nextScreen = new Screen(nextStepStrategy, gameScene, graphicsEngine, info);
 			//System.out.println(nextScreen);
 			nextScreen.getTimeline().play();
 		}

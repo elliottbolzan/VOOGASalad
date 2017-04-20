@@ -1,7 +1,7 @@
 package engine.actions;
 
-import com.sun.xml.internal.stream.Entity;
-
+import engine.Entity;
+import engine.Parameter;
 import engine.Action;
 
 /**
@@ -15,14 +15,13 @@ public class FollowAction extends Action {
 
 	public FollowAction() {
 		//TODO: figure out how to have an Entity parameter? Not sure if this would work
-		//this.addParam(new Parameter("Entity", Entity.class, null));
+		this.addParam(new Parameter("Leader Entity", Entity.class, null));
 	}
 
 	@Override
 	public void act() {
-		//TODO: figure out a way to set the location of an entity based on another entity
-		//this.getEntity().setX(leaderEntity.getX());
-		//this.getEntity().setY(leaderEntity.getY());
+		this.getEntity().setX(((Entity) getParam("Leader Entity")).getX());
+		this.getEntity().setY(((Entity) getParam("Leader Entity")).getY());
 	}
 
 }

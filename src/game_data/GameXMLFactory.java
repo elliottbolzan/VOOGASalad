@@ -24,6 +24,7 @@ public class GameXMLFactory
 	private Element defaultsNode;
 	private Element cameraNode;
 	private Element resourceNode;
+	private ResourceManager rm;
 
 	/**
 	 * GameXMLFactory constructor
@@ -36,6 +37,8 @@ public class GameXMLFactory
 	 * Initialize the XML file by creating the appropriate nodes
 	 */
 	private void initiate() {
+		rm = new ResourceManager();
+		
 		docFactory = DocumentBuilderFactory.newInstance();
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
@@ -43,24 +46,25 @@ public class GameXMLFactory
 			//TODO
 		}
 		doc = docBuilder.newDocument();
-
-		Element rootElement = doc.createElement("Game");
+		
+		Element rootElement = doc.createElement(rm.getGameTitle());
 		doc.appendChild(rootElement);
-
-		nameNode = doc.createElement("Name");
+		
+		nameNode = doc.createElement(rm.getNameTitle());
 		rootElement.appendChild(nameNode);
-
-		levelsNode = doc.createElement("Levels");
+		
+		levelsNode = doc.createElement(rm.getLevelsTitle());
 		rootElement.appendChild(levelsNode);
 
-		defaultsNode = doc.createElement("Defaults");
+		defaultsNode = doc.createElement(rm.getDefaultsTitle());
 		rootElement.appendChild(defaultsNode);
 
-		cameraNode = doc.createElement("Camera");
+		cameraNode = doc.createElement(rm.getCameraTitle());
 		rootElement.appendChild(cameraNode);
 		
-		resourceNode = doc.createElement("Resources");
+		resourceNode = doc.createElement(rm.getResourceTitle());
 		rootElement.appendChild(resourceNode);
+		
 	}
 	
 	/**
@@ -69,7 +73,7 @@ public class GameXMLFactory
 	 * 			game name to be set in XML
 	 */
 	public void setName(String gameName) {
-		Attr attr = doc.createAttribute("GameName");
+		Attr attr = doc.createAttribute(rm.getNameAttribute());
 		attr.setValue(gameName);
 		nameNode.setAttributeNode(attr);
 	}
@@ -80,7 +84,7 @@ public class GameXMLFactory
 	 * 			node to be added into XML
 	 */
 	public void addLevel(Element levelInfo) {
-		Element newLevel = doc.createElement("level");
+		Element newLevel = doc.createElement(rm.getLevelElement());
 		Element importedLevelNode = (Element) doc.importNode(levelInfo, true);
 		newLevel.appendChild(importedLevelNode);
 		levelsNode.appendChild(newLevel);
@@ -91,7 +95,7 @@ public class GameXMLFactory
 	 * @param songPath : string song path to be added to XML
 	 */
 	public void addSong(String songPath) {
-		Attr attr = doc.createAttribute("Song");
+		Attr attr = doc.createAttribute(rm.getSongResourceElement());
 		attr.setValue(songPath);
 		resourceNode.setAttributeNode(attr);
 	}
@@ -123,7 +127,7 @@ public class GameXMLFactory
 	 * 			entity info to be added into XML
 	 */
 	public void addEntityInfotoElement(Element element, Element entityInfo) {
-		Element newEntity = doc.createElement("entity");
+		Element newEntity = doc.createElement(rm.getEntityElement());
 		newEntity.appendChild(entityInfo);
 		element.appendChild(newEntity);
 	}
@@ -141,11 +145,11 @@ public class GameXMLFactory
 			return DocumentBuilderFactory.newInstance().newDocumentBuilder()
 					.parse(is).getDocumentElement();
 		} catch (SAXException e) {
-			e.printStackTrace();
+		
 		} catch (IOException e) {
-			e.printStackTrace();
+			
 		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
+		
 		}
 		return null;
 	}

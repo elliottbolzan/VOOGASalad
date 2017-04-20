@@ -651,7 +651,7 @@
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
   <x>325.0</x>
-  <y>175.0</y>
+  <y>75.0</y>
   <width>50.0</width>
   <height>75.0</height>
   <zIndex>1.0</zIndex>
@@ -982,8 +982,8 @@
   <EntityType>Camera</EntityType>
   <x>0.0</x>
   <y>0.0</y>
-  <width>0.0</width>
-  <height>0.0</height>
+  <width>50.0</width>
+  <height>50.0</height>
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>

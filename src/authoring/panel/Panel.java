@@ -8,8 +8,8 @@ import authoring.components.Direction;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.settings.Settings;
-import authoring.views.CollapsibleView;
-import authoring.views.View;
+import utils.views.CollapsibleView;
+import utils.views.View;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import polyglot.Case;
@@ -103,8 +103,12 @@ public class Panel extends CollapsibleView {
 	public void selectExistingLevelBox(String oldLevel, String newLevel) {
 		layerPanel.selectLevelBox(oldLevel, newLevel);
 	}
-	public void selectExistingLevelBox(int count) {
-		layerPanel.selectLevelBox(count);
+	public void selectLoadedLevelBox(List<String> nameList) {
+		layerPanel.selectLevelBox(nameList);
 	}
 
+	public void selectLoadedLevelBox(int layerCount) {
+		layerPanel.selectLevelBox(layerCount);
+		
+	}
 }

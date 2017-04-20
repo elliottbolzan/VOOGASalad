@@ -11,5 +11,7 @@
 	<classpathentry kind="lib" path="lib/polyglot_libs/google-http-client-jackson2-1.22.0.jar"/>
 	<classpathentry kind="lib" path="lib/polyglot_libs/jackson-core-2.1.3.jar"/>
 	<classpathentry kind="lib" path="lib/polyglot_libs/jsr305-1.3.9.jar"/>
+	<classpathentry kind="lib" path="lib/poster_libs/gson-2.8.0.jar"/>
+	<classpathentry kind="lib" path="lib/poster_libs/restfb-2.0.0-rc.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,12 +2,13 @@ package authoring.panel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import authoring.Workspace;
 import authoring.components.LabeledField;
-import authoring.views.View;
+import utils.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -130,6 +131,7 @@ public class LayerPanel extends View {
 			selectionModel.set(myBox.getSelectionModel().getSelectedIndex(), nameField.getText());
 			myBox.setItems(selectionModel);
 			myBox.setValue(nameField.getText());
+			workspace.setLayerName(nameField.getText());
 			nameField.setText(null);
 		}
 	}
@@ -175,6 +177,13 @@ public class LayerPanel extends View {
 	 * 
 	 * @param layerNum
 	 */
+	public void selectLevelBox(List<String> loadedList) {
+		myBox.getItems().clear();
+		selectionModel = FXCollections.observableArrayList(loadedList);
+		myBox.setItems(selectionModel);
+		myBox.setValue(selectionModel.get(0));
+	}
+	
 	public void selectLevelBox(int layerNum) {
 		myBox.getItems().clear();
 		for (int i = 0; i < layerNum; i++) {
@@ -182,5 +191,6 @@ public class LayerPanel extends View {
 		}
 		myBox.setValue(String.format("Layer %d", 1));
 	}
+
 
 }

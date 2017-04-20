@@ -28,6 +28,7 @@ import com.google.api.services.translate.model.TranslationsListResponse;
  */
 public class TranslateAPI {
 
+	private static final int MAX_CHARACTERS_PER_REQUEST = 600;
 	private static final String APPLICATION_NAME = "VoogaSalad";
 	private String APIKey;
 	private Translate translate;
@@ -64,8 +65,9 @@ public class TranslateAPI {
 
 	/**
 	 * Translates phrases from any given language (auto-detected by Google's
-	 * API) to a destination language, specific by the parameter code. In the
-	 * event the process is interrupted, an empty List is returned.
+	 * API) to a destination language, specific by the parameter code.
+	 * 
+	 * Breaks up the requests into chunks Google can process.
 	 * 
 	 * @param phrases
 	 *            the phrases to be translated.
@@ -77,9 +79,40 @@ public class TranslateAPI {
 	 */
 	protected List<String> translate(List<String> phrases, String code) throws Exception {
 		List<String> translations = new ArrayList<String>();
-		TranslationsListResponse result = translate.translations().list(phrases, code).execute();
-		result.getTranslations().forEach((entry) -> translations.add(entry.getTranslatedText()));
+		List<String> toTranslate = new ArrayList<String>();
+		int characters = 0;
+		for (String string : phrases) {
+			if (characters + string.length() >= MAX_CHARACTERS_PER_REQUEST) {
+				updateTranslated(translations, toTranslate, code);
+				characters = 0;
+				toTranslate.clear();
+			}
+			characters += string.length();
+			toTranslate.add(string);
+		}
+		updateTranslated(translations, toTranslate, code);
 		return translations;
+	}
+
+	/**
+	 * Where the actual translation takes place. A call to Google's Cloud API is
+	 * made.
+	 * 
+	 * @param destination
+	 *            the List<String> to add translations too.
+	 * @param toTranslate
+	 *            the List<String> to translate.
+	 * @param code
+	 *            the language identifier.
+	 * @return an updated List<String> of translated values.
+	 * @throws Exception
+	 *             throws an error when the request fails.
+	 */
+	private List<String> updateTranslated(List<String> destination, List<String> toTranslate, String code)
+			throws Exception {
+		TranslationsListResponse result = translate.translations().list(toTranslate, code).execute();
+		result.getTranslations().forEach((entry) -> destination.add(entry.getTranslatedText()));
+		return destination;
 	}
 
 	/**
