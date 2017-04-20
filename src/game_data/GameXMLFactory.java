@@ -127,7 +127,6 @@ public class GameXMLFactory
 		Attr attr = doc.createAttribute("Info");
 		attr.setValue(info);
 		infoNode.setAttributeNode(attr);
-		
 	}
 	
 	/**

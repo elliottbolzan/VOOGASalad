@@ -60,7 +60,13 @@ public class GameLoader {
 	}
 
 	private void addAchieve(Game game, Document doc, String folderPath){
-		NodeList achieveNode = doc.getElementsByTagName("Achievement");
+		NodeList achieveNode = doc.getElementsByTagName("Achievements");
+		System.out.println("item0 " + achieveNode.item(0));
+		System.out.println("item0 attr " + achieveNode.item(0).getAttributes());
+		System.out.println("item 0 attr item 0 " + achieveNode.item(0).getAttributes().item(0));
+		System.out.println(achieveNode.item(0).getAttributes().item(0).getNodeValue());
+
+
 		game.setName(achieveNode.item(0).getAttributes().item(0).getNodeValue());
 	}
 	
@@ -75,7 +81,7 @@ public class GameLoader {
 	}
 	
 	private void addInfo(Game game, Document doc, String folderPath){
-		NodeList infoNode = doc.getElementsByTagName("Info");
+		NodeList infoNode = doc.getElementsByTagName("GameInfo");
 		game.setName(infoNode.item(0).getAttributes().item(0).getNodeValue());
 	}
 	

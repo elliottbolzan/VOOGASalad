@@ -51,6 +51,8 @@ public class GameSaver
 		saveSong(game.getSongPath(), gameFolderPath);
 		saveBackground(gameFolderPath, game.getSongPath());
 		saveCamera(game.getCamera(), gameFolderPath);
+		saveAchievements("hi", gameFolderPath);
+		saveGameInfo(gameFolderPath, "hi");
 		saveDocument(gameFolderPath, "settings.xml");
 	}
 	
@@ -71,6 +73,7 @@ public class GameSaver
 		saveCamera(game.getCamera(), gameFolderPath);
 		saveLevels(game.getLevels(), gameFolderPath);
 		saveDocument(gameFolderPath, saveName);
+		
 	}
 	
 	/**
@@ -141,7 +144,7 @@ public class GameSaver
 	 * @param achieve
 	 * @param filePath
 	 */
-	private void saveAchivements(String achieve, String filePath){
+	private void saveAchievements(String achieve, String filePath){
 		if(achieve.equals("")) return;
 		gameXMLFactory.addAchievement(achieve);
 	}
@@ -200,7 +203,7 @@ public class GameSaver
 	 */
 	public void saveGameInfo(String filePath, String info){
 		if(info.equals("")) return;
-		gameXMLFactory.addAchievement(info);
+		gameXMLFactory.addInfo(info);
 	}
 
 	/**
