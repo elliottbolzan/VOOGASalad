@@ -38,7 +38,7 @@ public class StandaloneLoader extends Application {
 			System.out.println("The polyglot could not be initialized properly. Check your Internet.");
 		}
 		ResourceBundle IOResources = ResourceBundle.getBundle("resources/IO");
-		new MainMenu(new Loader(pathToGame), polyglot, IOResources);
+		//new MainMenu(new Loader(pathToGame), polyglot, IOResources);
 	}
 
 }

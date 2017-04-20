@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
+import game_data.Game;
 import game_data.GameData;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -24,7 +25,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -33,7 +33,6 @@ import player.menu.MainMenu;
 import polyglot.Case;
 import polyglot.Polyglot;
 import polyglot.PolyglotException;
-import starter.exporter.Exporter;
 
 public class StartMenu extends BorderPane {
 
@@ -56,7 +55,6 @@ public class StartMenu extends BorderPane {
 		this.maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
 		this.setIcon();
 		this.buildStage();
-		//new Exporter();
 	}
 
 	private void setIcon() {
@@ -124,13 +122,10 @@ public class StartMenu extends BorderPane {
 		timeline.play();
 	}
 
-	private void newGame() {
-		new AuthoringEnvironment(polyglot, IOResources);
-	}
-
 	private String chooseGame() {
 		FileChooser chooser = maker.makeFileChooser(
-				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"),"ChooserTitle", "*.zip");
+				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"),
+				IOResources.getString("ZIPChooserFilter"), IOResources.getString("ZIPChooserExtension"));
 		File selectedDirectory = chooser.showOpenDialog(stage);
 		if (selectedDirectory == null) {
 			return "";
@@ -139,59 +134,36 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private boolean isSelected(String selectedDirectory) {
-		if (selectedDirectory == "") {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	private void editGame() {
-		String chosen = chooseGame();
-		if (isSelected(chosen)) {
-			new AuthoringEnvironment(chosen, polyglot, IOResources);
-		}
-
-	}
-
-	private void playGame() {
-		String chosen = chooseGame();
-		GameData loader = new GameData();
-		
-		if (isSelected(chosen)) {
-			new MainMenu(loader.loadGame(chosen), new MediaManager(chosen, null), polyglot, IOResources);
-		}
-	}
-	
-	/*
-	 private Game chooseGame() {
-		DirectoryChooser chooser = maker.makeDirectoryChooser(
-				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"), "ChooserTitle");
-		File selectedDirectory = chooser.showDialog(stage);
+	private Game createGame(String path) {
 		try {
-			return new GameData().loadGame(selectedDirectory.getAbsolutePath());
-		}
-		catch (Exception e) {
-			// show message
+			GameData gameData = new GameData();
+			return gameData.loadGame(path);
+		} catch (Exception e) {
+			// Thread this.
+			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NotAGame").get());
+			alert.show();
 			return null;
 		}
 	}
 
+	private void newGame() {
+		new AuthoringEnvironment(polyglot, IOResources);
+	}
+
 	private void editGame() {
-		Game game = chooseGame();
+		Game game = createGame(chooseGame());
 		if (game != null) {
 			new AuthoringEnvironment(game, polyglot, IOResources);
 		}
 	}
 
 	private void playGame() {
-		Game game = chooseGame();
+		String path = chooseGame();
+		Game game = createGame(path);
 		if (game != null) {
-			new MainMenu(new Loader(game), polyglot, IOResources);
+			new MainMenu(game, new MediaManager(game, path, null), polyglot, IOResources);
 		}
 	}
-*/
 
 	private MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
 		MenuItem item = new MenuItem();
@@ -204,10 +176,6 @@ public class StartMenu extends BorderPane {
 		Menu menu = new Menu();
 		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		return menu;
-	}
-
-	private boolean isOSX() {
-		return System.getProperty("os.name").equals("Mac OS X");
 	}
 
 	private Menu makeLanguageMenu() {
@@ -226,6 +194,10 @@ public class StartMenu extends BorderPane {
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NoInternet"));
 			alert.show();
 		}
+	}
+
+	private boolean isOSX() {
+		return System.getProperty("os.name").equals("Mac OS X");
 	}
 
 }
