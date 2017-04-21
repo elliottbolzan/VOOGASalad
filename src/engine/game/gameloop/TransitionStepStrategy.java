@@ -33,7 +33,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
-		if(graphicsEngine.isHighscore() && resourceFileTextName.equals("WinGame")){
+		if(graphicsEngine.isHighscore() && (resourceFileTextName.equals("WinGame") || resourceFileTextName.equals("GameOver"))){
 			graphicsEngine.endScreen();
 		}else{
 			graphicsEngine.fillScreenWithText(ResourceBundle.getBundle(RESOURCES_NAME).getString(resourceFileTextName));
