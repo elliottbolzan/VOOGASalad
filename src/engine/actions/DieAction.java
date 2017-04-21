@@ -16,9 +16,8 @@ public class DieAction extends Action {
 
 	@Override
 	public void act() {
+		System.out.println("Die Action " + this + " executed");
 		try {
-			System.out.println(getEntity() + " " + getEntity().getName());
-			System.out.println(getGameInfo().getLevelManager().getCurrentStepStrategy());
 			CharacterEntity entity = (CharacterEntity) getEntity();
 			//This check added to fix bug of multiple DieActions triggering
 			if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {

@@ -35,14 +35,36 @@ public class LevelStepStrategy implements StepStrategy {
 		addInfoToEntities();
 		setupGameView();
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			if (entity.getName().equals("Mario")) {
-				// System.out.println("x = " + entity.getX() + ", y = " +
-				// entity.getY());
+			if (entity.getName().equals("Luigi")) {
+				System.out.println("x = " + entity.getX() + ", y = " + entity.getY());
 			}
 		}
-		// System.out.println("Entities in current level: " +
-		// levelManager.getCurrentLevel().getEntities());
+		printAllGameObjects();
 	}
+	
+	//For testing, to be removed after
+	public void printAllGameObjects(){
+		System.out.println("Collisions during setup" + info.getObservableBundle().getCollisionObservable().getCollisions());
+		
+		/*
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			System.out.print(entity + " " + entity.getName());
+			System.out.print("[");
+			for(Event event : entity.getEvents()){
+				System.out.print(event + " ");
+				System.out.print("[");
+				for(Action action : event.getActions()){
+					System.out.print(action + " ");
+				}
+				System.out.print("]");
+			}
+			System.out.print("]");
+		}
+		System.out.println();
+		*/
+	}
+	
+	
 	public void flagScreenFinished(StepStrategy nextStepStrategy) {
 		this.screenFinished = true;
 		this.nextStepStrategy = nextStepStrategy;
@@ -60,13 +82,16 @@ public class LevelStepStrategy implements StepStrategy {
 	 */
 	@Override
 	public void step() {
+		System.out.println("Collisions during step" + info.getObservableBundle().getCollisionObservable().getCollisions());
 		info.getObservableBundle().updateObservers();
+		System.out.println("Collisions during step" + info.getObservableBundle().getCollisionObservable().getCollisions());
 		// TODO If need an update method in GameInfo, update it here, right
 		// before entity.update();
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
+		System.out.println("Collisions after clearing: " + info.getObservableBundle().getCollisionObservable().getCollisions());
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
 		if (screenFinished) {
@@ -74,6 +99,7 @@ public class LevelStepStrategy implements StepStrategy {
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
 			nextScreen.getTimeline().play();
 		}
+		
 	}
 	/**
 	 * Helper grouping all the observable logic in this class for setup.

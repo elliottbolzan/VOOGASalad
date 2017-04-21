@@ -71,7 +71,7 @@ public class CollisionObservable extends EventObservable {
 		for (Entity first : getObservers()) {
 			for (Entity second : getObservers()) {
 				if (first != second && isCollision(first, second)) {
-					//System.out.println("ONCE");
+					System.out.println("Added collision between " + first.getName() + " and " + second.getName());
 					collisions.add(new Collision(first, second, collisionSide(first, second)));
 				}
 			}
