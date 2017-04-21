@@ -15,14 +15,14 @@ import engine.graphics.GraphicsEngine;
 public class GameInfo {
 	private ObservableBundle bundle; // immutable/no setter (same for whole game)
 	private Scorebar scorebar; // immutable/no setter (same for whole game)
-	private TimelineManipulator levelEnder;
+	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	
 	public GameInfo(GameLoop gameLoop) {
 		this.bundle = gameLoop.getObservableBundle();
 		this.scorebar = gameLoop.getScorebar();
-		this.levelEnder = gameLoop.getLevelEnder();
+		this.timelineManipulator = gameLoop.timelineManipulator();
 		this.levelManager = gameLoop.getLevelManager();
 		this.graphicsEngine = gameLoop.getGraphicsEngine();
 	}
@@ -36,7 +36,7 @@ public class GameInfo {
 	}
 	
 	public TimelineManipulator getTimelineManipulator(){
-		return levelEnder;
+		return timelineManipulator;
 	}
 
 
