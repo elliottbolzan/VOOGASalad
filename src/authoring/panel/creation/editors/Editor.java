@@ -23,6 +23,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import polyglot.Case;
@@ -72,9 +73,7 @@ public abstract class Editor extends View {
 		setPadding(new Insets(10));
 		createChooserBox(object);
 		createTable(object);
-		if (showSave) {
-			createButtonBox();
-		}
+		createBottom();
 	}
 
 	private void createChooserBox(GameObject object) {
@@ -114,6 +113,21 @@ public abstract class Editor extends View {
 		}
 		setCenter(table);
 	}
+	
+	private void createBottom() {
+		VBox box = new VBox(10);
+		Label instructions = new Label();
+		instructions.setWrapText(true);
+		instructions.textProperty().bind(workspace.getPolyglot().get("EditorInstructions"));
+		instructions.setPadding(new Insets(5));
+		instructions.setTextAlignment(TextAlignment.CENTER);
+		if (showSave) {
+			Button saveButton = workspace.getMaker().makeButton("TableEditorSaveButton", e -> save(), true);
+			box.getChildren().add(saveButton);
+		}
+		box.getChildren().add(instructions);
+		setBottom(box);
+	}
 
 	private TableColumn<Parameter, Object> makeKeyColumn() {
 		TableColumn<Parameter, Object> column = new TableColumn<>();
@@ -143,11 +157,6 @@ public abstract class Editor extends View {
 		});
 		column.setEditable(true);
 		return column;
-	}
-
-	private void createButtonBox() {
-		Button saveButton = workspace.getMaker().makeButton("TableEditorSaveButton", e -> save(), true);
-		setBottom(saveButton);
 	}
 
 	protected void update(GameObject object) {

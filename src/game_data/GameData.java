@@ -1,7 +1,5 @@
 package game_data;
 
-import exceptions.NotAGameFolderException;
-
 public class GameData {
 	
 	/**
@@ -33,15 +31,9 @@ public class GameData {
 	 * 			folder path where the game wants to be loaded
 	 * @return
 	 */
-	public Game loadGame(String folderPath) {
+	public Game loadGame(String folderPath) throws Exception {
 		GameLoader gl = new GameLoader();
-		Game game = null;
-		try {
-			game = gl.loadGame(folderPath, "settings.xml");
-		} catch (NotAGameFolderException i) {
-			// i.printStackTrace();
-		}
-		return game;
+		return gl.loadGame(folderPath, "settings.xml");
 	}
 	
 	/**
@@ -50,15 +42,9 @@ public class GameData {
 	 * @param saveName
 	 * @return
 	 */
-	public Game loadGameState(String folderPath, String saveName){
+	public Game loadGameState(String folderPath, String saveName) throws Exception {
 		GameLoader gl = new GameLoader();
-		Game game = null;
-		try {
-			game = gl.loadGame(folderPath, saveName);
-		} catch (NotAGameFolderException i) {
-			// i.printStackTrace();
-		}
-		return game;
+		return gl.loadGame(folderPath, saveName);
 	}
 
 }

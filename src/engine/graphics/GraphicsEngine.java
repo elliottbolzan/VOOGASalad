@@ -43,6 +43,7 @@ public class GraphicsEngine {
 	private Collection<Entity> entities;
 	private Collection<ImageView> nodes;
 	private CameraEntity camera;
+	
 	private Scorebar scorebar;
 	private Overlay overlay;
 	private Stage stage;

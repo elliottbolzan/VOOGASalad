@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
+import game_data.Game;
 import game_data.GameData;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -15,6 +16,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -24,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -83,10 +86,8 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void buildView() {
-		ImageView logo = createLogo();
-		MenuBar menuBar = createMenu();
-		this.setTop(menuBar);
-		this.setCenter(logo);
+		this.setTop(createMenu());
+		this.setCenter(createLogo());
 	}
 
 	private ImageView createLogo() {
@@ -101,11 +102,12 @@ public class StartMenu extends BorderPane {
 		return imageView;
 	}
 
-	private MenuBar createMenu() {
+	private VBox createMenu() {
 		MenuBar menuBar = new MenuBar();
-		Menu menuFile = makeMenu("GameMenu");
-		menuFile.getItems().addAll(makeMenuItem("NewButton", e -> newGame()),
-				makeMenuItem("EditButton", e -> editGame()), makeMenuItem("PlayButton", e -> playGame()));
+		Menu menuFile = maker.makeMenu("GameMenu");
+		menuFile.getItems().addAll(maker.makeMenuItem("NewButton", "Ctrl+N", e -> newGame()),
+				maker.makeMenuItem("EditButton", "Ctrl+E", e -> editGame()),
+				maker.makeMenuItem("PlayButton", "Ctrl+P", e -> playGame()));
 		Menu languageMenu = makeLanguageMenu();
 		menuBar.getMenus().addAll(menuFile, languageMenu);
 		menuBar.setOpacity(0);
@@ -113,7 +115,9 @@ public class StartMenu extends BorderPane {
 		ft.setFromValue(0.0);
 		ft.setToValue(1.0);
 		playIn(3.5, e -> ft.play());
-		return menuBar;
+		VBox box = new VBox(menuBar);
+		box.setPadding(new Insets(15, 0, 0, 0));
+		return box;
 	}
 
 	private void playIn(double seconds, EventHandler<ActionEvent> handler) {
@@ -121,13 +125,11 @@ public class StartMenu extends BorderPane {
 		timeline.play();
 	}
 
-	private void newGame() {
-		new AuthoringEnvironment(polyglot, IOResources);
-	}
-
 	private String chooseGame() {
 		FileChooser chooser = maker.makeFileChooser(
-				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"), "ZIP", "*.zip");
+				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"),
+				IOResources.getString("ZIPChooserFilter"), IOResources.getString("ZIPChooserExtension"));
+
 		File selectedDirectory = chooser.showOpenDialog(stage);
 		if (selectedDirectory == null) {
 			return "";
@@ -135,53 +137,47 @@ public class StartMenu extends BorderPane {
 			return selectedDirectory.getAbsolutePath();
 		}
 	}
+	
+	private Game createGame(String path) {
+		try {
+			GameData gameData = new GameData();
+			return gameData.loadGame(path);
+		} catch (Exception e) {
+			// Thread this.
+			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NotAGame").get());
+			alert.show();
+			return null;
 
-
-	private boolean isSelected(String selectedDirectory) {
-		if (selectedDirectory == "") {
-			return false;
-		} else {
-			return true;
 		}
+	}
+
+	private void newGame() {
+		new AuthoringEnvironment(polyglot, IOResources);
 	}
 
 	private void editGame() {
-		String chosen = chooseGame();
-		if (isSelected(chosen)) {
-			new AuthoringEnvironment(chosen, polyglot, IOResources);
+		String path = chooseGame();
+		if (!path.equals("")) {
+			Game game = createGame(path);
+			if (game != null) {
+				new AuthoringEnvironment(game, polyglot, IOResources);
+			}
 		}
-
 	}
 
 	private void playGame() {
-		String chosen = chooseGame();
-		GameData loader = new GameData();
-		
-		if (isSelected(chosen)) {
-			new MainMenu(loader.loadGame(chosen), new MediaManager(chosen, null), polyglot, IOResources);
+		String path = chooseGame();
+		if (!path.equals("")) {
+			Game game = createGame(path);
+			if (game != null) {
+				new MainMenu(game, new MediaManager(game, path, null), polyglot, IOResources);
+			}
 		}
 	}
 
-	private MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
-		MenuItem item = new MenuItem();
-		item.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
-		item.setOnAction(handler);
-		return item;
-	}
-
-	private Menu makeMenu(String titleProperty) {
-		Menu menu = new Menu();
-		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
-		return menu;
-	}
-
-	private boolean isOSX() {
-		return System.getProperty("os.name").equals("Mac OS X");
-	}
-
 	private Menu makeLanguageMenu() {
-		Menu languageMenu = makeMenu("LanguageMenu");
-		MenuItem pickLanguage = makeMenuItem("PickLanguageItem", e -> checkForInternet());
+		Menu languageMenu = maker.makeMenu("LanguageMenu");
+		MenuItem pickLanguage = maker.makeMenuItem("PickLanguageItem", "Ctrl+L", e -> checkForInternet());
 		languageMenu.getItems().add(pickLanguage);
 		return languageMenu;
 	}
@@ -195,6 +191,10 @@ public class StartMenu extends BorderPane {
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NoInternet"));
 			alert.show();
 		}
+	}
+
+	private boolean isOSX() {
+		return System.getProperty("os.name").equals("Mac OS X");
 	}
 
 }

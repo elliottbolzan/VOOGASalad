@@ -1,10 +1,10 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
+import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.scene.Scene;
 import javafx.util.Duration;
 
 /**
@@ -15,15 +15,14 @@ import javafx.util.Duration;
  */
 public class Screen{
 	public static final int FRAME_TIME_MILLISECONDS = 10;
-	private StepStrategy currentStepStrategy; //immutable
 	private Timeline timeline;
+	private LevelManager levelManager;
 	
-	public Screen(StepStrategy currentStepStrategy, Scene gameScene, GraphicsEngine graphicsEngine, GameInfo info){
-		info.setCurrentScreen(this);
-		this.currentStepStrategy = currentStepStrategy;
+	public Screen(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info){
+		this.levelManager = levelManager;
+		levelManager.setCurrentScreen(this);
 		setupTimeline();
-		//System.out.println(timeline + "Timeline instantiated in Screen with StepStrategy" + this.currentStepStrategy);
-		currentStepStrategy.setup(gameScene, this, graphicsEngine, info);
+		levelManager.getCurrentStepStrategy().setup(levelManager, graphicsEngine, info);
 	}
 	
 	private void setupTimeline(){
@@ -43,13 +42,7 @@ public class Screen{
 	}
 	
 	private void step(){
-		currentStepStrategy.step();
-		//game.setCurrentStepStrategy(currentStepStrategy);
-		//Make sure to call start() for the next screen when implement in StepStrategy subclasses! - no need for step() in GameLoop anymore
-	}
-	
-	public StepStrategy getCurrentStepStrategy(){
-		return currentStepStrategy;
+		levelManager.getCurrentStepStrategy().step();
 	}
 	
 	public Timeline getTimeline(){

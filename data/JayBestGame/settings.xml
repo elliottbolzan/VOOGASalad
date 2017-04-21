@@ -1,11 +1,47 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="JayTestGame"/><Levels><level><Entities>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="JayBestGame"/><Levels><level><Entities>
 <Entity>
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
   <x>75.0</x>
-  <y>275.0</y>
-  <width>500.0</width>
-  <height>125.0</height>
+  <y>350.0</y>
+  <width>575.0</width>
+  <height>100.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>25.0</x>
+  <y>250.0</y>
+  <width>100.0</width>
+  <height>100.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>600.0</x>
+  <y>250.0</y>
+  <width>100.0</width>
+  <height>100.0</height>
   <zIndex>1.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
@@ -20,10 +56,10 @@
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>150.0</x>
-  <y>75.0</y>
-  <width>75.0</width>
-  <height>100.0</height>
+  <x>325.0</x>
+  <y>125.0</y>
+  <width>50.0</width>
+  <height>75.0</height>
   <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
@@ -75,10 +111,10 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.ZeroVerticalSpeedAction>
+        <engine.actions.ZeroDownSpeedAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroVerticalSpeedAction>
+        </engine.actions.ZeroDownSpeedAction>
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
@@ -160,26 +196,33 @@
         </engine.actions.ZeroHorizontalSpeedAction>
       </actions>
     </engine.events.KeyReleaseEvent>
+    <engine.events.LeftCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.UpdateScoreAction>
+          <params>
+            <engine.Parameter>
+              <name>Score Change</name>
+              <clazz>java.lang.Integer</clazz>
+              <obj class="int">1</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.UpdateScoreAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
+      </collision>
+    </engine.events.LeftCollisionEvent>
   </events>
 </engine.entities.CharacterEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>425.0</x>
-  <y>100.0</y>
-  <width>50.0</width>
-  <height>50.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Coin</name>
-  <imagePath>resources/CoinImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
 </Entity>
 </Entities></level></Levels><Defaults><Entities>
 <Entity>
@@ -187,8 +230,8 @@
   <EntityType>Block</EntityType>
   <x>0.0</x>
   <y>0.0</y>
-  <width>200.0</width>
-  <height>200.0</height>
+  <width>101.40845070422534</width>
+  <height>101.40845070422534</height>
   <zIndex>0.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
@@ -205,8 +248,8 @@
   <EntityType>Character</EntityType>
   <x>0.0</x>
   <y>0.0</y>
-  <width>191.0</width>
-  <height>296.0</height>
+  <width>50.0</width>
+  <height>75.0</height>
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
@@ -258,10 +301,10 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.ZeroVerticalSpeedAction>
+        <engine.actions.ZeroDownSpeedAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroVerticalSpeedAction>
+        </engine.actions.ZeroDownSpeedAction>
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
@@ -343,40 +386,72 @@
         </engine.actions.ZeroHorizontalSpeedAction>
       </actions>
     </engine.events.KeyReleaseEvent>
+    <engine.events.LeftCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.UpdateScoreAction>
+          <params>
+            <engine.Parameter>
+              <name>Score Change</name>
+              <clazz>java.lang.Integer</clazz>
+              <obj class="int">1</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.UpdateScoreAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
+      </collision>
+    </engine.events.LeftCollisionEvent>
   </events>
 </engine.entities.CharacterEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>0.0</x>
-  <y>0.0</y>
-  <width>108.0</width>
-  <height>108.0</height>
-  <zIndex>0.0</zIndex>
-  <name>Coin</name>
-  <imagePath>resources/CoinImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
 </Entity>
 </Entities></Defaults><Camera><engine.entities.CameraEntity>
   <EntityType>Camera</EntityType>
   <x>0.0</x>
   <y>0.0</y>
-  <width>50.0</width>
-  <height>50.0</height>
-  <zIndex>0.0</zIndex>
-  <name>Mario</name>
-  <imagePath>resources/MarioImage.png</imagePath>
+  <width>600.0</width>
+  <height>600.0</height>
+  <zIndex>-1.0</zIndex>
+  <name>Camera</name>
+  <imagePath>resources/CameraImage.png</imagePath>
   <isVisible>false</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
   <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.CameraEntity></Camera><Resources Song="resources/JayTestGame.mp3"/></Game>
+  <events>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <actions>
+        <engine.actions.MoveAction>
+          <params/>
+          <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
+        </engine.actions.MoveAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <actions>
+        <engine.actions.FollowAction>
+          <params>
+            <engine.Parameter>
+              <name>Leader Entity</name>
+              <clazz>java.lang.String</clazz>
+              <obj class="string">Mario</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
+        </engine.actions.FollowAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+  </events>
+</engine.entities.CameraEntity></Camera><Resources/><GameInfo Info="information about game"/></Game>

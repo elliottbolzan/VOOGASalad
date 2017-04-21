@@ -38,24 +38,6 @@
 <Entity>
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>75.0</x>
-  <y>75.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
   <x>0.0</x>
   <y>150.0</y>
   <width>75.0</width>
@@ -74,116 +56,8 @@
 <Entity>
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>75.0</x>
-  <y>150.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>150.0</x>
-  <y>150.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>225.0</x>
-  <y>225.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
   <x>0.0</x>
   <y>225.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>75.0</x>
-  <y>225.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>150.0</x>
-  <y>225.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>225.0</x>
-  <y>300.0</y>
   <width>75.0</width>
   <height>75.0</height>
   <zIndex>1.0</zIndex>
@@ -218,60 +92,6 @@
 <Entity>
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>75.0</x>
-  <y>300.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>150.0</x>
-  <y>300.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>225.0</x>
-  <y>375.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
   <x>0.0</x>
   <y>375.0</y>
   <width>75.0</width>
@@ -290,116 +110,8 @@
 <Entity>
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>75.0</x>
-  <y>375.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>150.0</x>
-  <y>375.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>225.0</x>
-  <y>450.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
   <x>0.0</x>
   <y>450.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>75.0</x>
-  <y>450.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>150.0</x>
-  <y>450.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>225.0</x>
-  <y>525.0</y>
   <width>75.0</width>
   <height>75.0</height>
   <zIndex>1.0</zIndex>
@@ -435,7 +147,79 @@
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
   <x>75.0</x>
+  <y>475.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>75.0</x>
   <y>525.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>75.0</x>
+  <y>400.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>75.0</x>
+  <y>325.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>150.0</x>
+  <y>475.0</y>
   <width>75.0</width>
   <height>75.0</height>
   <zIndex>1.0</zIndex>
@@ -454,6 +238,510 @@
   <EntityType>Block</EntityType>
   <x>150.0</x>
   <y>525.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>150.0</x>
+  <y>400.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>150.0</x>
+  <y>325.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>225.0</x>
+  <y>475.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>225.0</x>
+  <y>525.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>225.0</x>
+  <y>400.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>225.0</x>
+  <y>325.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>75.0</x>
+  <y>200.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>75.0</x>
+  <y>250.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>75.0</x>
+  <y>125.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>75.0</x>
+  <y>50.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>300.0</x>
+  <y>475.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>300.0</x>
+  <y>525.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>300.0</x>
+  <y>400.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>300.0</x>
+  <y>325.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>375.0</x>
+  <y>475.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>375.0</x>
+  <y>525.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>375.0</x>
+  <y>400.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>375.0</x>
+  <y>325.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>150.0</x>
+  <y>250.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>150.0</x>
+  <y>175.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>225.0</x>
+  <y>250.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>300.0</x>
+  <y>250.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>225.0</x>
+  <y>175.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>150.0</x>
+  <y>100.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>450.0</x>
+  <y>400.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>450.0</x>
+  <y>475.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>450.0</x>
+  <y>525.0</y>
+  <width>75.0</width>
+  <height>75.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events/>
+</engine.entities.BlockEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>525.0</x>
+  <y>475.0</y>
   <width>75.0</width>
   <height>75.0</height>
   <zIndex>1.0</zIndex>
@@ -488,152 +776,8 @@
 <Entity>
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>300.0</x>
+  <x>600.0</x>
   <y>525.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>375.0</x>
-  <y>525.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>450.0</x>
-  <y>525.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>300.0</x>
-  <y>450.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>375.0</x>
-  <y>450.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>450.0</x>
-  <y>450.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>300.0</x>
-  <y>375.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>375.0</x>
-  <y>375.0</y>
-  <width>75.0</width>
-  <height>75.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>300.0</x>
-  <y>300.0</y>
   <width>75.0</width>
   <height>75.0</height>
   <zIndex>1.0</zIndex>
@@ -650,7 +794,7 @@
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>325.0</x>
+  <x>400.0</x>
   <y>75.0</y>
   <width>50.0</width>
   <height>75.0</height>
@@ -688,7 +832,7 @@
             <engine.Parameter>
               <name>Initial Jump Speed</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">15.0</obj>
+              <obj class="double">10.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -705,82 +849,6 @@
         </engine.actions.UpdateScoreAction>
       </actions>
     </engine.events.KeyPressEvent>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.WalkAction>
-          <params>
-            <engine.Parameter>
-              <name>Walk Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">8.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.WalkAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.WalkAction>
-          <params>
-            <engine.Parameter>
-              <name>Walk Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">-8.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.WalkAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-    <engine.events.KeyReleaseEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
-      </actions>
-    </engine.events.KeyReleaseEvent>
-    <engine.events.KeyReleaseEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
-      </actions>
-    </engine.events.KeyReleaseEvent>
     <engine.events.BottomCollisionEvent>
       <params>
         <engine.Parameter>
@@ -791,15 +859,91 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.ZeroVerticalSpeedAction>
+        <engine.actions.ZeroDownSpeedAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroVerticalSpeedAction>
+        </engine.actions.ZeroDownSpeedAction>
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
       </collision>
     </engine.events.BottomCollisionEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.WalkAction>
+          <params>
+            <engine.Parameter>
+              <name>Walk Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">5.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.WalkAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyReleaseEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroHorizontalSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroHorizontalSpeedAction>
+      </actions>
+    </engine.events.KeyReleaseEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.WalkAction>
+          <params>
+            <engine.Parameter>
+              <name>Walk Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">-5.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.WalkAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyReleaseEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroHorizontalSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroHorizontalSpeedAction>
+      </actions>
+    </engine.events.KeyReleaseEvent>
   </events>
 </engine.entities.CharacterEntity>
 </Entity>
@@ -809,8 +953,8 @@
   <EntityType>Block</EntityType>
   <x>0.0</x>
   <y>0.0</y>
-  <width>73.2394366197183</width>
-  <height>73.2394366197183</height>
+  <width>75.0</width>
+  <height>75.0</height>
   <zIndex>0.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
@@ -827,8 +971,8 @@
   <EntityType>Character</EntityType>
   <x>0.0</x>
   <y>0.0</y>
-  <width>50.0</width>
-  <height>75.0</height>
+  <width>55.14788732394367</width>
+  <height>85.46478873239438</height>
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
@@ -863,7 +1007,7 @@
             <engine.Parameter>
               <name>Initial Jump Speed</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">15.0</obj>
+              <obj class="double">10.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -880,82 +1024,6 @@
         </engine.actions.UpdateScoreAction>
       </actions>
     </engine.events.KeyPressEvent>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.WalkAction>
-          <params>
-            <engine.Parameter>
-              <name>Walk Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">8.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.WalkAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.WalkAction>
-          <params>
-            <engine.Parameter>
-              <name>Walk Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">-8.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.WalkAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-    <engine.events.KeyReleaseEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
-      </actions>
-    </engine.events.KeyReleaseEvent>
-    <engine.events.KeyReleaseEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
-      </actions>
-    </engine.events.KeyReleaseEvent>
     <engine.events.BottomCollisionEvent>
       <params>
         <engine.Parameter>
@@ -966,15 +1034,91 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.ZeroVerticalSpeedAction>
+        <engine.actions.ZeroDownSpeedAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroVerticalSpeedAction>
+        </engine.actions.ZeroDownSpeedAction>
       </actions>
       <collision>
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
       </collision>
     </engine.events.BottomCollisionEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.WalkAction>
+          <params>
+            <engine.Parameter>
+              <name>Walk Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">5.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.WalkAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyReleaseEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroHorizontalSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroHorizontalSpeedAction>
+      </actions>
+    </engine.events.KeyReleaseEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.WalkAction>
+          <params>
+            <engine.Parameter>
+              <name>Walk Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">-5.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.WalkAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyReleaseEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroHorizontalSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroHorizontalSpeedAction>
+      </actions>
+    </engine.events.KeyReleaseEvent>
   </events>
 </engine.entities.CharacterEntity>
 </Entity>
@@ -982,15 +1126,15 @@
   <EntityType>Camera</EntityType>
   <x>0.0</x>
   <y>0.0</y>
-  <width>50.0</width>
-  <height>50.0</height>
-  <zIndex>0.0</zIndex>
-  <name>Mario</name>
-  <imagePath>resources/MarioImage.png</imagePath>
+  <width>0.0</width>
+  <height>0.0</height>
+  <zIndex>-1.0</zIndex>
+  <name>Camera</name>
+  <imagePath>resources/CameraImage.png</imagePath>
   <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
   <yAcceleration>0.0</yAcceleration>
   <events/>
-</engine.entities.CameraEntity></Camera><Resources/></Game>
+</engine.entities.CameraEntity></Camera><Resources/><GameInfo Info="information about game"/></Game>

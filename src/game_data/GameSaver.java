@@ -52,8 +52,9 @@ public class GameSaver
 		//saveBackground(gameFolderPath, game.getSongPath());
 		saveCamera(game.getCamera(), gameFolderPath);
 		//saveAchievements("achievements", gameFolderPath);
-		saveGameInfo(gameFolderPath, "information about game");
-		saveDocument(gameFolderPath, "settings.xml");
+		saveGameInfo(gameFolderPath, game.getInfo());
+		System.out.println(game.getInfo());
+		saveDocument(gameFolderPath, SETTINGS_FILE_NAME);
 		try {
 			zipDoc(parentDirectoryPath);
 		} catch (IOException e) {

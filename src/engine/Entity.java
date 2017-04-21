@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import engine.game.gameloop.Screen;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -12,9 +13,8 @@ import javafx.beans.property.SimpleStringProperty;
  * @author nikita Abstract class for entities. Methods are implemented that are
  *         common to all kinds of entites (character, block background, etc)
  */
-public abstract class Entity extends GameObject implements EntityInterface, Cloneable
-{
-
+public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
+	public static final double TIME_STEP = Screen.FRAME_TIME_MILLISECONDS / 50.0;
 	public static final Integer YACCELERATION = 1;
 	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private SimpleStringProperty name, imagePath;
@@ -22,16 +22,14 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
 
-	public Entity()
-	{
+	public Entity() {
 		super("Entity");
 		this.setup();
 		this.setName("Mario");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
 	}
 
-	private void setup()
-	{
+	private void setup() {
 		x = new SimpleDoubleProperty(0);
 		y = new SimpleDoubleProperty(0);
 		width = new SimpleDoubleProperty(0);
@@ -44,209 +42,179 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	/**
-	 * tell all events to check if they are triggered. is called once per step
-	 * of the game loop. If events are triggered, their actions act.
+	 * Update the position of this entity according to its speed and
+	 * acceleration. Then tell all events to check if they are triggered. is
+	 * called once per step of the game loop. If events are triggered, their
+	 * actions act.
 	 */
 	@Override
-	public void update()
-	{
+	public void update() {
+		setX(getX() + getXSpeed() * TIME_STEP);
+		setY(getY() + getYSpeed() * TIME_STEP);
+		setXSpeed(getXSpeed() + getXAcceleration() * TIME_STEP);
+		setYSpeed(getYSpeed() + getYAcceleration() * TIME_STEP);
 		List<Event> eventsToTrigger = events.stream().filter(s -> s.act()).collect(Collectors.toList());
 		eventsToTrigger.forEach(event -> event.trigger());
 	}
 
 	@Override
-	public void addEvent(Event event)
-	{
+	public void addEvent(Event event) {
 		this.events.add(event);
 	}
 
-	public double getZ()
-	{
+	public double getZ() {
 		return this.zIndex.get();
 	}
 
 	@Override
-	public double getX()
-	{
+	public double getX() {
 		return this.x.get();
 	}
 
 	@Override
-	public void setX(double x)
-	{
+	public void setX(double x) {
 		this.x.set(x);
 	}
 
-	public void setZ(int z)
-	{
+	public void setZ(int z) {
 		this.zIndex.set(z);
 	}
 
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return this.name.get();
 	}
 
-	public void setName(String name)
-	{
+	public void setName(String name) {
 		this.name.set(name);
 	}
 
 	@Override
-	public String getImagePath()
-	{
+	public String getImagePath() {
 		return this.imagePath.get();
 	}
 
-	public void setImagePath(String imagePath)
-	{
+	public void setImagePath(String imagePath) {
 		this.imagePath.set(imagePath);
 	}
 
-	public SimpleDoubleProperty xProperty()
-	{
+	public SimpleDoubleProperty xProperty() {
 		return x;
 	}
 
-	public SimpleDoubleProperty yProperty()
-	{
+	public SimpleDoubleProperty yProperty() {
 		return y;
 	}
 
-	public SimpleDoubleProperty heightProperty()
-	{
+	public SimpleDoubleProperty heightProperty() {
 		return height;
 	}
 
-	public SimpleDoubleProperty widthProperty()
-	{
+	public SimpleDoubleProperty widthProperty() {
 		return width;
 	}
 
-	public SimpleStringProperty nameProperty()
-	{
+	public SimpleStringProperty nameProperty() {
 		return name;
 	}
 
-	public SimpleStringProperty imagePathProperty()
-	{
+	public SimpleStringProperty imagePathProperty() {
 		return imagePath;
 	}
 
-	public SimpleBooleanProperty isVisibleProperty()
-	{
+	public SimpleBooleanProperty isVisibleProperty() {
 		return this.isVisible;
 	}
 
 	@Override
-	public double getY()
-	{
+	public double getY() {
 		return this.y.get();
 	}
 
 	@Override
-	public void setY(double y)
-	{
+	public void setY(double y) {
 		this.y.set(y);
 	}
 
 	@Override
-	public double getWidth()
-	{
+	public double getWidth() {
 		return this.width.get();
 	}
 
 	@Override
-	public void setWidth(double width)
-	{
+	public void setWidth(double width) {
 		this.width.set(width);
 	}
 
 	@Override
-	public double getHeight()
-	{
+	public double getHeight() {
 		return this.height.get();
 	}
 
 	@Override
-	public void setHeight(double height)
-	{
+	public void setHeight(double height) {
 		this.height.set(height);
 		;
 	}
 
 	@Override
-	public double getXSpeed()
-	{
+	public double getXSpeed() {
 		return xSpeed;
 	}
 
 	@Override
-	public void setXSpeed(double xSpeed)
-	{
+	public void setXSpeed(double xSpeed) {
 		this.xSpeed = xSpeed;
 	}
 
 	@Override
-	public double getYSpeed()
-	{
+	public double getYSpeed() {
 		return ySpeed;
 	}
 
 	@Override
-	public void setYSpeed(double ySpeed)
-	{
+	public void setYSpeed(double ySpeed) {
 		this.ySpeed = ySpeed;
 	}
 
 	@Override
-	public double getXAcceleration()
-	{
+	public double getXAcceleration() {
 		return xAcceleration;
 	}
 
 	@Override
-	public void setXAcceleration(double xAcceleration)
-	{
+	public void setXAcceleration(double xAcceleration) {
 		this.xAcceleration = xAcceleration;
 	}
 
 	@Override
-	public double getYAcceleration()
-	{
+	public double getYAcceleration() {
 		return yAcceleration;
 	}
 
 	@Override
-	public void setYAcceleration(double yAcceleration)
-	{
+	public void setYAcceleration(double yAcceleration) {
 		this.yAcceleration = yAcceleration;
 	}
 
 	@Override
-	public List<Event> getEvents()
-	{
+	public List<Event> getEvents() {
 		return events;
 	}
 
-	public void setEvents(List<Event> events)
-	{
+	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
 
-	public void setIsVisible(boolean visiblbe)
-	{
+	public void setIsVisible(boolean visiblbe) {
 		this.isVisible.set(visiblbe);
 	}
 
-	public boolean getIsVisible()
-	{
+	public boolean getIsVisible() {
 		return this.isVisible.get();
 	}
 
-	private void set(Entity entity)
-	{
+	private void set(Entity entity) {
 		this.setImagePath(entity.getImagePath());
 		this.setName(entity.getName());
 		this.setHeight(entity.getHeight());
@@ -263,8 +231,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	 * @return a copy of this entity
 	 */
 	@Override
-	public Entity clone()
-	{
+	public Entity clone() {
 		Entity copy = (Entity) super.clone();
 		copy.set(this);
 		copy.setEvents(events.stream().map(s -> {

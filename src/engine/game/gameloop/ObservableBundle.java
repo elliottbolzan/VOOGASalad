@@ -1,13 +1,7 @@
 package engine.game.gameloop;
 
 import engine.Entity;
-import engine.Event;
 import engine.GameInfo;
-import engine.events.CollisionEvent;
-import engine.events.KeyPressEvent;
-import engine.events.KeyReleaseEvent;
-import engine.events.TimerEvent;
-import engine.game.LevelManager;
 import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
 import engine.game.eventobserver.TimerObservable;
@@ -23,8 +17,8 @@ public class ObservableBundle {
 	private CollisionObservable collisionObservable;
 	private TimerObservable timerObservable;
 	
-	public ObservableBundle(){
-		inputObservable = new InputObservable();
+	public ObservableBundle(Scene gameScene){
+		inputObservable = new InputObservable(gameScene);
 		collisionObservable = new CollisionObservable();
 		timerObservable = new TimerObservable();
 	}
@@ -69,28 +63,10 @@ public class ObservableBundle {
 	 * Put observable action methods in here to avoid using getters and setters, thus reducing dependencies.
 	 * @param levelManager
 	 */
-	public void levelObservableSetup(Scene gameScene, LevelManager levelManager, GameInfo gameInfo){
-		inputObservable.setupInputListeners(gameScene);
+	public void levelObservableSetup(GameInfo gameInfo){
+		inputObservable.setupInputListeners();
 		timerObservable.attachCurrentLevelTimerManager(gameInfo.getScorebar().getTimerManager());
 	}
-	
-	/*
-	public void setObservablesInEvents(LevelManager levelManager){
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			for (Event event : entity.getEvents()) {
-				if (event instanceof KeyPressEvent || event instanceof KeyReleaseEvent) {
-					event.setEventObservable(inputObservable);
-				}
-				else if (event instanceof CollisionEvent){
-					event.setEventObservable(collisionObservable);
-				}
-				else if (event instanceof TimerEvent){
-					event.setEventObservable(timerObservable);
-				}
-			}
-		}
-	}
-	*/
 	
 	public void updateObservers(){
 		inputObservable.updateObservers();

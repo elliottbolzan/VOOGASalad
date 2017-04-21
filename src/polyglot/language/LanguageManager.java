@@ -115,6 +115,19 @@ public class LanguageManager {
 	}
 
 	/**
+	 * Provides the caller with the original version of the value for the key
+	 * parameter.
+	 * 
+	 * @param key
+	 *            the key from the Properties file.
+	 * @return a String representing the original version of the value for the
+	 *         key.
+	 */
+	public String getOriginal(String key) {
+		return originalLanguage.get(key);
+	}
+
+	/**
 	 * Creates a StringBinding that will be updated when the Locale is changed.
 	 * Any user-facing text-property can bind to the returned value, and be
 	 * updated when the language is changed.

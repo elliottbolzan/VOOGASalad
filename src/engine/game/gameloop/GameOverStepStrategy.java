@@ -14,16 +14,6 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 		super(RESOURCE_NAME);
 	}
 	
-	/**
-	 * Subclass specific text based on variables, not on resource file.
-	 */
-	/*
-	@Override
-	protected String getSubclassSpecificText() {
-		return "";
-	}
-	*/
-	
 	@Override
 	protected StepStrategy getNextStepStrategy(LevelManager levelManager) {
 		return new LevelStepStrategy();   //TODO change to new LevelSelectionStrategy() or similar when get there
