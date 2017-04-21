@@ -7,7 +7,7 @@ import engine.entities.CameraEntity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import player.Score;
+import player.score.Score;
 
 /**
  * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano)
@@ -22,6 +22,9 @@ public class Game {
 	private List<Level> levels;
 	private List<Entity> defaults;
 	private String songPath;
+	private String backPath;
+	private String info;
+	private String achievements;
 	private CameraEntity camera;
 	private ObservableList<Score> scores;
 	private List<Score> scoresBase;
@@ -35,6 +38,9 @@ public class Game {
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
 		songPath = "";
+		setBackPath("");
+		setInfo("Information about game");
+		setAchievements("");
 		camera = new CameraEntity();
 		scores = FXCollections.observableList(addDefaults());
 	}
@@ -118,6 +124,25 @@ public class Game {
 	 */
 	public void setSongPath(String songPath) {
 		this.songPath = songPath;
+	}
+	
+	public String getBackPath() {
+		return backPath;
+	}
+	public void setBackPath(String backPath) {
+		this.backPath = backPath;
+	}
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	public String getAchievements() {
+		return achievements;
+	}
+	public void setAchievements(String achievements) {
+		this.achievements = achievements;
 	}
 	
 	/**

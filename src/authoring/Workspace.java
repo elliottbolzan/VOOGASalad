@@ -20,8 +20,8 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
-import player.BasicPlayer;
-import player.Loader;
+import javafx.stage.Stage;
+import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
 import utils.views.View;
 
@@ -168,8 +168,11 @@ public class Workspace extends View {
 	 * 
 	 */
 	public void test() {
-		createGame();		
-		new BasicPlayer(new Loader(path), polyglot, IOResources);
+		createGame();	
+		Stage stage = new Stage();
+		GameData loader = new GameData();
+		new BasicPlayer(stage, loader.loadGame(path), polyglot, IOResources);
+		stage.show();
 	}
 	
 	private void createGame() {
@@ -285,13 +288,6 @@ public class Workspace extends View {
 	 */
 	public void updateEntity(Entity entity) {
 		levelEditor.updateEntity(entity);
-	}
-/**
- * Update layer name when user requests 
- * @param text
- */
-	public void setLayerName(String text) {
-		levelEditor.getCurrentLevel().setLayerName(text);
 	}
 
 }

@@ -1,5 +1,6 @@
 package engine;
 
+import engine.game.LevelManager;
 import engine.game.gameloop.ObservableBundle;
 import engine.game.gameloop.Scorebar;
 

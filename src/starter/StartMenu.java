@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
+import game_data.GameData;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
@@ -24,9 +25,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import player.Loader;
+import player.MediaManager;
 import player.menu.MainMenu;
 import polyglot.Case;
 import polyglot.Polyglot;
@@ -125,9 +127,9 @@ public class StartMenu extends BorderPane {
 	}
 
 	private String chooseGame() {
-		DirectoryChooser chooser = maker.makeDirectoryChooser(
-				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"), "ChooserTitle");
-		File selectedDirectory = chooser.showDialog(stage);
+		FileChooser chooser = maker.makeFileChooser(
+				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"),"ChooserTitle", "*.zip");
+		File selectedDirectory = chooser.showOpenDialog(stage);
 		if (selectedDirectory == null) {
 			return "";
 		} else {
@@ -153,8 +155,10 @@ public class StartMenu extends BorderPane {
 
 	private void playGame() {
 		String chosen = chooseGame();
+		GameData loader = new GameData();
+		
 		if (isSelected(chosen)) {
-			new MainMenu(new Loader(chosen), polyglot, IOResources);
+			new MainMenu(loader.loadGame(chosen), new MediaManager(chosen, null), polyglot, IOResources);
 		}
 	}
 

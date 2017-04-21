@@ -1,4 +1,5 @@
 package engine.game.gameloop;
+
 import engine.Action;
 import engine.Entity;
 import engine.Event;
@@ -7,7 +8,8 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
 /**
- * Subclass of StepStrategy implementing step() when a Level should be displayed.
+ * Subclass of StepStrategy implementing step() when a Level should be
+ * displayed.
  * 
  * @author Matthew Barbano
  *
@@ -16,10 +18,11 @@ public class LevelStepStrategy implements StepStrategy {
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
-	
+
 	/**
-	 * Functionality executed when timeline for Screen with this LevelStepStrategy is step up; only executed once.
-	 * Called from Screen's constructor.	
+	 * Functionality executed when timeline for Screen with this
+	 * LevelStepStrategy is step up; only executed once. Called from Screen's
+	 * constructor.
 	 */
 	@Override
 	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine,
@@ -33,7 +36,7 @@ public class LevelStepStrategy implements StepStrategy {
 		addInfoToEntities();
 		setupGameView();
 	}
-	
+
 	/**
 	 * Called on every iteration of the Timeline.
 	 * 
@@ -51,7 +54,7 @@ public class LevelStepStrategy implements StepStrategy {
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
 	}
-	
+
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */
