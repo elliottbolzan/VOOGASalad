@@ -236,10 +236,9 @@ public class ExpandablePane extends Pane
 				// } else
 				if (newX.intValue() + node.getBoundsInLocal().getWidth() > width) {
 					updateCanvasBounds();
-					System.out.println("HI");
 				} else if (newX.intValue() < 0) {
-					shiftNodesX(-1 * newX.intValue());
 					updateCanvasBounds();
+					shiftNodesX(-1 * newX.intValue());
 				}
 				updateDisplay();
 			}
@@ -261,8 +260,8 @@ public class ExpandablePane extends Pane
 				if (newY.intValue() + node.getBoundsInLocal().getHeight() > height) {
 					updateCanvasBounds();
 				} else if (newY.intValue() < 0) {
-					shiftNodesY(-1 * newY.intValue());
 					updateCanvasBounds();
+					shiftNodesY(-1 * newY.intValue());
 				}
 				updateDisplay();
 			}
