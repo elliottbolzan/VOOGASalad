@@ -41,8 +41,8 @@ public class GridScrollTest extends Application
 			polyglot = new Polyglot(KEY, "resources/Strings");
 		} catch (PolyglotException e) {
 		}
-		EntityView entity = new EntityView(ent, new Canvas(new Workspace("", polyglot, IOResources)), 25, 0, 0);
-		EntityView entity2 = new EntityView(ent, new Canvas(new Workspace("", polyglot, IOResources)), 25, 25, 25);
+		EntityView entity = new EntityView(ent, new Canvas(new Workspace(null, polyglot, IOResources)), 25, 0, 0);
+		EntityView entity2 = new EntityView(ent, new Canvas(new Workspace(null, polyglot, IOResources)), 25, 25, 25);
 		// exp.addEntity(entity, 200, 200);
 		// exp.addEntity(entity2, 300, 300);
 		group.getChildren().add(exp);

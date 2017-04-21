@@ -100,8 +100,8 @@ public class EntityInfo extends View {
 
 	private void pickImage() {
 		FileChooser imageChooser = workspace.getMaker().makeFileChooser(
-				System.getProperty("user.dir") + workspace.getIOResources().getString("DefaultDirectory"), "Images",
-				"*.png", "*.jpg", "*.gif");
+				System.getProperty("user.dir") + workspace.getIOResources().getString("ResourcesDirectory"),
+				workspace.getIOResources().getString("ImageChooserFilter"), "*.png", "*.jpg", "*.gif");
 		File file = imageChooser.showOpenDialog(getScene().getWindow());
 		if (file != null) {
 			thumbnail.setImage(file.toURI().toString());

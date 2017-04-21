@@ -11,8 +11,6 @@ import authoring.panel.info.InfoPanel;
 import authoring.panel.settings.Settings;
 import utils.views.CollapsibleView;
 import utils.views.View;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import polyglot.Case;
 
 /**
@@ -63,7 +61,6 @@ public class Panel extends CollapsibleView {
 		subviews.add(new Chat(workspace));
 		subviews.add(layerPanel);
 		subviews.add(info);
-		subviews.add(settings);
 	}
 
 	/**
@@ -71,10 +68,6 @@ public class Panel extends CollapsibleView {
 	 */
 	private void setup() {
 		setCenter(workspace.getMaker().makeAccordion(subviews));
-		Button save = workspace.getMaker().makeButton("SaveButtonSettings", e -> workspace.save(), true);
-		Button test = workspace.getMaker().makeButton("TestButtonSettings", e -> workspace.test(), true);
-		//test.setDisable(!workspace.pathExists());
-		setBottom(new VBox(save, test));
 	}
 
 	/**
