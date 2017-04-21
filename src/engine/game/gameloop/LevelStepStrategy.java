@@ -6,6 +6,7 @@ import engine.Event;
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
+import javafx.scene.Scene;
 
 /**
  * Subclass of StepStrategy implementing step() when a Level should be
@@ -27,58 +28,62 @@ public class LevelStepStrategy implements StepStrategy {
 	 * constructor.
 	 */
 	@Override
-	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine,
-			GameInfo info) {
+	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info) {
 		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
 		this.screenFinished = false;
-		
+
 		levelManager.resetCurrentLevel();
 		info.getScorebar().resetTimerManager();
 		addInfoToEntities();
 		setupGameView();
-		
-		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
-			if(entity.getName().equals("Mario")){
-				 //System.out.println("x = " + entity.getX() + ", y = " + entity.getY());
+
+		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
+			if (entity.getName().equals("Mario")) {
+				// System.out.println("x = " + entity.getX() + ", y = " +
+				// entity.getY());
 			}
 		}
-		//System.out.println("Entities in current level: " + levelManager.getCurrentLevel().getEntities());
+		// System.out.println("Entities in current level: " +
+		// levelManager.getCurrentLevel().getEntities());
 	}
-	
-	public void flagScreenFinished(StepStrategy nextStepStrategy){
+
+	public void flagScreenFinished(StepStrategy nextStepStrategy) {
 		this.screenFinished = true;
 		this.nextStepStrategy = nextStepStrategy;
 	}
-	
-	public boolean screenFinished(){
+
+	public boolean screenFinished() {
 		return screenFinished;
 	}
-	
+
 	/**
 	 * Called on every iteration of the Timeline.
 	 * 
-	 * Note to programmer: Among other things, ticks the clock, so need at beginning of step(), not end, because onFinished of Timeline called at END of time elapsed.
+	 * Note to programmer: Among other things, ticks the clock, so need at
+	 * beginning of step(), not end, because onFinished of Timeline called at
+	 * END of time elapsed.
 	 * 
 	 */
 	@Override
 	public void step() {
 		info.getObservableBundle().updateObservers();
-		//TODO If need an update method in GameInfo, update it here, right before entity.update();
+		// TODO If need an update method in GameInfo, update it here, right
+		// before entity.update();
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
-		if(screenFinished){
+		if (screenFinished) {
 			levelManager.setCurrentStepStrategy(nextStepStrategy);
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
 			nextScreen.getTimeline().play();
 		}
 	}
-	
+
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */
@@ -100,7 +105,4 @@ public class LevelStepStrategy implements StepStrategy {
 		// TODO call graphicsEngine.setCamera() here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
-	
-
-	
 }
