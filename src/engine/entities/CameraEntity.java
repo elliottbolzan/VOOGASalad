@@ -1,8 +1,6 @@
 package engine.entities;
 
 import engine.Entity;
-import engine.actions.MoveAction;
-import engine.events.AlwaysEvent;
 
 /**
  * This type of Entity is used to translate the display as the character progresses through the level.
@@ -16,10 +14,10 @@ public class CameraEntity extends Entity {
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		//this.setIsVisible(false); //TODO: for now leave the camera image visible for testing
 		this.setZ(-1);
-		this.setupAlwaysMoveEvent();
+		//this.setupAlwaysMoveEvent();
 	}
-	
-	private void setupAlwaysMoveEvent() {
+
+	/*private void setupAlwaysMoveEvent() {
 		MoveAction move = new MoveAction();
 		move.setEntity(this);
 		
@@ -27,5 +25,5 @@ public class CameraEntity extends Entity {
 		always.addAction(move);
 		
 		this.addEvent(always);
-	}
+	}*/
 }
