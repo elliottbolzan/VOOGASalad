@@ -26,8 +26,4 @@ public class TimerObservable extends EventObservable{
 	public void updateObservers() {
 		currentLevelTimerManager.tick();
 	}
-	
-	public String toString(){
-		return getObservers().toString();
-	}
 }
