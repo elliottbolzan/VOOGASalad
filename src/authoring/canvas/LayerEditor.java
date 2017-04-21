@@ -44,6 +44,11 @@ public class LayerEditor extends View
 		setup();
 	}
 
+	public Canvas getCanvas()
+	{
+		return canvas;
+	}
+
 	@Override
 	public LayerEditor clone()
 	{
@@ -257,7 +262,8 @@ public class LayerEditor extends View
 		addedEntity.getEntity().setZ(z);
 		setNumLayers(z);
 		layers.get(z).addEntity(addedEntity);
-		addedEntity.setOnMousePressed(e -> {
+		addedEntity.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+			System.out.println("clicked");
 			if (!e.isShiftDown() && !addedEntity.isSelected()) {
 				for (Layer layer : layers.values()) {
 					layer.getSelectedEntities().forEach(ent -> {

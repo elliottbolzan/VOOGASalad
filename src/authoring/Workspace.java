@@ -39,7 +39,8 @@ import utils.views.View;
  *         intermediary between the default Entities, the Panel, and the Canvas.
  *
  */
-public class Workspace extends View {
+public class Workspace extends View
+{
 
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
@@ -61,7 +62,8 @@ public class Workspace extends View {
 	 * @param path
 	 *            the path of the Game to be loaded.
 	 */
-	public Workspace(Game game, Polyglot polyglot, ResourceBundle IOResources) {
+	public Workspace(Game game, Polyglot polyglot, ResourceBundle IOResources)
+	{
 		this.game = game;
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
@@ -72,14 +74,16 @@ public class Workspace extends View {
 	/**
 	 * @return the Workspace's current Game.
 	 */
-	public Game getGame() {
+	public Game getGame()
+	{
 		return game;
 	}
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup() {
+	private void setup()
+	{
 		data = new GameData();
 		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
 		defaults = new DefaultEntities(this);
@@ -94,7 +98,8 @@ public class Workspace extends View {
 		dragToAddEntity();
 	}
 
-	private VBox makeMenuBar() {
+	private VBox makeMenuBar()
+	{
 		MenuBar menuBar = new MenuBar();
 		Menu gameMenu = maker.makeMenu("GameMenu");
 		gameMenu.getItems().addAll(maker.makeMenuItem("Save", "Ctrl+S", e -> save()),
@@ -109,23 +114,25 @@ public class Workspace extends View {
 		return box;
 	}
 
-	private void dragToAddEntity() {
+	private void dragToAddEntity()
+	{
 		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
-			levelEditor.setOnMouseEntered(e2 -> {
+			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
 				levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
 				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2.
 				// e2.getSceneY(),
 				// levelEditor.getCurrentLevel().getCurrentLayer());
-				levelEditor.setOnMouseEntered(null);
+				levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});
 		});
 	}
 
-	private void load() {
+	private void load()
+	{
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
@@ -136,19 +143,23 @@ public class Workspace extends View {
 	 * Game's construction is finalized; and a call to GameData is made to save
 	 * the Game.
 	 */
-	public void save() {
+	public void save()
+	{
 		TextInputDialog dialog = maker.makeTextInputDialog("SaveTitle", "SaveHeader", "SaveLabel", game.getName());
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(name -> save(name));
 	}
 
-	private void save(String title) {
+	private void save(String title)
+	{
 		game.setName(title);
 		String path = askForOutputPath();
 		ProgressDialog dialog = new ProgressDialog(this);
-		Task<Void> task = new Task<Void>() {
+		Task<Void> task = new Task<Void>()
+		{
 			@Override
-			public Void call() throws InterruptedException {
+			public Void call() throws InterruptedException
+			{
 				createGame();
 				if (!path.equals("")) {
 					data.saveGame(game, path);
@@ -163,7 +174,8 @@ public class Workspace extends View {
 		thread.start();
 	}
 
-	private String askForOutputPath() {
+	private String askForOutputPath()
+	{
 		String directory = new File(IOResources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(directory, "GameSaverTitle");
 		File selectedDirectory = chooser.showDialog(getScene().getWindow());
@@ -180,50 +192,58 @@ public class Workspace extends View {
 	 *            the Game to test.
 	 * 
 	 */
-	public void test() {
+	public void test()
+	{
 		createGame();
 		Stage stage = new Stage();
 		new BasicPlayer(stage, game, polyglot, IOResources);
 		stage.show();
 	}
 
-	private void createGame() {
+	private void createGame()
+	{
 		game.setLevels(levelEditor.getLevels());
 	}
 
-	public ComponentMaker getMaker() {
+	public ComponentMaker getMaker()
+	{
 		return maker;
 	}
 
-	public Polyglot getPolyglot() {
+	public Polyglot getPolyglot()
+	{
 		return polyglot;
 	}
 
 	/**
 	 * @return the ResourceBundle for this View's descendants.
 	 */
-	public ResourceBundle getIOResources() {
+	public ResourceBundle getIOResources()
+	{
 		return IOResources;
 	}
 
 	/**
 	 * @return the SplitPane governing this View.
 	 */
-	public SplitPane getPane() {
+	public SplitPane getPane()
+	{
 		return pane;
 	}
 
 	/**
 	 * @return the default Entities the user has created.
 	 */
-	public DefaultEntities getDefaults() {
+	public DefaultEntities getDefaults()
+	{
 		return defaults;
 	}
 
 	/**
 	 * @return the selected Entity.
 	 */
-	public Entity getSelectedEntity() {
+	public Entity getSelectedEntity()
+	{
 		return defaults.getSelectedEntity();
 	}
 
@@ -233,7 +253,8 @@ public class Workspace extends View {
 	 * another layer.
 	 * 
 	 */
-	public void addLayer() {
+	public void addLayer()
+	{
 		levelEditor.getCurrentLevel().newLayer();
 	}
 
@@ -245,7 +266,8 @@ public class Workspace extends View {
 	 * @param number
 	 *            the layer's identifier.
 	 */
-	public void selectLayer(int number) {
+	public void selectLayer(int number)
+	{
 		levelEditor.getCurrentLevel().selectLayer(number);
 	}
 
@@ -257,15 +279,18 @@ public class Workspace extends View {
 	 * @param newLevelNum
 	 *            the number of the new level.
 	 */
-	public void selectExistingLevel(String oldLevel, String newLevel) {
+	public void selectExistingLevel(String oldLevel, String newLevel)
+	{
 		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
 
-	public void selectLoadedLevel(List<String> nameList) {
+	public void selectLoadedLevel(List<String> nameList)
+	{
 		panel.selectLoadedLevelBox(nameList);
 	}
 
-	public void selectLoadedLevel(int layerCount) {
+	public void selectLoadedLevel(int layerCount)
+	{
 		panel.selectLoadedLevelBox(layerCount);
 	}
 
@@ -277,7 +302,8 @@ public class Workspace extends View {
 	 * @param layer
 	 *            the identifier of the layer to be deleted.
 	 */
-	public void deleteLayer(int layer) {
+	public void deleteLayer(int layer)
+	{
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
 
@@ -287,14 +313,15 @@ public class Workspace extends View {
 	 * @param entity
 	 *            the Entity to replace the old Entities with.
 	 */
-	public void updateEntity(Entity entity) {
+	public void updateEntity(Entity entity)
+	{
 		levelEditor.updateEntity(entity);
 	}
-	
-	private void chooseSong() {
+
+	private void chooseSong()
+	{
 		String directory = System.getProperty("user.dir") + IOResources.getString("DefaultDirectory");
-		FileChooser chooser = maker.makeFileChooser(directory,
-				polyglot.get("MusicChooserTitle").get(),
+		FileChooser chooser = maker.makeFileChooser(directory, polyglot.get("MusicChooserTitle").get(),
 				IOResources.getString("MusicChooserExtensions"));
 		File selectedFile = chooser.showOpenDialog(getScene().getWindow());
 		if (selectedFile != null) {
@@ -302,7 +329,8 @@ public class Workspace extends View {
 		}
 	}
 
-	private void showKeyCombinations() {
+	private void showKeyCombinations()
+	{
 		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
 		display.show();
 	}
