@@ -1,5 +1,7 @@
 package engine.game;
 
+import engine.game.gameloop.Screen;
+import engine.game.gameloop.StepStrategy;
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
 import game_data.Game;
@@ -17,17 +19,36 @@ import game_data.Game;
  */
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
+	private SelectionGroup<Level> levelsInInitialState;
 	private int currentLevel; // one-indexed
 	private Game game;
+	private Screen currentScreen;
+	private StepStrategy currentStepStrategy;
 
-	public LevelManager(Game game) {
-		levels = new ListSG<>(); // TODO: Change to reflection, or something
-									// more modular
-
+	public LevelManager(Game game, StepStrategy currentStepStrategy) {
+		levels = new ListSG<>();
+		levelsInInitialState = new ListSG<>();
 		currentLevel = 1;
 		this.game = game;
+		this.currentStepStrategy = currentStepStrategy;
 	}
 
+	public Screen getCurrentScreen() {
+		return currentScreen;
+	}
+
+	public void setCurrentScreen(Screen currentScreen) {
+		this.currentScreen = currentScreen;
+	}
+
+	public StepStrategy getCurrentStepStrategy() {
+		return currentStepStrategy;
+	}
+
+	public void setCurrentStepStrategy(StepStrategy currentStepStrategy) {
+		this.currentStepStrategy = currentStepStrategy;
+	}
+	
 	/**
 	 * External Engine API. Needed for authoring.
 	 * 
@@ -68,26 +89,6 @@ public class LevelManager {
 	}
 
 	/**
-	 * External Engine API. Called by the Game Player during gameplay. Pulls up
-	 * the pause menu.
-	 * 
-	 * @return
-	 */
-	public void pause() {
-
-	}
-
-	/**
-	 * External Engine API. Called by the GAE during editing and uses methods
-	 * from Game Data.
-	 * 
-	 * @return
-	 */
-	public void saveCurrentLevel() {
-
-	}
-
-	/**
 	 * Called only from GAE. (Maybe don't need this method?). Once game play
 	 * phase begins, level state should never be saved (unless add checkpoints).
 	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
@@ -107,42 +108,23 @@ public class LevelManager {
 	}
 
 	/**
-	 * External Engine API. Called by the GAE during editing and uses methods
-	 * from Game Data.
-	 * 
-	 * @param filename
-	 * @return
-	 */
-	public void openLevel(String filename) {
-
-	}
-
-	/**
 	 * Since never save levels' state during gameplay, can call this method at
 	 * any point during game loop to get levels' initial states.
 	 * 
 	 * @param filename
 	 */
 
+	//Call once at beginning of the game
 	public void loadAllSavedLevels() {
-		levels.removeAll();
-		levels.addAll(game.getLevels()); // TODO
-																	// uncomment
-																	// once
-																	// GameData
-																	// is added
-		/*
-		 * levels.add(new Level()); //TODO: remove this after testing
-		 * levels.add(new Level()); levels.add(new Level());
-		 * System.out.println("The Levels SelectionGroup has List: " +
-		 * levels.getListRepresentation());
-		 * System.out.println("Loaded the current level");
-		 */
+		//levels.removeAll();
+		levelsInInitialState.addAll(game.cloneLevels());
+		levels.addAll(game.getLevels());
 	}
-
-	/*
-	 * public void startCurrentLevel() { getCurrentLevel().start(); }
-	 */
+	
+	//Call when start up a level (first time AND after die)
+	public void resetCurrentLevel(){
+		levels.set(currentLevel - 1, game.cloneLevel(levelsInInitialState.get(currentLevel - 1)));
+	}
 
 	public SelectionGroup<Level> getLevels() {
 		return levels;

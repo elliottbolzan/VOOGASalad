@@ -8,12 +8,12 @@ import engine.Action;
  * @author Kyle Finke
  *
  */
-public class ZeroVerticalSpeedAction extends Action {
+public class ZeroUpSpeedAction extends Action {
 
 	@Override
 	public void act() {
-		if(getEntity().getYSpeed() > 0){
-		getEntity().setYSpeed(0);
+		if(getEntity().getYSpeed() < 0){
+			getEntity().setYSpeed(0);
 		}
 	}
 }

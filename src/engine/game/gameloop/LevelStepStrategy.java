@@ -16,12 +16,11 @@ import javafx.scene.Scene;
  *
  */
 public class LevelStepStrategy implements StepStrategy {
-	// private ObservableBundle observableBundle;
 	private LevelManager levelManager;
-	private Scene gameScene;
 	private GraphicsEngine graphicsEngine;
-	private Screen screen;
 	private GameInfo info;
+	private boolean screenFinished;
+	private StepStrategy nextStepStrategy;
 
 	/**
 	 * Functionality executed when timeline for Screen with this
@@ -29,102 +28,70 @@ public class LevelStepStrategy implements StepStrategy {
 	 * constructor.
 	 */
 	@Override
-	public void setup(Scene gameScene, Screen screen, GraphicsEngine graphicsEngine, GameInfo info) {
-		// this.observableBundle = newObservableBundle;
-		this.levelManager = info.getLevelManager();
-		this.gameScene = gameScene;
+	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info) {
+		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
-		this.screen = screen;
 		this.info = info;
-		levelManager.loadAllSavedLevels(); // To reset initial state of level
-		levelManager.getCurrentLevel().addEntity(graphicsEngine.getCamera()); // TODO:
-																				// add
-																				// the
-																				// camera
-																				// in
-																				// a
-																				// cleaner
-																				// way
-		// TODO get filename here
+		this.screenFinished = false;
 
+		levelManager.resetCurrentLevel();
 		info.getScorebar().resetTimerManager();
-
-		// instantiateTestEntitesEventsActions();
-		// connectObservablesToLevels();
-		// setLevelStepStrategyInDieActions();
 		addInfoToEntities();
-		// levelManager.startCurrentLevel(); //TODO sets Entities to initial
-		// conditions - need to ask Nikita how to do this
 		setupGameView();
+
+		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
+			if (entity.getName().equals("Mario")) {
+				// System.out.println("x = " + entity.getX() + ", y = " +
+				// entity.getY());
+			}
+		}
+		// System.out.println("Entities in current level: " +
+		// levelManager.getCurrentLevel().getEntities());
+	}
+
+	public void flagScreenFinished(StepStrategy nextStepStrategy) {
+		this.screenFinished = true;
+		this.nextStepStrategy = nextStepStrategy;
+	}
+
+	public boolean screenFinished() {
+		return screenFinished;
 	}
 
 	/**
 	 * Called on every iteration of the Timeline.
+	 * 
+	 * Note to programmer: Among other things, ticks the clock, so need at
+	 * beginning of step(), not end, because onFinished of Timeline called at
+	 * END of time elapsed.
+	 * 
 	 */
 	@Override
 	public void step() {
-		info.getObservableBundle().updateObservers(); // ticks the clock (need
-														// to at
-		// beginning of step(), not end,
-		// because onFinished of Timeline
-		// called at END of time elapsed
+		info.getObservableBundle().updateObservers();
+		// TODO If need an update method in GameInfo, update it here, right
+		// before entity.update();
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
-	}
-
-	/**
-	 * Logic for ending this level screen when you die. IMPORTANT: Called from
-	 * DieAction (and can be called from other Actions), NOT from step(). Stops
-	 * this screen's timeline, instantiates the next screen with a
-	 * TransitionStepStrategy appropriate to whether there is a gameOver, and
-	 * starts that timeline. Although this method uses a Timeline, it is
-	 * specific to Level Screens, so I put it here in LevelStepStrategy rather
-	 * than in Screen.
-	 * 
-	 * @param gameOver
-	 */
-
-	// TODO Rename this die()
-	public void endLevel(boolean gameOver) {
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			info.getObservableBundle().detachEntityFromAll(entity);
+		if (screenFinished) {
+			levelManager.setCurrentStepStrategy(nextStepStrategy);
+			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
+			nextScreen.getTimeline().play();
 		}
-		// Do not check timeIsUp() here, rather, set up TimerEvent with time = 0
-		// and attach a DieAction, which will call this method when appropriate
-		StepStrategy nextStepStrategy;
-		if (gameOver) {
-			// screen.setNextScreen(screen); //TODO get rid of next screen
-			// parameter - no need to keep track of!
-
-			nextStepStrategy = new GameOverStepStrategy();
-			graphicsEngine.getScorebar().saveFinalScore();
-		} else {
-			// screen.setNextScreen(screen);
-			nextStepStrategy = new LoseLifeStepStrategy();
-		}
-		info.setCurrentStepStrategy(nextStepStrategy);
-		screen.getTimeline().stop();
-		Screen nextScreen = new Screen(nextStepStrategy, gameScene, graphicsEngine, info);
-		nextScreen.getTimeline().play();
 	}
 
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */
 	private void addInfoToEntities() {
-		info.getObservableBundle().levelObservableSetup(gameScene, levelManager, info);
-		info.setLevelManager(this.levelManager);
-		// info.getObservableBundle().setObservablesInEvents(levelManager);
-		// //<------------------NEED TO REMOVE<--------------
+		info.getObservableBundle().levelObservableSetup(info);
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.setGameInfo(info);
-			info.getObservableBundle().attachEntityToAll(entity); // Good; this
-																	// replaces
-																	// attachEntityToAll()
+			info.getObservableBundle().attachEntityToAll(entity);
 			for (Event event : entity.getEvents()) {
 				event.setGameInfo(info);
 				for (Action action : event.getActions()) {
@@ -137,23 +104,5 @@ public class LevelStepStrategy implements StepStrategy {
 	private void setupGameView() {
 		// TODO call graphicsEngine.setCamera() here
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
-	}
-
-	/**
-	 * Logic for ending this level screen when won the level. IMPORTANT: Called
-	 * from NextLevelAction (and can be called from other Actions), NOT from
-	 * step(). Stops this screen's timeline, instantiates the next screen with a
-	 * NextLevelStepStrategy, and starts that timeline. Although this method
-	 * uses a Timeline, it is specific to Level Screens, so I put it here in
-	 * LevelStepStrategy rather than in Screen.
-	 */
-	public void startNextLevel() {
-		StepStrategy nextStepStrategy = new NextLevelStepStrategy();
-		graphicsEngine.getScorebar().saveFinalScore();
-
-		info.setCurrentStepStrategy(nextStepStrategy);
-		screen.getTimeline().stop();
-		Screen nextScreen = new Screen(nextStepStrategy, gameScene, graphicsEngine, info);
-		nextScreen.getTimeline().play();
 	}
 }

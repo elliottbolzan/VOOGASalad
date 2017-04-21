@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import player.score.Score;
 
 /**
- * @author Elliott Bolzan (Modified by Jesse Yue)
+ * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano)
  * 
  *         This class represents a Game. It is designed to be shared through
  *         submodules: the GameData, Game Authoring Environment, Game Player and
@@ -22,6 +22,9 @@ public class Game {
 	private List<Level> levels;
 	private List<Entity> defaults;
 	private String songPath;
+	private String backPath;
+	private String info;
+	private String achievements;
 	private CameraEntity camera;
 	private ObservableList<Score> scores;
 	private List<Score> scoresBase;
@@ -35,8 +38,32 @@ public class Game {
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
 		songPath = "";
+		setBackPath("");
+		setInfo("Information about game");
+		setAchievements("");
 		camera = new CameraEntity();
 		scores = FXCollections.observableList(addDefaults());
+	}
+	
+	/**
+	 * Create a deepcopy of List<Level> by copying clones of the entities in each
+	 * constituent Level. Uses GameObject's clone() method to accomplish this.
+	 * @return the clone of levels
+	 */
+	public List<Level> cloneLevels(){
+		 List<Level> cloneOfLevels = new ArrayList<Level>();
+		 for(Level level : levels){
+			  cloneOfLevels.add(cloneLevel(level));
+		 }
+		 return cloneOfLevels;
+	}
+	
+	public Level cloneLevel(Level level){
+		  Level cloneOfLevel = new Level();
+		  for(Entity entity : level.getEntities()){
+			  cloneOfLevel.addEntity(entity.clone());
+		  }
+		  return cloneOfLevel;
 	}
 	
 	/**
@@ -97,6 +124,25 @@ public class Game {
 	 */
 	public void setSongPath(String songPath) {
 		this.songPath = songPath;
+	}
+	
+	public String getBackPath() {
+		return backPath;
+	}
+	public void setBackPath(String backPath) {
+		this.backPath = backPath;
+	}
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	public String getAchievements() {
+		return achievements;
+	}
+	public void setAchievements(String achievements) {
+		this.achievements = achievements;
 	}
 	
 	/**
