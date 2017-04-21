@@ -66,6 +66,14 @@ public class Game {
 		  return cloneOfLevel;
 	}
 	
+	public List<Entity> cloneDefaults() {
+		List<Entity> cloneOfDefaults = new ArrayList<Entity>();
+		for(Entity entity : this.defaults) {
+			cloneOfDefaults.add(entity.clone());
+		}
+		return cloneOfDefaults;
+	}
+	
 	/**
 	 * @return the game's name.
 	 */
@@ -238,5 +246,18 @@ public class Game {
 		isTestGame = value;
 	}
 	
-	
+	public Game clone() {
+		Game cloneGame = new Game();
+		cloneGame.setName(this.name);
+		cloneGame.setLevels(this.cloneLevels());
+		cloneGame.setDefaults(this.cloneDefaults());
+		cloneGame.setSongPath(this.songPath);
+		cloneGame.setBackPath(this.backPath);
+		cloneGame.setInfo(this.info);
+		cloneGame.setAchievements(this.achievements);
+		cloneGame.setCamera((CameraEntity)this.camera.clone());
+		//TODO: clone scores
+		cloneGame.setTestGame(this.isTestGame);
+		return cloneGame;
+	}
 }
