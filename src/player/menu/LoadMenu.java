@@ -44,12 +44,17 @@ public class LoadMenu extends AbstractMenu {
 	private void loadNewGame(Stage stage) {
 		new FullPlayer(stage, game, getLoader(), polyglot, IOResources);
 	}
-	
-	private void loadSaveState(Stage stage, String saveName){
+
+	private void loadSaveState(Stage stage, String saveName) {
 		GameData data = new GameData();
-		Game game = data.loadGameState(getLoader().getGamePath(), saveName);
-		MediaManager loader = new MediaManager(getLoader().getGamePath(), saveStates);
-		new FullPlayer(stage, game, loader, polyglot, IOResources);
+		try {
+			Game game = data.loadGameState(getLoader().getGamePath(), saveName);
+			MediaManager loader = new MediaManager(game, getLoader().getGamePath(), saveStates);
+			new FullPlayer(stage, game, loader, polyglot, IOResources);
+		} catch (Exception e) {
+			// Game couldn't be loaded, perhaps a wrong Game selected. Might
+			// want to tell user!
+		}
 	}
 
 	private void setupScene(Stage stage) {
@@ -69,7 +74,7 @@ public class LoadMenu extends AbstractMenu {
 					saveButtons.add(save);
 					saveButtonContainer.getChildren().add(save);
 				} else {
-					ReplaceSaveMenu replacer = new ReplaceSaveMenu();
+					ReplaceSaveMenu replacer = new ReplaceSaveMenu(polyglot, IOResources);
 					replacer.display(e -> {
 						int index = replacer.getButtonID();
 						// Changes button action to load new save
@@ -84,13 +89,12 @@ public class LoadMenu extends AbstractMenu {
 		});
 
 		container.getChildren().addAll(saveButtonContainer);
-		//this.setCenter(container);
+		// this.setCenter(container);
 	}
 
 	@Override
 	public void addElements() {
-		Tile playTile = new Tile(getPolyglot().get("NewGameButton", Case.TITLE), "red",
-				e -> loadNewGame(getStage()));
+		Tile playTile = new Tile(getPolyglot().get("NewGameButton", Case.TITLE), "red", e -> loadNewGame(getStage()));
 		addTiles(true, playTile);
 	}
 }
