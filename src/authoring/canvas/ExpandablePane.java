@@ -236,9 +236,9 @@ public class ExpandablePane extends Pane
 				// } else
 				if (newX.intValue() + node.getBoundsInLocal().getWidth() > width) {
 					updateCanvasBounds();
-					// gridNodes.getChildren().clear();
-					drawGrid();
+					System.out.println("HI");
 				} else if (newX.intValue() < 0) {
+					shiftNodesX(-1 * newX.intValue());
 					updateCanvasBounds();
 				}
 				updateDisplay();
@@ -260,8 +260,9 @@ public class ExpandablePane extends Pane
 
 				if (newY.intValue() + node.getBoundsInLocal().getHeight() > height) {
 					updateCanvasBounds();
-					// gridNodes.getChildren().clear();
-					drawGrid();
+				} else if (newY.intValue() < 0) {
+					shiftNodesY(-1 * newY.intValue());
+					updateCanvasBounds();
 				}
 				updateDisplay();
 			}
@@ -276,6 +277,24 @@ public class ExpandablePane extends Pane
 		// node.minWidthProperty().addListener(e -> {
 		// updateDisplay();
 		// });
+	}
+
+	private void shiftNodesX(double xShift)
+	{
+		for (Node child : this.getChildren()) {
+			if (!child.equals(gridNodes)) {
+				child.setTranslateX(child.getTranslateX() + xShift);
+			}
+		}
+	}
+
+	private void shiftNodesY(double yShift)
+	{
+		for (Node child : this.getChildren()) {
+			if (!child.equals(gridNodes)) {
+				child.setTranslateY(child.getTranslateY() + yShift);
+			}
+		}
 	}
 
 	/**
