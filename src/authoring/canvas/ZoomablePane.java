@@ -40,8 +40,6 @@ public class ZoomablePane extends ScrollPane
 		this.setContent(scrollContent);
 
 		this.setPannable(false);
-		// this.setPrefViewportWidth(256);
-		// this.setPrefViewportHeight(256);
 		this.makeZoomable(entities);
 	}
 
@@ -77,12 +75,8 @@ public class ZoomablePane extends ScrollPane
 				// units
 				Point2D scrollOffset = figureScrollOffset(scrollContent, ZoomablePane.this);
 
-				// if (ZoomablePane.this.getViewportBounds().getMaxX() <=
-				// entities.getScaleX()
-				// * entities.getBoundsInLocal().getMaxX()) {
 				entities.setScaleX(entities.getScaleX() * scaleFactor);
 				entities.setScaleY(entities.getScaleY() * scaleFactor);
-				// }
 
 				// move viewport so that old center remains in the center after
 				// the

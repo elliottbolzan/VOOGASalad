@@ -34,15 +34,17 @@ public class GridScrollTest extends Application
 		final Group group = new Group();
 		ExpandablePane exp = new ExpandablePane();
 		Entity ent = new CharacterEntity();
-		ResourceBundle resources = ResourceBundle.getBundle("resources/AuthoringEnvironment");
+		ResourceBundle IOResources = ResourceBundle.getBundle("resources/IO");
 		final String KEY = "AIzaSyCOWQRgYSfbiNnOdIRPBcuY6iLTqwfmOc4";
 		Polyglot polyglot = null;
 		try {
 			polyglot = new Polyglot(KEY, "resources/Strings");
 		} catch (PolyglotException e) {
 		}
-		EntityView entity = new EntityView(ent, new Canvas(new Workspace("", polyglot, resources)), 25, 0, 0);
-		exp.addEntity(entity, 200, 200);
+		EntityView entity = new EntityView(ent, new Canvas(new Workspace("", polyglot, IOResources)), 25, 0, 0);
+		EntityView entity2 = new EntityView(ent, new Canvas(new Workspace("", polyglot, IOResources)), 25, 25, 25);
+		// exp.addEntity(entity, 200, 200);
+		// exp.addEntity(entity2, 300, 300);
 		group.getChildren().add(exp);
 		ZoomablePane zoomPane = new ZoomablePane(group);
 

@@ -213,7 +213,7 @@ public class DragUtil
 	private void mouseDraggedMove(MouseEvent event)
 	{
 		if (moveDragging) {
-			// region.setCursor(Cursor.NONE);
+			region.setCursor(Cursor.NONE);
 			double mouseX = event.getX();
 			double mouseY = event.getY();
 

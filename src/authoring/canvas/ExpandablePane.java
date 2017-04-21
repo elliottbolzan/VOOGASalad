@@ -1,5 +1,8 @@
 package authoring.canvas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
@@ -24,10 +27,11 @@ public class ExpandablePane extends Pane
 {
 
 	private final int TILE_SIZE = 25;
-	private final int DEFAULT_WIDTH = 8000;
-	private final int DEFAULT_HEIGHT = 6000;
+	private final int DEFAULT_WIDTH = 800;
+	private final int DEFAULT_HEIGHT = 600;
 
 	private Group gridNodes;
+	private List<List<Circle>> gridCircles;
 
 	private double width;
 	private double height;
@@ -78,10 +82,13 @@ public class ExpandablePane extends Pane
 	 */
 	private void setup()
 	{
+		width = DEFAULT_WIDTH;
+		height = DEFAULT_HEIGHT;
 		gridNodes = new Group();
+		gridCircles = new ArrayList<List<Circle>>();
+		gridCircles.add(new ArrayList<Circle>());
 		this.getChildren().add(gridNodes);
-		// entityRegions = new HashMap<Node, Region>();
-
+		updateDisplay();
 	}
 
 	/**
@@ -149,10 +156,40 @@ public class ExpandablePane extends Pane
 	 */
 	private void drawGrid()
 	{
-		for (int i = 0; i < width / TILE_SIZE; i++) {
-			for (int j = 0; j < height / TILE_SIZE; j++) {
-				drawGridDot(i, j);
-			}
+		int numRows = (int) (height / TILE_SIZE);
+		int numCols = (int) (width / TILE_SIZE);
+		while (gridCircles.size() > numRows) {
+			gridCircles.remove(gridCircles.size() - 1);
+		}
+		while (gridCircles.get(0).size() > numCols) {
+			gridCircles.forEach(e -> {
+				e.remove(e.size() - 1);
+			});
+		}
+		while (gridCircles.size() < numRows) {
+			drawGridRow();
+		}
+		while (gridCircles.get(0).size() < numCols) {
+			drawGridCol();
+		}
+	}
+
+	private void drawGridRow()
+	{
+		List<Circle> newRowMarkers = new ArrayList<Circle>();
+		for (int i = 0; i < gridCircles.get(0).size(); i++) {
+			newRowMarkers.add(drawGridCircle(gridCircles.size(), i));
+		}
+		gridCircles.add(newRowMarkers);
+		gridNodes.getChildren().addAll(newRowMarkers);
+	}
+
+	private void drawGridCol()
+	{
+		for (int i = 0; i < gridCircles.size(); i++) {
+			Circle addedCircle = drawGridCircle(i, gridCircles.get(i).size());
+			gridCircles.get(i).add(addedCircle);
+			gridNodes.getChildren().add(addedCircle);
 		}
 	}
 
@@ -164,14 +201,14 @@ public class ExpandablePane extends Pane
 	 * @param tileY
 	 *            y coordinate of the grid dot
 	 */
-	private void drawGridDot(double tileX, double tileY)
+	private Circle drawGridCircle(double rowNum, double colNum)
 	{
 		Circle gridMarker = new Circle();
-		gridMarker.setCenterX(tileX * TILE_SIZE);
-		gridMarker.setCenterY(tileY * TILE_SIZE);
+		gridMarker.setCenterX(colNum * TILE_SIZE);
+		gridMarker.setCenterY(rowNum * TILE_SIZE);
 		gridMarker.setRadius(1);
 		gridMarker.setFill(Color.GREY);
-		gridNodes.getChildren().add(gridMarker);
+		return gridMarker;
 	}
 
 	/**
@@ -198,9 +235,9 @@ public class ExpandablePane extends Pane
 				// node.setTranslateX(0);
 				// } else
 				if (newX.intValue() + node.getBoundsInLocal().getWidth() > width) {
-					// gridNodes.getChildren().clear();
-					// drawGrid();
 					updateCanvasBounds();
+					// gridNodes.getChildren().clear();
+					drawGrid();
 				} else if (newX.intValue() < 0) {
 					updateCanvasBounds();
 				}
@@ -222,9 +259,9 @@ public class ExpandablePane extends Pane
 				// } else
 
 				if (newY.intValue() + node.getBoundsInLocal().getHeight() > height) {
-					// gridNodes.getChildren().clear();
-					// drawGrid();
 					updateCanvasBounds();
+					// gridNodes.getChildren().clear();
+					drawGrid();
 				}
 				updateDisplay();
 			}
@@ -249,8 +286,7 @@ public class ExpandablePane extends Pane
 	{
 		updateCanvasBounds();
 		this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-		// gridNodes.getChildren().clear();
-		// drawGrid();
+		drawGrid();
 		this.setPrefHeight(height);
 		this.setPrefWidth(width);
 	}

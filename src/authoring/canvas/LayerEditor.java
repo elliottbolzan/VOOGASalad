@@ -180,6 +180,7 @@ public class LayerEditor extends View
 					layer.getEntities().removeAll(layer.getSelectedEntities());
 					selectedEntities.forEach(entity -> canvas.removeEntity(entity));
 				}
+				e.consume();
 			}
 			if (e.getCode().equals(KeyCode.RIGHT)) {
 				for (Layer layer : layers.values()) {
@@ -187,6 +188,7 @@ public class LayerEditor extends View
 						entity.moveX(canvas.getTileSize());
 					});
 				}
+				e.consume();
 			}
 			if (e.getCode().equals(KeyCode.LEFT)) {
 				for (Layer layer : layers.values()) {
@@ -196,6 +198,7 @@ public class LayerEditor extends View
 						}
 					});
 				}
+				e.consume();
 			}
 			if (e.getCode().equals(KeyCode.DOWN)) {
 				for (Layer layer : layers.values()) {
@@ -203,6 +206,7 @@ public class LayerEditor extends View
 						entity.moveY(canvas.getTileSize());
 					});
 				}
+				e.consume();
 			}
 			if (e.getCode().equals(KeyCode.UP)) {
 				for (Layer layer : layers.values()) {
@@ -212,6 +216,7 @@ public class LayerEditor extends View
 						}
 					});
 				}
+				e.consume();
 			}
 		});
 	}
@@ -228,6 +233,7 @@ public class LayerEditor extends View
 			addEntity(entity, e.getX() + canvas.getXScrollAmount(), e.getY() + canvas.getYScrollAmount(), currLayer);
 		} catch (Exception exception) {
 			showSelectMessage();
+			exception.printStackTrace();
 		}
 	}
 
