@@ -41,16 +41,13 @@ import utils.views.View;
  */
 public class Workspace extends View
 {
-
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
 	private GameData data;
-
 	private SplitPane pane;
 	private LevelEditor levelEditor;
 	private Panel panel;
-
 	private Game game;
 	private DefaultEntities defaults;
 
@@ -195,6 +192,7 @@ public class Workspace extends View
 	public void test()
 	{
 		createGame();
+		game.setTestGame(true);
 		Stage stage = new Stage();
 		new BasicPlayer(stage, game, polyglot, IOResources);
 		stage.show();
@@ -334,5 +332,4 @@ public class Workspace extends View
 		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
 		display.show();
 	}
-
 }

@@ -1,5 +1,7 @@
 package engine.game.gameloop;
 
+import java.util.ResourceBundle;
+
 import engine.GameInfo;
 import engine.TimelineManipulator;
 import engine.game.LevelManager;
@@ -7,7 +9,9 @@ import engine.graphics.GraphicsEngine;
 import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import player.score.Overlay;
+import polyglot.Polyglot;
 
 /**
  * Manages the highest level of time flow in the game. The client class for the game loop.
@@ -22,8 +26,11 @@ public class GameLoop {
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	
-	public GameLoop(Scene gameScene, Game game, Overlay overlay){
-		graphicsEngine = new GraphicsEngine(game, overlay);
+	public GameLoop(Scene gameScene, Game game, Overlay overlay, Stage stage, Polyglot polyglot, ResourceBundle IOResources){
+		//Instantiate GraphicsEngine
+		graphicsEngine = new GraphicsEngine(game, overlay, stage, polyglot, IOResources);
+		
+		//TODO: what happens if level changes, camera gets reset??
 		graphicsEngine.setCamera(game.getCamera());
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);

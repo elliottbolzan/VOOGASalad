@@ -129,6 +129,7 @@ public class StartMenu extends BorderPane {
 		FileChooser chooser = maker.makeFileChooser(
 				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"),
 				IOResources.getString("ZIPChooserFilter"), IOResources.getString("ZIPChooserExtension"));
+
 		File selectedDirectory = chooser.showOpenDialog(stage);
 		if (selectedDirectory == null) {
 			return "";
@@ -136,7 +137,7 @@ public class StartMenu extends BorderPane {
 			return selectedDirectory.getAbsolutePath();
 		}
 	}
-
+	
 	private Game createGame(String path) {
 		try {
 			GameData gameData = new GameData();
@@ -146,6 +147,7 @@ public class StartMenu extends BorderPane {
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NotAGame").get());
 			alert.show();
 			return null;
+
 		}
 	}
 
