@@ -17,6 +17,8 @@ public class DieAction extends Action {
 	@Override
 	public void act() {
 		try {
+			System.out.println(getEntity() + " " + getEntity().getName());
+			System.out.println(getGameInfo().getLevelManager().getCurrentStepStrategy());
 			CharacterEntity entity = (CharacterEntity) getEntity();
 			//This check added to fix bug of multiple DieActions triggering
 			if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
@@ -24,7 +26,8 @@ public class DieAction extends Action {
 				getGameInfo().getTimelineManipulator().die(entity.getLives() <= 0);
 			}
 		} catch (ClassCastException e) {
-			throw new GameObjectException("CastingError");
+			//throw new GameObjectException("CastingError");
+			System.out.println("Casting error");
 		}
 	}
 
