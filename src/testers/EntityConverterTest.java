@@ -1,4 +1,4 @@
-package game_data;
+package testers;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -7,6 +7,7 @@ import engine.Entity;
 import engine.Event;
 import engine.entities.CharacterEntity;
 import engine.events.AlwaysEvent;
+import game_data.EntityConverter;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public class EntityConverterTest {
