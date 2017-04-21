@@ -44,6 +44,9 @@ public class SpawnEntityAction extends Action {
 					String side = ((String) getParam("Side"));
 					CollisionSide collisionSide = getCollisionSide(side.toUpperCase());
 					collisionSide.placeEntity(getEntity(), newEntity);
+					if ((boolean)getParam("Random Spawn"))
+						collisionSide.placeEntityRandomly(getEntity(), newEntity);
+						
 					newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
 					newEntity.getGameInfo().getGraphicsEngine().updateView();
 				}
