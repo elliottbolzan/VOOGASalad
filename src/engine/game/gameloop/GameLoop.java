@@ -57,7 +57,7 @@ public class GameLoop {
 		return scorebar;
 	}
 	
-	public TimelineManipulator getLevelEnder(){
+	public TimelineManipulator timelineManipulator(){
 		return levelEnder;
 	}
 	

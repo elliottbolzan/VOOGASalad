@@ -2,6 +2,7 @@ package engine;
 
 import engine.game.LevelManager;
 import engine.game.gameloop.GameOverStepStrategy;
+import engine.game.gameloop.LevelStepStrategy;
 import engine.game.gameloop.LoseLifeStepStrategy;
 import engine.game.gameloop.NextLevelStepStrategy;
 import engine.game.gameloop.Screen;
@@ -46,7 +47,7 @@ public class TimelineManipulator {
 	 */
 	public void startNextLevel() {
 		graphicsEngine.getScorebar().saveFinalScore();
-		moveToNextScreen(new NextLevelStepStrategy());
+		moveToNextScreen(new NextLevelStepStrategy(levelManager));
 	}
 
 	/**
@@ -64,7 +65,6 @@ public class TimelineManipulator {
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			info.getObservableBundle().detachEntityFromAll(entity);
 		}
-
 		StepStrategy nextStepStrategy;
 		if (gameOver) {
 			nextStepStrategy = new GameOverStepStrategy();
@@ -77,9 +77,7 @@ public class TimelineManipulator {
 	
 	private void moveToNextScreen(StepStrategy nextStepStrategy) {
 		levelManager.getCurrentScreen().getTimeline().stop();
-		levelManager.setCurrentStepStrategy(nextStepStrategy);
-		Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
-		nextScreen.getTimeline().play();
+		((LevelStepStrategy) levelManager.getCurrentStepStrategy()).flagScreenFinished(nextStepStrategy);
 	}
 	
 
