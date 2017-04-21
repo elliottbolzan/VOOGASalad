@@ -18,10 +18,16 @@ public enum CollisionSide {
 			setXY(newEntity, existing.getX() + existing.getWidth(), existingCenter[1] - newEntity.getHeight() / 2);
 		}
 
+		/**
+		 * Randomly place to the right of existing entity.
+		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			// TODO Auto-generated method stub
-			
+			placeEntity(entity, newEntity);
+			newEntity.setX(
+					newEntity.getX() + Math.random() * entity.getGameInfo().getGraphicsEngine().getCamera().getWidth());
+			newEntity.setY(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getHeight() - newEntity.getHeight()));
 		}
 	},
 	LEFT() {
@@ -34,10 +40,16 @@ public enum CollisionSide {
 			setXY(newEntity, existing.getX() - newEntity.getWidth(), existingCenter[1] - newEntity.getHeight() / 2);
 		}
 
+		/**
+		 * Randomly place to the left of existing entity.
+		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			// TODO Auto-generated method stub
-			
+			placeEntity(entity, newEntity);
+			newEntity.setX(
+					newEntity.getX() - Math.random() * entity.getGameInfo().getGraphicsEngine().getCamera().getWidth());
+			newEntity.setY(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getHeight() - newEntity.getHeight()));
 		}
 	},
 	TOP() {
@@ -50,10 +62,16 @@ public enum CollisionSide {
 			setXY(newEntity, existingCenter[0] - newEntity.getWidth() / 2, existing.getY() - newEntity.getHeight());
 		}
 
+		/**
+		 * Randomly place above existing entity.
+		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			// TODO Auto-generated method stub
-			
+			placeEntity(entity, newEntity);
+			newEntity.setX(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth() - newEntity.getWidth()));
+			newEntity.setY(newEntity.getY()
+					+ Math.random() * entity.getGameInfo().getGraphicsEngine().getCamera().getHeight());
 		}
 	},
 	BOTTOM() {
@@ -66,10 +84,16 @@ public enum CollisionSide {
 			setXY(newEntity, existingCenter[0] - newEntity.getWidth() / 2, existing.getY() + existing.getHeight());
 		}
 
+		/**
+		 * Randomly place below existing entity.
+		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			// TODO Auto-generated method stub
-			
+			placeEntity(entity, newEntity);
+			newEntity.setX(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth() - newEntity.getWidth()));
+			newEntity.setY(newEntity.getY()
+					- Math.random() * entity.getGameInfo().getGraphicsEngine().getCamera().getHeight());
 		}
 	},
 	ALL() {
@@ -83,10 +107,15 @@ public enum CollisionSide {
 					existingCenter[1] - newEntity.getHeight() / 2);
 		}
 
+		/**
+		 * Place randomly on the screen
+		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			// TODO Auto-generated method stub
-			
+			newEntity.setX(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth() - newEntity.getWidth()));
+			newEntity.setY(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getHeight() - newEntity.getHeight()));
 		}
 	};
 
@@ -125,8 +154,9 @@ public enum CollisionSide {
 	public abstract void placeEntity(Entity existing, Entity newEntity);
 
 	/**
-	 * Place a new entity in the game in a random position relative to the existing side, based on
-	 * which side is requested. The side which the user requested to place the entity on will be honored
+	 * Place a new entity in the game in a random position relative to the
+	 * existing side, based on which side is requested. The side which the user
+	 * requested to place the entity on will be honored
 	 * 
 	 * @param existing
 	 *            the existing entity
