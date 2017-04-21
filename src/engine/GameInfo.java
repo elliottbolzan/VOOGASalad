@@ -1,8 +1,10 @@
 package engine;
 
 import engine.game.LevelManager;
+import engine.game.gameloop.GameLoop;
 import engine.game.gameloop.ObservableBundle;
 import engine.game.gameloop.Scorebar;
+import engine.graphics.GraphicsEngine;
 
 /**
  * @author nikita matt This class is used to convey information about the
@@ -13,49 +15,47 @@ import engine.game.gameloop.Scorebar;
 public class GameInfo {
 	private ObservableBundle bundle; // immutable/no setter (same for whole game)
 	private Scorebar scorebar; // immutable/no setter (same for whole game)
-	private LevelEnder levelEnder;
+	private TimelineManipulator levelEnder;
+	private LevelManager levelManager;
+	private GraphicsEngine graphicsEngine;
 	
-	public GameInfo(ObservableBundle bundle, Scorebar scorebar, LevelEnder levelEnder) {
-		this.bundle = bundle;
-		this.scorebar = scorebar;
-		this.levelEnder = levelEnder;
+	public GameInfo(GameLoop gameLoop) {
+		this.bundle = gameLoop.getObservableBundle();
+		this.scorebar = gameLoop.getScorebar();
+		this.levelEnder = gameLoop.getLevelEnder();
+		this.levelManager = gameLoop.getLevelManager();
+		this.graphicsEngine = gameLoop.getGraphicsEngine();
 	}
-
-	/*
-	public void setCurrentStepStrategy(StepStrategy strategy) {
-		this.currentStepStrategy = strategy;
+	
+	public LevelManager getLevelManager(){
+		 return levelManager;
 	}
-	*/
-
+	
 	public ObservableBundle getObservableBundle() {
 		return bundle;
 	}
 	
-	public LevelEnder getLevelEnder(){
+	public TimelineManipulator getTimelineManipulator(){
 		return levelEnder;
 	}
-	
-	/*
-	public StepStrategy getCurrentStepStrategy() {
-		return currentStepStrategy;
-	}
-	*/
+
 
 	public Scorebar getScorebar() {
 		return scorebar;
 	}
 	
-	/*
-	public void setCurrentScreen(Screen currentScreen) {
-		this.currentScreen = currentScreen;
+	public GraphicsEngine getGraphicsEngine(){
+		 return graphicsEngine;
 	}
-	*/
 	
-	//I think may not be necessary because all fields are now immutable (just set once through constructor)!
+	/*
+	NOTE TO OTHER PROGRAMMERS: Call this in LevelStepStrategy right before act(). Replaces any "setters"; if need to
+	set a field in GameInfo, add it here. Currently empty because all fields in GameInfo are currently immutable (set
+	only one through constructor. 
+	*/
 	/*
 	public void updateFieldsBeforeAct(LevelStepStrategy levelStepStrategy){
-		 this.currentScreen = levelStepStrategy.getCurrentScreen();
-		 this.currentLevelEnder = levelStepStrategy.getLevelEnder();
+		 
 	}
 	*/
 }

@@ -8,18 +8,33 @@ import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
 import engine.graphics.GraphicsEngine;
 
-public class LevelEnder {
+/**
+ * Allows Game Objects (Entities, Events, Actions) to manipulate the timeline, including
+ * ending levels (DieAction, NextLevelAction), and pausing the timeline.
+ * @author Matthew Barbano
+ *
+ */
+
+public class TimelineManipulator {
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
 	
-	public LevelEnder(LevelManager levelManager, GraphicsEngine graphicsEngine){
+	public TimelineManipulator(LevelManager levelManager, GraphicsEngine graphicsEngine){
 		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
 	}
 	
 	public void setInfo(GameInfo info){
 		this.info = info;
+	}
+	
+	public void start(){
+		levelManager.getCurrentScreen().start();
+	}
+	
+	public void pause(){
+		levelManager.getCurrentScreen().pause();
 	}
 	
 	/**

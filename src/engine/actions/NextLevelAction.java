@@ -12,6 +12,6 @@ public class NextLevelAction extends Action {
 
 	@Override
 	public void act() {
-		getGameInfo().getLevelEnder().startNextLevel();
+		getGameInfo().getTimelineManipulator().startNextLevel();
 	}
 }
