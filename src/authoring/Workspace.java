@@ -1,10 +1,8 @@
 package authoring;
-
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
 import authoring.components.HTMLDisplay;
@@ -29,7 +27,6 @@ import javafx.stage.Stage;
 import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
 import utils.views.View;
-
 /**
  * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse
  *         Yue)
@@ -40,19 +37,15 @@ import utils.views.View;
  *
  */
 public class Workspace extends View {
-
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
 	private GameData data;
-
 	private SplitPane pane;
 	private LevelEditor levelEditor;
 	private Panel panel;
-
 	private Game game;
 	private DefaultEntities defaults;
-
 	/**
 	 * Creates the Workspace.
 	 * 
@@ -68,14 +61,12 @@ public class Workspace extends View {
 		setup();
 		load();
 	}
-
 	/**
 	 * @return the Workspace's current Game.
 	 */
 	public Game getGame() {
 		return game;
 	}
-
 	/**
 	 * Initializes the Workspace's components.
 	 */
@@ -93,7 +84,6 @@ public class Workspace extends View {
 		setTop(makeMenuBar());
 		dragToAddEntity();
 	}
-
 	private VBox makeMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		Menu gameMenu = maker.makeMenu("GameMenu");
@@ -108,7 +98,6 @@ public class Workspace extends View {
 		box.setPadding(new Insets(15, 0, 0, 0));
 		return box;
 	}
-
 	private void dragToAddEntity() {
 		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
@@ -124,13 +113,11 @@ public class Workspace extends View {
 			});
 		});
 	}
-
 	private void load() {
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
 	}
-
 	/**
 	 * Save the Game to disk. A DirectoryChooser is presented to the user; the
 	 * Game's construction is finalized; and a call to GameData is made to save
@@ -141,7 +128,6 @@ public class Workspace extends View {
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(name -> save(name));
 	}
-
 	private void save(String title) {
 		game.setName(title);
 		String path = askForOutputPath();
@@ -162,7 +148,6 @@ public class Workspace extends View {
 		Thread thread = new Thread(task);
 		thread.start();
 	}
-
 	private String askForOutputPath() {
 		String directory = new File(IOResources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(directory, "GameSaverTitle");
@@ -172,7 +157,6 @@ public class Workspace extends View {
 		}
 		return "";
 	}
-
 	/**
 	 * Test the Game that is currently being designed.
 	 * 
@@ -182,51 +166,44 @@ public class Workspace extends View {
 	 */
 	public void test() {
 		createGame();
+		game.setTestGame(true);
 		Stage stage = new Stage();
 		new BasicPlayer(stage, game, polyglot, IOResources);
 		stage.show();
 	}
-
 	private void createGame() {
 		game.setLevels(levelEditor.getLevels());
 	}
-
 	public ComponentMaker getMaker() {
 		return maker;
 	}
-
 	public Polyglot getPolyglot() {
 		return polyglot;
 	}
-
 	/**
 	 * @return the ResourceBundle for this View's descendants.
 	 */
 	public ResourceBundle getIOResources() {
 		return IOResources;
 	}
-
 	/**
 	 * @return the SplitPane governing this View.
 	 */
 	public SplitPane getPane() {
 		return pane;
 	}
-
 	/**
 	 * @return the default Entities the user has created.
 	 */
 	public DefaultEntities getDefaults() {
 		return defaults;
 	}
-
 	/**
 	 * @return the selected Entity.
 	 */
 	public Entity getSelectedEntity() {
 		return defaults.getSelectedEntity();
 	}
-
 	/**
 	 * addLayer is called from the panel whenever the user selects the option to
 	 * add another layer. The workspace instructs the levelEditor to create
@@ -236,7 +213,6 @@ public class Workspace extends View {
 	public void addLayer() {
 		levelEditor.getCurrentLevel().newLayer();
 	}
-
 	/**
 	 * When the user selects a new layer from the layer-selecting ComboBox, it
 	 * alerts the workspace, which, in turn, instructs the LevelEditor to switch
@@ -248,7 +224,6 @@ public class Workspace extends View {
 	public void selectLayer(int number) {
 		levelEditor.getCurrentLevel().selectLayer(number);
 	}
-
 	/**
 	 * When a new level is selected by the user, the LevelEditor alerts the
 	 * workspace, which, in turn, alerts the panel to the change being made. The
@@ -260,15 +235,12 @@ public class Workspace extends View {
 	public void selectExistingLevel(String oldLevel, String newLevel) {
 		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
-
 	public void selectLoadedLevel(List<String> nameList) {
 		panel.selectLoadedLevelBox(nameList);
 	}
-
 	public void selectLoadedLevel(int layerCount) {
 		panel.selectLoadedLevelBox(layerCount);
 	}
-
 	/**
 	 * When the user instructs the layer panel to delete a layer, the workspace
 	 * alerts the levelEditor, telling it to delete a layer of its current
@@ -280,7 +252,6 @@ public class Workspace extends View {
 	public void deleteLayer(int layer) {
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
-
 	/**
 	 * Update Entities on the Canvas when their default was edited by the user.
 	 * 
@@ -301,10 +272,8 @@ public class Workspace extends View {
 			game.setSongPath(selectedFile.getAbsolutePath());
 		}
 	}
-
 	private void showKeyCombinations() {
 		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
 		display.show();
 	}
-
 }

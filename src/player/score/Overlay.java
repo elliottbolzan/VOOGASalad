@@ -47,6 +47,7 @@ public class Overlay extends BorderPane{
 				makeLabelBox(new Label(), polyglot.get("Level", Case.UPPER), level),
 				makeLabelBox(new Label(), polyglot.get("Time", Case.UPPER), time));
 		this.setTop(container);
+		this.setPickOnBounds(false);
 	}
 	
 	private VBox makeLabelBox(Label title, StringBinding titleValue, Label value){

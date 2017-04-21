@@ -46,7 +46,10 @@ public class TimelineManipulator {
 	 * I put it here in LevelStepStrategy rather than in Screen.
 	 */
 	public void startNextLevel() {
-		graphicsEngine.getScorebar().saveFinalScore();
+		//This should be moved to a win method
+		if(graphicsEngine.isHighscore()){
+			graphicsEngine.endScreen();
+		}
 		moveToNextScreen(new NextLevelStepStrategy(levelManager));
 	}
 
@@ -68,7 +71,9 @@ public class TimelineManipulator {
 		StepStrategy nextStepStrategy;
 		if (gameOver) {
 			nextStepStrategy = new GameOverStepStrategy();
-			graphicsEngine.getScorebar().saveFinalScore();
+			if(graphicsEngine.isHighscore()){
+				graphicsEngine.endScreen();
+			}
 		} else {
 			nextStepStrategy = new LoseLifeStepStrategy();
 		}

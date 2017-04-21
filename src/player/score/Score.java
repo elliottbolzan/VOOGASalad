@@ -11,6 +11,7 @@ public class Score {
 	private StringProperty score;
 	private StringProperty time;
 	private TimerManager manager;
+	private StringProperty name;
 	
 	public Score(int rank){
 		this(rank, "000000", new TimerManager(0.0, false));
@@ -25,6 +26,19 @@ public class Score {
 		this.rank = new SimpleIntegerProperty(rank);
 		this.score = new SimpleStringProperty(score);
 		this.time = new SimpleStringProperty(time.toString());
+		name = new SimpleStringProperty();
+	}
+	
+	public StringProperty nameProperty(){
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name.set(name);
+	}
+	
+	public String getName(){
+		return name.get();
 	}
 	
 	public IntegerProperty rankProperty(){
