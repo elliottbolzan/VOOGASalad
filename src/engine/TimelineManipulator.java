@@ -47,7 +47,7 @@ public class TimelineManipulator {
 	 */
 	public void startNextLevel() {
 		graphicsEngine.getScorebar().saveFinalScore();
-		moveToNextScreen(new NextLevelStepStrategy());
+		moveToNextScreen(new NextLevelStepStrategy(levelManager));
 	}
 
 	/**

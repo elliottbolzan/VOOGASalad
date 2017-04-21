@@ -30,7 +30,8 @@ public class DefaultEntities {
 	public DefaultEntities(Workspace workspace) {
 		this.workspace = workspace;
 		this.entities = FXCollections.observableArrayList(new ArrayList<Entity>());
-		add(new CharacterEntity());
+		if (workspace.getGame().getDefaults().size() == 0)
+			add(new CharacterEntity());
 	}
 
 	/**

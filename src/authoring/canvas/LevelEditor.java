@@ -35,7 +35,6 @@ public class LevelEditor extends View
 	private List<EntityView> copiedEntities;
 	private List<LayerEditor> levels;
 	private int levelCount;
-	private HelpBar helpBar;
 
 	/**
 	 * Make a new LevelEditor
@@ -109,7 +108,6 @@ public class LevelEditor extends View
 		tabPane.getTabs().add(newTab());
 		tabPane.getTabs().add(makePlusTab());
 		setCenter(tabPane);
-		this.addToolbar();
 		this.addKeyActions();
 	}
 
@@ -247,15 +245,6 @@ public class LevelEditor extends View
 
 		});
 		return plusTab;
-	}
-
-	/**
-	 * Adds a help bar to the bottom of the LevelEditor.
-	 */
-	private void addToolbar()
-	{
-		helpBar = new HelpBar(workspace);
-		setBottom(helpBar);
 	}
 
 }

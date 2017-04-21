@@ -2,7 +2,6 @@ package engine.entities;
 
 import engine.Entity;
 import engine.actions.FollowAction;
-import engine.actions.MoveAction;
 import engine.events.AlwaysEvent;
 
 /**
@@ -22,8 +21,8 @@ public class CameraEntity extends Entity {
 		//this.setupAlwaysMoveEvent();
 		//this.setupAlwaysFollowEvent();
 	}
-	
-	private void setupAlwaysMoveEvent() {
+
+	/*private void setupAlwaysMoveEvent() {
 		MoveAction move = new MoveAction();
 		move.setEntity(this);
 		
@@ -31,7 +30,7 @@ public class CameraEntity extends Entity {
 		always.addAction(move);
 		
 		this.addEvent(always);
-	}
+	}*/
 	
 	private void setupAlwaysFollowEvent() {
 		FollowAction follow = new FollowAction();

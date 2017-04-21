@@ -9,7 +9,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -49,9 +51,10 @@ public class LanguagePicker {
 	private void setupView() {
 		Label info = new Label();
 		info.setWrapText(true);
+		info.setMinHeight(40);
+		info.setTextAlignment(TextAlignment.CENTER);
 		info.textProperty().bind(polyglot.get("PickYourLanguage"));
-		VBox box = new VBox();
-		box.setSpacing(10);
+		VBox box = new VBox(10);
 		box.setAlignment(Pos.CENTER);
 		ListView<String> list = makeListView();
 		box.getChildren().addAll(info, list);
