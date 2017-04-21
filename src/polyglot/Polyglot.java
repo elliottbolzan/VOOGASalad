@@ -170,4 +170,18 @@ public class Polyglot {
 		return manager.createStringBinding(key, textCase);
 	}
 
+	
+	/**
+	 * Provides the caller with the original version of the value for the key
+	 * parameter.
+	 * 
+	 * @param key
+	 *            the key from the Properties file.
+	 * @return a String representing the original version of the value for the
+	 *         key.
+	 */
+	public String getOriginal(String key) {
+		return manager.getOriginal(key);
+	}
+	
 }

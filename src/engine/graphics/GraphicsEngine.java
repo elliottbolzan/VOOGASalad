@@ -34,6 +34,7 @@ public class GraphicsEngine {
 	private Collection<Entity> entities;
 	private Collection<ImageView> nodes;
 	private CameraEntity camera;
+	
 	private Scorebar scorebar;
 	private Overlay overlay;
 	
@@ -155,7 +156,7 @@ public class GraphicsEngine {
 		node.setTranslateZ(entity.getZ());
 		node.visibleProperty().bind(entity.isVisibleProperty());
 		entity.imagePathProperty().addListener( (observer, oldPath, newPath) -> {
-			node.setImage(new Image(newPath));				
+			node.setImage(new Image(newPath));
 		});
 	}
 	

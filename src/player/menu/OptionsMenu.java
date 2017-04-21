@@ -3,8 +3,7 @@ package player.menu;
 import java.util.ResourceBundle;
 
 import javafx.stage.Stage;
-import player.Loader;
-import player.PlayerView;
+import player.MediaManager;
 import polyglot.Polyglot;
 
 import java.util.HashMap;
@@ -15,6 +14,7 @@ import engine.Action;
 import engine.Entity;
 import engine.Event;
 import engine.Parameter;
+import game_data.Game;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.StringBinding;
@@ -25,12 +25,12 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class OptionsMenu extends PlayerView {
+public class OptionsMenu extends AbstractMenu {
 
-	private Loader loader;
 	private ScrollPane center;
 	private Map<String, Parameter> keys;
 	private Map<String, Parameter> keyReleases;
@@ -38,9 +38,8 @@ public class OptionsMenu extends PlayerView {
 	private GridPane grid;
 	private int count = 0;
 
-	public OptionsMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(polyglot, IOResources);
-		this.loader = loader;
+	public OptionsMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, game, mediaManager, "OptionsTitle", polyglot, IOResources);
 		setup();
 	}
 
@@ -68,7 +67,7 @@ public class OptionsMenu extends PlayerView {
 			addControlRow(s, keys.get(s).getObject(), count);
 			count++;
 		}
-		if (loader.getMediaPlayer() != null) {
+		if (this.getLoader().getMediaPlayer() != null) {
 			this.addHeading(getPolyglot().get("Audio"), count);
 			count++;
 
@@ -82,12 +81,13 @@ public class OptionsMenu extends PlayerView {
 
 	private Slider setupVolumeSlider() {
 		Slider volume = new Slider();
-
-		volume.setValue(loader.getMediaPlayer().getVolume());
+		MediaPlayer songPlayer = this.getLoader().getMediaPlayer();
+		
+		volume.setValue(songPlayer.getVolume());
 		volume.valueProperty().addListener(new InvalidationListener() {
 			public void invalidated(Observable ov) {
 				if (volume.isValueChanging()) {
-					loader.getMediaPlayer().setVolume(volume.getValue() / 100.0);
+					songPlayer.setVolume(volume.getValue() / 100.0);
 				}
 			}
 		});
@@ -98,7 +98,7 @@ public class OptionsMenu extends PlayerView {
 	}
 
 	private void loadKeyBindings() {
-		entities = (List<Entity>) loader.getGame().getLevels().get(0).getEntities();
+		entities = (List<Entity>) this.getGame().getLevels().get(0).getEntities();
 		for (int i = 0; i < entities.size(); i++) {
 			// Get all the events of each entity
 			List<Event> events = entities.get(i).getEvents();
@@ -169,6 +169,12 @@ public class OptionsMenu extends PlayerView {
 		// this.getLoader().loadData().saveGame(this.getLoader().loadGame(),
 		// this.getLoader().getGamePath());
 		key.setText(e.toString());
+	}
+
+	@Override
+	public void addElements() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

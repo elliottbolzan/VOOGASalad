@@ -26,13 +26,13 @@ public class FacebookPostMessageAction extends Action {
 	public void act() {
 		if (poster == null)
 			poster = new FacebookPoster(getNotTranslatedResource("APP_ID"), getNotTranslatedResource("SECRET_KEY"));
-		getGameInfo().getCurrentScreen().pause();
+		getGameInfo().getTimelineManipulator().pause();
 		poster.post((String) getParam("Message"), new FacebookResponse() {
 			@Override
 			public void doResponse(boolean condition) {
 				Alert alert = new Alert(AlertType.INFORMATION,
 						condition ? getResource("FacebookSuccessString") : getResource("FacebookFailString"));
-				alert.setOnHidden(e -> getGameInfo().getCurrentScreen().start());
+				alert.setOnHidden(e -> getGameInfo().getTimelineManipulator().start());
 				alert.show();
 			}
 		});

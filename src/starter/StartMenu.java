@@ -8,6 +8,8 @@ import java.util.ResourceBundle;
 
 import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
+import game_data.Game;
+import game_data.GameData;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
@@ -23,10 +25,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import player.Loader;
+import player.MediaManager;
 import player.menu.MainMenu;
 import polyglot.Case;
 import polyglot.Polyglot;
@@ -120,14 +122,11 @@ public class StartMenu extends BorderPane {
 		timeline.play();
 	}
 
-	private void newGame() {
-		new AuthoringEnvironment(polyglot, IOResources);
-	}
-
 	private String chooseGame() {
-		DirectoryChooser chooser = maker.makeDirectoryChooser(
-				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"), "ChooserTitle");
-		File selectedDirectory = chooser.showDialog(stage);
+		FileChooser chooser = maker.makeFileChooser(
+				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"),
+				IOResources.getString("ZIPChooserFilter"), IOResources.getString("ZIPChooserExtension"));
+		File selectedDirectory = chooser.showOpenDialog(stage);
 		if (selectedDirectory == null) {
 			return "";
 		} else {
@@ -135,26 +134,39 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private boolean isSelected(String selectedDirectory) {
-		if (selectedDirectory == "") {
-			return false;
-		} else {
-			return true;
+	private Game createGame(String path) {
+		try {
+			GameData gameData = new GameData();
+			return gameData.loadGame(path);
+		} catch (Exception e) {
+			// Thread this.
+			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NotAGame").get());
+			alert.show();
+			return null;
 		}
+	}
+
+	private void newGame() {
+		new AuthoringEnvironment(polyglot, IOResources);
 	}
 
 	private void editGame() {
-		String chosen = chooseGame();
-		if (isSelected(chosen)) {
-			new AuthoringEnvironment(chosen, polyglot, IOResources);
+		String path = chooseGame();
+		if (!path.equals("")) {
+			Game game = createGame(path);
+			if (game != null) {
+				new AuthoringEnvironment(game, polyglot, IOResources);
+			}
 		}
-
 	}
 
 	private void playGame() {
-		String chosen = chooseGame();
-		if (isSelected(chosen)) {
-			new MainMenu(new Loader(chosen, null), polyglot, IOResources);
+		String path = chooseGame();
+		if (!path.equals("")) {
+			Game game = createGame(path);
+			if (game != null) {
+				new MainMenu(game, new MediaManager(game, path, null), polyglot, IOResources);
+			}
 		}
 	}
 
@@ -169,10 +181,6 @@ public class StartMenu extends BorderPane {
 		Menu menu = new Menu();
 		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		return menu;
-	}
-
-	private boolean isOSX() {
-		return System.getProperty("os.name").equals("Mac OS X");
 	}
 
 	private Menu makeLanguageMenu() {
@@ -191,6 +199,10 @@ public class StartMenu extends BorderPane {
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NoInternet"));
 			alert.show();
 		}
+	}
+
+	private boolean isOSX() {
+		return System.getProperty("os.name").equals("Mac OS X");
 	}
 
 }
