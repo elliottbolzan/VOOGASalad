@@ -1,7 +1,7 @@
 .root {
     -fx-base: black;
     -fx-background: -fx-base;
-    -fx-accent: #e7b300;
+    -fx-accent: #e6c700;
     -fx-font-size: 10pt;
     -fx-font-family: Helvetica, Arial, sans-serif;
     -fx-focus-color: transparent;
@@ -46,6 +46,14 @@
     -fx-max-height: 0;
     -fx-pref-height: 0;
     -fx-min-height: 0;
+}
+
+.editor-table, .list-view {
+    -fx-control-inner-background: #606060;
+}
+
+.list-view {
+	-fx-background-radius: 2;
 }
 
 .tab-pane .tab-header-area .tab-header-background {

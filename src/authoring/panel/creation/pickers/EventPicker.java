@@ -43,6 +43,7 @@ public class EventPicker extends Picker {
 	@Override
 	public void createContainer() {
 		list = new ListView<Event>();
+		list.getStyleClass().add("picker-list");
 		Label placeholder = new Label();
 		placeholder.textProperty().bind(getWorkspace().getPolyglot().get("EmptyEvents"));
 		list.setPlaceholder(placeholder);
