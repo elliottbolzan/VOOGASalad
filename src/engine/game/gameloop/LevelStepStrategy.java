@@ -18,6 +18,7 @@ public class LevelStepStrategy implements StepStrategy {
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
+	private boolean screenFinished;
 
 	/**
 	 * Functionality executed when timeline for Screen with this
@@ -30,13 +31,18 @@ public class LevelStepStrategy implements StepStrategy {
 		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
+		this.screenFinished = false;
 		
 		levelManager.resetCurrentLevel();
 		info.getScorebar().resetTimerManager();
 		addInfoToEntities();
 		setupGameView();
 	}
-
+	
+	public void flagScreenFinished(){
+		screenFinished = true;
+	}
+	
 	/**
 	 * Called on every iteration of the Timeline.
 	 * 
