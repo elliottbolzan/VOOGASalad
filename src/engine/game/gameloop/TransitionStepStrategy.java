@@ -43,6 +43,10 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		}
 		frameNumber++;
 	}
+	
+	protected GraphicsEngine getEngine(){
+		return graphicsEngine;
+	}
 
 	protected abstract StepStrategy getNextStepStrategy(LevelManager levelManager);
 

@@ -12,6 +12,9 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	
 	public GameOverStepStrategy() {
 		super(RESOURCE_NAME);
+		if(this.getEngine().isHighscore()){
+			this.getEngine().endScreen();
+		}
 	}
 	
 	@Override

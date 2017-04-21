@@ -13,6 +13,12 @@ public class NextLevelStepStrategy extends TransitionStepStrategy {
 	
 	public NextLevelStepStrategy(LevelManager levelManager) {
 		super(levelManager.getLevelNumber() == levelManager.getLevels().size() ? RESOURCE_NAME_LAST_WIN : RESOURCE_NAME_REGULAR_WIN);
+		if(this.getEngine().isHighscore()){
+			this.getEngine().endScreen();
+		}
+		if(levelManager.getLevelNumber() == levelManager.getLevels().size()){
+			
+		}		
 	}
 	
 	@Override
