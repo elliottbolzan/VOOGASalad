@@ -171,7 +171,9 @@ public class Workspace extends View {
 		createGame();	
 		Stage stage = new Stage();
 		GameData loader = new GameData();
-		new BasicPlayer(stage, loader.loadGame(path), polyglot, IOResources);
+		Game testGame = loader.loadGame(path);
+		testGame.setTestGame(true);
+		new BasicPlayer(stage, game, polyglot, IOResources);
 		stage.show();
 	}
 	

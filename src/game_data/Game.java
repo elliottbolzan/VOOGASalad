@@ -28,7 +28,7 @@ public class Game {
 	private CameraEntity camera;
 	private ObservableList<Score> scores;
 	private List<Score> scoresBase;
-	
+	private boolean isTestGame = false;
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
 	 */
@@ -199,6 +199,22 @@ public class Game {
 		}
 		
 		return scoresBase;
+	}
+	
+	/**
+	 * 
+	 * @returns if the game is a test game
+	 */
+	public boolean isTestGame(){
+		return isTestGame;
+	}
+	
+	/**
+	 * sets if this game is a test game
+	 * @param value
+	 */
+	public void setTestGame(boolean value){
+		isTestGame = value;
 	}
 	
 	

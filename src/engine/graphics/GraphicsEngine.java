@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -23,14 +24,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import player.MediaManager;
 import player.menu.HighscoreMenu;
 import player.score.Overlay;
 import polyglot.Polyglot;
-import polyglot.PolyglotException;
 
 /**
- * @author Jay Doherty
+ * @author Jay Doherty (modified by Jesse Yue)
  * 
  * This class handles the graphics display for the GamePlayer. The GameEngine can set
  * the Entities to display, creates ImageViews for all of them, and then binds their coordinates
@@ -47,7 +46,7 @@ public class GraphicsEngine {
 	private Scorebar scorebar;
 	private Overlay overlay;
 	private Stage stage;
-	private Pane displayArea;
+	private BorderPane displayArea;
 	private Game game;
 	
 	public GraphicsEngine(Game game, Overlay overlay, Stage stage, Polyglot polyglot, ResourceBundle IOResources) {
@@ -112,7 +111,7 @@ public class GraphicsEngine {
 		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
 		label.setFont(new Font(displayArea.getWidth()/text.length()));
 		label.setAlignment(Pos.CENTER);
-		displayArea.getChildren().add(label);
+		displayArea.setCenter(label);
 	}
 	
 	/**
@@ -121,7 +120,7 @@ public class GraphicsEngine {
 	public void endScreen(){
 		this.clearView();
 		VBox container = new VBox(20);
-		String text = "Congratulations";
+		String text = "Congratulations!\nNew Highscore!";
 		Label congrats = new Label(text);
 		congrats.setFont(new Font(displayArea.getWidth()/text.length()));
 		TextField enterName = new TextField();
@@ -130,7 +129,8 @@ public class GraphicsEngine {
 		toHighscores.setOnAction(e -> saveName(enterName.getText()));
 		
 		container.getChildren().addAll(congrats, enterName, toHighscores);
-		displayArea.getChildren().add(container);
+		container.setAlignment(Pos.CENTER);
+		displayArea.setCenter(container);
 	}
 	
 	private void saveName(String name){
@@ -207,7 +207,7 @@ public class GraphicsEngine {
 	}
 	
 	private void setupView() {
-		displayArea = new Pane();
+		displayArea = new BorderPane();
 		displayArea.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 		HBox.setHgrow(displayArea, Priority.ALWAYS);
 		VBox.setVgrow(displayArea, Priority.ALWAYS);

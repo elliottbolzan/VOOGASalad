@@ -91,7 +91,7 @@ public class GameLoader {
 
 	private void addInfo(Game game, Document doc, String folderPath){
 		NodeList infoNode = doc.getElementsByTagName("GameInfo");
-		game.setName(infoNode.item(0).getAttributes().item(0).getNodeValue());
+		//game.setName(infoNode.item(0).getAttributes().item(0).getNodeValue());
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class GameLoader {
 	 */
 	private void addName(Game game, Document doc) {
 		NodeList nameNodes = doc.getElementsByTagName(rm.getNameTitle());
-		game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
+		//game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
 	}
 
 	/**

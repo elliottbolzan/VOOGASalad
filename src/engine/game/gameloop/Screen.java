@@ -1,7 +1,6 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
-import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

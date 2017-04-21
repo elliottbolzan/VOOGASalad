@@ -84,7 +84,7 @@ public class LoadMenu extends AbstractMenu {
 		});
 
 		container.getChildren().addAll(saveButtonContainer);
-		//this.setCenter(container);
+		this.setCenter(container);
 	}
 
 	@Override
