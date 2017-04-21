@@ -31,12 +31,17 @@ public class Canvas extends View
 	private List<EntityView> entities;
 
 	private ZoomablePane zoomablePane;
-	private ExpandablePane expandablePane;
+	ExpandablePane expandablePane;
 
 	public Canvas(Workspace workspace)
 	{
 		super(workspace.getPolyglot().get("CanvasTitle"));
 		setup();
+	}
+
+	public ExpandablePane getExpandablePane()
+	{
+		return expandablePane;
 	}
 
 	/**

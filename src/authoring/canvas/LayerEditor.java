@@ -44,6 +44,11 @@ public class LayerEditor extends View
 		setup();
 	}
 
+	public Canvas getCanvas()
+	{
+		return canvas;
+	}
+
 	@Override
 	public LayerEditor clone()
 	{
@@ -51,13 +56,11 @@ public class LayerEditor extends View
 		newLevel.setNumLayers(layerCount);
 		layers.keySet().stream().forEach(id -> {
 			for (EntityView entity : layers.get(id).getEntities()) {
-				System.out.println(entity.getEntity().getX() + " " + entity.getEntity().getY());
 				newLevel.addEntity(entity.getEntity(), entity.getEntity().getX(), entity.getEntity().getY(), id);
 			}
 			;
 
 		});
-		System.out.println(newLevel.layers.get(1).getEntities().size());
 		return newLevel;
 	}
 
@@ -257,7 +260,7 @@ public class LayerEditor extends View
 		addedEntity.getEntity().setZ(z);
 		setNumLayers(z);
 		layers.get(z).addEntity(addedEntity);
-		addedEntity.setOnMousePressed(e -> {
+		addedEntity.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			if (!e.isShiftDown() && !addedEntity.isSelected()) {
 				for (Layer layer : layers.values()) {
 					layer.getSelectedEntities().forEach(ent -> {

@@ -316,8 +316,6 @@ public class DragUtil
 				untiledHeight = newHeight;
 				untiledDragUp += y - mousey;
 
-				System.out.println(untiledDragUp);
-
 				if (untiledHeight >= tileSize) {
 					double newY = getTiledCoordinate(region.getTranslateY() - untiledDragUp);
 					if (newY > region.getTranslateY()) {
