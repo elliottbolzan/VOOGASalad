@@ -38,6 +38,13 @@ public class LevelStepStrategy implements StepStrategy {
 		info.getScorebar().resetTimerManager();
 		addInfoToEntities();
 		setupGameView();
+		
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			if(entity.getName().equals("Mario")){
+				 //System.out.println("x = " + entity.getX() + ", y = " + entity.getY());
+			}
+		}
+		//System.out.println("Entities in current level: " + levelManager.getCurrentLevel().getEntities());
 	}
 	
 	public void flagScreenFinished(StepStrategy nextStepStrategy){
