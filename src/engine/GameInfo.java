@@ -1,10 +1,9 @@
 package engine;
 
 import engine.game.LevelManager;
+import engine.game.gameloop.GameLoop;
 import engine.game.gameloop.ObservableBundle;
 import engine.game.gameloop.Scorebar;
-import engine.game.gameloop.Screen;
-import engine.game.gameloop.StepStrategy;
 import engine.graphics.GraphicsEngine;
 
 /**
@@ -14,58 +13,49 @@ import engine.graphics.GraphicsEngine;
  *         that observe that status (actions, events, etc).
  */
 public class GameInfo {
-	private ObservableBundle bundle; // immutable/no setter (same for whole
-										// game, only set once in constructor)
-	private StepStrategy currentStepStrategy;
-	private Scorebar scorebar; // immutable/no setter (same for whole game, only
-								// set once in constructor)
-	private GraphicsEngine graphicsEngine;	//immutable/no setter
-	private Screen currentScreen;
+	private ObservableBundle bundle; // immutable/no setter (same for whole game)
+	private Scorebar scorebar; // immutable/no setter (same for whole game)
+	private TimelineManipulator levelEnder;
 	private LevelManager levelManager;
+	private GraphicsEngine graphicsEngine;
 	
-
-	public GameInfo(ObservableBundle bundle, StepStrategy strategy, Scorebar scorebar, Screen screen, LevelManager levelManager, GraphicsEngine graphicsEngine) {
-		this.bundle = bundle;
-		this.currentStepStrategy = strategy;
-		this.scorebar = scorebar;
-		this.currentScreen = screen;
-		this.levelManager = levelManager;
-		this.graphicsEngine = graphicsEngine;
+	public GameInfo(GameLoop gameLoop) {
+		this.bundle = gameLoop.getObservableBundle();
+		this.scorebar = gameLoop.getScorebar();
+		this.levelEnder = gameLoop.getLevelEnder();
+		this.levelManager = gameLoop.getLevelManager();
+		this.graphicsEngine = gameLoop.getGraphicsEngine();
 	}
-
-	public void setCurrentStepStrategy(StepStrategy strategy) {
-		this.currentStepStrategy = strategy;
+	
+	public LevelManager getLevelManager(){
+		 return levelManager;
 	}
-
+	
 	public ObservableBundle getObservableBundle() {
 		return bundle;
 	}
-
-	public StepStrategy getCurrentStepStrategy() {
-		return currentStepStrategy;
+	
+	public TimelineManipulator getTimelineManipulator(){
+		return levelEnder;
 	}
+
 
 	public Scorebar getScorebar() {
 		return scorebar;
 	}
-
-	public Screen getCurrentScreen() {
-		return currentScreen;
-	}
-
-	public void setCurrentScreen(Screen currentScreen) {
-		this.currentScreen = currentScreen;
-	}
-
-	public void setLevelManager(LevelManager levelManager) {
-		this.levelManager = levelManager;
+	
+	public GraphicsEngine getGraphicsEngine(){
+		 return graphicsEngine;
 	}
 	
-	public LevelManager getLevelManager(){
-		return levelManager;
+	/*
+	NOTE TO OTHER PROGRAMMERS: Call this in LevelStepStrategy right before act(). Replaces any "setters"; if need to
+	set a field in GameInfo, add it here. Currently empty because all fields in GameInfo are currently immutable (set
+	only one through constructor. 
+	*/
+	/*
+	public void updateFieldsBeforeAct(LevelStepStrategy levelStepStrategy){
+		 
 	}
-	
-	public GraphicsEngine getGraphicsEngine() {
-		return this.graphicsEngine;
-	}
+	*/
 }

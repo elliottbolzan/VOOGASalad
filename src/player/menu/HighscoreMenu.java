@@ -1,11 +1,13 @@
 package player.menu;
 
 import java.util.ResourceBundle;
+
+import game_data.Game;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import player.Loader;
+import player.MediaManager;
 import player.PlayerView;
 import player.score.Score;
 import polyglot.Polyglot;
@@ -15,14 +17,12 @@ import polyglot.Polyglot;
  * @author Jesse
  *
  */
-public class HighscoreMenu extends PlayerView {
+public class HighscoreMenu extends AbstractMenu {
 	
 	private TableView<Score> scoreTable;	
-	private Loader loader;
 
-	public HighscoreMenu(Stage stage, Loader loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(polyglot, IOResources);
-		this.loader = loader;
+	public HighscoreMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, game, mediaManager, "HighscoreTitle", polyglot, IOResources);
 		setupScene();
 		loadScores();
 	}
@@ -36,7 +36,7 @@ public class HighscoreMenu extends PlayerView {
 	}
 	
 	private void loadScores(){
-		scoreTable.setItems(loader.getScores());
+		scoreTable.setItems(this.getGame().getScores());
 	}
 	
 	private TableColumn<Score, Integer> makeRankColumn(){
@@ -64,5 +64,9 @@ public class HighscoreMenu extends PlayerView {
 		return time;
 	}
 
-
+	@Override
+	public void addElements() {
+		// TODO Auto-generated method stub
+		
+	}
 }
