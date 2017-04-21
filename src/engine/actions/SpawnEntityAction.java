@@ -1,7 +1,5 @@
 package engine.actions;
 
-import java.lang.reflect.Constructor;
-
 import engine.Action;
 import engine.CollisionSide;
 import engine.Entity;

@@ -35,7 +35,7 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	private void buildStage() {
 		loadScene = stage.getScene();
-		gameScene = this.createScene(600, 600);
+		gameScene = this.createScene(600, 600);	//TODO: set scene size based on the game camera
 
 		stage.setScene(gameScene);
 		stage.centerOnScreen();
