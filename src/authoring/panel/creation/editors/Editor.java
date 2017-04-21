@@ -99,7 +99,6 @@ public abstract class Editor extends View {
 	@SuppressWarnings("unchecked")
 	private void createTable(GameObject object) {
 		table = new TableView<>();
-		table.getStyleClass().add("editor-table");
 		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		Label placeholder = new Label();
 		placeholder.textProperty().bind(workspace.getPolyglot().get("NoParameters"));

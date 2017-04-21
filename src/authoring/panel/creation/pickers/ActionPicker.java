@@ -43,7 +43,6 @@ public class ActionPicker extends Picker {
 	@Override
 	public void createContainer() {
 		list = new ListView<Action>();
-		list.getStyleClass().add("picker-list");
 		Label placeholder = new Label();
 		placeholder.textProperty().bind(getWorkspace().getPolyglot().get("EmptyActions"));
 		list.setPlaceholder(placeholder);

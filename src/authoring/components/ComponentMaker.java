@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
@@ -19,6 +20,7 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
@@ -226,10 +228,14 @@ public class ComponentMaker {
 		stage.centerOnScreen();
 	}
 	
-	public MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
+	public MenuItem makeMenuItem(String titleProperty, String keyCombination, EventHandler<ActionEvent> handler) {
 		MenuItem item = new MenuItem();
-		item.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		Label text = new Label();
+		text.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		text.setMinWidth(100);
+		item.setGraphic(text);
 		item.setOnAction(handler);
+	    item.setAccelerator(KeyCombination.keyCombination(keyCombination));
 		return item;
 	}
 

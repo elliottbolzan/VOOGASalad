@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
+import authoring.components.HTMLDisplay;
 import authoring.components.ProgressDialog;
 import authoring.panel.Panel;
 import engine.Entity;
@@ -21,7 +22,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
@@ -85,19 +88,25 @@ public class Workspace extends View {
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
 		pane.setDividerPositions(0.25);
-		pane.setPadding(new Insets(5));
+		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
 		setTop(makeMenuBar());
 		dragToAddEntity();
 	}
 
-	private MenuBar makeMenuBar() {
+	private VBox makeMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		Menu gameMenu = maker.makeMenu("GameMenu");
-		gameMenu.getItems().addAll(maker.makeMenuItem("Save", e -> save()),
-				maker.makeMenuItem("TestMenu", e -> test()));
-		menuBar.getMenus().addAll(gameMenu);
-		return menuBar;
+		gameMenu.getItems().addAll(maker.makeMenuItem("Save", "Ctrl+S", e -> save()),
+				maker.makeMenuItem("TestMenu", "Ctrl+T", e -> test()));
+		Menu settingsMenu = maker.makeMenu("SettingsTitle");
+		settingsMenu.getItems().add(maker.makeMenuItem("MusicSelect", "Ctrl+M", e -> chooseSong()));
+		Menu helpMenu = maker.makeMenu("HelpTitle");
+		helpMenu.getItems().add(maker.makeMenuItem("KeyCombinations", "Ctrl+H", e -> showKeyCombinations()));
+		menuBar.getMenus().addAll(gameMenu, settingsMenu, helpMenu);
+		VBox box = new VBox(menuBar);
+		box.setPadding(new Insets(15, 0, 0, 0));
+		return box;
 	}
 
 	private void dragToAddEntity() {
@@ -119,7 +128,6 @@ public class Workspace extends View {
 	private void load() {
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
-		panel.getSettings().load(game);
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
 	}
 
@@ -281,6 +289,22 @@ public class Workspace extends View {
 	 */
 	public void updateEntity(Entity entity) {
 		levelEditor.updateEntity(entity);
+	}
+	
+	private void chooseSong() {
+		String directory = System.getProperty("user.dir") + IOResources.getString("DefaultDirectory");
+		FileChooser chooser = maker.makeFileChooser(directory,
+				polyglot.get("MusicChooserTitle").get(),
+				IOResources.getString("MusicChooserExtensions"));
+		File selectedFile = chooser.showOpenDialog(getScene().getWindow());
+		if (selectedFile != null) {
+			game.setSongPath(selectedFile.getAbsolutePath());
+		}
+	}
+
+	private void showKeyCombinations() {
+		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
+		display.show();
 	}
 
 }

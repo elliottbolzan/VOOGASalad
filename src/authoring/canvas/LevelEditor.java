@@ -103,7 +103,6 @@ public class LevelEditor extends View {
 		tabPane.getTabs().add(newTab());
 		tabPane.getTabs().add(makePlusTab());
 		setCenter(tabPane);
-		this.addToolbar();
 		this.addKeyActions();
 	}
 
@@ -234,14 +233,6 @@ public class LevelEditor extends View {
 
 		});
 		return plusTab;
-	}
-
-	/**
-	 * Adds a help bar to the bottom of the LevelEditor.
-	 */
-	private void addToolbar() {
-		helpBar = new HelpBar(workspace);
-		setBottom(helpBar);
 	}
 
 }
