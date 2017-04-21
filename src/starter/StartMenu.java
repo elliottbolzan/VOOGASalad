@@ -104,9 +104,9 @@ public class StartMenu extends BorderPane {
 
 	private MenuBar createMenu() {
 		MenuBar menuBar = new MenuBar();
-		Menu menuFile = makeMenu("GameMenu");
-		menuFile.getItems().addAll(makeMenuItem("NewButton", e -> newGame()),
-				makeMenuItem("EditButton", e -> editGame()), makeMenuItem("PlayButton", e -> playGame()));
+		Menu menuFile = maker.makeMenu("GameMenu");
+		menuFile.getItems().addAll(maker.makeMenuItem("NewButton", e -> newGame()),
+				maker.makeMenuItem("EditButton", e -> editGame()), maker.makeMenuItem("PlayButton", e -> playGame()));
 		Menu languageMenu = makeLanguageMenu();
 		menuBar.getMenus().addAll(menuFile, languageMenu);
 		menuBar.setOpacity(0);
@@ -170,22 +170,9 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
-		MenuItem item = new MenuItem();
-		item.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
-		item.setOnAction(handler);
-		return item;
-	}
-
-	private Menu makeMenu(String titleProperty) {
-		Menu menu = new Menu();
-		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
-		return menu;
-	}
-
 	private Menu makeLanguageMenu() {
-		Menu languageMenu = makeMenu("LanguageMenu");
-		MenuItem pickLanguage = makeMenuItem("PickLanguageItem", e -> checkForInternet());
+		Menu languageMenu = maker.makeMenu("LanguageMenu");
+		MenuItem pickLanguage = maker.makeMenuItem("PickLanguageItem", e -> checkForInternet());
 		languageMenu.getItems().add(pickLanguage);
 		return languageMenu;
 	}

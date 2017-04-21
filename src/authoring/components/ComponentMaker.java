@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
@@ -222,6 +224,19 @@ public class ComponentMaker {
 		stage.setScene(scene);
 		stage.show();
 		stage.centerOnScreen();
+	}
+	
+	public MenuItem makeMenuItem(String titleProperty, EventHandler<ActionEvent> handler) {
+		MenuItem item = new MenuItem();
+		item.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		item.setOnAction(handler);
+		return item;
+	}
+
+	public Menu makeMenu(String titleProperty) {
+		Menu menu = new Menu();
+		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		return menu;
 	}
 
 }

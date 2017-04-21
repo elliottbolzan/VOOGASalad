@@ -71,10 +71,6 @@ public class Panel extends CollapsibleView {
 	 */
 	private void setup() {
 		setCenter(workspace.getMaker().makeAccordion(subviews));
-		Button save = workspace.getMaker().makeButton("SaveButtonSettings", e -> workspace.save(), true);
-		Button test = workspace.getMaker().makeButton("TestButtonSettings", e -> workspace.test(), true);
-		//test.setDisable(!workspace.pathExists());
-		setBottom(new VBox(save, test));
 	}
 
 	/**

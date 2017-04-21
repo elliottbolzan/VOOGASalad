@@ -16,6 +16,8 @@ import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -83,9 +85,19 @@ public class Workspace extends View {
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
 		pane.setDividerPositions(0.25);
-		setPadding(new Insets(5));
+		pane.setPadding(new Insets(5));
 		setCenter(pane);
+		setTop(makeMenuBar());
 		dragToAddEntity();
+	}
+
+	private MenuBar makeMenuBar() {
+		MenuBar menuBar = new MenuBar();
+		Menu gameMenu = maker.makeMenu("GameMenu");
+		gameMenu.getItems().addAll(maker.makeMenuItem("Save", e -> save()),
+				maker.makeMenuItem("TestMenu", e -> test()));
+		menuBar.getMenus().addAll(gameMenu);
+		return menuBar;
 	}
 
 	private void dragToAddEntity() {
