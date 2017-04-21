@@ -1,173 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="MatthewDieTest"/><Levels><level><Entities>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="MatthewMultilevel"/><Levels><level><Entities>
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>375.0</x>
-  <y>175.0</y>
-  <width>200.0</width>
-  <height>200.0</height>
-  <zIndex>1.0</zIndex>
-  <name>DieBlock</name>
-  <imagePath>resources\DieBlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
-  <events>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">D</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.DieAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.DieAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-  </events>
-</engine.entities.CharacterEntity>
-</Entity>
-<Entity>
-<engine.entities.CharacterEntity>
-  <EntityType>Character</EntityType>
-  <x>175.0</x>
-  <y>350.0</y>
-  <width>125.0</width>
-  <height>150.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Monster</name>
-  <imagePath>resources\MonsterImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
-  <events>
-    <engine.events.TopCollisionEvent>
-      <params>
-        <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Mario</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.DieAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.DieAction>
-      </actions>
-      <collision>
-        <firstRelativeToSecond>TOP</firstRelativeToSecond>
-      </collision>
-    </engine.events.TopCollisionEvent>
-    <engine.events.LeftCollisionEvent>
-      <params>
-        <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Mario</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.DieAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.DieAction>
-      </actions>
-      <collision>
-        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
-      </collision>
-    </engine.events.LeftCollisionEvent>
-    <engine.events.BottomCollisionEvent>
-      <params>
-        <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Mario</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.DieAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.DieAction>
-      </actions>
-      <collision>
-        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-      </collision>
-    </engine.events.BottomCollisionEvent>
-    <engine.events.RightCollisionEvent>
-      <params>
-        <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Mario</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.DieAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.DieAction>
-      </actions>
-      <collision>
-        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
-      </collision>
-    </engine.events.RightCollisionEvent>
-  </events>
-</engine.entities.CharacterEntity>
-</Entity>
-<Entity>
-<engine.entities.CharacterEntity>
-  <EntityType>Character</EntityType>
-  <x>375.0</x>
-  <y>375.0</y>
-  <width>200.0</width>
-  <height>200.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block2</name>
-  <imagePath>resources\Block2Image.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
-  <events>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">N</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.NextLevelAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.NextLevelAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-  </events>
-</engine.entities.CharacterEntity>
-</Entity>
-<Entity>
-<engine.entities.CharacterEntity>
-  <EntityType>Character</EntityType>
-  <x>25.0</x>
+  <x>75.0</x>
   <y>325.0</y>
   <width>75.0</width>
   <height>125.0</height>
@@ -195,7 +30,7 @@
             <engine.Parameter>
               <name>Move amount</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">10.0</obj>
+              <obj class="double">15.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -217,7 +52,7 @@
             <engine.Parameter>
               <name>Move amount</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">-10.0</obj>
+              <obj class="double">-15.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -260,10 +95,105 @@
 </engine.entities.CharacterEntity>
 </Entity>
 <Entity>
+<engine.entities.CharacterEntity>
+  <EntityType>Character</EntityType>
+  <x>75.0</x>
+  <y>25.0</y>
+  <width>100.0</width>
+  <height>125.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Monster</name>
+  <imagePath>resources\MonsterImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>1.0</yAcceleration>
+  <events>
+    <engine.events.LeftCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
+      </collision>
+    </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
+    <engine.events.TopCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>TOP</firstRelativeToSecond>
+      </collision>
+    </engine.events.TopCollisionEvent>
+  </events>
+</engine.entities.CharacterEntity>
+</Entity>
+<Entity>
 <engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>425.0</x>
-  <y>50.0</y>
+  <x>275.0</x>
+  <y>25.0</y>
   <width>100.0</width>
   <height>100.0</height>
   <zIndex>1.0</zIndex>
@@ -294,6 +224,25 @@
         <firstRelativeToSecond>LEFT</firstRelativeToSecond>
       </collision>
     </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
     <engine.events.BottomCollisionEvent>
       <params>
         <engine.Parameter>
@@ -332,25 +281,6 @@
         <firstRelativeToSecond>TOP</firstRelativeToSecond>
       </collision>
     </engine.events.TopCollisionEvent>
-    <engine.events.RightCollisionEvent>
-      <params>
-        <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Mario</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.BlockEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.NextLevelAction>
-          <params/>
-          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
-        </engine.actions.NextLevelAction>
-      </actions>
-      <collision>
-        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
-      </collision>
-    </engine.events.RightCollisionEvent>
   </events>
 </engine.entities.BlockEntity>
 </Entity>
@@ -358,13 +288,13 @@
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>375.0</x>
-  <y>175.0</y>
-  <width>200.0</width>
-  <height>200.0</height>
+  <x>75.0</x>
+  <y>325.0</y>
+  <width>75.0</width>
+  <height>125.0</height>
   <zIndex>1.0</zIndex>
-  <name>DieBlock</name>
-  <imagePath>resources\DieBlockImage.png</imagePath>
+  <name>Mario</name>
+  <imagePath>resources\MarioImage.png</imagePath>
   <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
@@ -376,7 +306,102 @@
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">D</obj>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ShiftHorizontalAction>
+          <params>
+            <engine.Parameter>
+              <name>Move amount</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">15.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ShiftHorizontalAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ShiftHorizontalAction>
+          <params>
+            <engine.Parameter>
+              <name>Move amount</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">-15.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ShiftHorizontalAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">UP</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.JumpAction>
+          <params>
+            <engine.Parameter>
+              <name>Initial Jump Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">15.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.JumpAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.MoveAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.MoveAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+  </events>
+</engine.entities.CharacterEntity>
+</Entity>
+<Entity>
+<engine.entities.CharacterEntity>
+  <EntityType>Character</EntityType>
+  <x>200.0</x>
+  <y>125.0</y>
+  <width>100.0</width>
+  <height>125.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Monster</name>
+  <imagePath>resources\MonsterImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>1.0</yAcceleration>
+  <events>
+    <engine.events.LeftCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
         </engine.Parameter>
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
@@ -386,49 +411,170 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.DieAction>
       </actions>
-    </engine.events.KeyPressEvent>
-  </events>
-</engine.entities.CharacterEntity>
-</Entity>
-<Entity>
-<engine.entities.CharacterEntity>
-  <EntityType>Character</EntityType>
-  <x>375.0</x>
-  <y>375.0</y>
-  <width>200.0</width>
-  <height>200.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Block2</name>
-  <imagePath>resources\Block2Image.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
-  <events>
-    <engine.events.KeyPressEvent>
+      <collision>
+        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
+      </collision>
+    </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
       <params>
         <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">N</obj>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
         </engine.Parameter>
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.NextLevelAction>
+        <engine.actions.DieAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.NextLevelAction>
+        </engine.actions.DieAction>
       </actions>
-    </engine.events.KeyPressEvent>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
+    <engine.events.TopCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>TOP</firstRelativeToSecond>
+      </collision>
+    </engine.events.TopCollisionEvent>
   </events>
 </engine.entities.CharacterEntity>
 </Entity>
 <Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>225.0</x>
+  <y>450.0</y>
+  <width>100.0</width>
+  <height>100.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Coin</name>
+  <imagePath>resources\CoinImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events>
+    <engine.events.LeftCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
+      </collision>
+    </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
+    <engine.events.TopCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>TOP</firstRelativeToSecond>
+      </collision>
+    </engine.events.TopCollisionEvent>
+  </events>
+</engine.entities.BlockEntity>
+</Entity>
+</Entities></level><level><Entities>
+<Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>25.0</x>
+  <x>75.0</x>
   <y>325.0</y>
   <width>75.0</width>
   <height>125.0</height>
@@ -456,7 +602,7 @@
             <engine.Parameter>
               <name>Move amount</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">10.0</obj>
+              <obj class="double">15.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -478,7 +624,7 @@
             <engine.Parameter>
               <name>Move amount</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">-10.0</obj>
+              <obj class="double">-15.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -523,38 +669,19 @@
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>175.0</x>
-  <y>175.0</y>
+  <x>275.0</x>
+  <y>350.0</y>
   <width>100.0</width>
-  <height>175.0</height>
+  <height>125.0</height>
   <zIndex>1.0</zIndex>
-  <name>Peach</name>
-  <imagePath>resources\PeachImage.png</imagePath>
+  <name>Monster</name>
+  <imagePath>resources\MonsterImage.png</imagePath>
   <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
   <yAcceleration>1.0</yAcceleration>
   <events>
-    <engine.events.BottomCollisionEvent>
-      <params>
-        <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Mario</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.NextLevelAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.NextLevelAction>
-      </actions>
-      <collision>
-        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-      </collision>
-    </engine.events.BottomCollisionEvent>
     <engine.events.LeftCollisionEvent>
       <params>
         <engine.Parameter>
@@ -565,10 +692,10 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.NextLevelAction>
+        <engine.actions.DieAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.NextLevelAction>
+        </engine.actions.DieAction>
       </actions>
       <collision>
         <firstRelativeToSecond>LEFT</firstRelativeToSecond>
@@ -584,15 +711,34 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.NextLevelAction>
+        <engine.actions.DieAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.NextLevelAction>
+        </engine.actions.DieAction>
       </actions>
       <collision>
         <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
       </collision>
     </engine.events.RightCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
     <engine.events.TopCollisionEvent>
       <params>
         <engine.Parameter>
@@ -603,10 +749,10 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.NextLevelAction>
+        <engine.actions.DieAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.NextLevelAction>
+        </engine.actions.DieAction>
       </actions>
       <collision>
         <firstRelativeToSecond>TOP</firstRelativeToSecond>
@@ -616,12 +762,12 @@
 </engine.entities.CharacterEntity>
 </Entity>
 <Entity>
-<engine.entities.CharacterEntity>
-  <EntityType>Character</EntityType>
-  <x>25.0</x>
-  <y>50.0</y>
-  <width>125.0</width>
-  <height>125.0</height>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>275.0</x>
+  <y>75.0</y>
+  <width>75.0</width>
+  <height>100.0</height>
   <zIndex>1.0</zIndex>
   <name>Coin</name>
   <imagePath>resources\CoinImage.png</imagePath>
@@ -629,7 +775,7 @@
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
+  <yAcceleration>0.0</yAcceleration>
   <events>
     <engine.events.LeftCollisionEvent>
       <params>
@@ -639,29 +785,86 @@
           <obj class="string">Mario</obj>
         </engine.Parameter>
       </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
       <actions>
         <engine.actions.NextLevelAction>
           <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
         </engine.actions.NextLevelAction>
       </actions>
       <collision>
         <firstRelativeToSecond>LEFT</firstRelativeToSecond>
       </collision>
     </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
+    <engine.events.TopCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>TOP</firstRelativeToSecond>
+      </collision>
+    </engine.events.TopCollisionEvent>
   </events>
-</engine.entities.CharacterEntity>
+</engine.entities.BlockEntity>
 </Entity>
-</Entities></level><level><Entities>
+</Entities></level></Levels><Defaults><Entities>
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>25.0</x>
-  <y>325.0</y>
+  <x>0.0</x>
+  <y>0.0</y>
   <width>75.0</width>
   <height>125.0</height>
-  <zIndex>1.0</zIndex>
+  <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources\MarioImage.png</imagePath>
   <isVisible>true</isVisible>
@@ -685,7 +888,7 @@
             <engine.Parameter>
               <name>Move amount</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">10.0</obj>
+              <obj class="double">15.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -707,7 +910,7 @@
             <engine.Parameter>
               <name>Move amount</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">-10.0</obj>
+              <obj class="double">-15.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
@@ -752,13 +955,13 @@
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>175.0</x>
-  <y>125.0</y>
+  <x>0.0</x>
+  <y>0.0</y>
   <width>100.0</width>
   <height>125.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Coin</name>
-  <imagePath>resources\CoinImage.png</imagePath>
+  <zIndex>0.0</zIndex>
+  <name>Monster</name>
+  <imagePath>resources\MonsterImage.png</imagePath>
   <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
@@ -775,40 +978,78 @@
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.NextLevelAction>
+        <engine.actions.DieAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.NextLevelAction>
+        </engine.actions.DieAction>
       </actions>
       <collision>
         <firstRelativeToSecond>LEFT</firstRelativeToSecond>
       </collision>
     </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
+    <engine.events.TopCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.DieAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.DieAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>TOP</firstRelativeToSecond>
+      </collision>
+    </engine.events.TopCollisionEvent>
   </events>
 </engine.entities.CharacterEntity>
 </Entity>
-</Entities></level></Levels><Defaults><Entities>
 <Entity>
-<engine.entities.CharacterEntity>
-  <EntityType>Character</EntityType>
-  <x>0.0</x>
-  <y>0.0</y>
-  <width>0.0</width>
-  <height>0.0</height>
-  <zIndex>0.0</zIndex>
-  <name>Mario</name>
-  <imagePath>resources\MarioImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
-  <events/>
-</engine.entities.CharacterEntity>
-</Entity>
-<Entity>
-<engine.entities.CharacterEntity>
-  <EntityType>Character</EntityType>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
   <x>0.0</x>
   <y>0.0</y>
   <width>216.0</width>
@@ -820,7 +1061,7 @@
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
+  <yAcceleration>0.0</yAcceleration>
   <events>
     <engine.events.LeftCollisionEvent>
       <params>
@@ -830,19 +1071,91 @@
           <obj class="string">Mario</obj>
         </engine.Parameter>
       </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <entity class="engine.entities.CharacterEntity">
+        <EntityType>Character</EntityType>
+        <x>0.0</x>
+        <y>0.0</y>
+        <width>216.0</width>
+        <height>216.0</height>
+        <zIndex>0.0</zIndex>
+        <name>Coin</name>
+        <imagePath>file:/C:/Users/Matthew/Documents/SophomoreSpring/CS308/workspace/voogasalad_duwaldorf/data/resources/coin.png</imagePath>
+        <isVisible>true</isVisible>
+        <xSpeed>0.0</xSpeed>
+        <ySpeed>0.0</ySpeed>
+        <xAcceleration>0.0</xAcceleration>
+        <yAcceleration>1.0</yAcceleration>
+        <events reference="../../.."/>
+      </entity>
       <actions>
         <engine.actions.NextLevelAction>
           <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../entity"/>
         </engine.actions.NextLevelAction>
       </actions>
       <collision>
         <firstRelativeToSecond>LEFT</firstRelativeToSecond>
       </collision>
     </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../engine.events.LeftCollisionEvent/entity"/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../engine.events.LeftCollisionEvent/entity"/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../engine.events.LeftCollisionEvent/entity"/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../engine.events.LeftCollisionEvent/entity"/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
+    <engine.events.TopCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../engine.events.LeftCollisionEvent/entity"/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../engine.events.LeftCollisionEvent/entity"/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>TOP</firstRelativeToSecond>
+      </collision>
+    </engine.events.TopCollisionEvent>
   </events>
-</engine.entities.CharacterEntity>
+</engine.entities.BlockEntity>
 </Entity>
 </Entities></Defaults><Camera><engine.entities.CameraEntity>
   <EntityType>Camera</EntityType>
