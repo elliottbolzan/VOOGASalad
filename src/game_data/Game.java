@@ -144,20 +144,35 @@ public class Game {
 	 * @param score the score when game ended
 	 * @param time  the time remaining when game ended
 	 */
-	public void setScore(String score, String time, int timeValue){
+	public void setScore(String score, String time, int timeValue, String name){
 		for(int i = 0; i < scoresBase.size(); i++){
-			if(Integer.parseInt(score) > Integer.parseInt(scoresBase.get(i).getScore())){
-				shiftScores(i, score, time);	
+			if(isHighscore(score, timeValue, i)){
+				shiftScores(i, score, time, name);
 				break;
-			}else if(Integer.parseInt(score) == Integer.parseInt(scoresBase.get(i).getScore()) &&
-					timeValue > scoresBase.get(i).getTimeValue()){
-				shiftScores(i, score, time);
-				break;
-			}		
+			}	
 		}
 	}
 	
-	private void shiftScores(int i, String score, String time){
+	/**
+	 * 
+	 * @param score
+	 * @param timeValue
+	 * @param i
+	 * @returns boolean for if the new score is a highscore
+	 */
+	public boolean isHighscore(String score, int timeValue, int i){
+		if(Integer.parseInt(score) > Integer.parseInt(scoresBase.get(i).getScore())){
+			return true;
+		}else if(Integer.parseInt(score) == Integer.parseInt(scoresBase.get(i).getScore()) &&
+				timeValue > scoresBase.get(i).getTimeValue()){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+	
+	private void shiftScores(int i, String score, String time, String name){
 		//Shift scores down
 		for(int j = i; j < scoresBase.size() - 1; j++){
 			scoresBase.get(j+1).setScore(scoresBase.get(j).getScore());
@@ -166,6 +181,7 @@ public class Game {
 		//Replace score
 		scoresBase.get(i).setScore(score);
 		scoresBase.get(i).setTime(time);
+		scoresBase.get(i).setName(name);
 	}
 	
 	/**

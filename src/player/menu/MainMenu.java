@@ -26,7 +26,7 @@ public class MainMenu extends AbstractMenu {
 		Tile playTile = new Tile(getPolyglot().get("StartButton", Case.TITLE), "red", e -> getStage()
 				.setScene(new LoadMenu(getStage(), getGame(), getLoader(),  getPolyglot(), getResources()).createScene(420, 600)));
 		Tile scoresTile = new Tile(getPolyglot().get("Highscores", Case.TITLE), "orange", e -> getStage()
-				.setScene(new HighscoreMenu(getStage(), getGame(), getLoader(), getPolyglot(), getResources()).createScene(420, 600)));
+				.setScene(new HighscoreMenu(getStage(), getGame(), getPolyglot(), getResources()).createScene(420, 600)));
 		Tile achievementsTile = new Tile(getPolyglot().get("AchievementsButton", Case.TITLE), "yellow", e -> getStage()
 				.setScene(new AchievementsMenu(getStage(), getGame(), getLoader(), getPolyglot(), getResources()).createScene(420, 600)));
 		Tile optionsTile = new Tile(getPolyglot().get("OptionsButton", Case.TITLE), "green", e -> getStage()

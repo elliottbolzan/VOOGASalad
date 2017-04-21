@@ -1,9 +1,9 @@
 package engine.graphics;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import engine.entities.CameraEntity;
 import engine.Entity;
@@ -11,7 +11,9 @@ import engine.game.gameloop.Scorebar;
 import javafx.geometry.Pos;
 import game_data.Game;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -20,7 +22,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import player.MediaManager;
+import player.menu.HighscoreMenu;
 import player.score.Overlay;
+import polyglot.Polyglot;
+import polyglot.PolyglotException;
 
 /**
  * @author Jay Doherty
@@ -31,21 +38,28 @@ import player.score.Overlay;
  * on screen. This class also holds the Scorebar (which has time/lives/score) and the Camera.
  */
 public class GraphicsEngine {
+	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 	
 	private Collection<Entity> entities;
 	private Collection<ImageView> nodes;
 	private CameraEntity camera;
 	private Scorebar scorebar;
 	private Overlay overlay;
-	
+	private Stage stage;
 	private Pane displayArea;
+	private Game game;
 	
-	public GraphicsEngine(Game game, Overlay overlay) {
+	public GraphicsEngine(Game game, Overlay overlay, Stage stage, Polyglot polyglot, ResourceBundle IOResources) {
 		this.camera = new CameraEntity();
 		this.entities = new ArrayList<Entity>();
 		this.nodes = new ArrayList<ImageView>();
 		this.scorebar = new Scorebar(game);
 		this.overlay = overlay;
+		this.stage = stage;
+		this.game = game;
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
 		this.setupView();
 	}
 	
@@ -99,6 +113,33 @@ public class GraphicsEngine {
 		label.setFont(new Font(displayArea.getWidth()/text.length()));
 		label.setAlignment(Pos.CENTER);
 		displayArea.getChildren().add(label);
+	}
+	
+	/**
+	 * Show Highscore and ability to share to Facebook
+	 */
+	public void endScreen(){
+		this.clearView();
+		VBox container = new VBox(20);
+		String text = "Congratulations";
+		Label congrats = new Label(text);
+		congrats.setFont(new Font(displayArea.getWidth()/text.length()));
+		TextField enterName = new TextField();
+		enterName.setPromptText("Your name here");
+		Button toHighscores = new Button("Continue");
+		toHighscores.setOnAction(e -> saveName(enterName.getText()));
+		
+		container.getChildren().addAll(congrats, enterName, toHighscores);
+		displayArea.getChildren().add(container);
+	}
+	
+	private void saveName(String name){
+		getScorebar().saveFinalScore(name);
+		stage.setScene(new HighscoreMenu(stage, game, polyglot, IOResources).createScene(420, 600));
+	}
+	
+	public boolean isHighscore(){
+		return this.getScorebar().isHighscore();
 	}
 	
 	/**
