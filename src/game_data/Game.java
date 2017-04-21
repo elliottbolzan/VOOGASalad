@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import player.score.Score;
 
 /**
- * @author Elliott Bolzan (Modified by Jesse Yue)
+ * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano)
  * 
  *         This class represents a Game. It is designed to be shared through
  *         submodules: the GameData, Game Authoring Environment, Game Player and
@@ -43,6 +43,27 @@ public class Game {
 		setAchievements("");
 		camera = new CameraEntity();
 		scores = FXCollections.observableList(addDefaults());
+	}
+	
+	/**
+	 * Create a deepcopy of List<Level> by copying clones of the entities in each
+	 * constituent Level. Uses GameObject's clone() method to accomplish this.
+	 * @return the clone of levels
+	 */
+	public List<Level> cloneLevels(){
+		 List<Level> cloneOfLevels = new ArrayList<Level>();
+		 for(Level level : levels){
+			  cloneOfLevels.add(cloneLevel(level));
+		 }
+		 return cloneOfLevels;
+	}
+	
+	public Level cloneLevel(Level level){
+		  Level cloneOfLevel = new Level();
+		  for(Entity entity : level.getEntities()){
+			  cloneOfLevel.addEntity(entity.clone());
+		  }
+		  return cloneOfLevel;
 	}
 	
 	/**
