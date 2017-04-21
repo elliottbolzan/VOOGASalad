@@ -196,41 +196,6 @@
   </events>
 </engine.entities.CharacterEntity>
 </Entity>
-<Entity>
-<engine.entities.CameraEntity>
-  <EntityType>Camera</EntityType>
-  <x>0.0</x>
-  <y>75.0</y>
-  <width>275.0</width>
-  <height>325.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Camera</name>
-  <imagePath>resources\CameraImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events>
-    <engine.events.AlwaysEvent>
-      <params/>
-      <entity class="engine.entities.CameraEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.FollowAction>
-          <params>
-            <engine.Parameter>
-              <name>Leader Entity</name>
-              <clazz>java.lang.String</clazz>
-              <obj class="string">Block</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
-        </engine.actions.FollowAction>
-      </actions>
-    </engine.events.AlwaysEvent>
-  </events>
-</engine.entities.CameraEntity>
-</Entity>
 </Entities></level></Levels><Defaults><Entities>
 <Entity>
 <engine.entities.BlockEntity>
