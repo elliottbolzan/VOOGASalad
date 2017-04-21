@@ -1,7 +1,7 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
-import engine.LevelEnder;
+import engine.TimelineManipulator;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import game_data.Game;
@@ -16,19 +16,22 @@ import player.score.Overlay;
  *
  */
 public class GameLoop {
+	private ObservableBundle observableBundle;
+	private Scorebar scorebar;
+	private TimelineManipulator levelEnder;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	
 	public GameLoop(Scene gameScene, Game game, Overlay overlay){
 		graphicsEngine = new GraphicsEngine(game, overlay);
 		graphicsEngine.setCamera(game.getCamera());
-		Scorebar scorebar = graphicsEngine.getScorebar();
-		ObservableBundle observableBundle = new ObservableBundle(gameScene);
+		scorebar = graphicsEngine.getScorebar();
+		observableBundle = new ObservableBundle(gameScene);
 		
 		levelManager = new LevelManager(game, new LevelStepStrategy());
 		levelManager.loadAllSavedLevels();
-		LevelEnder levelEnder = new LevelEnder(levelManager, graphicsEngine);
-		GameInfo info = new GameInfo(observableBundle, scorebar, levelEnder);
+		levelEnder = new TimelineManipulator(levelManager, graphicsEngine);
+		GameInfo info = new GameInfo(this);
 		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
 		levelManager.setCurrentScreen(level1Screen);
 		levelEnder.setInfo(info);
@@ -44,5 +47,25 @@ public class GameLoop {
 	
 	public Pane getGameView() {
 		return graphicsEngine.getView();
+	}
+	
+	public ObservableBundle getObservableBundle(){
+		return observableBundle;
+	}
+	
+	public Scorebar getScorebar(){
+		return scorebar;
+	}
+	
+	public TimelineManipulator getLevelEnder(){
+		return levelEnder;
+	}
+	
+	public LevelManager getLevelManager(){
+		return levelManager;
+	}
+	
+	public GraphicsEngine getGraphicsEngine(){
+		return graphicsEngine;
 	}
 }
