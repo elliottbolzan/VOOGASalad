@@ -1,6 +1,5 @@
 package engine.graphics;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,6 +34,7 @@ public class GraphicsEngine {
 	private Collection<Entity> entities;
 	private Collection<ImageView> nodes;
 	private CameraEntity camera;
+	
 	private Scorebar scorebar;
 	private Overlay overlay;
 	

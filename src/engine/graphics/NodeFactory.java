@@ -1,8 +1,6 @@
 package engine.graphics;
 
 import engine.Entity;
-import engine.EntityInterface;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -12,10 +10,6 @@ import javafx.scene.image.ImageView;
  * This class takes game engine Entities and returns a corresponding JavaFX ImageView to display on screen.
  */
 public class NodeFactory implements NodeFactoryInterface {
-	
-	public NodeFactory() {
-
-	}
 
 	@Override
 	public ImageView getNodeFromEntity(Entity entity) {
