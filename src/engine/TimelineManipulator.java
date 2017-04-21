@@ -62,16 +62,9 @@ public class TimelineManipulator {
 	 */
 
 	public void die(boolean gameOver) {
-		System.out.println("Before: " + info.getObservableBundle().getTimerObservable());
-		try{
-			for(Entity entity : levelManager.getCurrentLevel().getEntities()){
-				info.getObservableBundle().detachEntityFromAll(entity);
-			}
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			info.getObservableBundle().detachEntityFromAll(entity);
 		}
-		catch(ArrayIndexOutOfBoundsException e){
-			System.out.println("Array Index Out of Bounds Exception caught");
-		}
-		System.out.println("After: " + info.getObservableBundle().getTimerObservable());
 		StepStrategy nextStepStrategy;
 		if (gameOver) {
 			nextStepStrategy = new GameOverStepStrategy();
@@ -84,7 +77,6 @@ public class TimelineManipulator {
 	
 	private void moveToNextScreen(StepStrategy nextStepStrategy) {
 		levelManager.getCurrentScreen().getTimeline().stop();
-		System.out.println("stopped level timeline");
 		((LevelStepStrategy) levelManager.getCurrentStepStrategy()).flagScreenFinished(nextStepStrategy);
 	}
 	
