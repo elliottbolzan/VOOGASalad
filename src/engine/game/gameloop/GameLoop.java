@@ -1,6 +1,7 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
+import engine.LevelEnder;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import game_data.Game;
@@ -15,45 +16,33 @@ import player.score.Overlay;
  *
  */
 public class GameLoop {
-	private ObservableBundle observableBundle;
 	private LevelManager levelManager;
-	private Screen level1Screen;
 	private GraphicsEngine graphicsEngine;
-	private GameInfo info;
 	
 	public GameLoop(Scene gameScene, Game game, Overlay overlay){
-		//Instantiate GraphicsEngine
 		graphicsEngine = new GraphicsEngine(game, overlay);
-		
-		//TODO: what happens if level changes, camera gets reset??
 		graphicsEngine.setCamera(game.getCamera());
-		
-		//Setup scorebar
 		Scorebar scorebar = graphicsEngine.getScorebar();
-	
-		// Setup Observables - at beginning of entire game only
-		observableBundle = new ObservableBundle();
+		ObservableBundle observableBundle = new ObservableBundle(gameScene);
 		
-		// Setup levelManager
-		levelManager = new LevelManager(game);
-		
-		//Setup the first level screen
-		StepStrategy strategy = new LevelStepStrategy();
-		GameInfo info = new GameInfo(observableBundle, strategy, scorebar, level1Screen, levelManager, graphicsEngine);
-		this.info = info;
-		level1Screen = new Screen(strategy, gameScene, graphicsEngine, info);
+		levelManager = new LevelManager(game, new LevelStepStrategy());
+		levelManager.loadAllSavedLevels();
+		LevelEnder levelEnder = new LevelEnder(levelManager, graphicsEngine);
+		GameInfo info = new GameInfo(observableBundle, scorebar, levelEnder);
+		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
+		levelManager.setCurrentScreen(level1Screen);
+		levelEnder.setInfo(info);
 	}
 	
 	public void startTimeline(){
-		info.getCurrentScreen().start();
+		levelManager.getCurrentScreen().start();
 	}
 	
 	public void pauseTimeline(){
-		info.getCurrentScreen().pause();
+		levelManager.getCurrentScreen().pause();
 	}
 	
 	public Pane getGameView() {
 		return graphicsEngine.getView();
 	}
 }
-

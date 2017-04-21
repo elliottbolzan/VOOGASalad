@@ -15,12 +15,13 @@ public class InputObservable extends EventObservable {
 	private KeyCode lastPressedKey;
 	private MouseButton lastPressedMouseButton;
 	private Point2D lastPressedCoordinates;
+	private Scene gameScene;
 	
 	private boolean keyPressToProcess;
 	private boolean keyReleaseToProcess;
 	private boolean mouseClickToProcess;
 
-	public InputObservable() {
+	public InputObservable(Scene gameScene) {
 		super();
 		lastPressedKey = null;
 		lastPressedMouseButton = null;
@@ -28,6 +29,7 @@ public class InputObservable extends EventObservable {
 		keyPressToProcess = false;
 		keyReleaseToProcess = false;
 		mouseClickToProcess = false;
+		this.gameScene = gameScene;
 	}
 
 	// For Nikita to call in InputEvent's act()
@@ -67,7 +69,7 @@ public class InputObservable extends EventObservable {
 		mouseClickToProcess = state;
 	}
 
-	public void setupInputListeners(Scene gameScene) {
+	public void setupInputListeners() {
 		gameScene.setOnKeyPressed(event -> {
 			lastPressedKey = event.getCode();
 			keyPressToProcess = true;
