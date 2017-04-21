@@ -24,15 +24,15 @@ public class MainMenu extends AbstractMenu {
 	@Override
 	public void addElements() {
 		Tile playTile = new Tile(getPolyglot().get("StartButton", Case.TITLE), "red", e -> getStage()
-				.setScene(new LoadMenu(getStage(), getLoader(), getGame(),  getPolyglot(), getResources()).createScene(420, 600)));
+				.setScene(new LoadMenu(getStage(), getGame(), getLoader(),  getPolyglot(), getResources()).createScene(420, 600)));
 		Tile scoresTile = new Tile(getPolyglot().get("Highscores", Case.TITLE), "orange", e -> getStage()
 				.setScene(new HighscoreMenu(getStage(), getGame(), getLoader(), getPolyglot(), getResources()).createScene(420, 600)));
 		Tile achievementsTile = new Tile(getPolyglot().get("AchievementsButton", Case.TITLE), "yellow", e -> getStage()
-				.setScene(new AchievementsMenu(getStage(), getLoader(), getPolyglot(), getResources()).createScene(420, 600)));
+				.setScene(new AchievementsMenu(getStage(), getGame(), getLoader(), getPolyglot(), getResources()).createScene(420, 600)));
 		Tile optionsTile = new Tile(getPolyglot().get("OptionsButton", Case.TITLE), "green", e -> getStage()
 				.setScene(new OptionsMenu(getStage(), getGame(), getLoader(), getPolyglot(), getResources()).createScene(420, 600)));
 		Tile infoTile = new Tile(getPolyglot().get("InfoButton", Case.TITLE), "blue", e -> getStage()
-				.setScene(new OptionsMenu(getStage(), getGame(), getLoader(), getPolyglot(), getResources()).createScene(420, 600)));
+				.setScene(new InfoMenu(getStage(), getGame(), getLoader(), getPolyglot(), getResources()).createScene(420, 600)));
 		addTiles(false, playTile, scoresTile, achievementsTile, optionsTile, infoTile);
 	}
 

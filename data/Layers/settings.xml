@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="Game"/><Levels><level><Entities>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="Layers"/><Levels><level><Entities>
 <Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>325.0</x>
-  <y>100.0</y>
+  <x>350.0</x>
+  <y>125.0</y>
   <width>200.0</width>
   <height>300.0</height>
   <zIndex>1.0</zIndex>

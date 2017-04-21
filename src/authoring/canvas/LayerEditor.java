@@ -374,20 +374,5 @@ public class LayerEditor extends View {
 		});
 		layerCount--;
 	}
-	/**
-	 * Set layer name, as requested by user
-	 * @param text
-	 */
-	public void setLayerName(String text) {
-		layers.get(currLayer).setLayerName(text);
-		System.out.println(currLayer + " " + layers.get(currLayer).getLayerName());
-	}
-	/**
-	 * Get layer name to send to combobox upon loading the game
-	 * @return
-	 */
-	public List<String> getLayerNames(){
-		return layers.values().stream().map(elt -> elt.getLayerName()).collect(Collectors.toList());
-	}
 
 }

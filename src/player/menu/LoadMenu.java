@@ -31,7 +31,7 @@ public class LoadMenu extends AbstractMenu {
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 
-	public LoadMenu(Stage stage, MediaManager loader, Game game, Polyglot polyglot, ResourceBundle IOResources) {
+	public LoadMenu(Stage stage, Game game, MediaManager loader, Polyglot polyglot, ResourceBundle IOResources) {
 		super(stage, game, loader, "LoadTitle", polyglot, IOResources);
 		this.game = game;
 		this.polyglot = polyglot;
@@ -52,7 +52,8 @@ public class LoadMenu extends AbstractMenu {
 			MediaManager loader = new MediaManager(game, getLoader().getGamePath(), saveStates);
 			new FullPlayer(stage, game, loader, polyglot, IOResources);
 		} catch (Exception e) {
-			// Game couldn't be loaded, perhaps a wrong Game selected. Might want to tell user!
+			// Game couldn't be loaded, perhaps a wrong Game selected. Might
+			// want to tell user!
 		}
 	}
 
@@ -73,7 +74,7 @@ public class LoadMenu extends AbstractMenu {
 					saveButtons.add(save);
 					saveButtonContainer.getChildren().add(save);
 				} else {
-					ReplaceSaveMenu replacer = new ReplaceSaveMenu();
+					ReplaceSaveMenu replacer = new ReplaceSaveMenu(polyglot, IOResources);
 					replacer.display(e -> {
 						int index = replacer.getButtonID();
 						// Changes button action to load new save

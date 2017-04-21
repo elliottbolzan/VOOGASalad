@@ -151,17 +151,22 @@ public class StartMenu extends BorderPane {
 	}
 
 	private void editGame() {
-		Game game = createGame(chooseGame());
-		if (game != null) {
-			new AuthoringEnvironment(game, polyglot, IOResources);
+		String path = chooseGame();
+		if (!path.equals("")) {
+			Game game = createGame(path);
+			if (game != null) {
+				new AuthoringEnvironment(game, polyglot, IOResources);
+			}
 		}
 	}
 
 	private void playGame() {
 		String path = chooseGame();
-		Game game = createGame(path);
-		if (game != null) {
-			new MainMenu(game, new MediaManager(game, path, null), polyglot, IOResources);
+		if (!path.equals("")) {
+			Game game = createGame(path);
+			if (game != null) {
+				new MainMenu(game, new MediaManager(game, path, null), polyglot, IOResources);
+			}
 		}
 	}
 
