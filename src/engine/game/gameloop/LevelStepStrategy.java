@@ -19,6 +19,7 @@ public class LevelStepStrategy implements StepStrategy {
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
 	private boolean screenFinished;
+	private StepStrategy nextStepStrategy;
 
 	/**
 	 * Functionality executed when timeline for Screen with this
@@ -39,8 +40,13 @@ public class LevelStepStrategy implements StepStrategy {
 		setupGameView();
 	}
 	
-	public void flagScreenFinished(){
-		screenFinished = true;
+	public void flagScreenFinished(StepStrategy nextStepStrategy){
+		this.screenFinished = true;
+		this.nextStepStrategy = nextStepStrategy;
+	}
+	
+	public boolean screenFinished(){
+		return screenFinished;
 	}
 	
 	/**
@@ -59,8 +65,13 @@ public class LevelStepStrategy implements StepStrategy {
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
+		if(screenFinished){
+			levelManager.setCurrentStepStrategy(nextStepStrategy);
+			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
+			nextScreen.getTimeline().play();
+		}
 	}
-
+	
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */

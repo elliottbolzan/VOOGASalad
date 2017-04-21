@@ -85,8 +85,7 @@ public class TimelineManipulator {
 	private void moveToNextScreen(StepStrategy nextStepStrategy) {
 		levelManager.getCurrentScreen().getTimeline().stop();
 		System.out.println("stopped level timeline");
-		levelManager.setCurrentStepStrategy(nextStepStrategy);
-		((LevelStepStrategy) levelManager.getCurrentStepStrategy()).flagScreenFinished();
+		((LevelStepStrategy) levelManager.getCurrentStepStrategy()).flagScreenFinished(nextStepStrategy);
 	}
 	
 
