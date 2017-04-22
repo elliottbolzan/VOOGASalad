@@ -1,7 +1,5 @@
 package engine.game.gameloop;
 
-import java.util.ResourceBundle;
-
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
@@ -13,7 +11,6 @@ import engine.graphics.GraphicsEngine;
  *
  */
 public abstract class TransitionStepStrategy implements StepStrategy {
-	private static final String RESOURCES_NAME = "resources/Strings";
 	private static final int FRAME_DURATION = 150;
 
 	private int frameNumber = 1;
@@ -36,8 +33,9 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		if(graphicsEngine.isHighscore() && (resourceFileTextName.equals("WinGame") || resourceFileTextName.equals("GameOver"))){
 			graphicsEngine.endScreen();
 		}else{
-			graphicsEngine.fillScreenWithText(ResourceBundle.getBundle(RESOURCES_NAME).getString(resourceFileTextName));
+			graphicsEngine.fillScreenWithText(resourceFileTextName);
 		}
+		
 	}
 
 	@Override
@@ -63,7 +61,9 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
 			nextScreen.getTimeline().play();
 		}
-		// TODO Throw exception here or do something...
+		else if(graphicsEngine.isHighscore()){
+				graphicsEngine.endScreen();
+		}
 	}
 
 }
