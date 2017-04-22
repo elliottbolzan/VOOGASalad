@@ -48,7 +48,7 @@ public class Collision implements CollisionInterface {
 	 *         collision.
 	 */
 	public boolean isBetween(String name1, String name2) {
-		return (firstEntity.getName().equals(name1) && secondEntity.getName().equals(name2))
-				|| (firstEntity.getName().equals(name2) && secondEntity.getName().equals(name1));
+		return (firstEntity.getName().equals(name1) && secondEntity.getName().equals(name2));
+				//|| (firstEntity.getName().equals(name2) && secondEntity.getName().equals(name1));
 	}
 }

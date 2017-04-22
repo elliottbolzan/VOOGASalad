@@ -34,12 +34,11 @@ public class CollisionObservable extends EventObservable {
 			return CollisionSide.LEFT;
 		}
 		if (entityOne.getY() + entityOne.getHeight() < entityTwo.getY() + entityTwo.getHeight()) {
-			System.out.println("TOP: " + entityOne);
-			return CollisionSide.TOP;
+			System.out.println("BOTTOM: " + entityOne);
+			return CollisionSide.BOTTOM;
 		}
-		System.out.println("BOTTOM: " + entityOne);
-		return CollisionSide.BOTTOM;
-
+		System.out.println("TOP: " + entityOne);
+		return CollisionSide.TOP;
 	}
 
 	private boolean isHorizontalCollision(Entity entityOne, Entity entityTwo) {
