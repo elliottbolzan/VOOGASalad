@@ -49,12 +49,10 @@ public class TimelineManipulator {
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			info.getObservableBundle().detachEntityFromAll(entity);
 		}
-		//TODO Below is Jesse's/Jay's comment - check with him that he means in a win WHOLE GAME method and not something else 
-		//This should be moved to a win method
-		if(graphicsEngine.isHighscore()){
+		moveToNextScreen(new NextLevelStepStrategy(levelManager));
+		if(levelManager.getLevelNumber() == levelManager.getLevels().size() && graphicsEngine.isHighscore()){
 			graphicsEngine.endScreen();
 		}
-		moveToNextScreen(new NextLevelStepStrategy(levelManager));
 	}
 
 	/**
