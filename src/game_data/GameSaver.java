@@ -108,7 +108,6 @@ public class GameSaver
 		saveCamera(game.getCamera(), gameFolderPath);
 		saveLevels(game.getLevels(), gameFolderPath);
 		saveDocument(gameFolderPath, saveName);
-
 	}
 
 	/**
