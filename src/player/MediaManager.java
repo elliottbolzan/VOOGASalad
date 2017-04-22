@@ -25,6 +25,10 @@ public class MediaManager {
 			songPlayer = new MediaPlayer(new Media(uriString));
 		}
 	}
+	
+	public void setSaves(ObservableList<String> saves){
+		saveStates = saves;
+	}
 
 	public String getGamePath() {
 		return gamePath;
