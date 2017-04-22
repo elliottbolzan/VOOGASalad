@@ -136,7 +136,7 @@ public class GraphicsEngine {
 	
 	private void saveName(String name){
 		getScorebar().saveFinalScore(name);
-		stage.setScene(new HighscoreMenu(stage, game, polyglot, IOResources).createScene(420, 600));
+		stage.setScene(new HighscoreMenu(stage, game, polyglot, IOResources).createScene());
 	}
 	
 	public boolean isHighscore(){

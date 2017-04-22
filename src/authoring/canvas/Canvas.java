@@ -24,31 +24,29 @@ import utils.views.View;
  * @author jimmy
  *
  */
-public class Canvas extends View
-{
+public class Canvas extends View {
 	private final int TILE_SIZE = 25;
 
 	private List<EntityView> entities;
+	private Workspace workspace;
 
 	private ZoomablePane zoomablePane;
 	ExpandablePane expandablePane;
 
-	public Canvas(Workspace workspace)
-	{
+	public Canvas(Workspace workspace) {
 		super(workspace.getPolyglot().get("CanvasTitle"));
+		this.workspace = workspace;
 		setup();
 	}
 
-	public ExpandablePane getExpandablePane()
-	{
+	public ExpandablePane getExpandablePane() {
 		return expandablePane;
 	}
 
 	/**
 	 * Remove all of the entities from within the canvas.
 	 */
-	public void clear()
-	{
+	public void clear() {
 		setup();
 	}
 
@@ -60,8 +58,7 @@ public class Canvas extends View
 	 *            EventHandler that determines what happens when the mouse is
 	 *            clicked on the pane of the Canvas.
 	 */
-	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler)
-	{
+	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler) {
 		expandablePane.setOnMouseClicked(eventHandler);
 	}
 
@@ -73,8 +70,7 @@ public class Canvas extends View
 	 *            EventHandler that determines what happens when the mouse is
 	 *            dragged on the pane of the Canvas.
 	 */
-	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler)
-	{
+	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler) {
 		expandablePane.setOnMouseDragged(eventHandler);
 	}
 
@@ -82,8 +78,7 @@ public class Canvas extends View
 	 * Set up the canvas (set all of its entities and displays to the default
 	 * ones).
 	 */
-	private void setup()
-	{
+	private void setup() {
 		entities = new ArrayList<EntityView>();
 		final Group group = new Group();
 		expandablePane = new ExpandablePane();
@@ -103,8 +98,7 @@ public class Canvas extends View
 	 * 
 	 * @return x value of top-left corner of scroll panel.
 	 */
-	public double getXScrollAmount()
-	{
+	public double getXScrollAmount() {
 		// double viewPortX = scrollScreen.getViewportBounds().getWidth();
 		// return scrollScreen.getHvalue() * (width - viewPortX);
 		return 0;
@@ -115,8 +109,7 @@ public class Canvas extends View
 	 * 
 	 * @return y value of top-left corner.
 	 */
-	public double getYScrollAmount()
-	{
+	public double getYScrollAmount() {
 		// double viewportY = scrollScreen.getViewportBounds().getHeight();
 		// return scrollScreen.getVvalue() * (height - viewportY);
 		return 0;
@@ -127,13 +120,11 @@ public class Canvas extends View
 	 * 
 	 * @return canvas tile size.
 	 */
-	public double getTileSize()
-	{
+	public double getTileSize() {
 		return TILE_SIZE;
 	}
 
-	public List<EntityView> getSelectedEntities()
-	{
+	public List<EntityView> getSelectedEntities() {
 		List<EntityView> selected = new ArrayList<EntityView>();
 		entities.forEach(e -> {
 			if (e.isSelected()) {
@@ -152,8 +143,7 @@ public class Canvas extends View
 	 *            Entity to be added to the canvas.
 	 * @return EntityView that is displayed in the Canvas.
 	 */
-	public EntityView addEntity(Entity entity)
-	{
+	public EntityView addEntity(Entity entity) {
 		return this.addEntity(entity, 0, 0);
 	}
 
@@ -170,8 +160,7 @@ public class Canvas extends View
 	 *            y position
 	 * @return EntityView that is displayed in the Canvas.
 	 */
-	public EntityView addEntity(Entity entity, double x, double y)
-	{
+	public EntityView addEntity(Entity entity, double x, double y) {
 		EntityView newEntity = new EntityView(entity, this, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
@@ -188,10 +177,13 @@ public class Canvas extends View
 	 * @param entity
 	 *            EntityView to be removed from the Canvas.
 	 */
-	public void removeEntity(EntityView entity)
-	{
+	public void removeEntity(EntityView entity) {
 		entities.remove(entity);
 		expandablePane.getChildren().remove(entity);
+	}
+	
+	public Workspace getWorkspace() {
+		return workspace;
 	}
 
 	/**
@@ -204,8 +196,7 @@ public class Canvas extends View
 	 *            y position
 	 * @return tiled coordinate of the given input.
 	 */
-	private Point2D getTiledCoordinate(double x, double y)
-	{
+	private Point2D getTiledCoordinate(double x, double y) {
 		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
 		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
 		return new Point2D(gridX, gridY);

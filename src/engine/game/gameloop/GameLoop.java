@@ -17,23 +17,25 @@ import javafx.scene.layout.Pane;
 public class GameLoop {
 	private ObservableBundle observableBundle;
 	private Scorebar scorebar;
-	private TimelineManipulator levelEnder;
+	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	
 	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine){
 		//TODO: what happens if level changes, camera gets reset??
+		this.graphicsEngine = graphicsEngine;
 		graphicsEngine.setCamera(game.getCamera());
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
 		
 		levelManager = new LevelManager(game, new LevelStepStrategy());
 		levelManager.loadAllSavedLevels();
-		levelEnder = new TimelineManipulator(levelManager, graphicsEngine);
+		timelineManipulator = new TimelineManipulator(levelManager, graphicsEngine);
 		GameInfo info = new GameInfo(this);
 		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
 		levelManager.setCurrentScreen(level1Screen);
-		levelEnder.setInfo(info);
+		timelineManipulator.setInfo(info);
+		graphicsEngine.getScorebar().setLevelManager(levelManager);
 	}
 	
 	public void startTimeline(){
@@ -57,7 +59,7 @@ public class GameLoop {
 	}
 	
 	public TimelineManipulator timelineManipulator(){
-		return levelEnder;
+		return timelineManipulator;
 	}
 	
 	public LevelManager getLevelManager(){

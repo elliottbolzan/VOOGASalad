@@ -1,5 +1,6 @@
 package engine.game.gameloop;
 
+import engine.game.LevelManager;
 import engine.game.timer.TimerManager;
 import game_data.Game;
 import player.score.Score;
@@ -12,6 +13,7 @@ import player.score.Score;
  *
  */
 public class Scorebar {
+	private LevelManager levelManager;
 	private TimerManager timerManager; // restart it every time restart new
 										// level! (perhaps in another class
 										// calling this class' methods
@@ -29,8 +31,14 @@ public class Scorebar {
 		this.game = game;
 		lives = 5;
 		score = 0;
+		//Note levelManager is a dummy object (better than null!) - set it below.
+		levelManager = new LevelManager(game, new LevelStepStrategy());
 	}
 
+	public void setLevelManager(LevelManager levelManager){
+		this.levelManager = levelManager;
+	}
+	
 	public void resetTimerManager() {
 		timerManager.reset();
 	}
@@ -78,11 +86,7 @@ public class Scorebar {
 
 	
 	public int getLevel(){
-		return level;
-	}
-	
-	public void setLevel(int level){
-		this.level = level;
+		return levelManager.getLevelNumber();
 	}
 	
 	public void saveFinalScore(String name) {

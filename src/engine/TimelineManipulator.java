@@ -75,9 +75,6 @@ public class TimelineManipulator {
 		StepStrategy nextStepStrategy;
 		if (gameOver) {
 			nextStepStrategy = new GameOverStepStrategy();
-			if(graphicsEngine.isHighscore()){
-				graphicsEngine.endScreen();
-			}
 		} else {
 			nextStepStrategy = new LoseLifeStepStrategy();
 		}
