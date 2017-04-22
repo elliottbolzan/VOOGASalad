@@ -5,7 +5,6 @@ import engine.game.gameloop.GameOverStepStrategy;
 import engine.game.gameloop.LevelStepStrategy;
 import engine.game.gameloop.LoseLifeStepStrategy;
 import engine.game.gameloop.NextLevelStepStrategy;
-import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
 import engine.graphics.GraphicsEngine;
 
@@ -45,7 +44,16 @@ public class TimelineManipulator {
 	 * Although this method uses a Timeline, it is specific to Level Screens, so
 	 * I put it here in LevelStepStrategy rather than in Screen.
 	 */
+	
 	public void startNextLevel() {
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			info.getObservableBundle().detachEntityFromAll(entity);
+		}
+		//TODO Below is Jesse's/Jay's comment - check with him that he means in a win WHOLE GAME method and not something else 
+		//This should be moved to a win method
+		if(graphicsEngine.isHighscore()){
+			graphicsEngine.endScreen();
+		}
 		moveToNextScreen(new NextLevelStepStrategy(levelManager));
 	}
 

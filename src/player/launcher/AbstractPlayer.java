@@ -2,6 +2,7 @@ package player.launcher;
 
 import java.util.ResourceBundle;
 import engine.game.gameloop.GameLoop;
+import engine.graphics.GraphicsEngine;
 import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -48,7 +49,7 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	protected void buildGameView() {
 		Overlay scorebar = new Overlay(this.getPolyglot(), this.getResources());
-		gameLoop = new GameLoop(gameScene, game, scorebar, stage, polyglot, IOResources);
+		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, scorebar, stage, polyglot, IOResources));
 		
 		StackPane pane = new StackPane();
 		pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());

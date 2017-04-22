@@ -3,7 +3,6 @@ package engine.actions;
 import engine.Action;
 import engine.entities.CharacterEntity;
 import engine.game.gameloop.LevelStepStrategy;
-import exceptions.GameObjectException;
 
 /**
  * Action for when a character dies. Can only be attached to a CharacterEntity;
@@ -24,7 +23,8 @@ public class DieAction extends Action {
 				getGameInfo().getTimelineManipulator().die(entity.getLives() <= 0);
 			}
 		} catch (ClassCastException e) {
-			throw new GameObjectException("CastingError");
+			//throw new GameObjectException("CastingError");
+			System.out.println("Casting error");
 		}
 	}
 

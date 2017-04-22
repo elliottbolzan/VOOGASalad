@@ -82,6 +82,16 @@ public class DefaultEntities {
 		entities.remove(entity);
 		updateModel();
 	}
+	
+	public void edit(Entity entity) {
+		for (Entity old: entities) {
+			if (old.getName().equals(entity.getName())) {
+				old.widthProperty().set(entity.getWidth());
+				old.heightProperty().set(entity.getHeight());
+				return;
+			}
+		}
+	}
 
 	/**
 	 * 
