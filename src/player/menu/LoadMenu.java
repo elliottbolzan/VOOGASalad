@@ -37,6 +37,7 @@ public class LoadMenu extends AbstractMenu {
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
 		saveStates = FXCollections.observableArrayList();
+		loader.setSaves(saveStates);
 		saveButtons = FXCollections.observableArrayList();
 		setupScene(stage);
 	}
