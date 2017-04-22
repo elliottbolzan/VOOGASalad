@@ -86,7 +86,7 @@ public class EntityMaker extends View {
 	}
 
 	private Scene createScene() {
-		Scene scene = new Scene(this, 800, 400);
+		Scene scene = new Scene(this, 820, 450);
 		scene.getStylesheets().add(workspace.getIOResources().getString("StylesheetPath"));
 		return scene;
 	}
