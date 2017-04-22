@@ -129,7 +129,7 @@ public class ComponentMaker {
 	private Alert alertHelper(AlertType type, String titleProperty, String headerProperty) {
 		Alert alert = new Alert(type);
 		alert.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
-		alert.headerTextProperty().bind(polyglot.get(headerProperty, Case.TITLE));
+		alert.headerTextProperty().bind(polyglot.get(headerProperty));
 		return alert;
 	}
 
