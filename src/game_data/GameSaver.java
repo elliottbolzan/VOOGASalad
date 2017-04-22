@@ -2,14 +2,18 @@ package game_data;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -50,15 +54,13 @@ public class GameSaver
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), gameFolderPath);
 		//saveBackground(gameFolderPath, game.getSongPath());
-		saveCamera(game.getCamera(), gameFolderPath);
 		//saveAchievements("achievements", gameFolderPath);
 		saveGameInfo(gameFolderPath, game.getInfo());
-		System.out.println(game.getInfo());
 		saveDocument(gameFolderPath, SETTINGS_FILE_NAME);
 		try {
 			zipDoc(parentDirectoryPath);
 		} catch (IOException e) {
-			e.printStackTrace();
+			//TODO
 		}
 	}
 
@@ -78,17 +80,17 @@ public class GameSaver
 	private boolean deleteDir(File dir){
 		dir.listFiles();
 		File[] files = dir.listFiles();	    		
-		if(null!=files){
-			for(int i=0; i<files.length; i++) {
-				if(files[i].isDirectory()) {
-					deleteDir(files[i]);
+		if(files != null){
+			for(File file : files) {
+				if(file.isDirectory()) {
+					deleteDir(file);
 				}
 				else {
-					files[i].delete();
+					file.delete();
 				}
 			}
 		}
-		return(dir.delete());
+		return (dir.delete());
 	}
 
 	/**
@@ -105,7 +107,6 @@ public class GameSaver
 
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), gameFolderPath);
-		saveCamera(game.getCamera(), gameFolderPath);
 		saveLevels(game.getLevels(), gameFolderPath);
 		saveDocument(gameFolderPath, saveName);
 	}
@@ -133,9 +134,11 @@ public class GameSaver
 	 * @param gameFolderPath : top-level directory of the game
 	 */
 	private void saveDefaults(List<Entity> defaults, String gameFolderPath) {
-		Element levelElement = this.getEntityListAsXML(defaults, gameFolderPath);
-		gameXMLFactory.addDefaultEntity(levelElement);
+		List<Element> xmlDefaults = this.getEntityListAsXML(defaults, gameFolderPath);
+		Element defaultsElement = this.getLevelAsXML(xmlDefaults, null);
+		gameXMLFactory.addDefaultEntity(defaultsElement);
 	}
+	
 	/**
 	 * Saves the list of levels (list of entities) that will be written into XML.
 	 * @param levels : list of levels to be written to XML
@@ -143,10 +146,13 @@ public class GameSaver
 	 */
 	private void saveLevels(List<Level> levels, String gameFolderPath) {
 		for (Level level : levels) {
-			Element levelElement = this.getEntityListAsXML(level.getEntities(), gameFolderPath);
+			List<Element> entityElements = this.getEntityListAsXML(level.getEntities(), gameFolderPath);
+			Element cameraElement = this.getEntityAsXML(level.getCamera(), gameFolderPath);
+			Element levelElement = this.getLevelAsXML(entityElements, cameraElement);
 			gameXMLFactory.addLevel(levelElement);
 		}
 	}
+	
 	/**
 	 * Saves the song path into the XML game file
 	 * @param gameFolderPath : top-level directory of the game
@@ -176,7 +182,9 @@ public class GameSaver
 	 * @param filePath
 	 */
 	private void saveAchievements(String achieve, String filePath){
-		if(achieve.equals("")) return;
+		if(achieve.equals("")) { 
+			return; 
+		}
 		gameXMLFactory.addAchievement(achieve);
 	}
 
@@ -242,17 +250,15 @@ public class GameSaver
 	 * @param gameFolderPath : path of the top-level game folder
 	 * @return XML element for the list of entities
 	 */
-	private Element getEntityListAsXML(Collection<Entity> entities, String gameFolderPath) {
+	private List<Element> getEntityListAsXML(Collection<Entity> entities, String gameFolderPath) {
 		List<Element> entityNodes = new ArrayList<Element>();
 
 		for(Entity entity : entities) {
-			Element entityNode = getEntityAsXML(entity, gameFolderPath);
-			entityNodes.add(entityNode);
+			Element xmlEntity = getEntityAsXML(entity, gameFolderPath);
+			entityNodes.add(xmlEntity);
 		}
 
-		LevelSaver ls = new LevelSaver(entityNodes);
-		String xmlLevel = ls.saveLevel();
-		return gameXMLFactory.stringToElement(xmlLevel);
+		return entityNodes;
 	}
 
 	/**
@@ -271,7 +277,7 @@ public class GameSaver
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
 		String xmlString = xStream.toXML(entity);
-		
+				
 		entity.setImagePath(absoluteImagePath);
 		return gameXMLFactory.stringToElement(xmlString);
 	}
@@ -304,5 +310,31 @@ public class GameSaver
 		Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 	}
 
-
+	/**
+	 * 
+	 * @return
+	 */
+	public Element getLevelAsXML(List<Element> entityList, Element camera) {
+		Element levelElement = gameXMLFactory.getDocument().createElement("LevelData");
+		Element entitiesElement = gameXMLFactory.getDocument().createElement("Entities");
+		levelElement.appendChild(entitiesElement);
+		
+		for (Element entityElement : entityList) {
+			Element individualElement = gameXMLFactory.getDocument().createElement("Entity");
+			entitiesElement.appendChild(individualElement);
+			
+			Element importedEntity = (Element) gameXMLFactory.getDocument().importNode(entityElement, true);
+			individualElement.appendChild(importedEntity);
+			entitiesElement.appendChild(individualElement);
+		}
+		
+		if(camera != null) {
+			Element docCameraElement = gameXMLFactory.getDocument().createElement("Camera");
+			levelElement.appendChild(docCameraElement);
+			Element importedCameraNode = (Element) gameXMLFactory.getDocument().importNode(camera, true);
+			docCameraElement.appendChild(importedCameraNode);
+		}	
+			
+		return levelElement;
+	}
 }

@@ -31,8 +31,8 @@ public class LevelStepStrategy implements StepStrategy {
 		this.screenFinished = false;
 		levelManager.resetCurrentLevel();
 		info.getScorebar().resetTimerManager();
-		addInfoToEntities();
 		setupGameView();
+		addInfoToEntities();
 	}
 	
 	
@@ -87,6 +87,7 @@ public class LevelStepStrategy implements StepStrategy {
 	}
 	private void setupGameView() {
 		// TODO call graphicsEngine.setCamera() here
+		levelManager.getCurrentLevel().getEntities().add(graphicsEngine.getCamera());
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 }

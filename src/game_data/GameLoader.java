@@ -65,7 +65,7 @@ public class GameLoader {
 		// addAchieve(game, doc, newPath);
 		// addBackground(game, doc, newPath);
 		addInfo(game, doc, newPath);
-		addCamera(game, doc, newPath);
+		//addCamera(game, doc, newPath);
 
 		return game;
 	}
@@ -135,8 +135,7 @@ public class GameLoader {
 	private void addCamera(Game game, Document doc, String gameFolderPath) {
 		// TODO
 		Element cameraNode = (Element) doc.getElementsByTagName(rm.getCameraTitle()).item(0);
-		Entity camera = getEntityFromElement(cameraNode);
-		camera.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(camera.getImagePath()));
+		Entity camera = getEntityFromElement(cameraNode, gameFolderPath);
 		game.setCamera((CameraEntity) camera);
 	}
 
@@ -195,6 +194,11 @@ public class GameLoader {
 		for (Entity entity : getEntities(entitiesNode, gameFolderPath)) {
 			returnedLevel.addEntity(entity);
 		}
+		
+		Element cameraNode = (Element) levelElement.getChildNodes().item(1);
+		Entity camera = getEntityFromElement(cameraNode, gameFolderPath);
+		returnedLevel.setCamera((CameraEntity) camera);
+		
 		return returnedLevel;
 	}
 
@@ -212,9 +216,7 @@ public class GameLoader {
 		List<Entity> entityList = new ArrayList<Entity>();
 		for (int i = 0; i < entitiesList.getLength(); i++) {
 			if (entitiesList.item(i).getNodeName().equals(rm.getEntityState())) {
-				Entity instantiatedEntity = getEntityFromElement((Element) entitiesList.item(i));
-				instantiatedEntity.setImagePath("file:" + gameFolderPath + File.separator
-						+ convertPathForSystem(instantiatedEntity.getImagePath()));
+				Entity instantiatedEntity = getEntityFromElement((Element) entitiesList.item(i), gameFolderPath);
 				entityList.add(instantiatedEntity);
 			}
 		}
@@ -249,11 +251,13 @@ public class GameLoader {
 	 *            : element to be converted into an entity
 	 * @return
 	 */
-	private Entity getEntityFromElement(Element entityElement) {
+	private Entity getEntityFromElement(Element entityElement, String gameFolderPath) {
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
+		
 		Entity entity = (Entity) xStream.fromXML(getXMLStringFromElement(entityElement));
-
+		entity.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(entity.getImagePath()));
+		
 		return entity;
 	}
 
