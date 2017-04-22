@@ -1,12 +1,8 @@
-package engine;
+package engine.game.gameloop;
 
+import engine.Entity;
+import engine.GameInfo;
 import engine.game.LevelManager;
-import engine.game.gameloop.GameOverStepStrategy;
-import engine.game.gameloop.LevelStepStrategy;
-import engine.game.gameloop.LoseLifeStepStrategy;
-import engine.game.gameloop.NextLevelStepStrategy;
-import engine.game.gameloop.StepStrategy;
-import engine.graphics.GraphicsEngine;
 
 /**
  * Allows Game Objects (Entities, Events, Actions) to manipulate the timeline, including
@@ -17,12 +13,10 @@ import engine.graphics.GraphicsEngine;
 
 public class TimelineManipulator {
 	private LevelManager levelManager;
-	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
 	
-	public TimelineManipulator(LevelManager levelManager, GraphicsEngine graphicsEngine){
+	public TimelineManipulator(LevelManager levelManager){
 		this.levelManager = levelManager;
-		this.graphicsEngine = graphicsEngine;
 	}
 	
 	public void setInfo(GameInfo info){
@@ -50,9 +44,6 @@ public class TimelineManipulator {
 			info.getObservableBundle().detachEntityFromAll(entity);
 		}
 		moveToNextScreen(new NextLevelStepStrategy(levelManager));
-		if(levelManager.getLevelNumber() == levelManager.getLevels().size() && graphicsEngine.isHighscore()){
-			graphicsEngine.endScreen();
-		}
 	}
 
 	/**

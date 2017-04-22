@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import engine.entities.CameraEntity;
 import engine.Entity;
+import engine.entities.CameraEntity;
 import engine.game.gameloop.Scorebar;
-import javafx.geometry.Pos;
 import game_data.Game;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -112,7 +112,6 @@ public class GraphicsEngine {
 		Label label = new Label();
 		label.textProperty().bind(polyglot.get(resourceFileTextName, Case.TITLE));
 		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
-		System.out.println(label.textProperty().getValue());
 		label.setFont(new Font(displayArea.getWidth()/label.textProperty().getValue().length()));
 		label.setAlignment(Pos.CENTER);
 		displayArea.setCenter(label);
