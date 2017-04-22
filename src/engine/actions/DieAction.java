@@ -3,7 +3,6 @@ package engine.actions;
 import engine.Action;
 import engine.entities.CharacterEntity;
 import engine.game.gameloop.LevelStepStrategy;
-import exceptions.GameObjectException;
 
 /**
  * Action for when a character dies. Can only be attached to a CharacterEntity;
@@ -16,7 +15,6 @@ public class DieAction extends Action {
 
 	@Override
 	public void act() {
-		System.out.println("Die Action " + this + " executed");
 		try {
 			CharacterEntity entity = (CharacterEntity) getEntity();
 			//This check added to fix bug of multiple DieActions triggering

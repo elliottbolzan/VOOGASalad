@@ -5,7 +5,6 @@ import engine.game.gameloop.GameOverStepStrategy;
 import engine.game.gameloop.LevelStepStrategy;
 import engine.game.gameloop.LoseLifeStepStrategy;
 import engine.game.gameloop.NextLevelStepStrategy;
-import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
 import engine.graphics.GraphicsEngine;
 

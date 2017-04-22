@@ -5,7 +5,6 @@ import engine.Event;
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import javafx.scene.Scene;
 /**
  * Subclass of StepStrategy implementing step() when a Level should be
  * displayed.
@@ -34,35 +33,6 @@ public class LevelStepStrategy implements StepStrategy {
 		info.getScorebar().resetTimerManager();
 		addInfoToEntities();
 		setupGameView();
-		System.out.println("Observer list of Entities + " + info.getObservableBundle().getCollisionObservable().getObservers());
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			System.out.println("name = " + entity.getName() + " x = " + entity.getX() + ", y = " + entity.getY());
-		}
-		printAllGameObjects();
-	}
-	
-	//For testing, to be removed after
-	public void printAllGameObjects(){
-		System.out.println("Level # = " + levelManager.getLevelNumber());
-		System.out.println("Step Strategy object = " + this);
-		System.out.println("Collisions during setup" + info.getObservableBundle().getCollisionObservable().getCollisions());
-		
-		
-		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
-			System.out.print(entity + " " + entity.getName());
-			System.out.print("[");
-			for(Event event : entity.getEvents()){
-				System.out.print(event + " ");
-				System.out.print("[");
-				for(Action action : event.getActions()){
-					System.out.print(action + " ");
-				}
-				System.out.print("]");
-			}
-			System.out.print("]");
-		}
-		System.out.println();
-		
 	}
 	
 	
@@ -83,16 +53,13 @@ public class LevelStepStrategy implements StepStrategy {
 	 */
 	@Override
 	public void step() {
-		//System.out.println("Collisions during step" + info.getObservableBundle().getCollisionObservable().getCollisions());
 		info.getObservableBundle().updateObservers();
-		//System.out.println("Collisions during step" + info.getObservableBundle().getCollisionObservable().getCollisions());
 		// TODO If need an update method in GameInfo, update it here, right
 		// before entity.update();
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
-		//System.out.println("Collisions after clearing: " + info.getObservableBundle().getCollisionObservable().getCollisions());
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
 		if (screenFinished) {

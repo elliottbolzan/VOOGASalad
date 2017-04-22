@@ -20,8 +20,8 @@ public class Scorebar {
 						// CharacterEntity and here by allowing GAE to set
 						// Scorebar values too! (also consider multiplayer)
 	private int score;
-	private int level;
 	private Game game;
+	//Note: The level number is not a field because it is stored in LevelManager (but it is still displayed on the scorebar).
 	
 
 	public Scorebar(Game game) {
@@ -29,7 +29,6 @@ public class Scorebar {
 		this.game = game;
 		lives = 5;
 		score = 0;
-		level = 1;
 	}
 
 	public void resetTimerManager() {

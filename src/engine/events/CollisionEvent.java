@@ -36,7 +36,6 @@ public class CollisionEvent extends Event {
 		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
 			if (collision.isBetween(getEntity().getName(), (String) getParam("Entity"))
 					&& collision.getCollisionSide().equals(this.collision.getCollisionSide())) {
-				System.out.println("Collision true: this Entity " + getEntity().getName() + " param Entity " + (String)getParam("Entity"));
 				return true;
 			}
 		}
