@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import authoring.Workspace;
-import utils.views.View;
 import engine.Entity;
 import engine.game.Level;
 import javafx.scene.Node;
@@ -15,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import utils.views.View;
 
 /**
  * LayerEditor keeps track of a Canvas and all of the layers on the canvas. Each
@@ -42,18 +42,21 @@ public class LayerEditor extends View {
 		setup();
 	}
 
+	public Canvas getCanvas() {
+		return canvas;
+	}
+
+	@Override
 	public LayerEditor clone() {
 		LayerEditor newLevel = new LayerEditor(workspace);
 		newLevel.setNumLayers(layerCount);
 		layers.keySet().stream().forEach(id -> {
 			for (EntityView entity : layers.get(id).getEntities()) {
-				System.out.println(entity.getEntity().getX() + " " + entity.getEntity().getY());
 				newLevel.addEntity(entity.getEntity(), entity.getEntity().getX(), entity.getEntity().getY(), id);
 			}
 			;
 
 		});
-		System.out.println(newLevel.layers.get(1).getEntities().size());
 		return newLevel;
 	}
 
@@ -92,8 +95,6 @@ public class LayerEditor extends View {
 			}
 			concerned.forEach(entityView -> {
 				Entity toRemove = entityView.getEntity();
-				entity.widthProperty().set(toRemove.getWidth());
-				entity.heightProperty().set(toRemove.getHeight());
 				addEntity(entity, toRemove.getX(), toRemove.getY(), (int) toRemove.getZ());
 				canvas.removeEntity(entityView);
 			});
@@ -168,6 +169,7 @@ public class LayerEditor extends View {
 					layer.getEntities().removeAll(layer.getSelectedEntities());
 					selectedEntities.forEach(entity -> canvas.removeEntity(entity));
 				}
+				e.consume();
 			}
 			if (e.getCode().equals(KeyCode.RIGHT)) {
 				for (Layer layer : layers.values()) {
@@ -175,6 +177,7 @@ public class LayerEditor extends View {
 						entity.moveX(canvas.getTileSize());
 					});
 				}
+				e.consume();
 			}
 			if (e.getCode().equals(KeyCode.LEFT)) {
 				for (Layer layer : layers.values()) {
@@ -184,6 +187,7 @@ public class LayerEditor extends View {
 						}
 					});
 				}
+				e.consume();
 			}
 			if (e.getCode().equals(KeyCode.DOWN)) {
 				for (Layer layer : layers.values()) {
@@ -191,6 +195,7 @@ public class LayerEditor extends View {
 						entity.moveY(canvas.getTileSize());
 					});
 				}
+				e.consume();
 			}
 			if (e.getCode().equals(KeyCode.UP)) {
 				for (Layer layer : layers.values()) {
@@ -200,6 +205,7 @@ public class LayerEditor extends View {
 						}
 					});
 				}
+				e.consume();
 			}
 		});
 	}
@@ -215,6 +221,7 @@ public class LayerEditor extends View {
 			addEntity(entity, e.getX() + canvas.getXScrollAmount(), e.getY() + canvas.getYScrollAmount(), currLayer);
 		} catch (Exception exception) {
 			showSelectMessage();
+			exception.printStackTrace();
 		}
 	}
 
@@ -237,7 +244,7 @@ public class LayerEditor extends View {
 		addedEntity.getEntity().setZ(z);
 		setNumLayers(z);
 		layers.get(z).addEntity(addedEntity);
-		addedEntity.setOnMousePressed(e -> {
+		addedEntity.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			if (!e.isShiftDown() && !addedEntity.isSelected()) {
 				for (Layer layer : layers.values()) {
 					layer.getSelectedEntities().forEach(ent -> {
@@ -373,21 +380,6 @@ public class LayerEditor extends View {
 			layers.put(id, layers.get(id + 1));
 		});
 		layerCount--;
-	}
-	/**
-	 * Set layer name, as requested by user
-	 * @param text
-	 */
-	public void setLayerName(String text) {
-		layers.get(currLayer).setLayerName(text);
-		System.out.println(currLayer + " " + layers.get(currLayer).getLayerName());
-	}
-	/**
-	 * Get layer name to send to combobox upon loading the game
-	 * @return
-	 */
-	public List<String> getLayerNames(){
-		return layers.values().stream().map(elt -> elt.getLayerName()).collect(Collectors.toList());
 	}
 
 }

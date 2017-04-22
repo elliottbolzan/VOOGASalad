@@ -1,7 +1,7 @@
 .root {
     -fx-base: black;
     -fx-background: -fx-base;
-    -fx-accent: #e7b300;
+    -fx-accent: #e6c700;
     -fx-font-size: 10pt;
     -fx-font-family: Helvetica, Arial, sans-serif;
     -fx-focus-color: transparent;
@@ -48,6 +48,14 @@
     -fx-min-height: 0;
 }
 
+.table-view, .list-view {
+    -fx-control-inner-background: #606060;
+}
+
+.list-view {
+	-fx-background-radius: 2;
+}
+
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 0;
 }
@@ -64,24 +72,36 @@
     -fx-alignment: CENTER;
 }
 
+.menu-bar {
+	-fx-background-color: #101010;
+	-fx-base: #101010;
+	-fx-border-color: #3a3a3a;
+}
+
 .menu {
-    -fx-background: -fx-base;
+    -fx-background: black;
+}
+
+.menu:hover {
+	-fx-background-color: #101010;
+	-fx-base: #101010;
+}
+
+.menu:hover {
+	-fx-background-color: black;
+}
+
+.menu-item:focused {
+    -fx-background-color: #101010;
 }
 
 .menu-item .label {
     -fx-text-fill: white;
+    -fx-padding: 2;
 }
 
-.menu-item:focused {
-     -fx-background-color: -fx-base;
-}
-
-.menu-item:focused .label {
-    -fx-text-fill: -fx-accent;
-}
-
-.menu-bar { 
-	-fx-border-color: #3a3a3a;
+.menu-item:hover {
+	-fx-background-color: black;
 }
 
 .red {
@@ -112,4 +132,12 @@
 	-fx-text-fill: white;
 	-fx-font-size: 18pt;
 	-fx-font-weight: bold;
+}
+
+.workspace-pane {
+	-fx-padding: 15;
+}
+
+.toggle-button {
+	-fx-background-color: #101010;
 }

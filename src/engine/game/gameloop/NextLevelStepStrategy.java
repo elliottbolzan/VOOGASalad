@@ -8,21 +8,12 @@ import engine.game.LevelManager;
  *
  */
 public class NextLevelStepStrategy extends TransitionStepStrategy {
-	private static final String RESOURCE_NAME = "Win";
+	private static final String RESOURCE_NAME_REGULAR_WIN = "Win";
+	private static final String RESOURCE_NAME_LAST_WIN = "WinGame";
 	
-	public NextLevelStepStrategy() {
-		super(RESOURCE_NAME);
+	public NextLevelStepStrategy(LevelManager levelManager) {
+		super(levelManager.getLevelNumber() == levelManager.getLevels().size() ? RESOURCE_NAME_LAST_WIN : RESOURCE_NAME_REGULAR_WIN);
 	}
-	
-	/**
-	 * Subclass specific text based on variables, not on resource file.
-	 */
-	/*
-	@Override
-	protected String getSubclassSpecificText() {
-		return "";
-	}
-	*/
 	
 	@Override
 	protected StepStrategy getNextStepStrategy(LevelManager levelManager) {

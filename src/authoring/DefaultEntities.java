@@ -30,7 +30,8 @@ public class DefaultEntities {
 	public DefaultEntities(Workspace workspace) {
 		this.workspace = workspace;
 		this.entities = FXCollections.observableArrayList(new ArrayList<Entity>());
-		add(new CharacterEntity());
+		if (workspace.getGame().getDefaults().size() == 0)
+			add(new CharacterEntity());
 	}
 
 	/**
@@ -80,6 +81,16 @@ public class DefaultEntities {
 	public void remove(Entity entity) {
 		entities.remove(entity);
 		updateModel();
+	}
+	
+	public void edit(Entity entity) {
+		for (Entity old: entities) {
+			if (old.getName().equals(entity.getName())) {
+				old.widthProperty().set(entity.getWidth());
+				old.heightProperty().set(entity.getHeight());
+				return;
+			}
+		}
 	}
 
 	/**

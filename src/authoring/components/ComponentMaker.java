@@ -12,11 +12,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TitledPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.DirectoryChooser;
@@ -125,7 +129,7 @@ public class ComponentMaker {
 	private Alert alertHelper(AlertType type, String titleProperty, String headerProperty) {
 		Alert alert = new Alert(type);
 		alert.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
-		alert.headerTextProperty().bind(polyglot.get(headerProperty, Case.TITLE));
+		alert.headerTextProperty().bind(polyglot.get(headerProperty));
 		return alert;
 	}
 
@@ -222,6 +226,23 @@ public class ComponentMaker {
 		stage.setScene(scene);
 		stage.show();
 		stage.centerOnScreen();
+	}
+	
+	public MenuItem makeMenuItem(String titleProperty, String keyCombination, EventHandler<ActionEvent> handler) {
+		MenuItem item = new MenuItem();
+		Label text = new Label();
+		text.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		text.setMinWidth(100);
+		item.setGraphic(text);
+		item.setOnAction(handler);
+	    item.setAccelerator(KeyCombination.keyCombination(keyCombination));
+		return item;
+	}
+
+	public Menu makeMenu(String titleProperty) {
+		Menu menu = new Menu();
+		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		return menu;
 	}
 
 }

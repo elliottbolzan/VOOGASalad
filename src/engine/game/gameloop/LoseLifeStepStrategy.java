@@ -14,16 +14,6 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 		super(RESOURCE_NAME);
 	}
 	
-	/**
-	 * Subclass specific text based on variables, not on resource file.
-	 */
-	/*
-	@Override
-	protected String getSubclassSpecificText() {
-		return "";  //TODO
-	}
-	*/
-	
 	@Override
 	protected StepStrategy getNextStepStrategy(LevelManager levelManager) {
 		return new LevelStepStrategy(); 

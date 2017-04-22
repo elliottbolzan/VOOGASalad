@@ -2,6 +2,7 @@ package authoring;
 
 import java.util.ResourceBundle;
 
+import game_data.Game;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import polyglot.Polyglot;
@@ -16,7 +17,7 @@ public class AuthoringEnvironment {
 
 	private ResourceBundle IOResources;
 	private Polyglot polyglot;
-	private String gamePath;
+	private Game game;
 
 	/**
 	 * Creates an AuthoringEnvironment to edit an existing Game.
@@ -24,8 +25,8 @@ public class AuthoringEnvironment {
 	 * @param gamePath
 	 *            the path of the Game to be loaded.
 	 */
-	public AuthoringEnvironment(String gamePath, Polyglot polyglot, ResourceBundle IOResources) {
-		this.gamePath = gamePath;
+	public AuthoringEnvironment(Game game, Polyglot polyglot, ResourceBundle IOResources) {
+		this.game = game;
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
 		setupStage();
@@ -35,7 +36,7 @@ public class AuthoringEnvironment {
 	 * Creates a new AuthoringEnvironment.
 	 */
 	public AuthoringEnvironment(Polyglot polyglot, ResourceBundle IOResources) {
-		this("", polyglot, IOResources);
+		this(new Game(), polyglot, IOResources);
 	}
 
 	private void setupStage() {
@@ -48,7 +49,7 @@ public class AuthoringEnvironment {
 	}
 
 	private Scene createScene() {
-		Scene scene = new Scene(new Workspace(gamePath, polyglot, IOResources), 1000, 600);
+		Scene scene = new Scene(new Workspace(game, polyglot, IOResources), 1000, 600);
 		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 		return scene;
 	}

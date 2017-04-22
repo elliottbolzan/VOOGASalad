@@ -4,14 +4,12 @@ import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
 import game_data.Game;
-import game_data.GameData;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import player.Loader;
+import player.MediaManager;
 import polyglot.Polyglot;
 
 /**
@@ -30,9 +28,9 @@ public class FullPlayer extends AbstractPlayer {
 	private ImageView playImage;
 	private ImageView pauseImage;
 
-	private Loader mediaManager;
+	private MediaManager mediaManager;
 
-	public FullPlayer(Stage primaryStage, Game game, Loader mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+	public FullPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
 		super(primaryStage, game, polyglot, IOResources);
 		this.mediaManager = mediaManager;
 
@@ -93,11 +91,17 @@ public class FullPlayer extends AbstractPlayer {
 	}
 	
 	private void save() {
-		mediaManager.saveGame();
+		Game savedGame = new Game();
+		savedGame.setCamera(this.getGame().getCamera());
+		savedGame.setDefaults(this.getGame().getDefaults());
+		savedGame.setName(this.getGame().getName());
+		savedGame.setSongPath(this.getGame().getSongPath());
+		mediaManager.saveGame(this.getGame());
 	}
 	
 	protected void exit() {
 		super.exit();
 		mediaManager.pauseSong();
+
 	}
 }

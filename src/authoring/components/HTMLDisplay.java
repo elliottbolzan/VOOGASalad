@@ -22,9 +22,10 @@ public class HTMLDisplay extends Stage {
 		WebView browser = new WebView();
 		WebEngine webEngine = browser.getEngine();
 		webEngine.load(getClass().getClassLoader().getResource(filePath).toExternalForm());
-		Scene scene = new Scene(browser, 800, 600);
+		Scene scene = new Scene(browser, 300, 400);
 		titleProperty().bind(title);
 		setScene(scene);
+		setResizable(false);
 	}
 
 }

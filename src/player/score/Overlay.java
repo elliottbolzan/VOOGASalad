@@ -2,6 +2,7 @@ package player.score;
 
 import java.util.ResourceBundle;
 
+import javafx.beans.binding.StringBinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -10,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import polyglot.Case;
 import polyglot.Polyglot;
 
 /**
@@ -40,14 +42,16 @@ public class Overlay extends BorderPane{
 		
 		HBox container = new HBox(100);
 		container.setAlignment(Pos.CENTER);
-		container.getChildren().addAll(makeLabelBox(new Label(polyglot.get("Score").get()), score),
+		container.getChildren().addAll(makeLabelBox(new Label(), polyglot.get("Score", Case.UPPER), score),
 				makeImageBox(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("HeartPath")))), lives),
-				makeLabelBox(new Label(polyglot.get("Level").get()), level),
-				makeLabelBox(new Label(polyglot.get("Time").get()), time));
+				makeLabelBox(new Label(), polyglot.get("Level", Case.UPPER), level),
+				makeLabelBox(new Label(), polyglot.get("Time", Case.UPPER), time));
 		this.setTop(container);
+		this.setPickOnBounds(false);
 	}
 	
-	private VBox makeLabelBox(Label title, Label value){
+	private VBox makeLabelBox(Label title, StringBinding titleValue, Label value){
+		title.textProperty().bind(titleValue);
 		VBox box = new VBox(5);
 		box.getChildren().addAll(title, value);
 		box.setAlignment(Pos.CENTER);

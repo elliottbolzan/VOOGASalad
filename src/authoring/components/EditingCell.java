@@ -34,7 +34,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 	 */
 	public EditingCell(Workspace workspace) {
 		this.workspace = workspace;
-		invalidEdit = workspace.getPolyglot().get("InvalidEdit").get();
+		invalidEdit = workspace.getPolyglot().getOriginal("InvalidEdit");
 	}
 
 	@Override
@@ -141,11 +141,13 @@ public class EditingCell extends TableCell<Parameter, Object> {
 		Parameter param = (Parameter) getTableRow().getItem();
 		String input = textField.getText();
 		try {
-			if (param.getParameterClass().equals(Integer.class)) {
+			if (param.getParameterClass().equals(Integer.class) || param.getParameterClass().equals(int.class)) {
 				commitEdit(Integer.parseInt(input));
-			} else if (param.getParameterClass().equals(Double.class)) {
+			} else if (param.getParameterClass().equals(Double.class)
+					|| param.getParameterClass().equals(double.class)) {
 				commitEdit(Double.parseDouble(input));
-			} else if (param.getParameterClass().equals(Boolean.class)){
+			} else if (param.getParameterClass().equals(Boolean.class)
+					|| param.getParameterClass().equals(boolean.class)) {
 				commitEdit(Boolean.parseBoolean(input));
 			}
 			commitEdit(input);

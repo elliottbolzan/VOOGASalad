@@ -44,6 +44,12 @@ public class PlayerView extends View {
 		return scene;
 	}
 	
+	public Scene createScene(){
+		Scene scene = new Scene(this);
+		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
+		return scene;
+	}
+	
 	protected Polyglot getPolyglot() {
 		return polyglot;
 	}

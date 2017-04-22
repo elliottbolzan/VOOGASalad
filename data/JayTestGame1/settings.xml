@@ -18,30 +18,12 @@
 </engine.entities.BlockEntity>
 </Entity>
 <Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>425.0</x>
-  <y>100.0</y>
-  <width>50.0</width>
-  <height>50.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Coin</name>
-  <imagePath>resources/CoinImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
 <engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
-  <x>150.0</x>
+  <x>100.0</x>
   <y>25.0</y>
-  <width>100.0</width>
-  <height>175.0</height>
+  <width>150.0</width>
+  <height>200.0</height>
   <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
@@ -193,15 +175,118 @@
             <engine.Parameter>
               <name>Message</name>
               <clazz>java.lang.String</clazz>
-              <obj class="string">TEST </obj>
+              <obj class="string">TEST TEST</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.FacebookPostMessageAction>
       </actions>
     </engine.events.KeyPressEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">T</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.SpawnEntityAction>
+          <params>
+            <engine.Parameter>
+              <name>Y Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>X Acceleration</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Y Acceleration</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Entity Name</name>
+              <clazz>java.lang.String</clazz>
+              <obj class="string">Coin</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Side</name>
+              <clazz>java.lang.String</clazz>
+              <obj class="string">Right</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>X Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">10.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.SpawnEntityAction>
+      </actions>
+    </engine.events.KeyPressEvent>
   </events>
 </engine.entities.CharacterEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>450.0</x>
+  <y>150.0</y>
+  <width>100.0</width>
+  <height>100.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Coin</name>
+  <imagePath>resources/CoinImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.MoveBackAndForthAction>
+          <params>
+            <engine.Parameter>
+              <name>Allowed y steps</name>
+              <clazz>int</clazz>
+              <obj class="int">0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Y Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Allowed x steps</name>
+              <clazz>int</clazz>
+              <obj class="int">10</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>X Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">10.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+          <stepAmount>0</stepAmount>
+          <firstTime>true</firstTime>
+        </engine.actions.MoveBackAndForthAction>
+        <engine.actions.MoveAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.MoveAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+  </events>
+</engine.entities.BlockEntity>
 </Entity>
 </Entities></level></Levels><Defaults><Entities>
 <Entity>
@@ -214,24 +299,6 @@
   <zIndex>0.0</zIndex>
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
-  <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
-</engine.entities.BlockEntity>
-</Entity>
-<Entity>
-<engine.entities.BlockEntity>
-  <EntityType>Block</EntityType>
-  <x>0.0</x>
-  <y>0.0</y>
-  <width>108.0</width>
-  <height>108.0</height>
-  <zIndex>0.0</zIndex>
-  <name>Coin</name>
-  <imagePath>resources/CoinImage.png</imagePath>
   <isVisible>true</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
@@ -398,15 +465,118 @@
             <engine.Parameter>
               <name>Message</name>
               <clazz>java.lang.String</clazz>
-              <obj class="string">TEST </obj>
+              <obj class="string">TEST TEST</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.FacebookPostMessageAction>
       </actions>
     </engine.events.KeyPressEvent>
+    <engine.events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">T</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.SpawnEntityAction>
+          <params>
+            <engine.Parameter>
+              <name>Y Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>X Acceleration</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Y Acceleration</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Entity Name</name>
+              <clazz>java.lang.String</clazz>
+              <obj class="string">Coin</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Side</name>
+              <clazz>java.lang.String</clazz>
+              <obj class="string">Right</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>X Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">10.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.SpawnEntityAction>
+      </actions>
+    </engine.events.KeyPressEvent>
   </events>
 </engine.entities.CharacterEntity>
+</Entity>
+<Entity>
+<engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>108.0</width>
+  <height>108.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Coin</name>
+  <imagePath>resources/CoinImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <xSpeed>0.0</xSpeed>
+  <ySpeed>0.0</ySpeed>
+  <xAcceleration>0.0</xAcceleration>
+  <yAcceleration>0.0</yAcceleration>
+  <events>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.MoveBackAndForthAction>
+          <params>
+            <engine.Parameter>
+              <name>Allowed y steps</name>
+              <clazz>int</clazz>
+              <obj class="int">0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Y Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">0.0</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>Allowed x steps</name>
+              <clazz>int</clazz>
+              <obj class="int">10</obj>
+            </engine.Parameter>
+            <engine.Parameter>
+              <name>X Speed</name>
+              <clazz>double</clazz>
+              <obj class="double">10.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+          <stepAmount>0</stepAmount>
+          <firstTime>true</firstTime>
+        </engine.actions.MoveBackAndForthAction>
+        <engine.actions.MoveAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.MoveAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+  </events>
+</engine.entities.BlockEntity>
 </Entity>
 </Entities></Defaults><Camera><engine.entities.CameraEntity>
   <EntityType>Camera</EntityType>
@@ -417,10 +587,10 @@
   <zIndex>0.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
-  <isVisible>true</isVisible>
+  <isVisible>false</isVisible>
   <xSpeed>0.0</xSpeed>
   <ySpeed>0.0</ySpeed>
   <xAcceleration>0.0</xAcceleration>
   <yAcceleration>0.0</yAcceleration>
   <events/>
-</engine.entities.CameraEntity></Camera><Resources Song="resources/JayTestGame1.mp3"/></Game>
+</engine.entities.CameraEntity></Camera><Resources Song="resources/JayTestGame1.mp3"/><GameInfo Info="information about game"/></Game>

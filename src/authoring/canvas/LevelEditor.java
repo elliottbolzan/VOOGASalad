@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 
 import authoring.Workspace;
-import utils.views.View;
 import engine.Entity;
 import engine.game.Level;
 import javafx.beans.value.ChangeListener;
@@ -17,6 +16,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyCode;
+import utils.views.View;
 
 /**
  * LevelEditor keeps track of multiple levels and assigns a LayerEditor to each
@@ -34,7 +34,6 @@ public class LevelEditor extends View {
 	private List<EntityView> copiedEntities;
 	private List<LayerEditor> levels;
 	private int levelCount;
-	private HelpBar helpBar;
 
 	/**
 	 * Make a new LevelEditor
@@ -103,7 +102,6 @@ public class LevelEditor extends View {
 		tabPane.getTabs().add(newTab());
 		tabPane.getTabs().add(makePlusTab());
 		setCenter(tabPane);
-		this.addToolbar();
 		this.addKeyActions();
 	}
 
@@ -234,14 +232,6 @@ public class LevelEditor extends View {
 
 		});
 		return plusTab;
-	}
-
-	/**
-	 * Adds a help bar to the bottom of the LevelEditor.
-	 */
-	private void addToolbar() {
-		helpBar = new HelpBar(workspace);
-		setBottom(helpBar);
 	}
 
 }

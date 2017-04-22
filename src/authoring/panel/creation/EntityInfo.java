@@ -5,6 +5,7 @@ import java.io.File;
 import authoring.Workspace;
 import authoring.components.thumbnail.FixedThumbnail;
 import utils.views.View;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,7 +33,11 @@ public class EntityInfo extends View {
 	private EntityMaker editor;
 	private TextField nameField;
 	private FixedThumbnail thumbnail;
-	private Slider scaleSlider;
+
+	private Slider widthSlider;
+	private Slider heightSlider;
+	private ToggleButton link;
+	private boolean linked;
 
 	/**
 	 * Creates an EntityInfo.
@@ -77,17 +83,44 @@ public class EntityInfo extends View {
 	}
 
 	private VBox createScaleBox() {
-		VBox scaleBox = new VBox(8);
-		Label scaleLabel = new Label();
-		scaleLabel.textProperty().bind(workspace.getPolyglot().get("ScaleSliderTitle"));
-		double width = editor.getEntity().widthProperty().get();
-		scaleSlider = new Slider(0, 1, width == 0 ? 1 : width / getImage().getWidth());
-		scaleSlider.setMajorTickUnit(0.25);
-		scaleSlider.setShowTickMarks(true);
-		scaleSlider.setShowTickLabels(true);
-		scaleBox.getChildren().addAll(scaleSlider, scaleLabel);
-		scaleBox.setAlignment(Pos.CENTER);
-		return scaleBox;
+		linked = true;
+
+		double imageWidth = getImage().getWidth();
+		double currentWidth = editor.getEntity().widthProperty().get();
+		double width = currentWidth == 0 ? imageWidth : currentWidth;
+		widthSlider = new Slider(10, imageWidth, width);
+		VBox widthBox = createSliderBox("WidthSliderTitle", widthSlider);
+
+		link = new ToggleButton();
+		link.textProperty().bind(workspace.getPolyglot().get("Linked"));
+		link.setSelected(true);
+		link.setOnAction(e -> toggledLinked());
+
+		double imageHeight = getImage().getHeight();
+		double currentHeight = editor.getEntity().heightProperty().get();
+		double height = currentHeight == 0 ? imageHeight : currentHeight;
+		heightSlider = new Slider(10, imageHeight, height);
+		VBox heightBox = createSliderBox("HeightSliderTitle", heightSlider);
+
+		setupSliderProperties();
+
+		VBox box = new VBox(8);
+		box.getChildren().addAll(widthBox, link, heightBox);
+		box.setAlignment(Pos.CENTER);
+		return box;
+	}
+
+	/**
+	 * @return
+	 */
+	private VBox createSliderBox(String titleProperty, Slider slider) {
+		VBox box = new VBox(4);
+		Label label = new Label();
+		label.textProperty().bind(Bindings.format(workspace.getPolyglot().getOriginal(titleProperty) + (" %,.0f px"),
+				slider.valueProperty()));
+		box.getChildren().addAll(label, slider);
+		box.setAlignment(Pos.CENTER);
+		return box;
 	}
 
 	private HBox createButtonBar() {
@@ -100,8 +133,8 @@ public class EntityInfo extends View {
 
 	private void pickImage() {
 		FileChooser imageChooser = workspace.getMaker().makeFileChooser(
-				System.getProperty("user.dir") + workspace.getIOResources().getString("DefaultDirectory"), "Images",
-				"*.png", "*.jpg", "*.gif");
+				System.getProperty("user.dir") + workspace.getIOResources().getString("ResourcesDirectory"),
+				workspace.getIOResources().getString("ImageChooserFilter"), "*.png", "*.jpg", "*.gif");
 		File file = imageChooser.showOpenDialog(getScene().getWindow());
 		if (file != null) {
 			thumbnail.setImage(file.toURI().toString());
@@ -110,6 +143,33 @@ public class EntityInfo extends View {
 
 	private Image getImage() {
 		return new Image(getImagePath());
+	}
+
+	private void toggledLinked() {
+		linked = !linked;
+		if (linked) {
+			link.textProperty().bind(workspace.getPolyglot().get("Linked"));
+		} else {
+			link.textProperty().bind(workspace.getPolyglot().get("Unlinked"));
+		}
+	}
+
+	private void setupSliderProperties() {
+		widthSlider.valueProperty().addListener(
+				(ov, old_val, new_val) -> sliderPropertiesHelper(old_val, new_val, widthSlider, heightSlider));
+		heightSlider.valueProperty().addListener(
+				(ov, old_val, new_val) -> sliderPropertiesHelper(old_val, new_val, heightSlider, widthSlider));
+	}
+
+	/**
+	 * @param old_val
+	 * @param new_val
+	 */
+	private void sliderPropertiesHelper(Number old_val, Number new_val, Slider first, Slider second) {
+		if (linked && !second.isValueChanging()) {
+			double toMove = second.getMax() * (new_val.doubleValue() - old_val.doubleValue()) / first.getMax();
+			second.valueProperty().set(toMove + second.getValue());
+		}
 	}
 
 	/**
@@ -130,14 +190,14 @@ public class EntityInfo extends View {
 	 * @return the Entity's image width, as modified by the scale-adjustment.
 	 */
 	public double getImageWidth() {
-		return getImage().getWidth() * scaleSlider.getValue();
+		return widthSlider.getValue();
 	}
 
 	/**
 	 * @return the Entity's image height, as modified by the scale-adjustment.
 	 */
 	public double getImageHeight() {
-		return getImage().getHeight() * scaleSlider.getValue();
+		return heightSlider.getValue();
 	}
 
 }

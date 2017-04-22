@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 import player.score.Score;
 
 /**
- * @author Elliott Bolzan (Modified by Jesse Yue)
+ * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano)
  * 
  *         This class represents a Game. It is designed to be shared through
  *         submodules: the GameData, Game Authoring Environment, Game Player and
@@ -22,10 +22,13 @@ public class Game {
 	private List<Level> levels;
 	private List<Entity> defaults;
 	private String songPath;
+	private String backPath;
+	private String info;
+	private String achievements;
 	private CameraEntity camera;
 	private ObservableList<Score> scores;
 	private List<Score> scoresBase;
-	
+	private boolean isTestGame = false;
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
 	 */
@@ -35,8 +38,40 @@ public class Game {
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
 		songPath = "";
+		setBackPath("");
+		setInfo("Information about game");
+		setAchievements("");
 		camera = new CameraEntity();
 		scores = FXCollections.observableList(addDefaults());
+	}
+	
+	/**
+	 * Create a deepcopy of List<Level> by copying clones of the entities in each
+	 * constituent Level. Uses GameObject's clone() method to accomplish this.
+	 * @return the clone of levels
+	 */
+	public List<Level> cloneLevels(){
+		 List<Level> cloneOfLevels = new ArrayList<Level>();
+		 for(Level level : levels){
+			  cloneOfLevels.add(cloneLevel(level));
+		 }
+		 return cloneOfLevels;
+	}
+	
+	public Level cloneLevel(Level level){
+		  Level cloneOfLevel = new Level();
+		  for(Entity entity : level.getEntities()){
+			  cloneOfLevel.addEntity(entity.clone());
+		  }
+		  return cloneOfLevel;
+	}
+	
+	public List<Entity> cloneDefaults() {
+		List<Entity> cloneOfDefaults = new ArrayList<Entity>();
+		for(Entity entity : this.defaults) {
+			cloneOfDefaults.add(entity.clone());
+		}
+		return cloneOfDefaults;
 	}
 	
 	/**
@@ -99,6 +134,25 @@ public class Game {
 		this.songPath = songPath;
 	}
 	
+	public String getBackPath() {
+		return backPath;
+	}
+	public void setBackPath(String backPath) {
+		this.backPath = backPath;
+	}
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	public String getAchievements() {
+		return achievements;
+	}
+	public void setAchievements(String achievements) {
+		this.achievements = achievements;
+	}
+	
 	/**
 	 * @return the game's camera.
 	 */
@@ -119,20 +173,35 @@ public class Game {
 	 * @param score the score when game ended
 	 * @param time  the time remaining when game ended
 	 */
-	public void setScore(String score, String time, int timeValue){
+	public void setScore(String score, String time, int timeValue, String name){
 		for(int i = 0; i < scoresBase.size(); i++){
-			if(Integer.parseInt(score) > Integer.parseInt(scoresBase.get(i).getScore())){
-				shiftScores(i, score, time);	
+			if(isHighscore(score, timeValue, i)){
+				shiftScores(i, score, time, name);
 				break;
-			}else if(Integer.parseInt(score) == Integer.parseInt(scoresBase.get(i).getScore()) &&
-					timeValue > scoresBase.get(i).getTimeValue()){
-				shiftScores(i, score, time);
-				break;
-			}		
+			}	
 		}
 	}
 	
-	private void shiftScores(int i, String score, String time){
+	/**
+	 * 
+	 * @param score
+	 * @param timeValue
+	 * @param i
+	 * @returns boolean for if the new score is a highscore
+	 */
+	public boolean isHighscore(String score, int timeValue, int i){
+		if(Integer.parseInt(score) > Integer.parseInt(scoresBase.get(i).getScore())){
+			return true;
+		}else if(Integer.parseInt(score) == Integer.parseInt(scoresBase.get(i).getScore()) &&
+				timeValue > scoresBase.get(i).getTimeValue()){
+			return true;
+		}else{
+			return false;
+		}
+
+	}
+	
+	private void shiftScores(int i, String score, String time, String name){
 		//Shift scores down
 		for(int j = i; j < scoresBase.size() - 1; j++){
 			scoresBase.get(j+1).setScore(scoresBase.get(j).getScore());
@@ -141,6 +210,7 @@ public class Game {
 		//Replace score
 		scoresBase.get(i).setScore(score);
 		scoresBase.get(i).setTime(time);
+		scoresBase.get(i).setName(name);
 	}
 	
 	/**
@@ -160,5 +230,34 @@ public class Game {
 		return scoresBase;
 	}
 	
+	/**
+	 * 
+	 * @returns if the game is a test game
+	 */
+	public boolean isTestGame(){
+		return isTestGame;
+	}
 	
+	/**
+	 * sets if this game is a test game
+	 * @param value
+	 */
+	public void setTestGame(boolean value){
+		isTestGame = value;
+	}
+	
+	public Game clone() {
+		Game cloneGame = new Game();
+		cloneGame.setName(this.name);
+		cloneGame.setLevels(this.cloneLevels());
+		cloneGame.setDefaults(this.cloneDefaults());
+		cloneGame.setSongPath(this.songPath);
+		cloneGame.setBackPath(this.backPath);
+		cloneGame.setInfo(this.info);
+		cloneGame.setAchievements(this.achievements);
+		cloneGame.setCamera((CameraEntity)this.camera.clone());
+		//TODO: clone scores
+		cloneGame.setTestGame(this.isTestGame);
+		return cloneGame;
+	}
 }

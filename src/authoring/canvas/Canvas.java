@@ -4,22 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import utils.views.View;
 import engine.Entity;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
+import utils.views.View;
 
 /**
  * 
@@ -32,31 +24,29 @@ import javafx.scene.shape.Circle;
  * @author jimmy
  *
  */
-public class Canvas extends View
-{
-
+public class Canvas extends View {
 	private final int TILE_SIZE = 25;
-	private final int DEFAULT_WIDTH = 800;
-	private final int DEFAULT_HEIGHT = 600;
 
-	private Group gridNodes;
-	private ScrollPane scrollScreen;
 	private List<EntityView> entities;
-	private Pane canvas;
+	private Workspace workspace;
 
-	private double width;
-	private double height;
+	private ZoomablePane zoomablePane;
+	ExpandablePane expandablePane;
 
 	public Canvas(Workspace workspace) {
 		super(workspace.getPolyglot().get("CanvasTitle"));
+		this.workspace = workspace;
 		setup();
+	}
+
+	public ExpandablePane getExpandablePane() {
+		return expandablePane;
 	}
 
 	/**
 	 * Remove all of the entities from within the canvas.
 	 */
-	public void clear()
-	{
+	public void clear() {
 		setup();
 	}
 
@@ -68,9 +58,8 @@ public class Canvas extends View
 	 *            EventHandler that determines what happens when the mouse is
 	 *            clicked on the pane of the Canvas.
 	 */
-	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler)
-	{
-		canvas.setOnMouseClicked(eventHandler);
+	public void setPaneOnMouseClicked(EventHandler<? super MouseEvent> eventHandler) {
+		expandablePane.setOnMouseClicked(eventHandler);
 	}
 
 	/**
@@ -81,22 +70,27 @@ public class Canvas extends View
 	 *            EventHandler that determines what happens when the mouse is
 	 *            dragged on the pane of the Canvas.
 	 */
-	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler)
-	{
-		canvas.setOnMouseDragged(eventHandler);
+	public void setPaneOnMouseDragged(EventHandler<? super MouseEvent> eventHandler) {
+		expandablePane.setOnMouseDragged(eventHandler);
 	}
 
 	/**
 	 * Set up the canvas (set all of its entities and displays to the default
 	 * ones).
 	 */
-	private void setup()
-	{
-		gridNodes = new Group();
-		// entityRegions = new HashMap<Node, Region>();
+	private void setup() {
 		entities = new ArrayList<EntityView>();
-		scrollScreen = createScroller();
-		this.setCenter(scrollScreen);
+		final Group group = new Group();
+		expandablePane = new ExpandablePane();
+		group.getChildren().add(expandablePane);
+		zoomablePane = new ZoomablePane(group);
+
+		VBox layout = new VBox();
+		layout.getChildren().setAll(zoomablePane);
+
+		VBox.setVgrow(zoomablePane, Priority.ALWAYS);
+
+		this.setCenter(zoomablePane);
 	}
 
 	/**
@@ -104,10 +98,10 @@ public class Canvas extends View
 	 * 
 	 * @return x value of top-left corner of scroll panel.
 	 */
-	public double getXScrollAmount()
-	{
-		double viewPortX = scrollScreen.getViewportBounds().getWidth();
-		return scrollScreen.getHvalue() * (width - viewPortX);
+	public double getXScrollAmount() {
+		// double viewPortX = scrollScreen.getViewportBounds().getWidth();
+		// return scrollScreen.getHvalue() * (width - viewPortX);
+		return 0;
 	}
 
 	/**
@@ -115,10 +109,10 @@ public class Canvas extends View
 	 * 
 	 * @return y value of top-left corner.
 	 */
-	public double getYScrollAmount()
-	{
-		double viewportY = scrollScreen.getViewportBounds().getHeight();
-		return scrollScreen.getVvalue() * (height - viewportY);
+	public double getYScrollAmount() {
+		// double viewportY = scrollScreen.getViewportBounds().getHeight();
+		// return scrollScreen.getVvalue() * (height - viewportY);
+		return 0;
 	}
 
 	/**
@@ -126,33 +120,11 @@ public class Canvas extends View
 	 * 
 	 * @return canvas tile size.
 	 */
-	public double getTileSize()
-	{
+	public double getTileSize() {
 		return TILE_SIZE;
 	}
 
-	/**
-	 * Creates the scroller for the canvas.
-	 * 
-	 * @return ScrollPane scroller for canvas
-	 */
-	private ScrollPane createScroller()
-	{
-		scrollScreen = new ScrollPane();
-		canvas = new Pane();
-		canvas.setPrefHeight(height);
-		canvas.setPrefWidth(width);
-		canvas.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-
-		canvas.getChildren().add(gridNodes);
-		scrollScreen.setContent(canvas);
-		// clickToAddEntity();
-		updateDisplay();
-		return scrollScreen;
-	}
-
-	public List<EntityView> getSelectedEntities()
-	{
+	public List<EntityView> getSelectedEntities() {
 		List<EntityView> selected = new ArrayList<EntityView>();
 		entities.forEach(e -> {
 			if (e.isSelected()) {
@@ -171,8 +143,7 @@ public class Canvas extends View
 	 *            Entity to be added to the canvas.
 	 * @return EntityView that is displayed in the Canvas.
 	 */
-	public EntityView addEntity(Entity entity)
-	{
+	public EntityView addEntity(Entity entity) {
 		return this.addEntity(entity, 0, 0);
 	}
 
@@ -189,18 +160,14 @@ public class Canvas extends View
 	 *            y position
 	 * @return EntityView that is displayed in the Canvas.
 	 */
-	public EntityView addEntity(Entity entity, double x, double y)
-	{
+	public EntityView addEntity(Entity entity, double x, double y) {
 		EntityView newEntity = new EntityView(entity, this, TILE_SIZE, x, y);
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		newEntity.setTranslateX(tiledCoordinate.getX());
 		newEntity.setTranslateY(tiledCoordinate.getY());
 		entities.add(newEntity);
-		canvas.getChildren().add(newEntity);
+		expandablePane.addEntity(newEntity, x, y);
 
-		makeDraggable(newEntity);
-		updateCanvasBounds();
-		updateDisplay();
 		return newEntity;
 	}
 
@@ -210,130 +177,13 @@ public class Canvas extends View
 	 * @param entity
 	 *            EntityView to be removed from the Canvas.
 	 */
-	public void removeEntity(EntityView entity)
-	{
+	public void removeEntity(EntityView entity) {
 		entities.remove(entity);
-		canvas.getChildren().remove(entity);
+		expandablePane.getChildren().remove(entity);
 	}
-
-	/**
-	 * Draw the grid for the Canvas
-	 */
-	private void drawGrid()
-	{
-		for (int i = 0; i < width / TILE_SIZE; i++) {
-			for (int j = 0; j < height / TILE_SIZE; j++) {
-				drawGridDot(i, j);
-			}
-		}
-	}
-
-	/**
-	 * Draw a single grid dot at the given coordinates.
-	 * 
-	 * @param tileX
-	 *            x coordinate of the grid dot
-	 * @param tileY
-	 *            y coordinate of the grid dot
-	 */
-	private void drawGridDot(double tileX, double tileY)
-	{
-		Circle gridMarker = new Circle();
-		gridMarker.setCenterX(tileX * TILE_SIZE);
-		gridMarker.setCenterY(tileY * TILE_SIZE);
-		gridMarker.setRadius(1);
-		gridMarker.setFill(Color.GREY);
-		gridNodes.getChildren().add(gridMarker);
-	}
-
-	/**
-	 * Bind the scrollbar of the scroll screen to the currently dragged object.
-	 * As the object is dragged, the scrollbar will automatically re-adjust so
-	 * that the object is in the center of the scroll screen. Moreover, this
-	 * method updates the bounds of the canvas as the dragged object moves past
-	 * the currently defined bounds.
-	 * 
-	 * @param entity
-	 *            EntityView to bind the scrollbar to.
-	 */
-	private void makeDraggable(EntityView entity)
-	{
-		entity.translateXProperty().addListener(new ChangeListener<Number>()
-		{
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldX, Number newX)
-			{
-				scrollScreen.setHvalue(newX.doubleValue() / (width - entity.getWidth()));
-				if (newX.intValue() < 0) {
-					entity.setTranslateX(0);
-				} else if (newX.intValue() + entity.getWidth() > width) {
-					updateCanvasBounds();
-				}
-				updateDisplay();
-			}
-
-		});
-
-		entity.translateYProperty().addListener(new ChangeListener<Number>()
-		{
-
-			@Override
-			public void changed(ObservableValue<? extends Number> observable, Number oldY, Number newY)
-			{
-				scrollScreen.setVvalue(newY.doubleValue() / (height - entity.getHeight()));
-				if (newY.intValue() < 0) {
-					entity.setTranslateY(0);
-				} else if (newY.intValue() + entity.getHeight() > height) {
-					updateCanvasBounds();
-				}
-				updateDisplay();
-			}
-
-		});
-
-		entity.minHeightProperty().addListener(e -> {
-			updateDisplay();
-		});
-		entity.minWidthProperty().addListener(e -> {
-			updateDisplay();
-		});
-	}
-
-	/**
-	 * This method draws the current bounds of the grid and updates the bounds
-	 * of the layer.
-	 */
-	private void updateDisplay()
-	{
-		updateCanvasBounds();
-		canvas.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-		gridNodes.getChildren().clear();
-		drawGrid();
-		canvas.setPrefHeight(height);
-		canvas.setPrefWidth(width);
-	}
-
-	/**
-	 * Updates the bounds of the canvas based on the position of the entity
-	 * furthest from the origin in each direction (x and y)
-	 */
-	private void updateCanvasBounds()
-	{
-		double maxX = DEFAULT_WIDTH;
-		double maxY = DEFAULT_HEIGHT;
-		for (EntityView entity : entities) {
-			double nodeMaxX = entity.getTranslateX() + entity.getBoundsInParent().getWidth();
-			double nodeMaxY = entity.getTranslateY() + entity.getBoundsInParent().getHeight();
-			if (nodeMaxX > maxX) {
-				maxX = nodeMaxX;
-			}
-			if (nodeMaxY > maxY) {
-				maxY = nodeMaxY;
-			}
-		}
-		this.width = maxX;
-		this.height = maxY;
+	
+	public Workspace getWorkspace() {
+		return workspace;
 	}
 
 	/**
@@ -346,8 +196,7 @@ public class Canvas extends View
 	 *            y position
 	 * @return tiled coordinate of the given input.
 	 */
-	private Point2D getTiledCoordinate(double x, double y)
-	{
+	private Point2D getTiledCoordinate(double x, double y) {
 		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
 		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
 		return new Point2D(gridX, gridY);
