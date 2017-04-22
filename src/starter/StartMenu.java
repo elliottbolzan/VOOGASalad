@@ -136,11 +136,7 @@ public class StartMenu extends BorderPane {
 	}
 
 	private boolean isSelected(String selectedDirectory) {
-		if (selectedDirectory == "") {
-			return false;
-		} else {
-			return true;
-		}
+		return selectedDirectory != "";
 	}
 
 	private void editGame() {

@@ -184,11 +184,7 @@ public class Workspace extends View {
 	 * @returns if there is an existing path or not
 	 */
 	public boolean pathExists() {
-		if (path.equals("")) {
-			return false;
-		} else {
-			return true;
-		}
+		return !path.equals("");
 	}
 	
 	public ComponentMaker getMaker() {
