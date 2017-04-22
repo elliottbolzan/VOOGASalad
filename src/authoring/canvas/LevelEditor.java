@@ -138,6 +138,7 @@ public class LevelEditor extends View
 
 	private void addKeyActions()
 	{
+		tabPane.setFocusTraversable(true);
 		tabPane.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
 				copiedEntities.clear();
@@ -187,6 +188,25 @@ public class LevelEditor extends View
 				e.consume();
 			}
 		});
+	}
+
+	public void copy()
+	{
+		copiedEntities.clear();
+		for (Layer layer : currentLevel.getLayers()) {
+			copiedEntities.addAll(layer.getSelectedEntities());
+		}
+	}
+
+	public void paste()
+	{
+		for (Layer layer : currentLevel.getLayers()) {
+			layer.getSelectedEntities().forEach(entity -> entity.setSelected(false));
+		}
+		for (EntityView entity : copiedEntities) {
+			currentLevel.addEntity(entity.getEntity(), entity.getEntity().getX() + 25, entity.getEntity().getY() + 25,
+					currentLevel.getCurrentLayer()).setSelected(true);
+		}
 	}
 
 	/**

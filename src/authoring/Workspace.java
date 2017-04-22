@@ -101,11 +101,14 @@ public class Workspace extends View
 		Menu gameMenu = maker.makeMenu("GameMenu");
 		gameMenu.getItems().addAll(maker.makeMenuItem("Save", "Ctrl+S", e -> save()),
 				maker.makeMenuItem("TestMenu", "Ctrl+T", e -> test()));
+		Menu editMenu = maker.makeMenu("EditTitle");
+		editMenu.getItems().addAll(maker.makeMenuItem("Copy", "Ctrl+C", e -> levelEditor.copy()),
+				maker.makeMenuItem("Paste", "Ctrl+V", e -> levelEditor.paste()));
 		Menu settingsMenu = maker.makeMenu("SettingsTitle");
 		settingsMenu.getItems().add(maker.makeMenuItem("MusicSelect", "Ctrl+M", e -> chooseSong()));
 		Menu helpMenu = maker.makeMenu("HelpTitle");
 		helpMenu.getItems().add(maker.makeMenuItem("KeyCombinations", "Ctrl+H", e -> showKeyCombinations()));
-		menuBar.getMenus().addAll(gameMenu, settingsMenu, helpMenu);
+		menuBar.getMenus().addAll(gameMenu, editMenu, settingsMenu, helpMenu);
 		VBox box = new VBox(menuBar);
 		box.setPadding(new Insets(15, 0, 0, 0));
 		return box;
@@ -119,9 +122,6 @@ public class Workspace extends View
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
 				levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
-				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2.
-				// e2.getSceneY(),
-				// levelEditor.getCurrentLevel().getCurrentLayer());
 				levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});

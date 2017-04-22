@@ -31,7 +31,7 @@ public class Canvas extends View
 	private List<EntityView> entities;
 
 	private ZoomablePane zoomablePane;
-	ExpandablePane expandablePane;
+	private ExpandablePane expandablePane;
 
 	public Canvas(Workspace workspace)
 	{

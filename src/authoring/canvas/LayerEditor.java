@@ -175,7 +175,6 @@ public class LayerEditor extends View
 	 */
 	private void addKeyActions()
 	{
-		workspace.setFocusTraversable(true);
 		workspace.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
 				for (Layer layer : layers.values()) {
@@ -185,42 +184,42 @@ public class LayerEditor extends View
 				}
 				e.consume();
 			}
-			if (e.getCode().equals(KeyCode.RIGHT)) {
-				for (Layer layer : layers.values()) {
-					layer.getSelectedEntities().forEach(entity -> {
-						entity.moveX(canvas.getTileSize());
-					});
-				}
-				e.consume();
-			}
-			if (e.getCode().equals(KeyCode.LEFT)) {
-				for (Layer layer : layers.values()) {
-					layer.getSelectedEntities().forEach(entity -> {
-						if (entity.getEntity().getX() > canvas.getTileSize()) {
-							entity.moveX(-1 * canvas.getTileSize());
-						}
-					});
-				}
-				e.consume();
-			}
-			if (e.getCode().equals(KeyCode.DOWN)) {
-				for (Layer layer : layers.values()) {
-					layer.getSelectedEntities().forEach(entity -> {
-						entity.moveY(canvas.getTileSize());
-					});
-				}
-				e.consume();
-			}
-			if (e.getCode().equals(KeyCode.UP)) {
-				for (Layer layer : layers.values()) {
-					layer.getSelectedEntities().forEach(entity -> {
-						if (entity.getEntity().getY() > canvas.getTileSize()) {
-							entity.moveY(-1 * canvas.getTileSize());
-						}
-					});
-				}
-				e.consume();
-			}
+			// if (e.getCode().equals(KeyCode.RIGHT)) {
+			// for (Layer layer : layers.values()) {
+			// layer.getSelectedEntities().forEach(entity -> {
+			// entity.moveX(canvas.getTileSize());
+			// });
+			// }
+			// e.consume();
+			// }
+			// if (e.getCode().equals(KeyCode.LEFT)) {
+			// for (Layer layer : layers.values()) {
+			// layer.getSelectedEntities().forEach(entity -> {
+			// if (entity.getEntity().getX() > canvas.getTileSize()) {
+			// entity.moveX(-1 * canvas.getTileSize());
+			// }
+			// });
+			// }
+			// e.consume();
+			// }
+			// if (e.getCode().equals(KeyCode.DOWN)) {
+			// for (Layer layer : layers.values()) {
+			// layer.getSelectedEntities().forEach(entity -> {
+			// entity.moveY(canvas.getTileSize());
+			// });
+			// }
+			// e.consume();
+			// }
+			// if (e.getCode().equals(KeyCode.UP)) {
+			// for (Layer layer : layers.values()) {
+			// layer.getSelectedEntities().forEach(entity -> {
+			// if (entity.getEntity().getY() > canvas.getTileSize()) {
+			// entity.moveY(-1 * canvas.getTileSize());
+			// }
+			// });
+			// }
+			// e.consume();
+			// }
 		});
 	}
 
