@@ -36,7 +36,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		if(graphicsEngine.isHighscore() && (resourceFileTextName.equals("WinGame") || resourceFileTextName.equals("GameOver"))){
 			graphicsEngine.endScreen();
 		}else{
-			graphicsEngine.fillScreenWithText(ResourceBundle.getBundle(RESOURCES_NAME).getString(resourceFileTextName));
+			graphicsEngine.fillScreenWithText(resourceFileTextName);
 		}
 	}
 
