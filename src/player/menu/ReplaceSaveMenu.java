@@ -47,7 +47,7 @@ public class ReplaceSaveMenu {
 
 	public void display(EventHandler<MouseEvent> e) {
 		for (int i = 0; i < 10; i++) {
-			saves.getItems().add(polyglot.getOriginal("SavesTitle") + Integer.toString(i + 1));
+			saves.getItems().add(polyglot.getOriginal(Integer.toString(i + 1)));
 			saves.setOnMouseClicked(e);
 		}
 		stage.show();
