@@ -1,5 +1,6 @@
 package player.menu;
 
+import java.util.List;
 import java.util.ResourceBundle;
 
 import game_data.Game;
@@ -69,6 +70,13 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 			grid.add(tiles[i], getRow(i), getColumn(i));
 		}
 		createBackButton(backButton);
+	}
+	
+	public void addSaveTiles(boolean backButton, List<Tile> tiles){
+		Tile[] tileArray = new Tile[tiles.size()];
+		tileArray = tiles.toArray(tileArray);
+		grid.getChildren().clear();
+		addTiles(backButton, tiles.toArray(tileArray));
 	}
 	
 	private void createBackButton(boolean backButton) {
