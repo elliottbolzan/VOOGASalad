@@ -1,5 +1,6 @@
 package engine.game.gameloop;
 
+import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
 /**
@@ -9,14 +10,16 @@ import engine.graphics.GraphicsEngine;
  */
 public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "LivesLeft";
+	private LevelManager levelManager;
 	
-	public LoseLifeStepStrategy() {
+	public LoseLifeStepStrategy(LevelManager levelManager) {
 		super(RESOURCE_NAME);
+		this.levelManager = levelManager;
 	}
 
 	@Override
 	protected int nextLevelNumber() {
-		return -1;
+		return levelManager.getLevelNumber();
 	}
 
 	@Override

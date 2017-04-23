@@ -73,7 +73,7 @@ public class TimelineManipulator {
 		if (gameOver) {
 			nextStepStrategy = new GameOverStepStrategy();
 		} else {
-			nextStepStrategy = new LoseLifeStepStrategy();
+			nextStepStrategy = new LoseLifeStepStrategy(levelManager);
 		}
 		moveToNextScreen(nextStepStrategy);
 	}
