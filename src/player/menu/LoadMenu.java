@@ -7,9 +7,6 @@ import game_data.GameData;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import player.MediaManager;
 import player.launcher.FullPlayer;
@@ -25,7 +22,6 @@ public class LoadMenu extends AbstractMenu {
 
 	private ObservableList<String> saveStates;
 	private ObservableList<Tile> saveTiles;
-	private VBox saveButtonContainer;
 	private Game game;
 	private Tile playTile;
 

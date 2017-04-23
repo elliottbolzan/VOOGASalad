@@ -11,14 +11,12 @@ import javafx.scene.media.MediaPlayer;
 public class MediaManager {
 
 	private String gamePath;
-	private Game game;
 	private MediaPlayer songPlayer;
 	private ObservableList<String> saveStates;
 	private int count = 0;
 
 	public MediaManager(Game game, String gamePath, ObservableList<String> saveStates) {
 		this.gamePath = gamePath;
-		this.game = game;
 		this.saveStates = saveStates;
 		if (!game.getSongPath().equals("")) {
 			String uriString = new File(game.getSongPath()).toURI().toString();

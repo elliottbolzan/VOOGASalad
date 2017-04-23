@@ -1,6 +1,3 @@
-/**
- * 
- */
 package player;
 
 import java.io.File;
@@ -8,7 +5,6 @@ import java.util.ResourceBundle;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import player.menu.MainMenu;
 import polyglot.Polyglot;
 import polyglot.PolyglotException;
 
