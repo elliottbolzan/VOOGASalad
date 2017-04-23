@@ -77,13 +77,16 @@ public class LevelManager {
 	 */
 
 	public boolean setLevelNumber(int currentLevel) {
-		boolean inRange = currentLevel >= 1 && currentLevel <= levels.size();
-		if (inRange) {
+		if (levelNumberInGame(currentLevel)) {
 			this.currentLevel = currentLevel;
 		}
-		return inRange;
+		return levelNumberInGame(currentLevel);
 	}
 
+	public boolean levelNumberInGame(int queriedLevel){
+		return currentLevel >= 1 && currentLevel <= levels.size();
+	}
+	
 	public int getLevelNumber() {
 		return currentLevel;
 	}

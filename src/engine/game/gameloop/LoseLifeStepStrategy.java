@@ -1,6 +1,6 @@
 package engine.game.gameloop;
 
-import engine.game.LevelManager;
+import engine.graphics.GraphicsEngine;
 
 /**
  * 
@@ -13,19 +13,14 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	public LoseLifeStepStrategy() {
 		super(RESOURCE_NAME);
 	}
-	
+
 	@Override
-	protected StepStrategy getNextStepStrategy(LevelManager levelManager) {
-		return new LevelStepStrategy(); 
+	protected int nextLevelNumber() {
+		return -1;
 	}
 
 	@Override
-	protected int nextLevelNumber(LevelManager levelManager) {
-		return levelManager.getLevelNumber();
-	}
-
-	@Override
-	protected boolean hasNextScreen(LevelManager levelManager) {
-		return true;
+	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
+		//Intentionally left blank.
 	}
 }

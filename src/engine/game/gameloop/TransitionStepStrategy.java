@@ -46,23 +46,22 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		frameNumber++;
 	}
 	
-	protected abstract StepStrategy getNextStepStrategy(LevelManager levelManager);
-
-	protected abstract int nextLevelNumber(LevelManager levelManager);
-
-	protected abstract boolean hasNextScreen(LevelManager levelManager);
-
+	protected abstract int nextLevelNumber();
+	
+	protected abstract void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine);
+	
 	private void moveToNextScreen() {
 		levelManager.getCurrentScreen().getTimeline().stop();
-		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber(levelManager));
-		if (hasNextLevel && hasNextScreen(levelManager)) {
-			StepStrategy nextStepStrategy = getNextStepStrategy(levelManager);
+		
+		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber());
+		if(hasNextLevel){
+			StepStrategy nextStepStrategy = new LevelStepStrategy();
 			levelManager.setCurrentStepStrategy(nextStepStrategy);
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
 			nextScreen.getTimeline().play();
 		}
-		else if(graphicsEngine.isHighscore()){
-				graphicsEngine.endScreen();
+		else{
+			handleHighscore(hasNextLevel, graphicsEngine);
 		}
 	}
 

@@ -19,7 +19,6 @@ public class NextLevelAction extends Action {
 				getGameInfo().getTimelineManipulator().startNextLevel();
 			}
 		} catch (ClassCastException e) {
-			//throw new GameObjectException("CastingError");
 			System.out.println("Casting error in NextLevelAction");
 		}
 	}
