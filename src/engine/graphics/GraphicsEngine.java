@@ -9,6 +9,7 @@ import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.gameloop.Scorebar;
 import game_data.Game;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -17,7 +18,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
@@ -29,6 +29,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import player.menu.HighscoreMenu;
 import player.score.Overlay;
@@ -129,8 +130,8 @@ public class GraphicsEngine {
 		this.clearView();
 		Label label = new Label();
 		label.textProperty().bind(polyglot.get(resourceFileTextName, Case.TITLE));
-		label.setPrefSize(displayArea.getWidth(), displayArea.getHeight());
-		label.setFont(new Font(displayArea.getWidth() / label.textProperty().getValue().length()));
+		label.scaleXProperty().bind(displayArea.widthProperty().divide(label.widthProperty()));
+		label.scaleYProperty().bind(displayArea.widthProperty().divide(label.widthProperty()));
 		label.setAlignment(Pos.CENTER);
 		displayArea.setCenter(label);
 	}
@@ -140,27 +141,25 @@ public class GraphicsEngine {
 	 */
 	public void endScreen() {
 		this.clearView();
-		VBox container = new VBox(20);
-		String text = "Congratulations!\nNew Highscore!";
-		Label congrats = new Label(text);
-		congrats.setFont(new Font(displayArea.getWidth() / text.length()));
+		VBox container = new VBox(30);
+		
+		Label congrats = new Label("New Highscore!");
+		congrats.scaleXProperty().bind(displayArea.widthProperty().divide(congrats.widthProperty()).divide(2));
+		congrats.scaleYProperty().bind(congrats.scaleXProperty());
+		
 		TextField enterName = new TextField();
+		enterName.setMaxWidth(displayArea.getWidth()/2);
 		enterName.setPromptText("Your name here");
+		
 		Button toHighscores = new Button("Continue");
-		toHighscores.setOnAction(e -> saveName(enterName.getText()));
+		toHighscores.setOnAction(e -> {
+			getScorebar().saveFinalScore(enterName.getText());
+			stage.setScene(new HighscoreMenu(stage, game, polyglot, IOResources).createScene());
+		});
 
 		container.getChildren().addAll(congrats, enterName, toHighscores);
 		container.setAlignment(Pos.CENTER);
 		displayArea.setCenter(container);
-	}
-
-	private void saveName(String name) {
-		getScorebar().saveFinalScore(name);
-		stage.setScene(new HighscoreMenu(stage, game, polyglot, IOResources).createScene());
-	}
-
-	public boolean isHighscore() {
-		return this.getScorebar().isHighscore();
 	}
 
 	/**
