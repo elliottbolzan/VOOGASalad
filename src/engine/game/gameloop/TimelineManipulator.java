@@ -36,6 +36,7 @@ public class TimelineManipulator {
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			info.getObservableBundle().detachEntityFromAll(entity);
 		}
+		levelManager.rememberWonCurrentLevel();
 		moveToNextScreen(new NewLevelStepStrategy(levelManager, newLevel));
 	}
 	
@@ -51,6 +52,7 @@ public class TimelineManipulator {
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			info.getObservableBundle().detachEntityFromAll(entity);
 		}
+		levelManager.rememberWonCurrentLevel();
 		moveToNextScreen(new NextLevelStepStrategy(levelManager));
 	}
 
