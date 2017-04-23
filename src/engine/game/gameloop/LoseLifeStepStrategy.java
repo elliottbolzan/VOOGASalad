@@ -1,6 +1,7 @@
 package engine.game.gameloop;
 
 import engine.game.LevelManager;
+import engine.graphics.GraphicsEngine;
 
 /**
  * 
@@ -9,23 +10,20 @@ import engine.game.LevelManager;
  */
 public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "LivesLeft";
+	private LevelManager levelManager;
 	
-	public LoseLifeStepStrategy() {
+	public LoseLifeStepStrategy(LevelManager levelManager) {
 		super(RESOURCE_NAME);
-	}
-	
-	@Override
-	protected StepStrategy getNextStepStrategy(LevelManager levelManager) {
-		return new LevelStepStrategy(); 
+		this.levelManager = levelManager;
 	}
 
 	@Override
-	protected int nextLevelNumber(LevelManager levelManager) {
+	protected int nextLevelNumber() {
 		return levelManager.getLevelNumber();
 	}
 
 	@Override
-	protected boolean hasNextScreen(LevelManager levelManager) {
-		return true;
+	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
+		//Intentionally left blank.
 	}
 }
