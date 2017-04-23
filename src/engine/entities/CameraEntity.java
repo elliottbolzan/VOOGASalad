@@ -17,7 +17,7 @@ public class CameraEntity extends Entity {
 		this.setName("Camera");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		this.setZ(-1);
-		this.setIsVisible(false); //TODO: for now leave the camera image visible for testing
+		this.setIsVisible(false);
 		this.setupAlwaysFollowEvent();
 	}
 	
