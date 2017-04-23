@@ -6,6 +6,7 @@ import java.util.List;
 
 import engine.Entity;
 import engine.LevelInterface;
+import engine.entities.CameraEntity;
 import engine.game.selectiongroup.Selectable;
 
 /**
@@ -16,9 +17,11 @@ import engine.game.selectiongroup.Selectable;
  */
 public class Level implements LevelInterface, Selectable{
 	private List<Entity> entities;
+	private CameraEntity camera;
 	
 	public Level(){
 		entities = new ArrayList<>();
+		camera = new CameraEntity();
 	}
 	
 	/**
@@ -84,4 +87,12 @@ public class Level implements LevelInterface, Selectable{
 		
 	}
 	*/
+	
+	public CameraEntity getCamera() {
+		return this.camera;
+	}
+	
+	public void setCamera(CameraEntity camera) {
+		this.camera = camera;
+	}
 }

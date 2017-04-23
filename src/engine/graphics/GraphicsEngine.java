@@ -47,6 +47,7 @@ public class GraphicsEngine {
 	
 	private Scorebar scorebar;
 	private Overlay overlay;
+	
 	private Stage stage;
 	private BorderPane displayArea;
 	private Game game;
@@ -205,7 +206,7 @@ public class GraphicsEngine {
 	}
 	
 	private void sortViewByZIndex() {
-		List<Node> sortedNodes = displayArea.getChildren().sorted((a,b) -> {return Double.compare(b.getTranslateZ(), a.getTranslateZ());});
+		List<Node> sortedNodes = displayArea.getChildren().sorted((a,b) -> {return Double.compare(a.getTranslateZ(), b.getTranslateZ());});
 		displayArea.getChildren().setAll(sortedNodes); 
 	}
 	
