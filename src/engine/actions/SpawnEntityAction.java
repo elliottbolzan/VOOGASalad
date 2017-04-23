@@ -7,7 +7,9 @@ import engine.Parameter;
 import javafx.application.Platform;
 
 /**
- * @author nikita Spawn an entity with given parameters.
+ * Spawn an entity with given parameters.
+ * 
+ * @author nikita
  */
 public class SpawnEntityAction extends Action {
 

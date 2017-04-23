@@ -23,7 +23,7 @@ import game_data.Game;
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
 	private SelectionGroup<Level> levelsInInitialState;
-	private List<Integer> wonLevelNumbers; //one-indexed
+	private List<Integer> wonLevelNumbers; // one-indexed
 	private int currentLevel; // one-indexed
 	private Game game;
 	private Screen currentScreen;
@@ -53,7 +53,7 @@ public class LevelManager {
 	public void setCurrentStepStrategy(StepStrategy currentStepStrategy) {
 		this.currentStepStrategy = currentStepStrategy;
 	}
-	
+
 	/**
 	 * External Engine API. Needed for authoring.
 	 * 
@@ -88,10 +88,10 @@ public class LevelManager {
 		return levelNumberInGame(currentLevel);
 	}
 
-	public boolean levelNumberInGame(int queriedLevel){
+	public boolean levelNumberInGame(int queriedLevel) {
 		return currentLevel >= 1 && currentLevel <= levels.size();
 	}
-	
+
 	public int getLevelNumber() {
 		return currentLevel;
 	}
@@ -122,27 +122,27 @@ public class LevelManager {
 	 * @param filename
 	 */
 
-	//Call once at beginning of the game
+	// Call once at beginning of the game
 	public void loadAllSavedLevels() {
-		//levels.removeAll();
+		// levels.removeAll();
 		levelsInInitialState.addAll(game.cloneLevels());
 		levels.addAll(game.getLevels());
 	}
-	
-	//Call when start up a level (first time AND after die)
-	public void resetCurrentLevel(){
+
+	// Call when start up a level (first time AND after die)
+	public void resetCurrentLevel() {
 		levels.set(currentLevel - 1, game.cloneLevel(levelsInInitialState.get(currentLevel - 1)));
 	}
 
 	public SelectionGroup<Level> getLevels() {
 		return levels;
 	}
-	
-	public void rememberWonCurrentLevel(){
+
+	public void rememberWonCurrentLevel() {
 		wonLevelNumbers.add(currentLevel);
 	}
-	
-	public List<Integer> getWonLevelNumbers(){
+
+	public List<Integer> getWonLevelNumbers() {
 		return wonLevelNumbers;
 	}
 }

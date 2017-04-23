@@ -14,7 +14,8 @@ public class NextLevelAction extends Action {
 	@Override
 	public void act() {
 		try {
-			// This check added to fix bug of multiple NextLevelActions triggering
+			// This check added to fix bug of multiple NextLevelActions
+			// triggering
 			if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
 				getGameInfo().getTimelineManipulator().startNextLevel();
 			}
