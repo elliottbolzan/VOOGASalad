@@ -31,7 +31,7 @@ public class CollisionObservable extends EventObservable {
 			}
 			return CollisionSide.LEFT;
 		}
-		if (entityOne.getY() + entityOne.getHeight() < entityTwo.getY() + entityTwo.getHeight()) {
+		if (entityOne.getY() < entityTwo.getY()) {
 			return CollisionSide.BOTTOM;
 		}
 		return CollisionSide.TOP;
@@ -42,27 +42,25 @@ public class CollisionObservable extends EventObservable {
 	}
 
 	private double getIntersectionWidth(Entity entityOne, Entity entityTwo) {
-		if (entityOne.getX() < entityTwo.getX()) {
-			if (entityOne.getX() + entityOne.getWidth() < entityTwo.getX() + entityTwo.getWidth()) {
-				return (entityOne.getX() + entityOne.getWidth()) - entityTwo.getX();
+		return intersectionSize(entityOne.getX(), entityOne.getX() + entityOne.getWidth(), entityTwo.getX(),
+				entityTwo.getX() + entityTwo.getWidth());
+	}
+
+	private double intersectionSize(double sideOneMin, double sideOneMax, double sideTwoMin, double sideTwoMax) {
+		if (sideOneMin < sideTwoMin) {
+			if (sideOneMax < sideTwoMax) {
+				return sideOneMax - sideTwoMin;
 			}
-			return entityTwo.getWidth();
-		} else if (entityOne.getX() + entityOne.getWidth() < entityTwo.getX() + entityTwo.getWidth()) {
-			return entityOne.getWidth();
+			return sideTwoMax - sideTwoMin;
+		} else if (sideOneMax < sideTwoMax) {
+			return sideOneMax - sideOneMin;
 		}
-		return (entityTwo.getX() + entityTwo.getWidth()) - entityOne.getX();
+		return sideTwoMax - sideOneMin;
 	}
 
 	private double getIntersectionHeight(Entity entityOne, Entity entityTwo) {
-		if (entityOne.getY() < entityTwo.getY()) {
-			if (entityOne.getY() + entityOne.getHeight() < entityTwo.getY() + entityTwo.getHeight()) {
-				return (entityOne.getY() + entityOne.getHeight()) - entityTwo.getY();
-			}
-			return entityTwo.getHeight();
-		} else if (entityOne.getY() + entityOne.getHeight() < entityTwo.getY() + entityTwo.getHeight()) {
-			return entityOne.getHeight();
-		}
-		return (entityTwo.getY() + entityTwo.getHeight()) - entityOne.getY();
+		return intersectionSize(entityOne.getY(), entityOne.getY() + entityOne.getHeight(), entityTwo.getY(),
+				entityTwo.getY() + entityTwo.getHeight());
 	}
 
 	/**
