@@ -1,6 +1,7 @@
 package engine.game.gameloop;
 import engine.Action;
 import engine.Entity;
+import engine.entities.CameraEntity;
 import engine.Event;
 import engine.GameInfo;
 import engine.game.LevelManager;
@@ -86,8 +87,9 @@ public class LevelStepStrategy implements StepStrategy {
 		}
 	}
 	private void setupGameView() {
-		// TODO call graphicsEngine.setCamera() here
-		levelManager.getCurrentLevel().getEntities().add(graphicsEngine.getCamera());
+		CameraEntity levelCamera = levelManager.getCurrentLevel().getCamera();
+		levelManager.getCurrentLevel().getEntities().add(levelCamera);
+		graphicsEngine.setCamera(levelCamera);
 		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
 	}
 }
