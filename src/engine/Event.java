@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author nikita Abstract class for all events. Methods are implemented from
- *         EventInterface that are common to all events.
+ * Abstract class for all events. Methods are implemented from EventInterface
+ * that are common to all events.
+ * 
+ * @author nikita
  */
 public abstract class Event extends GameObject implements EventInterface {
 
@@ -21,10 +23,19 @@ public abstract class Event extends GameObject implements EventInterface {
 		actions.add(action);
 	}
 
+	/**
+	 * 
+	 * @return List of Actions associated with this Event
+	 */
 	public List<Action> getActions() {
 		return actions;
 	}
 
+	/**
+	 * 
+	 * @param actions
+	 *            Set list of Actions that is associated with this Event
+	 */
 	public void setActions(List<Action> actions) {
 		this.actions = actions;
 	}

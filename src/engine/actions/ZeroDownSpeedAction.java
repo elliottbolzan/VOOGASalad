@@ -12,7 +12,7 @@ public class ZeroDownSpeedAction extends Action {
 
 	@Override
 	public void act() {
-		if(getEntity().getYSpeed() > 0){
+		if (getEntity().getYSpeed() > 0) {
 			getEntity().setYSpeed(0);
 		}
 	}
