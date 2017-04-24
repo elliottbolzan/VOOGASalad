@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,6 +30,7 @@ public abstract class Event extends GameObject implements EventInterface {
 	 */
 	public List<Action> getActions() {
 		return actions;
+		//return Collections.unmodifiableList(actions);
 	}
 
 	/**

@@ -1,6 +1,7 @@
 package game_data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import engine.Entity;
 import engine.entities.CameraEntity;
@@ -99,6 +100,7 @@ public class Game {
 	 */
 	public List<Level> getLevels() {
 		return levels;
+		//return Collections.unmodifiableList(levels);
 	}
 
 	/**
@@ -116,6 +118,7 @@ public class Game {
 	 */
 	public List<Entity> getDefaults() {
 		return defaults;
+		//return Collections.unmodifiableList(defaults);
 	}
 
 	/**

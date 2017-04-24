@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -52,6 +53,7 @@ public abstract class GameObject {
 
 	public List<Parameter> getParams() {
 		return params;
+		//return Collections.unmodifiableList(params);
 	}
 
 	public void addParam(Parameter param) {
