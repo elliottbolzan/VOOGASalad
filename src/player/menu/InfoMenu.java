@@ -11,7 +11,7 @@ import polyglot.Polyglot;
 
 public class InfoMenu extends PlayerView {
 
-	public InfoMenu(Stage stage, Game game, MediaManager loader, Polyglot polyglot, ResourceBundle IOResources) {
+	public InfoMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
 		super(polyglot, IOResources);
 		setup(game);
 	}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="JayTestGame"/><Levels><Level><Entities><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>50.0</x>
+  <x>75.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -8,14 +8,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>100.0</x>
+  <x>125.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -23,14 +19,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>150.0</x>
+  <x>175.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -38,14 +30,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>200.0</x>
+  <x>225.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -53,14 +41,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>250.0</x>
+  <x>275.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -68,14 +52,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>300.0</x>
+  <x>325.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -83,14 +63,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>350.0</x>
+  <x>375.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -98,14 +74,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>400.0</x>
+  <x>425.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -113,14 +85,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>450.0</x>
+  <x>475.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -128,14 +96,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>500.0</x>
+  <x>525.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -143,14 +107,21 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>150.0</x>
+  <x>575.0</x>
+  <y>250.0</y>
+  <width>50.0</width>
+  <height>50.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources/BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <events/>
+</engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>175.0</x>
   <y>200.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -158,14 +129,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>400.0</x>
+  <x>375.0</x>
   <y>200.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -173,14 +140,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>400.0</x>
+  <x>375.0</x>
   <y>150.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -188,14 +151,10 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>400.0</x>
+  <x>375.0</x>
   <y>100.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -203,40 +162,48 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>275.0</x>
-  <y>25.0</y>
-  <width>50.0</width>
-  <height>50.0</height>
+  <x>100.0</x>
+  <y>150.0</y>
+  <width>25.0</width>
+  <height>25.0</height>
   <zIndex>1.0</zIndex>
-  <name>Block</name>
-  <imagePath>resources/BlockImage.png</imagePath>
+  <name>Coin</name>
+  <imagePath>resources/CoinImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
-  <events/>
+  <events>
+    <engine.events.CollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>ALL</firstRelativeToSecond>
+      </collision>
+    </engine.events.CollisionEvent>
+  </events>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
   <x>275.0</x>
-  <y>150.0</y>
+  <y>100.0</y>
   <width>50.0</width>
   <height>75.0</height>
   <zIndex>1.0</zIndex>
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
   <events>
     <engine.events.KeyPressEvent>
       <params>
@@ -253,89 +220,13 @@
             <engine.Parameter>
               <name>Initial Jump Speed</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">10.0</obj>
+              <obj class="double">12.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.JumpAction>
       </actions>
     </engine.events.KeyPressEvent>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.WalkAction>
-          <params>
-            <engine.Parameter>
-              <name>Walk Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">5.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.WalkAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-    <engine.events.KeyReleaseEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
-      </actions>
-    </engine.events.KeyReleaseEvent>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.WalkAction>
-          <params>
-            <engine.Parameter>
-              <name>Walk Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">-5.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.WalkAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-    <engine.events.KeyReleaseEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
-      </actions>
-    </engine.events.KeyReleaseEvent>
     <engine.events.BottomCollisionEvent>
       <params>
         <engine.Parameter>
@@ -355,75 +246,82 @@
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
       </collision>
     </engine.events.BottomCollisionEvent>
-    <engine.events.TopCollisionEvent>
+    <engine.events.KeyPressEvent>
       <params>
         <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Block</obj>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
         </engine.Parameter>
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.ZeroUpSpeedAction>
+        <engine.actions.WalkAction>
+          <params>
+            <engine.Parameter>
+              <name>Walk Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">7.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.WalkAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyReleaseEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroRightSpeedAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroUpSpeedAction>
+        </engine.actions.ZeroRightSpeedAction>
       </actions>
-      <collision>
-        <firstRelativeToSecond>TOP</firstRelativeToSecond>
-      </collision>
-    </engine.events.TopCollisionEvent>
-    <engine.events.RightCollisionEvent>
+    </engine.events.KeyReleaseEvent>
+    <engine.events.KeyPressEvent>
       <params>
         <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Block</obj>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
         </engine.Parameter>
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.UpdateScoreAction>
+        <engine.actions.WalkAction>
           <params>
             <engine.Parameter>
-              <name>Score Change</name>
-              <clazz>java.lang.Integer</clazz>
-              <obj class="int">1</obj>
+              <name>Walk Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">-7.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.UpdateScoreAction>
+        </engine.actions.WalkAction>
       </actions>
-      <collision>
-        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
-      </collision>
-    </engine.events.RightCollisionEvent>
-    <engine.events.LeftCollisionEvent>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyReleaseEvent>
       <params>
         <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Block</obj>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
         </engine.Parameter>
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.UpdateScoreAction>
-          <params>
-            <engine.Parameter>
-              <name>Score Change</name>
-              <clazz>java.lang.Integer</clazz>
-              <obj class="int">-1</obj>
-            </engine.Parameter>
-          </params>
+        <engine.actions.ZeroLeftSpeedAction>
+          <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.UpdateScoreAction>
+        </engine.actions.ZeroLeftSpeedAction>
       </actions>
-      <collision>
-        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
-      </collision>
-    </engine.events.LeftCollisionEvent>
+    </engine.events.KeyReleaseEvent>
   </events>
 </engine.entities.CharacterEntity></Entity></Entities><Camera><engine.entities.CameraEntity>
   <EntityType>Camera</EntityType>
@@ -435,10 +333,6 @@
   <name>Camera</name>
   <imagePath>resources/CameraImage.png</imagePath>
   <isVisible>false</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events>
     <engine.events.AlwaysEvent>
       <params/>
@@ -466,11 +360,38 @@
   <name>Block</name>
   <imagePath>resources/BlockImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>0.0</yAcceleration>
   <events/>
+</engine.entities.BlockEntity></Entity><Entity><engine.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>25.0</width>
+  <height>25.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Coin</name>
+  <imagePath>resources/CoinImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <events>
+    <engine.events.CollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Mario</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.BlockEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.NextLevelAction>
+          <params/>
+          <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
+        </engine.actions.NextLevelAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>ALL</firstRelativeToSecond>
+      </collision>
+    </engine.events.CollisionEvent>
+  </events>
 </engine.entities.BlockEntity></Entity><Entity><engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
   <x>0.0</x>
@@ -481,10 +402,6 @@
   <name>Mario</name>
   <imagePath>resources/MarioImage.png</imagePath>
   <isVisible>true</isVisible>
-  <xSpeed>0.0</xSpeed>
-  <ySpeed>0.0</ySpeed>
-  <xAcceleration>0.0</xAcceleration>
-  <yAcceleration>1.0</yAcceleration>
   <events>
     <engine.events.KeyPressEvent>
       <params>
@@ -501,89 +418,13 @@
             <engine.Parameter>
               <name>Initial Jump Speed</name>
               <clazz>java.lang.Double</clazz>
-              <obj class="double">10.0</obj>
+              <obj class="double">12.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.JumpAction>
       </actions>
     </engine.events.KeyPressEvent>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.WalkAction>
-          <params>
-            <engine.Parameter>
-              <name>Walk Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">5.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.WalkAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-    <engine.events.KeyReleaseEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
-      </actions>
-    </engine.events.KeyReleaseEvent>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.WalkAction>
-          <params>
-            <engine.Parameter>
-              <name>Walk Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">-5.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.WalkAction>
-      </actions>
-    </engine.events.KeyPressEvent>
-    <engine.events.KeyReleaseEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroHorizontalSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroHorizontalSpeedAction>
-      </actions>
-    </engine.events.KeyReleaseEvent>
     <engine.events.BottomCollisionEvent>
       <params>
         <engine.Parameter>
@@ -603,74 +444,81 @@
         <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
       </collision>
     </engine.events.BottomCollisionEvent>
-    <engine.events.TopCollisionEvent>
+    <engine.events.KeyPressEvent>
       <params>
         <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Block</obj>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
         </engine.Parameter>
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.ZeroUpSpeedAction>
+        <engine.actions.WalkAction>
+          <params>
+            <engine.Parameter>
+              <name>Walk Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">7.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.WalkAction>
+      </actions>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyReleaseEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">RIGHT</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroRightSpeedAction>
           <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroUpSpeedAction>
+        </engine.actions.ZeroRightSpeedAction>
       </actions>
-      <collision>
-        <firstRelativeToSecond>TOP</firstRelativeToSecond>
-      </collision>
-    </engine.events.TopCollisionEvent>
-    <engine.events.RightCollisionEvent>
+    </engine.events.KeyReleaseEvent>
+    <engine.events.KeyPressEvent>
       <params>
         <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Block</obj>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
         </engine.Parameter>
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.UpdateScoreAction>
+        <engine.actions.WalkAction>
           <params>
             <engine.Parameter>
-              <name>Score Change</name>
-              <clazz>java.lang.Integer</clazz>
-              <obj class="int">1</obj>
+              <name>Walk Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">-7.0</obj>
             </engine.Parameter>
           </params>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.UpdateScoreAction>
+        </engine.actions.WalkAction>
       </actions>
-      <collision>
-        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
-      </collision>
-    </engine.events.RightCollisionEvent>
-    <engine.events.LeftCollisionEvent>
+    </engine.events.KeyPressEvent>
+    <engine.events.KeyReleaseEvent>
       <params>
         <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Block</obj>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">LEFT</obj>
         </engine.Parameter>
       </params>
       <entity class="engine.entities.CharacterEntity" reference="../../.."/>
       <actions>
-        <engine.actions.UpdateScoreAction>
-          <params>
-            <engine.Parameter>
-              <name>Score Change</name>
-              <clazz>java.lang.Integer</clazz>
-              <obj class="int">-1</obj>
-            </engine.Parameter>
-          </params>
+        <engine.actions.ZeroLeftSpeedAction>
+          <params/>
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.UpdateScoreAction>
+        </engine.actions.ZeroLeftSpeedAction>
       </actions>
-      <collision>
-        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
-      </collision>
-    </engine.events.LeftCollisionEvent>
+    </engine.events.KeyReleaseEvent>
   </events>
-</engine.entities.CharacterEntity></Entity></Entities></Level></Defaults><Camera/><Resources Song="resources/JayTestGame.mp3"/><GameInfo Info="Information about game"/></Game>
+</engine.entities.CharacterEntity></Entity></Entities></Level></Defaults><Camera/><Resources/><GameInfo Info="Information about game"/></Game>
