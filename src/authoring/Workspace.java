@@ -9,6 +9,7 @@ import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
 import authoring.components.HTMLDisplay;
 import authoring.components.ProgressDialog;
+import authoring.networking.Networking;
 import authoring.panel.Panel;
 import engine.Entity;
 import game_data.Game;
@@ -27,6 +28,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import player.launcher.BasicPlayer;
+import polyglot.Case;
 import polyglot.Polyglot;
 import utils.views.View;
 
@@ -40,6 +42,7 @@ import utils.views.View;
  *
  */
 public class Workspace extends View {
+
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
@@ -49,6 +52,7 @@ public class Workspace extends View {
 	private Panel panel;
 	private Game game;
 	private DefaultEntities defaults;
+	private Networking networking;
 
 	/**
 	 * Creates the Workspace.
@@ -77,6 +81,7 @@ public class Workspace extends View {
 	 * Initializes the Workspace's components.
 	 */
 	private void setup() {
+		networking = new Networking();
 		data = new GameData();
 		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
 		defaults = new DefaultEntities(this);
@@ -94,13 +99,19 @@ public class Workspace extends View {
 	private VBox makeMenuBar() {
 		MenuBar menuBar = new MenuBar();
 		Menu gameMenu = maker.makeMenu("GameMenu");
-		gameMenu.getItems().addAll(maker.makeMenuItem("Save", "Ctrl+S", e -> save()),
-				maker.makeMenuItem("TestMenu", "Ctrl+T", e -> test()));
+		gameMenu.getItems().addAll(maker.makeMenuItem(polyglot.get("Save", Case.TITLE), "Ctrl+S", e -> save()),
+				maker.makeMenuItem(polyglot.get("TestMenu", Case.TITLE), "Ctrl+T", e -> test()));
 		Menu settingsMenu = maker.makeMenu("SettingsTitle");
-		settingsMenu.getItems().add(maker.makeMenuItem("MusicSelect", "Ctrl+M", e -> chooseSong()));
+		settingsMenu.getItems()
+				.add(maker.makeMenuItem(polyglot.get("MusicSelect", Case.TITLE), "Ctrl+M", e -> chooseSong()));
+		//Menu serverMenu = maker.makeMenu("ServerMenu");
+		/*serverMenu.getItems().addAll(maker.makeMenuItem(polyglot.get("IPItem").get() + " " + networking.getIP(), null),
+				maker.makeMenuItem(polyglot.get("StartServerItem", Case.TITLE), "Ctrl+Shift+S",
+						e -> networking.startServer()));*/
 		Menu helpMenu = maker.makeMenu("HelpTitle");
-		helpMenu.getItems().add(maker.makeMenuItem("KeyCombinations", "Ctrl+H", e -> showKeyCombinations()));
-		menuBar.getMenus().addAll(gameMenu, settingsMenu, helpMenu);
+		helpMenu.getItems().add(
+				maker.makeMenuItem(polyglot.get("KeyCombinations", Case.TITLE), "Ctrl+H", e -> showKeyCombinations()));
+		menuBar.getMenus().addAll(gameMenu, settingsMenu, /*serverMenu,*/ helpMenu);
 		VBox box = new VBox(menuBar);
 		box.setPadding(new Insets(15, 0, 0, 0));
 		return box;
@@ -304,5 +315,5 @@ public class Workspace extends View {
 		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
 		display.show();
 	}
-	
+
 }

@@ -105,9 +105,9 @@ public class StartMenu extends BorderPane {
 	private VBox createMenu() {
 		MenuBar menuBar = new MenuBar();
 		Menu menuFile = maker.makeMenu("GameMenu");
-		menuFile.getItems().addAll(maker.makeMenuItem("NewButton", "Ctrl+N", e -> newGame()),
-				maker.makeMenuItem("EditButton", "Ctrl+E", e -> editGame()),
-				maker.makeMenuItem("PlayButton", "Ctrl+P", e -> playGame()));
+		menuFile.getItems().addAll(maker.makeMenuItem(polyglot.get("NewButton", Case.TITLE), "Ctrl+N", e -> newGame()),
+				maker.makeMenuItem(polyglot.get("EditButton", Case.TITLE), "Ctrl+E", e -> editGame()),
+				maker.makeMenuItem(polyglot.get("PlayButton", Case.TITLE), "Ctrl+P", e -> playGame()));
 		Menu languageMenu = makeLanguageMenu();
 		menuBar.getMenus().addAll(menuFile, languageMenu);
 		menuBar.setOpacity(0);
@@ -137,7 +137,7 @@ public class StartMenu extends BorderPane {
 			return selectedDirectory.getAbsolutePath();
 		}
 	}
-	
+
 	private Game createGame(String path) {
 		try {
 			GameData gameData = new GameData();
@@ -177,7 +177,8 @@ public class StartMenu extends BorderPane {
 
 	private Menu makeLanguageMenu() {
 		Menu languageMenu = maker.makeMenu("LanguageMenu");
-		MenuItem pickLanguage = maker.makeMenuItem("PickLanguageItem", "Ctrl+L", e -> checkForInternet());
+		MenuItem pickLanguage = maker.makeMenuItem(polyglot.get("PickLanguageItem", Case.TITLE), "Ctrl+L",
+				e -> checkForInternet());
 		languageMenu.getItems().add(pickLanguage);
 		return languageMenu;
 	}
