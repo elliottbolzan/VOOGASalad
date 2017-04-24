@@ -6,9 +6,9 @@ package authoring.networking;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 import java.util.concurrent.Executors;
 
+import authoring.Workspace;
 import authoring.panel.chat.Message;
 
 import java.time.Duration;
@@ -23,23 +23,25 @@ import networking.net.ObservableServer;
  */
 public class Networking {
 
+	private Workspace workspace;
+	private ObservableClient<Packet> client;
+	private String identifier;
 	private static final int PORT = 1337;
 
-	/**
-	 * 
-	 */
-	public Networking() {
-		// TODO Auto-generated constructor stub
+	public Networking(Workspace workspace) {
+		this.workspace = workspace;
 	}
 
-	public void startServer() {
+	@SuppressWarnings("unchecked")
+	public void start(String identifier) {
 		try {
-			ObservableServer<Message> voogaServer = new ObservableServer<Message>(new Message("username", "message"),
-					PORT, Serializer.NONE, Unserializer.NONE, Duration.ofSeconds(30));
-			Executors.newSingleThreadExecutor().submit(voogaServer);
-			joinClient(getIP());
+			ObservableServer<Packet> server = new ObservableServer<Packet>(null, PORT, Serializer.NONE,
+					Unserializer.NONE, Duration.ofSeconds(30));
+			Executors.newSingleThreadExecutor().submit(server);
+			join(getIP(), "");
+			this.identifier = identifier;
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("Couldn't start server.");
 		}
 	}
 
@@ -51,22 +53,29 @@ public class Networking {
 		}
 	}
 
-	public void joinClient(String IP) {
-		ObservableClient<Message> voogaClient;
+	@SuppressWarnings("unchecked")
+	public void join(String IP, String identifier) {
 		try {
-			voogaClient = new ObservableClient<>(IP, PORT, Serializer.NONE, Unserializer.NONE, Duration.ofSeconds(30));
-			Scanner stdin = new Scanner(System.in);
-			voogaClient.addListener(client -> System.out.print(client.getMessage() + "\n\n>>  "));
-			Executors.newSingleThreadExecutor().submit(voogaClient);
-			while (voogaClient.isActive()) {
-				String input = stdin.nextLine();
-				String user = System.getProperty("user.name");
-				voogaClient.addToOutbox(state -> {
-					return new Message(user, input);
-				});
-			}
+			this.identifier = identifier;
+			client = new ObservableClient<>(IP, PORT, Serializer.NONE, Unserializer.NONE, Duration.ofSeconds(30));
+			client.addListener(client -> received(client));
+			Executors.newSingleThreadExecutor().submit(client);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Couldn't join client.");
+		}
+	}
+
+	public void send(Packet packet) {
+		packet.setIdentifier(identifier);
+		client.addToOutbox(state -> packet);
+	}
+
+	private void received(Packet packet) {
+		if (packet != null && packet.getIdentifier().equals(identifier)) {
+			System.out.println("Received: " + packet);
+			if (packet instanceof Message) {
+				workspace.getPanel().getChat().received(packet);
+			}
 		}
 	}
 

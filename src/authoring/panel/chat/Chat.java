@@ -1,8 +1,7 @@
 package authoring.panel.chat;
 
-import java.util.Random;
-
 import authoring.Workspace;
+import authoring.networking.Packet;
 import utils.views.View;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -27,13 +26,14 @@ public class Chat extends View {
 
 	private Workspace workspace;
 	private TextArea chat;
-	private TextField usernameField;
 	private TextField sendField;
 	private String username;
 
 	/**
 	 * Creates a Chat.
-	 * @param workspace the workspace that owns the Chat.
+	 * 
+	 * @param workspace
+	 *            the workspace that owns the Chat.
 	 */
 	public Chat(Workspace workspace) {
 		super(workspace.getPolyglot().get("ChatTitle", Case.TITLE));
@@ -42,12 +42,11 @@ public class Chat extends View {
 	}
 
 	private void setup() {
-		username = "User_" + Integer.toString(new Random().nextInt(1000));
+		username = System.getProperty("user.name");
 		viewSetup();
 	}
 
 	private void viewSetup() {
-		setTop(createUsernameBox());
 		chat = new TextArea();
 		chat.promptTextProperty().bind(workspace.getPolyglot().get("ChatHeader"));
 		chat.setEditable(false);
@@ -55,20 +54,6 @@ public class Chat extends View {
 		chat.setWrapText(true);
 		setCenter(chat);
 		setBottom(createSendBox());
-	}
-
-	private Node createUsernameBox() {
-		HBox usernameBox = new HBox();
-		usernameField = new TextField();
-		usernameField.setPromptText("Username: " + username);
-		usernameField.setOnKeyPressed(e -> saveKeyPressed(e));
-		Button saveButton = new Button();
-		saveButton.textProperty().bind(workspace.getPolyglot().get("SaveButtonChat"));
-		saveButton.setOnAction(e -> save());
-		usernameBox.getChildren().addAll(usernameField, saveButton);
-		usernameBox.setAlignment(Pos.CENTER);
-		HBox.setHgrow(usernameField, Priority.ALWAYS);
-		return usernameBox;
 	}
 
 	private Node createSendBox() {
@@ -91,27 +76,19 @@ public class Chat extends View {
 			send();
 		}
 	}
-
-	private void saveKeyPressed(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ENTER)) {
-			event.consume();
-			save();
+	
+	private void send() {
+		try {
+			workspace.getNetworking().send(new Message(username, sendField.getText()));
+			sendField.setText("");
+		}
+		catch (Exception e) {
+			System.out.println("The message could not be sent.");
 		}
 	}
 
-	private void save() {
-		username = usernameField.getText();
-	}
-
-	private void send() {
-		Message message = new Message(username, sendField.getText());
-		appendToChat(message);
-		sendField.setText("");
-	}
-
-	private void receivedMessage(Object object) {
-		Message message = (Message) object;
-		appendToChat(message);
+	public void received(Packet packet) {
+		appendToChat((Message) packet);
 	}
 
 	private void appendToChat(Message message) {
