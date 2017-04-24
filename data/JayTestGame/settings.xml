@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="JayTestGame"/><Levels><Level><Entities><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
-  <x>75.0</x>
+  <x>0.0</x>
   <y>250.0</y>
   <width>50.0</width>
   <height>50.0</height>
@@ -329,27 +329,11 @@
   <y>0.0</y>
   <width>600.0</width>
   <height>600.0</height>
-  <zIndex>-1.0</zIndex>
+  <zIndex>0.0</zIndex>
   <name>Camera</name>
   <imagePath>resources/CameraImage.png</imagePath>
   <isVisible>false</isVisible>
-  <events>
-    <engine.events.AlwaysEvent>
-      <params/>
-      <actions>
-        <engine.actions.FollowAction>
-          <params>
-            <engine.Parameter>
-              <name>Leader Entity</name>
-              <clazz>java.lang.String</clazz>
-              <obj class="string">Mario</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
-        </engine.actions.FollowAction>
-      </actions>
-    </engine.events.AlwaysEvent>
-  </events>
+  <events/>
 </engine.entities.CameraEntity></Camera></Level></Levels><Defaults><Level><Entities><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
   <x>0.0</x>
