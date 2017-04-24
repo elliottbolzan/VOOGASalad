@@ -1,5 +1,7 @@
 package game_data;
+
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -17,12 +20,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import engine.Entity;
 import engine.game.Level;
+
 public class GameSaver {
 	
 	private static final String SETTINGS_FILE_NAME = "settings.xml";
-	private static final String ANALYTICS_FILE_NAME ="analytics.xml";
 	private GameXMLFactory gameXMLFactory;
-	private GameAnalyticsXMLFactory gameAnalyticsXMLFactory;
+
 	/**
 	 * Main method to save the entire game to the selected file path. Utilizes GameXMLFactory to create the XML file.
 	 * @param game : game to be saved
@@ -31,16 +34,18 @@ public class GameSaver {
 	public void saveGame(Game game, String parentDirectoryPath) {
 		gameXMLFactory = new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
-		gameAnalyticsXMLFactory= new GameAnalyticsXMLFactory();
+
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
 		createFolder(gameFolderPath);
+		
 		this.saveLevels(game.getLevels(), gameFolderPath);
 		this.saveDefaults(game.getDefaults(), gameFolderPath);
 		this.saveSong(game.getSongPath(), game.getName(), gameFolderPath);
 		//this.saveBackground(gameFolderPath, game.getSongPath());
 		//this.saveAchievements("achievements", gameFolderPath);
 		this.saveGameInfo(gameFolderPath, game.getInfo());
-		this.saveDocumentsToComputer(gameFolderPath);
+		this.saveDocument(gameFolderPath, SETTINGS_FILE_NAME);
+		
 		this.zipDoc(gameFolderPath);
 	}
 	
@@ -71,24 +76,19 @@ public class GameSaver {
 	public void saveCurrentGameState(Game game, String gameFolderPath, String saveName){
 		gameXMLFactory = new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
+
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), game.getName(), gameFolderPath);
 		saveLevels(game.getLevels(), gameFolderPath);
-		
-		saveDocumentsToComputer(gameFolderPath);
+		saveDocument(gameFolderPath, saveName);
 	}
-	
-	private void saveDocumentsToComputer(String gameFolderPath){
-		saveGameXMLDocument(gameFolderPath);
-		saveGameAnalyticsXMLDocument(gameFolderPath);
-	}
-		
+
 	/**
 	 * Saves the document as a whole, after the XML serializing is done
 	 * @param gameFolderPath : top-level directory of the game
 	 */
-	private void saveDocument(XMLFactory xmlFactory,String gameFolderPath, String filename) {
-		Document doc = xmlFactory.getDocument();
+	private void saveDocument(String gameFolderPath, String filename) {
+		Document doc = gameXMLFactory.getDocument();
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
@@ -97,24 +97,8 @@ public class GameSaver {
 			StreamResult result = new StreamResult(new File(gameFolderPath + File.separator + filename));
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
-			e.printStackTrace();
+			//TODO
 		}
-	}
-	
-	/**
-	 * Saves the game information document as a whole, after the XML serializing is done
-	 * @param gameFolderPath : top-level directory of the game
-	 */
-	private void saveGameXMLDocument (String gameFolderPath){
-		saveDocument(gameXMLFactory, gameFolderPath, SETTINGS_FILE_NAME);
-	}
-	
-	/**
-	 * Saves the game analytics document as a whole, after the XML serializing is done
-	 * @param gameFolderPath : top-level directory of the game
-	 */
-	private void saveGameAnalyticsXMLDocument(String gameFolderPath){
-		saveDocument(gameAnalyticsXMLFactory, gameFolderPath, ANALYTICS_FILE_NAME);
 	}
 	
 	/**
@@ -159,6 +143,7 @@ public class GameSaver {
 		}
 		try {
 			String relativePath = "resources" + File.separator + gameName + ".mp3";
+
 			File originalSongFile = new File(originalSongPath);
 			String savedSongPath = gameFolderPath + File.separator + relativePath;
 			this.makeFile(savedSongPath);
@@ -169,6 +154,7 @@ public class GameSaver {
 			//TODO
 		}
 	}	
+
 	/**
 	 * Saves achievements into XML file
 	 * @param achieve
@@ -180,6 +166,7 @@ public class GameSaver {
 		}
 		gameXMLFactory.addAchievement(achieve);
 	}
+
 	/**
 	 * 
 	 * @param filePath
@@ -201,6 +188,7 @@ public class GameSaver {
 			folder.mkdirs();
 		}
 	}
+
 	/**
 	 * Makes a a new empty file for the given path.
 	 */
@@ -209,6 +197,7 @@ public class GameSaver {
 		file.getParentFile().mkdirs();
 		file.createNewFile();
 	}
+
 	/**
 	 * Copies the contents of one file to a destination file path.
 	 */
@@ -217,6 +206,7 @@ public class GameSaver {
 		Path targetPath = Paths.get(destinationPath);
 		Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 	}
+
 	private boolean deleteDir(File dir){
 		dir.listFiles();
 		File[] files = dir.listFiles();	    		

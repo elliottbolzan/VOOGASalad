@@ -2,7 +2,6 @@ package game_data;
 
 public class GameData {
 	
-	
 	/**
 	 * Public method that is called to save the game when the save game button is pressed.
 	 * @param game
