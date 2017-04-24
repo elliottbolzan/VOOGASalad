@@ -36,10 +36,6 @@ public class MediaManager {
 		return songPlayer;
 	}
 
-	// protected String getSongPath() {
-	// return game.getSongPath();
-	// }
-	//
 	// public ObservableList<Score> getScores() {
 	// return game.getScores();
 	// }

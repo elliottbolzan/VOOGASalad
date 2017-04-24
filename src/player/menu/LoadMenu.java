@@ -22,39 +22,31 @@ public class LoadMenu extends AbstractMenu {
 
 	private ObservableList<String> saveStates;
 	private ObservableList<Tile> saveTiles;
-	private Game game;
 	private Tile playTile;
 
-	private Polyglot polyglot;
-	private ResourceBundle IOResources;
-
-	public LoadMenu(Stage stage, Game game, MediaManager loader, Polyglot polyglot, ResourceBundle IOResources) {
-		super(stage, game, loader, "LoadTitle", polyglot, IOResources);
-		this.game = game;
-		this.polyglot = polyglot;
-		this.IOResources = IOResources;
+	public LoadMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, game, mediaManager, "LoadTitle", polyglot, IOResources);
 		saveStates = FXCollections.observableArrayList();
-		loader.setSaves(saveStates);
+		mediaManager.setSaves(saveStates);
 		saveTiles = FXCollections.observableArrayList();
 		saveTiles.add(playTile);
 		setupScene(stage);
 	}
 
 	private void loadNewGame(Stage stage) {
-		Stage stage2 = new Stage();
-		new FullPlayer(stage2, game, getLoader(), polyglot, IOResources);
-		stage2.show();
+		new FullPlayer(stage, this.getGame(), this.getMediaManager(), this.getPolyglot(), this.getResources());
 	}
 
 	private void loadSaveState(Stage stage, String saveName) {
 		GameData data = new GameData();
 		try {
-			Game game = data.loadGameState(getLoader().getGamePath(), saveName);
-			MediaManager loader = new MediaManager(game, getLoader().getGamePath(), saveStates);
-			new FullPlayer(stage, game, loader, polyglot, IOResources);
+			Game game = data.loadGameState(this.getMediaManager().getGamePath(), saveName);
+			MediaManager loader = new MediaManager(game, getMediaManager().getGamePath(), saveStates);
+			new FullPlayer(stage, game, loader, this.getPolyglot(), this.getResources());
 		} catch (Exception e) {
 			// Game couldn't be loaded, perhaps a wrong Game selected. Might
 			// want to tell user!
+			//TODO
 		}
 	}
 
@@ -69,7 +61,7 @@ public class LoadMenu extends AbstractMenu {
 					saveTiles.add(save);
 					addSaveTiles(true, saveTiles);
 				} else {
-					ReplaceSaveMenu replacer = new ReplaceSaveMenu(polyglot, IOResources);
+					ReplaceSaveMenu replacer = new ReplaceSaveMenu(getPolyglot(), getResources());
 					replacer.display(e -> {
 						int index = replacer.getButtonID();
 						// Changes button action to load new save

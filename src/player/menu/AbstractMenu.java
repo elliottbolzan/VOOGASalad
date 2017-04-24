@@ -45,7 +45,7 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	
 	public abstract void addElements();
 	
-	protected MediaManager getLoader() {
+	protected MediaManager getMediaManager() {
 		return mediaManager;
 	}
 	

@@ -67,7 +67,7 @@ public class OptionsMenu extends AbstractMenu {
 			addControlRow(s, keys.get(s).getObject(), count);
 			count++;
 		}
-		if (this.getLoader().getMediaPlayer() != null) {
+		if (this.getMediaManager().getMediaPlayer() != null) {
 			this.addHeading(getPolyglot().get("Audio"), count);
 			count++;
 
@@ -81,7 +81,7 @@ public class OptionsMenu extends AbstractMenu {
 
 	private Slider setupVolumeSlider() {
 		Slider volume = new Slider();
-		MediaPlayer songPlayer = this.getLoader().getMediaPlayer();
+		MediaPlayer songPlayer = this.getMediaManager().getMediaPlayer();
 		
 		volume.setValue(songPlayer.getVolume());
 		volume.valueProperty().addListener(new InvalidationListener() {
