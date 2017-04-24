@@ -60,6 +60,7 @@ public class LevelStepStrategy implements StepStrategy {
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
+		info.setEntitiesNeverUpdatedFalse();
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
