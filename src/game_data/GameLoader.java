@@ -62,7 +62,7 @@ public class GameLoader {
 		//addInfo(game, doc, newPath);
 		//addCamera(game, doc, newPath);
 		game.setCurrentPath(gameFolderPath);
-		System.out.println(gameFolderPath);
+		//System.out.println(gameFolderPath);
 		
 		new DataSender(game);
 		return game;
