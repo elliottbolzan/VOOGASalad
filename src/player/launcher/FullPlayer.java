@@ -94,7 +94,6 @@ public class FullPlayer extends AbstractPlayer {
 	
 	private void save() {
 		Game savedGame = new Game();
-		savedGame.setCamera(this.getGame().getCamera());
 		savedGame.setDefaults(this.getGame().getDefaults());
 		savedGame.setName(this.getGame().getName());
 		savedGame.setSongPath(this.getGame().getSongPath());
