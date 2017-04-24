@@ -24,7 +24,7 @@ public class DieAction extends Action {
 			}
 		} catch (ClassCastException e) {
 			//throw new GameObjectException("CastingError");
-			System.out.println("Casting error");
+			System.out.println("Casting error in DieAction");
 		}
 	}
 

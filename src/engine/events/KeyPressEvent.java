@@ -5,7 +5,9 @@ import engine.Parameter;
 import javafx.scene.input.KeyCode;
 
 /**
- * @author nikita Event that reacts to a key press from the user
+ * Event that reacts to a key press from the user
+ * 
+ * @author nikita
  */
 public class KeyPressEvent extends Event {
 

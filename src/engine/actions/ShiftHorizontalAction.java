@@ -16,6 +16,7 @@ public class ShiftHorizontalAction extends Action {
 		addParam(new Parameter("Move amount", Double.class, 0));
 	}
 
+	@Override
 	public void act() {
 		getEntity().setX(getEntity().getX() + (Double) getParam("Move amount"));
 	}

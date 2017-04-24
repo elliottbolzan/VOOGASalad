@@ -1,7 +1,6 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
-import engine.TimelineManipulator;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import game_data.Game;
@@ -30,7 +29,7 @@ public class GameLoop {
 		
 		levelManager = new LevelManager(game, new LevelStepStrategy());
 		levelManager.loadAllSavedLevels();
-		timelineManipulator = new TimelineManipulator(levelManager, graphicsEngine);
+		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
 		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
 		levelManager.setCurrentScreen(level1Screen);

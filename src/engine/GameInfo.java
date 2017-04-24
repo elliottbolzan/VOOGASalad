@@ -4,6 +4,7 @@ import engine.game.LevelManager;
 import engine.game.gameloop.GameLoop;
 import engine.game.gameloop.ObservableBundle;
 import engine.game.gameloop.Scorebar;
+import engine.game.gameloop.TimelineManipulator;
 import engine.graphics.GraphicsEngine;
 
 /**
