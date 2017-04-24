@@ -3,8 +3,9 @@ package engine.events;
 import engine.Event;
 
 /**
- * @author nikita An event that is triggered on every single step of the game
- *         loop
+ * An event that is triggered on every single step of the game loop.
+ * 
+ * @author nikita
  */
 public class AlwaysEvent extends Event {
 

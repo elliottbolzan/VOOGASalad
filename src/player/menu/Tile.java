@@ -35,6 +35,10 @@ public class Tile extends View {
 		animate();
 	}
 	
+	public void setOnAction(EventHandler<Event> handler){
+		setOnMouseClicked(handler);
+	}
+	
 	private void createTitle(StringBinding titleBinding) {
 		Label title = new Label();
 		title.getStyleClass().add("tile-title");

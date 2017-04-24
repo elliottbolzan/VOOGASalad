@@ -1,5 +1,8 @@
 package engine.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
 import engine.game.selectiongroup.ListSG;
@@ -20,6 +23,7 @@ import game_data.Game;
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
 	private SelectionGroup<Level> levelsInInitialState;
+	private List<Integer> wonLevelNumbers; // one-indexed
 	private int currentLevel; // one-indexed
 	private Game game;
 	private Screen currentScreen;
@@ -28,6 +32,7 @@ public class LevelManager {
 	public LevelManager(Game game, StepStrategy currentStepStrategy) {
 		levels = new ListSG<>();
 		levelsInInitialState = new ListSG<>();
+		wonLevelNumbers = new ArrayList<>();
 		currentLevel = 1;
 		this.game = game;
 		this.currentStepStrategy = currentStepStrategy;
@@ -48,7 +53,7 @@ public class LevelManager {
 	public void setCurrentStepStrategy(StepStrategy currentStepStrategy) {
 		this.currentStepStrategy = currentStepStrategy;
 	}
-	
+
 	/**
 	 * External Engine API. Needed for authoring.
 	 * 
@@ -77,11 +82,14 @@ public class LevelManager {
 	 */
 
 	public boolean setLevelNumber(int currentLevel) {
-		boolean inRange = currentLevel >= 1 && currentLevel <= levels.size();
-		if (inRange) {
+		if (levelNumberInGame(currentLevel)) {
 			this.currentLevel = currentLevel;
 		}
-		return inRange;
+		return levelNumberInGame(currentLevel);
+	}
+
+	public boolean levelNumberInGame(int queriedLevel) {
+		return currentLevel >= 1 && currentLevel <= levels.size();
 	}
 
 	public int getLevelNumber() {
@@ -114,15 +122,15 @@ public class LevelManager {
 	 * @param filename
 	 */
 
-	//Call once at beginning of the game
+	// Call once at beginning of the game
 	public void loadAllSavedLevels() {
-		//levels.removeAll();
+		// levels.removeAll();
 		levelsInInitialState.addAll(game.cloneLevels());
 		levels.addAll(game.getLevels());
 	}
-	
-	//Call when start up a level (first time AND after die)
-	public void resetCurrentLevel(){
+
+	// Call when start up a level (first time AND after die)
+	public void resetCurrentLevel() {
 		levels.set(currentLevel - 1, game.cloneLevel(levelsInInitialState.get(currentLevel - 1)));
 	}
 
@@ -130,4 +138,11 @@ public class LevelManager {
 		return levels;
 	}
 
+	public void rememberWonCurrentLevel() {
+		wonLevelNumbers.add(currentLevel);
+	}
+
+	public List<Integer> getWonLevelNumbers() {
+		return wonLevelNumbers;
+	}
 }

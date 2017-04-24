@@ -42,5 +42,5 @@ public abstract class View extends BorderPane {
 	public StringBinding getTitle() {
 		return title;
 	}
-
+	
 }
