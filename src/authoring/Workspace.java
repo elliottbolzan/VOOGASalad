@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
-import authoring.components.HTMLDisplay;
 import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
 import authoring.panel.Panel;
@@ -15,20 +14,14 @@ import engine.Entity;
 import game_data.Game;
 import game_data.GameData;
 import javafx.concurrent.Task;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import player.launcher.BasicPlayer;
-import polyglot.Case;
 import polyglot.Polyglot;
 import utils.views.View;
 
@@ -76,12 +69,20 @@ public class Workspace extends View {
 	public Game getGame() {
 		return game;
 	}
+	
+	public Networking getNetworking() {
+		return networking;
+	}
+	
+	public Panel getPanel() {
+		return panel;
+	}
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
 	private void setup() {
-		networking = new Networking();
+		networking = new Networking(this);
 		data = new GameData();
 		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
 		defaults = new DefaultEntities(this);
@@ -92,29 +93,8 @@ public class Workspace extends View {
 		pane.setDividerPositions(0.25);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
-		setTop(makeMenuBar());
+		setTop(new WorkspaceMenu(this));
 		dragToAddEntity();
-	}
-
-	private VBox makeMenuBar() {
-		MenuBar menuBar = new MenuBar();
-		Menu gameMenu = maker.makeMenu("GameMenu");
-		gameMenu.getItems().addAll(maker.makeMenuItem(polyglot.get("Save", Case.TITLE), "Ctrl+S", e -> save()),
-				maker.makeMenuItem(polyglot.get("TestMenu", Case.TITLE), "Ctrl+T", e -> test()));
-		Menu settingsMenu = maker.makeMenu("SettingsTitle");
-		settingsMenu.getItems()
-				.add(maker.makeMenuItem(polyglot.get("MusicSelect", Case.TITLE), "Ctrl+M", e -> chooseSong()));
-		//Menu serverMenu = maker.makeMenu("ServerMenu");
-		/*serverMenu.getItems().addAll(maker.makeMenuItem(polyglot.get("IPItem").get() + " " + networking.getIP(), null),
-				maker.makeMenuItem(polyglot.get("StartServerItem", Case.TITLE), "Ctrl+Shift+S",
-						e -> networking.startServer()));*/
-		Menu helpMenu = maker.makeMenu("HelpTitle");
-		helpMenu.getItems().add(
-				maker.makeMenuItem(polyglot.get("KeyCombinations", Case.TITLE), "Ctrl+H", e -> showKeyCombinations()));
-		menuBar.getMenus().addAll(gameMenu, settingsMenu, /*serverMenu,*/ helpMenu);
-		VBox box = new VBox(menuBar);
-		box.setPadding(new Insets(15, 0, 0, 0));
-		return box;
 	}
 
 	private void dragToAddEntity() {
@@ -153,7 +133,6 @@ public class Workspace extends View {
 	private void save(String title) {
 		game.setName(title);
 		String path = askForOutputPath();
-		ProgressDialog dialog = new ProgressDialog(this);
 		Task<Void> task = new Task<Void>() {
 			@Override
 			public Void call() throws InterruptedException {
@@ -164,6 +143,11 @@ public class Workspace extends View {
 				return null;
 			}
 		};
+		showProgressForTask(task);
+	}
+	
+	public void showProgressForTask(Task<Void> task) {
+		ProgressDialog dialog = new ProgressDialog(this);
 		task.setOnSucceeded(event -> {
 			dialog.getDialogStage().close();
 		});
@@ -299,21 +283,6 @@ public class Workspace extends View {
 	 */
 	public void updateEntity(Entity entity) {
 		levelEditor.updateEntity(entity);
-	}
-
-	private void chooseSong() {
-		String directory = System.getProperty("user.dir") + IOResources.getString("DefaultDirectory");
-		FileChooser chooser = maker.makeFileChooser(directory, polyglot.get("MusicChooserTitle").get(),
-				IOResources.getString("MusicChooserExtensions"));
-		File selectedFile = chooser.showOpenDialog(getScene().getWindow());
-		if (selectedFile != null) {
-			game.setSongPath(selectedFile.getAbsolutePath());
-		}
-	}
-
-	private void showKeyCombinations() {
-		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
-		display.show();
 	}
 
 }
