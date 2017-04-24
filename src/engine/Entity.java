@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 /**
  * @author nikita Abstract class for entities. Methods are implemented that are
- *         common to all kinds of entites (character, block background, etc)
+ *         common to all kinds of entites (character, block, background, etc)
  */
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 	public static final double TIME_STEP = Screen.FRAME_TIME_MILLISECONDS / 50.0;
