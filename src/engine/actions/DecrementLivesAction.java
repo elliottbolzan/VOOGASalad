@@ -14,7 +14,6 @@ public class DecrementLivesAction extends Action {
 	@Override
 	public void act() {
 		this.getEntity().setLives(this.getEntity().getLives() - 1);
-		getGameInfo().getTimelineManipulator().die(false);
 	}
 
 }
