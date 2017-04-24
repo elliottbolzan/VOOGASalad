@@ -50,7 +50,6 @@ public class GameLoader {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 		Document doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
-		
 		Game game = new Game();
 
 		addName(game, doc);
@@ -60,7 +59,12 @@ public class GameLoader {
 		addInfo(game, doc, gameFolderPath);
 		// addAchievements(game, doc, newPath);
 		// addBackground(game, doc, newPath);
-
+		//addInfo(game, doc, newPath);
+		//addCamera(game, doc, newPath);
+		game.setCurrentPath(gameFolderPath);
+		//System.out.println(gameFolderPath);
+		
+		new DataSender(game);
 		return game;
 	}
 
