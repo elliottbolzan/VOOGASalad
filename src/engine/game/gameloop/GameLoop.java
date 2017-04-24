@@ -20,11 +20,9 @@ public class GameLoop {
 	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
-
-	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine) {
-		// TODO: what happens if level changes, camera gets reset??
+	
+	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine){
 		this.graphicsEngine = graphicsEngine;
-		graphicsEngine.setCamera(game.getCamera());
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
 

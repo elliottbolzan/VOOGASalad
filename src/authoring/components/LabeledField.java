@@ -27,13 +27,13 @@ public class LabeledField extends View {
 	 * @param text the text to be displayed in the TextField.
 	 * @param editable whether the TextField should be editable or not.
 	 */
-	public LabeledField(Workspace workspace, String labelProperty, String text, boolean editable) {
+	public LabeledField(Workspace workspace, String labelProperty, String promptText) {
 		Label label = new Label();
 		label.textProperty().bind(workspace.getPolyglot().get(labelProperty));
 		label.setMinWidth(Region.USE_PREF_SIZE);
 		label.setPadding(new Insets(5));
-		field = new TextField(text);
-		field.setEditable(editable);
+		field = new TextField();
+		field.setPromptText(promptText);
 		HBox box = new HBox(label, field);
 		box.setAlignment(Pos.CENTER);
 		box.setPadding(new Insets(2));

@@ -1,7 +1,6 @@
 package engine.entities;
 
 import engine.Entity;
-import engine.Parameter;
 
 /**
  * Entity that represents a character. Different from a block in that it can
@@ -15,14 +14,23 @@ public class CharacterEntity extends Entity {
 	// instantiations of entities. Need to remake it changeable by the GAE.
 
 	public CharacterEntity() {
-		addParam(new Parameter("Lives", Integer.class, 5));
-		this.setYAcceleration(Entity.YACCELERATION);
+		
 	}
 
+	@Override
+	protected void setupDefaultParameters() {
+		this.setName("Mario");
+		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
+	
+		this.updateParam("Lives", 5);
+		this.setYAcceleration(Entity.YACCELERATION);
+	}
+	
 	/**
 	 * 
 	 * @return The number of lives that the CharacterEntity has
 	 */
+	@Override
 	public int getLives() {
 		return getGameInfo().getScorebar().getLives();
 		// return (Integer) getParam("Lives");
@@ -34,8 +42,9 @@ public class CharacterEntity extends Entity {
 	 * @param lives
 	 *            new number of lives for this CharacterEntity
 	 */
+	@Override
 	public void setLives(int lives) {
-		updateParam("Lives", lives);
+		super.setLives(lives);
 		getGameInfo().getScorebar().setLives(lives);
 	}
 }

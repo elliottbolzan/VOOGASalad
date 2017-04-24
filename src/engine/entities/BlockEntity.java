@@ -3,16 +3,20 @@ package engine.entities;
 import engine.Entity;
 
 /**
- * This entity represents different kinds of blocks in the game. A block could
- * be moving (platform or enemy), static (wall) or other kind of entity. Not
- * restricted to static "block".
- * 
- * @author nikita
+ * @author nikita 
+ * 		   This entity represents different kinds of blocks in the game.
+ *         A block could be moving (platform or enemy), static (wall) or other
+ *         kind of entity. Not restricted to static "block".
  */
 public class BlockEntity extends Entity {
 
 	public BlockEntity() {
+		}
 
+	@Override
+	protected void setupDefaultParameters() {
+		this.setName("Block");
+		this.setImagePath(getClass().getClassLoader().getResource("resources/images/block.png").toExternalForm());
 	}
 
 }

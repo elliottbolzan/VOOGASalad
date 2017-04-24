@@ -30,10 +30,15 @@ public class EngineController {
 		return findClasses("engine.entities", "Entity");
 	}
 
+	/**
+	 * Get all actions that are accessible for this entity.
+	 */
 	public List<String> getAllActions() {
 		return findClasses("engine.actions", "Action");
 	}
 
+	/**Get all events that are accessible for this entity.
+	 * */
 	public List<String> getAllEvents() {
 		return findClasses("engine.events", "Event");
 	}

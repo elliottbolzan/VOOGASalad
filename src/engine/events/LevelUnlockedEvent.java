@@ -2,7 +2,6 @@ package engine.events;
 
 import engine.Event;
 import engine.Parameter;
-import javafx.scene.input.KeyCode;
 
 /**
  * A level is defined as "unlocked" if the previous level in the game has been

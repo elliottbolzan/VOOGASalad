@@ -64,7 +64,7 @@ public class GameSaver {
 		} catch(IOException e) {
 			//TODO
 		}
-		this.deleteDir(dir);
+		//this.deleteDir(dir);
 	}
 	
 	/**

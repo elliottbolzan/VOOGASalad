@@ -26,7 +26,6 @@ public class Game {
 	private String backPath;
 	private String info;
 	private String achievements;
-	private CameraEntity camera;
 	private ObservableList<Score> scores;
 	private List<Score> scoresBase;
 	private boolean isTestGame = false;
@@ -43,7 +42,6 @@ public class Game {
 		setBackPath("");
 		setInfo("Information about game");
 		setAchievements("");
-		camera = new CameraEntity();
 		scores = FXCollections.observableList(addDefaults());
 	}
 
@@ -67,6 +65,7 @@ public class Game {
 		for (Entity entity : level.getEntities()) {
 			cloneOfLevel.addEntity(entity.clone());
 		}
+		cloneOfLevel.setCamera((CameraEntity) level.getCamera().clone());
 		return cloneOfLevel;
 	}
 
@@ -173,23 +172,6 @@ public class Game {
 	}
 
 	/**
-	 * @return the game's camera.
-	 */
-	public CameraEntity getCamera() {
-		return camera;
-	}
-
-	/**
-	 * Set the game's camera.
-	 * 
-	 * @param camera
-	 *            : the new camera for the game
-	 */
-	public void setCamera(CameraEntity camera) {
-		this.camera = camera;
-	}
-
-	/**
 	 * Add a new highscore
 	 * 
 	 * @param score
@@ -277,7 +259,6 @@ public class Game {
 		cloneGame.setBackPath(this.backPath);
 		cloneGame.setInfo(this.info);
 		cloneGame.setAchievements(this.achievements);
-		cloneGame.setCamera((CameraEntity) this.camera.clone());
 		// TODO: clone scores
 		cloneGame.setTestGame(this.isTestGame);
 		return cloneGame;
