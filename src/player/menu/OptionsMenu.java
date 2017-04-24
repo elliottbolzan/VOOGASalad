@@ -77,6 +77,8 @@ public class OptionsMenu extends AbstractMenu {
 			count++;
 		}
 
+		//TODO: make this more elegant
+		grid.add(this.makeBackButton(), 1, 0);
 	}
 
 	private Slider setupVolumeSlider() {
