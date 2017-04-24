@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public class GameXMLFactory extends XMLFactory
+public class GameXMLFactory
 {
 
 	private DocumentBuilderFactory docFactory;
