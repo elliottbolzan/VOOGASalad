@@ -50,6 +50,7 @@ public class GameLoader {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 		Document doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
+		
 		Game game = new Game();
 		addName(game, doc);
 		addLevels(game, doc, gameFolderPath);
