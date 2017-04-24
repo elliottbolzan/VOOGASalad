@@ -66,7 +66,7 @@ public class GameLoader {
 		// addBackground(game, doc, newPath);
 		addInfo(game, doc, newPath);
 		addCamera(game, doc, newPath);
-
+		game.setCurrentPath(gameFolderPath);
 		return game;
 	}
 

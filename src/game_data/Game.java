@@ -29,6 +29,8 @@ public class Game {
 	private ObservableList<Score> scores;
 	private List<Score> scoresBase;
 	private boolean isTestGame = false;
+	private AnalyticsTracker at;
+	private String currentPath;
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
 	 */
@@ -43,6 +45,7 @@ public class Game {
 		setAchievements("");
 		camera = new CameraEntity();
 		scores = FXCollections.observableList(addDefaults());
+		at = new AnalyticsTracker();
 	}
 	
 	/**
@@ -260,4 +263,32 @@ public class Game {
 		cloneGame.setTestGame(this.isTestGame);
 		return cloneGame;
 	}
+	
+	
+	public void setCurrentPath(String inputPath){
+		currentPath =inputPath;
+	}
+	public String getCurrentPath(){
+		return currentPath;
+	}
+	public void logScore(float score){
+		at.logScore(score);
+	}
+	
+	public void logWon(boolean winstate){
+		if(winstate){
+			at.hasWon();
+		}
+		else{
+			at.hasLost();
+		}
+		
+	}
+	public AnalyticsTracker getAnalytics(){
+		return at;
+	}
+	public void logPlay(){
+		at.logPlay();
+	}
+	
 }

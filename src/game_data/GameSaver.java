@@ -26,8 +26,10 @@ import engine.game.Level;
 public class GameSaver
 {
 	private static final String SETTINGS_FILE_NAME = "settings.xml";
+	private static final String ANALYTICS_FILE_NAME = "analytics.xml";
 	private Game game;
 	private GameXMLFactory gameXMLFactory;
+	private GameAnalyticsXMLFactory gameAnalyticsXMLFactory;
 	private Packager zipper;
 
 	/**
@@ -37,15 +39,33 @@ public class GameSaver
 	 */
 	public void saveGame(Game game, String parentDirectoryPath) {
 		this.game = game;
-
+		System.out.println("savinggame");
 		gameXMLFactory = new GameXMLFactory();
-
 		gameXMLFactory.setName(game.getName());
+		System.out.println("beforeanalytics");
+		gameAnalyticsXMLFactory = new GameAnalyticsXMLFactory();
+		System.out.println("afteranalytics");
 		zipper = new Packager();
-
-
+		
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
+		System.out.println("creatingfolder");
 		createFolder(gameFolderPath);
+		System.out.println("savinginfo");
+		saveGameInformation(gameFolderPath);	
+		System.out.println("savingfolders");
+		saveDocumentsToComputer(gameFolderPath);
+		try {
+			zipDoc(parentDirectoryPath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * saves information about the specific game to a specific XMLFactoryfile
+	 * @param gameFolderPath : path where game is saved
+	 */
+	private void saveGameInformation(String gameFolderPath){
 		saveLevels(game.getLevels(), gameFolderPath);
 		saveDefaults(game.getDefaults(), gameFolderPath);
 		saveSong(game.getSongPath(), gameFolderPath);
@@ -53,15 +73,20 @@ public class GameSaver
 		saveCamera(game.getCamera(), gameFolderPath);
 		//saveAchievements("achievements", gameFolderPath);
 		saveGameInfo(gameFolderPath, game.getInfo());
-		System.out.println(game.getInfo());
-		saveDocument(gameFolderPath, SETTINGS_FILE_NAME);
-		try {
-			zipDoc(parentDirectoryPath);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
+	/**
+	 * saves information about the games to the computer
+	 * @param gameFolderPath : path where game is saved
+	 */
+	private void saveDocumentsToComputer(String gameFolderPath){
+		saveGameXMLDocument(gameFolderPath);
+		saveGameAnalyticsXMLDocument(gameFolderPath);
+	}
+	/**
+	 * zips directory to a single file
+	 * @param path : path where game is saved
+	 */
 	private void zipDoc(String path) throws IOException{
 		List<File> toCompress = new ArrayList<File>();
 		File dir = new File(path + File.separator + game.getName());
@@ -74,6 +99,10 @@ public class GameSaver
 		zipper.packZip(new File(path + File.separator + game.getName() + ".zip"), toCompress);
 		deleteDir(dir);
 	}
+	/**
+	 * deletes the created directory
+	 * @param dir: directory that is deleted
+	 */
 
 	private boolean deleteDir(File dir){
 		dir.listFiles();
@@ -107,15 +136,15 @@ public class GameSaver
 		saveSong(game.getSongPath(), gameFolderPath);
 		saveCamera(game.getCamera(), gameFolderPath);
 		saveLevels(game.getLevels(), gameFolderPath);
-		saveDocument(gameFolderPath, saveName);
+		saveGameXMLDocument(gameFolderPath);
 	}
 
 	/**
 	 * Saves the document as a whole, after the XML serializing is done
 	 * @param gameFolderPath : top-level directory of the game
 	 */
-	private void saveDocument(String gameFolderPath, String filename) {
-		Document doc = gameXMLFactory.getDocument();
+	private void saveDocument(XMLFactory xmlFactory,String gameFolderPath, String filename) {
+		Document doc = xmlFactory.getDocument();
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
@@ -127,6 +156,24 @@ public class GameSaver
 			//TODO
 		}
 	}
+	
+	/**
+	 * Saves the game information document as a whole, after the XML serializing is done
+	 * @param gameFolderPath : top-level directory of the game
+	 */
+	private void saveGameXMLDocument (String gameFolderPath){
+		saveDocument(gameXMLFactory, gameFolderPath, SETTINGS_FILE_NAME);
+	}
+	
+	/**
+	 * Saves the game analytics document as a whole, after the XML serializing is done
+	 * @param gameFolderPath : top-level directory of the game
+	 */
+	private void saveGameAnalyticsXMLDocument(String gameFolderPath){
+		saveDocument(gameAnalyticsXMLFactory, gameFolderPath, ANALYTICS_FILE_NAME);
+	}
+	
+	
 	/**
 	 * Saves the default entities into XML.
 	 * @param defaults : List of entities that are defaults, to be saved into XML
