@@ -314,4 +314,5 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return copy;
 	}
 
+
 }
