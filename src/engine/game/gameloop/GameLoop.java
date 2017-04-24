@@ -8,7 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
 /**
- * Manages the highest level of time flow in the game. The client class for the game loop.
+ * Manages the highest level of time flow in the game. The client class for the
+ * game loop.
  * 
  * @author Matthew Barbano
  *
@@ -19,14 +20,14 @@ public class GameLoop {
 	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
-	
-	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine){
-		//TODO: what happens if level changes, camera gets reset??
+
+	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine) {
+		// TODO: what happens if level changes, camera gets reset??
 		this.graphicsEngine = graphicsEngine;
 		graphicsEngine.setCamera(game.getCamera());
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
-		
+
 		levelManager = new LevelManager(game, new LevelStepStrategy());
 		levelManager.loadAllSavedLevels();
 		timelineManipulator = new TimelineManipulator(levelManager);
@@ -36,36 +37,36 @@ public class GameLoop {
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
 	}
-	
-	public void startTimeline(){
+
+	public void startTimeline() {
 		levelManager.getCurrentScreen().start();
 	}
-	
-	public void pauseTimeline(){
+
+	public void pauseTimeline() {
 		levelManager.getCurrentScreen().pause();
 	}
-	
+
 	public Pane getGameView() {
 		return graphicsEngine.getView();
 	}
-	
-	public ObservableBundle getObservableBundle(){
+
+	public ObservableBundle getObservableBundle() {
 		return observableBundle;
 	}
-	
-	public Scorebar getScorebar(){
+
+	public Scorebar getScorebar() {
 		return scorebar;
 	}
-	
-	public TimelineManipulator timelineManipulator(){
+
+	public TimelineManipulator timelineManipulator() {
 		return timelineManipulator;
 	}
-	
-	public LevelManager getLevelManager(){
+
+	public LevelManager getLevelManager() {
 		return levelManager;
 	}
-	
-	public GraphicsEngine getGraphicsEngine(){
+
+	public GraphicsEngine getGraphicsEngine() {
 		return graphicsEngine;
 	}
 }

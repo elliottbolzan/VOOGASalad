@@ -1,4 +1,5 @@
 package engine.game.gameloop;
+
 import engine.Action;
 import engine.Entity;
 import engine.entities.CameraEntity;
@@ -6,6 +7,7 @@ import engine.Event;
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
+
 /**
  * Subclass of StepStrategy implementing step() when a Level should be
  * displayed.
@@ -19,6 +21,7 @@ public class LevelStepStrategy implements StepStrategy {
 	private GameInfo info;
 	private boolean screenFinished;
 	private StepStrategy nextStepStrategy;
+
 	/**
 	 * Functionality executed when timeline for Screen with this
 	 * LevelStepStrategy is step up; only executed once. Called from Screen's
@@ -35,15 +38,16 @@ public class LevelStepStrategy implements StepStrategy {
 		setupGameView();
 		addInfoToEntities();
 	}
-	
-	
+
 	public void flagScreenFinished(StepStrategy nextStepStrategy) {
 		this.screenFinished = true;
 		this.nextStepStrategy = nextStepStrategy;
 	}
+
 	public boolean screenFinished() {
 		return screenFinished;
 	}
+
 	/**
 	 * Called on every iteration of the Timeline.
 	 * 
@@ -68,8 +72,9 @@ public class LevelStepStrategy implements StepStrategy {
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
 			nextScreen.getTimeline().play();
 		}
-		
+
 	}
+
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */
@@ -86,6 +91,7 @@ public class LevelStepStrategy implements StepStrategy {
 			}
 		}
 	}
+
 	private void setupGameView() {
 		CameraEntity levelCamera = levelManager.getCurrentLevel().getCamera();
 		levelManager.getCurrentLevel().getEntities().add(levelCamera);

@@ -16,7 +16,7 @@ public class InputObservable extends EventObservable {
 	private MouseButton lastPressedMouseButton;
 	private Point2D lastPressedCoordinates;
 	private Scene gameScene;
-	
+
 	private boolean keyPressToProcess;
 	private boolean keyReleaseToProcess;
 	private boolean mouseClickToProcess;
@@ -36,11 +36,11 @@ public class InputObservable extends EventObservable {
 	public boolean isKeyPressToProcess() {
 		return keyPressToProcess;
 	}
-	
+
 	public boolean isKeyReleaseToProcess() {
 		return keyReleaseToProcess;
 	}
-	
+
 	public boolean isMouseClickToProcess() {
 		return mouseClickToProcess;
 	}

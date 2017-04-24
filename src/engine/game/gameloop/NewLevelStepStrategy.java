@@ -12,9 +12,10 @@ public class NewLevelStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME_REGULAR_WIN = "Win";
 	private static final String RESOURCE_NAME_LAST_WIN = "WinGame";
 	private int newLevel;
-	
+
 	public NewLevelStepStrategy(LevelManager levelManager, int newLevel) {
-		super(levelManager.getLevelNumber() == levelManager.getLevels().size() ? RESOURCE_NAME_LAST_WIN : RESOURCE_NAME_REGULAR_WIN);
+		super(levelManager.getLevelNumber() == levelManager.getLevels().size() ? RESOURCE_NAME_LAST_WIN
+				: RESOURCE_NAME_REGULAR_WIN);
 		this.newLevel = newLevel;
 	}
 
@@ -25,7 +26,7 @@ public class NewLevelStepStrategy extends TransitionStepStrategy {
 
 	@Override
 	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
-		if(!hasNextLevel && graphicsEngine.isHighscore()){
+		if (!hasNextLevel && graphicsEngine.isHighscore()) {
 			graphicsEngine.endScreen();
 		}
 	}
