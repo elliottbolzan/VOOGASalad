@@ -44,6 +44,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		addParam(new Parameter("Y Speed", double.class, 0.0));
 		addParam(new Parameter("X Acceleration", double.class, 0.0));
 		addParam(new Parameter("Y Acceleration", double.class, 0.0));
+		addParam(new Parameter("Lives", Integer.class, 1));
 	}
 
 	/**
@@ -67,6 +68,22 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.events.add(event);
 	}
 
+	/**
+	 * 
+	 * @return Value of the Entity meant to represent the Entity's depth.
+	 */
+	public int getLives() {
+		return (int) this.getParam("Lives");
+	}
+	
+	/**
+	 * 
+	 * @return Value of the Entity meant to represent the Entity's depth.
+	 */
+	public void setLives(int lives) {
+		this.updateParam("Lives", lives);
+	}
+	
 	/**
 	 * 
 	 * @return Value of the Entity meant to represent the Entity's depth.
