@@ -26,6 +26,7 @@ public class Panel extends CollapsibleView {
 	private Workspace workspace;
 	private List<View> subviews;
 	private EntityDisplay entityDisplay;
+	private Chat chat;
 	private Settings settings;
 	private LayerPanel layerPanel;
 	private InfoPanel info;
@@ -44,6 +45,7 @@ public class Panel extends CollapsibleView {
 				true);
 		this.workspace = workspace;
 		entityDisplay = new EntityDisplay(workspace);
+		chat = new Chat(workspace);
 		settings = new Settings(workspace);
 		layerPanel = new LayerPanel(workspace);
 		info = new InfoPanel(workspace);
@@ -58,7 +60,7 @@ public class Panel extends CollapsibleView {
 	private void createSubviews() {
 		subviews = new ArrayList<View>();
 		subviews.add(entityDisplay);
-		subviews.add(new Chat(workspace));
+		subviews.add(chat);
 		subviews.add(layerPanel);
 		subviews.add(info);
 	}
@@ -84,6 +86,9 @@ public class Panel extends CollapsibleView {
 		return settings;
 	}
 	
+	public Chat getChat() {
+		return chat;
+	}
 
 	/**
 	 * When the user switches between level tabs or selects a new level, the layerPanel must be notified so that the 

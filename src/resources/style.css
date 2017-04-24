@@ -145,3 +145,7 @@
 .toggle-button {
 	-fx-background-color: #101010;
 }
+
+.text-input, .text-input:focused { 
+	-fx-prompt-text-fill:darkgray;
+}
