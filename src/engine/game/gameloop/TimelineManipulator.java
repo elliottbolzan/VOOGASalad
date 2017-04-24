@@ -1,13 +1,8 @@
-package engine;
+package engine.game.gameloop;
 
+import engine.Entity;
+import engine.GameInfo;
 import engine.game.LevelManager;
-import engine.game.gameloop.GameOverStepStrategy;
-import engine.game.gameloop.LevelStepStrategy;
-import engine.game.gameloop.LoseLifeStepStrategy;
-import engine.game.gameloop.NextLevelStepStrategy;
-import engine.game.gameloop.Screen;
-import engine.game.gameloop.StepStrategy;
-import engine.graphics.GraphicsEngine;
 
 /**
  * Allows Game Objects (Entities, Events, Actions) to manipulate the timeline, including
@@ -18,12 +13,10 @@ import engine.graphics.GraphicsEngine;
 
 public class TimelineManipulator {
 	private LevelManager levelManager;
-	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
 	
-	public TimelineManipulator(LevelManager levelManager, GraphicsEngine graphicsEngine){
+	public TimelineManipulator(LevelManager levelManager){
 		this.levelManager = levelManager;
-		this.graphicsEngine = graphicsEngine;
 	}
 	
 	public void setInfo(GameInfo info){
@@ -38,6 +31,15 @@ public class TimelineManipulator {
 		levelManager.getCurrentScreen().pause();
 	}
 	
+	
+	public void startNewLevel(int newLevel) {
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			info.getObservableBundle().detachEntityFromAll(entity);
+		}
+		levelManager.rememberWonCurrentLevel();
+		moveToNextScreen(new NewLevelStepStrategy(levelManager, newLevel));
+	}
+	
 	/**
 	 * Logic for ending this level screen when won the level. IMPORTANT: Called from NextLevelAction
 	 * (and can be called from other Actions), NOT from step(). Stops this screen's
@@ -45,11 +47,12 @@ public class TimelineManipulator {
 	 * Although this method uses a Timeline, it is specific to Level Screens, so
 	 * I put it here in LevelStepStrategy rather than in Screen.
 	 */
+	
 	public void startNextLevel() {
-		//This should be moved to a win method
-		if(graphicsEngine.isHighscore()){
-			graphicsEngine.endScreen();
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			info.getObservableBundle().detachEntityFromAll(entity);
 		}
+		levelManager.rememberWonCurrentLevel();
 		moveToNextScreen(new NextLevelStepStrategy(levelManager));
 	}
 
@@ -71,11 +74,8 @@ public class TimelineManipulator {
 		StepStrategy nextStepStrategy;
 		if (gameOver) {
 			nextStepStrategy = new GameOverStepStrategy();
-			if(graphicsEngine.isHighscore()){
-				graphicsEngine.endScreen();
-			}
 		} else {
-			nextStepStrategy = new LoseLifeStepStrategy();
+			nextStepStrategy = new LoseLifeStepStrategy(levelManager);
 		}
 		moveToNextScreen(nextStepStrategy);
 	}

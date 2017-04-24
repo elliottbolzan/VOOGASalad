@@ -10,8 +10,10 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * @author nikita Abstract class for entities. Methods are implemented that are
- *         common to all kinds of entites (character, block, background, etc)
+ * Abstract class for entities. Methods are implemented that are common to all
+ * kinds of entites (character, block background, etc)
+ * 
+ * @author nikita
  */
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 	public static final double TIME_STEP = Screen.FRAME_TIME_MILLISECONDS / 50.0;
@@ -62,6 +64,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.events.add(event);
 	}
 
+	/**
+	 * 
+	 * @return Value of the Entity meant to represent the Entity's depth.
+	 */
 	public double getZ() {
 		return this.zIndex.get();
 	}
@@ -76,6 +82,12 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.x.set(x);
 	}
 
+	/**
+	 * 
+	 * @param z
+	 *            Set the Entity's depth on the screen with respect to other
+	 *            Entity's.
+	 */
 	public void setZ(int z) {
 		this.zIndex.set(z);
 	}
@@ -85,6 +97,11 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return this.name.get();
 	}
 
+	/**
+	 * 
+	 * @param name
+	 *            Set reference that refers to this specific Entity.
+	 */
 	public void setName(String name) {
 		this.name.set(name);
 	}
@@ -94,34 +111,69 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return this.imagePath.get();
 	}
 
+	/**
+	 * 
+	 * @param imagePath
+	 *            Set the location in the file system of the image for this
+	 *            Entity.
+	 */
 	public void setImagePath(String imagePath) {
 		this.imagePath.set(imagePath);
 	}
 
+	/**
+	 * 
+	 * @return The x location of the Entity's left edge.
+	 */
 	public SimpleDoubleProperty xProperty() {
 		return x;
 	}
 
+	/**
+	 * 
+	 * @return The y location of the Entity's top edge.
+	 */
 	public SimpleDoubleProperty yProperty() {
 		return y;
 	}
 
+	/**
+	 * 
+	 * @return The height of the Entity.
+	 */
 	public SimpleDoubleProperty heightProperty() {
 		return height;
 	}
 
+	/**
+	 * 
+	 * @return The width of the Entity.
+	 */
 	public SimpleDoubleProperty widthProperty() {
 		return width;
 	}
 
+	/**
+	 * 
+	 * @return The name of this Entity.
+	 */
 	public SimpleStringProperty nameProperty() {
 		return name;
 	}
 
+	/**
+	 * 
+	 * @return The location of this Entity in the file system.
+	 */
 	public SimpleStringProperty imagePathProperty() {
 		return imagePath;
 	}
 
+	/**
+	 * 
+	 * @return True if this Entity is meant to be visible. False if this Entity
+	 *         is meant to be hidden from view.
+	 */
 	public SimpleBooleanProperty isVisibleProperty() {
 		return this.isVisible;
 	}
@@ -154,7 +206,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	@Override
 	public void setHeight(double height) {
 		this.height.set(height);
-		;
 	}
 
 	@Override
@@ -202,14 +253,30 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return events;
 	}
 
+	/**
+	 * 
+	 * @param events
+	 *            Sets the list of Events that are associated with this Entity.
+	 */
 	public void setEvents(List<Event> events) {
 		this.events = events;
 	}
 
-	public void setIsVisible(boolean visiblbe) {
-		this.isVisible.set(visiblbe);
+	/**
+	 * 
+	 * @param visible
+	 *            Sets the visibility of this Entity. True means the Entity is
+	 *            visible. False means the Entity is not visible.
+	 */
+	public void setIsVisible(boolean visible) {
+		this.isVisible.set(visible);
 	}
 
+	/**
+	 * 
+	 * @return True if this Entity is meant to be visible. False if this Entity
+	 *         is meant to be hidden from view.
+	 */
 	public boolean getIsVisible() {
 		return this.isVisible.get();
 	}

@@ -12,25 +12,14 @@ import engine.events.AlwaysEvent;
 public class CameraEntity extends Entity {
 	
 	public CameraEntity() {		
-		//this.setWidth(600);
-		//this.setHeight(600);
+		this.setWidth(600);
+		this.setHeight(600);
 		this.setName("Camera");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		this.setZ(-1);
-		//this.setIsVisible(false); //TODO: for now leave the camera image visible for testing
-		//this.setupAlwaysMoveEvent();
-		//this.setupAlwaysFollowEvent();
+		this.setIsVisible(false);
+		this.setupAlwaysFollowEvent();
 	}
-
-	/*private void setupAlwaysMoveEvent() {
-		MoveAction move = new MoveAction();
-		move.setEntity(this);
-		
-		AlwaysEvent always = new AlwaysEvent();
-		always.addAction(move);
-		
-		this.addEvent(always);
-	}*/
 	
 	private void setupAlwaysFollowEvent() {
 		FollowAction follow = new FollowAction();
