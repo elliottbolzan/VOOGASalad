@@ -24,7 +24,6 @@ import exceptions.NotAGameFolderException;
 
 public class GameLoader {
 
-	private Unpackager unzip;
 	private ResourceManager rm;
 
 	/**
@@ -38,41 +37,40 @@ public class GameLoader {
 	 *             : incorrect folder path exception
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
-		unzip = new Unpackager();
-		String newPath = "";
-
-		if (gameFolderPath.contains(".zip")) {
-			newPath = gameFolderPath.replace(".zip", "");
-			unzip.unzip(gameFolderPath, newPath);
-		}
-
-		File dataFile = new File(newPath + File.separator + saveName);
-		rm = new ResourceManager();
+		(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".zip", ""));
 		
+		gameFolderPath = gameFolderPath.replace(".zip", "");
+
+		File dataFile = new File(gameFolderPath + File.separator + saveName);
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
-		Document doc = null;
+		
+		rm = new ResourceManager();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
-		doc = docBuilder.parse(newPath + File.separator + saveName);
+		Document doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
 		Game game = new Game();
 
 		addName(game, doc);
-		addLevels(game, doc, newPath);
-		addDefaults(game, doc, newPath);
-		addSong(game, doc, newPath);
-		// addAchieve(game, doc, newPath);
+		addLevels(game, doc, gameFolderPath);
+		addDefaults(game, doc, gameFolderPath);
+		addSong(game, doc, gameFolderPath);
+		addInfo(game, doc, gameFolderPath);
+		// addAchievements(game, doc, newPath);
 		// addBackground(game, doc, newPath);
-		addInfo(game, doc, newPath);
-		addCamera(game, doc, newPath);
+		//addInfo(game, doc, newPath);
+		//addCamera(game, doc, newPath);
 		game.setCurrentPath(gameFolderPath);
+		System.out.println(gameFolderPath);
+		
+		new DataSender(game);
 		return game;
 	}
 
-	private void addAchieve(Game game, Document doc, String folderPath) {
+	private void addAchievements(Game game, Document doc, String folderPath) {
 		NodeList achieveNode = doc.getElementsByTagName("Achievements");
-		game.setName(achieveNode.item(0).getAttributes().item(0).getNodeValue());
+		//game.setAchievements(achieveNode.item(0).getAttributes().item(0).getNodeValue());
 	}
 
 	private void addBackground(Game game, Document doc, String folderPath) {
@@ -86,7 +84,7 @@ public class GameLoader {
 
 	private void addInfo(Game game, Document doc, String folderPath) {
 		NodeList infoNode = doc.getElementsByTagName("GameInfo");
-		//game.setName(infoNode.item(0).getAttributes().item(0).getNodeValue());
+		game.setInfo(infoNode.item(0).getAttributes().item(0).getNodeValue());
 	}
 
 	/**
@@ -99,7 +97,7 @@ public class GameLoader {
 	 */
 	private void addName(Game game, Document doc) {
 		NodeList nameNodes = doc.getElementsByTagName(rm.getNameTitle());
-		//game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
+		game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
 	}
 
 	/**
@@ -123,24 +121,6 @@ public class GameLoader {
 	}
 
 	/**
-	 * Adds game camera from document to game
-	 * 
-	 * @param game
-	 *            : game where song is to be added
-	 * @param doc
-	 *            : Document that contains song, extracted by XML
-	 * @param gameFolderPath
-	 *            : top-level directory of the game
-	 */
-	private void addCamera(Game game, Document doc, String gameFolderPath) {
-		// TODO
-		Element cameraNode = (Element) doc.getElementsByTagName(rm.getCameraTitle()).item(0);
-		Entity camera = getEntityFromElement(cameraNode);
-		camera.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(camera.getImagePath()));
-		game.setCamera((CameraEntity) camera);
-	}
-
-	/**
 	 * Method to add default entities to game after they are extracted from
 	 * Document
 	 * 
@@ -153,7 +133,7 @@ public class GameLoader {
 	 */
 	private void addDefaults(Game game, Document doc, String gameFolderPath) {
 		NodeList defaultsNode = doc.getElementsByTagName(rm.getDefaultsTitle());
-		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0);
+		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0).getChildNodes().item(0);
 		game.setDefaults(getEntities(entitiesNode, gameFolderPath));
 	}
 
@@ -195,6 +175,11 @@ public class GameLoader {
 		for (Entity entity : getEntities(entitiesNode, gameFolderPath)) {
 			returnedLevel.addEntity(entity);
 		}
+		
+		Element cameraNode = (Element) levelElement.getChildNodes().item(1);
+		Entity camera = getEntityFromElement(cameraNode, gameFolderPath);
+		returnedLevel.setCamera((CameraEntity) camera);
+		
 		return returnedLevel;
 	}
 
@@ -212,13 +197,28 @@ public class GameLoader {
 		List<Entity> entityList = new ArrayList<Entity>();
 		for (int i = 0; i < entitiesList.getLength(); i++) {
 			if (entitiesList.item(i).getNodeName().equals(rm.getEntityState())) {
-				Entity instantiatedEntity = getEntityFromElement((Element) entitiesList.item(i));
-				instantiatedEntity.setImagePath("file:" + gameFolderPath + File.separator
-						+ convertPathForSystem(instantiatedEntity.getImagePath()));
+				Entity instantiatedEntity = getEntityFromElement((Element) entitiesList.item(i), gameFolderPath);
 				entityList.add(instantiatedEntity);
 			}
 		}
 		return entityList;
+	}
+
+	/**
+	 * Converts an element node from XML into an entity
+	 * 
+	 * @param entityElement
+	 *            : element to be converted into an entity
+	 * @return
+	 */
+	private Entity getEntityFromElement(Element entityElement, String gameFolderPath) {
+		XStream xStream = new XStream(new DomDriver());
+		xStream.registerConverter(new EntityConverter());
+		
+		Entity entity = (Entity) xStream.fromXML(getXMLStringFromElement(entityElement));
+		entity.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(entity.getImagePath()));
+		
+		return entity;
 	}
 
 	/**
@@ -241,22 +241,7 @@ public class GameLoader {
 
 		return newPath;
 	}
-
-	/**
-	 * Converts an element node from XML into an entity
-	 * 
-	 * @param entityElement
-	 *            : element to be converted into an entity
-	 * @return
-	 */
-	private Entity getEntityFromElement(Element entityElement) {
-		XStream xStream = new XStream(new DomDriver());
-		xStream.registerConverter(new EntityConverter());
-		Entity entity = (Entity) xStream.fromXML(getXMLStringFromElement(entityElement));
-
-		return entity;
-	}
-
+	
 	// http://stackoverflow.com/questions/32739278/convert-elementorg-w3c-dom-to-string-in-java
 	/**
 	 * Method to convert an element node from XML into a string

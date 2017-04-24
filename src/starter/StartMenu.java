@@ -137,7 +137,7 @@ public class StartMenu extends BorderPane {
 			return selectedDirectory.getAbsolutePath();
 		}
 	}
-	
+
 	private Game createGame(String path) {
 		try {
 			GameData gameData = new GameData();
@@ -147,7 +147,6 @@ public class StartMenu extends BorderPane {
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NotAGame").get());
 			alert.show();
 			return null;
-
 		}
 	}
 

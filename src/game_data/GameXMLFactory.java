@@ -95,10 +95,7 @@ public class GameXMLFactory extends XMLFactory
 	 * 			node to be added into XML
 	 */
 	public void addLevel(Element levelInfo) {
-		Element newLevel = doc.createElement(rm.getLevelElement());
-		Element importedLevelNode = (Element) doc.importNode(levelInfo, true);
-		newLevel.appendChild(importedLevelNode);
-		levelsNode.appendChild(newLevel);
+		levelsNode.appendChild(levelInfo);
 	}
 
 	/**

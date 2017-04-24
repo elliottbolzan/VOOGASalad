@@ -47,8 +47,7 @@ public abstract class EventObservable {
 	 */
 	public abstract void updateObservers();
 	
-	//TODO change back to protected
-	public List<Entity> getObservers(){
+	protected List<Entity> getObservers(){
 		return observers;
 	}
 }
