@@ -12,10 +12,18 @@ public class CharacterEntity extends Entity {
 	// instantiations of entities. Need to remake it changeable by the GAE.
 
 	public CharacterEntity() {
+		
+	}
+
+	@Override
+	protected void setupDefaultParameters() {
+		this.setName("Mario");
+		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
+	
 		this.updateParam("Lives", 5);
 		this.setYAcceleration(Entity.YACCELERATION);
 	}
-
+	
 	/**
 	 * 
 	 * @return The number of lives that the CharacterEntity has

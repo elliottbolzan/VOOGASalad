@@ -10,8 +10,10 @@ import engine.Entity;
 public class CameraEntity extends Entity {
 	
 	public CameraEntity() {		
-		this.setWidth(600);
-		this.setHeight(600);
+		}
+
+	@Override
+	protected void setupDefaultParameters() {
 		this.setName("Camera");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		this.setIsVisible(false);

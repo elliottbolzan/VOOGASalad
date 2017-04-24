@@ -26,9 +26,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public Entity() {
 		super("Entity");
 		this.setup();
-		this.setName("Mario");
-		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
+		this.setupDefaultParameters();
 	}
+	
+	protected abstract void setupDefaultParameters();
 
 	private void setup() {
 		x = new SimpleDoubleProperty(0);
