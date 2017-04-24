@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 /**
  * Abstract class for entities. Methods are implemented that are common to all
- * kinds of entites (character, block background, etc)
+ * kinds of entities (character, block background, etc)
  * 
  * @author nikita
  */
@@ -21,7 +21,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	private SimpleDoubleProperty x, y, width, height, zIndex;
 	private SimpleStringProperty name, imagePath;
 	private SimpleBooleanProperty isVisible;
-	private double xSpeed, ySpeed, xAcceleration, yAcceleration;
 	private List<Event> events;
 
 	public Entity() {
@@ -41,6 +40,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.name = new SimpleStringProperty();
 		this.imagePath = new SimpleStringProperty();
 		isVisible = new SimpleBooleanProperty(true);
+		addParam(new Parameter("X Speed", double.class, 0.0));
+		addParam(new Parameter("Y Speed", double.class, 0.0));
+		addParam(new Parameter("X Acceleration", double.class, 0.0));
+		addParam(new Parameter("Y Acceleration", double.class, 0.0));
 	}
 
 	/**
@@ -210,42 +213,42 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	@Override
 	public double getXSpeed() {
-		return xSpeed;
+		return (double) getParam("X Speed");
 	}
 
 	@Override
 	public void setXSpeed(double xSpeed) {
-		this.xSpeed = xSpeed;
+		this.updateParam("X Speed", xSpeed);
 	}
 
 	@Override
 	public double getYSpeed() {
-		return ySpeed;
+		return (double) getParam("Y Speed");
 	}
 
 	@Override
 	public void setYSpeed(double ySpeed) {
-		this.ySpeed = ySpeed;
+		this.updateParam("Y Speed", ySpeed);
 	}
 
 	@Override
 	public double getXAcceleration() {
-		return xAcceleration;
+		return (double) getParam("X Acceleration");
 	}
 
 	@Override
 	public void setXAcceleration(double xAcceleration) {
-		this.xAcceleration = xAcceleration;
+		this.updateParam("X Acceleration", xAcceleration);
 	}
 
 	@Override
 	public double getYAcceleration() {
-		return yAcceleration;
+		return (double) getParam("Y Acceleration");
 	}
 
 	@Override
 	public void setYAcceleration(double yAcceleration) {
-		this.yAcceleration = yAcceleration;
+		this.updateParam("Y Acceleration", yAcceleration);
 	}
 
 	@Override
