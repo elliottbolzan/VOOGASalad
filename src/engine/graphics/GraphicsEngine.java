@@ -7,9 +7,9 @@ import java.util.ResourceBundle;
 
 import engine.Entity;
 import engine.entities.CameraEntity;
+import engine.game.Level;
 import engine.game.gameloop.Scorebar;
 import game_data.Game;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -28,8 +28,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import player.menu.HighscoreMenu;
 import player.score.Overlay;
@@ -74,6 +72,18 @@ public class GraphicsEngine {
 		this.setupView();
 	}
 
+	public void setupLevel(Level level) {
+		this.setCamera(level.getCamera());
+		this.setEntitiesCollection(level.getEntities());
+		
+		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
+		
+		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getCamera()).getImage();
+		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
+				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+	
+	}
+	
 	/**
 	 * @return the graphical display for the game
 	 */
@@ -89,24 +99,21 @@ public class GraphicsEngine {
 	}
 
 	/**
-	 * Sets the camera used to move around the display
-	 * 
-	 * @param newCamera
-	 */
-	public void setCamera(CameraEntity newCamera) {
-		this.camera = newCamera;
-		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(newCamera).getImage();
-		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
-				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-	}
-
-	/**
 	 * Returns the scorebar used in the GameLoop
 	 * 
 	 * @return
 	 */
 	public Scorebar getScorebar() {
 		return scorebar;
+	}
+	
+	/**
+	 * Sets the camera used to move around the display
+	 * 
+	 * @param newCamera
+	 */
+	private void setCamera(CameraEntity newCamera) {
+		this.camera = newCamera;
 	}
 
 	/**
@@ -116,7 +123,7 @@ public class GraphicsEngine {
 	 * @param entities
 	 *            current entities to draw on screen
 	 */
-	public void setEntitiesCollection(Collection<Entity> entities) {
+	private void setEntitiesCollection(Collection<Entity> entities) {
 		this.entities = entities;
 		this.updateView();
 	}
@@ -192,7 +199,7 @@ public class GraphicsEngine {
 		overlay.setLevel(Integer.toString(scorebar.getLevel()));
 		overlay.setTime(scorebar.getTime());
 	}
-
+	
 	private void clearView() {
 		this.nodes.clear();
 		displayArea.getChildren().clear();

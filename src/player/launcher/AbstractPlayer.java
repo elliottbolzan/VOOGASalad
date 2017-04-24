@@ -62,8 +62,8 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	private void buildStage() {
 		loadScene = stage.getScene();
-		gameScene = this.createScene(600, 600);	//TODO: set scene size based on the game camera
-
+		gameScene = this.createScene(1000, 600);	//TODO? Might be ok with resizing the game view and leaving this as is
+		
 		stage.setScene(gameScene);
 		stage.centerOnScreen();
 		stage.setOnCloseRequest(e -> this.exit());

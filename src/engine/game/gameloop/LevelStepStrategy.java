@@ -87,10 +87,10 @@ public class LevelStepStrategy implements StepStrategy {
 			}
 		}
 	}
+	
 	private void setupGameView() {
 		CameraEntity levelCamera = levelManager.getCurrentLevel().getCamera();
 		levelManager.getCurrentLevel().getEntities().add(levelCamera);
-		graphicsEngine.setCamera(levelCamera);
-		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		graphicsEngine.setupLevel(levelManager.getCurrentLevel());
 	}
 }
