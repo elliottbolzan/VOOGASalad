@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import authoring.Workspace;
+import authoring.components.CustomTooltip;
 import utils.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -55,6 +56,7 @@ public class LayerPanel extends View {
 		VBox container = new VBox(8);
 		initLayerSelector();
 		Button addButton = workspace.getMaker().makeButton("AddLayerButton", e -> addLayer(), true);
+		CustomTooltip t = new CustomTooltip(workspace.getPolyglot().get("AddLayer"),addButton);
 		Button deleteButton = workspace.getMaker().makeButton("DeleteLayerButton", e -> {
 			initCloseRequest(e);
 			delete();

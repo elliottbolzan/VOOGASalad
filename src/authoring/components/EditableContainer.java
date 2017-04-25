@@ -2,13 +2,18 @@ package authoring.components;
 
 import authoring.Workspace;
 import utils.views.View;
+import javafx.beans.binding.StringBinding;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import polyglot.Case;
 
@@ -26,6 +31,7 @@ public abstract class EditableContainer extends View {
 
 	private Workspace workspace;
 	private Object currentlyEditing;
+	private Button newButton, editButton, deleteButton;
 
 	/**
 	 * Create an EditableContainer.
@@ -50,16 +56,36 @@ public abstract class EditableContainer extends View {
 		return workspace;
 	}
 
+	
 	private void createButtons() {
+		HBox spacing = new HBox();
+		spacing.maxWidth(Double.MAX_VALUE);
+		HBox.setHgrow(spacing, Priority.ALWAYS);
+		Button qButton = new Button("?");
+		ToolBar toolBar = new ToolBar(spacing,qButton);
+		//setTop(toolBar);
 		VBox buttonBox = new VBox();
-		Button newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
-		Button editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
-		Button deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
+		newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
+		editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
+		deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
 		HBox modificationButtons = new HBox(editButton, deleteButton);
 		buttonBox.getChildren().addAll(newButton, modificationButtons);
 		setBottom(buttonBox);
 	}
-
+	
+	/**
+	 * Add tooltips to display text when the mouse hovers over the buttons. 
+	 * The text will vary based on the context the editable container is used in. 
+	 * @param s1
+	 * @param s2
+	 * @param s3
+	 */
+	public void addTooltips(StringBinding s1,StringBinding s2,StringBinding s3){
+		new CustomTooltip(s1,newButton);
+		new CustomTooltip(s2,editButton);
+		new CustomTooltip(s3,deleteButton);
+	}
+	
 	/**
 	 * Determines whether a selection exists. If one does not, an error message
 	 * is displayed.

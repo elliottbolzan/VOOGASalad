@@ -111,7 +111,7 @@ public class GameSaver {
 		List<Element> xmlDefaults = entitySaver.getEntityListAsXML(defaults, gameFolderPath);
 		
 		LevelSaver saver = new LevelSaver(gameXMLFactory);
-		Element defaultsElement = saver.wrapLevelInXMLTags(xmlDefaults, null);
+		Element defaultsElement = saver.wrapEntityListInXMLTags(xmlDefaults);
 		gameXMLFactory.addDefaultEntity(defaultsElement);
 	}
 	

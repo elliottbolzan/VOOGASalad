@@ -13,15 +13,10 @@ public class CharacterEntity extends Entity {
 	// needs to save between
 	// instantiations of entities. Need to remake it changeable by the GAE.
 
-	public CharacterEntity() {
-		
-	}
-
 	@Override
 	protected void setupDefaultParameters() {
 		this.setName("Mario");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
-	
 		this.updateParam("Lives", 5);
 		this.setYAcceleration(Entity.YACCELERATION);
 	}
@@ -33,7 +28,6 @@ public class CharacterEntity extends Entity {
 	@Override
 	public int getLives() {
 		return getGameInfo().getScorebar().getLives();
-		// return (Integer) getParam("Lives");
 	}
 
 	/**

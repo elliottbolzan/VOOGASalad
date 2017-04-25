@@ -63,6 +63,15 @@ public abstract class GameObject {
 	public void updateParam(String name, Object value) {
 		findParameter(name).setObject(value);
 	}
+	
+	public boolean hasParam(String name) {
+		for (Parameter param : params) {
+			if (param.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void setParams(List<Parameter> params) {
 		this.params = params;

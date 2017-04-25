@@ -23,6 +23,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	private SimpleStringProperty name, imagePath;
 	private SimpleBooleanProperty isVisible;
 	private List<Event> events;
+	private List<Class<?>> additionalEventClasses, additionalActionClasses;
 
 	public Entity() {
 		super("Entity");
@@ -39,14 +40,16 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		height = new SimpleDoubleProperty(0);
 		zIndex = new SimpleDoubleProperty(0);
 		events = new ArrayList<Event>();
-		this.name = new SimpleStringProperty();
-		this.imagePath = new SimpleStringProperty();
+		name = new SimpleStringProperty();
+		imagePath = new SimpleStringProperty();
 		isVisible = new SimpleBooleanProperty(true);
 		addParam(new Parameter("X Speed", double.class, 0.0));
 		addParam(new Parameter("Y Speed", double.class, 0.0));
 		addParam(new Parameter("X Acceleration", double.class, 0.0));
 		addParam(new Parameter("Y Acceleration", double.class, 0.0));
-		addParam(new Parameter("Lives", Integer.class, 1));
+		addParam(new Parameter("Lives", int.class, 1));
+		additionalEventClasses = new ArrayList<Class<?>>();
+		additionalActionClasses = new ArrayList<Class<?>>();
 	}
 
 	/**
@@ -337,5 +340,18 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return copy;
 	}
 
-
+	public List<String> getAdditionalEvents(){
+		return additionalEventClasses.stream().map(s -> s.getSimpleName()).collect(Collectors.toList());
+	}
+	
+	public List<String> getAdditionalActions(){
+		return additionalActionClasses.stream().map(s -> s.getSimpleName()).collect(Collectors.toList());
+	}
+	
+	public void addAdditionalEventClass(Class<?> event){
+		additionalEventClasses.add(event);
+	}
+	public void addAdditionalActionClass(Class<?> action){
+		additionalActionClasses.add(action);
+	}
 }

@@ -11,16 +11,10 @@ import engine.Entity;
  */
 public class CameraEntity extends Entity {
 	
-	public CameraEntity() {		
-		}
-
 	@Override
 	protected void setupDefaultParameters() {
 		this.setName("Camera");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		this.setIsVisible(false);
 	}
-
-
-	
 }
