@@ -22,7 +22,7 @@ import game_data.Game;
  */
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
-	private SelectionGroup<Level> levelsInInitialState;
+	private SelectionGroup<Level> levelsInInitialState;  //zero-indexed
 	private List<Integer> unlockedLevelNumbers; //one-indexed
 	private int currentLevel; // one-indexed
 	private Game game;
@@ -150,7 +150,9 @@ public class LevelManager {
 	}
 
 	public void addUnlockedLevel(int currentLevel) {
-		unlockedLevelNumbers.add(currentLevel);
+		if(levelNumberInGame(currentLevel)){
+			unlockedLevelNumbers.add(currentLevel);
+		}
 	}
 	
 	public void clearUnlockedLevels(){

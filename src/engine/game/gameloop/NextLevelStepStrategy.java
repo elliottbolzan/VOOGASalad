@@ -29,4 +29,15 @@ public class NextLevelStepStrategy extends TransitionStepStrategy {
 				graphicsEngine.endScreen();
 		}
 	}
+
+	@Override
+	protected void modifyUnlockedScreens() {
+		levelManager.addUnlockedLevel(levelManager.getLevelNumber() + 1);
+	}
+
+	@Override
+	protected void handleHighscoreLevelSelectionMode() {
+		// TODO Auto-generated method stub
+		
+	}
 }

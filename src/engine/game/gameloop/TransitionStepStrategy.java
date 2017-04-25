@@ -47,10 +47,20 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	protected abstract int nextLevelNumber();
 
 	protected abstract void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine);
-
+	
+	protected abstract void modifyUnlockedScreens();
+	
+	protected abstract void handleHighscoreLevelSelectionMode();
+	
+	//Possibly more for template DP here
+	
 	private void nextScreenLevelSelectionMode() {
 		levelManager.getCurrentScreen().getTimeline().stop();
 		
+		modifyUnlockedScreens();
+		
+		
+		//ACTUALLY THIS IS THE TEMPLATE DP!
 		//TODO Convert each of these 3 cases into a Strategy DP?, or this and next method to strategy DP?
 		//If tree here
 		//Modify unlocked screens (subclass method call) - YES, do it here

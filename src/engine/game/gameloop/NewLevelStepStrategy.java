@@ -11,10 +11,12 @@ import engine.graphics.GraphicsEngine;
 public class NewLevelStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME_REGULAR_WIN = "Win";
 	private static final String RESOURCE_NAME_LAST_WIN = "WinGame";
+	private LevelManager levelManager;
 	private int newLevel;
 	
 	public NewLevelStepStrategy(LevelManager levelManager, int newLevel) {
 		super(levelManager.getLevelNumber() == levelManager.getLevels().size() ? RESOURCE_NAME_LAST_WIN : RESOURCE_NAME_REGULAR_WIN);
+		this.levelManager = levelManager;
 		this.newLevel = newLevel;
 	}
 
@@ -28,5 +30,16 @@ public class NewLevelStepStrategy extends TransitionStepStrategy {
 		if(!hasNextLevel && graphicsEngine.getScorebar().isHighscore()){
 			graphicsEngine.endScreen();
 		}
+	}
+
+	@Override
+	protected void modifyUnlockedScreens() {
+		levelManager.addUnlockedLevel(newLevel);
+	}
+
+	@Override
+	protected void handleHighscoreLevelSelectionMode() {
+		// TODO Auto-generated method stub
+		
 	}
 }

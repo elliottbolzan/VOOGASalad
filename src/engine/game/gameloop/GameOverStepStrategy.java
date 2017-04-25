@@ -1,5 +1,6 @@
 package engine.game.gameloop;
 
+import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
 /**
@@ -9,9 +10,11 @@ import engine.graphics.GraphicsEngine;
  */
 public class GameOverStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "GameOver";
+	private LevelManager levelManager;
 	
-	public GameOverStepStrategy() {
+	public GameOverStepStrategy(LevelManager levelManager) {
 		super(RESOURCE_NAME);
+		this.levelManager = levelManager;
 	}
 
 	@Override
@@ -22,5 +25,16 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	@Override
 	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
 		//Intentionally left blank.
+	}
+
+	@Override
+	protected void modifyUnlockedScreens() {
+		levelManager.clearUnlockedLevels();
+	}
+
+	@Override
+	protected void handleHighscoreLevelSelectionMode() {
+		// TODO Auto-generated method stub
+		
 	}
 }
