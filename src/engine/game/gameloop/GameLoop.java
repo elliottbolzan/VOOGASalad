@@ -27,18 +27,27 @@ public class GameLoop {
 		
 		levelManager = new LevelManager(game, new LevelStepStrategy());
 		levelManager.loadAllSavedLevels();
+		
+		setupFirstStrategy();
+		
 		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
-		
-		Screen firstScreen;
-		
-		
-		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
-		levelManager.setCurrentScreen(level1Screen);
-		
-		
+		Screen firstScreen = new Screen(levelManager, graphicsEngine, info);
+		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
+	}
+
+	private void setupFirstStrategy() {
+		//TODO set level selection screen mode from GAE here
+		StepStrategy firstStrategy;
+		if(levelManager.getLevelSelectionScreenMode()){
+			firstStrategy = new LevelSelectionStepStrategy();
+		}
+		else{
+			firstStrategy = new LevelStepStrategy();
+		}
+		levelManager.setCurrentStepStrategy(firstStrategy);
 	}
 	
 	public void startTimeline(){
