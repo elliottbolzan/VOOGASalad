@@ -233,28 +233,6 @@
   <imagePath>resources/MarioImage.png</imagePath>
   <isVisible>true</isVisible>
   <events>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">UP</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.JumpAction>
-          <params>
-            <engine.Parameter>
-              <name>Initial Jump Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">12.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.JumpAction>
-      </actions>
-    </engine.events.KeyPressEvent>
     <engine.events.BottomCollisionEvent>
       <params>
         <engine.Parameter>
@@ -498,28 +476,6 @@
   <imagePath>resources/MarioImage.png</imagePath>
   <isVisible>true</isVisible>
   <events>
-    <engine.events.KeyPressEvent>
-      <params>
-        <engine.Parameter>
-          <name>Key</name>
-          <clazz>javafx.scene.input.KeyCode</clazz>
-          <obj class="javafx.scene.input.KeyCode">UP</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.JumpAction>
-          <params>
-            <engine.Parameter>
-              <name>Initial Jump Speed</name>
-              <clazz>java.lang.Double</clazz>
-              <obj class="double">12.0</obj>
-            </engine.Parameter>
-          </params>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.JumpAction>
-      </actions>
-    </engine.events.KeyPressEvent>
     <engine.events.BottomCollisionEvent>
       <params>
         <engine.Parameter>

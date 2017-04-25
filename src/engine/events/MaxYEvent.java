@@ -13,7 +13,7 @@ import engine.Parameter;
 public class MaxYEvent extends Event {
 
 	public MaxYEvent() {
-		addParam(new Parameter("Max Y", Double.class, Double.MAX_VALUE));
+		addParam(new Parameter("Max Y", Double.class, 0.0));
 	}
 
 	@Override

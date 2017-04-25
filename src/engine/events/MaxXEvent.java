@@ -13,7 +13,7 @@ import engine.Parameter;
 public class MaxXEvent extends Event {
 
 	public MaxXEvent() {
-		addParam(new Parameter("Max X", Double.class, Double.MAX_VALUE));
+		addParam(new Parameter("Max X", Double.class, 0.0));
 	}
 
 	@Override
