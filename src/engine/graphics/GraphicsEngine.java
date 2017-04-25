@@ -17,11 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -78,9 +73,9 @@ public class GraphicsEngine {
 		
 		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
 		
-		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getCamera()).getImage();
-		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
-				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		//Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getCamera()).getImage();
+		//displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
+		//		BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 	
 	}
 	
