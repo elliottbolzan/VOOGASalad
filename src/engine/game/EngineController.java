@@ -53,16 +53,37 @@ public class EngineController {
 	}
 
 	public Entity createEntity(String entity) {
-		return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"), "Entity");
+		try {
+			return (Entity) getInstance("engine.entities." + getClassName(entity, "Entity"), "Entity");
+		} catch (Exception e) {
+			return null;
+		}
 
 	}
 
 	public Event createEvent(String event) {
-		return (Event) getInstance("engine.events.regular_events" + getClassName(event, "Event"), "Event");
+		try {
+			return (Event) getInstance("engine.events.regular_events" + getClassName(event, "Event"), "Event");
+		} catch (Exception e) {
+			try {
+				return (Event) getInstance("engine.events.additional_events" + getClassName(event, "Event"), "Event");
+			} catch (Exception e1) {
+				return null;
+			}
+		}
 	}
 
 	public Action createAction(String action) {
-		return (Action) getInstance("engine.actions.regular_actions" + getClassName(action, "Action"), "Action");
+		try {
+			return (Action) getInstance("engine.actions.regular_actions" + getClassName(action, "Action"), "Action");
+		} catch (Exception e) {
+			try {
+				return (Action) getInstance("engine.actions.additional_actions" + getClassName(action, "Action"),
+						"Action");
+			} catch (Exception e1) {
+				return null;
+			}
+		}
 	}
 
 	private String getClassName(String string, String type) {
@@ -88,14 +109,9 @@ public class EngineController {
 		}).filter(p -> p != null).collect(Collectors.toList());
 	}
 
-	private Object getInstance(String path, String type) {
-		try {
-			Class<?> clazz = Class.forName(path);
-			Constructor<?> ctor = clazz.getDeclaredConstructor();
-			return ctor.newInstance();
-		} catch (Exception e) {
-			return null;
-		}
+	private Object getInstance(String path, String type) throws Exception {
+		Class<?> clazz = Class.forName(path);
+		Constructor<?> ctor = clazz.getDeclaredConstructor();
+		return ctor.newInstance();
 	}
-
 }
