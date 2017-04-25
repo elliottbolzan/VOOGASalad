@@ -10,9 +10,6 @@ import engine.Entity;
  */
 public class BlockEntity extends Entity {
 
-	public BlockEntity() {
-		}
-
 	@Override
 	protected void setupDefaultParameters() {
 		this.setName("Block");
