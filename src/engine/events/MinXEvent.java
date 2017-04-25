@@ -13,7 +13,7 @@ import engine.Parameter;
 public class MinXEvent extends Event {
 
 	public MinXEvent() {
-		addParam(new Parameter("Min X", Double.class, Double.MIN_VALUE));
+		addParam(new Parameter("Min X", Double.class, 0.0));
 	}
 
 	@Override

@@ -26,7 +26,7 @@ public class CollisionEvent extends Event {
 	 * 
 	 * @param collision
 	 */
-	public void setCollision(Collision collision) {
+	protected void setCollision(Collision collision) {
 		this.collision = collision;
 	}
 

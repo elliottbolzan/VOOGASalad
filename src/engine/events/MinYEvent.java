@@ -13,7 +13,7 @@ import engine.Parameter;
 public class MinYEvent extends Event {
 
 	public MinYEvent() {
-		addParam(new Parameter("Min Y", Double.class, Double.MIN_VALUE));
+		addParam(new Parameter("Min Y", Double.class, 0.0));
 	}
 
 	@Override
