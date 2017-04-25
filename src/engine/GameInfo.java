@@ -19,6 +19,10 @@ public class GameInfo {
 	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
+	/**
+	 * True if entities have never been updated in current game. Once updated for first time, false for rest of game.
+	 */
+	private boolean entitiesNeverUpdated;
 	
 	public GameInfo(GameLoop gameLoop) {
 		this.bundle = gameLoop.getObservableBundle();
@@ -26,6 +30,15 @@ public class GameInfo {
 		this.timelineManipulator = gameLoop.timelineManipulator();
 		this.levelManager = gameLoop.getLevelManager();
 		this.graphicsEngine = gameLoop.getGraphicsEngine();
+		this.entitiesNeverUpdated = true;
+	}
+	
+	public void setEntitiesNeverUpdatedFalse(){
+		entitiesNeverUpdated = false;
+	}
+	
+	public boolean getEntitiesNeverUpdated(){
+		return entitiesNeverUpdated;
 	}
 	
 	public LevelManager getLevelManager(){

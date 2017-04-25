@@ -10,6 +10,8 @@ import java.util.ResourceBundle;
  */
 public class GameObjectException extends RuntimeException {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 
 	 * @param message

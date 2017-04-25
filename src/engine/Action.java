@@ -1,8 +1,9 @@
 package engine;
 
 /**
- * @author nikita. Abstract class for actions. Actions must implement the act
- *         method.
+ * Abstract class for actions. Actions must implement the act method.
+ * 
+ * @author nikita
  */
 public abstract class Action extends GameObject implements ActionInterface {
 

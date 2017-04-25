@@ -7,24 +7,19 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
-import authoring.components.HTMLDisplay;
 import authoring.components.ProgressDialog;
+import authoring.networking.Networking;
 import authoring.panel.Panel;
 import engine.Entity;
 import game_data.Game;
 import game_data.GameData;
 import javafx.concurrent.Task;
-import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
@@ -41,6 +36,7 @@ import utils.views.View;
  */
 public class Workspace extends View
 {
+
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
@@ -50,6 +46,7 @@ public class Workspace extends View
 	private Panel panel;
 	private Game game;
 	private DefaultEntities defaults;
+	private Networking networking;
 
 	/**
 	 * Creates the Workspace.
@@ -76,11 +73,22 @@ public class Workspace extends View
 		return game;
 	}
 
+	public Networking getNetworking()
+	{
+		return networking;
+	}
+
+	public Panel getPanel()
+	{
+		return panel;
+	}
+
 	/**
 	 * Initializes the Workspace's components.
 	 */
 	private void setup()
 	{
+		networking = new Networking(this);
 		data = new GameData();
 		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
 		defaults = new DefaultEntities(this);
@@ -91,28 +99,8 @@ public class Workspace extends View
 		pane.setDividerPositions(0.25);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
-		setTop(makeMenuBar());
+		setTop(new WorkspaceMenu(this));
 		setupDragToAddEntity();
-	}
-
-	private VBox makeMenuBar()
-	{
-		MenuBar menuBar = new MenuBar();
-		Menu gameMenu = maker.makeMenu("GameMenu");
-		gameMenu.getItems().addAll(maker.makeMenuItem("Save", "Ctrl+S", e -> save()),
-				maker.makeMenuItem("TestMenu", "Ctrl+T", e -> test()));
-		Menu editMenu = maker.makeMenu("EditTitle");
-		editMenu.getItems().addAll(maker.makeMenuItem("Copy", "Ctrl+C", e -> levelEditor.copy()),
-				maker.makeMenuItem("Paste", "Ctrl+V", e -> levelEditor.paste()),
-				maker.makeMenuItem("SelectAll", "Ctrl+A", e -> levelEditor.getCurrentLevel().selectAll()));
-		Menu settingsMenu = maker.makeMenu("SettingsTitle");
-		settingsMenu.getItems().add(maker.makeMenuItem("MusicSelect", "Ctrl+M", e -> chooseSong()));
-		Menu helpMenu = maker.makeMenu("HelpTitle");
-		helpMenu.getItems().add(maker.makeMenuItem("KeyCombinations", "Ctrl+H", e -> showKeyCombinations()));
-		menuBar.getMenus().addAll(gameMenu, editMenu, settingsMenu, helpMenu);
-		VBox box = new VBox(menuBar);
-		box.setPadding(new Insets(15, 0, 0, 0));
-		return box;
 	}
 
 	private void setupDragToAddEntity()
@@ -165,6 +153,12 @@ public class Workspace extends View
 				return null;
 			}
 		};
+		showProgressForTask(task);
+	}
+
+	public void showProgressForTask(Task<Void> task)
+	{
+		ProgressDialog dialog = new ProgressDialog(this);
 		task.setOnSucceeded(event -> {
 			dialog.getDialogStage().close();
 		});
@@ -294,6 +288,11 @@ public class Workspace extends View
 		panel.selectLoadedLevelBox(layerCount);
 	}
 
+	public LevelEditor getLevelEditor()
+	{
+		return levelEditor;
+	}
+
 	/**
 	 * When the user instructs the layer panel to delete a layer, the workspace
 	 * alerts the levelEditor, telling it to delete a layer of its current
@@ -316,23 +315,6 @@ public class Workspace extends View
 	public void updateEntity(Entity entity)
 	{
 		levelEditor.updateEntity(entity);
-	}
-
-	private void chooseSong()
-	{
-		String directory = System.getProperty("user.dir") + IOResources.getString("DefaultDirectory");
-		FileChooser chooser = maker.makeFileChooser(directory, polyglot.get("MusicChooserTitle").get(),
-				IOResources.getString("MusicChooserExtensions"));
-		File selectedFile = chooser.showOpenDialog(getScene().getWindow());
-		if (selectedFile != null) {
-			game.setSongPath(selectedFile.getAbsolutePath());
-		}
-	}
-
-	private void showKeyCombinations()
-	{
-		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
-		display.show();
 	}
 
 }

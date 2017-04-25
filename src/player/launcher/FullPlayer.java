@@ -71,11 +71,13 @@ public class FullPlayer extends AbstractPlayer {
 			playButton.textProperty().bind(this.getPolyglot().get("PauseButtonText"));
 			playButton.setGraphic(this.pauseImage);
 			this.getRunningGameLoop().startTimeline();
+			mediaManager.playSong();
 		} else {
 			isPaused = true;
 			playButton.textProperty().bind(this.getPolyglot().get("PlayButtonText"));
 			playButton.setGraphic(this.playImage);
 			this.getRunningGameLoop().pauseTimeline();
+			mediaManager.pauseSong();
 		}
 	}
 	
@@ -92,7 +94,6 @@ public class FullPlayer extends AbstractPlayer {
 	
 	private void save() {
 		Game savedGame = new Game();
-		savedGame.setCamera(this.getGame().getCamera());
 		savedGame.setDefaults(this.getGame().getDefaults());
 		savedGame.setName(this.getGame().getName());
 		savedGame.setSongPath(this.getGame().getSongPath());
@@ -102,6 +103,5 @@ public class FullPlayer extends AbstractPlayer {
 	protected void exit() {
 		super.exit();
 		mediaManager.pauseSong();
-
 	}
 }

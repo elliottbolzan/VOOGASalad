@@ -4,8 +4,9 @@ import engine.Action;
 import engine.Parameter;
 
 /**
- * @author nikita Action that moves an entity back and forth at the given step
- *         interval.
+ * Action that moves an entity back and forth at the given step interval.
+ * 
+ * @author nikita
  */
 public class MoveBackAndForthAction extends Action {
 	private long stepAmount;

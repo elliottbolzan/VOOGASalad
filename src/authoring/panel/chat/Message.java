@@ -3,7 +3,7 @@
  */
 package authoring.panel.chat;
 
-import java.io.Serializable;
+import authoring.networking.Packet;
 
 /**
  * @author Elliott Bolzan
@@ -12,9 +12,9 @@ import java.io.Serializable;
  *         such, has a username and actual content (a String). Implements
  *         Serializable to be sent over networks.
  */
-public class Message implements Serializable {
+public class Message extends Packet {
 
-	private static final long serialVersionUID = 296549524151151475L;
+	private static final long serialVersionUID = 2067219631233830806L;
 	private String username;
 	private String message;
 

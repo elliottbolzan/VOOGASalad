@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import authoring.Workspace;
 import engine.Entity;
+import engine.entities.CameraEntity;
 import engine.game.Level;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -31,6 +32,7 @@ public class LayerEditor extends View
 	private Map<Integer, Layer> layers;
 	private int layerCount;
 	private int currLayer;
+	private EntityView levelCameraView;
 
 	/**
 	 * Make a new LayerEditor.
@@ -57,9 +59,7 @@ public class LayerEditor extends View
 		layers.keySet().stream().forEach(id -> {
 			for (EntityView entity : layers.get(id).getEntities()) {
 				newLevel.addEntity(entity.getEntity(), entity.getEntity().getX(), entity.getEntity().getY(), id);
-			}
-			;
-
+			};
 		});
 		return newLevel;
 	}
@@ -78,6 +78,7 @@ public class LayerEditor extends View
 				thisLevel.addEntity(entity.getEntity());
 			}
 		}
+		thisLevel.setCamera((CameraEntity) levelCameraView.getEntity());
 		return thisLevel;
 	}
 
@@ -171,6 +172,7 @@ public class LayerEditor extends View
 		layers = new HashMap<Integer, Layer>();
 		layerCount = 0;
 		currLayer = 1;
+		levelCameraView = new EntityView(new CameraEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
 		addKeyActions();
 		newLayer();
 	}
@@ -242,7 +244,6 @@ public class LayerEditor extends View
 			addEntity(entity, e.getX() + canvas.getXScrollAmount(), e.getY() + canvas.getYScrollAmount(), currLayer);
 		} catch (Exception exception) {
 			showSelectMessage();
-			exception.printStackTrace();
 		}
 	}
 
@@ -263,23 +264,37 @@ public class LayerEditor extends View
 	public EntityView addEntity(Entity entity, double x, double y, int z)
 	{
 		EntityView addedEntity = canvas.addEntity(entity, x, y);
-		addedEntity.getEntity().setZ(z);
+		addEntityToLayer(addedEntity, z);
+		attachSelectionListeners(addedEntity);
+		
+		if(entity instanceof CameraEntity) {
+			canvas.removeEntity(levelCameraView);
+			levelCameraView = addedEntity;
+		} 
+		
+		return addedEntity;
+	}
+	
+	private void addEntityToLayer(EntityView entityView, int z) {
+		entityView.getEntity().setZ(z);
 		setNumLayers(z);
-		layers.get(z).addEntity(addedEntity);
-		addedEntity.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-			if (!e.isShiftDown() && !addedEntity.isSelected()) {
+		layers.get(z).addEntity(entityView);
+	}
+	
+	private void attachSelectionListeners(EntityView entityView) {
+		entityView.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+			if (!e.isShiftDown() && !entityView.isSelected()) {
 				for (Layer layer : layers.values()) {
 					layer.getSelectedEntities().forEach(ent -> {
 						ent.setSelected(false);
 					});
 				}
 			}
-			selectEntity(addedEntity, !addedEntity.isSelected());
+			selectEntity(entityView, !entityView.isSelected());
 		});
-		addedEntity.setOnMouseDragged(e -> {
-			addedEntity.setSelected(true);
+		entityView.setOnMouseDragged(e -> {
+			entityView.setSelected(true);
 		});
-		return addedEntity;
 	}
 
 	/**

@@ -38,13 +38,12 @@ public abstract class AbstractPlayer extends PlayerView {
 		this.buildGameView();
 	}
 	
-	private void buildStage() {
-		loadScene = stage.getScene();
-		gameScene = this.createScene(600, 600);	//TODO: set scene size based on the game camera
-
-		stage.setScene(gameScene);
-		stage.centerOnScreen();
-		stage.setOnCloseRequest(e -> this.exit());
+	protected GameLoop getRunningGameLoop() {
+		return this.gameLoop;
+	}
+	
+	protected Game getGame() {
+		return this.game;
 	}
 	
 	protected void buildGameView() {
@@ -56,17 +55,21 @@ public abstract class AbstractPlayer extends PlayerView {
 		this.setCenter(pane);
 	}
 	
-	protected GameLoop getRunningGameLoop() {
-		return this.gameLoop;
-	}
-	
-	protected Game getGame() {
-		return this.game;
-	}
-	
 	protected void exit() {
 		gameLoop.pauseTimeline();
+		this.returnToLoadScreen();
+	}
+	
+	private void buildStage() {
+		loadScene = stage.getScene();
+		gameScene = this.createScene(1000, 600);	//TODO? Might be ok with resizing the game view and leaving this as is
 		
+		stage.setScene(gameScene);
+		stage.centerOnScreen();
+		stage.setOnCloseRequest(e -> this.exit());
+	}
+	
+	private void returnToLoadScreen() {
 		if(loadScene != null) {
 			stage.setScene(loadScene);
 		} else {

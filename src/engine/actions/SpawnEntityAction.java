@@ -3,13 +3,13 @@ package engine.actions;
 import engine.Action;
 import engine.CollisionSide;
 import engine.Entity;
-import engine.Event;
 import engine.Parameter;
-import engine.events.AlwaysEvent;
 import javafx.application.Platform;
 
 /**
- * @author nikita Spawn an entity with given parameters.
+ * Spawn an entity with given parameters.
+ * 
+ * @author nikita
  */
 public class SpawnEntityAction extends Action {
 

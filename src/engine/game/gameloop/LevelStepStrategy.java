@@ -1,6 +1,7 @@
 package engine.game.gameloop;
 import engine.Action;
 import engine.Entity;
+import engine.entities.CameraEntity;
 import engine.Event;
 import engine.GameInfo;
 import engine.game.LevelManager;
@@ -31,8 +32,8 @@ public class LevelStepStrategy implements StepStrategy {
 		this.screenFinished = false;
 		levelManager.resetCurrentLevel();
 		info.getScorebar().resetTimerManager();
-		addInfoToEntities();
 		setupGameView();
+		addInfoToEntities();
 	}
 	
 	
@@ -59,6 +60,7 @@ public class LevelStepStrategy implements StepStrategy {
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
+		info.setEntitiesNeverUpdatedFalse();
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
@@ -85,8 +87,10 @@ public class LevelStepStrategy implements StepStrategy {
 			}
 		}
 	}
+	
 	private void setupGameView() {
-		// TODO call graphicsEngine.setCamera() here
-		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		CameraEntity levelCamera = levelManager.getCurrentLevel().getCamera();
+		levelManager.getCurrentLevel().getEntities().add(levelCamera);
+		graphicsEngine.setupLevel(levelManager.getCurrentLevel());
 	}
 }
