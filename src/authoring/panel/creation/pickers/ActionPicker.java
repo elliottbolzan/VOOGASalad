@@ -36,6 +36,7 @@ public class ActionPicker extends Picker {
 		this.editor = editor;
 		addTooltips(workspace.getPolyglot().get("AddAction"),workspace.getPolyglot().get("EditAction"),
 				workspace.getPolyglot().get("DeleteAction"));
+		attachInfoTooltip(workspace.getPolyglot().get("ActionInfo"));
 		update();
 	}
 

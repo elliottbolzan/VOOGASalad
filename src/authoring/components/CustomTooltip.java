@@ -13,6 +13,8 @@ public class CustomTooltip {
 	public CustomTooltip(StringBinding string, Node node){
 		Tooltip t = new Tooltip();
 		t.textProperty().bind(string);
+		t.setMaxWidth(200);
+		t.setWrapText(true);
 		shortenToolTipTime(t);
 		Tooltip.install(node,t);
 	}

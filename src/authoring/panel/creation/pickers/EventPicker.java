@@ -36,6 +36,7 @@ public class EventPicker extends Picker {
 		this.entityMaker = entityMaker;
 		addTooltips(workspace.getPolyglot().get("AddEvent"),workspace.getPolyglot().get("EditEvent"),
 				workspace.getPolyglot().get("DeleteEvent"));
+		attachInfoTooltip(workspace.getPolyglot().get("EventInfo"));
 		update();
 	}
 

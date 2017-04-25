@@ -1,16 +1,21 @@
 package authoring.panel.creation.pickers;
 
 import authoring.Workspace;
+import authoring.components.CustomTooltip;
 import authoring.components.EditableContainer;
 import authoring.panel.creation.EntityMaker;
 import engine.GameObject;
+import javafx.beans.binding.StringBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Text;
+import javafx.stage.Popup;
 
 /**
  * @author Elliott Bolzan
@@ -27,6 +32,7 @@ public abstract class Picker extends EditableContainer {
 
 	private EntityMaker maker;
 	private String titleProperty;
+	private Label infoLabel;
 
 	/**
 	 * Creates a Picker.
@@ -64,9 +70,15 @@ public abstract class Picker extends EditableContainer {
 			HBox spacing = new HBox();
 			spacing.maxWidth(Double.MAX_VALUE);
 			HBox.setHgrow(spacing, Priority.ALWAYS);
+			infoLabel = new Label("  ?  ");
+			infoLabel.setStyle("-fx-border-color: white;");
 			ToolBar toolBar = new ToolBar(label, spacing,
-					new Button("?"));
+					infoLabel);
 			setTop(toolBar);
+	}
+	
+	public void attachInfoTooltip(StringBinding s1){
+		new CustomTooltip(s1,infoLabel);
 	}
 
 	/**

@@ -63,7 +63,7 @@ public abstract class EditableContainer extends View {
 		HBox.setHgrow(spacing, Priority.ALWAYS);
 		Button qButton = new Button("?");
 		ToolBar toolBar = new ToolBar(spacing,qButton);
-		setTop(toolBar);
+		//setTop(toolBar);
 		VBox buttonBox = new VBox();
 		newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
 		editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
