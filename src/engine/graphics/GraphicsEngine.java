@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
+import engine.game.LevelManager;
 import engine.game.gameloop.Scorebar;
 import game_data.Game;
 import javafx.geometry.Pos;
@@ -143,10 +144,9 @@ public class GraphicsEngine {
 		displayArea.setCenter(label);
 	}
 	
-	public void displayLevelSelectionScreen(){
+	public void displayLevelSelectionScreen(LevelManager levelManager){
 		this.clearView();
-		LevelSelectionGraphics graphic = new LevelSelectionGraphics(displayArea);
-		graphic.draw();
+		new LevelSelectionGraphics(displayArea, levelManager, polyglot).draw();
 	}
 	
 	/**
