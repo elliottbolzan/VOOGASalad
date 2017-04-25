@@ -31,10 +31,4 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	protected void modifyUnlockedScreens() {
 		levelManager.clearUnlockedLevels();
 	}
-
-	@Override
-	protected void handleHighscoreLevelSelectionMode() {
-		// TODO Auto-generated method stub
-		
-	}
 }

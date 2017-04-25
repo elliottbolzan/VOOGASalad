@@ -36,10 +36,4 @@ public class NewLevelStepStrategy extends TransitionStepStrategy {
 	protected void modifyUnlockedScreens() {
 		levelManager.addUnlockedLevel(newLevel);
 	}
-
-	@Override
-	protected void handleHighscoreLevelSelectionMode() {
-		// TODO Auto-generated method stub
-		
-	}
 }

@@ -142,7 +142,13 @@ public class GraphicsEngine {
 		label.setAlignment(Pos.CENTER);
 		displayArea.setCenter(label);
 	}
-
+	
+	public void displayLevelSelectionScreen(){
+		this.clearView();
+		LevelSelectionMenu graphic = new LevelSelectionMenu(displayArea);
+		graphic.draw();
+	}
+	
 	/**
 	 * Show Highscore and ability to share to Facebook
 	 */

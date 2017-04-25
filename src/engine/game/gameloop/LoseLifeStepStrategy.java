@@ -31,10 +31,4 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	protected void modifyUnlockedScreens() {
 		//Intentionally left blank.
 	}
-
-	@Override
-	protected void handleHighscoreLevelSelectionMode() {
-		// TODO Auto-generated method stub
-		
-	}
 }
