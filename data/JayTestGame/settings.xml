@@ -194,7 +194,35 @@
       </collision>
     </engine.events.CollisionEvent>
   </events>
-</engine.entities.BlockEntity></Entity><Entity><engine.entities.CharacterEntity>
+</engine.entities.BlockEntity></Entity><Entity><engine.entities.CameraEntity>
+  <EntityType>Camera</EntityType>
+  <x>0.0</x>
+  <y>50.0</y>
+  <width>625.0</width>
+  <height>300.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Camera</name>
+  <imagePath>resources/CameraImage.png</imagePath>
+  <isVisible>false</isVisible>
+  <events>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <entity class="engine.entities.CameraEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.FollowAction>
+          <params>
+            <engine.Parameter>
+              <name>Leader Entity</name>
+              <clazz>java.lang.String</clazz>
+              <obj class="string">Mario</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
+        </engine.actions.FollowAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+  </events>
+</engine.entities.CameraEntity></Entity><Entity><engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
   <x>275.0</x>
   <y>100.0</y>
@@ -322,8 +350,46 @@
         </engine.actions.ZeroLeftSpeedAction>
       </actions>
     </engine.events.KeyReleaseEvent>
+    <engine.events.LeftCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroLeftSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroLeftSpeedAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
+      </collision>
+    </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroRightSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroRightSpeedAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
   </events>
-</engine.entities.CharacterEntity></Entity><Entity><engine.entities.CameraEntity>
+</engine.entities.CharacterEntity></Entity></Entities><Camera><engine.entities.CameraEntity>
   <EntityType>Camera</EntityType>
   <x>0.0</x>
   <y>50.0</y>
@@ -333,19 +399,25 @@
   <name>Camera</name>
   <imagePath>resources/CameraImage.png</imagePath>
   <isVisible>false</isVisible>
-  <events/>
-</engine.entities.CameraEntity></Entity></Entities><Camera><engine.entities.CameraEntity>
-  <EntityType>Camera</EntityType>
-  <x>0.0</x>
-  <y>50.0</y>
-  <width>625.0</width>
-  <height>300.0</height>
-  <zIndex>1.0</zIndex>
-  <name>Camera</name>
-  <imagePath>resources/CameraImage.png</imagePath>
-  <isVisible>false</isVisible>
-  <events/>
-</engine.entities.CameraEntity></Camera></Level></Levels><Defaults><Level><Entities><Entity><engine.entities.BlockEntity>
+  <events>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <entity class="engine.entities.CameraEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.FollowAction>
+          <params>
+            <engine.Parameter>
+              <name>Leader Entity</name>
+              <clazz>java.lang.String</clazz>
+              <obj class="string">Mario</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
+        </engine.actions.FollowAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+  </events>
+</engine.entities.CameraEntity></Camera></Level></Levels><Defaults><Entities><Entity><engine.entities.BlockEntity>
   <EntityType>Block</EntityType>
   <x>0.0</x>
   <y>0.0</y>
@@ -387,7 +459,35 @@
       </collision>
     </engine.events.CollisionEvent>
   </events>
-</engine.entities.BlockEntity></Entity><Entity><engine.entities.CharacterEntity>
+</engine.entities.BlockEntity></Entity><Entity><engine.entities.CameraEntity>
+  <EntityType>Camera</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>625.0</width>
+  <height>300.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Camera</name>
+  <imagePath>resources/CameraImage.png</imagePath>
+  <isVisible>false</isVisible>
+  <events>
+    <engine.events.AlwaysEvent>
+      <params/>
+      <entity class="engine.entities.CameraEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.FollowAction>
+          <params>
+            <engine.Parameter>
+              <name>Leader Entity</name>
+              <clazz>java.lang.String</clazz>
+              <obj class="string">Mario</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
+        </engine.actions.FollowAction>
+      </actions>
+    </engine.events.AlwaysEvent>
+  </events>
+</engine.entities.CameraEntity></Entity><Entity><engine.entities.CharacterEntity>
   <EntityType>Character</EntityType>
   <x>0.0</x>
   <y>0.0</y>
@@ -515,16 +615,43 @@
         </engine.actions.ZeroLeftSpeedAction>
       </actions>
     </engine.events.KeyReleaseEvent>
+    <engine.events.LeftCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroLeftSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroLeftSpeedAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>LEFT</firstRelativeToSecond>
+      </collision>
+    </engine.events.LeftCollisionEvent>
+    <engine.events.RightCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroRightSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroRightSpeedAction>
+      </actions>
+      <collision>
+        <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
+      </collision>
+    </engine.events.RightCollisionEvent>
   </events>
-</engine.entities.CharacterEntity></Entity><Entity><engine.entities.CameraEntity>
-  <EntityType>Camera</EntityType>
-  <x>0.0</x>
-  <y>0.0</y>
-  <width>625.0</width>
-  <height>300.0</height>
-  <zIndex>0.0</zIndex>
-  <name>Camera</name>
-  <imagePath>resources/CameraImage.png</imagePath>
-  <isVisible>false</isVisible>
-  <events/>
-</engine.entities.CameraEntity></Entity></Entities></Level></Defaults><Camera/><Resources/><GameInfo Info="Information about game"/></Game>
+</engine.entities.CharacterEntity></Entity></Entities></Defaults><Camera/><Resources/><GameInfo Info="Information about game"/></Game>
