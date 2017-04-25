@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 /**
  * Based off the question at
  * http://stackoverflow.com/questions/16680295/javafx-correct-scaling
+ * http://stackoverflow.com/questions/29506156/javafx-8-zooming-relative-to-mouse-pointer
  * 
  * @author jimmy
  *
@@ -25,6 +26,8 @@ public class ZoomablePane extends ScrollPane
 {
 	private StackPane zoomPane;
 	private Group scrollContent;
+	private static final double MAX_SCALE = 10.0d;
+	private static final double MIN_SCALE = .1d;
 
 	public ZoomablePane(Group entities)
 	{
@@ -43,6 +46,18 @@ public class ZoomablePane extends ScrollPane
 		this.makeZoomable(entities);
 	}
 
+	public static double clamp(double value, double min, double max)
+	{
+
+		if (Double.compare(value, min) < 0)
+			return min;
+
+		if (Double.compare(value, max) > 0)
+			return max;
+
+		return value;
+	}
+
 	private void makeZoomable(Group entities)
 	{
 		final double SCALE_DELTA = 1.1;
@@ -56,6 +71,57 @@ public class ZoomablePane extends ScrollPane
 				zoomPane.setMinSize(newValue.getWidth(), newValue.getHeight());
 			}
 		});
+
+		// EventHandler<ScrollEvent> onScrollEventHandler = new
+		// EventHandler<ScrollEvent>()
+		// {
+		//
+		// @Override
+		// public void handle(ScrollEvent event)
+		// {
+		//
+		// double delta = 1.2;
+		//
+		// double scale = entities.getScaleX(); // currently we only use Y,
+		// // same
+		// // value is used for X
+		// double oldScale = scale;
+		//
+		// if (event.getDeltaY() < 0)
+		// scale /= delta;
+		// else
+		// scale *= delta;
+		//
+		// scale = clamp(scale, MIN_SCALE, MAX_SCALE);
+		//
+		// double f = (scale / oldScale) - 1;
+		//
+		// double dx = (event.getSceneX()
+		// - (entities.getBoundsInParent().getWidth() / 2 +
+		// entities.getBoundsInParent().getMinX()));
+		// double dy = (event.getSceneY()
+		// - (entities.getBoundsInParent().getHeight() / 2 +
+		// entities.getBoundsInParent().getMinY()));
+		//
+		// entities.setScaleX(scale);
+		// entities.setScaleY(scale);
+		//
+		// System.out.println(dx + ", " + dy);
+		//
+		// // note: pivot value must be untransformed, i. e. without
+		// // scaling
+		// ZoomablePane.this
+		// .setHvalue(ZoomablePane.this.getHvalue() + (f * dx) /
+		// entities.getBoundsInParent().getWidth());
+		// ZoomablePane.this
+		// .setVvalue(ZoomablePane.this.getVvalue() + (f * dy) /
+		// entities.getBoundsInParent().getHeight());
+		//
+		// event.consume();
+		//
+		// }
+		//
+		// };
 
 		zoomPane.setOnScroll(new EventHandler<ScrollEvent>()
 		{
@@ -82,7 +148,7 @@ public class ZoomablePane extends ScrollPane
 				// the
 				// scaling
 				repositionScroller(scrollContent, ZoomablePane.this, scaleFactor, scrollOffset);
-
+				// ZoomablePane.this.setViewportBounds(value);
 			}
 		});
 
