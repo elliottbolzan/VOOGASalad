@@ -30,6 +30,8 @@ public class EntityDisplay extends EditableContainer {
 	 */
 	public EntityDisplay(Workspace workspace) {
 		super(workspace, "EntityDisplayTitle");
+		addTooltips(workspace.getPolyglot().get("AddEntity"),workspace.getPolyglot().get("EditEntity"),
+				workspace.getPolyglot().get("DeleteEntity"));
 	}
 
 	/**

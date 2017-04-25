@@ -2,6 +2,7 @@ package authoring.components;
 
 import authoring.Workspace;
 import utils.views.View;
+import javafx.beans.binding.StringBinding;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -27,6 +28,7 @@ public abstract class EditableContainer extends View {
 
 	private Workspace workspace;
 	private Object currentlyEditing;
+	private Button newButton,editButton,deleteButton;
 
 	/**
 	 * Create an EditableContainer.
@@ -51,25 +53,23 @@ public abstract class EditableContainer extends View {
 		return workspace;
 	}
 
+	
 	private void createButtons() {
 		VBox buttonBox = new VBox();
-		Button newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
-		Tooltip t = new Tooltip();
-		t.textProperty().bind(workspace.getPolyglot().get("AddEntity"));
-		newButton.setTooltip(t);
-		Button editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
-		Tooltip p = new Tooltip();
-		p.textProperty().bind(workspace.getPolyglot().get("EditEntity"));
-		editButton.setTooltip(p);
-		Button deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
-		Tooltip q = new Tooltip();
-		q.textProperty().bind(workspace.getPolyglot().get("DeleteEntity"));
-		deleteButton.setTooltip(q);
+		newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
+		editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
+		deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
 		HBox modificationButtons = new HBox(editButton, deleteButton);
 		buttonBox.getChildren().addAll(newButton, modificationButtons);
 		setBottom(buttonBox);
 	}
-
+	
+	public void addTooltips(StringBinding s1,StringBinding s2,StringBinding s3){
+		new CustomTooltip(s1, newButton);
+		new CustomTooltip(s2, editButton);
+		new CustomTooltip(s3, deleteButton);
+	}
+	
 	/**
 	 * Determines whether a selection exists. If one does not, an error message
 	 * is displayed.
