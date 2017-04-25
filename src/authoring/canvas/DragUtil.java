@@ -1,5 +1,7 @@
 package authoring.canvas;
 
+import java.util.List;
+
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
@@ -178,6 +180,7 @@ public class DragUtil
 		leftResizeDragging = false;
 		topResizeDragging = false;
 		region.setCursor(Cursor.DEFAULT);
+		region.getWorkspace().getDefaults().edit(region.getEntity());
 	}
 
 	private void mouseOverMove(MouseEvent event)
@@ -247,18 +250,18 @@ public class DragUtil
 			double mouseX = event.getX();
 			double mouseY = event.getY();
 
-			// List<EntityView> movedEntities = region.getSelectedNeighbors();
-			// movedEntities.add(region);
+			List<EntityView> movedEntities = region.getSelectedNeighbors();
+			movedEntities.add(region);
 
-			region.setTranslateX(getTiledCoordinate(region.getTranslateX() + mouseX - region.getWidth() / 2));
-			region.setTranslateY(getTiledCoordinate(region.getTranslateY() + mouseY - region.getHeight() / 2));
+			// region.setTranslateX(getTiledCoordinate(region.getTranslateX() +
+			// mouseX - region.getWidth() / 2));
+			// region.setTranslateY(getTiledCoordinate(region.getTranslateY() +
+			// mouseY - region.getHeight() / 2));
 
-			// for (EntityView entity : movedEntities) {
-			// entity.setTranslateX(getTiledCoordinate(entity.getTranslateX() +
-			// mouseX - entity.getWidth() / 2));
-			// entity.setTranslateY(getTiledCoordinate(entity.getTranslateY() +
-			// mouseY - entity.getHeight() / 2));
-			// }
+			for (EntityView entity : movedEntities) {
+				entity.setTranslateX(getTiledCoordinate(entity.getTranslateX() + mouseX - entity.getWidth() / 2));
+				entity.setTranslateY(getTiledCoordinate(entity.getTranslateY() + mouseY - entity.getHeight() / 2));
+			}
 		}
 		event.consume();
 	}
@@ -297,13 +300,20 @@ public class DragUtil
 			if (leftResizeDragging) {
 				double mousex = event.getX();
 
-				double newWidth = untiledWidth + (x - mousex);
-				untiledWidth = newWidth;
+				untiledWidth += (x - mousex);
 				untiledDragLeft += x - mousex;
+
+				double currX = region.getTranslateX();
+				double newX = getTiledCoordinate(region.getBoundsInParent().getMinX() + mousex);
 
 				if (untiledWidth >= tileSize) {
 					region.setMinWidth(getTiledCoordinate(untiledWidth));
-					region.setTranslateX(getTiledCoordinate(untiledDragLeft + region.getTranslateX()));
+					if (currX != newX) {
+						untiledWidth += currX - newX;
+					}
+					region.setTranslateX(getTiledCoordinate(region.getBoundsInParent().getMinX() + mousex));
+					// region.setTranslateX(getTiledCoordinate(untiledDragLeft +
+					// region.getTranslateX()));
 				}
 
 				x = mousex;

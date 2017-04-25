@@ -92,7 +92,7 @@ public class Workspace extends View
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
 		setTop(makeMenuBar());
-		dragToAddEntity();
+		setupDragToAddEntity();
 	}
 
 	private VBox makeMenuBar()
@@ -103,7 +103,8 @@ public class Workspace extends View
 				maker.makeMenuItem("TestMenu", "Ctrl+T", e -> test()));
 		Menu editMenu = maker.makeMenu("EditTitle");
 		editMenu.getItems().addAll(maker.makeMenuItem("Copy", "Ctrl+C", e -> levelEditor.copy()),
-				maker.makeMenuItem("Paste", "Ctrl+V", e -> levelEditor.paste()));
+				maker.makeMenuItem("Paste", "Ctrl+V", e -> levelEditor.paste()),
+				maker.makeMenuItem("SelectAll", "Ctrl+A", e -> levelEditor.getCurrentLevel().selectAll()));
 		Menu settingsMenu = maker.makeMenu("SettingsTitle");
 		settingsMenu.getItems().add(maker.makeMenuItem("MusicSelect", "Ctrl+M", e -> chooseSong()));
 		Menu helpMenu = maker.makeMenu("HelpTitle");
@@ -114,7 +115,7 @@ public class Workspace extends View
 		return box;
 	}
 
-	private void dragToAddEntity()
+	private void setupDragToAddEntity()
 	{
 		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
@@ -192,9 +193,10 @@ public class Workspace extends View
 	public void test()
 	{
 		createGame();
-		game.setTestGame(true);
+		Game testGame = game.clone();
+		testGame.setTestGame(true);
 		Stage stage = new Stage();
-		new BasicPlayer(stage, game, polyglot, IOResources);
+		new BasicPlayer(stage, testGame, polyglot, IOResources);
 		stage.show();
 	}
 
@@ -332,4 +334,5 @@ public class Workspace extends View
 		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
 		display.show();
 	}
+
 }

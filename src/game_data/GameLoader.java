@@ -48,7 +48,7 @@ public class GameLoader {
 
 		File dataFile = new File(newPath + File.separator + saveName);
 		rm = new ResourceManager();
-
+		
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}

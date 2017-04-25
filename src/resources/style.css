@@ -137,3 +137,7 @@
 .workspace-pane {
 	-fx-padding: 15;
 }
+
+.toggle-button {
+	-fx-background-color: #101010;
+}

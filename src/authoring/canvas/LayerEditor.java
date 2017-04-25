@@ -81,6 +81,15 @@ public class LayerEditor extends View
 		return thisLevel;
 	}
 
+	public void selectAll()
+	{
+		for (Layer layer : layers.values()) {
+			for (EntityView entity : layer.getEntities()) {
+				entity.setSelected(true);
+			}
+		}
+	}
+
 	/**
 	 * Update the Entities in each layer to reflect the default Entity they
 	 * correspond to. This method is called when a default Entity is edited by
@@ -101,8 +110,6 @@ public class LayerEditor extends View
 			}
 			concerned.forEach(entityView -> {
 				Entity toRemove = entityView.getEntity();
-				entity.widthProperty().set(toRemove.getWidth());
-				entity.heightProperty().set(toRemove.getHeight());
 				addEntity(entity, toRemove.getX(), toRemove.getY(), (int) toRemove.getZ());
 				canvas.removeEntity(entityView);
 			});
