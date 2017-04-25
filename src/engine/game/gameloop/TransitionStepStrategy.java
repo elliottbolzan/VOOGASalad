@@ -50,36 +50,31 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	
 	protected abstract void modifyUnlockedScreens();
 	
-	protected abstract void handleHighscoreLevelSelectionMode();
-	
-	//Possibly more for template DP here
-	
 	private void nextScreenLevelSelectionMode() {
-		levelManager.getCurrentScreen().getTimeline().stop();
-		
+		stopCurrentTimeline();
 		modifyUnlockedScreens();
-		
-		
-		//ACTUALLY THIS IS THE TEMPLATE DP!
-		//TODO Convert each of these 3 cases into a Strategy DP?, or this and next method to strategy DP?
-		//If tree here
-		//Modify unlocked screens (subclass method call) - YES, do it here
-		//for "won" case, take care of high score
-		//reset nextStepStrategy, new Screen, and play the new timeline
+		handleHighscore(levelManager.levelNumberInGame(levelManager.getLevelNumber() + 1), graphicsEngine);
+		nextScreenAndStrategy(new LevelSelectionStepStrategy());
 	}
 
 	private void nextScreenJustLevelsMode() {
-		levelManager.getCurrentScreen().getTimeline().stop();
-
+		stopCurrentTimeline();
 		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber());
 		if (hasNextLevel) {
-			StepStrategy nextStepStrategy = new LevelStepStrategy();
-			levelManager.setCurrentStepStrategy(nextStepStrategy);
-			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
-			nextScreen.getTimeline().play();
+			nextScreenAndStrategy(new LevelStepStrategy());
 		} else {
 			handleHighscore(hasNextLevel, graphicsEngine);
 		}
+	}
+
+	private void stopCurrentTimeline() {
+		levelManager.getCurrentScreen().getTimeline().stop();
+	}
+	
+	private void nextScreenAndStrategy(StepStrategy nextStepStrategy) {
+		levelManager.setCurrentStepStrategy(nextStepStrategy);
+		Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
+		nextScreen.getTimeline().play();
 	}
 
 }
