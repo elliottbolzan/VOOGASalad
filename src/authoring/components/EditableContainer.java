@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -53,8 +54,17 @@ public abstract class EditableContainer extends View {
 	private void createButtons() {
 		VBox buttonBox = new VBox();
 		Button newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
+		Tooltip t = new Tooltip();
+		t.textProperty().bind(workspace.getPolyglot().get("AddEntity"));
+		newButton.setTooltip(t);
 		Button editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
+		Tooltip p = new Tooltip();
+		p.textProperty().bind(workspace.getPolyglot().get("EditEntity"));
+		editButton.setTooltip(p);
 		Button deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
+		Tooltip q = new Tooltip();
+		q.textProperty().bind(workspace.getPolyglot().get("DeleteEntity"));
+		deleteButton.setTooltip(q);
 		HBox modificationButtons = new HBox(editButton, deleteButton);
 		buttonBox.getChildren().addAll(newButton, modificationButtons);
 		setBottom(buttonBox);
