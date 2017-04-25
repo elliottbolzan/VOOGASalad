@@ -34,6 +34,9 @@ public class ActionPicker extends Picker {
 	public ActionPicker(Workspace workspace, EntityMaker entityMaker) {
 		super(workspace, "ActionPickerTitle", entityMaker);
 		this.entityMaker = entityMaker;
+		addTooltips(workspace.getPolyglot().get("AddAction"),workspace.getPolyglot().get("EditAction"),
+				workspace.getPolyglot().get("DeleteAction"));
+		attachInfoTooltip(workspace.getPolyglot().get("ActionInfo"));
 		update();
 	}
 
