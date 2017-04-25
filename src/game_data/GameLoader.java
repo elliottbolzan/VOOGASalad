@@ -52,7 +52,6 @@ public class GameLoader {
 		Document doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
 		
 		Game game = new Game();
-
 		addName(game, doc);
 		addLevels(game, doc, gameFolderPath);
 		addDefaults(game, doc, gameFolderPath);
@@ -60,7 +59,10 @@ public class GameLoader {
 		addInfo(game, doc, gameFolderPath);
 		// addAchievements(game, doc, newPath);
 		// addBackground(game, doc, newPath);
-
+		//addInfo(game, doc, newPath);
+		//addCamera(game, doc, newPath);
+		//game.setCurrentPath(gameFolderPath);
+//		new DataSender(game);
 		return game;
 	}
 

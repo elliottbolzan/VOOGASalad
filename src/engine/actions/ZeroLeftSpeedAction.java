@@ -8,10 +8,12 @@ import engine.Action;
  * @author Kyle Finke
  *
  */
-public class ZeroHorizontalSpeedAction extends Action {
+public class ZeroLeftSpeedAction extends Action {
 
 	@Override
 	public void act() {
-		getEntity().setXSpeed(0);
+		if(getEntity().getXSpeed() < 0) {
+			getEntity().setXSpeed(0);
+		}
 	}
 }

@@ -13,7 +13,7 @@ import polyglot.Polyglot;
 
 /**
  * 
- * @author Jesse
+ * @author Jesse Yue
  *
  */
 public class HighscoreMenu extends PlayerView {

@@ -60,6 +60,7 @@ public class LevelStepStrategy implements StepStrategy {
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.update();
 		}
+		info.setEntitiesNeverUpdatedFalse();
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
@@ -86,10 +87,10 @@ public class LevelStepStrategy implements StepStrategy {
 			}
 		}
 	}
+	
 	private void setupGameView() {
 		CameraEntity levelCamera = levelManager.getCurrentLevel().getCamera();
 		levelManager.getCurrentLevel().getEntities().add(levelCamera);
-		graphicsEngine.setCamera(levelCamera);
-		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		graphicsEngine.setupLevel(levelManager.getCurrentLevel());
 	}
 }

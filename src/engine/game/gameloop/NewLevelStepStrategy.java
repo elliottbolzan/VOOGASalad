@@ -25,7 +25,7 @@ public class NewLevelStepStrategy extends TransitionStepStrategy {
 
 	@Override
 	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
-		if(!hasNextLevel && graphicsEngine.isHighscore()){
+		if(!hasNextLevel && graphicsEngine.getScorebar().isHighscore()){
 			graphicsEngine.endScreen();
 		}
 	}
