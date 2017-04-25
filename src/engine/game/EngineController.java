@@ -33,15 +33,19 @@ public class EngineController {
 	/**
 	 * Get all actions that are accessible for this entity.
 	 */
-	public List<String> getAllActions() {
-		return findClasses("engine.actions", "Action");
+	public List<String> getAllActions(Entity entity) {
+		List<String> ret = findClasses("engine.actions", "Action");
+		ret.addAll(entity.getAdditionalActions());
+		return ret;
 	}
 
 	/**
 	 * Get all events that are accessible for this entity.
 	 */
-	public List<String> getAllEvents() {
-		return findClasses("engine.events", "Event");
+	public List<String> getAllEvents(Entity entity) {
+		List<String> ret = findClasses("engine.events", "Event");
+		ret.addAll(entity.getAdditionalEvents());
+		return ret;
 	}
 
 	public Entity getDefaultEntity() {
@@ -54,11 +58,11 @@ public class EngineController {
 	}
 
 	public Event createEvent(String event) {
-		return (Event) getInstance("engine.events." + getClassName(event, "Event"), "Event");
+		return (Event) getInstance("engine.events.regular_events" + getClassName(event, "Event"), "Event");
 	}
 
 	public Action createAction(String action) {
-		return (Action) getInstance("engine.actions." + getClassName(action, "Action"), "Action");
+		return (Action) getInstance("engine.actions.regular_actions" + getClassName(action, "Action"), "Action");
 	}
 
 	private String getClassName(String string, String type) {
