@@ -177,6 +177,11 @@
     <engine.events.CollisionEvent>
       <params>
         <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+        <engine.Parameter>
           <name>Entity</name>
           <clazz>java.lang.String</clazz>
           <obj class="string">Mario</obj>
@@ -189,6 +194,7 @@
           <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
         </engine.actions.NextLevelAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
       </collision>
@@ -206,7 +212,13 @@
   <isVisible>false</isVisible>
   <events>
     <engine.events.AlwaysEvent>
-      <params/>
+      <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+      </params>
       <entity class="engine.entities.CameraEntity" reference="../../.."/>
       <actions>
         <engine.actions.FollowAction>
@@ -220,6 +232,7 @@
           <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
         </engine.actions.FollowAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.AlwaysEvent>
   </events>
 </engine.entities.CameraEntity></Entity><Entity><engine.entities.CharacterEntity>
@@ -233,27 +246,13 @@
   <imagePath>resources/MarioImage.png</imagePath>
   <isVisible>true</isVisible>
   <events>
-    <engine.events.BottomCollisionEvent>
-      <params>
-        <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Block</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroDownSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroDownSpeedAction>
-      </actions>
-      <collision>
-        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-      </collision>
-    </engine.events.BottomCollisionEvent>
     <engine.events.KeyPressEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
@@ -273,9 +272,15 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.WalkAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.KeyPressEvent>
     <engine.events.KeyReleaseEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
@@ -289,9 +294,15 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.ZeroRightSpeedAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.KeyReleaseEvent>
     <engine.events.KeyPressEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
@@ -311,9 +322,15 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.WalkAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.KeyPressEvent>
     <engine.events.KeyReleaseEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
@@ -327,9 +344,15 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.ZeroLeftSpeedAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.KeyReleaseEvent>
     <engine.events.LeftCollisionEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Entity</name>
           <clazz>java.lang.String</clazz>
@@ -343,12 +366,18 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.ZeroLeftSpeedAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
       <collision>
         <firstRelativeToSecond>LEFT</firstRelativeToSecond>
       </collision>
     </engine.events.LeftCollisionEvent>
     <engine.events.RightCollisionEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Entity</name>
           <clazz>java.lang.String</clazz>
@@ -362,10 +391,84 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.ZeroRightSpeedAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
       <collision>
         <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
       </collision>
     </engine.events.RightCollisionEvent>
+    <engine.events.KeyPressAndCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">UP</obj>
+        </engine.Parameter>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.JumpAction>
+          <params>
+            <engine.Parameter>
+              <name>Initial Jump Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">12.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.JumpAction>
+      </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
+      <keyPressEvent>
+        <params reference="../../params"/>
+        <entity class="engine.entities.CharacterEntity" reference="../../../.."/>
+        <actions/>
+        <timesEventHasOccurred>0</timesEventHasOccurred>
+      </keyPressEvent>
+      <collisionEvent>
+        <params reference="../../params"/>
+        <entity class="engine.entities.CharacterEntity" reference="../../../.."/>
+        <actions/>
+        <timesEventHasOccurred>0</timesEventHasOccurred>
+        <collision>
+          <firstRelativeToSecond>ALL</firstRelativeToSecond>
+        </collision>
+      </collisionEvent>
+    </engine.events.KeyPressAndCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroDownSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroDownSpeedAction>
+      </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
   </events>
 </engine.entities.CharacterEntity></Entity></Entities><Camera><engine.entities.CameraEntity>
   <EntityType>Camera</EntityType>
@@ -379,7 +482,13 @@
   <isVisible>false</isVisible>
   <events>
     <engine.events.AlwaysEvent>
-      <params/>
+      <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+      </params>
       <entity class="engine.entities.CameraEntity" reference="../../.."/>
       <actions>
         <engine.actions.FollowAction>
@@ -393,6 +502,7 @@
           <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
         </engine.actions.FollowAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.AlwaysEvent>
   </events>
 </engine.entities.CameraEntity></Camera></Level></Levels><Defaults><Entities><Entity><engine.entities.BlockEntity>
@@ -420,6 +530,11 @@
     <engine.events.CollisionEvent>
       <params>
         <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+        <engine.Parameter>
           <name>Entity</name>
           <clazz>java.lang.String</clazz>
           <obj class="string">Mario</obj>
@@ -432,6 +547,7 @@
           <entity class="engine.entities.BlockEntity" reference="../../../../.."/>
         </engine.actions.NextLevelAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
       <collision>
         <firstRelativeToSecond>ALL</firstRelativeToSecond>
       </collision>
@@ -449,7 +565,13 @@
   <isVisible>false</isVisible>
   <events>
     <engine.events.AlwaysEvent>
-      <params/>
+      <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+      </params>
       <entity class="engine.entities.CameraEntity" reference="../../.."/>
       <actions>
         <engine.actions.FollowAction>
@@ -463,6 +585,7 @@
           <entity class="engine.entities.CameraEntity" reference="../../../../.."/>
         </engine.actions.FollowAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.AlwaysEvent>
   </events>
 </engine.entities.CameraEntity></Entity><Entity><engine.entities.CharacterEntity>
@@ -476,27 +599,13 @@
   <imagePath>resources/MarioImage.png</imagePath>
   <isVisible>true</isVisible>
   <events>
-    <engine.events.BottomCollisionEvent>
-      <params>
-        <engine.Parameter>
-          <name>Entity</name>
-          <clazz>java.lang.String</clazz>
-          <obj class="string">Block</obj>
-        </engine.Parameter>
-      </params>
-      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
-      <actions>
-        <engine.actions.ZeroDownSpeedAction>
-          <params/>
-          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
-        </engine.actions.ZeroDownSpeedAction>
-      </actions>
-      <collision>
-        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
-      </collision>
-    </engine.events.BottomCollisionEvent>
     <engine.events.KeyPressEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
@@ -516,9 +625,15 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.WalkAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.KeyPressEvent>
     <engine.events.KeyReleaseEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
@@ -532,9 +647,15 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.ZeroRightSpeedAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.KeyReleaseEvent>
     <engine.events.KeyPressEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
@@ -554,9 +675,15 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.WalkAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.KeyPressEvent>
     <engine.events.KeyReleaseEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Key</name>
           <clazz>javafx.scene.input.KeyCode</clazz>
@@ -570,9 +697,15 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.ZeroLeftSpeedAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
     </engine.events.KeyReleaseEvent>
     <engine.events.LeftCollisionEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Entity</name>
           <clazz>java.lang.String</clazz>
@@ -586,12 +719,18 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.ZeroLeftSpeedAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
       <collision>
         <firstRelativeToSecond>LEFT</firstRelativeToSecond>
       </collision>
     </engine.events.LeftCollisionEvent>
     <engine.events.RightCollisionEvent>
       <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
         <engine.Parameter>
           <name>Entity</name>
           <clazz>java.lang.String</clazz>
@@ -605,9 +744,83 @@
           <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
         </engine.actions.ZeroRightSpeedAction>
       </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
       <collision>
         <firstRelativeToSecond>RIGHT</firstRelativeToSecond>
       </collision>
     </engine.events.RightCollisionEvent>
+    <engine.events.KeyPressAndCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">UP</obj>
+        </engine.Parameter>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.JumpAction>
+          <params>
+            <engine.Parameter>
+              <name>Initial Jump Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">12.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.JumpAction>
+      </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
+      <keyPressEvent>
+        <params reference="../../params"/>
+        <entity class="engine.entities.CharacterEntity" reference="../../../.."/>
+        <actions/>
+        <timesEventHasOccurred>0</timesEventHasOccurred>
+      </keyPressEvent>
+      <collisionEvent>
+        <params reference="../../params"/>
+        <entity class="engine.entities.CharacterEntity" reference="../../../.."/>
+        <actions/>
+        <timesEventHasOccurred>0</timesEventHasOccurred>
+        <collision>
+          <firstRelativeToSecond>ALL</firstRelativeToSecond>
+        </collision>
+      </collisionEvent>
+    </engine.events.KeyPressAndCollisionEvent>
+    <engine.events.BottomCollisionEvent>
+      <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+        <engine.Parameter>
+          <name>Entity</name>
+          <clazz>java.lang.String</clazz>
+          <obj class="string">Block</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.CharacterEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.ZeroDownSpeedAction>
+          <params/>
+          <entity class="engine.entities.CharacterEntity" reference="../../../../.."/>
+        </engine.actions.ZeroDownSpeedAction>
+      </actions>
+      <timesEventHasOccurred>0</timesEventHasOccurred>
+      <collision>
+        <firstRelativeToSecond>BOTTOM</firstRelativeToSecond>
+      </collision>
+    </engine.events.BottomCollisionEvent>
   </events>
 </engine.entities.CharacterEntity></Entity></Entities></Defaults><Camera/><Resources/><GameInfo Info="Information about game"/></Game>
