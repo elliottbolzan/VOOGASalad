@@ -23,11 +23,15 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	private Game game;
 	private GameLoop gameLoop;
+	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 
 	public AbstractPlayer(Stage primaryStage, Game game, Polyglot polyglot, ResourceBundle IOResources) {
 		super(polyglot, IOResources);
 		this.stage = primaryStage;
 		this.game = game;
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
 		
 		this.buildStage();
 		this.buildGameView();
@@ -35,7 +39,7 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	private void buildStage() {
 		loadScene = stage.getScene();
-		gameScene = this.createScene(600, 600);
+		gameScene = this.createScene(600, 600);	//TODO: set scene size based on the game camera
 
 		stage.setScene(gameScene);
 		stage.centerOnScreen();
@@ -44,7 +48,7 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	protected void buildGameView() {
 		Overlay scorebar = new Overlay(this.getPolyglot(), this.getResources());
-		gameLoop = new GameLoop(gameScene, game, scorebar);
+		gameLoop = new GameLoop(gameScene, game, scorebar, stage, polyglot, IOResources);
 		
 		StackPane pane = new StackPane();
 		pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());

@@ -36,7 +36,6 @@ public class LayerPanel extends View {
 
 	private Workspace workspace;
 	private ComboBox<String> myBox;
-	private LabeledField nameField;
 	private Map<String, ArrayList<String>> nameList;
 	private ObservableList<String> selectionModel;
 
@@ -61,7 +60,7 @@ public class LayerPanel extends View {
 			initCloseRequest(e);
 			delete();
 		}, true);
-		container.getChildren().addAll(new VBox(myBox, addButton), new Separator(), createNameField(), new Separator(),
+		container.getChildren().addAll(new VBox(myBox, addButton), new Separator(), new Separator(),
 				createVelocitySlider(), new Separator(), deleteButton);
 		container.setPadding(new Insets(20));
 		setCenter(container);
@@ -113,27 +112,6 @@ public class LayerPanel extends View {
 			}
 		};
 		return sliderBox;
-	}
-
-	private VBox createNameField() {
-		Button nameButton = workspace.getMaker().makeButton("LayerSave", e -> saveName(), true);
-		return new VBox() {
-			{
-				setSpacing(8);
-				nameField = new LabeledField(workspace, "LayerPrompt", null, true);
-				getChildren().addAll(nameField, nameButton);
-			}
-		};
-	}
-
-	private void saveName() {
-		if (nameField.getText() != null) {
-			selectionModel.set(myBox.getSelectionModel().getSelectedIndex(), nameField.getText());
-			myBox.setItems(selectionModel);
-			myBox.setValue(nameField.getText());
-			workspace.setLayerName(nameField.getText());
-			nameField.setText(null);
-		}
 	}
 
 	private void initLayerSelector() {

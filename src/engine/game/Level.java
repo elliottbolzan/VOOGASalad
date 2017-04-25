@@ -6,9 +6,7 @@ import java.util.List;
 
 import engine.Entity;
 import engine.LevelInterface;
-import engine.game.gameloop.Scorebar;
 import engine.game.selectiongroup.Selectable;
-import engine.game.timer.TimerManager;
 
 /**
  * Manages a single Level. Most critically, contains a List (or possibly another variety of Collection) of Entities

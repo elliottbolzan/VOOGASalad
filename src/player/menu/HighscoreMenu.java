@@ -7,7 +7,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import player.MediaManager;
 import player.PlayerView;
 import player.score.Score;
 import polyglot.Polyglot;
@@ -20,12 +19,10 @@ import polyglot.Polyglot;
 public class HighscoreMenu extends PlayerView {
 	
 	private TableView<Score> scoreTable;	
-	private MediaManager loader;
 	private Game game;
 
-	public HighscoreMenu(Stage stage, Game game, MediaManager loader, Polyglot polyglot, ResourceBundle IOResources) {
+	public HighscoreMenu(Stage stage, Game game, Polyglot polyglot, ResourceBundle IOResources) {
 		super(polyglot, IOResources);
-		this.loader = loader;
 		this.game = game;
 		setupScene();
 		loadScores();
@@ -35,7 +32,7 @@ public class HighscoreMenu extends PlayerView {
 	private void setupScene(){
 		scoreTable = new TableView<>();
 
-		scoreTable.getColumns().setAll(makeRankColumn(), makeScoreColumn(), makeTimeColumn());
+		scoreTable.getColumns().setAll(makeRankColumn(), makeScoreColumn(), makeTimeColumn(), makeNameColumn());
 		this.setCenter(scoreTable);
 	}
 	
@@ -55,18 +52,25 @@ public class HighscoreMenu extends PlayerView {
 	private TableColumn<Score, String> makeScoreColumn(){
 		TableColumn<Score, String> score = new TableColumn<>("Score");
 		score.setCellValueFactory(new PropertyValueFactory<Score, String>("score"));
-		score.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.5));
+		score.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.3));
 		
 		return score;
 	}
 	
 	private TableColumn<Score, String> makeTimeColumn(){
-		TableColumn<Score, String>	time = new TableColumn<>("Time Left");
+		TableColumn<Score, String> time = new TableColumn<>("Time Left");
 		time.setCellValueFactory(new PropertyValueFactory<>("time"));
-		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.4));
+		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.3));
 		
 		return time;
 	}
-
-
+	
+	private TableColumn<Score, String> makeNameColumn(){
+		TableColumn<Score, String> name = new TableColumn<>("User");
+		name.setCellValueFactory(new PropertyValueFactory<>("name"));
+		name.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.3));
+		
+		return name;
+	}
 }
+

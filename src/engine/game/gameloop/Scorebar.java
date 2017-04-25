@@ -2,6 +2,7 @@ package engine.game.gameloop;
 
 import engine.game.timer.TimerManager;
 import game_data.Game;
+import player.score.Score;
 
 /**
  * Contains information displayed on the Scorebar.
@@ -85,15 +86,24 @@ public class Scorebar {
 		this.level = level;
 	}
 	
-	public void saveFinalScore() {
+	public void saveFinalScore(String name) {
 		//TODO : game data
 		//game.getHighScores();
 		//check if this score should be added
 		//game.setHighScores();
-		game.setScore(getScore(), getTime(), getTimeValue());
+		game.setScore(getScore(), getTime(), getTimeValue(), name);
 	}
 	
 	private String convertScore(int score){
 		return String.format("%06d", score);
+	}
+	
+	public boolean isHighscore(){
+		if(!game.isTestGame()){
+			return game.isHighscore(getScore(), getTimeValue(), 9);
+		}else{
+			return false;
+		}
+		
 	}
 }

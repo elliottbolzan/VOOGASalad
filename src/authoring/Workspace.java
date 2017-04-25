@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
+import authoring.components.HTMLDisplay;
 import authoring.components.ProgressDialog;
 import authoring.panel.Panel;
 import engine.Entity;
@@ -16,15 +17,18 @@ import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
 import utils.views.View;
-
 
 /**
  * @author Elliott Bolzan (modified by Mina Mungekar, Jimmy Shackford, Jesse
@@ -35,20 +39,17 @@ import utils.views.View;
  *         intermediary between the default Entities, the Panel, and the Canvas.
  *
  */
-public class Workspace extends View {
-
+public class Workspace extends View
+{
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
 	private GameData data;
-
 	private SplitPane pane;
 	private LevelEditor levelEditor;
 	private Panel panel;
-
 	private Game game;
 	private DefaultEntities defaults;
-	private String path;
 
 	/**
 	 * Creates the Workspace.
@@ -58,28 +59,28 @@ public class Workspace extends View {
 	 * @param path
 	 *            the path of the Game to be loaded.
 	 */
-	public Workspace(String path, Polyglot polyglot, ResourceBundle IOResources) {
-		this.path = path;
+	public Workspace(Game game, Polyglot polyglot, ResourceBundle IOResources)
+	{
+		this.game = game;
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
 		setup();
-		if (!path.equals("")) {
-			load(path);
-		}
+		load();
 	}
 
 	/**
 	 * @return the Workspace's current Game.
 	 */
-	public Game getGame() {
+	public Game getGame()
+	{
 		return game;
 	}
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup() {
-		game = new Game();
+	private void setup()
+	{
 		data = new GameData();
 		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
 		defaults = new DefaultEntities(this);
@@ -88,34 +89,50 @@ public class Workspace extends View {
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
 		pane.setDividerPositions(0.25);
-		setPadding(new Insets(5));
+		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
+		setTop(makeMenuBar());
 		dragToAddEntity();
 	}
 
-	private void dragToAddEntity() {
+	private VBox makeMenuBar()
+	{
+		MenuBar menuBar = new MenuBar();
+		Menu gameMenu = maker.makeMenu("GameMenu");
+		gameMenu.getItems().addAll(maker.makeMenuItem("Save", "Ctrl+S", e -> save()),
+				maker.makeMenuItem("TestMenu", "Ctrl+T", e -> test()));
+		Menu settingsMenu = maker.makeMenu("SettingsTitle");
+		settingsMenu.getItems().add(maker.makeMenuItem("MusicSelect", "Ctrl+M", e -> chooseSong()));
+		Menu helpMenu = maker.makeMenu("HelpTitle");
+		helpMenu.getItems().add(maker.makeMenuItem("KeyCombinations", "Ctrl+H", e -> showKeyCombinations()));
+		menuBar.getMenus().addAll(gameMenu, settingsMenu, helpMenu);
+		VBox box = new VBox(menuBar);
+		box.setPadding(new Insets(15, 0, 0, 0));
+		return box;
+	}
+
+	private void dragToAddEntity()
+	{
 		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
-			levelEditor.setOnMouseEntered(e2 -> {
+			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
 				levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
 				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2.
 				// e2.getSceneY(),
 				// levelEditor.getCurrentLevel().getCurrentLayer());
-				levelEditor.setOnMouseEntered(null);
+				levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});
 		});
 	}
 
-	private void load(String path) {
-		game = data.loadGame(path);
+	private void load()
+	{
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
-		panel.getSettings().load(game);
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
-		//this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerNames());
 	}
 
 	/**
@@ -123,19 +140,23 @@ public class Workspace extends View {
 	 * Game's construction is finalized; and a call to GameData is made to save
 	 * the Game.
 	 */
-	public void save() {
-		TextInputDialog dialog = maker.makeTextInputDialog("SaveTitle", "SaveHeader", "SavePrompt", game.getName());
+	public void save()
+	{
+		TextInputDialog dialog = maker.makeTextInputDialog("SaveTitle", "SaveHeader", "SaveLabel", game.getName());
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(name -> save(name));
 	}
-	
-	private void save(String title) {
+
+	private void save(String title)
+	{
 		game.setName(title);
-		askForOutputPath();
+		String path = askForOutputPath();
 		ProgressDialog dialog = new ProgressDialog(this);
-		Task<Void> task = new Task<Void>() {
+		Task<Void> task = new Task<Void>()
+		{
 			@Override
-			public Void call() throws InterruptedException {
+			public Void call() throws InterruptedException
+			{
 				createGame();
 				if (!path.equals("")) {
 					data.saveGame(game, path);
@@ -149,15 +170,16 @@ public class Workspace extends View {
 		Thread thread = new Thread(task);
 		thread.start();
 	}
-	
-	private void askForOutputPath() {
-		path = "";
-		String outputFolder = new File(IOResources.getString("GamesPath")).getAbsolutePath();
-		DirectoryChooser chooser = maker.makeDirectoryChooser(outputFolder, "GameSaverTitle");
+
+	private String askForOutputPath()
+	{
+		String directory = new File(IOResources.getString("GamesPath")).getAbsolutePath();
+		DirectoryChooser chooser = maker.makeDirectoryChooser(directory, "GameSaverTitle");
 		File selectedDirectory = chooser.showDialog(getScene().getWindow());
 		if (selectedDirectory != null) {
-			path = selectedDirectory.getAbsolutePath();
+			return selectedDirectory.getAbsolutePath();
 		}
+		return "";
 	}
 
 	/**
@@ -167,63 +189,59 @@ public class Workspace extends View {
 	 *            the Game to test.
 	 * 
 	 */
-	public void test() {
-		createGame();	
+	public void test()
+	{
+		createGame();
+		game.setTestGame(true);
 		Stage stage = new Stage();
-		GameData loader = new GameData();
-		new BasicPlayer(stage, loader.loadGame(path), polyglot, IOResources);
+		new BasicPlayer(stage, game, polyglot, IOResources);
 		stage.show();
 	}
-	
-	private void createGame() {
+
+	private void createGame()
+	{
 		game.setLevels(levelEditor.getLevels());
 	}
 
-	/**
-	 * 
-	 * @returns if there is an existing path or not
-	 */
-	public boolean pathExists() {
-		if (path.equals("")) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	public ComponentMaker getMaker() {
+	public ComponentMaker getMaker()
+	{
 		return maker;
 	}
-	
-	public Polyglot getPolyglot() {
+
+	public Polyglot getPolyglot()
+	{
 		return polyglot;
 	}
 
 	/**
 	 * @return the ResourceBundle for this View's descendants.
 	 */
-	public ResourceBundle getIOResources() {
+	public ResourceBundle getIOResources()
+	{
 		return IOResources;
 	}
 
 	/**
 	 * @return the SplitPane governing this View.
 	 */
-	public SplitPane getPane() {
+	public SplitPane getPane()
+	{
 		return pane;
 	}
 
 	/**
 	 * @return the default Entities the user has created.
 	 */
-	public DefaultEntities getDefaults() {
+	public DefaultEntities getDefaults()
+	{
 		return defaults;
 	}
 
 	/**
 	 * @return the selected Entity.
 	 */
-	public Entity getSelectedEntity() {
+	public Entity getSelectedEntity()
+	{
 		return defaults.getSelectedEntity();
 	}
 
@@ -233,7 +251,8 @@ public class Workspace extends View {
 	 * another layer.
 	 * 
 	 */
-	public void addLayer() {
+	public void addLayer()
+	{
 		levelEditor.getCurrentLevel().newLayer();
 	}
 
@@ -245,7 +264,8 @@ public class Workspace extends View {
 	 * @param number
 	 *            the layer's identifier.
 	 */
-	public void selectLayer(int number) {
+	public void selectLayer(int number)
+	{
 		levelEditor.getCurrentLevel().selectLayer(number);
 	}
 
@@ -257,14 +277,18 @@ public class Workspace extends View {
 	 * @param newLevelNum
 	 *            the number of the new level.
 	 */
-	public void selectExistingLevel(String oldLevel, String newLevel) {
+	public void selectExistingLevel(String oldLevel, String newLevel)
+	{
 		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
 
-	public void selectLoadedLevel(List<String> nameList) {
+	public void selectLoadedLevel(List<String> nameList)
+	{
 		panel.selectLoadedLevelBox(nameList);
 	}
-	public void selectLoadedLevel(int layerCount) {
+
+	public void selectLoadedLevel(int layerCount)
+	{
 		panel.selectLoadedLevelBox(layerCount);
 	}
 
@@ -276,7 +300,8 @@ public class Workspace extends View {
 	 * @param layer
 	 *            the identifier of the layer to be deleted.
 	 */
-	public void deleteLayer(int layer) {
+	public void deleteLayer(int layer)
+	{
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
 
@@ -286,15 +311,25 @@ public class Workspace extends View {
 	 * @param entity
 	 *            the Entity to replace the old Entities with.
 	 */
-	public void updateEntity(Entity entity) {
+	public void updateEntity(Entity entity)
+	{
 		levelEditor.updateEntity(entity);
 	}
-/**
- * Update layer name when user requests 
- * @param text
- */
-	public void setLayerName(String text) {
-		levelEditor.getCurrentLevel().setLayerName(text);
+
+	private void chooseSong()
+	{
+		String directory = System.getProperty("user.dir") + IOResources.getString("DefaultDirectory");
+		FileChooser chooser = maker.makeFileChooser(directory, polyglot.get("MusicChooserTitle").get(),
+				IOResources.getString("MusicChooserExtensions"));
+		File selectedFile = chooser.showOpenDialog(getScene().getWindow());
+		if (selectedFile != null) {
+			game.setSongPath(selectedFile.getAbsolutePath());
+		}
 	}
 
+	private void showKeyCombinations()
+	{
+		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
+		display.show();
+	}
 }

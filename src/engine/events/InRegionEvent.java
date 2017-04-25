@@ -2,7 +2,6 @@ package engine.events;
 
 import engine.Event;
 import engine.Parameter;
-import javafx.scene.input.KeyCode;
 
 /**
  * This event detects if the Entity it is attached to is within the
