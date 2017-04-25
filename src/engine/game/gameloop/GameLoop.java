@@ -29,8 +29,14 @@ public class GameLoop {
 		levelManager.loadAllSavedLevels();
 		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
+		
+		Screen firstScreen;
+		
+		
 		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
 		levelManager.setCurrentScreen(level1Screen);
+		
+		
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
 	}

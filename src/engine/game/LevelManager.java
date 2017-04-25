@@ -28,6 +28,7 @@ public class LevelManager {
 	private Game game;
 	private Screen currentScreen;
 	private StepStrategy currentStepStrategy;
+	private boolean levelSelectionScreenMode;
 
 	public LevelManager(Game game, StepStrategy currentStepStrategy) {
 		levels = new ListSG<>();
@@ -36,8 +37,18 @@ public class LevelManager {
 		currentLevel = 1;
 		this.game = game;
 		this.currentStepStrategy = currentStepStrategy;
+		this.levelSelectionScreenMode = true;
 	}
-
+	
+	//TODO Call from GAE with small checkbox, or similar
+	public boolean getLevelSelectionScreenMode(){
+		return levelSelectionScreenMode;
+	}
+	
+	public void setLevelSelectionScreenMode(boolean levelSelectionScreenMode){
+		this.levelSelectionScreenMode = levelSelectionScreenMode;
+	}
+	
 	public Screen getCurrentScreen() {
 		return currentScreen;
 	}
