@@ -140,7 +140,6 @@ public class Workspace extends View
 	{
 		game.setName(title);
 		String path = askForOutputPath();
-		ProgressDialog dialog = new ProgressDialog(this);
 		Task<Void> task = new Task<Void>()
 		{
 			@Override
