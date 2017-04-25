@@ -23,7 +23,7 @@ import game_data.Game;
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
 	private SelectionGroup<Level> levelsInInitialState;
-	private List<Integer> wonLevelNumbers; // one-indexed
+	private List<Integer> unlockedLevelNumbers; //one-indexed
 	private int currentLevel; // one-indexed
 	private Game game;
 	private Screen currentScreen;
@@ -33,7 +33,7 @@ public class LevelManager {
 	public LevelManager(Game game, StepStrategy currentStepStrategy) {
 		levels = new ListSG<>();
 		levelsInInitialState = new ListSG<>();
-		wonLevelNumbers = new ArrayList<>();
+		unlockedLevelNumbers = new ArrayList<>();
 		currentLevel = 1;
 		this.game = game;
 		this.currentStepStrategy = currentStepStrategy;
@@ -149,11 +149,15 @@ public class LevelManager {
 		return levels;
 	}
 
-	public void rememberWonCurrentLevel() {
-		wonLevelNumbers.add(currentLevel);
+	public void addUnlockedLevel(int currentLevel) {
+		unlockedLevelNumbers.add(currentLevel);
 	}
-
-	public List<Integer> getWonLevelNumbers() {
-		return wonLevelNumbers;
+	
+	public void clearUnlockedLevels(){
+		 unlockedLevelNumbers.removeAll(unlockedLevelNumbers);
+	}
+	
+	public List<Integer> getUnlockedLevelNumbers() {
+		return unlockedLevelNumbers;
 	}
 }

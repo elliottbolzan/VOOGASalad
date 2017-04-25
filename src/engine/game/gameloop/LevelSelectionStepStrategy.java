@@ -21,7 +21,7 @@ public class LevelSelectionStepStrategy implements StepStrategy{
 		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
-		graphicsEngine.displayLevelSelectionScreen();
+		graphicsEngine.displayLevelSelectionScreen();  //TODO implement this
 	}
 
 	@Override
