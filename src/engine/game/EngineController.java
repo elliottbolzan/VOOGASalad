@@ -37,8 +37,9 @@ public class EngineController {
 		return findClasses("engine.actions", "Action");
 	}
 
-	/**Get all events that are accessible for this entity.
-	 * */
+	/**
+	 * Get all events that are accessible for this entity.
+	 */
 	public List<String> getAllEvents() {
 		return findClasses("engine.events", "Event");
 	}
@@ -61,7 +62,6 @@ public class EngineController {
 	}
 
 	private String getClassName(String string, String type) {
-		// resources = ResourceBundle.getBundle("resources/" + type);
 		resources = ResourceBundle.getBundle("resources/Strings");
 		Enumeration<String> enumeration = resources.getKeys();
 		while (enumeration.hasMoreElements()) {
@@ -90,7 +90,6 @@ public class EngineController {
 			Constructor<?> ctor = clazz.getDeclaredConstructor();
 			return ctor.newInstance();
 		} catch (Exception e) {
-			// e.printStackTrace();
 			return null;
 		}
 	}
