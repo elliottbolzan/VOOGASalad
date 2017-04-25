@@ -1,7 +1,12 @@
 package utils.views;
 
 import javafx.beans.binding.StringBinding;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  * @author Elliott Bolzan
@@ -30,6 +35,8 @@ public abstract class View extends BorderPane {
 	public View(StringBinding title) {
 		this.title = title;
 		setMinSize(0, 0);
+		if(title!=null){
+		createToolbar();}
 	}
 
 	public View() {
@@ -41,6 +48,21 @@ public abstract class View extends BorderPane {
 	 */
 	public StringBinding getTitle() {
 		return title;
+	}
+	
+	/**
+	 * Creates a toolbar and adds it to the top of the view.
+	 */
+	private void createToolbar() {
+		HBox spacing = new HBox();
+		spacing.maxWidth(Double.MAX_VALUE);
+		HBox.setHgrow(spacing, Priority.ALWAYS);
+		Label title = new Label();
+		title.textProperty().bind(getTitle());
+		ToolBar toolBar = new ToolBar(title, spacing,
+				new Button("?"));
+		toolBar.setPrefSize(getWidth(), 18);
+		setTop(toolBar);
 	}
 	
 }

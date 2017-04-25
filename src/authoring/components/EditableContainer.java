@@ -1,7 +1,5 @@
 package authoring.components;
 
-import java.util.List;
-
 import authoring.Workspace;
 import utils.views.View;
 import javafx.beans.binding.StringBinding;
@@ -30,7 +28,7 @@ public abstract class EditableContainer extends View {
 
 	private Workspace workspace;
 	private Object currentlyEditing;
-	private VBox buttonBox;
+	private Button newButton, editButton, deleteButton;
 
 	/**
 	 * Create an EditableContainer.
@@ -57,10 +55,12 @@ public abstract class EditableContainer extends View {
 
 	
 	private void createButtons() {
-		buttonBox = new VBox();
-		Button newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
-		Button editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
-		Button deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
+		Button qButton = workspace.getMaker().makeButton("?", e ->createNew(), true);
+		setTop(qButton);
+		VBox buttonBox = new VBox();
+		newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
+		editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
+		deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
 		HBox modificationButtons = new HBox(editButton, deleteButton);
 		buttonBox.getChildren().addAll(newButton, modificationButtons);
 		setBottom(buttonBox);
@@ -73,11 +73,10 @@ public abstract class EditableContainer extends View {
 	 * @param s2
 	 * @param s3
 	 */
-	public void addTooltips(List<StringBinding> strings){
-		Integer i = 0;
-		buttonBox.getChildren().stream().forEach(elt-> {new CustomTooltip(strings.get(i),elt);
-														i++;
-		});
+	public void addTooltips(StringBinding s1,StringBinding s2,StringBinding s3){
+		new CustomTooltip(s1,newButton);
+		new CustomTooltip(s2,editButton);
+		new CustomTooltip(s3,deleteButton);
 	}
 	
 	/**
