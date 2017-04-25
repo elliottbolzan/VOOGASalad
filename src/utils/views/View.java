@@ -35,8 +35,6 @@ public abstract class View extends BorderPane {
 	public View(StringBinding title) {
 		this.title = title;
 		setMinSize(0, 0);
-		if(title!=null){
-		createToolbar();}
 	}
 
 	public View() {
@@ -50,19 +48,5 @@ public abstract class View extends BorderPane {
 		return title;
 	}
 	
-	/**
-	 * Creates a toolbar and adds it to the top of the view.
-	 */
-	private void createToolbar() {
-		HBox spacing = new HBox();
-		spacing.maxWidth(Double.MAX_VALUE);
-		HBox.setHgrow(spacing, Priority.ALWAYS);
-		Label title = new Label();
-		title.textProperty().bind(getTitle());
-		ToolBar toolBar = new ToolBar(title, spacing,
-				new Button("?"));
-		toolBar.setPrefSize(getWidth(), 18);
-		setTop(toolBar);
-	}
 	
 }

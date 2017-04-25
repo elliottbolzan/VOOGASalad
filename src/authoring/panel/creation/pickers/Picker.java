@@ -6,8 +6,11 @@ import authoring.panel.creation.EntityMaker;
 import engine.GameObject;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  * @author Elliott Bolzan
@@ -58,11 +61,12 @@ public abstract class Picker extends EditableContainer {
 	private void createTypeBox() {
 		Label label = new Label();
 		label.textProperty().bind(getWorkspace().getPolyglot().get(titleProperty));
-		label.setPadding(new Insets(5));
-		HBox box = new HBox();
-		box.getChildren().add(label);
-		box.setAlignment(Pos.CENTER);
-		setTop(box);
+			HBox spacing = new HBox();
+			spacing.maxWidth(Double.MAX_VALUE);
+			HBox.setHgrow(spacing, Priority.ALWAYS);
+			ToolBar toolBar = new ToolBar(label, spacing,
+					new Button("?"));
+			setTop(toolBar);
 	}
 
 	/**

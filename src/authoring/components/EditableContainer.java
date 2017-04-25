@@ -4,13 +4,16 @@ import authoring.Workspace;
 import utils.views.View;
 import javafx.beans.binding.StringBinding;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import polyglot.Case;
 
@@ -55,8 +58,12 @@ public abstract class EditableContainer extends View {
 
 	
 	private void createButtons() {
-		Button qButton = workspace.getMaker().makeButton("?", e ->createNew(), true);
-		setTop(qButton);
+		HBox spacing = new HBox();
+		spacing.maxWidth(Double.MAX_VALUE);
+		HBox.setHgrow(spacing, Priority.ALWAYS);
+		Button qButton = new Button("?");
+		ToolBar toolBar = new ToolBar(spacing,qButton);
+		setTop(toolBar);
 		VBox buttonBox = new VBox();
 		newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
 		editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
