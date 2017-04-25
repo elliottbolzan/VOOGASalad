@@ -142,7 +142,7 @@ public class EventPicker extends Picker {
 	@Override
 	public void showEditor() {
 		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
-				engine.getAllEvents());
+				engine.getAllEvents(entityMaker.getEntity()));
 		getWorkspace().getMaker().display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 

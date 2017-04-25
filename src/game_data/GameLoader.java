@@ -131,7 +131,7 @@ public class GameLoader {
 	 */
 	private void addDefaults(Game game, Document doc, String gameFolderPath) {
 		NodeList defaultsNode = doc.getElementsByTagName(rm.getDefaultsTitle());
-		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0).getChildNodes().item(0);
+		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0);
 		game.setDefaults(getEntities(entitiesNode, gameFolderPath));
 	}
 

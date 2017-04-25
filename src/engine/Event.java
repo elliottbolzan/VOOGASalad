@@ -11,13 +11,13 @@ import java.util.List;
  */
 public abstract class Event extends GameObject implements EventInterface {
 	private List<Action> actions;
-	private int times;
+	private int timesEventHasOccurred;
 
 	public Event() {
 		super("Event");
-		addParam(new Parameter("Amount of times", int.class, 1));
+		addParam(new Parameter("How often to trigger", int.class, 1));
 		actions = new ArrayList<Action>();
-		times = 0;
+		timesEventHasOccurred = 0;
 	}
 
 	@Override
@@ -54,8 +54,10 @@ public abstract class Event extends GameObject implements EventInterface {
 	 * tell all actions held by this event to act
 	 */
 	public void trigger() {
-		if (++times == (int)getParam("Amount of times"))
+		if (++timesEventHasOccurred >= (int) getParam("How often to trigger")) {
 			actions.forEach(s -> s.act());
+			timesEventHasOccurred = 0;
+		}
 	}
 
 }
