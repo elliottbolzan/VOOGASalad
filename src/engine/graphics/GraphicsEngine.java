@@ -145,7 +145,7 @@ public class GraphicsEngine {
 	
 	public void displayLevelSelectionScreen(){
 		this.clearView();
-		LevelSelectionMenu graphic = new LevelSelectionMenu(displayArea);
+		LevelSelectionGraphics graphic = new LevelSelectionGraphics(displayArea);
 		graphic.draw();
 	}
 	

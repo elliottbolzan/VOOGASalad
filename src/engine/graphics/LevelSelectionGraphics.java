@@ -9,11 +9,11 @@ import player.menu.AbstractMenu;
  * @author Matthew Barbano
  *
  */
-public class LevelSelectionMenu{
+public class LevelSelectionGraphics{
 	private static final int COLUMNS = 2;
 	private BorderPane displayArea;
 	
-	public LevelSelectionMenu(BorderPane displayArea){
+	public LevelSelectionGraphics(BorderPane displayArea){
 		this.displayArea = displayArea;
 	}
 
