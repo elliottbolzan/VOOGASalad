@@ -1,4 +1,4 @@
-package engine.actions;
+package engine.actions.regular_actions;
 
 import engine.Action;
 import engine.Entity;
