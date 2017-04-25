@@ -9,6 +9,7 @@ import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
 import authoring.panel.settings.Settings;
+import javafx.scene.control.Tooltip;
 import utils.views.CollapsibleView;
 import utils.views.View;
 import polyglot.Case;
