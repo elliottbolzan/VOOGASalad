@@ -142,5 +142,9 @@ public class ObservableClient<T> extends ObservableHost<T> {
 	public void addToOutbox(T state) {
 		outbox.add(getRequest(state));
 	}
+	
+	public void close() {
+		connection.shutDown();
+	}
 }
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class ClassFinder {
 
 	private static final char PKG_SEPARATOR = '.';
-	private static final char DIR_SEPARATOR = File.separatorChar;
+	private static final char DIR_SEPARATOR = '/';
 	private static final String CLASS_FILE_SUFFIX = ".class";
 	private static final String BAD_PACKAGE_ERROR = "Unable to get resources from path '%s'. Are you sure the package '%s' exists?";
 	

@@ -121,5 +121,10 @@ public class ObservableClient<T> extends ObservableHost<T> {
 	protected void handleError(Request request) {
         send(getErrorRequest());
 	}
+	
+	public void close() {
+		connection.shutDown();
+	}
+	
 }
 

@@ -7,6 +7,7 @@ import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import player.MediaManager;
 import player.PlayerView;
 import player.score.Overlay;
 import polyglot.Polyglot;
@@ -24,13 +25,15 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	private Game game;
 	private GameLoop gameLoop;
+	private MediaManager mediaManager;
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 
-	public AbstractPlayer(Stage primaryStage, Game game, Polyglot polyglot, ResourceBundle IOResources) {
+	public AbstractPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
 		super(polyglot, IOResources);
 		this.stage = primaryStage;
 		this.game = game;
+		this.mediaManager = mediaManager;
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
 		
@@ -48,7 +51,7 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	protected void buildGameView() {
 		Overlay scorebar = new Overlay(this.getPolyglot(), this.getResources());
-		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, scorebar, stage, polyglot, IOResources));
+		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, scorebar, stage, mediaManager, polyglot, IOResources));
 		
 		StackPane pane = new StackPane();
 		pane.getChildren().addAll(gameLoop.getGameView(), scorebar.display());

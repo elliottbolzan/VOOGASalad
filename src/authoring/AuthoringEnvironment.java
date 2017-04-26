@@ -18,6 +18,7 @@ public class AuthoringEnvironment {
 	private ResourceBundle IOResources;
 	private Polyglot polyglot;
 	private Game game;
+	private Workspace workspace;
 
 	/**
 	 * Creates an AuthoringEnvironment to edit an existing Game.
@@ -46,10 +47,14 @@ public class AuthoringEnvironment {
 		stage.setMinHeight(300);
 		stage.setScene(createScene());
 		stage.show();
+		stage.setOnCloseRequest(e -> {
+			workspace.getNetworking().close();
+		});
 	}
 
 	private Scene createScene() {
-		Scene scene = new Scene(new Workspace(game, polyglot, IOResources), 1000, 600);
+		workspace = new Workspace(game, polyglot, IOResources);
+		Scene scene = new Scene(workspace, 1000, 600);
 		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 		return scene;
 	}

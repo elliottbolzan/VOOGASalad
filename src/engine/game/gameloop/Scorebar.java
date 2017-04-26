@@ -12,6 +12,8 @@ import game_data.Game;
  *
  */
 public class Scorebar {
+	private static final int INITIAL_LIVES = 5;
+	
 	private LevelManager levelManager;
 	private TimerManager timerManager; // restart it every time restart new
 										// level! (perhaps in another class
@@ -28,13 +30,21 @@ public class Scorebar {
 	public Scorebar(Game game) {
 		this.timerManager = new TimerManager(120, false);
 		this.game = game;
-		lives = 5;
+		lives = INITIAL_LIVES;
 		score = 0;
 		// Note levelManager is a dummy object (better than null!) - set it
 		// below.
 		levelManager = new LevelManager(game, new LevelStepStrategy());
 	}
-
+	
+	public void setLivesToInitial(){
+		lives = INITIAL_LIVES;
+	}
+	
+	public int getInitialLives(){
+		return INITIAL_LIVES;
+	}
+	
 	public void setLevelManager(LevelManager levelManager) {
 		this.levelManager = levelManager;
 	}
@@ -93,7 +103,7 @@ public class Scorebar {
 		// game.getHighScores();
 		// check if this score should be added
 		// game.setHighScores();
-		game.setScore(getScore(), getTime(), getTimeValue(), name);
+		game.setHighscores(getScore(), getTime(), getTimeValue(), name);
 	}
 
 	private String convertScore(int score) {
