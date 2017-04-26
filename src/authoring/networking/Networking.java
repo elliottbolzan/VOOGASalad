@@ -64,8 +64,10 @@ public class Networking {
 	}
 	
 	public void close() {
-		server.close();
-		client.close();
+		if (server != null && server.isActive())
+			server.close();
+		if (client != null && client.isActive())
+			client.close();
 	}
 
 	public void send(Packet packet) {
