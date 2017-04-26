@@ -71,7 +71,7 @@ public class TimelineManipulator {
 		}
 		StepStrategy nextStepStrategy;
 		if (gameOver) {
-			nextStepStrategy = new GameOverStepStrategy(levelManager);
+			nextStepStrategy = new GameOverStepStrategy(levelManager, info);
 		} else {
 			nextStepStrategy = new LoseLifeStepStrategy(levelManager);
 		}

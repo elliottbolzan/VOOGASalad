@@ -50,11 +50,13 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	
 	protected abstract void modifyUnlockedScreens();
 	
+	protected abstract StepStrategy nextStrategyLevelSelectionMode();
+	
 	private void nextScreenLevelSelectionMode() {
 		stopCurrentTimeline();
 		modifyUnlockedScreens();
 		if(!handleHighscore(graphicsEngine)){
-			nextScreenAndStrategy(new LevelSelectionStepStrategy());
+			nextScreenAndStrategy(nextStrategyLevelSelectionMode());
 		}
 	}
 

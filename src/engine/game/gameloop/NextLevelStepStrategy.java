@@ -44,4 +44,9 @@ public class NextLevelStepStrategy extends TransitionStepStrategy {
 	protected void modifyUnlockedScreens() {
 		levelManager.addUnlockedLevel(levelManager.getLevelNumber() + 1);
 	}
+	
+	@Override
+	protected StepStrategy nextStrategyLevelSelectionMode() {
+		return new LevelSelectionStepStrategy();
+	}
 }

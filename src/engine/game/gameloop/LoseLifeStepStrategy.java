@@ -31,4 +31,9 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	protected void modifyUnlockedScreens() {
 		//Intentionally left blank.
 	}
+	
+	@Override
+	protected StepStrategy nextStrategyLevelSelectionMode() {
+		return new LevelStepStrategy();
+	}
 }
