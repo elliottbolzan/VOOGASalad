@@ -21,6 +21,8 @@ import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
 import exceptions.NotAGameFolderException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class GameLoader {
 
@@ -62,6 +64,7 @@ public class GameLoader {
 		addLevels(game, doc, tempFolderPath);
 		addDefaults(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
+		addSaves(game, tempFolderPath);
 		
 		//addLevels(game, doc, gameFolderPath);
 		//addDefaults(game, doc, gameFolderPath);
@@ -73,6 +76,18 @@ public class GameLoader {
 	private void addAchievements(Game game, Document doc, String folderPath) {
 		NodeList achieveNode = doc.getElementsByTagName("Achievements");
 		//game.setAchievements(achieveNode.item(0).getAttributes().item(0).getNodeValue());
+	}
+	
+	private void addSaves(Game game, String folderPath){
+		ObservableList<String> saves = FXCollections.observableArrayList();
+		File folder = new File(folderPath);
+		File[] allFiles = folder.listFiles();
+		for(File file : allFiles){
+			if(file.getName().contains("save") && file.getName().contains(".xml")){
+				saves.add(file.getName());
+			}
+		}
+		game.setSaves(saves);
 	}
 
 	private void addInfo(Game game, Document doc) {
