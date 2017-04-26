@@ -94,6 +94,7 @@ public class Workspace extends View
 		defaults = new DefaultEntities(this);
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
+		System.out.println("panelsize"+ panel.getBoundsInParent().getWidth());
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
 		pane.setDividerPositions(0.25);
@@ -101,6 +102,7 @@ public class Workspace extends View
 		setCenter(pane);
 		setTop(new WorkspaceMenu(this));
 		setupDragToAddEntity();
+		panel.setGraphics();
 	}
 
 	private void setupDragToAddEntity()

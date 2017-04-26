@@ -9,6 +9,7 @@ import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
 import authoring.panel.settings.Settings;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.Tooltip;
 import utils.views.CollapsibleView;
 import utils.views.View;
@@ -31,6 +32,7 @@ public class Panel extends CollapsibleView {
 	private Settings settings;
 	private LayerPanel layerPanel;
 	private InfoPanel info;
+	private Accordion accordion;
 
 	/**
 	 * Returns a Panel.
@@ -70,7 +72,12 @@ public class Panel extends CollapsibleView {
 	 * Create the Accordion and add it to the view.
 	 */
 	private void setup() {
-		setCenter(workspace.getMaker().makeAccordion(subviews));
+		accordion = workspace.getMaker().makeAccordion(subviews);
+		setCenter(accordion);
+	}
+	
+	public void setGraphics(){
+		workspace.getMaker().setTooltipGraphics(accordion);
 	}
 
 	/**
