@@ -35,28 +35,46 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 
 	@Override
 	public void step() {
-		if (frameNumber == FRAME_DURATION) {
-			moveToNextScreen();
+		if (frameNumber == FRAME_DURATION && levelManager.getLevelSelectionScreenMode()) {
+			nextScreenLevelSelectionMode();
+		} 
+		else if(frameNumber == FRAME_DURATION){
+			nextScreenJustLevelsMode();
 		}
 		frameNumber++;
 	}
 
 	protected abstract int nextLevelNumber();
 
-	protected abstract void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine);
-
-	private void moveToNextScreen() {
-		levelManager.getCurrentScreen().getTimeline().stop();
-
-		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber());
-		if (hasNextLevel) {
-			StepStrategy nextStepStrategy = new LevelStepStrategy();
-			levelManager.setCurrentStepStrategy(nextStepStrategy);
-			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
-			nextScreen.getTimeline().play();
-		} else {
-			handleHighscore(hasNextLevel, graphicsEngine);
+	protected abstract boolean handleHighscore(GraphicsEngine graphicsEngine);
+	
+	protected abstract void modifyUnlockedScreens();
+	
+	protected abstract StepStrategy nextStrategyLevelSelectionMode();
+	
+	private void nextScreenLevelSelectionMode() {
+		stopCurrentTimeline();
+		modifyUnlockedScreens();
+		if(!handleHighscore(graphicsEngine)){
+			nextScreenAndStrategy(nextStrategyLevelSelectionMode());
 		}
+	}
+
+	private void nextScreenJustLevelsMode() {
+		stopCurrentTimeline();
+		if(!handleHighscore(graphicsEngine) && levelManager.setLevelNumber(nextLevelNumber())){
+			nextScreenAndStrategy(new LevelStepStrategy());
+		}
+	}
+
+	private void stopCurrentTimeline() {
+		levelManager.getCurrentScreen().getTimeline().stop();
+	}
+	
+	private void nextScreenAndStrategy(StepStrategy nextStepStrategy) {
+		levelManager.setCurrentStepStrategy(nextStepStrategy);
+		Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
+		nextScreen.getTimeline().play();
 	}
 
 }
