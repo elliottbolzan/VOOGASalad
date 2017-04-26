@@ -11,6 +11,7 @@ import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
 import authoring.panel.Panel;
 import engine.Entity;
+import engine.game.Level;
 import game_data.Game;
 import game_data.GameData;
 import javafx.concurrent.Task;

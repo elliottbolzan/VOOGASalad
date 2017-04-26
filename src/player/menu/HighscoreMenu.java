@@ -37,7 +37,7 @@ public class HighscoreMenu extends PlayerView {
 	}
 	
 	private void loadScores(){
-		scoreTable.setItems(game.getScores());
+		scoreTable.setItems(game.getHighscores());
 	}
 	
 	private TableColumn<Score, Integer> makeRankColumn(){
