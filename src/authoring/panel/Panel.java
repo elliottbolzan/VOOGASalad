@@ -1,9 +1,7 @@
 package authoring.panel;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import authoring.Workspace;
 import authoring.components.Direction;
 import authoring.panel.chat.Chat;
@@ -77,6 +75,7 @@ public class Panel extends CollapsibleView {
 		List<StringBinding> info = new ArrayList<StringBinding>(Arrays.asList(workspace.getPolyglot().get("EntityInfo"),
 				workspace.getPolyglot().get("ChatInfo"), workspace.getPolyglot().get("LayerPanelInfo"), workspace.getPolyglot().get("GameInfo")));
 		workspace.getMaker().setToolTips(accordion,info);
+		accordion.getStyleClass().add("gae-tile");
 		setCenter(accordion);
 	}
 	
