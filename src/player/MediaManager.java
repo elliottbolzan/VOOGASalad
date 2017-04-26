@@ -4,6 +4,7 @@ import java.io.File;
 
 import game_data.Game;
 import game_data.GameData;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -15,9 +16,9 @@ public class MediaManager {
 	private ObservableList<String> saveStates;
 	private int count = 0;
 
-	public MediaManager(Game game, String gamePath, ObservableList<String> saveStates) {
+	public MediaManager(Game game, String gamePath) {
 		this.gameFolderPath = gamePath;
-		this.saveStates = saveStates;
+		this.saveStates = game.getSaves();
 		if (!game.getSongPath().equals("")) {
 			String uriString = new File(game.getSongPath()).toURI().toString();
 			songPlayer = new MediaPlayer(new Media(uriString));
@@ -26,6 +27,10 @@ public class MediaManager {
 	
 	public void setSaves(ObservableList<String> saves){
 		saveStates = saves;
+	}
+	
+	public ObservableList<String> getSaves(){
+		return saveStates;
 	}
 
 	public String getGamePath() {

@@ -29,6 +29,7 @@ public class Game {
 	private Collection<Entity> achievements;
 	private ObservableList<Score> highscores;
 	private List<Score> highscoresBase;
+	private ObservableList<String> saveStates;
 	private boolean isTestGame = false;
 
 	/**
@@ -43,6 +44,15 @@ public class Game {
 		info = "Information about game";
 		achievements = new ArrayList<Entity>();
 		highscores = FXCollections.observableList(addDefaults());
+		saveStates = FXCollections.observableArrayList();
+	}
+	
+	public void setSaves(ObservableList<String> saves){
+		saveStates = saves;
+	}
+	
+	public ObservableList<String> getSaves(){
+		return saveStates;
 	}
 
 	/**
