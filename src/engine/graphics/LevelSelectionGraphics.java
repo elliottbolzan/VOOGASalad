@@ -7,7 +7,10 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import player.menu.AbstractMenu;
 import player.menu.Tile;
 import polyglot.Case;
 import polyglot.Polyglot;
@@ -19,6 +22,7 @@ import polyglot.Polyglot;
  * @author Matthew Barbano
  *
  */
+
 public class LevelSelectionGraphics {
 	private static final int COLUMNS = 2;
 	private static final int HORIZONTAL_GAP = 20;
@@ -52,13 +56,14 @@ public class LevelSelectionGraphics {
 		pane.setHgap(HORIZONTAL_GAP);
 		pane.setVgap(VERTICAL_GAP);
 		pane.setPadding(PADDING);
+		//pane.getColumnConstraints().add(new ColumnConstraints(displayArea.getMaxWidth() / COLUMNS)); //TODO Resolve this bug - changing size tiles
 	}
 
 	private void displayButtons() {
 		int levelNumber = 1;
 		
 		for(int column = 0; column < COLUMNS; column++){
-			for(int row = 0; row < levelManager.getLevels().size()/COLUMNS; row++){
+			for(int row = 0; row < (int) Math.ceil(levelManager.getLevels().size()/(double) COLUMNS); row++){
 				if(levelNumber <= levelManager.getLevels().size()){
 					StringBinding text;
 					EventHandler<Event> handler;
@@ -68,7 +73,7 @@ public class LevelSelectionGraphics {
 						text = (StringBinding) polyglot.get(LEVEL_TEXT_NAME, Case.TITLE).concat(" " + levelNumber);
 					}
 					else{
-						handler = e -> {/*Intentionally left blank.*/};
+						handler = e -> {};
 						text = polyglot.get(LEVEL_LOCKED_TEXT_NAME, Case.UPPER);
 					}
 					addTile(text, POSSIBLE_TILE_COLORS[levelNumber % POSSIBLE_TILE_COLORS.length], handler, row, column);
