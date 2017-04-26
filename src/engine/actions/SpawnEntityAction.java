@@ -3,9 +3,7 @@ package engine.actions;
 import engine.Action;
 import engine.CollisionSide;
 import engine.Entity;
-import engine.Event;
 import engine.Parameter;
-import engine.events.AlwaysEvent;
 import javafx.application.Platform;
 
 /**

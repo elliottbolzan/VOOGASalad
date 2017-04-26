@@ -25,13 +25,9 @@ public class Game {
 	private String backPath;
 	private String info;
 	private String achievements;
-	private CameraEntity camera;
 	private ObservableList<Score> scores;
 	private List<Score> scoresBase;
 	private boolean isTestGame = false;
-
-	private AnalyticsTracker at;
-	private String currentPath;
 
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
@@ -45,9 +41,7 @@ public class Game {
 		setBackPath("");
 		setInfo("Information about game");
 		setAchievements("");
-		camera = new CameraEntity();
 		scores = FXCollections.observableList(addDefaults());
-		at = new AnalyticsTracker();
 	}
 
 	/**
@@ -70,6 +64,7 @@ public class Game {
 		for (Entity entity : level.getEntities()) {
 			cloneOfLevel.addEntity(entity.clone());
 		}
+		cloneOfLevel.setCamera((CameraEntity) level.getCamera().clone());
 		return cloneOfLevel;
 	}
 
@@ -174,23 +169,6 @@ public class Game {
 	}
 
 	/**
-	 * @return the game's camera.
-	 */
-	public CameraEntity getCamera() {
-		return camera;
-	}
-
-	/**
-	 * Set the game's camera.
-	 * 
-	 * @param camera
-	 *            : the new camera for the game
-	 */
-	public void setCamera(CameraEntity camera) {
-		this.camera = camera;
-	}
-
-	/**
 	 * Add a new highscore
 	 * 
 	 * @param score
@@ -278,37 +256,8 @@ public class Game {
 		cloneGame.setBackPath(this.backPath);
 		cloneGame.setInfo(this.info);
 		cloneGame.setAchievements(this.achievements);
-		cloneGame.setCamera((CameraEntity) this.camera.clone());
 		// TODO: clone scores
 		cloneGame.setTestGame(this.isTestGame);
 		return cloneGame;
 	}
-	
-	
-	public void setCurrentPath(String inputPath){
-		currentPath =inputPath;
-	}
-	public String getCurrentPath(){
-		return currentPath;
-	}
-	public void logScore(float score){
-		at.logScore(score);
-	}
-	
-	public void logWon(boolean winstate){
-		if(winstate){
-			at.hasWon();
-		}
-		else{
-			at.hasLost();
-		}
-		
-	}
-	public AnalyticsTracker getAnalytics(){
-		return at;
-	}
-	public void logPlay(){
-		at.logPlay();
-	}
-	
 }

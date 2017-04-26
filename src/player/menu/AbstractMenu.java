@@ -45,7 +45,7 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	
 	public abstract void addElements();
 	
-	protected MediaManager getLoader() {
+	protected MediaManager getMediaManager() {
 		return mediaManager;
 	}
 	
@@ -81,7 +81,7 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	
 	private void createBackButton(boolean backButton) {
 		if (backButton) {
-			Tile backTile = new Tile(getPolyglot().get("Back"), "gray", e -> back(stage));
+			Tile backTile = this.makeBackButton();
 			grid.add(backTile, getRow(grid.getChildren().size()), getColumn(grid.getChildren().size()));
 		}
 	}
@@ -91,7 +91,7 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	}
 	
 	private int getColumn(int i) {
-		return (int) (i / 2);
+		return (i / 2);
 	}
 	
 	private void setupView(String title) {
@@ -115,6 +115,10 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 		setCenter(grid);
 	}
 
+	protected Tile makeBackButton() {
+		return new Tile(getPolyglot().get("Back"), "gray", e -> back(stage));
+	}
+	
 	public void back(Stage stage) {
 		new MainMenu(stage, game, mediaManager, getPolyglot(), getResources());
 	}

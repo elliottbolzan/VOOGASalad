@@ -50,6 +50,7 @@ public class GameLoader {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 		Document doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
+		
 		Game game = new Game();
 		addName(game, doc);
 		addLevels(game, doc, gameFolderPath);
@@ -60,7 +61,7 @@ public class GameLoader {
 		// addBackground(game, doc, newPath);
 		//addInfo(game, doc, newPath);
 		//addCamera(game, doc, newPath);
-		game.setCurrentPath(gameFolderPath);
+		//game.setCurrentPath(gameFolderPath);
 //		new DataSender(game);
 		return game;
 	}

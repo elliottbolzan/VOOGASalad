@@ -3,7 +3,6 @@ package engine.game.gameloop;
 import engine.game.LevelManager;
 import engine.game.timer.TimerManager;
 import game_data.Game;
-import player.score.Score;
 
 /**
  * Contains information displayed on the Scorebar.

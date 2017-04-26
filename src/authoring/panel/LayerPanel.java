@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import authoring.Workspace;
-import authoring.components.LabeledField;
 import utils.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -60,7 +59,7 @@ public class LayerPanel extends View {
 			initCloseRequest(e);
 			delete();
 		}, true);
-		container.getChildren().addAll(new VBox(myBox, addButton), new Separator(), new Separator(),
+		container.getChildren().addAll(new VBox(myBox, addButton), new Separator(),
 				createVelocitySlider(), new Separator(), deleteButton);
 		container.setPadding(new Insets(20));
 		setCenter(container);

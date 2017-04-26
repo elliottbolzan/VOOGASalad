@@ -9,7 +9,7 @@ import engine.Action;
 
 /**
  * This Action will be used for a following camera. Every frame it should set the location
- * of it's Entity (the camera) based on a leader Entity (the character).
+ * of its Entity (the camera) based on a leader Entity (the character).
  * 
  * @author Jay Doherty
  *
