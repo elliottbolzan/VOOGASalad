@@ -11,16 +11,20 @@ import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
 import authoring.panel.Panel;
 import engine.Entity;
+import engine.game.Level;
 import game_data.Game;
 import game_data.GameData;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import player.MediaManager;
 import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
 import utils.views.View;
@@ -34,8 +38,7 @@ import utils.views.View;
  *         intermediary between the default Entities, the Panel, and the Canvas.
  *
  */
-public class Workspace extends View
-{
+public class Workspace extends View {
 
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
@@ -56,8 +59,7 @@ public class Workspace extends View
 	 * @param path
 	 *            the path of the Game to be loaded.
 	 */
-	public Workspace(Game game, Polyglot polyglot, ResourceBundle IOResources)
-	{
+	public Workspace(Game game, Polyglot polyglot, ResourceBundle IOResources) {
 		this.game = game;
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
@@ -68,26 +70,22 @@ public class Workspace extends View
 	/**
 	 * @return the Workspace's current Game.
 	 */
-	public Game getGame()
-	{
+	public Game getGame() {
 		return game;
 	}
 
-	public Networking getNetworking()
-	{
+	public Networking getNetworking() {
 		return networking;
 	}
 
-	public Panel getPanel()
-	{
+	public Panel getPanel() {
 		return panel;
 	}
 
 	/**
 	 * Initializes the Workspace's components.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		networking = new Networking(this);
 		data = new GameData();
 		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
@@ -96,15 +94,14 @@ public class Workspace extends View
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
-		pane.setDividerPositions(0.25);
+		pane.setDividerPositions(0.27);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
 		setTop(new WorkspaceMenu(this));
 		setupDragToAddEntity();
 	}
 
-	private void setupDragToAddEntity()
-	{
+	private void setupDragToAddEntity() {
 		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
@@ -117,8 +114,7 @@ public class Workspace extends View
 		});
 	}
 
-	private void load()
-	{
+	private void load() {
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
@@ -129,22 +125,18 @@ public class Workspace extends View
 	 * Game's construction is finalized; and a call to GameData is made to save
 	 * the Game.
 	 */
-	public void save()
-	{
+	public void save() {
 		TextInputDialog dialog = maker.makeTextInputDialog("SaveTitle", "SaveHeader", "SaveLabel", game.getName());
 		Optional<String> result = dialog.showAndWait();
 		result.ifPresent(name -> save(name));
 	}
 
-	private void save(String title)
-	{
+	private void save(String title) {
 		game.setName(title);
 		String path = askForOutputPath();
-		Task<Void> task = new Task<Void>()
-		{
+		Task<Void> task = new Task<Void>() {
 			@Override
-			public Void call() throws InterruptedException
-			{
+			public Void call() throws InterruptedException {
 				createGame();
 				if (!path.equals("")) {
 					data.saveGame(game, path);
@@ -155,18 +147,24 @@ public class Workspace extends View
 		showProgressForTask(task);
 	}
 
-	public void showProgressForTask(Task<Void> task)
-	{
+	public void showProgressForTask(Task<Void> task) {
 		ProgressDialog dialog = new ProgressDialog(this);
 		task.setOnSucceeded(event -> {
 			dialog.getDialogStage().close();
+			Alert alert = maker.makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader",
+					polyglot.get("TaskSucceeded"));
+			alert.show();
+		});
+		task.setOnFailed(event -> {
+			dialog.getDialogStage().close();
+			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
+			alert.show();
 		});
 		Thread thread = new Thread(task);
 		thread.start();
 	}
 
-	private String askForOutputPath()
-	{
+	private String askForOutputPath() {
 		String directory = new File(IOResources.getString("GamesPath")).getAbsolutePath();
 		DirectoryChooser chooser = maker.makeDirectoryChooser(directory, "GameSaverTitle");
 		File selectedDirectory = chooser.showDialog(getScene().getWindow());
@@ -183,60 +181,52 @@ public class Workspace extends View
 	 *            the Game to test.
 	 * 
 	 */
-	public void test()
-	{
+	public void test() {
 		createGame();
 		Game testGame = game.clone();
 		testGame.setTestGame(true);
 		Stage stage = new Stage();
-		new BasicPlayer(stage, testGame, polyglot, IOResources);
+		new BasicPlayer(stage, testGame, new MediaManager(testGame, null, null), polyglot, IOResources);
 		stage.show();
 	}
 
-	private void createGame()
-	{
+	private void createGame() {
 		game.setLevels(levelEditor.getLevels());
 	}
 
-	public ComponentMaker getMaker()
-	{
+	public ComponentMaker getMaker() {
 		return maker;
 	}
 
-	public Polyglot getPolyglot()
-	{
+	public Polyglot getPolyglot() {
 		return polyglot;
 	}
 
 	/**
 	 * @return the ResourceBundle for this View's descendants.
 	 */
-	public ResourceBundle getIOResources()
-	{
+	public ResourceBundle getIOResources() {
 		return IOResources;
 	}
 
 	/**
 	 * @return the SplitPane governing this View.
 	 */
-	public SplitPane getPane()
-	{
+	public SplitPane getPane() {
 		return pane;
 	}
 
 	/**
 	 * @return the default Entities the user has created.
 	 */
-	public DefaultEntities getDefaults()
-	{
+	public DefaultEntities getDefaults() {
 		return defaults;
 	}
 
 	/**
 	 * @return the selected Entity.
 	 */
-	public Entity getSelectedEntity()
-	{
+	public Entity getSelectedEntity() {
 		return defaults.getSelectedEntity();
 	}
 
@@ -246,8 +236,7 @@ public class Workspace extends View
 	 * another layer.
 	 * 
 	 */
-	public void addLayer()
-	{
+	public void addLayer() {
 		levelEditor.getCurrentLevel().newLayer();
 	}
 
@@ -259,8 +248,7 @@ public class Workspace extends View
 	 * @param number
 	 *            the layer's identifier.
 	 */
-	public void selectLayer(int number)
-	{
+	public void selectLayer(int number) {
 		levelEditor.getCurrentLevel().selectLayer(number);
 	}
 
@@ -272,23 +260,19 @@ public class Workspace extends View
 	 * @param newLevelNum
 	 *            the number of the new level.
 	 */
-	public void selectExistingLevel(String oldLevel, String newLevel)
-	{
+	public void selectExistingLevel(String oldLevel, String newLevel) {
 		panel.selectExistingLevelBox(oldLevel, newLevel);
 	}
 
-	public void selectLoadedLevel(List<String> nameList)
-	{
+	public void selectLoadedLevel(List<String> nameList) {
 		panel.selectLoadedLevelBox(nameList);
 	}
 
-	public void selectLoadedLevel(int layerCount)
-	{
+	public void selectLoadedLevel(int layerCount) {
 		panel.selectLoadedLevelBox(layerCount);
 	}
 
-	public LevelEditor getLevelEditor()
-	{
+	public LevelEditor getLevelEditor() {
 		return levelEditor;
 	}
 
@@ -300,8 +284,7 @@ public class Workspace extends View
 	 * @param layer
 	 *            the identifier of the layer to be deleted.
 	 */
-	public void deleteLayer(int layer)
-	{
+	public void deleteLayer(int layer) {
 		levelEditor.getCurrentLevel().deleteLayer(layer);
 	}
 
@@ -311,8 +294,7 @@ public class Workspace extends View
 	 * @param entity
 	 *            the Entity to replace the old Entities with.
 	 */
-	public void updateEntity(Entity entity)
-	{
+	public void updateEntity(Entity entity) {
 		levelEditor.updateEntity(entity);
 	}
 

@@ -10,9 +10,13 @@ import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
 import authoring.panel.settings.Settings;
+<<<<<<< src/authoring/panel/Panel.java
 import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tooltip;
+=======
+import javafx.scene.control.Accordion;
+>>>>>>> src/authoring/panel/Panel.java
 import utils.views.CollapsibleView;
 import utils.views.View;
 import polyglot.Case;
@@ -45,8 +49,8 @@ public class Panel extends CollapsibleView {
 	 *            SplitPane that owns it.
 	 */
 	public Panel(Workspace workspace, int index) {
-		super(workspace, workspace.getPane(), workspace.getPolyglot().get("PanelTitle", Case.TITLE), index, Direction.LEFT,
-				true);
+		super(workspace, workspace.getPane(), workspace.getPolyglot().get("PanelTitle", Case.TITLE), index,
+				Direction.LEFT, false);
 		this.workspace = workspace;
 		entityDisplay = new EntityDisplay(workspace);
 		chat = new Chat(workspace);
@@ -77,6 +81,7 @@ public class Panel extends CollapsibleView {
 		List<StringBinding> info = new ArrayList<StringBinding>(Arrays.asList(workspace.getPolyglot().get("EntityInfo"),
 				workspace.getPolyglot().get("ChatInfo"), workspace.getPolyglot().get("LayerPanelInfo"), workspace.getPolyglot().get("GameInfo")));
 		workspace.getMaker().setToolTips(accordion,info);
+		accordion.getStyleClass().add("gae-tile");
 		setCenter(accordion);
 	}
 	
@@ -93,14 +98,16 @@ public class Panel extends CollapsibleView {
 	public Settings getSettings() {
 		return settings;
 	}
-	
+
 	public Chat getChat() {
 		return chat;
 	}
 
 	/**
-	 * When the user switches between level tabs or selects a new level, the layerPanel must be notified so that the 
-	 * combobox will show only the names of the layers contained in the new level.
+	 * When the user switches between level tabs or selects a new level, the
+	 * layerPanel must be notified so that the combobox will show only the names
+	 * of the layers contained in the new level.
+	 * 
 	 * @param layerNum
 	 */
 
@@ -113,12 +120,13 @@ public class Panel extends CollapsibleView {
 	public void selectExistingLevelBox(String oldLevel, String newLevel) {
 		layerPanel.selectLevelBox(oldLevel, newLevel);
 	}
+
 	public void selectLoadedLevelBox(List<String> nameList) {
 		layerPanel.selectLevelBox(nameList);
 	}
 
 	public void selectLoadedLevelBox(int layerCount) {
 		layerPanel.selectLevelBox(layerCount);
-		
+
 	}
 }

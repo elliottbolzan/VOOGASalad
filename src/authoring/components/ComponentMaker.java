@@ -15,11 +15,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.ToolBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -98,7 +98,8 @@ public class ComponentMaker {
 	 *            the property that provides a placeholder for the dialog.
 	 * @return a TextInputDialog.
 	 */
-	public TextInputDialog makeTextInputDialog(String titleProperty, String headerProperty, String promptProperty, String content) {
+	public TextInputDialog makeTextInputDialog(String titleProperty, String headerProperty, String promptProperty,
+			String content) {
 		TextInputDialog dialog = new TextInputDialog(content);
 		dialog.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		dialog.headerTextProperty().bind(polyglot.get(headerProperty));
@@ -122,17 +123,19 @@ public class ComponentMaker {
 		alert.setContentText(content);
 		return alert;
 	}
-	
+
 	public Alert makeAlert(AlertType type, String titleProperty, String headerProperty, StringBinding content) {
 		Alert alert = alertHelper(type, titleProperty, headerProperty);
 		alert.contentTextProperty().bind(content);
 		return alert;
 	}
-	
+
 	private Alert alertHelper(AlertType type, String titleProperty, String headerProperty) {
 		Alert alert = new Alert(type);
 		alert.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		alert.headerTextProperty().bind(polyglot.get(headerProperty));
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.getStylesheets().add(stylesheetPath);
 		return alert;
 	}
 
@@ -244,15 +247,15 @@ public class ComponentMaker {
 		stage.show();
 		stage.centerOnScreen();
 	}
-	
+
 	public MenuItem makeMenuItem(String title, EventHandler<ActionEvent> handler) {
 		return new CustomMenuItem(title, handler);
 	}
-	
+
 	public MenuItem makeMenuItem(StringBinding binding, EventHandler<ActionEvent> handler) {
 		return new CustomMenuItem(binding, handler);
 	}
-	
+
 	public MenuItem makeMenuItem(StringBinding binding, String keyCombination, EventHandler<ActionEvent> handler) {
 		return new CustomMenuItem(binding, keyCombination, handler);
 	}

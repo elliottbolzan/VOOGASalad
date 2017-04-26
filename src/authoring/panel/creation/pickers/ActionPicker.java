@@ -51,6 +51,7 @@ public class ActionPicker extends Picker {
 		list.setPlaceholder(placeholder);
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
+		list.getStyleClass().add("visible-container");
 		list.setCellFactory(param -> new ListCell<Action>() {
 			@Override
 			protected void updateItem(Action action, boolean empty) {

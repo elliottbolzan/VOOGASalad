@@ -1,7 +1,7 @@
 package engine.game;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
@@ -22,22 +22,33 @@ import game_data.Game;
  */
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
-	private SelectionGroup<Level> levelsInInitialState;
-	private List<Integer> wonLevelNumbers; // one-indexed
+	private SelectionGroup<Level> levelsInInitialState;  //zero-indexed
+	private Set<Integer> unlockedLevelNumbers; //one-indexed
 	private int currentLevel; // one-indexed
 	private Game game;
 	private Screen currentScreen;
 	private StepStrategy currentStepStrategy;
+	private boolean levelSelectionScreenMode;
 
 	public LevelManager(Game game, StepStrategy currentStepStrategy) {
 		levels = new ListSG<>();
 		levelsInInitialState = new ListSG<>();
-		wonLevelNumbers = new ArrayList<>();
+		unlockedLevelNumbers = new HashSet<>();
 		currentLevel = 1;
 		this.game = game;
 		this.currentStepStrategy = currentStepStrategy;
+		this.levelSelectionScreenMode = true;
 	}
-
+	
+	//TODO Call from GAE with small checkbox, or similar
+	public boolean getLevelSelectionScreenMode(){
+		return levelSelectionScreenMode;
+	}
+	
+	public void setLevelSelectionScreenMode(boolean levelSelectionScreenMode){
+		this.levelSelectionScreenMode = levelSelectionScreenMode;
+	}
+	
 	public Screen getCurrentScreen() {
 		return currentScreen;
 	}
@@ -89,7 +100,7 @@ public class LevelManager {
 	}
 
 	public boolean levelNumberInGame(int queriedLevel) {
-		return currentLevel >= 1 && currentLevel <= levels.size();
+		return queriedLevel >= 1 && queriedLevel <= levels.size();
 	}
 
 	public int getLevelNumber() {
@@ -138,11 +149,17 @@ public class LevelManager {
 		return levels;
 	}
 
-	public void rememberWonCurrentLevel() {
-		wonLevelNumbers.add(currentLevel);
+	public void addUnlockedLevel(int currentLevel) {
+		if(levelNumberInGame(currentLevel)){
+			unlockedLevelNumbers.add(currentLevel);
+		}
 	}
-
-	public List<Integer> getWonLevelNumbers() {
-		return wonLevelNumbers;
+	
+	public void clearUnlockedLevels(){
+		 unlockedLevelNumbers.removeAll(unlockedLevelNumbers);
+	}
+	
+	public Set<Integer> getUnlockedLevelNumbers() {
+		return unlockedLevelNumbers;
 	}
 }
