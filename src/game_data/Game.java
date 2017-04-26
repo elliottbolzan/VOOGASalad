@@ -2,7 +2,6 @@ package game_data;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import engine.Entity;
@@ -26,7 +25,6 @@ public class Game {
 	private List<Level> levels;
 	private List<Entity> defaults;
 	private String songPath;
-	private String backPath;
 	private String info;
 	private Collection<Entity> achievements;
 	private ObservableList<Score> highscores;
@@ -37,13 +35,12 @@ public class Game {
 	 * Returns an empty game object, with default values pre-loaded.
 	 */
 	public Game() {
-		// Load these from a properties file.
+		//TODO Load these from a properties file.
 		name = "Game";
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
 		songPath = "";
-		setBackPath("");
-		setInfo("Information about game");
+		info = "Information about game";
 		achievements = new ArrayList<Entity>();
 		highscores = FXCollections.observableList(addDefaults());
 	}
@@ -121,7 +118,6 @@ public class Game {
 	 */
 	public List<Entity> getDefaults() {
 		return defaults;
-		//return Collections.unmodifiableList(defaults);
 	}
 
 	/**
@@ -149,14 +145,6 @@ public class Game {
 	 */
 	public void setSongPath(String songPath) {
 		this.songPath = songPath;
-	}
-
-	public String getBackPath() {
-		return backPath;
-	}
-
-	public void setBackPath(String backPath) {
-		this.backPath = backPath;
 	}
 
 	public String getInfo() {
@@ -263,7 +251,6 @@ public class Game {
 		cloneGame.setLevels(this.cloneLevels());
 		cloneGame.setDefaults(this.cloneDefaults());
 		cloneGame.setSongPath(this.songPath);
-		cloneGame.setBackPath(this.backPath);
 		cloneGame.setInfo(this.info);
 		// TODO: clone scores
 		cloneGame.setTestGame(this.isTestGame);
