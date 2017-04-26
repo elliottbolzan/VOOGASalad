@@ -1,11 +1,13 @@
 package player.menu;
 
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import javafx.stage.Stage;
 import player.MediaManager;
 import polyglot.Polyglot;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,9 @@ import engine.Action;
 import engine.Entity;
 import engine.Event;
 import engine.Parameter;
+import engine.events.regular_events.KeyPressEvent;
+import engine.events.regular_events.KeyReleaseEvent;
+import engine.game.Level;
 import game_data.Game;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -39,7 +44,6 @@ public class OptionsMenu extends AbstractMenu {
 	private ScrollPane center;
 	private Map<String, Parameter> keys;
 	private Map<String, Parameter> keyReleases;
-	private List<Entity> entities;
 	private GridPane grid;
 	private int count = 0;
 
@@ -56,6 +60,7 @@ public class OptionsMenu extends AbstractMenu {
 		this.setCenter(center);
 		loadKeyBindings();
 		setupView();
+		this.setInsets();
 	}
 
 	private void setupView() {
@@ -105,37 +110,37 @@ public class OptionsMenu extends AbstractMenu {
 	}
 
 	private void loadKeyBindings() {
-		entities = (List<Entity>) this.getGame().getLevels().get(0).getEntities();
-		for (int i = 0; i < entities.size(); i++) {
-			// Get all the events of each entity
-			List<Event> events = entities.get(i).getEvents();
-			for (int j = 0; j < events.size(); j++) {
-				// Get parameters and actions for each event
-				List<Parameter> params = events.get(j).getParams();
-				List<Action> actions = events.get(j).getActions();
-
-				for (int k = 0; k < params.size(); k++) {
-					// Look for Key parameters
-					if (params.get(k).getName().equals("Key")) {
-						// If the action has no parameters then its a key
-						// release event and will be ignored
-						if (actions.get(k).getParams().size() > 0) {
-							// name of action associated with key event
-							String action = actions.get(k).getParams().get(0).getName();
-							// value for the action
-							String value = actions.get(k).getParams().get(0).getObject().toString();
-							// The Parameter with key value
-							Parameter key = params.get(k);
-							String actionValue = action + " " + value;
-							keys.put(actionValue, key);
-						} else {
-							// map key value to the parameter
-							keyReleases.put(params.get(k).getObject().toString(), params.get(k));
-						}
+		for(Level level : this.getGame().getLevels()){
+			Collection<Entity> entities = level.getEntities();
+			for(Entity e : entities){
+				List<Event> keyPress = e.getEvents().stream().filter(s -> s.getClass().equals(KeyPressEvent.class)).collect(Collectors.toList());
+				List<Event> keyRelease = e.getEvents().stream().filter(s -> s.getClass().equals(KeyReleaseEvent.class)).collect(Collectors.toList());
+				
+				for(Event event : keyPress){
+					Parameter k = getKeyParameter(event);
+					List<Action> actions = event.getActions();
+					for(Action action : actions){
+						String actionName = action.getParams().get(0).getName();
+						String actionValue = action.getParams().get(0).getObject().toString();
+						StringBuilder builder = new StringBuilder(actionName);
+						builder.append(" ");
+						builder.append(actionValue);
+						keys.put(builder.toString(), k);
 					}
+				}
+				
+				for(Event event : keyRelease){
+					Parameter k = getKeyParameter(event);
+					keyReleases.put(k.getObject().toString(), k);
 				}
 			}
 		}
+	}
+	
+	private Parameter getKeyParameter(Event event){
+		//Get parameters that are not numbers
+		List<Parameter> params = event.getParams().stream().filter(s -> !s.getObject().toString().matches("-?\\d+(\\.\\d+)?")).collect(Collectors.toList());
+		return params.get(0);
 	}
 
 	private void addControlRow(String action, Object key, int row) {
