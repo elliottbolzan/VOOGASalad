@@ -25,13 +25,13 @@ import utils.views.View;
  *
  */
 public class Canvas extends View {
-	private final int TILE_SIZE = 25;
+	public static final int TILE_SIZE = 25;
 
 	private List<EntityView> entities;
 	private Workspace workspace;
 
 	private ZoomablePane zoomablePane;
-	ExpandablePane expandablePane;
+	private ExpandablePane expandablePane;
 
 	public Canvas(Workspace workspace) {
 		super(workspace.getPolyglot().get("CanvasTitle"));

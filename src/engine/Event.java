@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,12 +11,14 @@ import java.util.List;
  * @author nikita
  */
 public abstract class Event extends GameObject implements EventInterface {
-
 	private List<Action> actions;
+	private int timesEventHasOccurred;
 
 	public Event() {
 		super("Event");
+		addParam(new Parameter("How often to trigger", int.class, 1));
 		actions = new ArrayList<Action>();
+		timesEventHasOccurred = 0;
 	}
 
 	@Override
@@ -29,6 +32,7 @@ public abstract class Event extends GameObject implements EventInterface {
 	 */
 	public List<Action> getActions() {
 		return actions;
+		//return Collections.unmodifiableList(actions);
 	}
 
 	/**
@@ -52,8 +56,10 @@ public abstract class Event extends GameObject implements EventInterface {
 	 * tell all actions held by this event to act
 	 */
 	public void trigger() {
-		for (Action action : actions)
-			action.act();
+		if (++timesEventHasOccurred >= (int) getParam("How often to trigger")) {
+			actions.forEach(s -> s.act());
+			timesEventHasOccurred = 0;
+		}
 	}
 
 }

@@ -81,7 +81,7 @@ public class SocketConnection {
 	/**
 	 * Closes the connection
 	 */
-	private void shutDown() {
+	public void shutDown() {
 		try {
 			socket.close();
 			executor.shutdown();

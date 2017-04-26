@@ -69,6 +69,7 @@ public class LanguagePicker {
 	
 	private ListView<String> makeListView() {	
 		ListView<String> list = new ListView<String>();
+		list.getStyleClass().add("visible-container");
 		list.setEditable(false);
 		list.setItems(FXCollections.observableArrayList(languages));
 		list.setOnMouseClicked(e -> selected(list.getSelectionModel().getSelectedItem()));

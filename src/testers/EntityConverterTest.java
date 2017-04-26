@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.Entity;
 import engine.Event;
 import engine.entities.CharacterEntity;
-import engine.events.AlwaysEvent;
+import engine.events.regular_events.AlwaysEvent;
 import game_data.EntityConverter;
 import javafx.beans.property.SimpleDoubleProperty;
 
