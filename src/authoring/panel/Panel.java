@@ -1,6 +1,7 @@
 package authoring.panel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import authoring.Workspace;
@@ -9,6 +10,7 @@ import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
 import authoring.panel.settings.Settings;
+import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tooltip;
 import utils.views.CollapsibleView;
@@ -71,7 +73,11 @@ public class Panel extends CollapsibleView {
 	 * Create the Accordion and add it to the view.
 	 */
 	private void setup() {
-		setCenter(workspace.getMaker().makeAccordion(subviews));
+		Accordion accordion = workspace.getMaker().makeAccordion(subviews);
+		List<StringBinding> info = new ArrayList<StringBinding>(Arrays.asList(workspace.getPolyglot().get("EntityInfo"),
+				workspace.getPolyglot().get("ChatInfo"), workspace.getPolyglot().get("LayerPanelInfo"), workspace.getPolyglot().get("GameInfo")));
+		workspace.getMaker().setToolTips(accordion,info);
+		setCenter(accordion);
 	}
 	
 	/**

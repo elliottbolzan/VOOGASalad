@@ -165,6 +165,12 @@ public class ComponentMaker {
 		return accordion;
 	}
 	
+	public void setToolTips(Accordion accordion, List<StringBinding> nameList){
+		for(int i = 0; i<nameList.size();i++){
+			CustomTooltip t = new CustomTooltip(nameList.get(i),accordion.getPanes().get(i).getGraphic());
+		}
+	}
+	
 	/**
 	 * @param property
 	 *            the property that provides the title of the Button.
