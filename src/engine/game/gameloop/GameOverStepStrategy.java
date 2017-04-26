@@ -9,7 +9,7 @@ import engine.graphics.GraphicsEngine;
  */
 public class GameOverStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "GameOver";
-	
+
 	public GameOverStepStrategy() {
 		super(RESOURCE_NAME);
 	}
@@ -21,6 +21,6 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 
 	@Override
 	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
-		//Intentionally left blank.
+		// Intentionally left blank.
 	}
 }

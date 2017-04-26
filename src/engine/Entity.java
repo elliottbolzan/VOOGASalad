@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -275,6 +276,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	@Override
 	public List<Event> getEvents() {
 		return events;
+		//return Collections.unmodifiableList(events);
 	}
 
 	/**
