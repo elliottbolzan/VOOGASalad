@@ -45,19 +45,6 @@ public class WorkspaceMenu extends View {
 		setCenter(box);
 	}
 
-	/**
-	 * 
-	 */
-	private Menu createServerMenu() {
-		Menu serverMenu = workspace.getMaker().makeMenu("ServerMenu");
-		MenuItem startItem = workspace.getMaker().makeMenuItem(
-				workspace.getPolyglot().get("StartServerItem", Case.TITLE), "Ctrl+Shift+S", e -> startServer());
-		MenuItem joinItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("JoinClientItem", Case.TITLE),
-				"Ctrl+J", e -> join());
-		serverMenu.getItems().addAll(startItem, joinItem);
-		return serverMenu;
-	}
-
 	private void startServer() {
 		// ask for game identifier
 		Task<Void> task = new Task<Void>() {
@@ -120,6 +107,19 @@ public class WorkspaceMenu extends View {
 						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("TestMenu", Case.TITLE), "Ctrl+T",
 								e -> workspace.test()));
 		return gameMenu;
+	}
+
+	private Menu createServerMenu() {
+		Menu serverMenu = workspace.getMaker().makeMenu("ServerMenu");
+		/*MenuItem IPItem = workspace.getMaker().makeMenuItem(
+				workspace.getPolyglot().get("IPItem", Case.TITLE).get() + " " + workspace.getNetworking().getIP(),
+				null);*/
+		MenuItem startItem = workspace.getMaker().makeMenuItem(
+				workspace.getPolyglot().get("StartServerItem", Case.TITLE), "Ctrl+Shift+S", e -> startServer());
+		MenuItem joinItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("JoinClientItem", Case.TITLE),
+				"Ctrl+J", e -> join());
+		serverMenu.getItems().addAll(/*IPItem,*/ startItem, joinItem);
+		return serverMenu;
 	}
 
 	private void chooseSong() {

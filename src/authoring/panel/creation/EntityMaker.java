@@ -8,7 +8,6 @@ import utils.views.View;
 import engine.Entity;
 import engine.Event;
 import engine.game.EngineController;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -133,7 +132,7 @@ public class EntityMaker extends View {
 	 * Save the Entity to defaults.
 	 */
 	public void save() {
-		if (entityInfo.getName().trim().equals("")) {
+		if (entityInfo.getName().trim().equals("") || entityInfo.getName().contains(" ")) {
 			showMessage("EmptyName");
 			return;
 		}

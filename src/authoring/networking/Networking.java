@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.networking;
 
 import java.io.IOException;
@@ -24,6 +21,7 @@ import networking.net.ObservableServer;
 public class Networking {
 
 	private Workspace workspace;
+	private ObservableServer<Packet> server;
 	private ObservableClient<Packet> client;
 	private String identifier;
 	private static final int PORT = 1337;
@@ -33,15 +31,15 @@ public class Networking {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void start(String identifier) {
+	public void start(String identifier) throws InterruptedException {
 		try {
-			ObservableServer<Packet> server = new ObservableServer<Packet>(null, PORT, Serializer.NONE,
-					Unserializer.NONE, Duration.ofSeconds(30));
+			server = new ObservableServer<Packet>(null, PORT, Serializer.NONE,
+					Unserializer.NONE, Duration.ofSeconds(5));
 			Executors.newSingleThreadExecutor().submit(server);
 			join(getIP(), "");
 			this.identifier = identifier;
 		} catch (Exception e) {
-			System.out.println("Couldn't start server.");
+			throw new InterruptedException();
 		}
 	}
 
@@ -49,20 +47,25 @@ public class Networking {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
-			return "Not Found";
+			return "Unavailable";
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public void join(String IP, String identifier) {
+	public void join(String IP, String identifier) throws InterruptedException {
 		try {
 			this.identifier = identifier;
-			client = new ObservableClient<>(IP, PORT, Serializer.NONE, Unserializer.NONE, Duration.ofSeconds(30));
+			client = new ObservableClient<>(IP, PORT, Serializer.NONE, Unserializer.NONE, Duration.ofSeconds(5));
 			client.addListener(client -> received(client));
 			Executors.newSingleThreadExecutor().submit(client);
 		} catch (IOException e) {
-			System.out.println("Couldn't join client.");
+			throw new InterruptedException();
 		}
+	}
+	
+	public void close() {
+		server.close();
+		client.close();
 	}
 
 	public void send(Packet packet) {

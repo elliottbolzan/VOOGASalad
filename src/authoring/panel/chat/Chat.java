@@ -6,8 +6,10 @@ import utils.views.View;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
@@ -76,12 +78,12 @@ public class Chat extends View {
 	private void send() {
 		if (!sendField.getText().replace("\\s+", "").equals("")) {
 			try {
-				// workspace.getNetworking().send(new Message(username,
-				// sendField.getText()));
-				log.append(new Message(username, sendField.getText()));
+				workspace.getNetworking().send(new Message(username, sendField.getText()));
 				sendField.setText("");
 			} catch (Exception e) {
-				System.out.println("The message could not be sent.");
+				Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
+						workspace.getPolyglot().get("MessageFailed"));
+				alert.show();
 			}
 		}
 	}
@@ -90,8 +92,11 @@ public class Chat extends View {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				play();
-				log.append((Message) packet);
+				Message message = (Message) packet;
+				if (!message.getUsername().equals(username)) {
+					play();
+				}
+				log.append(message);
 			}
 		});
 	}
