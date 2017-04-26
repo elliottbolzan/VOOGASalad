@@ -9,6 +9,7 @@ import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
 import engine.game.LevelManager;
+import engine.game.gameloop.LevelSelectionStepStrategy;
 import engine.game.gameloop.Scorebar;
 import game_data.Game;
 import javafx.geometry.Pos;
@@ -144,9 +145,9 @@ public class GraphicsEngine {
 		displayArea.setCenter(label);
 	}
 	
-	public void displayLevelSelectionScreen(LevelManager levelManager){
+	public void displayLevelSelectionScreen(LevelManager levelManager, LevelSelectionStepStrategy strategy){
 		this.clearView();
-		new LevelSelectionGraphics(displayArea, levelManager, polyglot).draw();
+		new LevelSelectionGraphics(displayArea, levelManager, polyglot, strategy).draw();
 	}
 	
 	/**

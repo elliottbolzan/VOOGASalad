@@ -27,6 +27,13 @@ public class GameLoop {
 		
 		levelManager = new LevelManager(game, new LevelStepStrategy());
 		levelManager.loadAllSavedLevels();
+		if(levelManager.getLevels().size() > 0){
+			levelManager.addUnlockedLevel(1);
+		}
+		else{
+			//TODO convert to exception
+			System.out.println("Error in GameLoop.java - game has no levels.");
+		}
 		
 		setupFirstStrategy();
 		
