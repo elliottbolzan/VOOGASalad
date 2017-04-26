@@ -1,7 +1,9 @@
 package engine.game;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
@@ -23,7 +25,7 @@ import game_data.Game;
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
 	private SelectionGroup<Level> levelsInInitialState;  //zero-indexed
-	private List<Integer> unlockedLevelNumbers; //one-indexed
+	private Set<Integer> unlockedLevelNumbers; //one-indexed
 	private int currentLevel; // one-indexed
 	private Game game;
 	private Screen currentScreen;
@@ -33,7 +35,7 @@ public class LevelManager {
 	public LevelManager(Game game, StepStrategy currentStepStrategy) {
 		levels = new ListSG<>();
 		levelsInInitialState = new ListSG<>();
-		unlockedLevelNumbers = new ArrayList<>();
+		unlockedLevelNumbers = new HashSet<>();
 		currentLevel = 1;
 		this.game = game;
 		this.currentStepStrategy = currentStepStrategy;
@@ -159,7 +161,7 @@ public class LevelManager {
 		 unlockedLevelNumbers.removeAll(unlockedLevelNumbers);
 	}
 	
-	public List<Integer> getUnlockedLevelNumbers() {
+	public Set<Integer> getUnlockedLevelNumbers() {
 		return unlockedLevelNumbers;
 	}
 }
