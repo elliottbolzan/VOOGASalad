@@ -31,56 +31,35 @@ public class GameSaver {
 	 * @param game : game to be saved
 	 * @param parentDirectoryPath : path to the parent directory in which the game folder will be created and saved
 	 */
-	public void saveGame(Game game, String parentDirectoryPath) {
-		gameXMLFactory = new GameXMLFactory();
-		gameXMLFactory.setName(game.getName());
-
+	protected void saveGame(Game game, String parentDirectoryPath) {
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
 		createFolder(gameFolderPath);
-		
-		this.saveLevels(game.getLevels(), gameFolderPath);
-		this.saveDefaults(game.getDefaults(), gameFolderPath);
-		this.saveSong(game.getSongPath(), game.getName(), gameFolderPath);
-		//this.saveBackground(gameFolderPath, game.getSongPath());
-		//this.saveAchievements("achievements", gameFolderPath);
-		this.saveGameInfo(gameFolderPath, game.getInfo());
-		this.saveDocument(gameFolderPath, SETTINGS_FILE_NAME);
-		
-		this.zipDoc(gameFolderPath);
+		this.saveAndCompress(game, gameFolderPath, SETTINGS_FILE_NAME);
 	}
 	
-	private void zipDoc(String gameFolderPath) {
-		List<File> toCompress = new ArrayList<File>();
-		File dir = new File(gameFolderPath);
-		File[] allFiles = dir.listFiles();
-		if (allFiles != null) {
-			for (File child : allFiles) {
-				toCompress.add(child);
-			}
-		}
+	protected void saveGameState(Game game, String zipFolderPath, String saveName) {
 		try {
-			Packager zipper = new Packager();
-			zipper.packZip(new File(gameFolderPath + ".vs"), toCompress);
-		} catch(IOException e) {
-			//TODO
+			(new Unpackager()).unzip(zipFolderPath, zipFolderPath.replace(".vs", ""));
+		} catch(Exception e) {
+			//TODO?
 		}
-		this.deleteDir(dir);
+		
+		String gameFolderPath = zipFolderPath.replace(".vs", "");
+		this.saveAndCompress(game, gameFolderPath, saveName);
 	}
 	
-	/**
-	 * Saves the state of the game to a non hard coded file in the folder
-	 * @param game
-	 * @param parentDirectoryPath
-	 * @param saveName
-	 */
-	public void saveCurrentGameState(Game game, String gameFolderPath, String saveName){
+	private void saveAndCompress(Game game, String gameFolderPath, String saveName) {
 		gameXMLFactory = new GameXMLFactory();
+		
 		gameXMLFactory.setName(game.getName());
-
-		saveDefaults(game.getDefaults(), gameFolderPath);
-		saveSong(game.getSongPath(), game.getName(), gameFolderPath);
-		saveLevels(game.getLevels(), gameFolderPath);
-		saveDocument(gameFolderPath, saveName);
+		gameXMLFactory.addInfo(game.getInfo());
+		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
+		this.saveLevels(gameFolderPath, game.getLevels());
+		this.saveDefaults(gameFolderPath, game.getDefaults());
+		//this.saveAchievements("achievements", gameFolderPath);
+		
+		this.saveDocument(gameFolderPath, saveName);
+		this.zipDoc(gameFolderPath);
 	}
 
 	/**
@@ -106,7 +85,7 @@ public class GameSaver {
 	 * @param defaults : List of entities that are defaults, to be saved into XML
 	 * @param gameFolderPath : top-level directory of the game
 	 */
-	private void saveDefaults(List<Entity> defaults, String gameFolderPath) {
+	private void saveDefaults(String gameFolderPath, List<Entity> defaults) {
 		EntitySaver entitySaver = new EntitySaver(gameXMLFactory);
 		List<Element> xmlDefaults = entitySaver.getEntityListAsXML(defaults, gameFolderPath);
 		
@@ -120,7 +99,7 @@ public class GameSaver {
 	 * @param levels : list of levels to be written to XML
 	 * @param gameFolderPath : top-level directory of the game
 	 */
-	private void saveLevels(List<Level> levels, String gameFolderPath) {
+	private void saveLevels(String gameFolderPath, List<Level> levels) {
 		for (Level level : levels) {
 			EntitySaver entitySaver = new EntitySaver(gameXMLFactory);
 			List<Element> entityElements = entitySaver.getEntityListAsXML(level.getEntities(), gameFolderPath);
@@ -137,7 +116,7 @@ public class GameSaver {
 	 * @param gameFolderPath : top-level directory of the game
 	 * @param originalSongPath : song path to be saved into XML
 	 */
-	private void saveSong(String originalSongPath, String gameName, String gameFolderPath) {
+	private void saveSong(String gameFolderPath, String originalSongPath, String gameName) {
 		if (originalSongPath.equals("")) {
 			return;
 		}
@@ -168,18 +147,6 @@ public class GameSaver {
 	}
 
 	/**
-	 * 
-	 * @param filePath
-	 * @param info
-	 */
-	public void saveGameInfo(String filePath, String info){
-		if(info.equals("")) { 
-			return; 
-		}
-		gameXMLFactory.addInfo(info);
-	}
-	
-	/**
 	 * Creates the folder for the game
 	 */
 	private void createFolder(String gameFolderPath) {
@@ -207,6 +174,24 @@ public class GameSaver {
 		Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 	}
 
+	private void zipDoc(String gameFolderPath) {
+		List<File> toCompress = new ArrayList<File>();
+		File dir = new File(gameFolderPath);
+		File[] allFiles = dir.listFiles();
+		if (allFiles != null) {
+			for (File child : allFiles) {
+				toCompress.add(child);
+			}
+		}
+		try {
+			Packager zipper = new Packager();
+			zipper.packZip(new File(gameFolderPath + ".vs"), toCompress);
+		} catch(IOException e) {
+			//TODO
+		}
+		this.deleteDir(dir);
+	}
+	
 	private boolean deleteDir(File dir){
 		dir.listFiles();
 		File[] files = dir.listFiles();	    		

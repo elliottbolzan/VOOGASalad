@@ -1,5 +1,6 @@
 package player.launcher;
 
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
@@ -93,11 +94,10 @@ public class FullPlayer extends AbstractPlayer {
 	}
 	
 	private void save() {
-		Game savedGame = new Game();
-		savedGame.setDefaults(this.getGame().getDefaults());
-		savedGame.setName(this.getGame().getName());
-		savedGame.setSongPath(this.getGame().getSongPath());
-		mediaManager.saveGame(this.getGame());
+		Game savedGame = this.getGame().clone();
+		savedGame.setLevels(Arrays.asList(this.getRunningGameLoop().getLevelManager().getCurrentLevel()));
+		savedGame = savedGame.clone();
+		mediaManager.saveGame(savedGame);
 	}
 	
 	protected void exit() {
