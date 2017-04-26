@@ -96,10 +96,10 @@ public class Workspace extends View {
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
 		setTop(new WorkspaceMenu(this));
-		dragToAddEntity();
+		setupDragToAddEntity();
 	}
 
-	private void dragToAddEntity() {
+	private void setupDragToAddEntity() {
 		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
@@ -268,6 +268,10 @@ public class Workspace extends View {
 
 	public void selectLoadedLevel(int layerCount) {
 		panel.selectLoadedLevelBox(layerCount);
+	}
+
+	public LevelEditor getLevelEditor() {
+		return levelEditor;
 	}
 
 	/**

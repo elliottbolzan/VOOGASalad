@@ -34,6 +34,9 @@ public class EventPicker extends Picker {
 	public EventPicker(Workspace workspace, EntityMaker entityMaker) {
 		super(workspace, "EventPickerTitle", entityMaker);
 		this.entityMaker = entityMaker;
+		addTooltips(workspace.getPolyglot().get("AddEvent"),workspace.getPolyglot().get("EditEvent"),
+				workspace.getPolyglot().get("DeleteEvent"));
+		attachInfoTooltip(workspace.getPolyglot().get("EventInfo"));
 		update();
 	}
 
@@ -140,7 +143,7 @@ public class EventPicker extends Picker {
 	@Override
 	public void showEditor() {
 		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
-				engine.getAllEvents());
+				engine.getAllEvents(entityMaker.getEntity()));
 		getWorkspace().getMaker().display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 

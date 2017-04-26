@@ -36,10 +36,11 @@ public class WorkspaceMenu extends View {
 
 	private void setup() {
 		Menu gameMenu = createGameMenu();
+		Menu editMenu = createEditMenu();
 		Menu settingsMenu = createSettingsMenu();
 		Menu serverMenu = createServerMenu();
 		Menu helpMenu = createHelpMenu();
-		MenuBar menuBar = new MenuBar(gameMenu, settingsMenu, serverMenu, helpMenu);
+		MenuBar menuBar = new MenuBar(gameMenu, editMenu, settingsMenu, serverMenu, helpMenu);
 		VBox box = new VBox(menuBar);
 		box.setPadding(new Insets(15, 0, 0, 0));
 		setCenter(box);
@@ -96,6 +97,18 @@ public class WorkspaceMenu extends View {
 		return settingsMenu;
 	}
 
+	private Menu createEditMenu() {
+		Menu editMenu = workspace.getMaker().makeMenu("EditTitle");
+		editMenu.getItems()
+				.addAll(workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Copy", Case.TITLE), "Ctrl+C",
+						e -> workspace.getLevelEditor().copy()),
+						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Paste", Case.TITLE), "Ctrl+V",
+								e -> workspace.getLevelEditor().paste()),
+						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("SelectAll", Case.TITLE),
+								"Ctrl+A", e -> workspace.getLevelEditor().getCurrentLevel().selectAll()));
+		return editMenu;
+	}
+
 	/**
 	 * @return
 	 */
@@ -111,14 +124,16 @@ public class WorkspaceMenu extends View {
 
 	private Menu createServerMenu() {
 		Menu serverMenu = workspace.getMaker().makeMenu("ServerMenu");
-		/*MenuItem IPItem = workspace.getMaker().makeMenuItem(
-				workspace.getPolyglot().get("IPItem", Case.TITLE).get() + " " + workspace.getNetworking().getIP(),
-				null);*/
+		/*
+		 * MenuItem IPItem = workspace.getMaker().makeMenuItem(
+		 * workspace.getPolyglot().get("IPItem", Case.TITLE).get() + " " +
+		 * workspace.getNetworking().getIP(), null);
+		 */
 		MenuItem startItem = workspace.getMaker().makeMenuItem(
 				workspace.getPolyglot().get("StartServerItem", Case.TITLE), "Ctrl+Shift+S", e -> startServer());
 		MenuItem joinItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("JoinClientItem", Case.TITLE),
 				"Ctrl+J", e -> join());
-		serverMenu.getItems().addAll(/*IPItem,*/ startItem, joinItem);
+		serverMenu.getItems().addAll(/* IPItem, */ startItem, joinItem);
 		return serverMenu;
 	}
 

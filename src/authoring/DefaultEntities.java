@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import engine.Entity;
+import engine.entities.BlockEntity;
+import engine.entities.CameraEntity;
 import engine.entities.CharacterEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,8 +32,11 @@ public class DefaultEntities {
 	public DefaultEntities(Workspace workspace) {
 		this.workspace = workspace;
 		this.entities = FXCollections.observableArrayList(new ArrayList<Entity>());
-		if (workspace.getGame().getDefaults().size() == 0)
+		if (workspace.getGame().getDefaults().size() == 0) {
 			add(new CharacterEntity());
+			add(new BlockEntity());
+			add(new CameraEntity());
+		}
 	}
 
 	/**

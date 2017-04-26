@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import authoring.Workspace;
 import engine.Entity;
+import engine.entities.CameraEntity;
 import engine.game.Level;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -24,12 +25,14 @@ import utils.views.View;
  * @author jimmy Modified by Mina Mungekar
  *
  */
-public class LayerEditor extends View {
+public class LayerEditor extends View
+{
 	private Workspace workspace;
 	private Canvas canvas;
 	private Map<Integer, Layer> layers;
 	private int layerCount;
 	private int currLayer;
+	private EntityView levelCameraView;
 
 	/**
 	 * Make a new LayerEditor.
@@ -37,25 +40,26 @@ public class LayerEditor extends View {
 	 * @param workspace
 	 *            Workspace that the LayerEditor will be in.
 	 */
-	public LayerEditor(Workspace workspace) {
+	public LayerEditor(Workspace workspace)
+	{
 		this.workspace = workspace;
 		setup();
 	}
 
-	public Canvas getCanvas() {
+	public Canvas getCanvas()
+	{
 		return canvas;
 	}
 
 	@Override
-	public LayerEditor clone() {
+	public LayerEditor clone()
+	{
 		LayerEditor newLevel = new LayerEditor(workspace);
 		newLevel.setNumLayers(layerCount);
 		layers.keySet().stream().forEach(id -> {
 			for (EntityView entity : layers.get(id).getEntities()) {
 				newLevel.addEntity(entity.getEntity(), entity.getEntity().getX(), entity.getEntity().getY(), id);
-			}
-			;
-
+			};
 		});
 		return newLevel;
 	}
@@ -66,14 +70,25 @@ public class LayerEditor extends View {
 	 * 
 	 * @return Level object represented by this LayerEditor.
 	 */
-	public Level getLevel() {
+	public Level getLevel()
+	{
 		Level thisLevel = new Level();
 		for (Layer layer : layers.values()) {
 			for (EntityView entity : layer.getEntities()) {
 				thisLevel.addEntity(entity.getEntity());
 			}
 		}
+		thisLevel.setCamera((CameraEntity) levelCameraView.getEntity());
 		return thisLevel;
+	}
+
+	public void selectAll()
+	{
+		for (Layer layer : layers.values()) {
+			for (EntityView entity : layer.getEntities()) {
+				entity.setSelected(true);
+			}
+		}
 	}
 
 	/**
@@ -84,7 +99,8 @@ public class LayerEditor extends View {
 	 * @param entity
 	 *            the Entity to be edited.
 	 */
-	public void updateEntity(Entity entity) {
+	public void updateEntity(Entity entity)
+	{
 		for (Layer layer : layers.values()) {
 			List<EntityView> concerned = new ArrayList<>();
 			for (EntityView entityView : layer.getEntities()) {
@@ -109,7 +125,8 @@ public class LayerEditor extends View {
 	 * @param level
 	 *            Level to be loaded
 	 */
-	public void loadLevel(Level level) {
+	public void loadLevel(Level level)
+	{
 		this.clear();
 		canvas.clear();
 		for (Entity entity : level.getEntities()) {
@@ -118,7 +135,8 @@ public class LayerEditor extends View {
 		selectLayer(1);
 	}
 
-	public List<Layer> getLayers() {
+	public List<Layer> getLayers()
+	{
 		return new ArrayList<Layer>(layers.values());
 	}
 
@@ -127,7 +145,8 @@ public class LayerEditor extends View {
 	 * 
 	 * @return Currently selected layer.
 	 */
-	public int getCurrentLayer() {
+	public int getCurrentLayer()
+	{
 		return currLayer;
 	}
 
@@ -135,7 +154,8 @@ public class LayerEditor extends View {
 	 * Clear all o the layers/entities currently in the LayerEditor and
 	 * reinitialize the LayerEditor.
 	 */
-	private void clear() {
+	private void clear()
+	{
 		while (layerCount > 1) {
 			executeDelete(layerCount);
 		}
@@ -145,12 +165,14 @@ public class LayerEditor extends View {
 	/*
 	 * Initialize the LayerEditor.
 	 */
-	private void setup() {
+	private void setup()
+	{
 		canvas = new Canvas(workspace);
 		setCenter(canvas);
 		layers = new HashMap<Integer, Layer>();
 		layerCount = 0;
 		currLayer = 1;
+		levelCameraView = new EntityView(new CameraEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
 		addKeyActions();
 		newLayer();
 	}
@@ -160,8 +182,8 @@ public class LayerEditor extends View {
 	 * currently selected entities ctrl + 'C' --> copy currently selected
 	 * entities ctrl + 'V' --> paste currently selected entities
 	 */
-	private void addKeyActions() {
-		workspace.setFocusTraversable(true);
+	private void addKeyActions()
+	{
 		workspace.setOnKeyPressed(e -> {
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
 				for (Layer layer : layers.values()) {
@@ -171,42 +193,42 @@ public class LayerEditor extends View {
 				}
 				e.consume();
 			}
-			if (e.getCode().equals(KeyCode.RIGHT)) {
-				for (Layer layer : layers.values()) {
-					layer.getSelectedEntities().forEach(entity -> {
-						entity.moveX(canvas.getTileSize());
-					});
-				}
-				e.consume();
-			}
-			if (e.getCode().equals(KeyCode.LEFT)) {
-				for (Layer layer : layers.values()) {
-					layer.getSelectedEntities().forEach(entity -> {
-						if (entity.getEntity().getX() > canvas.getTileSize()) {
-							entity.moveX(-1 * canvas.getTileSize());
-						}
-					});
-				}
-				e.consume();
-			}
-			if (e.getCode().equals(KeyCode.DOWN)) {
-				for (Layer layer : layers.values()) {
-					layer.getSelectedEntities().forEach(entity -> {
-						entity.moveY(canvas.getTileSize());
-					});
-				}
-				e.consume();
-			}
-			if (e.getCode().equals(KeyCode.UP)) {
-				for (Layer layer : layers.values()) {
-					layer.getSelectedEntities().forEach(entity -> {
-						if (entity.getEntity().getY() > canvas.getTileSize()) {
-							entity.moveY(-1 * canvas.getTileSize());
-						}
-					});
-				}
-				e.consume();
-			}
+			// if (e.getCode().equals(KeyCode.RIGHT)) {
+			// for (Layer layer : layers.values()) {
+			// layer.getSelectedEntities().forEach(entity -> {
+			// entity.moveX(canvas.getTileSize());
+			// });
+			// }
+			// e.consume();
+			// }
+			// if (e.getCode().equals(KeyCode.LEFT)) {
+			// for (Layer layer : layers.values()) {
+			// layer.getSelectedEntities().forEach(entity -> {
+			// if (entity.getEntity().getX() > canvas.getTileSize()) {
+			// entity.moveX(-1 * canvas.getTileSize());
+			// }
+			// });
+			// }
+			// e.consume();
+			// }
+			// if (e.getCode().equals(KeyCode.DOWN)) {
+			// for (Layer layer : layers.values()) {
+			// layer.getSelectedEntities().forEach(entity -> {
+			// entity.moveY(canvas.getTileSize());
+			// });
+			// }
+			// e.consume();
+			// }
+			// if (e.getCode().equals(KeyCode.UP)) {
+			// for (Layer layer : layers.values()) {
+			// layer.getSelectedEntities().forEach(entity -> {
+			// if (entity.getEntity().getY() > canvas.getTileSize()) {
+			// entity.moveY(-1 * canvas.getTileSize());
+			// }
+			// });
+			// }
+			// e.consume();
+			// }
 		});
 	}
 
@@ -216,12 +238,12 @@ public class LayerEditor extends View {
 	 * @param e
 	 *            MouseEvent to place the entity at.
 	 */
-	public void addEntity(Entity entity, MouseEvent e) {
+	public void addEntity(Entity entity, MouseEvent e)
+	{
 		try {
 			addEntity(entity, e.getX() + canvas.getXScrollAmount(), e.getY() + canvas.getYScrollAmount(), currLayer);
 		} catch (Exception exception) {
 			showSelectMessage();
-			exception.printStackTrace();
 		}
 	}
 
@@ -239,25 +261,40 @@ public class LayerEditor extends View {
 	 *            layer to place the Entity in
 	 * @return EntityView that was added.
 	 */
-	public EntityView addEntity(Entity entity, double x, double y, int z) {
+	public EntityView addEntity(Entity entity, double x, double y, int z)
+	{
 		EntityView addedEntity = canvas.addEntity(entity, x, y);
-		addedEntity.getEntity().setZ(z);
+		addEntityToLayer(addedEntity, z);
+		attachSelectionListeners(addedEntity);
+		
+		if(entity instanceof CameraEntity) {
+			canvas.removeEntity(levelCameraView);
+			levelCameraView = addedEntity;
+		} 
+		
+		return addedEntity;
+	}
+	
+	private void addEntityToLayer(EntityView entityView, int z) {
+		entityView.getEntity().setZ(z);
 		setNumLayers(z);
-		layers.get(z).addEntity(addedEntity);
-		addedEntity.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-			if (!e.isShiftDown() && !addedEntity.isSelected()) {
+		layers.get(z).addEntity(entityView);
+	}
+	
+	private void attachSelectionListeners(EntityView entityView) {
+		entityView.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+			if (!e.isShiftDown() && !entityView.isSelected()) {
 				for (Layer layer : layers.values()) {
 					layer.getSelectedEntities().forEach(ent -> {
 						ent.setSelected(false);
 					});
 				}
 			}
-			selectEntity(addedEntity, !addedEntity.isSelected());
+			selectEntity(entityView, !entityView.isSelected());
 		});
-		addedEntity.setOnMouseDragged(e -> {
-			addedEntity.setSelected(true);
+		entityView.setOnMouseDragged(e -> {
+			entityView.setSelected(true);
 		});
-		return addedEntity;
 	}
 
 	/**
@@ -268,7 +305,8 @@ public class LayerEditor extends View {
 	 * @param selected
 	 *            true if selected, false if deselected
 	 */
-	private void selectEntity(EntityView entity, boolean selected) {
+	private void selectEntity(EntityView entity, boolean selected)
+	{
 		entity.setSelected(selected);
 	}
 
@@ -278,7 +316,8 @@ public class LayerEditor extends View {
 	 * @param z
 	 *            Number for last layer in this LayerEditor
 	 */
-	private void setNumLayers(int z) {
+	private void setNumLayers(int z)
+	{
 		while (layerCount < z) {
 			newLayer();
 		}
@@ -287,7 +326,8 @@ public class LayerEditor extends View {
 	/**
 	 * Make a new layer
 	 */
-	public void newLayer() {
+	public void newLayer()
+	{
 		layerCount++;
 		Layer newLayer = new Layer("Layer" + " " + layerCount);
 		layers.put(layerCount, newLayer);
@@ -300,11 +340,13 @@ public class LayerEditor extends View {
 	 * @param newLayer
 	 *            Layer to be selected.
 	 */
-	public void selectLayer(int newLayer) {
+	public void selectLayer(int newLayer)
+	{
 		newLayerSelected(newLayer);
 	}
 
-	private void newLayerSelected(int newVal) {
+	private void newLayerSelected(int newVal)
+	{
 		for (Layer layer : layers.values()) {
 			for (Node entity : layer.getEntities()) {
 				entity.setOpacity(0.3);
@@ -322,7 +364,8 @@ public class LayerEditor extends View {
 	/**
 	 * Select this LayerEditor (select the first layer)
 	 */
-	public void select() {
+	public void select()
+	{
 		this.selectLayer(1);
 		// allow this layer to have key actions
 		addKeyActions();
@@ -331,7 +374,8 @@ public class LayerEditor extends View {
 	/**
 	 * Show an error message
 	 */
-	private void showSelectMessage() {
+	private void showSelectMessage()
+	{
 		Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
 				workspace.getPolyglot().get("SelectAnEntity"));
 		alert.show();
@@ -342,7 +386,8 @@ public class LayerEditor extends View {
 	 * 
 	 * @return Current number of layers.
 	 */
-	public int getLayerCount() {
+	public int getLayerCount()
+	{
 		return layerCount;
 	}
 
@@ -352,7 +397,8 @@ public class LayerEditor extends View {
 	 * @param layer
 	 *            Layer to be deleted
 	 */
-	public void deleteLayer(int layer) {
+	public void deleteLayer(int layer)
+	{
 		if (layerCount == 1) {
 			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
 					workspace.getPolyglot().get("LayerError"));
@@ -367,7 +413,8 @@ public class LayerEditor extends View {
 	 * 
 	 * @param layer
 	 */
-	private void executeDelete(int layer) {
+	private void executeDelete(int layer)
+	{
 		if (layers.get(layer).getEntities().size() != 0) {
 			layers.get(layer).getEntities().stream().forEach(id -> {
 				canvas.removeEntity(id);

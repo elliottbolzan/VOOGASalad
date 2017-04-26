@@ -1,34 +1,20 @@
 package engine.entities;
 
 import engine.Entity;
-import engine.actions.FollowAction;
-import engine.events.AlwaysEvent;
 
 /**
- * This type of Entity is used to translate the display as the character progresses through the level.
+ * This type of Entity is used to translate the display as the character
+ * progresses through the level.
+ * 
  * @author Jay Doherty
  *
  */
 public class CameraEntity extends Entity {
 	
-	public CameraEntity() {		
-		this.setWidth(600);
-		this.setHeight(600);
+	@Override
+	protected void setupDefaultParameters() {
 		this.setName("Camera");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
-		this.setZ(-1);
 		this.setIsVisible(false);
-		this.setupAlwaysFollowEvent();
-	}
-	
-	private void setupAlwaysFollowEvent() {
-		FollowAction follow = new FollowAction();
-		follow.setEntity(this);
-		follow.updateParam("Leader Entity", "Mario");
-		
-		AlwaysEvent always = new AlwaysEvent();
-		always.addAction(follow);
-		
-		this.addEvent(always);
 	}
 }
