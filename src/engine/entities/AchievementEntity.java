@@ -12,4 +12,5 @@ public class AchievementEntity extends Entity{
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		addAdditionalEventClass(FinishAchievementEvent.class);
 	}
+
 }

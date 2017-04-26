@@ -24,6 +24,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import player.MediaManager;
 import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
 import utils.views.View;
@@ -185,7 +186,7 @@ public class Workspace extends View {
 		Game testGame = game.clone();
 		testGame.setTestGame(true);
 		Stage stage = new Stage();
-		new BasicPlayer(stage, testGame, polyglot, IOResources);
+		new BasicPlayer(stage, testGame, new MediaManager(testGame, null, null), polyglot, IOResources);
 		stage.show();
 	}
 

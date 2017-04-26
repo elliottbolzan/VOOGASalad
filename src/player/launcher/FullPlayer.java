@@ -31,7 +31,7 @@ public class FullPlayer extends AbstractPlayer {
 	private MediaManager mediaManager;
 
 	public FullPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
-		super(primaryStage, game, polyglot, IOResources);
+		super(primaryStage, game, mediaManager, polyglot, IOResources);
 		this.mediaManager = mediaManager;
 
 		this.buildControlBar();
