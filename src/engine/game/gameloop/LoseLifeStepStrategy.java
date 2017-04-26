@@ -23,8 +23,8 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	}
 
 	@Override
-	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
-		//Intentionally left blank.
+	protected boolean handleHighscore(GraphicsEngine graphicsEngine) {
+		return false;
 	}
 
 	@Override

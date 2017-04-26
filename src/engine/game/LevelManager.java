@@ -1,8 +1,6 @@
 package engine.game;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import engine.game.gameloop.Screen;
@@ -102,7 +100,7 @@ public class LevelManager {
 	}
 
 	public boolean levelNumberInGame(int queriedLevel) {
-		return currentLevel >= 1 && currentLevel <= levels.size();
+		return queriedLevel >= 1 && queriedLevel <= levels.size();
 	}
 
 	public int getLevelNumber() {

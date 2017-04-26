@@ -46,24 +46,22 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 
 	protected abstract int nextLevelNumber();
 
-	protected abstract void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine);
+	protected abstract boolean handleHighscore(GraphicsEngine graphicsEngine);
 	
 	protected abstract void modifyUnlockedScreens();
 	
 	private void nextScreenLevelSelectionMode() {
 		stopCurrentTimeline();
 		modifyUnlockedScreens();
-		handleHighscore(levelManager.levelNumberInGame(levelManager.getLevelNumber() + 1), graphicsEngine);
-		nextScreenAndStrategy(new LevelSelectionStepStrategy());
+		if(!handleHighscore(graphicsEngine)){
+			nextScreenAndStrategy(new LevelSelectionStepStrategy());
+		}
 	}
 
 	private void nextScreenJustLevelsMode() {
 		stopCurrentTimeline();
-		boolean hasNextLevel = levelManager.setLevelNumber(nextLevelNumber());
-		if (hasNextLevel) {
+		if(!handleHighscore(graphicsEngine) && levelManager.setLevelNumber(nextLevelNumber())){
 			nextScreenAndStrategy(new LevelStepStrategy());
-		} else {
-			handleHighscore(hasNextLevel, graphicsEngine);
 		}
 	}
 

@@ -26,10 +26,23 @@ public class NewLevelStepStrategy extends TransitionStepStrategy {
 	}
 
 	@Override
-	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
-		if(!hasNextLevel && graphicsEngine.getScorebar().isHighscore()){
+	protected boolean handleHighscore(GraphicsEngine graphicsEngine) {
+		System.out.println(levelManager.getLevelNumber() == levelManager.getLevels().size());
+		System.out.println(graphicsEngine.getScorebar().isHighscore());
+		boolean handled = levelManager.getLevelNumber() == levelManager.getLevels().size() && graphicsEngine.getScorebar().isHighscore();
+		if(handled){
+			System.out.println("Calling high scores screen");
 			graphicsEngine.endScreen();
 		}
+		return handled;
+		/*
+		System.out.println(hasNextLevel);
+		System.out.println(graphicsEngine.getScorebar().isHighscore());
+		if(!hasNextLevel && graphicsEngine.getScorebar().isHighscore()){
+			System.out.println("Calling high scores screen");
+			graphicsEngine.endScreen();
+		}
+		*/
 	}
 
 	@Override
