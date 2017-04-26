@@ -25,9 +25,21 @@ public class NextLevelStepStrategy extends TransitionStepStrategy {
 	}
 
 	@Override
-	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
-		if(!hasNextLevel && graphicsEngine.getScorebar().isHighscore()){
-				graphicsEngine.endScreen();
+	protected boolean handleHighscore(GraphicsEngine graphicsEngine) {
+		boolean handled = levelManager.getLevelNumber() == levelManager.getLevels().size() && graphicsEngine.getScorebar().isHighscore();
+		if(handled){
+			graphicsEngine.endScreen();
 		}
+		return handled;
+	}
+
+	@Override
+	protected void modifyUnlockedScreens() {
+		levelManager.addUnlockedLevel(levelManager.getLevelNumber() + 1);
+	}
+	
+	@Override
+	protected StepStrategy nextStrategyLevelSelectionMode() {
+		return new LevelSelectionStepStrategy();
 	}
 }
