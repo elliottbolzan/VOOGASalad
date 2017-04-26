@@ -17,7 +17,7 @@ public class InfoMenu extends AbstractMenu {
 
 	public InfoMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
 		super(stage, game, mediaManager, "GameInfoTitle", polyglot, IOResources);
-		setup(game);
+		setup(game);		
 	}
 	
 	private void setup(Game game){
@@ -28,6 +28,7 @@ public class InfoMenu extends AbstractMenu {
 		}
 		
 		this.setCenter(view);
+		this.setInsets();
 	}
 
 	@Override

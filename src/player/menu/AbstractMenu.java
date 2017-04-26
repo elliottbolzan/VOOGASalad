@@ -132,4 +132,8 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	public void back(Stage stage) {
 		new MainMenu(stage, game, mediaManager, getPolyglot(), getResources());
 	}
+	
+	protected void setInsets(){
+		BorderPane.setMargin(getCenter(), new Insets(10,10,10,10));
+	}
 }

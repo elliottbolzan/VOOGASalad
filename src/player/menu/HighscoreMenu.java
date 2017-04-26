@@ -8,7 +8,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import player.MediaManager;
-import player.PlayerView;
 import player.score.Score;
 import polyglot.Polyglot;
 
@@ -35,6 +34,7 @@ public class HighscoreMenu extends AbstractMenu {
 
 		scoreTable.getColumns().setAll(makeRankColumn(), makeScoreColumn(), makeTimeColumn(), makeNameColumn());
 		this.setCenter(scoreTable);
+		this.setInsets();
 	}
 	
 	private void loadScores(){
@@ -61,7 +61,7 @@ public class HighscoreMenu extends AbstractMenu {
 	private TableColumn<Score, String> makeTimeColumn(){
 		TableColumn<Score, String> time = new TableColumn<>("Time Left");
 		time.setCellValueFactory(new PropertyValueFactory<>("time"));
-		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.3));
+		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.29));
 		
 		return time;
 	}

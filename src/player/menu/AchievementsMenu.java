@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 import engine.Entity;
 import engine.entities.AchievementEntity;
 import game_data.Game;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -16,7 +19,11 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
 import player.MediaManager;
 import polyglot.Polyglot;
 
@@ -44,18 +51,20 @@ public class AchievementsMenu extends AbstractMenu {
 		AchievementEntity achievement = new AchievementEntity();
 		achievement.setName("Winner winner chicken dinner");
 		container.getChildren().add(makeAchievementBox(achievement));
+		achievement.setCompleted(20);
+		achievement.setTotal(50);
 		//
 		
 		pane.setContent(container);
 		this.setCenter(pane);
 		this.setBottom(this.makeBackButton());
+		this.setInsets();
 	}
 	
 	private HBox makeAchievementBox(Entity achievement){
 		HBox container = new HBox(5);
 		container.setBackground(new Background(new BackgroundFill(Color.DARKGRAY, null, null)));
-		container.setPrefWidth(300);
-		container.setMaxWidth(300);
+		container.prefWidthProperty().bind(this.widthProperty());
 		
 		ImageView image= new ImageView();
 		if(achievement.getImagePath() != null){
@@ -72,7 +81,9 @@ public class AchievementsMenu extends AbstractMenu {
 	
 	private VBox makeLabelBox(Entity achievement){
 		VBox box = new VBox(5);
+		box.setFillWidth(true);
 		Label name = new Label(achievement.getName());
+		name.setFont(Font.font(Font.getDefault().getFamily(), FontWeight.BOLD, Font.getDefault().getSize()));
 		Label description = new Label();
 		if(achievement.getDisplayDescription() != null){
 			description.setText((String) achievement.getParam("Description"));
@@ -86,12 +97,15 @@ public class AchievementsMenu extends AbstractMenu {
 	
 	private HBox makeProgressBox(Entity achievement){
 		HBox container = new HBox(10);
-		HBox box = new HBox();
 		ProgressBar progress = new ProgressBar();
-		Label completed = new Label();
-		Label slash = new Label("/");
-		Label total = new Label();
-		
+		HBox.getHgrow(progress);
+		Label percentage = new Label();
+		progress.progressProperty().bind(((AchievementEntity) achievement).getCompleted().divide(((AchievementEntity) achievement).getTotal()));
+		StringProperty sp = percentage.textProperty();
+		DoubleProperty dp = progress.progressProperty();
+		StringConverter<Number> converter = new NumberStringConverter();
+		Bindings.bindBidirectional(sp, dp, converter);
+		container.getChildren().addAll(progress, percentage);
 		return container;
 	}
 	
