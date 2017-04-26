@@ -3,6 +3,7 @@ package player.menu;
 import java.util.ResourceBundle;
 
 import engine.Entity;
+import engine.entities.AchievementEntity;
 import game_data.Game;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -28,6 +29,12 @@ public class AchievementsMenu extends AbstractMenu {
 		for(Entity entity : this.getGame().getAchievements()){
 			container.getChildren().add(makeAchievementBox(entity));
 		}
+		//Test
+		AchievementEntity achievement = new AchievementEntity();
+		achievement.setName("Winner winner chicken dinner");
+		container.getChildren().add(makeAchievementBox(achievement));
+		//
+		
 		pane.setContent(container);
 		this.setCenter(pane);
 	}
@@ -45,7 +52,10 @@ public class AchievementsMenu extends AbstractMenu {
 		image.setFitHeight(100);
 		image.setFitWidth(100);
 		Label name = new Label(achievement.getName());
-		Label description = new Label((String) achievement.getParam("Description"));
+		Label description = new Label();
+		if(achievement.getDisplayDescription() != null){
+			description.setText((String) achievement.getParam("Description"));
+		}
 		ProgressBar progress = new ProgressBar();
 		
 		box.getChildren().addAll(name, description, progress);
