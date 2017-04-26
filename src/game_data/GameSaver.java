@@ -42,7 +42,7 @@ public class GameSaver {
 		this.saveDefaults(game.getDefaults(), gameFolderPath);
 		this.saveSong(game.getSongPath(), game.getName(), gameFolderPath);
 		//this.saveBackground(gameFolderPath, game.getSongPath());
-		//this.saveAchievements("achievements", gameFolderPath);
+		//this.saveAchievements(game.getAchievements(), gameFolderPath);
 		this.saveGameInfo(gameFolderPath, game.getInfo());
 		this.saveDocument(gameFolderPath, SETTINGS_FILE_NAME);
 		

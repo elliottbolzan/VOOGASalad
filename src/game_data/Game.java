@@ -1,9 +1,12 @@
 package game_data;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import engine.Entity;
+import engine.entities.AchievementEntity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
@@ -25,9 +28,9 @@ public class Game {
 	private String songPath;
 	private String backPath;
 	private String info;
-	private String achievements;
-	private ObservableList<Score> scores;
-	private List<Score> scoresBase;
+	private Collection<Entity> achievements;
+	private ObservableList<Score> highscores;
+	private List<Score> highscoresBase;
 	private boolean isTestGame = false;
 
 	/**
@@ -41,8 +44,8 @@ public class Game {
 		songPath = "";
 		setBackPath("");
 		setInfo("Information about game");
-		setAchievements("");
-		scores = FXCollections.observableList(addDefaults());
+		achievements = new ArrayList<Entity>();
+		highscores = FXCollections.observableList(addDefaults());
 	}
 
 	/**
@@ -110,6 +113,7 @@ public class Game {
 	 */
 	public void setLevels(List<Level> levels) {
 		this.levels = levels;
+		this.setAchievements(levels);
 	}
 
 	/**
@@ -163,12 +167,15 @@ public class Game {
 		this.info = info;
 	}
 
-	public String getAchievements() {
+	public Collection<Entity> getAchievements() {
 		return achievements;
 	}
-
-	public void setAchievements(String achievements) {
-		this.achievements = achievements;
+	
+	public void setAchievements(Collection<Level> levels){
+		achievements = new ArrayList<>();
+		for(Level level : levels){
+			achievements.addAll(level.getEntities().stream().filter(s -> s.getClass().equals(AchievementEntity.class)).collect(Collectors.toList()));
+		}
 	}
 
 	/**
@@ -179,8 +186,8 @@ public class Game {
 	 * @param time
 	 *            the time remaining when game ended
 	 */
-	public void setScore(String score, String time, int timeValue, String name) {
-		for (int i = 0; i < scoresBase.size(); i++) {
+	public void setHighscores(String score, String time, int timeValue, String name) {
+		for (int i = 0; i < highscoresBase.size(); i++) {
 			if (isHighscore(score, timeValue, i)) {
 				shiftScores(i, score, time, name);
 				break;
@@ -196,41 +203,41 @@ public class Game {
 	 * @returns boolean for if the new score is a highscore
 	 */
 	public boolean isHighscore(String score, int timeValue, int i) {
-		if (Integer.parseInt(score) > Integer.parseInt(scoresBase.get(i).getScore())) {
+		if (Integer.parseInt(score) > Integer.parseInt(highscoresBase.get(i).getScore())) {
 			return true;
 		} else {
-			return Integer.parseInt(score) == Integer.parseInt(scoresBase.get(i).getScore())
-					&& timeValue > scoresBase.get(i).getTimeValue();
+			return Integer.parseInt(score) == Integer.parseInt(highscoresBase.get(i).getScore())
+					&& timeValue > highscoresBase.get(i).getTimeValue();
 		}
 	}
 
 	private void shiftScores(int i, String score, String time, String name) {
 		// Shift scores down
-		for (int j = i; j < scoresBase.size() - 1; j++) {
-			scoresBase.get(j + 1).setScore(scoresBase.get(j).getScore());
-			scoresBase.get(j + 1).setTime(scoresBase.get(j).getTime());
+		for (int j = i; j < highscoresBase.size() - 1; j++) {
+			highscoresBase.get(j + 1).setScore(highscoresBase.get(j).getScore());
+			highscoresBase.get(j + 1).setTime(highscoresBase.get(j).getTime());
 		}
 		// Replace score
-		scoresBase.get(i).setScore(score);
-		scoresBase.get(i).setTime(time);
-		scoresBase.get(i).setName(name);
+		highscoresBase.get(i).setScore(score);
+		highscoresBase.get(i).setTime(time);
+		highscoresBase.get(i).setName(name);
 	}
 
 	/**
 	 * 
 	 * @return the list of highscores
 	 */
-	public ObservableList<Score> getScores() {
-		return scores;
+	public ObservableList<Score> getHighscores() {
+		return highscores;
 	}
 
 	private List<Score> addDefaults() {
-		scoresBase = new ArrayList<>();
+		highscoresBase = new ArrayList<>();
 		for (int i = 1; i <= 10; i++) {
-			scoresBase.add(new Score(i));
+			highscoresBase.add(new Score(i));
 		}
 
-		return scoresBase;
+		return highscoresBase;
 	}
 
 	/**
@@ -258,7 +265,6 @@ public class Game {
 		cloneGame.setSongPath(this.songPath);
 		cloneGame.setBackPath(this.backPath);
 		cloneGame.setInfo(this.info);
-		cloneGame.setAchievements(this.achievements);
 		// TODO: clone scores
 		cloneGame.setTestGame(this.isTestGame);
 		return cloneGame;

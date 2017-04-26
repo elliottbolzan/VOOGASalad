@@ -103,7 +103,7 @@ public class Scorebar {
 		// game.getHighScores();
 		// check if this score should be added
 		// game.setHighScores();
-		game.setScore(getScore(), getTime(), getTimeValue(), name);
+		game.setHighscores(getScore(), getTime(), getTimeValue(), name);
 	}
 
 	private String convertScore(int score) {

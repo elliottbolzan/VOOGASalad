@@ -97,6 +97,7 @@ public class FullPlayer extends AbstractPlayer {
 		savedGame.setDefaults(this.getGame().getDefaults());
 		savedGame.setName(this.getGame().getName());
 		savedGame.setSongPath(this.getGame().getSongPath());
+		//TODO: savedGame.setLevels();
 		mediaManager.saveGame(this.getGame());
 	}
 	
