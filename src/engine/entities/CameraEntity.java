@@ -3,7 +3,9 @@ package engine.entities;
 import engine.Entity;
 
 /**
- * This type of Entity is used to translate the display as the character progresses through the level.
+ * This type of Entity is used to translate the display as the character
+ * progresses through the level.
+ * 
  * @author Jay Doherty
  *
  */

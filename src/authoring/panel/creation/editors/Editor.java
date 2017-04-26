@@ -105,6 +105,7 @@ public abstract class Editor extends View {
 		table.setPlaceholder(placeholder);
 		table.prefHeightProperty().bind(heightProperty());
 		table.setEditable(true);
+		table.getStyleClass().add("visible-container");
 		ObservableList<Parameter> items = FXCollections.observableArrayList(parameters);
 		table.setItems(items);
 		table.getColumns().setAll(makeKeyColumn(), makeValueColumn());

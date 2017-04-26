@@ -56,7 +56,7 @@ public class EntityInfo extends View {
 	private void setup() {
 		VBox box = new VBox(20);
 		box.getChildren().addAll(createNameBox(), new Separator(), createImageBox(), new Separator(), createScaleBox(),
-				new Separator(), createButtonBar());
+				createButtonBar());
 		box.setPadding(new Insets(20));
 		setCenter(box);
 	}

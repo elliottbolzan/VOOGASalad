@@ -2,9 +2,9 @@ package game_data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import engine.Entity;
 import engine.entities.AchievementEntity;
 import engine.entities.CameraEntity;
@@ -102,6 +102,7 @@ public class Game {
 	 */
 	public List<Level> getLevels() {
 		return levels;
+		//return Collections.unmodifiableList(levels);
 	}
 
 	/**
@@ -120,6 +121,7 @@ public class Game {
 	 */
 	public List<Entity> getDefaults() {
 		return defaults;
+		//return Collections.unmodifiableList(defaults);
 	}
 
 	/**
