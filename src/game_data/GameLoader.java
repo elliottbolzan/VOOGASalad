@@ -24,55 +24,49 @@ import exceptions.NotAGameFolderException;
 
 public class GameLoader {
 
-	private ResourceManager rm;
+	private ResourceManager resourceManager;
 
 	/**
 	 * Loads game given the folder path and returns the entities and songpath
 	 * necessary
 	 * 
 	 * @param gameFolderPath
-	 *            : folderpath to load game from
+	 *            : path to load game from
 	 * @return
 	 * @throws NotAGameFolderException
 	 *             : incorrect folder path exception
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
 		
-		String tempPath= System.getProperty("java.io.tmpdir");
-		//System.out.println(System.getProperty("java.io.tmpdir"));
+		String tempFolderPath = System.getProperty("java.io.tmpdir");
 		(new Unpackager()).unzip(gameFolderPath, System.getProperty("java.io.tmpdir"));
-		//(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".vs", ""));
 		
+		//(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".vs", ""));
 		//gameFolderPath = gameFolderPath.replace(".vs", "");
-		File dataFile = new File(tempPath + File.separator + saveName);
 		//File dataFile = new File(gameFolderPath + File.separator + saveName);
+		
+		File dataFile = new File(tempFolderPath + File.separator + saveName);
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
 		
-		rm = new ResourceManager();
+		resourceManager = new ResourceManager();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
-		Document doc = docBuilder.parse(tempPath + File.separator + saveName);
+		Document doc = docBuilder.parse(tempFolderPath + File.separator + saveName);
 		//Document doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
 		
 		Game game = new Game();
 		addName(game, doc);
-		addLevels(game, doc, tempPath);
-		addDefaults(game, doc, tempPath);
-		addSong(game, doc, tempPath);
-		addInfo(game, doc, tempPath);
+		addInfo(game, doc);
+		addLevels(game, doc, tempFolderPath);
+		addDefaults(game, doc, tempFolderPath);
+		addSong(game, doc, tempFolderPath);
 		
 		//addLevels(game, doc, gameFolderPath);
 		//addDefaults(game, doc, gameFolderPath);
 		//addSong(game, doc, gameFolderPath);
-		//addInfo(game, doc, gameFolderPath);
-		// addAchievements(game, doc, newPath);
-		// addBackground(game, doc, newPath);
-		//addInfo(game, doc, newPath);
-		//addCamera(game, doc, newPath);
-		//game.setCurrentPath(gameFolderPath);
-//		new DataSender(game);
+		
 		return game;
 	}
 
@@ -81,16 +75,7 @@ public class GameLoader {
 		//game.setAchievements(achieveNode.item(0).getAttributes().item(0).getNodeValue());
 	}
 
-	private void addBackground(Game game, Document doc, String folderPath) {
-		try {
-			NodeList nodes = doc.getElementsByTagName("Resources");
-			game.setBackPath(folderPath + File.separator + nodes.item(0).getAttributes().item(0).getNodeValue());
-		} catch (Exception e) {
-			game.setBackPath("");
-		}
-	}
-
-	private void addInfo(Game game, Document doc, String folderPath) {
+	private void addInfo(Game game, Document doc) {
 		NodeList infoNode = doc.getElementsByTagName("GameInfo");
 		game.setInfo(infoNode.item(0).getAttributes().item(0).getNodeValue());
 	}
@@ -104,7 +89,7 @@ public class GameLoader {
 	 *            : Document that contains game name, extracted by XML
 	 */
 	private void addName(Game game, Document doc) {
-		NodeList nameNodes = doc.getElementsByTagName(rm.getNameTitle());
+		NodeList nameNodes = doc.getElementsByTagName(resourceManager.getNameTitle());
 		game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
 	}
 
@@ -120,7 +105,7 @@ public class GameLoader {
 	 */
 	private void addSong(Game game, Document doc, String gameFolderPath) {
 		try {
-			NodeList songNodes = doc.getElementsByTagName(rm.getResourceTitle());
+			NodeList songNodes = doc.getElementsByTagName(resourceManager.getResourceTitle());
 			game.setSongPath(gameFolderPath + File.separator
 					+ convertPathForSystem(songNodes.item(0).getAttributes().item(0).getNodeValue()));
 		} catch (Exception e) {
@@ -140,7 +125,7 @@ public class GameLoader {
 	 *            : top-level directory of the game
 	 */
 	private void addDefaults(Game game, Document doc, String gameFolderPath) {
-		NodeList defaultsNode = doc.getElementsByTagName(rm.getDefaultsTitle());
+		NodeList defaultsNode = doc.getElementsByTagName(resourceManager.getDefaultsTitle());
 		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0);
 		game.setDefaults(getEntities(entitiesNode, gameFolderPath));
 	}
@@ -156,7 +141,7 @@ public class GameLoader {
 	 *            : top-level directory of the game
 	 */
 	private void addLevels(Game game, Document doc, String gameFolderPath) {
-		NodeList levelsNode = doc.getElementsByTagName(rm.getLevelsTitle());
+		NodeList levelsNode = doc.getElementsByTagName(resourceManager.getLevelsTitle());
 		NodeList levelsList = levelsNode.item(0).getChildNodes();
 		List<Level> gameLevels = new ArrayList<Level>();
 
@@ -204,7 +189,7 @@ public class GameLoader {
 		NodeList entitiesList = entitiesNode.getChildNodes();
 		List<Entity> entityList = new ArrayList<Entity>();
 		for (int i = 0; i < entitiesList.getLength(); i++) {
-			if (entitiesList.item(i).getNodeName().equals(rm.getEntityState())) {
+			if (entitiesList.item(i).getNodeName().equals(resourceManager.getEntityState())) {
 				Entity instantiatedEntity = getEntityFromElement((Element) entitiesList.item(i), gameFolderPath);
 				entityList.add(instantiatedEntity);
 			}

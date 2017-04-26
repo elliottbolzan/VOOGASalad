@@ -10,13 +10,13 @@ import javafx.scene.media.MediaPlayer;
 
 public class MediaManager {
 
-	private String gamePath;
+	private String gameFolderPath;
 	private MediaPlayer songPlayer;
 	private ObservableList<String> saveStates;
 	private int count = 0;
 
 	public MediaManager(Game game, String gamePath, ObservableList<String> saveStates) {
-		this.gamePath = gamePath;
+		this.gameFolderPath = gamePath;
 		this.saveStates = saveStates;
 		if (!game.getSongPath().equals("")) {
 			String uriString = new File(game.getSongPath()).toURI().toString();
@@ -29,7 +29,7 @@ public class MediaManager {
 	}
 
 	public String getGamePath() {
-		return gamePath;
+		return gameFolderPath;
 	}
 
 	public MediaPlayer getMediaPlayer() {
@@ -57,7 +57,7 @@ public class MediaManager {
 		count++;
 		String saveName = "save" + "_" + count + ".xml";
 		GameData saver = new GameData();
-		saver.saveGameState(game, gamePath, saveName);
+		saver.saveGameState(game, gameFolderPath, saveName);
 		saveStates.add(saveName);
 	}
 }

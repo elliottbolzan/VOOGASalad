@@ -41,8 +41,8 @@ public class LoadMenu extends AbstractMenu {
 		GameData data = new GameData();
 		try {
 			Game game = data.loadGameState(this.getMediaManager().getGamePath(), saveName);
-			MediaManager loader = new MediaManager(game, getMediaManager().getGamePath(), saveStates);
-			new FullPlayer(stage, game, loader, this.getPolyglot(), this.getResources());
+			MediaManager mediaManager = new MediaManager(game, this.getMediaManager().getGamePath(), saveStates);
+			new FullPlayer(stage, game, mediaManager, this.getPolyglot(), this.getResources());
 		} catch (Exception e) {
 			// Game couldn't be loaded, perhaps a wrong Game selected. Might
 			// want to tell user!
