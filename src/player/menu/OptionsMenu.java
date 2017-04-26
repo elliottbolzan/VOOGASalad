@@ -29,6 +29,11 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * 
+ * @author Jesse
+ *
+ */
 public class OptionsMenu extends AbstractMenu {
 
 	private ScrollPane center;
@@ -40,10 +45,10 @@ public class OptionsMenu extends AbstractMenu {
 
 	public OptionsMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
 		super(stage, game, mediaManager, "OptionsTitle", polyglot, IOResources);
-		setup();
 	}
-
-	private void setup() {
+	
+	@Override
+	public void addElements() {
 		center = new ScrollPane();
 		center.setFitToWidth(true);
 		keys = new HashMap<>();
@@ -77,8 +82,8 @@ public class OptionsMenu extends AbstractMenu {
 			count++;
 		}
 
-		//TODO: make this more elegant
-		grid.add(this.makeBackButton(), 1, 0);
+		this.setBottom(this.makeBackButton());
+		
 	}
 
 	private Slider setupVolumeSlider() {
@@ -173,10 +178,6 @@ public class OptionsMenu extends AbstractMenu {
 		key.setText(e.toString());
 	}
 
-	@Override
-	public void addElements() {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }

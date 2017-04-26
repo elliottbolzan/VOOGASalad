@@ -25,7 +25,7 @@ public class LoadMenu extends AbstractMenu {
 	private Tile playTile;
 
 	public LoadMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
-		super(stage, game, mediaManager, "LoadTitle", polyglot, IOResources);
+		super(stage, game, mediaManager, null, polyglot, IOResources);
 		saveStates = FXCollections.observableArrayList();
 		mediaManager.setSaves(saveStates);
 		saveTiles = FXCollections.observableArrayList();
