@@ -37,9 +37,9 @@ public class GameLoader {
 	 *             : incorrect folder path exception
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
-		(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".zip", ""));
+		(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".vs", ""));
 		
-		gameFolderPath = gameFolderPath.replace(".zip", "");
+		gameFolderPath = gameFolderPath.replace(".vs", "");
 
 		File dataFile = new File(gameFolderPath + File.separator + saveName);
 		if (!dataFile.exists()) {
