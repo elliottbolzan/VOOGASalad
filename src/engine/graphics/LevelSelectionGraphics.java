@@ -26,9 +26,7 @@ public class LevelSelectionGraphics {
 	private static final Insets PADDING = new Insets(80, 20, 20, 20);
 	private static final String LEVEL_TEXT_NAME = "LevelStringSelectionScreen";
 	private static final String LEVEL_LOCKED_TEXT_NAME = "LevelLockedStringSelectionScreen";
-	private static final String QUIT_TEXT_NAME = "QuitStringSelectionScreen";
-	private static final String[] POSSIBLE_TILE_COLORS = {"orange", "yellow", "green", "blue"};
-	private static final String QUIT_BUTTON_COLOR = "red";
+	private static final String[] POSSIBLE_TILE_COLORS = {"red", "orange", "yellow", "green", "blue"};
 
 	private BorderPane displayArea;
 	private LevelManager levelManager;
@@ -58,11 +56,9 @@ public class LevelSelectionGraphics {
 
 	private void displayButtons() {
 		int levelNumber = 1;
-		int firstOpenCellRow = -1, firstOpenCellColumn = -1;
-		int row = 0;
 		
 		for(int column = 0; column < COLUMNS; column++){
-			for(row = 0; row < levelManager.getLevels().size()/COLUMNS; row++){
+			for(int row = 0; row < levelManager.getLevels().size()/COLUMNS; row++){
 				if(levelNumber <= levelManager.getLevels().size()){
 					StringBinding text;
 					EventHandler<Event> handler;
@@ -77,21 +73,10 @@ public class LevelSelectionGraphics {
 					}
 					addTile(text, POSSIBLE_TILE_COLORS[levelNumber % POSSIBLE_TILE_COLORS.length], handler, row, column);
 				}
-				else{
-					firstOpenCellRow = row;
-					firstOpenCellColumn = column;
-					break;
-				}
 				levelNumber++;
 			}
 		}
-		
-		if(firstOpenCellRow == -1 || firstOpenCellColumn == -1){
-			addTile((StringBinding) polyglot.get(QUIT_TEXT_NAME, Case.TITLE), QUIT_BUTTON_COLOR, e -> strategy.quit(), row + 1, 0);
-		}
-		else{
-			addTile((StringBinding) polyglot.get(QUIT_TEXT_NAME, Case.TITLE), QUIT_BUTTON_COLOR, e -> strategy.quit(), firstOpenCellRow, firstOpenCellColumn);
-		}
+
 	}
 	
 	private void addTile(StringBinding stringBinding, String colorName, EventHandler<Event> handler, int row, int column){

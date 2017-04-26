@@ -44,8 +44,4 @@ public class LevelSelectionStepStrategy implements StepStrategy{
 		}
 	}
 	
-	public void quit(){
-		levelManager.getCurrentScreen().getTimeline().stop();
-	}
-	
 }
