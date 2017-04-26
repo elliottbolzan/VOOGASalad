@@ -3,23 +3,20 @@ package engine.entities;
 import engine.Entity;
 
 /**
- * @author nikita Entity that represents a character. Different from a block in
- *         that it can have additional information, such as health or lives.
+ * Entity that represents a character. Different from a block in that it can
+ * have additional information, such as health or lives.
+ * 
+ * @author nikita
  */
 public class CharacterEntity extends Entity {
 	// TODO currently lives are stored in Scorebar, which is necessary since it
 	// needs to save between
 	// instantiations of entities. Need to remake it changeable by the GAE.
 
-	public CharacterEntity() {
-		
-	}
-
 	@Override
 	protected void setupDefaultParameters() {
 		this.setName("Mario");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
-	
 		this.updateParam("Lives", 5);
 		this.setYAcceleration(Entity.YACCELERATION);
 	}
@@ -31,7 +28,6 @@ public class CharacterEntity extends Entity {
 	@Override
 	public int getLives() {
 		return getGameInfo().getScorebar().getLives();
-		// return (Integer) getParam("Lives");
 	}
 
 	/**

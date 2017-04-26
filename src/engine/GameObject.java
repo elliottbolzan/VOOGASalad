@@ -1,6 +1,7 @@
 package engine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -52,6 +53,7 @@ public abstract class GameObject {
 
 	public List<Parameter> getParams() {
 		return params;
+		//return Collections.unmodifiableList(params);
 	}
 
 	public void addParam(Parameter param) {
@@ -60,6 +62,15 @@ public abstract class GameObject {
 
 	public void updateParam(String name, Object value) {
 		findParameter(name).setObject(value);
+	}
+	
+	public boolean hasParam(String name) {
+		for (Parameter param : params) {
+			if (param.getName().equals(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void setParams(List<Parameter> params) {

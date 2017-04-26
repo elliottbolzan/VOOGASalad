@@ -13,6 +13,7 @@ import engine.graphics.GraphicsEngine;
  */
 public class GameOverStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "GameOver";
+
 	private LevelManager levelManager;
 	private GameInfo info;
 	

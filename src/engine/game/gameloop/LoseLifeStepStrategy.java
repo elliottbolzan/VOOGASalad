@@ -11,7 +11,7 @@ import engine.graphics.GraphicsEngine;
 public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "LivesLeft";
 	private LevelManager levelManager;
-	
+
 	public LoseLifeStepStrategy(LevelManager levelManager) {
 		super(RESOURCE_NAME);
 		this.levelManager = levelManager;

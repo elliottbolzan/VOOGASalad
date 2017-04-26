@@ -60,11 +60,11 @@ public class GameSaver {
 		}
 		try {
 			Packager zipper = new Packager();
-			zipper.packZip(new File(gameFolderPath + ".zip"), toCompress);
+			zipper.packZip(new File(gameFolderPath + ".vs"), toCompress);
 		} catch(IOException e) {
 			//TODO
 		}
-		//this.deleteDir(dir);
+		this.deleteDir(dir);
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class GameSaver {
 		List<Element> xmlDefaults = entitySaver.getEntityListAsXML(defaults, gameFolderPath);
 		
 		LevelSaver saver = new LevelSaver(gameXMLFactory);
-		Element defaultsElement = saver.wrapLevelInXMLTags(xmlDefaults, null);
+		Element defaultsElement = saver.wrapEntityListInXMLTags(xmlDefaults);
 		gameXMLFactory.addDefaultEntity(defaultsElement);
 	}
 	

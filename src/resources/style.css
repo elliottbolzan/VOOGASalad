@@ -25,30 +25,11 @@
 }
 
 .split-pane > .split-pane-divider {  
-    -fx-padding: 0 2 0 2;  
-} 
-
-#entity-table .table-column {
- 	-fx-alignment: CENTER;
+    -fx-padding: 0 1 0 1;
+    -fx-background-color: #101010;
 }
 
-#entity-table .table-row-cell {
-    -fx-cell-size: 60px;
-}
-
-#entity-table .table-cell {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent -fx-table-cell-border-color -fx-table-cell-border-color transparent;
-    -fx-table-cell-border-color:transparent;
-}
-
-#entity-table .column-header-background {
-    -fx-max-height: 0;
-    -fx-pref-height: 0;
-    -fx-min-height: 0;
-}
-
-.table-view, .list-view {
+.visible-container {
     -fx-control-inner-background: #606060;
 }
 
@@ -146,6 +127,50 @@
 	-fx-background-color: #101010;
 }
 
+.button, .combo-box {
+	-fx-background-color: #101010;
+	-fx-background-radius: 0;
+    -fx-border-radius: 0;
+}
+
 .text-input, .text-input:focused { 
-	-fx-prompt-text-fill:darkgray;
+	-fx-prompt-text-fill: darkgray;
+}
+
+.dialog-pane {
+    -fx-background-color: -fx-base;
+}
+
+.dialog-pane:header *.header-panel {
+    -fx-background-color: #101010;
+}
+
+.gae-tile {
+	-fx-background-color: #101010;
+	-fx-padding: 15px;
+    -fx-border-insets: 15px;
+    -fx-background-insets: 15px;
+    -fx-border-radius: 2px;
+    -fx-background-radius: 2px;
+}
+
+.accordion .titled-pane > *.content {
+    -fx-background-color: #101010;
+}
+
+.accordion .titled-pane .title {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+	-fx-background: #101010;
+}
+
+.scroll-pane .scroll-bar {
+	-fx-background: transparent;
+}
+
+.bordered {
+	-fx-border-color: #101010;
+	-fx-background-color: black;
 }

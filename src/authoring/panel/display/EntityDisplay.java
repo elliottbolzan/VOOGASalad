@@ -26,10 +26,15 @@ public class EntityDisplay extends EditableContainer {
 
 	/**
 	 * Creates an EntityDisplay.
-	 * @param workspace the workspace that owns the EntityDisplay.
+	 * 
+	 * @param workspace
+	 *            the workspace that owns the EntityDisplay.
 	 */
 	public EntityDisplay(Workspace workspace) {
 		super(workspace, "EntityDisplayTitle");
+		getStyleClass().add("bordered");
+		addTooltips(workspace.getPolyglot().get("AddEntity"), workspace.getPolyglot().get("EditEntity"),
+				workspace.getPolyglot().get("DeleteEntity"));
 	}
 
 	/**
@@ -41,7 +46,9 @@ public class EntityDisplay extends EditableContainer {
 
 	/**
 	 * Add an Entity to the EntityDisplay.
-	 * @param entity the Entity to be added.
+	 * 
+	 * @param entity
+	 *            the Entity to be added.
 	 */
 	public void addEntity(Entity entity) {
 		if (getCurrentlyEditing() != null) {
@@ -51,7 +58,9 @@ public class EntityDisplay extends EditableContainer {
 		getWorkspace().getDefaults().add(entity);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.components.EditableContainer#createNew()
 	 */
 	@Override
@@ -60,18 +69,26 @@ public class EntityDisplay extends EditableContainer {
 		new EntityMaker(getWorkspace(), this, null);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.components.EditableContainer#edit()
 	 */
 	@Override
 	public void edit() {
 		if (selectionExists(getSelection())) {
-			setCurrentlyEditing(getSelection());
-			new EntityMaker(getWorkspace(), this, getSelection());
+			editHelper(getSelection());
 		}
 	}
 
-	/* (non-Javadoc)
+	public void editHelper(Entity entity) {
+		setCurrentlyEditing(entity);
+		new EntityMaker(getWorkspace(), this, entity);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.components.EditableContainer#delete()
 	 */
 	@Override
@@ -80,7 +97,9 @@ public class EntityDisplay extends EditableContainer {
 			getWorkspace().getDefaults().remove(getSelection());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.components.EditableContainer#createContainer()
 	 */
 	@Override

@@ -13,7 +13,7 @@ public class NewLevelStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME_LAST_WIN = "WinGame";
 	private LevelManager levelManager;
 	private int newLevel;
-	
+
 	public NewLevelStepStrategy(LevelManager levelManager, int newLevel) {
 		super(levelManager.getLevelNumber() == levelManager.getLevels().size() ? RESOURCE_NAME_LAST_WIN : RESOURCE_NAME_REGULAR_WIN);
 		this.levelManager = levelManager;
