@@ -72,7 +72,6 @@ public class Networking {
 
 	private void received(Packet packet) {
 		if (packet != null && packet.getIdentifier().equals(identifier)) {
-			System.out.println("Received: " + packet);
 			if (packet instanceof Message) {
 				workspace.getPanel().getChat().received(packet);
 			}

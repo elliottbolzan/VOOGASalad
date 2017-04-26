@@ -44,6 +44,7 @@ public class Chat extends View {
 	}
 
 	private void setup() {
+		getStyleClass().add("bordered");
 		username = System.getProperty("user.name");
 		log = new Log(workspace, username);
 		log.setPrefHeight(Double.MAX_VALUE);

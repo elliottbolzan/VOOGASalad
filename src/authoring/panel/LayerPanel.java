@@ -21,7 +21,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import polyglot.Case;
@@ -41,6 +40,11 @@ public class LayerPanel extends View {
 	public LayerPanel(Workspace workspace) {
 		super(workspace.getPolyglot().get("LayerPanelTitle", Case.TITLE));
 		this.workspace = workspace;
+		setup();
+	}
+
+	private void setup() {
+		getStyleClass().add("bordered");
 		selectionModel = FXCollections.observableArrayList();
 		nameList = new HashMap<String, ArrayList<String>>();
 		myBox = new ComboBox<String>();
@@ -59,8 +63,7 @@ public class LayerPanel extends View {
 			initCloseRequest(e);
 			delete();
 		}, true);
-		container.getChildren().addAll(new VBox(myBox, addButton), new Separator(),
-				createVelocitySlider(), new Separator(), deleteButton);
+		container.getChildren().addAll(myBox, new VBox(deleteButton, addButton), createVelocitySlider());
 		container.setPadding(new Insets(20));
 		setCenter(container);
 	}
@@ -160,7 +163,7 @@ public class LayerPanel extends View {
 		myBox.setItems(selectionModel);
 		myBox.setValue(selectionModel.get(0));
 	}
-	
+
 	public void selectLevelBox(int layerNum) {
 		myBox.getItems().clear();
 		for (int i = 0; i < layerNum; i++) {
@@ -168,6 +171,5 @@ public class LayerPanel extends View {
 		}
 		myBox.setValue(String.format("Layer %d", 1));
 	}
-
 
 }
