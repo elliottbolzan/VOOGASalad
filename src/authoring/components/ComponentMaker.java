@@ -25,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -148,10 +149,14 @@ public class ComponentMaker {
 		for (int i = 0; i < subviews.size(); i++) {
 			Label infoLabel = new Label("  ?  ");
 			TitledPane pane = new TitledPane();
-			infoLabel.setStyle("-fx-border-color: white;");
+			//infoLabel.setStyle("-fx-border-color: white;");
 			pane.setContentDisplay(ContentDisplay.RIGHT);
 			pane.setGraphic(infoLabel);
 			pane.textProperty().bind(subviews.get(i).getTitle());
+			Text t = new Text(pane.getText());
+
+			pane.setGraphicTextGap(188-t.getBoundsInLocal().getWidth());
+			//System.out.println(infoLabel.getBoundsInParent().getX());
 			pane.setContent(subviews.get(i));
 			titledPanes.add(pane);
 		}
@@ -160,13 +165,6 @@ public class ComponentMaker {
 		return accordion;
 	}
 	
-	public void setTooltipGraphics(Accordion accordion){
-		Label infoLabel = new Label("  ?  ");
-		double width = infoLabel.getWidth();
-		System.out.println(accordion.getBoundsInParent().getWidth());
-		accordion.getPanes().stream().forEach(pane -> pane.setGraphicTextGap(accordion.getBoundsInParent().getWidth()-width));
-	}
-
 	/**
 	 * @param property
 	 *            the property that provides the title of the Button.

@@ -32,7 +32,6 @@ public class Panel extends CollapsibleView {
 	private Settings settings;
 	private LayerPanel layerPanel;
 	private InfoPanel info;
-	private Accordion accordion;
 
 	/**
 	 * Returns a Panel.
@@ -72,14 +71,9 @@ public class Panel extends CollapsibleView {
 	 * Create the Accordion and add it to the view.
 	 */
 	private void setup() {
-		accordion = workspace.getMaker().makeAccordion(subviews);
-		setCenter(accordion);
+		setCenter(workspace.getMaker().makeAccordion(subviews));
 	}
 	
-	public void setGraphics(){
-		workspace.getMaker().setTooltipGraphics(accordion);
-	}
-
 	/**
 	 * @return the EntityDisplay.
 	 */
