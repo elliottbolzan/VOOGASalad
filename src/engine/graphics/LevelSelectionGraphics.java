@@ -20,12 +20,12 @@ import polyglot.Polyglot;
  *
  */
 public class LevelSelectionGraphics {
-	private static final int LOCKED_LEVEL_OPACITY = 0;
 	private static final int COLUMNS = 2;
 	private static final int HORIZONTAL_GAP = 20;
 	private static final int VERTICAL_GAP = HORIZONTAL_GAP;
 	private static final Insets PADDING = new Insets(80, 20, 20, 20);
 	private static final String LEVEL_TEXT_NAME = "LevelStringSelectionScreen";
+	private static final String LEVEL_LOCKED_TEXT_NAME = "LevelLockedStringSelectionScreen";
 	private static final String QUIT_TEXT_NAME = "QuitStringSelectionScreen";
 	private static final String[] POSSIBLE_TILE_COLORS = {"orange", "yellow", "green", "blue"};
 	private static final String QUIT_BUTTON_COLOR = "red";
@@ -64,18 +64,18 @@ public class LevelSelectionGraphics {
 		for(int column = 0; column < COLUMNS; column++){
 			for(row = 0; row < levelManager.getLevels().size()/COLUMNS; row++){
 				if(levelNumber <= levelManager.getLevels().size()){
+					StringBinding text;
 					EventHandler<Event> handler;
 					if(levelManager.getUnlockedLevelNumbers().contains(levelNumber)){
 						final int copyOfLevelNumber = levelNumber; //Needed because if use inside lambda's inner class, must be final (bug fix citation: http://stackoverflow.com/questions/33799800/java-local-variable-mi-defined-in-an-enclosing-scope-must-be-final-or-effective)
 						handler = e -> strategy.moveToLevelScreen(copyOfLevelNumber);
+						text = (StringBinding) polyglot.get(LEVEL_TEXT_NAME, Case.TITLE).concat(" " + levelNumber);
 					}
 					else{
 						handler = e -> {/*Intentionally left blank.*/};
+						text = polyglot.get(LEVEL_LOCKED_TEXT_NAME, Case.UPPER);
 					}
-					Tile tile = addTile((StringBinding) polyglot.get(LEVEL_TEXT_NAME, Case.TITLE).concat(" " + levelNumber), POSSIBLE_TILE_COLORS[levelNumber % POSSIBLE_TILE_COLORS.length], handler, row, column);
-					if(!levelManager.getUnlockedLevelNumbers().contains(levelNumber)){
-						tile.setOpacity(LOCKED_LEVEL_OPACITY);
-					}
+					addTile(text, POSSIBLE_TILE_COLORS[levelNumber % POSSIBLE_TILE_COLORS.length], handler, row, column);
 				}
 				else{
 					firstOpenCellRow = row;
@@ -94,9 +94,8 @@ public class LevelSelectionGraphics {
 		}
 	}
 	
-	private Tile addTile(StringBinding stringBinding, String colorName, EventHandler<Event> handler, int row, int column){
+	private void addTile(StringBinding stringBinding, String colorName, EventHandler<Event> handler, int row, int column){
 		Tile tile = new Tile(stringBinding, colorName, handler);
 		pane.add(tile, column, row);
-		return tile;
 	}
 }
