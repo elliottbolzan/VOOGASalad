@@ -100,6 +100,15 @@ public class DefaultEntities {
 	public List<String> getNames() {
 		return entities.stream().map(Entity::getName).collect(Collectors.toList());
 	}
+	
+	public Entity getEntity(String name) {
+		for (Entity entity: entities) {
+			if (entity.getName().equals(name)) {
+				return entity;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Update the current Game's default Entities.

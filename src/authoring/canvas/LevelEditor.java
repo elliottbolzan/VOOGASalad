@@ -10,6 +10,7 @@ import engine.game.Level;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
+import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -102,6 +103,8 @@ public class LevelEditor extends View {
 		tabPane.getTabs().add(newTab());
 		tabPane.getTabs().add(makePlusTab());
 		setCenter(tabPane);
+		setPadding(new Insets(0, 10, 0, 5));
+		getStyleClass().add("gae-tile");
 		this.addKeyActions();
 	}
 

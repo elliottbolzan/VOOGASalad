@@ -107,12 +107,14 @@ public abstract class EditableContainer extends View {
 		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if (mouseEvent.getClickCount() == 1) {
-					if (single != null) {
-						single.run();
+				if (list.getSelectionModel().getSelectedItem() != null) {
+					if (mouseEvent.getClickCount() == 1) {
+						if (single != null) {
+							single.run();
+						}
+					} else if (mouseEvent.getClickCount() == 2) {
+						edit();
 					}
-				} else if (mouseEvent.getClickCount() == 2) {
-					edit();
 				}
 			}
 		});

@@ -90,7 +90,7 @@ public class Workspace extends View {
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
-		pane.setDividerPositions(0.25);
+		pane.setDividerPositions(0.27);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
 		setTop(new WorkspaceMenu(this));
@@ -104,9 +104,6 @@ public class Workspace extends View {
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
 				levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
-				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2.
-				// e2.getSceneY(),
-				// levelEditor.getCurrentLevel().getCurrentLayer());
 				levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});

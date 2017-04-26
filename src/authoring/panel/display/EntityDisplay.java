@@ -66,9 +66,13 @@ public class EntityDisplay extends EditableContainer {
 	@Override
 	public void edit() {
 		if (selectionExists(getSelection())) {
-			setCurrentlyEditing(getSelection());
-			new EntityMaker(getWorkspace(), this, getSelection());
+			editHelper(getSelection());
 		}
+	}
+	
+	public void editHelper(Entity entity) {
+		setCurrentlyEditing(entity);
+		new EntityMaker(getWorkspace(), this, entity);
 	}
 
 	/* (non-Javadoc)
@@ -91,6 +95,7 @@ public class EntityDisplay extends EditableContainer {
 		list.setPlaceholder(placeholder);
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
+		list.setId("entity-display");
 		list.setCellFactory(param -> new ListCell<Entity>() {
 			@Override
 			protected void updateItem(Entity entity, boolean empty) {

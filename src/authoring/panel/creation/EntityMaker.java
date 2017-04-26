@@ -8,6 +8,7 @@ import utils.views.View;
 import engine.Entity;
 import engine.Event;
 import engine.game.EngineController;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -95,7 +96,7 @@ public class EntityMaker extends View {
 	 * Closes the EntityMaker.
 	 */
 	public void dismiss() {
-		stage.close();
+		stage.close();	
 	}
 
 	/**
