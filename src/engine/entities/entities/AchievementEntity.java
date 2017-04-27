@@ -1,14 +1,10 @@
 package engine.entities.entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import engine.Parameter;
 import engine.entities.Entity;
 import engine.events.Event;
 import engine.events.additional_events.FinishAchievementEvent;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * Entity for achievements. Properties of achievements are very similar to those
@@ -19,46 +15,32 @@ import javafx.beans.property.SimpleIntegerProperty;
  * @author nikita
  */
 public class AchievementEntity extends Entity {
-	private SimpleDoubleProperty completed;
-	private SimpleDoubleProperty total;
 
 	@Override
 	protected void setupDefaultParameters() {
 		addParam(new Parameter("Description", String.class, ""));
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		addAdditionalEventClass(FinishAchievementEvent.class);
-		completed = new SimpleDoubleProperty();
-		total = new SimpleDoubleProperty();
 	}
 
 	@Override
 	protected void move() {
 	}
 
-	public SimpleDoubleProperty getCompleted(){	
-		List<SimpleIntegerProperty> completedAll = new ArrayList<>();
-		for(Event event : this.getEvents()){
-			completedAll.add(event.getNumberTimesTriggered());
+	/**
+	 * Get percentage of progress made towards completing this achievement.
+	 * 
+	 * @return percentage of progress made towards completing this achievement
+	 */
+	public SimpleDoubleProperty getPercentCompleted() {
+		double completed = 0, total = 0;
+		for (Event event : getEvents()) {
+			if (!(event instanceof FinishAchievementEvent)) {
+				total += (int) event.getParam("How often to trigger");
+				completed += event.getNumberTimesTriggered().get() >= (int) event.getParam("How often to trigger")
+						? event.getNumberTimesTriggered().get() : (int) event.getParam("How often to trigger");
+			}
 		}
-		//completed.bind(comple);
-		return completed;
+		return new SimpleDoubleProperty(completed / total);
 	}
-	
-	public void setCompleted(double value){
-		completed.set(value);
-	}
-	
-	public SimpleDoubleProperty getTotal(){
-		int count = 0;
-		for(Event event : this.getEvents()){
-			count += Integer.parseInt(event.getParam("How often to trigger").toString());
-		}
-		total.set(count);
-		return total;
-	}
-	
-	public void setTotal(double value){
-		total.set(value);
-	}
-
 }
