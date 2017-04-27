@@ -4,7 +4,6 @@ import java.io.File;
 
 import game_data.Game;
 import game_data.GameData;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -60,9 +59,17 @@ public class MediaManager {
 
 	public void saveGame(Game game) {
 		count++;
-		String saveName = "save" + "_" + count + ".xml";
+		StringBuilder saveName = new StringBuilder(game.getName());
+		createSaveName(saveName);
 		GameData saver = new GameData();
-		saver.saveGameState(game, gameFolderPath, saveName);
-		saveStates.add(saveName);
+		saver.saveGameState(game, gameFolderPath, saveName.toString());
+		saveStates.add(saveName.toString());
+	}
+	
+	private void createSaveName(StringBuilder saveName){
+		saveName.append("_");
+		saveName.append(count);
+		saveName.append("_");
+		saveName.append(".xml");
 	}
 }
