@@ -1,6 +1,5 @@
 package player.launcher;
 
-import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;

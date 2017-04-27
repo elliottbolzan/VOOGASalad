@@ -1,6 +1,10 @@
 package engine.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import engine.Entity;
+import engine.Event;
 import engine.Parameter;
 import engine.events.additional_events.FinishAchievementEvent;
 import javafx.beans.property.*;
@@ -18,7 +22,12 @@ public class AchievementEntity extends Entity{
 		total = new SimpleDoubleProperty();
 	}
 	
-	public DoubleProperty getCompleted(){		
+	public DoubleProperty getCompleted(){	
+		List<IntegerProperty> completedAll = new ArrayList<>();
+		for(Event event : this.getEvents()){
+			completedAll.add(event.getNumberTimesTriggered());
+		}
+		//completed.bind(comple);
 		return completed;
 	}
 	
@@ -27,6 +36,11 @@ public class AchievementEntity extends Entity{
 	}
 	
 	public DoubleProperty getTotal(){
+		int count = 0;
+		for(Event event : this.getEvents()){
+			count += Integer.parseInt(event.getParam("How often to trigger").toString());
+		}
+		total.set(count);
 		return total;
 	}
 	
