@@ -68,8 +68,9 @@ public class MediaManager {
 	
 	private void createSaveName(StringBuilder saveName){
 		saveName.append("_");
-		saveName.append(count);
+		saveName.append("save");
 		saveName.append("_");
+		saveName.append(count);
 		saveName.append(".xml");
 	}
 }
