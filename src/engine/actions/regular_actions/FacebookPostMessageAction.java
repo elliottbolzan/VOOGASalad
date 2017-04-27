@@ -1,7 +1,7 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
 import engine.Parameter;
+import engine.actions.Action;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import poster.FacebookPoster;

@@ -17,8 +17,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import engine.Entity;
-import engine.entities.CameraEntity;
+
+import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import exceptions.NotAGameFolderException;
 import javafx.collections.FXCollections;

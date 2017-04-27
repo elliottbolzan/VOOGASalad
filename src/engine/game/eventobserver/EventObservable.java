@@ -3,7 +3,7 @@ package engine.game.eventobserver;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.Entity;
+import engine.entities.Entity;
 
 /**
  * Part of the Observable Design Pattern for detecting and responding to Events.

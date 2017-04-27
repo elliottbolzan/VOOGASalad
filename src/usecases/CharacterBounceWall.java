@@ -4,9 +4,9 @@
 package usecases;
 
 import authoring.AuthoringInternalAPI;
-import engine.ActionInterface;
-import engine.EntityInterface;
-import engine.EventInterface;
+import engine.actions.ActionInterface;
+import engine.entities.EntityInterface;
+import engine.events.EventInterface;
 
 /**
  * @author Elliott Bolzan

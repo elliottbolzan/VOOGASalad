@@ -1,11 +1,11 @@
 package engine;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import engine.entities.Entity;
 import exceptions.GameObjectException;
 
 /**
@@ -20,7 +20,7 @@ public abstract class GameObject {
 	private Entity entity;
 	private GameInfo info;
 
-	public GameObject(String name) {
+	public GameObject() {
 		setUpResources();
 		params = new ArrayList<Parameter>();
 	}

@@ -1,11 +1,10 @@
 package engine.actions.regular_actions;
 
-import engine.Entity;
 import engine.Parameter;
+import engine.actions.Action;
+import engine.entities.Entity;
 
 import java.util.Collection;
-
-import engine.Action;
 
 /**
  * This Action will be used for a following camera. Every frame it should set the location

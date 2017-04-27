@@ -1,6 +1,8 @@
-package engine;
+package engine.entities;
 
 import java.util.List;
+
+import engine.events.Event;
 
 /**
  * @author nikita jimmy Interface for entities. Has methods for changing
