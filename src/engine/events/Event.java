@@ -1,8 +1,12 @@
-package engine;
+package engine.events;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import engine.GameObject;
+import engine.Parameter;
+import engine.actions.Action;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * Abstract class for all events. Methods are implemented from EventInterface
@@ -12,13 +16,12 @@ import java.util.List;
  */
 public abstract class Event extends GameObject implements EventInterface {
 	private List<Action> actions;
-	private int timesEventHasOccurred;
+	private SimpleIntegerProperty timesEventHasOccurred;
 
 	public Event() {
-		super("Event");
 		addParam(new Parameter("How often to trigger", int.class, 1));
 		actions = new ArrayList<Action>();
-		timesEventHasOccurred = 0;
+		timesEventHasOccurred = new SimpleIntegerProperty(0);
 	}
 
 	@Override
@@ -32,7 +35,6 @@ public abstract class Event extends GameObject implements EventInterface {
 	 */
 	public List<Action> getActions() {
 		return actions;
-		//return Collections.unmodifiableList(actions);
 	}
 
 	/**
@@ -52,14 +54,22 @@ public abstract class Event extends GameObject implements EventInterface {
 	@Override
 	public abstract boolean act();
 
+	public boolean isTriggered(boolean check) {
+		if (act() && !check){
+			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
+		}
+		return (act() && timesEventHasOccurred.get() != 0 && timesEventHasOccurred.get() % (int) getParam("How often to trigger") == 0);
+	}
+
 	/**
 	 * tell all actions held by this event to act
 	 */
 	public void trigger() {
-		if (++timesEventHasOccurred >= (int) getParam("How often to trigger")) {
-			actions.forEach(s -> s.act());
-			timesEventHasOccurred = 0;
-		}
+		actions.forEach(s -> s.act());
+	}
+
+	public SimpleIntegerProperty getNumberTimesTriggered() {
+		return timesEventHasOccurred;
 	}
 
 }

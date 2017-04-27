@@ -1,7 +1,7 @@
 package engine.events.regular_events;
 
-import engine.Event;
 import engine.Parameter;
+import engine.events.Event;
 import javafx.scene.input.KeyCode;
 
 /**

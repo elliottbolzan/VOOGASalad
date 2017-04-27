@@ -1,6 +1,8 @@
-package engine;
+package engine.actions;
 
 import java.util.List;
+
+import engine.Parameter;
 
 /**
  * @author nikita Interface for all actions.

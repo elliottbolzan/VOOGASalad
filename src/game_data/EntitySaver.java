@@ -16,7 +16,8 @@ import java.util.List;
 import org.w3c.dom.Element;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import engine.Entity;
+
+import engine.entities.Entity;
 
 public class EntitySaver {
 

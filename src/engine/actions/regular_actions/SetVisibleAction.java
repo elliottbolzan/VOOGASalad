@@ -1,7 +1,7 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
 import engine.Parameter;
+import engine.actions.Action;
 
 public class SetVisibleAction extends Action {
 

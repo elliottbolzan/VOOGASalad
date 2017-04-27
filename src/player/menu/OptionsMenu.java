@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import engine.Action;
-import engine.Entity;
-import engine.Event;
 import engine.Parameter;
+import engine.actions.Action;
+import engine.entities.Entity;
+import engine.events.Event;
 import engine.events.regular_events.KeyPressEvent;
 import engine.events.regular_events.KeyReleaseEvent;
 import engine.game.Level;

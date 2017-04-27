@@ -1,4 +1,6 @@
-package engine;
+package engine.collisions;
+
+import engine.entities.Entity;
 
 /**
  * Collision stores a single collision between two Entities. The information of

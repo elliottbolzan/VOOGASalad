@@ -1,4 +1,4 @@
-package engine;
+package engine.collisions;
 
 /**
  * @author nikita Interface for Collision objects. These are made when a

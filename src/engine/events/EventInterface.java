@@ -1,6 +1,9 @@
-package engine;
+package engine.events;
 
 import java.util.List;
+
+import engine.Parameter;
+import engine.actions.Action;
 
 /**
  * @author nikita This is the interface which all events must implement.

@@ -1,4 +1,6 @@
-package engine;
+package engine.collisions;
+
+import engine.entities.Entity;
 
 /**
  * CollisionSide stores the possible sides that a Collision can occur between
