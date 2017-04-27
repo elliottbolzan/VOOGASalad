@@ -1,8 +1,12 @@
-package engine;
+package engine.events;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import engine.GameObject;
+import engine.Parameter;
+import engine.actions.Action;
 
 /**
  * Abstract class for all events. Methods are implemented from EventInterface

@@ -1,10 +1,14 @@
-package engine;
+package engine.entities;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import engine.GameObject;
+import engine.Parameter;
+import engine.actions.Action;
+import engine.events.Event;
 import engine.game.gameloop.Screen;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;

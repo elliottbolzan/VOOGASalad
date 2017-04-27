@@ -4,8 +4,8 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.panel.creation.pickers.EventPicker;
-import engine.Event;
 import engine.Parameter;
+import engine.events.Event;
 import engine.game.EngineController;
 
 /**

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import engine.Entity;
 import engine.entities.BlockEntity;
 import engine.entities.CameraEntity;
 import engine.entities.CharacterEntity;
+import engine.entities.Entity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

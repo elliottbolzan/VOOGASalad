@@ -1,9 +1,9 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
-import engine.CollisionSide;
-import engine.Entity;
 import engine.Parameter;
+import engine.actions.Action;
+import engine.collisions.CollisionSide;
+import engine.entities.Entity;
 import javafx.application.Platform;
 
 /**

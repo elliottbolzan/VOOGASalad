@@ -1,8 +1,8 @@
 package engine.game.gameloop;
 
-import engine.Entity;
 import engine.GameInfo;
 import engine.entities.CharacterEntity;
+import engine.entities.Entity;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import engine.Event;
+import engine.events.Event;
 
 public class FinishAchievementEvent extends Event {
 	private Map<Event, Boolean> achieved;

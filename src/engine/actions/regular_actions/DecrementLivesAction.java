@@ -1,6 +1,6 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
+import engine.actions.Action;
 
 /**
  * Action for when a character dies. Can only be attached to a CharacterEntity;

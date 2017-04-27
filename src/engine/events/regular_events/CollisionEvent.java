@@ -1,9 +1,9 @@
 package engine.events.regular_events;
 
-import engine.Event;
 import engine.Parameter;
-import engine.Collision;
-import engine.CollisionSide;
+import engine.collisions.Collision;
+import engine.collisions.CollisionSide;
+import engine.events.Event;
 
 /**
  * Stores a Collision that is associated with a certain Entity. Whenever that

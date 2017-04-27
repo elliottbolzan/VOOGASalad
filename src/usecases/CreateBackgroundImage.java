@@ -1,12 +1,12 @@
 package usecases;
 
 import authoring.AuthoringInternalAPI;
-import engine.Action;
-import engine.ActionInterface;
-import engine.Entity;
-import engine.EntityInterface;
-import engine.Event;
-import engine.EventInterface;
+import engine.actions.Action;
+import engine.actions.ActionInterface;
+import engine.entities.Entity;
+import engine.entities.EntityInterface;
+import engine.events.Event;
+import engine.events.EventInterface;
 
 /**
  * @author Jimmy Shackford

@@ -2,9 +2,9 @@ package authoring;
 
 import java.util.List;
 
-import engine.ActionInterface;
-import engine.EntityInterface;
-import engine.EventInterface;
+import engine.actions.ActionInterface;
+import engine.entities.EntityInterface;
+import engine.events.EventInterface;
 import javafx.scene.Node;
 
 /**

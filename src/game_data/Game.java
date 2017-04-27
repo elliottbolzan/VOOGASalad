@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import engine.Entity;
+
 import engine.entities.AchievementEntity;
 import engine.entities.CameraEntity;
+import engine.entities.Entity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

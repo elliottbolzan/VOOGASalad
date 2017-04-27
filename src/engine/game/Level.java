@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import engine.Entity;
 import engine.LevelInterface;
 import engine.entities.CameraEntity;
+import engine.entities.Entity;
 import engine.game.selectiongroup.Selectable;
 
 /**

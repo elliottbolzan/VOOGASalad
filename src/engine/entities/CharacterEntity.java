@@ -1,7 +1,5 @@
 package engine.entities;
 
-import engine.Entity;
-
 /**
  * Entity that represents a character. Different from a block in that it can
  * have additional information, such as health or lives.

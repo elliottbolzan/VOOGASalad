@@ -1,9 +1,9 @@
 package engine.actions.regular_actions;
 
 import engine.Action;
-import engine.Entity;
 import engine.Parameter;
 import engine.entities.CharacterEntity;
+import engine.entities.Entity;
 import javafx.application.Platform;
 
 public class SwitchCharacterEntityAction extends Action {

@@ -1,10 +1,10 @@
 package engine.game.gameloop;
 
-import engine.Action;
-import engine.Entity;
 import engine.entities.CameraEntity;
-import engine.Event;
+import engine.entities.Entity;
+import engine.events.Event;
 import engine.GameInfo;
+import engine.actions.Action;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 

@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import engine.Action;
-import engine.Entity;
-import engine.Event;
+import engine.actions.Action;
 import engine.entities.CharacterEntity;
+import engine.entities.Entity;
+import engine.events.Event;
 
 /**
  * @author nikita This class is used for communication between game engine and

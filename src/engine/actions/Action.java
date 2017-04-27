@@ -1,4 +1,6 @@
-package engine;
+package engine.actions;
+
+import engine.GameObject;
 
 /**
  * Abstract class for actions. Actions must implement the act method.

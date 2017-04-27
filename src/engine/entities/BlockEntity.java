@@ -1,7 +1,5 @@
 package engine.entities;
 
-import engine.Entity;
-
 /**
  * @author nikita 
  * 		   This entity represents different kinds of blocks in the game.
