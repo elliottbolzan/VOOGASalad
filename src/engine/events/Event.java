@@ -58,7 +58,7 @@ public abstract class Event extends GameObject implements EventInterface {
 		if (act() && !check){
 			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
 		}
-		return (timesEventHasOccurred.get() != 0 && timesEventHasOccurred.get() % (int) getParam("How often to trigger") == 0);
+		return (act() && timesEventHasOccurred.get() != 0 && timesEventHasOccurred.get() % (int) getParam("How often to trigger") == 0);
 	}
 
 	/**
