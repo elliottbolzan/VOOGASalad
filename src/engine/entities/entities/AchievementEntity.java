@@ -1,9 +1,14 @@
 package engine.entities.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import engine.Parameter;
 import engine.entities.Entity;
+import engine.events.Event;
 import engine.events.additional_events.FinishAchievementEvent;
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * Entity for achievements. Properties of achievements are very similar to those
@@ -30,19 +35,29 @@ public class AchievementEntity extends Entity {
 	protected void move() {
 	}
 
-	public DoubleProperty getCompleted() {
+	public SimpleDoubleProperty getCompleted(){	
+		List<SimpleIntegerProperty> completedAll = new ArrayList<>();
+		for(Event event : this.getEvents()){
+			completedAll.add(event.getNumberTimesTriggered());
+		}
+		//completed.bind(comple);
 		return completed;
 	}
-
-	public void setCompleted(double value) {
+	
+	public void setCompleted(double value){
 		completed.set(value);
 	}
-
-	public DoubleProperty getTotal() {
+	
+	public SimpleDoubleProperty getTotal(){
+		int count = 0;
+		for(Event event : this.getEvents()){
+			count += Integer.parseInt(event.getParam("How often to trigger").toString());
+		}
+		total.set(count);
 		return total;
 	}
-
-	public void setTotal(double value) {
+	
+	public void setTotal(double value){
 		total.set(value);
 	}
 

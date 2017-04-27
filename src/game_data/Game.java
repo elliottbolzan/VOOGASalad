@@ -42,7 +42,7 @@ public class Game {
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
 		songPath = "";
-		info = "Information about game";
+		info = "";
 		achievements = new ArrayList<Entity>();
 		highscores = FXCollections.observableList(addDefaults());
 		saveStates = FXCollections.observableArrayList();
