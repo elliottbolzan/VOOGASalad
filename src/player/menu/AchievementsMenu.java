@@ -47,13 +47,6 @@ public class AchievementsMenu extends AbstractMenu {
 		for(Entity entity : this.getGame().getAchievements()){
 			container.getChildren().add(makeAchievementBox(entity));
 		}
-		//Test
-		AchievementEntity achievement = new AchievementEntity();
-		achievement.setName("Winner winner chicken dinner");
-		container.getChildren().add(makeAchievementBox(achievement));
-		achievement.setCompleted(20);
-		achievement.setTotal(50);
-		//
 		
 		pane.setContent(container);
 		this.setCenter(pane);
@@ -99,12 +92,7 @@ public class AchievementsMenu extends AbstractMenu {
 		HBox container = new HBox(10);
 		ProgressBar progress = new ProgressBar();
 		HBox.getHgrow(progress);
-		Label percentage = new Label();
-		progress.progressProperty().bind(((AchievementEntity) achievement).getCompleted().divide(((AchievementEntity) achievement).getTotal()));
-		StringProperty sp = percentage.textProperty();
-		DoubleProperty dp = progress.progressProperty();
-		StringConverter<Number> converter = new NumberStringConverter();
-		Bindings.bindBidirectional(sp, dp, converter);
+		Label percentage = new Label(((AchievementEntity)achievement).getPercentCompleted().toString());
 		container.getChildren().addAll(progress, percentage);
 		return container;
 	}

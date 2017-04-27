@@ -64,13 +64,7 @@ public abstract class Event extends GameObject implements EventInterface {
 	/**
 	 * tell all actions held by this event to act
 	 */
-	public void trigger() {/*
-							 * timesEventHasOccurred.set(timesEventHasOccurred.
-							 * get()+1); actions.forEach(s -> s.act()); if
-							 * (timesEventHasOccurred.get() >= (int)
-							 * getParam("How often to trigger")) {
-							 * timesEventHasOccurred.set(0); }
-							 */
+	public void trigger() {
 		actions.forEach(s -> s.act());
 	}
 
