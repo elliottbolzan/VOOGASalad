@@ -59,6 +59,7 @@ public class EngineController {
 		try {
 			return (Entity) getInstance("engine.entities." + getClassName(entity));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 
@@ -71,6 +72,7 @@ public class EngineController {
 			try {
 				return (Event) getInstance("engine.events.additional_events." + getClassName(event));
 			} catch (Exception e1) {
+				e1.printStackTrace();
 				return null;
 			}
 		}
@@ -83,6 +85,7 @@ public class EngineController {
 			try {
 				return (Action) getInstance("engine.actions.additional_actions." + getClassName(action));
 			} catch (Exception e1) {
+				e1.printStackTrace(); 	
 				return null;
 			}
 		}
