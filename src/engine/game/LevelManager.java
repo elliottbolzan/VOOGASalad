@@ -140,15 +140,11 @@ public class LevelManager {
 		// levels.removeAll();
 		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
 				.collect(Collectors.toList());
-		//levelsInInitialState.addAll(game.cloneLevels());
 		List<Level> cloneLevels = game.cloneLevels();
 		cloneLevels.forEach(s -> s.addEntities(achievements));
 		levelsInInitialState.addAll(cloneLevels);
-		
 		List<Level> tempLevels = game.getLevels();
-		
 		tempLevels.forEach(s -> s.addEntities(achievements));
-		System.out.println(achievements);
 		levels.addAll(game.getLevels());
 	}
 

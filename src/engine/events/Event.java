@@ -6,7 +6,6 @@ import java.util.List;
 import engine.GameObject;
 import engine.Parameter;
 import engine.actions.Action;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -55,18 +54,27 @@ public abstract class Event extends GameObject implements EventInterface {
 	@Override
 	public abstract boolean act();
 
+	public boolean isTriggered(boolean check) {
+		if (act() && !check){
+			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
+		}
+		return (timesEventHasOccurred.get() != 0 && timesEventHasOccurred.get() % (int) getParam("How often to trigger") == 0);
+	}
+
 	/**
 	 * tell all actions held by this event to act
 	 */
-	public void trigger() {
-		timesEventHasOccurred.set(timesEventHasOccurred.get()+1);
+	public void trigger() {/*
+							 * timesEventHasOccurred.set(timesEventHasOccurred.
+							 * get()+1); actions.forEach(s -> s.act()); if
+							 * (timesEventHasOccurred.get() >= (int)
+							 * getParam("How often to trigger")) {
+							 * timesEventHasOccurred.set(0); }
+							 */
 		actions.forEach(s -> s.act());
-		if (timesEventHasOccurred.get() >= (int) getParam("How often to trigger")) {
-			timesEventHasOccurred.set(0);
-		}
 	}
-	
-	public SimpleIntegerProperty getNumberTimesTriggered(){
+
+	public SimpleIntegerProperty getNumberTimesTriggered() {
 		return timesEventHasOccurred;
 	}
 

@@ -17,7 +17,7 @@ public class FinishAchievementEvent extends Event {
 	public boolean act() {
 		if (achieved.keySet().size() == 0)
 			getEntity().getEvents().stream().filter(s -> !s.equals(this)).forEach(s -> achieved.put(s, false));
-		getEntity().getEvents().stream().filter(s -> (!s.equals(this) && s.act())).collect(Collectors.toList())
+		getEntity().getEvents().stream().filter(s -> (!s.equals(this) && s.isTriggered(true))).collect(Collectors.toList())
 				.forEach(s -> achieved.put(s, true));
 		for (Event event : achieved.keySet()) {
 			if (!achieved.get(event))

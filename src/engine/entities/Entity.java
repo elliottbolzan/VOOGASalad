@@ -62,7 +62,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	@Override
 	public void update() {
 		move();
-		List<Event> eventsToTrigger = events.stream().filter(s -> s.act()).collect(Collectors.toList());
+		List<Event> eventsToTrigger = events.stream().filter(s -> s.isTriggered(false)).collect(Collectors.toList());
 		eventsToTrigger.forEach(event -> event.trigger());
 	}
 	protected void move(){
