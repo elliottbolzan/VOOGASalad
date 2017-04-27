@@ -38,13 +38,15 @@ public class GameSaver {
 	}
 	
 	protected void saveGameState(Game game, String zipFolderPath, String saveName) {
+		/*
 		try {
 			(new Unpackager()).unzip(zipFolderPath, zipFolderPath.replace(".vs", ""));
 		} catch(Exception e) {
 			//TODO?
-		}
+		}*/
 		
 		String gameFolderPath = zipFolderPath.replace(".vs", "");
+		//System.out.println(gameFolderPath);
 		this.saveAndCompress(game, gameFolderPath, saveName);
 	}
 	

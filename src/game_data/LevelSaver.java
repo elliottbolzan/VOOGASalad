@@ -21,6 +21,8 @@ public class LevelSaver {
 	 * @return
 	 */
 	protected Element wrapLevelInXMLTags(List<Element> entityList, Element camera) {
+
+		
 		Element levelElement = gameXMLFactory.getDocument().createElement("Level");
 		Element entitiesElement = this.wrapEntityListInXMLTags(entityList);
 		levelElement.appendChild(entitiesElement);
@@ -33,7 +35,10 @@ public class LevelSaver {
 	protected Element wrapEntityListInXMLTags(List<Element> entityList) {
 		Element entitiesElement = gameXMLFactory.getDocument().createElement("Entities");
 		
-		for (Element entityElement : entityList) {
+		for ( int i=0;i<entityList.size();i++){
+		//for (Element entityElement : entityList) {
+			System.out.println(i+1);
+			Element entityElement=entityList.get(i);
 			this.importElement("Entity", entityElement, entitiesElement);
 		}
 		
@@ -41,10 +46,17 @@ public class LevelSaver {
 	}
 	
 	private void importElement(String tagName, Element elementToImport, Element parentToAppend) {
+		/*System.out.println(tagName);
+		System.out.println(elementToImport);
+		System.out.println(parentToAppend);
+		
+		System.out.println("documentnull: " + gameXMLFactory.getDocument().equals(null));*/
 		Element tags = this.createDocElement(tagName, parentToAppend);
+		System.out.println(gameXMLFactory.getDocument().importNode(elementToImport, true));
 		Element importedEntity = (Element) gameXMLFactory.getDocument().importNode(elementToImport, true);
 		tags.appendChild(importedEntity);
-	}
+		}
+	
 	
 	private Element createDocElement(String tagName, Element parentToAppend) {
 		Element newDocElement = gameXMLFactory.getDocument().createElement(tagName);

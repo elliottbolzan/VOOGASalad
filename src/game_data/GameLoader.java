@@ -41,7 +41,11 @@ public class GameLoader {
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
 		
 		String tempFolderPath = System.getProperty("java.io.tmpdir");
-		(new Unpackager()).unzip(gameFolderPath, System.getProperty("java.io.tmpdir"));
+		tempFolderPath=gameFolderPath.replace(".vs", "");
+		//System.out.println(tempFolderPath);
+		
+		//TempFolderPath
+		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
 		
 		//(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".vs", ""));
 		//gameFolderPath = gameFolderPath.replace(".vs", "");
