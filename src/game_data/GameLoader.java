@@ -84,11 +84,15 @@ public class GameLoader {
 		File folder = new File(folderPath);
 		File[] allFiles = folder.listFiles();
 		for(File file : allFiles){
-			if(file.getName().contains("save") && file.getName().contains(".xml")){
+			if(isSave(game, file)){
 				saves.add(file.getName());
 			}
 		}
 		game.setSaves(saves);
+	}
+	
+	private boolean isSave(Game game, File file){
+		return (file.getName().contains(game.getName())) && file.getName().contains("save") && file.getName().contains(".xml");
 	}
 
 	private void addInfo(Game game, Document doc) {

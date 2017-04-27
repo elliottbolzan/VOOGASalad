@@ -60,9 +60,19 @@ public class MediaManager {
 
 	public void saveGame(Game game) {
 		count++;
-		String saveName = "save" + "_" + count + ".xml";
+		StringBuilder saveName = new StringBuilder(game.getName());
+		
+		createSaveName(saveName);
 		GameData saver = new GameData();
-		saver.saveGameState(game, gameFolderPath, saveName);
-		saveStates.add(saveName);
+		saver.saveGameState(game, gameFolderPath, saveName.toString());
+		saveStates.add(saveName.toString());
+	}
+	
+	private void createSaveName(StringBuilder saveName){
+		saveName.append("_");
+		saveName.append("save");
+		saveName.append("_");
+		saveName.append(count);
+		saveName.append(".xml");
 	}
 }
