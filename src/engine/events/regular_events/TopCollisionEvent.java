@@ -1,6 +1,5 @@
 package engine.events.regular_events;
 
-import engine.Collision;
 import engine.CollisionSide;
 
 /**
@@ -12,6 +11,6 @@ import engine.CollisionSide;
  */
 public class TopCollisionEvent extends CollisionEvent {
 	public TopCollisionEvent() {
-		setCollision(new Collision(null, null, CollisionSide.TOP));
+		setCollisionSide(CollisionSide.TOP);
 	}
 }

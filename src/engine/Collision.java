@@ -13,27 +13,21 @@ public class Collision implements CollisionInterface {
 	private Entity firstEntity;
 	private Entity secondEntity;
 	private CollisionSide firstRelativeToSecond;
+	private double collisionDepth;
 
-	public Collision(Entity one, Entity two, CollisionSide side) {
+	public Collision(Entity one, Entity two, CollisionSide side, double depth) {
 		firstEntity = one;
 		secondEntity = two;
 		firstRelativeToSecond = side;
+		collisionDepth = depth;
 	}
 
 	public CollisionSide getCollisionSide() {
 		return firstRelativeToSecond;
 	}
-
-	public Entity getFirstEntity() {
-		return firstEntity;
-	}
-
-	public Entity getSecondEntity() {
-		return secondEntity;
-	}
-
-	public void setFirstEntity(Entity entity) {
-		firstEntity = entity;
+	
+	public double getCollisionDepth() {
+		return collisionDepth;
 	}
 
 	/**
