@@ -74,22 +74,21 @@ public class GameLoader {
 		
 		return game;
 	}
-
-	private void addAchievements(Game game, Document doc, String folderPath) {
-		NodeList achieveNode = doc.getElementsByTagName("Achievements");
-		//game.setAchievements(achieveNode.item(0).getAttributes().item(0).getNodeValue());
-	}
 	
 	private void addSaves(Game game, String folderPath){
 		ObservableList<String> saves = FXCollections.observableArrayList();
 		File folder = new File(folderPath);
 		File[] allFiles = folder.listFiles();
 		for(File file : allFiles){
-			if(file.getName().contains("save") && file.getName().contains(".xml")){
+			if(isSave(game, file)){
 				saves.add(file.getName());
 			}
 		}
 		game.setSaves(saves);
+	}
+	
+	private boolean isSave(Game game, File file){
+		return (file.getName().contains(game.getName()) && file.getName().contains("save") && file.getName().contains(".xml"));
 	}
 
 	private void addInfo(Game game, Document doc) {

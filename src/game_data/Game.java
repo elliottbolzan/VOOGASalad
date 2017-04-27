@@ -175,6 +175,7 @@ public class Game {
 		for(Level level : levels){
 			achievements.addAll(level.getEntities().stream().filter(s -> s.getClass().equals(AchievementEntity.class)).collect(Collectors.toList()));
 		}
+		System.out.println(achievements.size());
 	}
 
 	/**
