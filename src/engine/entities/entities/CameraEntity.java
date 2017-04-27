@@ -1,6 +1,6 @@
-package engine.entities;
+package engine.entities.entities;
 
-import engine.Entity;
+import engine.entities.Entity;
 
 /**
  * This type of Entity is used to translate the display as the character
@@ -13,6 +13,7 @@ public class CameraEntity extends Entity {
 	
 	@Override
 	protected void setupDefaultParameters() {
+		defaultSetup();
 		this.setName("Camera");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		this.setIsVisible(false);

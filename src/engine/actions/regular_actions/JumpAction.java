@@ -1,8 +1,8 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
-import engine.Entity;
 import engine.Parameter;
+import engine.actions.Action;
+import engine.entities.Entity;
 
 /**
  * Changes the y-speed of the associated Entity to the value associated with the

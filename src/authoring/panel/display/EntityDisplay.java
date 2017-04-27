@@ -5,7 +5,7 @@ import authoring.components.EditableContainer;
 import authoring.components.thumbnail.LiveThumbnail;
 import authoring.components.thumbnail.Thumbnail;
 import authoring.panel.creation.EntityMaker;
-import engine.Entity;
+import engine.entities.Entity;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
