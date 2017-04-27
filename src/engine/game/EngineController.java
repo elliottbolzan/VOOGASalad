@@ -47,7 +47,8 @@ public class EngineController {
 
 	private List<String> getNames(Entity entity, String type) {
 		List<String> ret = findClasses("engine." + type + ".regular_" + type);
-		ret.addAll(entity.getAdditionalEvents().stream().map(s -> resources.getString(s)).collect(Collectors.toList()));
+		List<String> additional = type.equals("events") ? entity.getAdditionalEvents() : entity.getAdditionalActions();
+		ret.addAll(additional.stream().map(s -> resources.getString(s)).collect(Collectors.toList()));
 		return ret;
 	}
 

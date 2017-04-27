@@ -12,6 +12,7 @@ public class BlockEntity extends Entity {
 
 	@Override
 	protected void setupDefaultParameters() {
+		defaultSetup();
 		this.setName("Block");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/block.png").toExternalForm());
 	}

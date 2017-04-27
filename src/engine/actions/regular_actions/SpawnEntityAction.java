@@ -25,7 +25,6 @@ public class SpawnEntityAction extends Action {
 
 	@Override
 	public void act() {
-		System.out.println(Entity.TIME_STEP);
 		if (Math.random() < (double) getParam("Spawn Probability")) {
 			Platform.runLater(new Runnable() {
 				@Override
@@ -48,7 +47,6 @@ public class SpawnEntityAction extends Action {
 						collisionSide.placeEntityRandomly(getEntity(), newEntity);
 					else
 						collisionSide.placeEntity(getEntity(), newEntity);
-					System.out.println("TEST");
 					newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
 					newEntity.getGameInfo().getGraphicsEngine().updateView();
 				}

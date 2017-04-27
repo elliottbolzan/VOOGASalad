@@ -15,6 +15,7 @@ public class CharacterEntity extends Entity {
 
 	@Override
 	protected void setupDefaultParameters() {
+		defaultSetup();
 		this.setName("Mario");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
 		this.updateParam("Lives", 5);

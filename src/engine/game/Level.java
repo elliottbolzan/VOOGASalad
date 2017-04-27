@@ -112,4 +112,8 @@ public class Level implements LevelInterface, Selectable {
 	public void setCamera(CameraEntity camera) {
 		this.camera = camera;
 	}
+
+	public void addEntities(List<Entity> entities) {
+		this.entities.addAll(entities);
+	}
 }

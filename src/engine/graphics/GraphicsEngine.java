@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
 import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import engine.game.LevelManager;
@@ -216,12 +217,19 @@ public class GraphicsEngine {
 	 */
 	private void drawAllEntities() {
 		NodeFactory factory = new NodeFactory();
+		entities.stream().filter(s -> !(s instanceof AchievementEntity)).forEach(entity -> {
+			ImageView node = (ImageView) factory.getNodeFromEntity(entity);
+			this.makeBindings(node, entity);
+			this.nodes.add(node);
+			displayArea.getChildren().add(node);
+		});
+		/*
 		for (Entity entity : entities) {
 			ImageView node = (ImageView) factory.getNodeFromEntity(entity);
 			this.makeBindings(node, entity);
 			this.nodes.add(node);
 			displayArea.getChildren().add(node);
-		}
+		}*/
 	}
 
 	private void makeBindings(ImageView node, Entity entity) {

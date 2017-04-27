@@ -1,7 +1,6 @@
 package engine.entities;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,14 +29,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	private List<Class<?>> additionalEventClasses, additionalActionClasses;
 
 	public Entity() {
-		super("Entity");
-		this.setup();
-		this.setupDefaultParameters();
-	}
-	
-	protected abstract void setupDefaultParameters();
-
-	private void setup() {
 		x = new SimpleDoubleProperty(0);
 		y = new SimpleDoubleProperty(0);
 		width = new SimpleDoubleProperty(0);
@@ -47,13 +38,19 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		name = new SimpleStringProperty();
 		imagePath = new SimpleStringProperty();
 		isVisible = new SimpleBooleanProperty(true);
+		additionalEventClasses = new ArrayList<Class<?>>();
+		additionalActionClasses = new ArrayList<Class<?>>();
+		this.setupDefaultParameters();
+	}
+	
+	protected abstract void setupDefaultParameters();
+
+	protected void defaultSetup() {
 		addParam(new Parameter("X Speed", double.class, 0.0));
 		addParam(new Parameter("Y Speed", double.class, 0.0));
 		addParam(new Parameter("X Acceleration", double.class, 0.0));
 		addParam(new Parameter("Y Acceleration", double.class, 0.0));
 		addParam(new Parameter("Lives", int.class, 1));
-		additionalEventClasses = new ArrayList<Class<?>>();
-		additionalActionClasses = new ArrayList<Class<?>>();
 	}
 
 	/**
@@ -64,14 +61,16 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	 */
 	@Override
 	public void update() {
+		move();
+		List<Event> eventsToTrigger = events.stream().filter(s -> s.act()).collect(Collectors.toList());
+		eventsToTrigger.forEach(event -> event.trigger());
+	}
+	protected void move(){
 		setX(getX() + getXSpeed() * TIME_STEP);
 		setY(getY() + getYSpeed() * TIME_STEP);
 		setXSpeed(getXSpeed() + getXAcceleration() * TIME_STEP);
 		setYSpeed(getYSpeed() + getYAcceleration() * TIME_STEP);
-		List<Event> eventsToTrigger = events.stream().filter(s -> s.act()).collect(Collectors.toList());
-		eventsToTrigger.forEach(event -> event.trigger());
 	}
-
 	@Override
 	public void addEvent(Event event) {
 		this.events.add(event);

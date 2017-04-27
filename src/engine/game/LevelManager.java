@@ -1,8 +1,12 @@
 package engine.game;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
 import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
 import engine.game.selectiongroup.ListSG;
@@ -22,8 +26,8 @@ import game_data.Game;
  */
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
-	private SelectionGroup<Level> levelsInInitialState;  //zero-indexed
-	private Set<Integer> unlockedLevelNumbers; //one-indexed
+	private SelectionGroup<Level> levelsInInitialState; // zero-indexed
+	private Set<Integer> unlockedLevelNumbers; // one-indexed
 	private int currentLevel; // one-indexed
 	private Game game;
 	private Screen currentScreen;
@@ -39,16 +43,16 @@ public class LevelManager {
 		this.currentStepStrategy = currentStepStrategy;
 		this.levelSelectionScreenMode = true;
 	}
-	
-	//TODO Call from GAE with small checkbox, or similar
-	public boolean getLevelSelectionScreenMode(){
+
+	// TODO Call from GAE with small checkbox, or similar
+	public boolean getLevelSelectionScreenMode() {
 		return levelSelectionScreenMode;
 	}
-	
-	public void setLevelSelectionScreenMode(boolean levelSelectionScreenMode){
+
+	public void setLevelSelectionScreenMode(boolean levelSelectionScreenMode) {
 		this.levelSelectionScreenMode = levelSelectionScreenMode;
 	}
-	
+
 	public Screen getCurrentScreen() {
 		return currentScreen;
 	}
@@ -112,7 +116,7 @@ public class LevelManager {
 	 * phase begins, level state should never be saved (unless add checkpoints).
 	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
 	 */
-	public void saveAllLevels() {
+	/*public void saveAllLevels() {
 		// GameDataExternalAPI gameData = new GameDataExternalAPI();
 		// gameData.saveGame(levels); // TODO Ask Game Data people if they can
 		// save
@@ -124,19 +128,27 @@ public class LevelManager {
 		// SelectionGroup interface)
 
 		System.out.println("Saved game");
-	}
+	}*/
 
 	/**
 	 * Since never save levels' state during gameplay, can call this method at
 	 * any point during game loop to get levels' initial states.
-	 * 
-	 * @param filename
 	 */
 
 	// Call once at beginning of the game
 	public void loadAllSavedLevels() {
 		// levels.removeAll();
-		levelsInInitialState.addAll(game.cloneLevels());
+		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
+				.collect(Collectors.toList());
+		//levelsInInitialState.addAll(game.cloneLevels());
+		List<Level> cloneLevels = game.cloneLevels();
+		cloneLevels.forEach(s -> s.addEntities(achievements));
+		levelsInInitialState.addAll(cloneLevels);
+		
+		List<Level> tempLevels = game.getLevels();
+		
+		tempLevels.forEach(s -> s.addEntities(achievements));
+		System.out.println(achievements);
 		levels.addAll(game.getLevels());
 	}
 
@@ -150,20 +162,20 @@ public class LevelManager {
 	}
 
 	public void addUnlockedLevel(int currentLevel) {
-		if(levelNumberInGame(currentLevel)){
+		if (levelNumberInGame(currentLevel)) {
 			unlockedLevelNumbers.add(currentLevel);
 		}
 	}
-	
-	public void clearUnlockedLevels(){
-		 unlockedLevelNumbers.removeAll(unlockedLevelNumbers);
+
+	public void clearUnlockedLevels() {
+		unlockedLevelNumbers.removeAll(unlockedLevelNumbers);
 	}
-	
+
 	public Set<Integer> getUnlockedLevelNumbers() {
 		return unlockedLevelNumbers;
 	}
-	
-	public Game getGame(){
+
+	public Game getGame() {
 		return game;
 	}
 }

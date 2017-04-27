@@ -1,7 +1,6 @@
 package engine.events;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import engine.GameObject;
@@ -19,7 +18,6 @@ public abstract class Event extends GameObject implements EventInterface {
 	private int timesEventHasOccurred;
 
 	public Event() {
-		super("Event");
 		addParam(new Parameter("How often to trigger", int.class, 1));
 		actions = new ArrayList<Action>();
 		timesEventHasOccurred = 0;
@@ -36,7 +34,6 @@ public abstract class Event extends GameObject implements EventInterface {
 	 */
 	public List<Action> getActions() {
 		return actions;
-		//return Collections.unmodifiableList(actions);
 	}
 
 	/**
