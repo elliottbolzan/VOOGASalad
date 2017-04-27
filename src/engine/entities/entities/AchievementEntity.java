@@ -1,17 +1,26 @@
-package engine.entities;
+package engine.entities.entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.Entity;
-import engine.Event;
 import engine.Parameter;
+import engine.entities.Entity;
+import engine.events.Event;
 import engine.events.additional_events.FinishAchievementEvent;
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
-public class AchievementEntity extends Entity{
-	private DoubleProperty completed;
-	private DoubleProperty total;
+/**
+ * Entity for achievements. Properties of achievements are very similar to those
+ * of entities, so achievements were made to be a type of entity. Events owned
+ * by this achievement should include finish achievement event. Other events
+ * shouldn't have any actions associated with them.
+ * 
+ * @author nikita
+ */
+public class AchievementEntity extends Entity {
+	private SimpleDoubleProperty completed;
+	private SimpleDoubleProperty total;
 
 	@Override
 	protected void setupDefaultParameters() {
@@ -21,9 +30,13 @@ public class AchievementEntity extends Entity{
 		completed = new SimpleDoubleProperty();
 		total = new SimpleDoubleProperty();
 	}
-	
-	public DoubleProperty getCompleted(){	
-		List<IntegerProperty> completedAll = new ArrayList<>();
+
+	@Override
+	protected void move() {
+	}
+
+	public SimpleDoubleProperty getCompleted(){	
+		List<SimpleIntegerProperty> completedAll = new ArrayList<>();
 		for(Event event : this.getEvents()){
 			completedAll.add(event.getNumberTimesTriggered());
 		}
@@ -35,7 +48,7 @@ public class AchievementEntity extends Entity{
 		completed.set(value);
 	}
 	
-	public DoubleProperty getTotal(){
+	public SimpleDoubleProperty getTotal(){
 		int count = 0;
 		for(Event event : this.getEvents()){
 			count += Integer.parseInt(event.getParam("How often to trigger").toString());

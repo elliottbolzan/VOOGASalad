@@ -1,6 +1,6 @@
 package engine.graphics;
 
-import engine.Entity;
+import engine.entities.Entity;
 import javafx.scene.Node;
 
 public interface NodeFactoryInterface{

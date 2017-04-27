@@ -10,7 +10,7 @@ import authoring.components.ComponentMaker;
 import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
 import authoring.panel.Panel;
-import engine.Entity;
+import engine.entities.Entity;
 import engine.game.Level;
 import game_data.Game;
 import game_data.GameData;

@@ -1,7 +1,7 @@
 package engine.events.regular_events;
 
-import engine.Event;
 import engine.Parameter;
+import engine.events.Event;
 
 /**
  * Contains two parameters: Time and Less Than. Time represents the time at
