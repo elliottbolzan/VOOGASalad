@@ -57,7 +57,7 @@ public class EngineController {
 
 	public Entity createEntity(String entity) {
 		try {
-			return (Entity) getInstance("engine.entities." + getClassName(entity));
+			return (Entity) getInstance("engine.entities.entities." + getClassName(entity));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

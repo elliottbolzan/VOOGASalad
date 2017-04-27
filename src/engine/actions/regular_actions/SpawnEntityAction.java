@@ -12,7 +12,6 @@ import javafx.application.Platform;
  * @author nikita
  */
 public class SpawnEntityAction extends Action {
-
 	public SpawnEntityAction() {
 		addParam(new Parameter("Entity Name", String.class, ""));
 		addParam(new Parameter("Side", String.class, ""));
@@ -26,15 +25,16 @@ public class SpawnEntityAction extends Action {
 
 	@Override
 	public void act() {
-		System.out.println(getGameInfo().getLevelManager().getGame().getDefaults());
+		System.out.println(Entity.TIME_STEP);
 		if (Math.random() < (double) getParam("Spawn Probability")) {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
 					Entity newEntity = null;
-					for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
+					for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()){
 						if (((String) getParam("Entity Name")).equals(entity.getName())) {
 							newEntity = entity.clone();
+							newEntity.setGameInfo(getGameInfo());
 							break;
 						}
 					}
@@ -48,6 +48,7 @@ public class SpawnEntityAction extends Action {
 						collisionSide.placeEntityRandomly(getEntity(), newEntity);
 					else
 						collisionSide.placeEntity(getEntity(), newEntity);
+					System.out.println("TEST");
 					newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
 					newEntity.getGameInfo().getGraphicsEngine().updateView();
 				}
