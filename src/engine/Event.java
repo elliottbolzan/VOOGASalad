@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 /**
  * Abstract class for all events. Methods are implemented from EventInterface
  * that are common to all events.
@@ -12,13 +15,13 @@ import java.util.List;
  */
 public abstract class Event extends GameObject implements EventInterface {
 	private List<Action> actions;
-	private int timesEventHasOccurred;
+	private IntegerProperty timesEventHasOccurred;
 
 	public Event() {
 		super("Event");
 		addParam(new Parameter("How often to trigger", int.class, 1));
 		actions = new ArrayList<Action>();
-		timesEventHasOccurred = 0;
+		timesEventHasOccurred = new SimpleIntegerProperty(0);
 	}
 
 	@Override
@@ -56,10 +59,15 @@ public abstract class Event extends GameObject implements EventInterface {
 	 * tell all actions held by this event to act
 	 */
 	public void trigger() {
-		if (++timesEventHasOccurred >= (int) getParam("How often to trigger")) {
-			actions.forEach(s -> s.act());
-			timesEventHasOccurred = 0;
+		timesEventHasOccurred.set(timesEventHasOccurred.get()+1);
+		actions.forEach(s -> s.act());
+		if (timesEventHasOccurred.get() >= (int) getParam("How often to trigger")) {
+			timesEventHasOccurred.set(0);
 		}
+	}
+	
+	public IntegerProperty getNumberTimesTriggered(){
+		return timesEventHasOccurred;
 	}
 
 }

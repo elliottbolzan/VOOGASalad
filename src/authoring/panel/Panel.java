@@ -1,22 +1,21 @@
 package authoring.panel;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import authoring.Workspace;
 import authoring.components.Direction;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
 import authoring.panel.settings.Settings;
-<<<<<<< src/authoring/panel/Panel.java
 import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tooltip;
-=======
 import javafx.scene.control.Accordion;
->>>>>>> src/authoring/panel/Panel.java
+import javafx.beans.binding.StringBinding;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.Accordion;
 import utils.views.CollapsibleView;
 import utils.views.View;
 import polyglot.Case;
