@@ -2,8 +2,8 @@ package player.menu;
 
 import java.util.ResourceBundle;
 
-import engine.entities.AchievementEntity;
 import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
 import game_data.Game;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;

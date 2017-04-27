@@ -1,6 +1,7 @@
-package engine.entities;
+package engine.entities.entities;
 
 import engine.Parameter;
+import engine.entities.Entity;
 import engine.events.additional_events.FinishAchievementEvent;
 import javafx.beans.property.*;
 

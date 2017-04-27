@@ -1,7 +1,7 @@
 package engine.actions.regular_actions;
 
 import engine.actions.Action;
-import engine.entities.CharacterEntity;
+import engine.entities.entities.CharacterEntity;
 import exceptions.GameObjectException;
 
 /**

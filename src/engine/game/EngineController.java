@@ -7,8 +7,8 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import engine.actions.Action;
-import engine.entities.CharacterEntity;
 import engine.entities.Entity;
+import engine.entities.entities.CharacterEntity;
 import engine.events.Event;
 
 /**
@@ -28,7 +28,7 @@ public class EngineController {
 	}
 
 	public List<String> getAllEntities() {
-		return findClasses("engine.entities");
+		return findClasses("engine.entities.entities");
 	}
 
 	/**

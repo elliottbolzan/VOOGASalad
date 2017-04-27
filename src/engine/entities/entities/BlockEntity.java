@@ -1,4 +1,6 @@
-package engine.entities;
+package engine.entities.entities;
+
+import engine.entities.Entity;
 
 /**
  * @author nikita 

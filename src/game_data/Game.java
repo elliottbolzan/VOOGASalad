@@ -5,9 +5,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import engine.entities.AchievementEntity;
-import engine.entities.CameraEntity;
 import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

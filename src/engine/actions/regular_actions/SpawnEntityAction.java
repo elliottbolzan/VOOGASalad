@@ -26,6 +26,7 @@ public class SpawnEntityAction extends Action {
 
 	@Override
 	public void act() {
+		System.out.println(getGameInfo().getLevelManager().getGame().getDefaults());
 		if (Math.random() < (double) getParam("Spawn Probability")) {
 			Platform.runLater(new Runnable() {
 				@Override

@@ -1,4 +1,6 @@
-package engine.entities;
+package engine.entities.entities;
+
+import engine.entities.Entity;
 
 /**
  * This type of Entity is used to translate the display as the character

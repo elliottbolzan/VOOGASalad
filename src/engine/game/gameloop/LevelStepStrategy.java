@@ -1,7 +1,7 @@
 package engine.game.gameloop;
 
-import engine.entities.CameraEntity;
 import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
 import engine.events.Event;
 import engine.GameInfo;
 import engine.actions.Action;

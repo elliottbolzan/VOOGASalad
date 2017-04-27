@@ -1,4 +1,6 @@
-package engine.entities;
+package engine.entities.entities;
+
+import engine.entities.Entity;
 
 /**
  * Entity that represents a character. Different from a block in that it can

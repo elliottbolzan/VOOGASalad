@@ -162,4 +162,8 @@ public class LevelManager {
 	public Set<Integer> getUnlockedLevelNumbers() {
 		return unlockedLevelNumbers;
 	}
+	
+	public Game getGame(){
+		return game;
+	}
 }

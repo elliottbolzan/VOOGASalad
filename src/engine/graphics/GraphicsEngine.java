@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import engine.entities.CameraEntity;
 import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import engine.game.LevelManager;
 import engine.game.gameloop.LevelSelectionStepStrategy;
