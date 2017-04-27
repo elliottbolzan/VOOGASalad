@@ -22,10 +22,10 @@ import game_data.Game;
  */
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
-	private SelectionGroup<Level> levelsInInitialState;  //zero-indexed
-	private Set<Integer> unlockedLevelNumbers; //one-indexed
+	private SelectionGroup<Level> levelsInInitialState; // zero-indexed
+	private Set<Integer> unlockedLevelNumbers; // one-indexed
 	private int currentLevel; // one-indexed
-	private Game game;
+	private final Game game;
 	private Screen currentScreen;
 	private StepStrategy currentStepStrategy;
 	private boolean levelSelectionScreenMode;
@@ -39,16 +39,24 @@ public class LevelManager {
 		this.currentStepStrategy = currentStepStrategy;
 		this.levelSelectionScreenMode = true;
 	}
-	
-	//TODO Call from GAE with small checkbox, or similar
-	public boolean getLevelSelectionScreenMode(){
+
+	/**
+	 * 
+	 * @return final instance of current game
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+	// TODO Call from GAE with small checkbox, or similar
+	public boolean getLevelSelectionScreenMode() {
 		return levelSelectionScreenMode;
 	}
-	
-	public void setLevelSelectionScreenMode(boolean levelSelectionScreenMode){
+
+	public void setLevelSelectionScreenMode(boolean levelSelectionScreenMode) {
 		this.levelSelectionScreenMode = levelSelectionScreenMode;
 	}
-	
+
 	public Screen getCurrentScreen() {
 		return currentScreen;
 	}
@@ -91,7 +99,6 @@ public class LevelManager {
 	 * @param currentLevel
 	 * @return
 	 */
-
 	public boolean setLevelNumber(int currentLevel) {
 		if (levelNumberInGame(currentLevel)) {
 			this.currentLevel = currentLevel;
@@ -150,15 +157,15 @@ public class LevelManager {
 	}
 
 	public void addUnlockedLevel(int currentLevel) {
-		if(levelNumberInGame(currentLevel)){
+		if (levelNumberInGame(currentLevel)) {
 			unlockedLevelNumbers.add(currentLevel);
 		}
 	}
-	
-	public void clearUnlockedLevels(){
-		 unlockedLevelNumbers.removeAll(unlockedLevelNumbers);
+
+	public void clearUnlockedLevels() {
+		unlockedLevelNumbers.removeAll(unlockedLevelNumbers);
 	}
-	
+
 	public Set<Integer> getUnlockedLevelNumbers() {
 		return unlockedLevelNumbers;
 	}

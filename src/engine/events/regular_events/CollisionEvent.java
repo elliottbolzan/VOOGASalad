@@ -38,7 +38,10 @@ public class CollisionEvent extends Event {
 	 */
 	@Override
 	public boolean act() {
-		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
+		for (Collision collision : getGameInfo()
+				.getObservableBundle()
+				.getCollisionObservable()
+				.getCollisions()) {
 			if (collision.isBetween(getEntity().getName(), (String) getParam("Entity"))
 					&& collision.getCollisionSide().equals(this.collision.getCollisionSide())) {
 				return true;
