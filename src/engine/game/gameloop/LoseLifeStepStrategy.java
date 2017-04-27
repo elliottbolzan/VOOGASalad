@@ -11,7 +11,7 @@ import engine.graphics.GraphicsEngine;
 public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "LivesLeft";
 	private LevelManager levelManager;
-	
+
 	public LoseLifeStepStrategy(LevelManager levelManager) {
 		super(RESOURCE_NAME);
 		this.levelManager = levelManager;
@@ -23,7 +23,17 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 	}
 
 	@Override
-	protected void handleHighscore(boolean hasNextLevel, GraphicsEngine graphicsEngine) {
+	protected boolean handleHighscore(GraphicsEngine graphicsEngine) {
+		return false;
+	}
+
+	@Override
+	protected void modifyUnlockedScreens() {
 		//Intentionally left blank.
+	}
+	
+	@Override
+	protected StepStrategy nextStrategyLevelSelectionMode() {
+		return new LevelStepStrategy();
 	}
 }

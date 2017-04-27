@@ -7,7 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import player.PlayerView;
+import player.MediaManager;
 import player.score.Score;
 import polyglot.Polyglot;
 
@@ -16,13 +16,13 @@ import polyglot.Polyglot;
  * @author Jesse Yue
  *
  */
-public class HighscoreMenu extends PlayerView {
+public class HighscoreMenu extends AbstractMenu {
 	
 	private TableView<Score> scoreTable;	
 	private Game game;
 
-	public HighscoreMenu(Stage stage, Game game, Polyglot polyglot, ResourceBundle IOResources) {
-		super(polyglot, IOResources);
+	public HighscoreMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+		super(stage, game, mediaManager, "HighscoresTitle", polyglot, IOResources);
 		this.game = game;
 		setupScene();
 		loadScores();
@@ -34,10 +34,11 @@ public class HighscoreMenu extends PlayerView {
 
 		scoreTable.getColumns().setAll(makeRankColumn(), makeScoreColumn(), makeTimeColumn(), makeNameColumn());
 		this.setCenter(scoreTable);
+		this.setInsets();
 	}
 	
 	private void loadScores(){
-		scoreTable.setItems(game.getScores());
+		scoreTable.setItems(game.getHighscores());
 	}
 	
 	private TableColumn<Score, Integer> makeRankColumn(){
@@ -60,7 +61,7 @@ public class HighscoreMenu extends PlayerView {
 	private TableColumn<Score, String> makeTimeColumn(){
 		TableColumn<Score, String> time = new TableColumn<>("Time Left");
 		time.setCellValueFactory(new PropertyValueFactory<>("time"));
-		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.3));
+		time.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.29));
 		
 		return time;
 	}
@@ -71,6 +72,11 @@ public class HighscoreMenu extends PlayerView {
 		name.prefWidthProperty().bind(scoreTable.widthProperty().multiply(.3));
 		
 		return name;
+	}
+
+	@Override
+	public void addElements() {
+		this.setBottom(this.makeBackButton());
 	}
 }
 

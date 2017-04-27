@@ -169,7 +169,7 @@ public class StartMenu extends BorderPane {
 		if (!path.equals("")) {
 			Game game = createGame(path);
 			if (game != null) {
-				new MainMenu(game, new MediaManager(game, path, null), polyglot, IOResources);
+				new MainMenu(game, new MediaManager(game, path), polyglot, IOResources);
 			}
 		}
 	}

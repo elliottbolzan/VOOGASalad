@@ -22,7 +22,7 @@ public class GameData {
 	 */
 	public void saveGameState(Game game, String folderPath, String saveName){
 		GameSaver gs = new GameSaver();
-		gs.saveCurrentGameState(game, folderPath, saveName);
+		gs.saveGameState(game, folderPath, saveName);
 	}
 	
 	/**

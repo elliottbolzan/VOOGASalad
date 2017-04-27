@@ -3,8 +3,10 @@ package engine.entities;
 import engine.Entity;
 
 /**
- * @author nikita Entity that represents a character. Different from a block in
- *         that it can have additional information, such as health or lives.
+ * Entity that represents a character. Different from a block in that it can
+ * have additional information, such as health or lives.
+ * 
+ * @author nikita
  */
 public class CharacterEntity extends Entity {
 	// TODO currently lives are stored in Scorebar, which is necessary since it

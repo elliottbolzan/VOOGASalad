@@ -146,7 +146,15 @@ public class ObservableServer<T> extends ObservableHost<T> {
 	public boolean isActive() {
 		return serverSocket.isBound() && !serverSocket.isClosed() && !connections.isEmpty();
 	}
-
+	
+	public void close() {
+		try {
+			serverSocket.close();
+		} catch (IOException e) {
+			throw new Error(e);
+		}
+		executor.shutdown();
+	}
 
 	/**
 	 * This class is delegated to be the server to listen to a client on a single socket and relays information between the main server and the client.
