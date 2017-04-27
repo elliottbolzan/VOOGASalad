@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('PressStart2P.ttf');
+}
+
+.label{
+	-fx-font-family: 'Press Start 2P';
+	-fx-font-size: 24pt;
+	-fx-padding: 10,10,10,10;
+}

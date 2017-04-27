@@ -5,8 +5,11 @@ import java.util.ResourceBundle;
 
 import game_data.Game;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -99,6 +102,13 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 		stage.setMinWidth(420);
 		stage.setMinHeight(600);
 		setupGrid();
+		if(title != null){
+			Label titleLabel = new Label();
+			titleLabel.textProperty().bind(getPolyglot().get(title));
+			titleLabel.getStylesheets().add(getResources().getString("PixelTitlePath"));
+			this.setTop(titleLabel);
+			BorderPane.setAlignment(titleLabel, Pos.CENTER);
+		}
 	}
 	
 	private void setupGrid() {
@@ -121,5 +131,9 @@ public abstract class AbstractMenu extends PlayerView implements Menu {
 	
 	public void back(Stage stage) {
 		new MainMenu(stage, game, mediaManager, getPolyglot(), getResources());
+	}
+	
+	protected void setInsets(){
+		BorderPane.setMargin(getCenter(), new Insets(10,10,10,10));
 	}
 }

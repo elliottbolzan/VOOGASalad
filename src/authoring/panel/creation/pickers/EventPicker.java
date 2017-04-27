@@ -51,6 +51,7 @@ public class EventPicker extends Picker {
 		list.setPlaceholder(placeholder);
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
+		list.getStyleClass().add("visible-container");
 		list.setCellFactory(param -> new ListCell<Event>() {
 			@Override
 			protected void updateItem(Event event, boolean empty) {

@@ -95,7 +95,7 @@ public class EntityMaker extends View {
 	 * Closes the EntityMaker.
 	 */
 	public void dismiss() {
-		stage.close();
+		stage.close();	
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class EntityMaker extends View {
 	 * Save the Entity to defaults.
 	 */
 	public void save() {
-		if (entityInfo.getName().trim().equals("")) {
+		if (entityInfo.getName().trim().equals("") || entityInfo.getName().contains(" ")) {
 			showMessage("EmptyName");
 			return;
 		}

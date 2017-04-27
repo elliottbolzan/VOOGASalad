@@ -11,7 +11,7 @@ import polyglot.Polyglot;
 public class MainMenu extends AbstractMenu {
 
 	public MainMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
-		super(stage, game, mediaManager, "PlayerTitle", polyglot, IOResources);
+		super(stage, game, mediaManager, null, polyglot, IOResources);
 		stage.setScene(createScene(420, 600));
 		stage.setTitle(game.getName());
 		stage.show();
@@ -24,9 +24,9 @@ public class MainMenu extends AbstractMenu {
 	@Override
 	public void addElements() {
 		Tile playTile = new Tile(getPolyglot().get("StartButton", Case.TITLE), "red", e -> getStage()
-				.setScene(new LoadMenu(getStage(), getGame(), getMediaManager(),  getPolyglot(), getResources()).createScene(420, 600)));
-		Tile scoresTile = new Tile(getPolyglot().get("Highscores", Case.TITLE), "orange", e -> getStage()
-				.setScene(new HighscoreMenu(getStage(), getGame(), getPolyglot(), getResources()).createScene(420, 600)));
+				.setScene(new LoadMenu(getStage(), getGame(), getMediaManager(), getPolyglot(), getResources()).createScene(420, 600)));
+		Tile scoresTile = new Tile(getPolyglot().get("HighscoresButton", Case.TITLE), "orange", e -> getStage()
+				.setScene(new HighscoreMenu(getStage(), getGame(), getMediaManager(), getPolyglot(), getResources()).createScene(420, 600)));
 		Tile achievementsTile = new Tile(getPolyglot().get("AchievementsButton", Case.TITLE), "yellow", e -> getStage()
 				.setScene(new AchievementsMenu(getStage(), getGame(), getMediaManager(), getPolyglot(), getResources()).createScene(420, 600)));
 		Tile optionsTile = new Tile(getPolyglot().get("OptionsButton", Case.TITLE), "green", e -> getStage()

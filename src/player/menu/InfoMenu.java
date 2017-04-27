@@ -6,14 +6,18 @@ import game_data.Game;
 import javafx.scene.web.*;
 import javafx.stage.Stage;
 import player.MediaManager;
-import player.PlayerView;
 import polyglot.Polyglot;
 
-public class InfoMenu extends PlayerView {
+/**
+ * 
+ * @author Jesse
+ *
+ */
+public class InfoMenu extends AbstractMenu {
 
 	public InfoMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
-		super(polyglot, IOResources);
-		setup(game);
+		super(stage, game, mediaManager, "GameInfoTitle", polyglot, IOResources);
+		setup(game);		
 	}
 	
 	private void setup(Game game){
@@ -24,5 +28,11 @@ public class InfoMenu extends PlayerView {
 		}
 		
 		this.setCenter(view);
+		this.setInsets();
+	}
+
+	@Override
+	public void addElements() {
+		this.setBottom(this.makeBackButton());	
 	}
 }

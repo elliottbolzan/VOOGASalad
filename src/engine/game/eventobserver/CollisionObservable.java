@@ -20,10 +20,14 @@ public class CollisionObservable extends EventObservable {
 
 	private List<Collision> collisions = new ArrayList<>();
 
-	public CollisionObservable() {
-		super();
+	/**
+	 * 
+	 * @return list of collisions that occurred between observed Entities
+	 */
+	public List<Collision> getCollisions() {
+		return collisions;
 	}
-
+	
 	private CollisionSide collisionSide(Entity entityOne, Entity entityTwo) {
 		if (isHorizontalCollision(entityOne, entityTwo)) {
 			if (entityOne.getX() < entityTwo.getX()) {
@@ -37,6 +41,14 @@ public class CollisionObservable extends EventObservable {
 		return CollisionSide.TOP;
 	}
 
+	private double collisionDepth(Entity entityOne, Entity entityTwo) {
+		if (isHorizontalCollision(entityOne, entityTwo)) {
+			return getIntersectionWidth(entityOne, entityTwo);
+		} else {
+			return getIntersectionHeight(entityOne, entityTwo);
+		}
+	}
+	
 	private boolean isHorizontalCollision(Entity entityOne, Entity entityTwo) {
 		return getIntersectionHeight(entityOne, entityTwo) > getIntersectionWidth(entityOne, entityTwo);
 	}
@@ -44,6 +56,11 @@ public class CollisionObservable extends EventObservable {
 	private double getIntersectionWidth(Entity entityOne, Entity entityTwo) {
 		return intersectionSize(entityOne.getX(), entityOne.getX() + entityOne.getWidth(), entityTwo.getX(),
 				entityTwo.getX() + entityTwo.getWidth());
+	}
+
+	private double getIntersectionHeight(Entity entityOne, Entity entityTwo) {
+		return intersectionSize(entityOne.getY(), entityOne.getY() + entityOne.getHeight(), entityTwo.getY(),
+				entityTwo.getY() + entityTwo.getHeight());
 	}
 
 	private double intersectionSize(double sideOneMin, double sideOneMax, double sideTwoMin, double sideTwoMax) {
@@ -57,12 +74,7 @@ public class CollisionObservable extends EventObservable {
 		}
 		return sideTwoMax - sideOneMin;
 	}
-
-	private double getIntersectionHeight(Entity entityOne, Entity entityTwo) {
-		return intersectionSize(entityOne.getY(), entityOne.getY() + entityOne.getHeight(), entityTwo.getY(),
-				entityTwo.getY() + entityTwo.getHeight());
-	}
-
+	
 	/**
 	 * Checks all entities in the current level for collisions. If a Collision
 	 * is detected, it is added to a list of Collisions.
@@ -72,18 +84,10 @@ public class CollisionObservable extends EventObservable {
 		for (Entity first : getObservers()) {
 			for (Entity second : getObservers()) {
 				if (first != second && isCollision(first, second)) {
-					collisions.add(new Collision(first, second, collisionSide(first, second)));
+					collisions.add(new Collision(first, second, collisionSide(first, second), collisionDepth(first, second)));
 				}
 			}
 		}
-	}
-
-	/**
-	 * 
-	 * @return list of collisions that occurred between observed Entities
-	 */
-	public List<Collision> getCollisions() {
-		return collisions;
 	}
 
 	private boolean isCollision(Entity first, Entity second) {

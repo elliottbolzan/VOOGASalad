@@ -8,21 +8,24 @@ import utils.views.View;
 import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.ToolBar;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -95,7 +98,8 @@ public class ComponentMaker {
 	 *            the property that provides a placeholder for the dialog.
 	 * @return a TextInputDialog.
 	 */
-	public TextInputDialog makeTextInputDialog(String titleProperty, String headerProperty, String promptProperty, String content) {
+	public TextInputDialog makeTextInputDialog(String titleProperty, String headerProperty, String promptProperty,
+			String content) {
 		TextInputDialog dialog = new TextInputDialog(content);
 		dialog.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		dialog.headerTextProperty().bind(polyglot.get(headerProperty));
@@ -119,17 +123,19 @@ public class ComponentMaker {
 		alert.setContentText(content);
 		return alert;
 	}
-	
+
 	public Alert makeAlert(AlertType type, String titleProperty, String headerProperty, StringBinding content) {
 		Alert alert = alertHelper(type, titleProperty, headerProperty);
 		alert.contentTextProperty().bind(content);
 		return alert;
 	}
-	
+
 	private Alert alertHelper(AlertType type, String titleProperty, String headerProperty) {
 		Alert alert = new Alert(type);
 		alert.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		alert.headerTextProperty().bind(polyglot.get(headerProperty));
+		DialogPane dialogPane = alert.getDialogPane();
+		dialogPane.getStylesheets().add(stylesheetPath);
 		return alert;
 	}
 
@@ -144,8 +150,16 @@ public class ComponentMaker {
 		Accordion accordion = new Accordion();
 		List<TitledPane> titledPanes = new ArrayList<TitledPane>();
 		for (int i = 0; i < subviews.size(); i++) {
+			Label infoLabel = new Label("  ?  ");
 			TitledPane pane = new TitledPane();
+			//infoLabel.setStyle("-fx-border-color: white;");
+			pane.setContentDisplay(ContentDisplay.RIGHT);
+			pane.setGraphic(infoLabel);
 			pane.textProperty().bind(subviews.get(i).getTitle());
+			Text t = new Text(pane.getText());
+
+			pane.setGraphicTextGap(188-t.getBoundsInLocal().getWidth());
+			//System.out.println(infoLabel.getBoundsInParent().getX());
 			pane.setContent(subviews.get(i));
 			titledPanes.add(pane);
 		}
@@ -153,7 +167,13 @@ public class ComponentMaker {
 		accordion.setExpandedPane(titledPanes.get(0));
 		return accordion;
 	}
-
+	
+	public void setToolTips(Accordion accordion, List<StringBinding> nameList){
+		for(int i = 0; i<nameList.size();i++){
+			CustomTooltip t = new CustomTooltip(nameList.get(i),accordion.getPanes().get(i).getGraphic());
+		}
+	}
+	
 	/**
 	 * @param property
 	 *            the property that provides the title of the Button.
@@ -227,15 +247,15 @@ public class ComponentMaker {
 		stage.show();
 		stage.centerOnScreen();
 	}
-	
+
 	public MenuItem makeMenuItem(String title, EventHandler<ActionEvent> handler) {
 		return new CustomMenuItem(title, handler);
 	}
-	
+
 	public MenuItem makeMenuItem(StringBinding binding, EventHandler<ActionEvent> handler) {
 		return new CustomMenuItem(binding, handler);
 	}
-	
+
 	public MenuItem makeMenuItem(StringBinding binding, String keyCombination, EventHandler<ActionEvent> handler) {
 		return new CustomMenuItem(binding, keyCombination, handler);
 	}

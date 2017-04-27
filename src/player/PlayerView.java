@@ -1,6 +1,3 @@
-/**
- * 
- */
 package player;
 
 import java.util.ResourceBundle;
