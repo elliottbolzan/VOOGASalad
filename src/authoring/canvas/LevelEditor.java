@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import authoring.Workspace;
+import authoring.networking.Packet;
 import engine.Entity;
 import engine.game.Level;
 import javafx.beans.value.ChangeListener;
@@ -28,6 +29,7 @@ import utils.views.View;
  */
 public class LevelEditor extends View
 {
+	private int PASTE_OFFSET = 25;
 
 	private Workspace workspace;
 	private TabPane tabPane;
@@ -208,8 +210,24 @@ public class LevelEditor extends View
 			layer.getSelectedEntities().forEach(entity -> entity.setSelected(false));
 		}
 		for (EntityView entity : copiedEntities) {
-			currentLevel.addEntity(entity.getEntity(), entity.getEntity().getX() + 25, entity.getEntity().getY() + 25,
-					currentLevel.getCurrentLayer()).setSelected(true);
+			currentLevel.addEntity(entity.getEntity(), entity.getEntity().getX() + PASTE_OFFSET,
+					entity.getEntity().getY() + PASTE_OFFSET, currentLevel.getCurrentLayer()).setSelected(true);
+		}
+	}
+
+	public void received(Packet packet)
+	{
+		EntityUpdate update = (EntityUpdate) packet;
+		for (Layer layer : currentLevel.getLayers()) {
+			layer.getEntities().forEach(entityView -> {
+				if (entityView.getEntity().getName().equals(update.getName())) {
+					entityView.setX(update.getX());
+					entityView.setY(update.getY());
+					entityView.setMinHeight(update.getHeight());
+					entityView.setMinWidth(update.getWidth());
+					entityView.setImage(update.getImage());
+				}
+			});
 		}
 	}
 

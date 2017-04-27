@@ -3,14 +3,14 @@ package authoring.networking;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.Duration;
 import java.util.concurrent.Executors;
 
 import authoring.Workspace;
+import authoring.canvas.EntityUpdate;
 import authoring.panel.chat.Message;
-
-import java.time.Duration;
-
-import networking.io.*;
+import networking.io.Serializer;
+import networking.io.Unserializer;
 import networking.net.ObservableClient;
 import networking.net.ObservableServer;
 
@@ -18,7 +18,8 @@ import networking.net.ObservableServer;
  * @author Elliott Bolzan
  *
  */
-public class Networking {
+public class Networking
+{
 
 	private Workspace workspace;
 	private ObservableServer<Packet> server;
@@ -26,15 +27,17 @@ public class Networking {
 	private String identifier;
 	private static final int PORT = 1337;
 
-	public Networking(Workspace workspace) {
+	public Networking(Workspace workspace)
+	{
 		this.workspace = workspace;
 	}
 
 	@SuppressWarnings("unchecked")
-	public void start(String identifier) throws InterruptedException {
+	public void start(String identifier) throws InterruptedException
+	{
 		try {
-			server = new ObservableServer<Packet>(null, PORT, Serializer.NONE,
-					Unserializer.NONE, Duration.ofSeconds(5));
+			server = new ObservableServer<Packet>(null, PORT, Serializer.NONE, Unserializer.NONE,
+					Duration.ofSeconds(5));
 			Executors.newSingleThreadExecutor().submit(server);
 			join(getIP(), "");
 			this.identifier = identifier;
@@ -43,7 +46,8 @@ public class Networking {
 		}
 	}
 
-	public String getIP() {
+	public String getIP()
+	{
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
@@ -52,7 +56,8 @@ public class Networking {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void join(String IP, String identifier) throws InterruptedException {
+	public void join(String IP, String identifier) throws InterruptedException
+	{
 		try {
 			this.identifier = identifier;
 			client = new ObservableClient<>(IP, PORT, Serializer.NONE, Unserializer.NONE, Duration.ofSeconds(5));
@@ -62,23 +67,28 @@ public class Networking {
 			throw new InterruptedException();
 		}
 	}
-	
-	public void close() {
+
+	public void close()
+	{
 		if (server != null && server.isActive())
 			server.close();
 		if (client != null && client.isActive())
 			client.close();
 	}
 
-	public void send(Packet packet) {
+	public void send(Packet packet)
+	{
 		packet.setIdentifier(identifier);
 		client.addToOutbox(state -> packet);
 	}
 
-	private void received(Packet packet) {
+	private void received(Packet packet)
+	{
 		if (packet != null && packet.getIdentifier().equals(identifier)) {
 			if (packet instanceof Message) {
 				workspace.getPanel().getChat().received(packet);
+			} else if (packet instanceof EntityUpdate) {
+				workspace.getLevelEditor().received(packet);
 			}
 		}
 	}
