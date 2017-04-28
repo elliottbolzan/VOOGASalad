@@ -3,8 +3,8 @@ package authoring.components;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-import authoring.Workspace;
 import utils.views.View;
 import javafx.beans.binding.StringBinding;
 import javafx.concurrent.Task;
@@ -45,6 +45,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class ComponentMaker {
 
 	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 	private String stylesheetPath;
 
 	/**
@@ -53,9 +54,10 @@ public class ComponentMaker {
 	 * @param resources
 	 *            the ResourceBundle that the Factory makes use of.
 	 */
-	public ComponentMaker(Polyglot polyglot, String stylesheetPath) {
+	public ComponentMaker(Polyglot polyglot, ResourceBundle IOResources) {
 		this.polyglot = polyglot;
-		this.stylesheetPath = stylesheetPath;
+		this.IOResources = IOResources;
+		this.stylesheetPath = IOResources.getString("StylesheetPath");
 	}
 
 	/**
@@ -265,8 +267,8 @@ public class ComponentMaker {
 		return new CustomMenuItem(binding, keyCombination, handler);
 	}
 
-	public void showProgressForTask(Workspace workspace, Task<Void> task, boolean showResult) {
-		ProgressDialog dialog = new ProgressDialog(workspace);
+	public void showProgressForTask(Task<Void> task, boolean showResult) {
+		ProgressDialog dialog = new ProgressDialog(polyglot, IOResources);
 		task.setOnSucceeded(event -> {
 			dialog.getDialogStage().close();
 			if (showResult) {

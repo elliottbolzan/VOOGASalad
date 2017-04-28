@@ -59,7 +59,7 @@ public class Networking {
 					return null;
 				}
 			};
-			workspace.getMaker().showProgressForTask(workspace, task, true);
+			workspace.getMaker().showProgressForTask(task, true);
 		}
 		// tell them which IP to start;
 		// hide join server, show stop server
@@ -89,7 +89,7 @@ public class Networking {
 						return null;
 					}
 				};
-				workspace.getMaker().showProgressForTask(workspace, task, true);
+				workspace.getMaker().showProgressForTask(task, true);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ public class Networking {
 				return null;
 			}
 		};
-		workspace.getMaker().showProgressForTask(workspace, task, false);
+		workspace.getMaker().showProgressForTask(task, false);
 	}
 
 	private String getIP() {

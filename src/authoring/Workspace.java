@@ -84,7 +84,7 @@ public class Workspace extends View {
 	private void setup() {
 		networking = new Networking(this);
 		data = new GameData();
-		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		maker = new ComponentMaker(polyglot, IOResources);
 		defaults = new DefaultEntities(this);
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
@@ -139,7 +139,7 @@ public class Workspace extends View {
 					return null;
 				}
 			};
-			maker.showProgressForTask(this, task, true);
+			maker.showProgressForTask(task, true);
 		}
 	}
 
