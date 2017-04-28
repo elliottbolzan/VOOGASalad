@@ -30,7 +30,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.setup();
 		this.setupDefaultParameters();
 	}
-	
+
 	protected abstract void setupDefaultParameters();
 
 	private void setup() {
@@ -80,7 +80,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public int getLives() {
 		return (int) this.getParam("Lives");
 	}
-	
+
 	/**
 	 * 
 	 * @return Value of the Entity meant to represent the Entity's depth.
@@ -88,7 +88,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public void setLives(int lives) {
 		this.updateParam("Lives", lives);
 	}
-	
+
 	/**
 	 * 
 	 * @return Value of the Entity meant to represent the Entity's depth.
@@ -276,7 +276,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	@Override
 	public List<Event> getEvents() {
 		return events;
-		//return Collections.unmodifiableList(events);
+		// return Collections.unmodifiableList(events);
 	}
 
 	/**
@@ -340,18 +340,19 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return copy;
 	}
 
-	public List<String> getAdditionalEvents(){
+	public List<String> getAdditionalEvents() {
 		return additionalEventClasses.stream().map(s -> s.getSimpleName()).collect(Collectors.toList());
 	}
-	
-	public List<String> getAdditionalActions(){
+
+	public List<String> getAdditionalActions() {
 		return additionalActionClasses.stream().map(s -> s.getSimpleName()).collect(Collectors.toList());
 	}
-	
-	public void addAdditionalEventClass(Class<?> event){
+
+	public void addAdditionalEventClass(Class<?> event) {
 		additionalEventClasses.add(event);
 	}
-	public void addAdditionalActionClass(Class<?> action){
+
+	public void addAdditionalActionClass(Class<?> action) {
 		additionalActionClasses.add(action);
 	}
 }
