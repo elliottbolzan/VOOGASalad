@@ -59,11 +59,19 @@ public class GameSaver {
 		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
 		this.saveLevels(gameFolderPath, game.getLevels());
 		this.saveDefaults(gameFolderPath, game.getDefaults());
-		//this.saveAchievements(game.getAchievements(), gameFolderPath);
-		
+		this.saveTime(game.getCurrentTime());
+		this.saveClockGoingDown(game.getClockGoingDown());
 		this.saveDocument(gameFolderPath, saveName);
 		this.zipDoc(gameFolderPath);
 	}
+	
+	private void saveTime(double initialTime){
+	gameXMLFactory.setTime(initialTime);
+	}
+	private void saveClockGoingDown(boolean clockGoingDown){
+	gameXMLFactory.setCountdown(clockGoingDown);
+	}
+	
 
 	/**
 	 * Saves the document as a whole, after the XML serializing is done
