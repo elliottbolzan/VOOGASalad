@@ -73,7 +73,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	
 	private void nextScreenAndStrategy(StepStrategy nextStepStrategy) {
 		levelManager.setCurrentStepStrategy(nextStepStrategy);
-		Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
+		Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
 		nextScreen.getTimeline().play();
 	}
 

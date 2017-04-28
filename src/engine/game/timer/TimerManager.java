@@ -68,4 +68,5 @@ public class TimerManager {
 	public String toString(){
 		return new DecimalFormat(MINUTES_FORMAT).format(milliseconds / 60000) + ":" + new DecimalFormat(SECONDS_FORMAT).format((milliseconds % 60000) / 1000.0);
 	}
+
 }
