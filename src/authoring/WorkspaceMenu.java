@@ -1,12 +1,16 @@
 package authoring;
 
 import java.io.File;
+import java.util.Optional;
 
 import authoring.components.HTMLDisplay;
 import javafx.geometry.Insets;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import polyglot.Case;
@@ -45,11 +49,11 @@ public class WorkspaceMenu extends View {
 	 */
 	private Menu createHelpMenu() {
 		Menu helpMenu = workspace.getMaker().makeMenu("HelpTitle");
-		helpMenu.getItems().addAll(workspace.getMaker().makeMenuItem(
-				workspace.getPolyglot().get("KeyCombinations", Case.TITLE), "Ctrl+H", e -> showKeyCombinations()),
-				workspace.getMaker().makeMenuItem(
-						workspace.getPolyglot().get("AuthoringTour", Case.TITLE), "Ctrl+G", e -> initTutorial())
-				);
+		helpMenu.getItems()
+				.addAll(workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("KeyCombinations", Case.TITLE),
+						"Ctrl+H", e -> showKeyCombinations()),
+						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("AuthoringTour", Case.TITLE),
+								"Ctrl+G", e -> initTutorial()));
 		return helpMenu;
 	}
 
@@ -58,8 +62,14 @@ public class WorkspaceMenu extends View {
 	 */
 	private Menu createSettingsMenu() {
 		Menu settingsMenu = workspace.getMaker().makeMenu("SettingsTitle");
-		settingsMenu.getItems().add(workspace.getMaker()
-				.makeMenuItem(workspace.getPolyglot().get("MusicSelect", Case.TITLE), "Ctrl+M", e -> chooseSong()));
+		MenuItem musicItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("MusicSelect", Case.TITLE),
+				"Ctrl+M", e -> chooseSong());
+		CheckMenuItem directionItem = workspace.getMaker().makeCheckItem(
+				workspace.getPolyglot().get("DirectionItem", Case.TITLE), e -> setTimeDirection(),
+				workspace.getGame().getClockGoingDown());
+		MenuItem timeItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("TimeItem", Case.TITLE),
+				"Ctrl+T", e -> setMaxTime());
+		settingsMenu.getItems().addAll(musicItem, new SeparatorMenuItem(), directionItem, timeItem);
 		return settingsMenu;
 	}
 
@@ -90,8 +100,8 @@ public class WorkspaceMenu extends View {
 
 	private Menu createServerMenu() {
 		Menu serverMenu = workspace.getMaker().makeMenu("ServerMenu");
-		MenuItem IPItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("IPItem", Case.TITLE),
-				"Ctrl+I", e -> workspace.getNetworking().showIP());
+		MenuItem IPItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("IPItem", Case.TITLE), "Ctrl+I",
+				e -> workspace.getNetworking().showIP());
 		MenuItem startItem = workspace.getMaker().makeMenuItem(
 				workspace.getPolyglot().get("StartServerItem", Case.TITLE), "Ctrl+Shift+S",
 				e -> workspace.getNetworking().start());
@@ -117,9 +127,28 @@ public class WorkspaceMenu extends View {
 				workspace.getPolyglot().get("KeyCombinations"));
 		display.show();
 	}
-	
-	private void initTutorial(){
+
+	private void initTutorial() {
 		new AuthoringTutorial(workspace.getPolyglot());
+	}
+
+	private void setTimeDirection() {
+		workspace.getGame().setClockGoingDown(!workspace.getGame().getClockGoingDown());
+	}
+
+	private void setMaxTime() {
+		System.out.println(workspace.getGame().getCurrentTime());
+		TextInputDialog dialog = workspace.getMaker().makeTextInputDialog("TimeTitle", "TimeHeader", "TimePrompt",
+				Double.toString(workspace.getGame().getCurrentTime()));
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()) {
+			try {
+				double time = Double.parseDouble(result.get());
+				workspace.getGame().setCurrentTime(time);
+			} catch (Exception e) {
+				workspace.getMaker().showFailure();
+			}
+		}
 	}
 
 }

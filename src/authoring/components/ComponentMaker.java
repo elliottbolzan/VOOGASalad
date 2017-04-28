@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.DialogPane;
@@ -265,6 +266,14 @@ public class ComponentMaker {
 
 	public MenuItem makeMenuItem(StringBinding binding, String keyCombination, EventHandler<ActionEvent> handler) {
 		return new CustomMenuItem(binding, keyCombination, handler);
+	}
+	
+	public CheckMenuItem makeCheckItem(StringBinding binding, EventHandler<ActionEvent> handler, boolean selected) {
+		CheckMenuItem item = new CheckMenuItem();
+		item.textProperty().bind(binding);
+		item.setOnAction(handler);
+		item.setSelected(selected);
+		return item;
 	}
 
 	public void showProgressForTask(Task<Void> task, boolean showResult) {
