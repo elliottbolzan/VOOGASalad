@@ -258,13 +258,10 @@ public class Game {
 	
 	public void setCurrentTime(double inputCurrentTime){
 		currentTime=inputCurrentTime;
-		System.out.println("setCurrentTime() called, set to " + currentTime);
 	}
 	
 	public void setClockGoingDown(boolean inputClockGoingDown){
 		clockGoingDown=inputClockGoingDown;
-		System.out.println("setClockGoingDown() called, set to " + clockGoingDown);
-		System.out.println("Game address = " + this);
 	}
 
 	public double getCurrentTime(){
@@ -282,6 +279,9 @@ public class Game {
 		cloneGame.setDefaults(this.cloneDefaults());
 		cloneGame.setSongPath(this.songPath);
 		cloneGame.setInfo(this.info);
+		cloneGame.setClockGoingDown(this.clockGoingDown);
+		cloneGame.setCurrentTime(this.currentTime);
+		//TODO : cloneGame.setAchievements();
 		// TODO: clone scores
 		cloneGame.setTestGame(this.isTestGame);
 		return cloneGame;

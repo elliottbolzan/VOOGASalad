@@ -151,8 +151,6 @@ public class LevelManager {
 		tempLevels.forEach(s -> s.addEntities(achievements));
 		levels.addAll(game.getLevels());
 		scorebar.setTimerManager(new TimerManager(game.getCurrentTime(), game.getClockGoingDown()));
-		System.out.println("In LevelManager, " + game.getCurrentTime() + " " + game.getClockGoingDown());
-		System.out.println("In LevelManager, game address = " + game);
 	}
 
 	// Call when start up a level (first time AND after die)
