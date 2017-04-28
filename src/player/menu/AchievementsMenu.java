@@ -91,10 +91,12 @@ public class AchievementsMenu extends AbstractMenu {
 	
 	private HBox makeProgressBox(Entity achievement){
 		HBox container = new HBox(10);
+		DoubleProperty percentage = ((AchievementEntity)achievement).getPercentCompleted();
 		ProgressBar progress = new ProgressBar();
+		progress.progressProperty().bind(percentage);
 		HBox.getHgrow(progress);
-		Label percentage = new Label(((AchievementEntity)achievement).getPercentCompleted().toString());
-		container.getChildren().addAll(progress, percentage);
+		Label percentageLabel = new Label(percentage.toString());
+		container.getChildren().addAll(progress, percentageLabel);
 		return container;
 	}
 	
