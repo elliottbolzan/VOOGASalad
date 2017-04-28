@@ -20,13 +20,14 @@ public class LevelSaver {
 	 * 
 	 * @return
 	 */
-	protected Element wrapLevelInXMLTags(List<Element> entityList, Element camera) {
+	protected Element wrapLevelInXMLTags(List<Element> entityList, Element camera, Element background) {
 
 		Element levelElement = gameXMLFactory.getDocument().createElement("Level");
 		Element entitiesElement = this.wrapEntityListInXMLTags(entityList);
 		levelElement.appendChild(entitiesElement);
 
 		this.importElement("Camera", camera, levelElement);
+		this.importElement("Background", background, levelElement);
 
 		return levelElement;
 	}
@@ -34,9 +35,7 @@ public class LevelSaver {
 	protected Element wrapEntityListInXMLTags(List<Element> entityList) {
 		Element entitiesElement = gameXMLFactory.getDocument().createElement("Entities");
 
-		for (int i = 0; i < entityList.size(); i++) {
-			// for (Element entityElement : entityList) {
-			Element entityElement = entityList.get(i);
+		for (Element entityElement : entityList) {
 			this.importElement("Entity", entityElement, entitiesElement);
 		}
 
