@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Game><Name GameName="TestGame"/><Levels><Level><Entities><Entity><engine.entities.entities.CharacterEntity>
+  <EntityType>Character</EntityType>
+  <x>325.0</x>
+  <y>175.0</y>
+  <width>200.0</width>
+  <height>300.0</height>
+  <zIndex>1.0</zIndex>
+  <name>Mario</name>
+  <imagePath>resources\MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <events/>
+  <additionalEventClasses/>
+  <additionalActionClasses/>
+</engine.entities.entities.CharacterEntity></Entity></Entities><Camera><engine.entities.entities.CameraEntity>
+  <EntityType>Camera</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>700.0</width>
+  <height>500.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Camera</name>
+  <imagePath>resources\CameraImage.png</imagePath>
+  <isVisible>false</isVisible>
+  <events/>
+  <additionalEventClasses/>
+  <additionalActionClasses/>
+</engine.entities.entities.CameraEntity></Camera></Level></Levels><Defaults><Entities><Entity><engine.entities.entities.CharacterEntity>
+  <EntityType>Character</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>0.0</width>
+  <height>0.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Mario</name>
+  <imagePath>resources\MarioImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <events/>
+  <additionalEventClasses/>
+  <additionalActionClasses/>
+</engine.entities.entities.CharacterEntity></Entity><Entity><engine.entities.entities.BlockEntity>
+  <EntityType>Block</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>0.0</width>
+  <height>0.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Block</name>
+  <imagePath>resources\BlockImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <events/>
+  <additionalEventClasses/>
+  <additionalActionClasses/>
+</engine.entities.entities.BlockEntity></Entity><Entity><engine.entities.entities.CameraEntity>
+  <EntityType>Camera</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>0.0</width>
+  <height>0.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Camera</name>
+  <imagePath>resources\CameraImage.png</imagePath>
+  <isVisible>false</isVisible>
+  <events/>
+  <additionalEventClasses/>
+  <additionalActionClasses/>
+</engine.entities.entities.CameraEntity></Entity><Entity><engine.entities.entities.AchievementEntity>
+  <EntityType>Achievement</EntityType>
+  <x>0.0</x>
+  <y>0.0</y>
+  <width>191.0</width>
+  <height>296.0</height>
+  <zIndex>0.0</zIndex>
+  <name>Princess</name>
+  <imagePath>resources\PrincessImage.png</imagePath>
+  <isVisible>true</isVisible>
+  <events>
+    <engine.events.regular__events.KeyPressEvent>
+      <params>
+        <engine.Parameter>
+          <name>Key</name>
+          <clazz>javafx.scene.input.KeyCode</clazz>
+          <obj class="javafx.scene.input.KeyCode">P</obj>
+        </engine.Parameter>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">5</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.entities.AchievementEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.regular__actions.JumpAction>
+          <params>
+            <engine.Parameter>
+              <name>Initial Jump Speed</name>
+              <clazz>java.lang.Double</clazz>
+              <obj class="double">15.0</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.entities.AchievementEntity" reference="../../../../.."/>
+        </engine.actions.regular__actions.JumpAction>
+      </actions>
+      <timesEventHasOccurred>
+        <value>0</value>
+        <valid>true</valid>
+        <name/>
+      </timesEventHasOccurred>
+    </engine.events.regular__events.KeyPressEvent>
+    <engine.events.additional__events.FinishAchievementEvent>
+      <params>
+        <engine.Parameter>
+          <name>How often to trigger</name>
+          <clazz>int</clazz>
+          <obj class="int">1</obj>
+        </engine.Parameter>
+      </params>
+      <entity class="engine.entities.entities.AchievementEntity" reference="../../.."/>
+      <actions>
+        <engine.actions.regular__actions.UpdateScoreAction>
+          <params>
+            <engine.Parameter>
+              <name>Score Change</name>
+              <clazz>java.lang.Integer</clazz>
+              <obj class="int">100</obj>
+            </engine.Parameter>
+          </params>
+          <entity class="engine.entities.entities.AchievementEntity" reference="../../../../.."/>
+        </engine.actions.regular__actions.UpdateScoreAction>
+      </actions>
+      <timesEventHasOccurred>
+        <value>0</value>
+        <valid>true</valid>
+        <name/>
+      </timesEventHasOccurred>
+      <achieved/>
+      <done>false</done>
+    </engine.events.additional__events.FinishAchievementEvent>
+  </events>
+  <additionalEventClasses>
+    <java-class>engine.events.additional_events.FinishAchievementEvent</java-class>
+  </additionalEventClasses>
+  <additionalActionClasses/>
+</engine.entities.entities.AchievementEntity></Entity></Entities></Defaults><Camera/><Resources/><GameInfo Info=""/></Game>
