@@ -29,7 +29,7 @@ public class NewLevelStepStrategy extends TransitionStepStrategy {
 	protected boolean handleHighscore(GraphicsEngine graphicsEngine) {
 		boolean handled = levelManager.getLevelNumber() == levelManager.getLevels().size() && graphicsEngine.getScorebar().isHighscore();
 		if(handled){
-			graphicsEngine.endScreen();
+			graphicsEngine.endGame();
 		}
 		return handled;
 	}
