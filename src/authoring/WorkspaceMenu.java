@@ -137,7 +137,6 @@ public class WorkspaceMenu extends View {
 	}
 
 	private void setMaxTime() {
-		System.out.println(workspace.getGame().getCurrentTime());
 		TextInputDialog dialog = workspace.getMaker().makeTextInputDialog("TimeTitle", "TimeHeader", "TimePrompt",
 				Double.toString(workspace.getGame().getCurrentTime()));
 		Optional<String> result = dialog.showAndWait();
