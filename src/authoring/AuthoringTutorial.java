@@ -26,24 +26,26 @@ public class AuthoringTutorial {
 	
 	private void editMario(){
 		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "FirstStep", workspace.getPolyglot().get("FirstPrompt"));
-		alert.setX(200);
-		alert.setY(-20);
+		setCoordinates(200,-20);
 		alert.showAndWait();
 		workspace.getPanel().getEntityDisplay().changeEditHandler(() -> clickedEdit());
 	}
 	
 	private void clickedEdit(){
 		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "SecondStep", workspace.getPolyglot().get("SecondPrompt"));
-		alert.setX(-10);
-		alert.setY(0);
-		alert.showAndWait();
+		setCoordinates(20,50);
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedEvent());
 	}
 	
 	private void addedEvent(){
 		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "ThirdStep", workspace.getPolyglot().get("ThirdPrompt"));
-		alert.setX(-30);
-		alert.setY(0);
+	
+		alert.showAndWait();
+	}
+	
+	private void setCoordinates(int x, int y){
+		alert.setX(x);
+		alert.setY(y);
 		alert.showAndWait();
 	}
 	
