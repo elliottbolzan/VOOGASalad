@@ -1,6 +1,7 @@
 package authoring.components;
 
-import authoring.Workspace;
+import java.util.ResourceBundle;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import polyglot.Polyglot;
 
 /**
  * @author Elliott Bolzan
@@ -22,12 +24,14 @@ import javafx.stage.StageStyle;
  */
 public class ProgressDialog {
 
-	private Workspace workspace;
+	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 	private Stage stage;
 	private ProgressBar progressBar = new ProgressBar();
 
-	public ProgressDialog(Workspace workspace) {
-		this.workspace = workspace;
+	public ProgressDialog(Polyglot polyglot, ResourceBundle IOResources) {
+		this.polyglot = polyglot;
+		this.IOResources = IOResources;
 		setupStage();
 		setupView();
 		stage.show();
@@ -38,7 +42,7 @@ public class ProgressDialog {
 		stage.initStyle(StageStyle.UNIFIED);
 		stage.setResizable(false);
 		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.titleProperty().bind(workspace.getPolyglot().get("ProgressTitle"));
+		stage.titleProperty().bind(polyglot.get("ProgressTitle"));
 	}
 	
 	private void setupView() {
@@ -47,14 +51,14 @@ public class ProgressDialog {
 		progressBar.setPadding(new Insets(5));
 		HBox.setHgrow(progressBar, Priority.ALWAYS);
 		Label info = new Label();
-		info.textProperty().bind(workspace.getPolyglot().get("ProgressContent"));
+		info.textProperty().bind(polyglot.get("ProgressContent"));
 		VBox box = new VBox();
 		box.setSpacing(10);
 		box.setAlignment(Pos.CENTER);
 		box.getChildren().addAll(progressBar, info);
 		box.setPadding(new Insets(20));
 		Scene scene = new Scene(box, 300, 80);
-		scene.getStylesheets().add(workspace.getIOResources().getString("StylesheetPath"));
+		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 		stage.setScene(scene);
 	}
 
