@@ -1,8 +1,8 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
-import engine.Entity;
 import engine.Parameter;
+import engine.actions.Action;
+import engine.entities.Entity;
 
 /**
  * Moves the associated Entity in the x direction by the amount stored in the

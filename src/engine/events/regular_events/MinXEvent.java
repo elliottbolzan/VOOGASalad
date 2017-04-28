@@ -1,7 +1,7 @@
 package engine.events.regular_events;
 
-import engine.Event;
 import engine.Parameter;
+import engine.events.Event;
 
 /**
  * Creates an Event that acts if the associated Entity goes below the given min

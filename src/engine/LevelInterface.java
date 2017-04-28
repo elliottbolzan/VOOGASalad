@@ -2,6 +2,8 @@ package engine;
 
 import java.util.Collection;
 
+import engine.entities.Entity;
+
 /**
  * @author nikita This is the interface for levels Used in the game.
  */

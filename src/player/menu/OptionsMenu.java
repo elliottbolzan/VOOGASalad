@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import engine.Action;
-import engine.Entity;
-import engine.Event;
 import engine.Parameter;
+import engine.actions.Action;
+import engine.entities.Entity;
+import engine.events.Event;
 import engine.events.regular_events.KeyPressEvent;
 import engine.events.regular_events.KeyReleaseEvent;
 import engine.game.Level;
@@ -95,14 +95,8 @@ public class OptionsMenu extends AbstractMenu {
 		Slider volume = new Slider();
 		MediaPlayer songPlayer = this.getMediaManager().getMediaPlayer();
 		
-		volume.setValue(songPlayer.getVolume());
-		volume.valueProperty().addListener(new InvalidationListener() {
-			public void invalidated(Observable ov) {
-				if (volume.isValueChanging()) {
-					songPlayer.setVolume(volume.getValue() / 100.0);
-				}
-			}
-		});
+		volume.setValue(songPlayer.getVolume() * 100.0);
+		songPlayer.volumeProperty().bind(volume.valueProperty().divide(100.0));
 		volume.setShowTickLabels(true);
 		volume.setShowTickMarks(true);
 

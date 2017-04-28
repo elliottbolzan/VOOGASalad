@@ -1,6 +1,6 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
+import engine.actions.Action;
 import engine.game.gameloop.LevelStepStrategy;
 
 /**

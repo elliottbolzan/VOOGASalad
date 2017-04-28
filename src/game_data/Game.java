@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import engine.Entity;
-import engine.entities.AchievementEntity;
-import engine.entities.CameraEntity;
+
+import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,7 +42,7 @@ public class Game {
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
 		songPath = "";
-		info = "Information about game";
+		info = "";
 		achievements = new ArrayList<Entity>();
 		highscores = FXCollections.observableList(addDefaults());
 		saveStates = FXCollections.observableArrayList();
@@ -174,6 +175,7 @@ public class Game {
 		for(Level level : levels){
 			achievements.addAll(level.getEntities().stream().filter(s -> s.getClass().equals(AchievementEntity.class)).collect(Collectors.toList()));
 		}
+		System.out.println(achievements.size());
 	}
 
 	/**

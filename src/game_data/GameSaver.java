@@ -18,7 +18,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import engine.Entity;
+
+import engine.entities.Entity;
 import engine.game.Level;
 
 public class GameSaver {
@@ -38,13 +39,15 @@ public class GameSaver {
 	}
 	
 	protected void saveGameState(Game game, String zipFolderPath, String saveName) {
+		/*
 		try {
 			(new Unpackager()).unzip(zipFolderPath, zipFolderPath.replace(".vs", ""));
 		} catch(Exception e) {
 			//TODO?
-		}
+		}*/
 		
 		String gameFolderPath = zipFolderPath.replace(".vs", "");
+		//System.out.println(gameFolderPath);
 		this.saveAndCompress(game, gameFolderPath, saveName);
 	}
 	

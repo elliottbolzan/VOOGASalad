@@ -1,7 +1,7 @@
 package engine.events.regular_events;
 
-import engine.Event;
 import engine.Parameter;
+import engine.events.Event;
 
 /**
  * This event detects if the Entity it is attached to is within the

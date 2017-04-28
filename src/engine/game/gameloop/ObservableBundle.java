@@ -1,7 +1,7 @@
 package engine.game.gameloop;
 
-import engine.Entity;
 import engine.GameInfo;
+import engine.entities.Entity;
 import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
 import engine.game.eventobserver.TimerObservable;

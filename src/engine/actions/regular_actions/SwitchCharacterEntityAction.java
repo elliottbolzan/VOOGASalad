@@ -1,8 +1,8 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
-import engine.Entity;
-import engine.Event;
+import engine.actions.Action;
+import engine.entities.Entity;
+import engine.events.Event;
 import engine.Parameter;
 import javafx.application.Platform;
 
