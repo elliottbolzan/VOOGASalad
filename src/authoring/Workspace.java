@@ -162,7 +162,6 @@ public class Workspace extends View {
 	public void test() {
 		createGame();
 		Game testGame = game.clone();
-		testGame.setTestGame(true);
 		Stage stage = new Stage();
 		new BasicPlayer(stage, testGame, polyglot, IOResources);
 		stage.show();
