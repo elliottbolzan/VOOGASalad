@@ -83,7 +83,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public int getLives() {
 		return (int) this.getParam("Lives");
 	}
-	
+
 	/**
 	 * 
 	 * @return Value of the Entity meant to represent the Entity's depth.
@@ -91,7 +91,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public void setLives(int lives) {
 		this.updateParam("Lives", lives);
 	}
-	
+
 	/**
 	 * 
 	 * @return Value of the Entity meant to represent the Entity's depth.
@@ -116,7 +116,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	 *            Set the Entity's depth on the screen with respect to other
 	 *            Entity's.
 	 */
-	public void setZ(int z) {
+	public void setZ(double z) {
 		this.zIndex.set(z);
 	}
 
@@ -279,7 +279,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	@Override
 	public List<Event> getEvents() {
 		return events;
-		//return Collections.unmodifiableList(events);
+		// return Collections.unmodifiableList(events);
 	}
 
 	/**
@@ -317,6 +317,8 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.setWidth(entity.getWidth());
 		this.setX(entity.getX());
 		this.setY(entity.getY());
+		this.setZ(entity.getZ());
+		this.setIsVisible(entity.getIsVisible());
 	}
 
 	/**
@@ -343,18 +345,19 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		return copy;
 	}
 
-	public List<String> getAdditionalEvents(){
+	public List<String> getAdditionalEvents() {
 		return additionalEventClasses.stream().map(s -> s.getSimpleName()).collect(Collectors.toList());
 	}
-	
-	public List<String> getAdditionalActions(){
+
+	public List<String> getAdditionalActions() {
 		return additionalActionClasses.stream().map(s -> s.getSimpleName()).collect(Collectors.toList());
 	}
-	
-	public void addAdditionalEventClass(Class<?> event){
+
+	public void addAdditionalEventClass(Class<?> event) {
 		additionalEventClasses.add(event);
 	}
-	public void addAdditionalActionClass(Class<?> action){
+
+	public void addAdditionalActionClass(Class<?> action) {
 		additionalActionClasses.add(action);
 	}
 }
