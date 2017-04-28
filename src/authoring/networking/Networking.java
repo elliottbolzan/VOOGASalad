@@ -7,7 +7,7 @@ import java.time.Duration;
 import java.util.concurrent.Executors;
 
 import authoring.Workspace;
-import authoring.canvas.EntityUpdate;
+import authoring.command.EntityCommandInfo;
 import authoring.panel.chat.Message;
 import networking.io.Serializer;
 import networking.io.Unserializer;
@@ -87,7 +87,7 @@ public class Networking
 		if (packet != null && packet.getIdentifier().equals(identifier)) {
 			if (packet instanceof Message) {
 				workspace.getPanel().getChat().received(packet);
-			} else if (packet instanceof EntityUpdate) {
+			} else if (packet instanceof EntityCommandInfo) {
 				workspace.getLevelEditor().received(packet);
 			}
 		}

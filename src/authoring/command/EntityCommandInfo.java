@@ -1,18 +1,20 @@
 package authoring.command;
 
-public abstract class EntityCommandInfo extends CommandInfo
+import authoring.networking.Packet;
+
+public abstract class EntityCommandInfo extends Packet
 {
-	private static final long serialVersionUID = 7742404661749847649L;
-	private long entityId;
+	private static final long serialVersionUID = -8684242471160075071L;
 
-	public EntityCommandInfo(long entityId)
+	private String entityName;
+	
+	public EntityCommandInfo(String entityName)
 	{
-		this.entityId = entityId;
+		this.entityName = entityName;
 	}
-
-	public long getEntityId()
+	
+	public String getEntityName()
 	{
-		return entityId;
+		return entityName;
 	}
-
 }

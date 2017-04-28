@@ -7,9 +7,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import authoring.Workspace;
+import authoring.command.MoveInfo;
 import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -59,7 +61,8 @@ public class LayerEditor extends View
 		layers.keySet().stream().forEach(id -> {
 			for (EntityView entity : layers.get(id).getEntities()) {
 				newLevel.addEntity(entity.getEntity(), entity.getEntity().getX(), entity.getEntity().getY(), id);
-			};
+			}
+			;
 		});
 		return newLevel;
 	}
@@ -264,24 +267,53 @@ public class LayerEditor extends View
 	public EntityView addEntity(Entity entity, double x, double y, int z)
 	{
 		EntityView addedEntity = canvas.addEntity(entity, x, y);
-		addEntityToLayer(addedEntity, z);
-		attachSelectionListeners(addedEntity);
-		
-		if(entity instanceof CameraEntity) {
-			canvas.removeEntity(levelCameraView);
-			levelCameraView = addedEntity;
-		} 
-		
-		return addedEntity;
+		return addEntity(addedEntity, z);
 	}
-	
-	private void addEntityToLayer(EntityView entityView, int z) {
+
+	public EntityView addEntity(EntityView entity, int z)
+	{
+		canvas.addEntity(entity);
+		addEntityToLayer(entity, z);
+		attachSelectionListeners(entity);
+
+		if (entity.getEntity() instanceof CameraEntity) {
+			canvas.removeEntity(levelCameraView);
+			levelCameraView = entity;
+		}
+		addDragDetection(entity);
+
+		return entity;
+	}
+
+	private void addDragDetection(EntityView entity)
+	{
+		entity.addEventHandler(MouseEvent.DRAG_DETECTED, e -> {
+			double oldX = entity.getTranslateX();
+			double oldY = entity.getTranslateY();
+			EventHandler<MouseEvent> dragFinishHandler = e2 -> {
+				double newX = entity.getTranslateX();
+				double newY = entity.getTranslateY();
+				if (oldX != newX || oldY != newY) {
+					MoveInfo moveInfo = new MoveInfo(entity.getEntity().getName(), entity.getEntityId(), oldX, oldY,
+							newX, newY);
+					workspace.getNetworking().send(moveInfo);
+				}
+			};
+			entity.addEventHandler(MouseEvent.MOUSE_RELEASED, dragFinishHandler);
+			entity.addEventHandler(MouseEvent.MOUSE_RELEASED,
+					e2 -> entity.removeEventHandler(MouseEvent.MOUSE_RELEASED, dragFinishHandler));
+		});
+	}
+
+	private void addEntityToLayer(EntityView entityView, int z)
+	{
 		entityView.getEntity().setZ(z);
 		setNumLayers(z);
 		layers.get(z).addEntity(entityView);
 	}
-	
-	private void attachSelectionListeners(EntityView entityView) {
+
+	private void attachSelectionListeners(EntityView entityView)
+	{
 		entityView.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			if (!e.isShiftDown() && !entityView.isSelected()) {
 				for (Layer layer : layers.values()) {

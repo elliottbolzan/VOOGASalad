@@ -1,15 +1,15 @@
 package authoring.command;
 
-public class ResizeInfo extends EntityCommandInfo
+public class ResizeInfo extends SingleEntityCommandInfo
 {
 
 	private static final long serialVersionUID = 1199205996330909954L;
 	private double deltaWidth;
 	private double deltaHeight;
 
-	public ResizeInfo(long entityId, double deltaWidth, double deltaHeight)
+	public ResizeInfo(String entityName, long entityId, double deltaWidth, double deltaHeight)
 	{
-		super(entityId);
+		super(entityName, entityId);
 		this.deltaWidth = deltaWidth;
 		this.deltaHeight = deltaHeight;
 	}

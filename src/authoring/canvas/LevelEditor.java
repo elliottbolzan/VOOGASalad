@@ -5,9 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import authoring.Workspace;
+import authoring.command.AddCommand;
+import authoring.command.AddInfo;
+import authoring.command.MoveCommand;
+import authoring.command.MoveInfo;
 import authoring.networking.Packet;
 import engine.Entity;
 import engine.game.Level;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -217,16 +222,48 @@ public class LevelEditor extends View
 
 	public void received(Packet packet)
 	{
-		EntityUpdate update = (EntityUpdate) packet;
-		for (Layer layer : currentLevel.getLayers()) {
-			layer.getEntities().forEach(entityView -> {
-				if (entityView.getEntity().getName().equals(update.getName())) {
-					entityView.setX(update.getX());
-					entityView.setY(update.getY());
-					entityView.setMinHeight(update.getHeight());
-					entityView.setMinWidth(update.getWidth());
-					entityView.setImage(update.getImage());
+
+		if (packet instanceof AddInfo) {
+			Platform.runLater(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					AddInfo addInfo = (AddInfo) packet;
+					double x = addInfo.getX();
+					double y = addInfo.getY();
+					long entityId = addInfo.getEntityId();
+					System.out.println(addInfo.getEntityId() + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+					Entity entity = workspace.getDefaults().getEntity(addInfo.getEntityName());
+					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
+							(int) getCurrentLevel().getCanvas().getTileSize(), x, y);
+					AddCommand addCommand = new AddCommand(newEntity, LevelEditor.this.getCurrentLevel());
+					addCommand.execute();
 				}
+			});
+		} else if (packet instanceof MoveInfo) {
+			System.out.println("RECEIVED");
+			Platform.runLater(new Runnable()
+			{
+
+				@Override
+				public void run()
+				{
+					MoveInfo moveInfo = (MoveInfo) packet;
+					for (LayerEditor level : levels) {
+						for (Layer layer : level.getLayers()) {
+							for (EntityView entity : layer.getEntities()) {
+								System.out.println(entity.getEntityId() + "," + moveInfo.getEntityId());
+								if (entity.getEntityId() == moveInfo.getEntityId()) {
+									MoveCommand moveCommand = new MoveCommand(entity, moveInfo);
+									moveCommand.execute();
+								}
+							}
+						}
+					}
+					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				}
+
 			});
 		}
 	}

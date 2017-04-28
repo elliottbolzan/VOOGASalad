@@ -8,7 +8,6 @@ import engine.Entity;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -182,11 +181,13 @@ public class Canvas extends View
 		entities.add(newEntity);
 		expandablePane.addEntity(newEntity, x, y);
 
-		EntityUpdate entityUpdate = new EntityUpdate(new Image(entity.getImagePath()), x, y, newEntity.getMinWidth(),
-				newEntity.getMinHeight(), entity.getName());
-		workspace.getNetworking().send(entityUpdate);
-
 		return newEntity;
+	}
+
+	public void addEntity(EntityView entity)
+	{
+		entities.add(entity);
+		expandablePane.addEntity(entity, entity.getTranslateX(), entity.getTranslateY());
 	}
 
 	/**

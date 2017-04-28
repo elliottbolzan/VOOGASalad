@@ -1,6 +1,7 @@
 package authoring.canvas;
 
 import java.util.List;
+import java.util.Random;
 
 import authoring.Workspace;
 import engine.Entity;
@@ -62,6 +63,11 @@ public class EntityView extends VBox
 	 */
 	public EntityView(Entity entity, Canvas canvas, int gridSize, double x, double y)
 	{
+		this(entity, new Random().nextLong(), canvas, gridSize, x, y);
+	}
+
+	public EntityView(Entity entity, long entityId, Canvas canvas, int gridSize, double x, double y)
+	{
 		this.entity = entity.clone();
 		this.image = new ImageView(new Image(entity.getImagePath()));
 		this.canvas = canvas;
@@ -69,6 +75,7 @@ public class EntityView extends VBox
 		this.setMinWidth(entity.getWidth());
 		this.tileSize = gridSize;
 		selected = false;
+		this.entityId = entityId;
 
 		setup(gridSize);
 	}
@@ -142,6 +149,11 @@ public class EntityView extends VBox
 			this.setEffect(null);
 			this.setBorder(null);
 		}
+	}
+
+	public long getEntityId()
+	{
+		return entityId;
 	}
 
 	/**

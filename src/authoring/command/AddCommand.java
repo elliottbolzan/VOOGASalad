@@ -17,7 +17,7 @@ public class AddCommand extends EntityCommand
 	@Override
 	public void execute()
 	{
-		layer.getChildren().add(super.getEntityView());
+		layer.addEntity(super.getEntityView(), 1);
 	}
 
 	@Override

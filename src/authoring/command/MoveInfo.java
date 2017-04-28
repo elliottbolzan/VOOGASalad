@@ -1,26 +1,40 @@
 package authoring.command;
 
-public class MoveInfo extends EntityCommandInfo
+public class MoveInfo extends SingleEntityCommandInfo
 {
 
 	private static final long serialVersionUID = 1540267030725337292L;
-	private double shiftX;
-	private double shiftY;
+	private double oldX;
+	private double oldY;
+	private double newX;
+	private double newY;
 
-	public MoveInfo(long entityId, double shiftX, double shiftY)
+	public MoveInfo(String entityName, long entityId, double oldX, double oldY, double newX, double newY)
 	{
-		super(entityId);
-		this.shiftX = shiftX;
-		this.shiftY = shiftY;
+		super(entityName, entityId);
+		this.oldX = oldX;
+		this.oldY = oldY;
+		this.newX = newX;
+		this.newY = newY;
 	}
 
-	public double getShiftX()
+	public double getOldX()
 	{
-		return shiftX;
+		return oldX;
 	}
 
-	public double getShiftY()
+	public double getOldY()
 	{
-		return shiftY;
+		return oldY;
+	}
+
+	public double getNewX()
+	{
+		return newX;
+	}
+
+	public double getNewY()
+	{
+		return newY;
 	}
 }
