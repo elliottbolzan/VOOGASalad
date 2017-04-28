@@ -1,7 +1,7 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
 import engine.Parameter;
+import engine.actions.Action;
 
 /**
  * Move an associated Entity horizontally by a specific amount associated with

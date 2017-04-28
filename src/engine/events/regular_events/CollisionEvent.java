@@ -1,9 +1,9 @@
 package engine.events.regular_events;
 
-import engine.Event;
 import engine.Parameter;
-import engine.Collision;
-import engine.CollisionSide;
+import engine.collisions.Collision;
+import engine.collisions.CollisionSide;
+import engine.events.Event;
 
 /**
  * Stores a Collision that is associated with a certain Entity. Whenever that
@@ -39,7 +39,10 @@ public class CollisionEvent extends Event {
 	 */
 	@Override
 	public boolean act() {
-		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
+		for (Collision collision : getGameInfo()
+				.getObservableBundle()
+				.getCollisionObservable()
+				.getCollisions()) {
 			if (collision.isBetween(getEntity().getName(), (String) getParam("Entity"))
 					&& collision.getCollisionSide().equals(this.collisionSide)
 					&& collision.getCollisionDepth() > (double) getParam("Detection Depth")) {

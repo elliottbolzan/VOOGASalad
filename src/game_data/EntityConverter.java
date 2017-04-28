@@ -8,8 +8,10 @@ import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
-import engine.Entity;
+import engine.GameObject;
+import engine.entities.Entity;
 import engine.game.EngineController;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -49,6 +51,7 @@ public class EntityConverter implements Converter {
 	@Override
 	public void marshal(Object arg0, HierarchicalStreamWriter writer, MarshallingContext context) {
 		Entity entity = (Entity) arg0;
+		entity.setGameInfo(null);
 		writer.startNode("EntityType");
 		writer.setValue(entity.getDisplayName());
 		writer.endNode();
@@ -94,14 +97,19 @@ public class EntityConverter implements Converter {
 			}
 			if (value != null) {
 				writer.startNode(name);
+				if (value instanceof Property){
+					((Property)value).unbind();
+				}
 				if (value instanceof SimpleDoubleProperty)
 					writer.setValue(((SimpleDoubleProperty) value).get() + "");
 				else if (value instanceof SimpleStringProperty)
 					writer.setValue(((SimpleStringProperty) value).get());
 				else if (value instanceof SimpleBooleanProperty)
 					writer.setValue(((SimpleBooleanProperty) value).get() + "");
-				else
+				else if (value instanceof GameObject){
+					((GameObject)value).setGameInfo(null);
 					context.convertAnother(value);
+				}
 				writer.endNode();
 			}
 		}

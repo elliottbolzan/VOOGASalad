@@ -1,7 +1,7 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
 import engine.Parameter;
+import engine.actions.Action;
 
 /**
  * Action that moves an entity back and forth at the given step interval.

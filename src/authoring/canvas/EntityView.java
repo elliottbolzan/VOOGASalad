@@ -3,7 +3,7 @@ package authoring.canvas;
 import java.util.List;
 
 import authoring.Workspace;
-import engine.Entity;
+import engine.entities.Entity;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

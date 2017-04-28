@@ -1,9 +1,9 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
-import engine.CollisionSide;
-import engine.Entity;
 import engine.Parameter;
+import engine.actions.Action;
+import engine.collisions.CollisionSide;
+import engine.entities.Entity;
 import javafx.application.Platform;
 
 /**
@@ -12,7 +12,6 @@ import javafx.application.Platform;
  * @author nikita
  */
 public class SpawnEntityAction extends Action {
-
 	public SpawnEntityAction() {
 		addParam(new Parameter("Entity Name", String.class, ""));
 		addParam(new Parameter("Side", String.class, ""));
@@ -31,9 +30,10 @@ public class SpawnEntityAction extends Action {
 				@Override
 				public void run() {
 					Entity newEntity = null;
-					for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
+					for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()){
 						if (((String) getParam("Entity Name")).equals(entity.getName())) {
 							newEntity = entity.clone();
+							newEntity.setGameInfo(getGameInfo());
 							break;
 						}
 					}

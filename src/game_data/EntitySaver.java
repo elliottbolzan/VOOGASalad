@@ -3,7 +3,10 @@ package game_data;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -16,8 +19,13 @@ import java.util.List;
 import org.w3c.dom.Element;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import engine.Entity;
 
+import engine.entities.Entity;
+
+/**
+ * @author Jay Doherty
+ *
+ */
 public class EntitySaver {
 
 	private GameXMLFactory gameXMLFactory;
@@ -39,7 +47,6 @@ public class EntitySaver {
 		for(Entity entity : entities) {
 			Element xmlEntity = this.getEntityAsXML(entity, gameFolderPath);
 			entityNodes.add(xmlEntity);
-			System.out.println("entitynull: " + xmlEntity);
 		}
 
 		return entityNodes;
@@ -62,14 +69,8 @@ public class EntitySaver {
 		
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
-		String xmlString = xStream.toXML(entity);
-		
+		String xmlString = xStream.toXML(entity);	
 		entity.setImagePath(absoluteImagePath);
-		System.out.println("======================");
-		System.out.println(entity);
-		System.out.println(entity.getEvents());
-
-	 	//System.out.println("XMLSTRING: " + xmlString);
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 	

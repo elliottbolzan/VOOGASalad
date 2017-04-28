@@ -3,9 +3,9 @@ package engine.game.eventobserver;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.Collision;
-import engine.CollisionSide;
-import engine.Entity;
+import engine.collisions.Collision;
+import engine.collisions.CollisionSide;
+import engine.entities.Entity;
 
 /**
  * Part of the Observable Design Pattern for detecting if collisions occur

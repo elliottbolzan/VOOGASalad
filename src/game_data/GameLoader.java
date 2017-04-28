@@ -17,8 +17,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import engine.Entity;
-import engine.entities.CameraEntity;
+
+import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import exceptions.NotAGameFolderException;
 import javafx.collections.FXCollections;
@@ -41,11 +42,13 @@ public class GameLoader {
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
 		
 		String tempFolderPath = System.getProperty("java.io.tmpdir");
-		tempFolderPath=gameFolderPath.replace(".vs", "");
+		//tempFolderPath=gameFolderPath.replace(".vs", "");
 		//System.out.println(tempFolderPath);
 		
 		//TempFolderPath
 		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
+		//System.out.println(tempFolderPath);
+		//(new Unpackager()).unzip(gameFolderPath, System.getProperty("java.io.tmpdir"));
 		
 		//(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".vs", ""));
 		//gameFolderPath = gameFolderPath.replace(".vs", "");
@@ -76,22 +79,21 @@ public class GameLoader {
 		
 		return game;
 	}
-
-	private void addAchievements(Game game, Document doc, String folderPath) {
-		NodeList achieveNode = doc.getElementsByTagName("Achievements");
-		//game.setAchievements(achieveNode.item(0).getAttributes().item(0).getNodeValue());
-	}
 	
 	private void addSaves(Game game, String folderPath){
 		ObservableList<String> saves = FXCollections.observableArrayList();
 		File folder = new File(folderPath);
 		File[] allFiles = folder.listFiles();
 		for(File file : allFiles){
-			if(file.getName().contains("save") && file.getName().contains(".xml")){
+			if(isSave(game, file)){
 				saves.add(file.getName());
 			}
 		}
 		game.setSaves(saves);
+	}
+	
+	private boolean isSave(Game game, File file){
+		return (file.getName().contains(game.getName()) && file.getName().contains("save") && file.getName().contains(".xml"));
 	}
 
 	private void addInfo(Game game, Document doc) {
