@@ -39,13 +39,6 @@ public class GameSaver {
 	}
 	
 	protected void saveGameState(Game game, String zipFolderPath, String saveName) {
-		/*
-		try {
-			(new Unpackager()).unzip(zipFolderPath, zipFolderPath.replace(".vs", ""));
-		} catch(Exception e) {
-			//TODO?
-		}*/
-		
 		String gameFolderPath = zipFolderPath.replace(".vs", "");
 		//System.out.println(gameFolderPath);
 		this.saveAndCompress(game, gameFolderPath, saveName);
@@ -107,9 +100,10 @@ public class GameSaver {
 			EntitySaver entitySaver = new EntitySaver(gameXMLFactory);
 			List<Element> entityElements = entitySaver.getEntityListAsXML(level.getEntities(), gameFolderPath);
 			Element cameraElement = entitySaver.getEntityAsXML(level.getCamera(), gameFolderPath);
-			
+			Element backgroundElement = entitySaver.getEntityAsXML(level.getBackground(), gameFolderPath);
+
 			LevelSaver levelSaver = new LevelSaver(gameXMLFactory);
-			Element levelElement = levelSaver.wrapLevelInXMLTags(entityElements, cameraElement);
+			Element levelElement = levelSaver.wrapLevelInXMLTags(entityElements, cameraElement, backgroundElement);
 			gameXMLFactory.addLevel(levelElement);
 		}
 	}
