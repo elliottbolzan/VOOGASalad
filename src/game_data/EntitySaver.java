@@ -19,6 +19,10 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import engine.entities.Entity;
 
+/**
+ * @author Jay Doherty
+ *
+ */
 public class EntitySaver {
 
 	private GameXMLFactory gameXMLFactory;
