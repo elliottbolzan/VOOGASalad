@@ -183,7 +183,7 @@ public class LevelEditor extends View
 					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
 							(int) getCurrentLevel().getCanvas().getTileSize(), x, y);
 					AddCommand addCommand = new AddCommand(newEntity, LevelEditor.this.getCurrentLevel());
-					addCommand.execute();
+					workspace.execute(addCommand);
 				}
 			});
 		} else if (packet instanceof MoveInfo) {
@@ -199,7 +199,7 @@ public class LevelEditor extends View
 								System.out.println(entity.getEntityId() + "," + moveInfo.getEntityId());
 								if (entity.getEntityId() == moveInfo.getEntityId()) {
 									MoveCommand moveCommand = new MoveCommand(entity, moveInfo);
-									moveCommand.execute();
+									workspace.execute(moveCommand);
 								}
 							}
 						}
@@ -219,7 +219,7 @@ public class LevelEditor extends View
 							for (EntityView entity : layer.getEntities()) {
 								if (entity.getEntityId() == resizeInfo.getEntityId()) {
 									ResizeCommand resizeCommand = new ResizeCommand(entity, resizeInfo);
-									resizeCommand.execute();
+									workspace.execute(resizeCommand);
 								}
 							}
 						}

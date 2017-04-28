@@ -306,6 +306,8 @@ public class LayerEditor extends View
 					if (workspace.getNetworking() != null) {
 						if (workspace.getNetworking().isConnected()) {
 							workspace.getNetworking().send(resizeInfo);
+						} else {
+							workspace.getLevelEditor().received(resizeInfo);
 						}
 					}
 				} else if (oldX != newX || oldY != newY) {
@@ -313,6 +315,8 @@ public class LayerEditor extends View
 							newX, newY);
 					if (workspace.getNetworking().isConnected()) {
 						workspace.getNetworking().send(moveInfo);
+					} else {
+						workspace.getLevelEditor().received(moveInfo);
 					}
 				}
 			};

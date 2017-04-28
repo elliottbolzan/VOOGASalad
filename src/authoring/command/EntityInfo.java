@@ -47,7 +47,7 @@ public class EntityInfo implements Serializable
 		entity = (Entity) xStream.fromXML(xmlString);
 		String tempDir = System.getProperty("java.io.tmpdir");
 		File dir = new File(tempDir);
-		File filename = File.createTempFile(entity.getName() + "Image", ".gif", dir);
+		File filename = File.createTempFile(entity.getName() + "Image", ".png", dir);
 		RenderedImage renderedImage = SwingFXUtils.fromFXImage(SwingFXUtils.toFXImage(ImageIO.read(s), null), null);
 		ImageIO.write(renderedImage, "gif", filename);
 		entity.setImagePath("file:" + filename.getAbsolutePath());
@@ -61,6 +61,6 @@ public class EntityInfo implements Serializable
 		xmlString = xStream.toXML(entity);
 		s.writeObject(xmlString);
 
-		ImageIO.write(SwingFXUtils.fromFXImage(new Image(entity.getImagePath()), null), "gif", s);
+		ImageIO.write(SwingFXUtils.fromFXImage(new Image(entity.getImagePath()), null), "png", s);
 	}
 }

@@ -5,13 +5,10 @@ package authoring;
 
 import java.io.File;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 import authoring.components.HTMLDisplay;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -25,19 +22,22 @@ import utils.views.View;
  * @author Elliott Bolzan
  *
  */
-public class WorkspaceMenu extends View {
+public class WorkspaceMenu extends View
+{
 
 	private Workspace workspace;
 
 	/**
 	 * 
 	 */
-	public WorkspaceMenu(Workspace workspace) {
+	public WorkspaceMenu(Workspace workspace)
+	{
 		this.workspace = workspace;
 		setup();
 	}
 
-	private void setup() {
+	private void setup()
+	{
 		Menu gameMenu = createGameMenu();
 		Menu editMenu = createEditMenu();
 		Menu settingsMenu = createSettingsMenu();
@@ -49,11 +49,14 @@ public class WorkspaceMenu extends View {
 		setCenter(box);
 	}
 
-	private void startServer() {
+	private void startServer()
+	{
 		// ask for game identifier
-		Task<Void> task = new Task<Void>() {
+		Task<Void> task = new Task<Void>()
+		{
 			@Override
-			public Void call() throws InterruptedException {
+			public Void call() throws InterruptedException
+			{
 				workspace.getNetworking().start("something");
 				return null;
 			}
@@ -63,15 +66,18 @@ public class WorkspaceMenu extends View {
 		// hide join server, show stop server
 	}
 
-	private void join() {
+	private void join()
+	{
 		// ask for game identifier, too
 		String gameIdentifier = "something";
 		TextInputDialog dialog = workspace.getMaker().makeTextInputDialog("JoinTitle", "JoinHeader", "JoinPrompt", "");
 		Optional<String> IP = dialog.showAndWait();
 		if (IP.isPresent()) {
-			Task<Void> task = new Task<Void>() {
+			Task<Void> task = new Task<Void>()
+			{
 				@Override
-				public Void call() throws InterruptedException {
+				public Void call() throws InterruptedException
+				{
 					workspace.getNetworking().join(IP.get(), gameIdentifier);
 					return null;
 				}
@@ -83,27 +89,30 @@ public class WorkspaceMenu extends View {
 	/**
 	 * @return
 	 */
-	private Menu createHelpMenu() {
+	private Menu createHelpMenu()
+	{
 		Menu helpMenu = workspace.getMaker().makeMenu("HelpTitle");
-		helpMenu.getItems().addAll(workspace.getMaker().makeMenuItem(
-				workspace.getPolyglot().get("KeyCombinations", Case.TITLE), "Ctrl+H", e -> showKeyCombinations()),
-				workspace.getMaker().makeMenuItem(
-						workspace.getPolyglot().get("AuthoringTour", Case.TITLE), "Ctrl+G", e -> initTutorial())
-				);
+		helpMenu.getItems()
+				.addAll(workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("KeyCombinations", Case.TITLE),
+						"Ctrl+H", e -> showKeyCombinations()),
+						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("AuthoringTour", Case.TITLE),
+								"Ctrl+G", e -> initTutorial()));
 		return helpMenu;
 	}
 
 	/**
 	 * @return
 	 */
-	private Menu createSettingsMenu() {
+	private Menu createSettingsMenu()
+	{
 		Menu settingsMenu = workspace.getMaker().makeMenu("SettingsTitle");
 		settingsMenu.getItems().add(workspace.getMaker()
 				.makeMenuItem(workspace.getPolyglot().get("MusicSelect", Case.TITLE), "Ctrl+M", e -> chooseSong()));
 		return settingsMenu;
 	}
 
-	private Menu createEditMenu() {
+	private Menu createEditMenu()
+	{
 		Menu editMenu = workspace.getMaker().makeMenu("EditTitle");
 		editMenu.getItems()
 				.addAll(workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Copy", Case.TITLE), "Ctrl+C",
@@ -111,14 +120,19 @@ public class WorkspaceMenu extends View {
 						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Paste", Case.TITLE), "Ctrl+V",
 								e -> workspace.getLevelEditor().paste()),
 						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("SelectAll", Case.TITLE),
-								"Ctrl+A", e -> workspace.getLevelEditor().getCurrentLevel().selectAll()));
+								"Ctrl+A", e -> workspace.getLevelEditor().getCurrentLevel().selectAll()),
+						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Undo", Case.TITLE), "Ctrl+Z",
+								e -> workspace.undo()),
+						workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Redo", Case.TITLE), "Ctrl+Y",
+								e -> workspace.redo()));
 		return editMenu;
 	}
 
 	/**
 	 * @return
 	 */
-	private Menu createGameMenu() {
+	private Menu createGameMenu()
+	{
 		Menu gameMenu = workspace.getMaker().makeMenu("GameMenu");
 		gameMenu.getItems()
 				.addAll(workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Save", Case.TITLE), "Ctrl+S",
@@ -128,7 +142,8 @@ public class WorkspaceMenu extends View {
 		return gameMenu;
 	}
 
-	private Menu createServerMenu() {
+	private Menu createServerMenu()
+	{
 		Menu serverMenu = workspace.getMaker().makeMenu("ServerMenu");
 		/*
 		 * MenuItem IPItem = workspace.getMaker().makeMenuItem(
@@ -143,7 +158,8 @@ public class WorkspaceMenu extends View {
 		return serverMenu;
 	}
 
-	private void chooseSong() {
+	private void chooseSong()
+	{
 		String directory = System.getProperty("user.dir") + workspace.getIOResources().getString("DefaultDirectory");
 		FileChooser chooser = workspace.getMaker().makeFileChooser(directory,
 				workspace.getPolyglot().get("MusicChooserTitle").get(),
@@ -154,13 +170,15 @@ public class WorkspaceMenu extends View {
 		}
 	}
 
-	private void showKeyCombinations() {
+	private void showKeyCombinations()
+	{
 		HTMLDisplay display = new HTMLDisplay(workspace.getIOResources().getString("HelpPath"),
 				workspace.getPolyglot().get("KeyCombinations"));
 		display.show();
 	}
-	
-	private void initTutorial(){
+
+	private void initTutorial()
+	{
 		new AuthoringTutorial(workspace.getPolyglot());
 	}
 

@@ -4,10 +4,12 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import authoring.canvas.LevelEditor;
 import authoring.command.AddInfo;
 import authoring.command.EntityListInfo;
+import authoring.command.UndoableCommand;
 import authoring.components.ComponentMaker;
 import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
@@ -54,6 +56,8 @@ public class Workspace extends View
 	private Game game;
 	private DefaultEntities defaults;
 	private Networking networking;
+	private Stack<UndoableCommand> undoStack;
+	private Stack<UndoableCommand> redoStack;
 
 	/**
 	 * Creates the Workspace.
@@ -95,6 +99,8 @@ public class Workspace extends View
 	 */
 	private void setup()
 	{
+		undoStack = new Stack<UndoableCommand>();
+		redoStack = new Stack<UndoableCommand>();
 		networking = new Networking(this);
 		data = new GameData();
 		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
@@ -128,7 +134,6 @@ public class Workspace extends View
 	public void received(Packet packet)
 	{
 		if (packet instanceof EntityListInfo) {
-			System.out.println("HI");
 			Platform.runLater(new Runnable()
 			{
 
@@ -165,6 +170,30 @@ public class Workspace extends View
 				panel.setCursor(Cursor.DEFAULT);
 			});
 		});
+	}
+
+	public void execute(UndoableCommand command)
+	{
+		command.execute();
+		undoStack.push(command);
+	}
+
+	public void undo()
+	{
+		if (undoStack.size() > 0) {
+			UndoableCommand undoCommand = undoStack.pop();
+			undoCommand.unexecute();
+			redoStack.push(undoCommand);
+		}
+	}
+
+	public void redo()
+	{
+		if (redoStack.size() > 0) {
+			UndoableCommand redoCommand = redoStack.pop();
+			redoCommand.execute();
+			undoStack.push(redoCommand);
+		}
 	}
 
 	private void load()
