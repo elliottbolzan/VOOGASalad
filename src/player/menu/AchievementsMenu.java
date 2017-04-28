@@ -4,26 +4,25 @@ import java.util.ResourceBundle;
 
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
+import engine.events.Event;
 import game_data.Game;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
-import javafx.util.converter.NumberStringConverter;
 import player.MediaManager;
 import polyglot.Polyglot;
 
@@ -44,7 +43,6 @@ public class AchievementsMenu extends AbstractMenu {
 		pane.setFitToWidth(true);
 		VBox container = new VBox(10);
 		container.setAlignment(Pos.CENTER);
-		System.out.println("IN ACHIEMEVEMENTS: " + getGame().getDefaults());
 		for(Entity entity : this.getGame().getAchievements()){
 			container.getChildren().add(makeAchievementBox(entity));
 		}
@@ -65,10 +63,13 @@ public class AchievementsMenu extends AbstractMenu {
 			image.setImage(new Image(achievement.getImagePath()));
 		}
 		image.setPreserveRatio(true);
-		image.setFitHeight(100);
 		image.setFitWidth(100);
+		image.setFitHeight(100);
+		StackPane pane = new StackPane();
+		pane.getChildren().addAll(image);
+		pane.setPrefSize(100, 100);
 		
-		container.getChildren().addAll(image, makeLabelBox(achievement));
+		container.getChildren().addAll(pane, makeLabelBox(achievement));
 		
 		return container;
 	}
@@ -89,15 +90,21 @@ public class AchievementsMenu extends AbstractMenu {
 		return box;
 	}
 	
-	private HBox makeProgressBox(Entity achievement){
-		HBox container = new HBox(10);
-		DoubleProperty percentage = ((AchievementEntity)achievement).getPercentCompleted();
-		ProgressBar progress = new ProgressBar();
-		progress.progressProperty().bind(percentage);
-		HBox.getHgrow(progress);
-		Label percentageLabel = new Label(percentage.toString());
-		container.getChildren().addAll(progress, percentageLabel);
-		return container;
+	private VBox makeProgressBox(Entity achievement){	
+		VBox progressBox = new VBox(5);
+		for(Event event : ((AchievementEntity) achievement).getPercentCompleted().keySet()){
+			HBox container = new HBox(10);
+			Label eventName = new Label(event.getDisplayName());
+			
+			ProgressBar progress = new ProgressBar();
+			progress.progressProperty().bind(((AchievementEntity) achievement).getPercentCompleted().get(event));
+			ProgressIndicator indicator = new ProgressIndicator();
+			indicator.progressProperty().bind(progress.progressProperty());
+			container.getChildren().addAll(eventName, progress, indicator);
+			progressBox.getChildren().add(container);
+		}
+
+		return progressBox;
 	}
 	
 }

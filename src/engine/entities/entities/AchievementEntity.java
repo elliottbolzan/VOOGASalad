@@ -1,9 +1,16 @@
 package engine.entities.entities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import engine.Parameter;
 import engine.entities.Entity;
 import engine.events.Event;
 import engine.events.additional_events.FinishAchievementEvent;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 /**
@@ -15,12 +22,14 @@ import javafx.beans.property.SimpleDoubleProperty;
  * @author nikita
  */
 public class AchievementEntity extends Entity {
+	private Map<Event, DoubleBinding> percent;
 
 	@Override
 	protected void setupDefaultParameters() {
 		addParam(new Parameter("Description", String.class, ""));
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		addAdditionalEventClass(FinishAchievementEvent.class);
+		percent = new HashMap<>();
 	}
 
 	@Override
@@ -32,15 +41,21 @@ public class AchievementEntity extends Entity {
 	 * 
 	 * @return percentage of progress made towards completing this achievement
 	 */
-	public SimpleDoubleProperty getPercentCompleted() {
-		double completed = 0, total = 0;
+	public Map<Event, DoubleBinding> getPercentCompleted() {
+		percent.clear();
 		for (Event event : getEvents()) {
 			if (!(event instanceof FinishAchievementEvent)) {
-				total += (int) event.getParam("How often to trigger");
-				completed += event.getNumberTimesTriggered().get() >= (int) event.getParam("How often to trigger")
-						? event.getNumberTimesTriggered().get() : (int) event.getParam("How often to trigger");
+				DoubleProperty completed = new SimpleDoubleProperty();
+				if(event.getNumberTimesTriggered().get() <= (int) event.getParam("How often to trigger")){
+					completed.bind(event.getNumberTimesTriggered());				
+				}else{
+					completed.unbind();
+				}
+				int total = (int) event.getParam("How often to trigger");
+				percent.put(event, completed.divide(total));
 			}
 		}
-		return new SimpleDoubleProperty(completed / total);
+		
+		return percent;
 	}
 }
