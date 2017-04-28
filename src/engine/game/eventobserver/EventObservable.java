@@ -2,8 +2,10 @@ package engine.game.eventobserver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import engine.entities.Entity;
+import exceptions.ObservableException;
 
 /**
  * Part of the Observable Design Pattern for detecting and responding to Events.
@@ -16,6 +18,7 @@ import engine.entities.Entity;
  */
 public abstract class EventObservable {
 	private List<Entity> observers;
+	private transient ResourceBundle resources = ResourceBundle.getBundle("resources/Strings");
 
 	public EventObservable() {
 		observers = new ArrayList<>();
@@ -36,9 +39,15 @@ public abstract class EventObservable {
 	/**
 	 * Engine External API. Removes toDetach from all Lists of
 	 * ObservableEntities that will update upon calling updateObservables().
+	 * 
+	 * @throws ObservableException
 	 */
 	public void detach(Entity toDetach) {
-		observers.remove(observers.indexOf(toDetach));
+		try {
+			observers.remove(observers.indexOf(toDetach));
+		} catch (Exception e) {
+			throw new ObservableException(resources.getString("EntityNotAttached"));
+		}
 	}
 
 	/**
@@ -46,8 +55,8 @@ public abstract class EventObservable {
 	 * the appropriate subclass and calls their update() method.
 	 */
 	public abstract void updateObservers();
-	
-	protected List<Entity> getObservers(){
+
+	protected List<Entity> getObservers() {
 		return observers;
 	}
 }

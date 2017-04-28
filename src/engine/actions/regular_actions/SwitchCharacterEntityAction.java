@@ -1,11 +1,19 @@
 package engine.actions.regular_actions;
 
 import engine.actions.Action;
-import engine.Parameter;
 import engine.entities.Entity;
-import engine.entities.entities.CharacterEntity;
+import engine.events.Event;
+import engine.Parameter;
 import javafx.application.Platform;
 
+/**
+ * Switches the Entity currently associated with the Action with the Entity
+ * associated with the Parameter "Character Entity". If there is no Entity
+ * associated with Character Entity, then nothing changes.
+ * 
+ * @author Kyle Finke
+ *
+ */
 public class SwitchCharacterEntityAction extends Action {
 
 	public SwitchCharacterEntityAction() {
@@ -16,23 +24,25 @@ public class SwitchCharacterEntityAction extends Action {
 	public void act() {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				CharacterEntity tempEntity = (CharacterEntity) getEntity().clone();
+				System.out.println(getEntity());
 				Entity newEntity = null;
-				for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
+				for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
 					if (((String) getParam("Character Entity")).equals(entity.getName())) {
 						newEntity = entity.clone();
+						System.out.println(newEntity);
 						break;
 					}
 				}
-				System.out.println(getEntity().getEvents());
-				System.out.println(getEntity().getEvents().get(0).getActions());
-				tempEntity.setImagePath(newEntity.getImagePath());
-				tempEntity.setEvents(newEntity.getEvents());
-				getGameInfo().getLevelManager().getCurrentLevel().removeEntity(getEntity());
-				tempEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(tempEntity);
-				tempEntity.getGameInfo().getGraphicsEngine().updateView();
-//				getGameInfo().getLevelManager().getCurrentLevel().removeEntity(getEntity());
-//				getGameInfo().getGraphicsEngine().updateView();
+				getEntity().setImagePath(newEntity.getImagePath());
+				for (Event e : newEntity.getEvents()) {
+					e.setGameInfo(getGameInfo());
+					for (Action a : e.getActions()) {
+						a.setGameInfo(getGameInfo());
+					}
+				}
+				getEntity().setEvents(newEntity.getEvents());
+				System.out.println(getEntity());
+				System.out.println("----------------------------------------");
 			}
 		});
 	}

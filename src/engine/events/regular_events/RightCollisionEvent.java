@@ -1,6 +1,5 @@
 package engine.events.regular_events;
 
-import engine.collisions.Collision;
 import engine.collisions.CollisionSide;
 
 /**

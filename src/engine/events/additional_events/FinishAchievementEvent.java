@@ -26,7 +26,6 @@ public class FinishAchievementEvent extends Event {
 				if (!achieved.get(event))
 					return false;
 			}
-			System.out.println("Finished achievement");
 			done = true;
 			return true;
 		}

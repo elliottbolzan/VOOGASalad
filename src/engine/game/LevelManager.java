@@ -29,7 +29,7 @@ public class LevelManager {
 	private SelectionGroup<Level> levelsInInitialState; // zero-indexed
 	private Set<Integer> unlockedLevelNumbers; // one-indexed
 	private int currentLevel; // one-indexed
-	private Game game;
+	private final Game game;
 	private Screen currentScreen;
 	private StepStrategy currentStepStrategy;
 	private boolean levelSelectionScreenMode;
@@ -95,7 +95,6 @@ public class LevelManager {
 	 * @param currentLevel
 	 * @return
 	 */
-
 	public boolean setLevelNumber(int currentLevel) {
 		if (levelNumberInGame(currentLevel)) {
 			this.currentLevel = currentLevel;
