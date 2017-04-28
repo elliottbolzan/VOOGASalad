@@ -24,14 +24,14 @@ public class TimerManager {
 	private int milliseconds;
 	private TickStrategy tickStrategy;
 	
-	public TimerManager(double totalSeconds, boolean tickUp){
+	public TimerManager(double totalSeconds, boolean tickDown){
 		initialMilliseconds = (int)(totalSeconds*1000);
 		milliseconds = initialMilliseconds;
-		if(tickUp){
-			 tickStrategy = new TickUp();
+		if(tickDown){
+			 tickStrategy = new TickDown();
 		}
 		else{
-			tickStrategy = new TickDown();
+			tickStrategy = new TickUp();
 		}
 	}
 	
