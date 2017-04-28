@@ -1,10 +1,13 @@
 package game_data;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
-import engine.Entity;
-import engine.entities.CameraEntity;
+import java.util.stream.Collectors;
+
+import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,26 +26,37 @@ public class Game {
 	private List<Level> levels;
 	private List<Entity> defaults;
 	private String songPath;
-	private String backPath;
 	private String info;
-	private String achievements;
-	private ObservableList<Score> scores;
-	private List<Score> scoresBase;
+	private Collection<Entity> achievements;
+	private ObservableList<Score> highscores;
+	private List<Score> highscoresBase;
+	private ObservableList<String> saveStates;
 	private boolean isTestGame = false;
+	private boolean clockGoingDown;
+	private double currentTime;
+	
 
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
 	 */
 	public Game() {
-		// Load these from a properties file.
+		// TODO Load these from a properties file.
 		name = "Game";
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
 		songPath = "";
-		setBackPath("");
-		setInfo("Information about game");
-		setAchievements("");
-		scores = FXCollections.observableList(addDefaults());
+		info = "";
+		achievements = new ArrayList<Entity>();
+		highscores = FXCollections.observableList(addDefaults());
+		saveStates = FXCollections.observableArrayList();
+	}
+
+	public void setSaves(ObservableList<String> saves) {
+		saveStates = saves;
+	}
+
+	public ObservableList<String> getSaves() {
+		return saveStates;
 	}
 
 	/**
@@ -99,7 +113,7 @@ public class Game {
 	 */
 	public List<Level> getLevels() {
 		return levels;
-		//return Collections.unmodifiableList(levels);
+		// return Collections.unmodifiableList(levels);
 	}
 
 	/**
@@ -117,7 +131,6 @@ public class Game {
 	 */
 	public List<Entity> getDefaults() {
 		return defaults;
-		//return Collections.unmodifiableList(defaults);
 	}
 
 	/**
@@ -147,14 +160,6 @@ public class Game {
 		this.songPath = songPath;
 	}
 
-	public String getBackPath() {
-		return backPath;
-	}
-
-	public void setBackPath(String backPath) {
-		this.backPath = backPath;
-	}
-
 	public String getInfo() {
 		return info;
 	}
@@ -163,11 +168,11 @@ public class Game {
 		this.info = info;
 	}
 
-	public String getAchievements() {
-		return achievements;
+	public Collection<Entity> getAchievements() {
+		return defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 	}
 
-	public void setAchievements(String achievements) {
+	public void setAchievements(List<Entity> achievements) {
 		this.achievements = achievements;
 	}
 
@@ -179,8 +184,8 @@ public class Game {
 	 * @param time
 	 *            the time remaining when game ended
 	 */
-	public void setScore(String score, String time, int timeValue, String name) {
-		for (int i = 0; i < scoresBase.size(); i++) {
+	public void setHighscores(String score, String time, int timeValue, String name) {
+		for (int i = 0; i < highscoresBase.size(); i++) {
 			if (isHighscore(score, timeValue, i)) {
 				shiftScores(i, score, time, name);
 				break;
@@ -196,41 +201,41 @@ public class Game {
 	 * @returns boolean for if the new score is a highscore
 	 */
 	public boolean isHighscore(String score, int timeValue, int i) {
-		if (Integer.parseInt(score) > Integer.parseInt(scoresBase.get(i).getScore())) {
+		if (Integer.parseInt(score) > Integer.parseInt(highscoresBase.get(i).getScore())) {
 			return true;
 		} else {
-			return Integer.parseInt(score) == Integer.parseInt(scoresBase.get(i).getScore())
-					&& timeValue > scoresBase.get(i).getTimeValue();
+			return Integer.parseInt(score) == Integer.parseInt(highscoresBase.get(i).getScore())
+					&& timeValue > highscoresBase.get(i).getTimeValue();
 		}
 	}
 
 	private void shiftScores(int i, String score, String time, String name) {
 		// Shift scores down
-		for (int j = i; j < scoresBase.size() - 1; j++) {
-			scoresBase.get(j + 1).setScore(scoresBase.get(j).getScore());
-			scoresBase.get(j + 1).setTime(scoresBase.get(j).getTime());
+		for (int j = i; j < highscoresBase.size() - 1; j++) {
+			highscoresBase.get(j + 1).setScore(highscoresBase.get(j).getScore());
+			highscoresBase.get(j + 1).setTime(highscoresBase.get(j).getTime());
 		}
 		// Replace score
-		scoresBase.get(i).setScore(score);
-		scoresBase.get(i).setTime(time);
-		scoresBase.get(i).setName(name);
+		highscoresBase.get(i).setScore(score);
+		highscoresBase.get(i).setTime(time);
+		highscoresBase.get(i).setName(name);
 	}
 
 	/**
 	 * 
 	 * @return the list of highscores
 	 */
-	public ObservableList<Score> getScores() {
-		return scores;
+	public ObservableList<Score> getHighscores() {
+		return highscores;
 	}
 
 	private List<Score> addDefaults() {
-		scoresBase = new ArrayList<>();
+		highscoresBase = new ArrayList<>();
 		for (int i = 1; i <= 10; i++) {
-			scoresBase.add(new Score(i));
+			highscoresBase.add(new Score(i));
 		}
 
-		return scoresBase;
+		return highscoresBase;
 	}
 
 	/**
@@ -249,16 +254,31 @@ public class Game {
 	public void setTestGame(boolean value) {
 		isTestGame = value;
 	}
+	
+	
+	public void setCurrentTime(double inputCurrentTime){
+		currentTime=inputCurrentTime;
+	}
+	
+	public void setClockGoingDown(boolean inputClockGoingDown){
+		clockGoingDown=inputClockGoingDown;
+	}
 
+	public double getCurrentTime(){
+		return currentTime;
+	}
+	//getTime from Scorebar from gameloop for currenttime
+	public boolean getClockGoingDown(){
+		return clockGoingDown;
+	}
+	
 	public Game clone() {
 		Game cloneGame = new Game();
 		cloneGame.setName(this.name);
 		cloneGame.setLevels(this.cloneLevels());
 		cloneGame.setDefaults(this.cloneDefaults());
 		cloneGame.setSongPath(this.songPath);
-		cloneGame.setBackPath(this.backPath);
 		cloneGame.setInfo(this.info);
-		cloneGame.setAchievements(this.achievements);
 		// TODO: clone scores
 		cloneGame.setTestGame(this.isTestGame);
 		return cloneGame;

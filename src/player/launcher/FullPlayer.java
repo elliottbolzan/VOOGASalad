@@ -31,7 +31,7 @@ public class FullPlayer extends AbstractPlayer {
 	private MediaManager mediaManager;
 
 	public FullPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
-		super(primaryStage, game, polyglot, IOResources);
+		super(primaryStage, game, mediaManager, polyglot, IOResources);
 		this.mediaManager = mediaManager;
 
 		this.buildControlBar();
@@ -93,11 +93,11 @@ public class FullPlayer extends AbstractPlayer {
 	}
 	
 	private void save() {
-		Game savedGame = new Game();
-		savedGame.setDefaults(this.getGame().getDefaults());
-		savedGame.setName(this.getGame().getName());
-		savedGame.setSongPath(this.getGame().getSongPath());
-		mediaManager.saveGame(this.getGame());
+		Game savedGame = this.getGame().clone();
+		savedGame.setLevels(this.getRunningGameLoop().getLevelManager().getLevels().getListRepresentation());
+		savedGame.setLevels(savedGame.cloneLevels());
+	//	savedGame.setInitialTime();
+		mediaManager.saveGame(savedGame);
 	}
 	
 	protected void exit() {

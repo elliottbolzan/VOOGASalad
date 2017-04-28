@@ -1,8 +1,8 @@
 package engine.events.regular_events;
 
-import engine.Entity;
-import engine.Event;
 import engine.Parameter;
+import engine.entities.Entity;
+import engine.events.Event;
 
 /**
  * Checks the distance between the Entity associated with this Event and the

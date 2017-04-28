@@ -2,10 +2,10 @@ package engine.events.regular_events;
 
 import java.util.List;
 
-import engine.Entity;
-import engine.Event;
 import engine.GameInfo;
 import engine.Parameter;
+import engine.entities.Entity;
+import engine.events.Event;
 import javafx.scene.input.KeyCode;
 
 /**

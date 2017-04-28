@@ -3,9 +3,9 @@ package authoring.panel.creation.editors;
 import java.util.List;
 
 import authoring.Workspace;
-import engine.Entity;
-import engine.Event;
 import engine.Parameter;
+import engine.entities.Entity;
+import engine.events.Event;
 import engine.game.EngineController;
 
 /**

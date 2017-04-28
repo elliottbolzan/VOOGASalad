@@ -3,7 +3,10 @@ package game_data;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -16,8 +19,13 @@ import java.util.List;
 import org.w3c.dom.Element;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import engine.Entity;
 
+import engine.entities.Entity;
+
+/**
+ * @author Jay Doherty
+ *
+ */
 public class EntitySaver {
 
 	private GameXMLFactory gameXMLFactory;
@@ -57,11 +65,27 @@ public class EntitySaver {
 		this.saveImage(absoluteImagePath, relativeImagePath, gameFolderPath);
 
 		entity.setImagePath(relativeImagePath);
+		
+		
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
+		//xStream.registerConverter(new GameObjectConverter());
 		String xmlString = xStream.toXML(entity);
-				
+		
 		entity.setImagePath(absoluteImagePath);
+		/*System.out.println("======================");
+		System.out.println(entity);
+		System.out.println(entity.getEvents());
+		System.out.println("XMLSTRING");(/
+
+		/*try (PrintStream out = new PrintStream(new FileOutputStream("filename" + entity.getName() + ".txt"))) {
+		    out.print(xmlString);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	 	System.out.println("XMLSTRING: " + xmlString);*/
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 	

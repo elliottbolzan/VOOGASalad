@@ -1,9 +1,9 @@
 package engine.events.regular_events;
 
-import engine.Event;
 import engine.Parameter;
-import engine.Collision;
-import engine.CollisionSide;
+import engine.collisions.Collision;
+import engine.collisions.CollisionSide;
+import engine.events.Event;
 
 /**
  * Stores a Collision that is associated with a certain Entity. Whenever that
@@ -13,11 +13,12 @@ import engine.CollisionSide;
  *
  */
 public class CollisionEvent extends Event {
-	private Collision collision;
+	private CollisionSide collisionSide;
 
 	public CollisionEvent() {
 		addParam(new Parameter("Entity", String.class, ""));
-		this.collision = new Collision(null, null, CollisionSide.ALL);
+		addParam(new Parameter("Detection Depth", double.class, 0.0));
+		this.collisionSide = CollisionSide.ALL;
 	}
 
 	/**
@@ -26,8 +27,8 @@ public class CollisionEvent extends Event {
 	 * 
 	 * @param collision
 	 */
-	protected void setCollision(Collision collision) {
-		this.collision = collision;
+	protected void setCollisionSide(CollisionSide collisionSide) {
+		this.collisionSide = collisionSide;
 	}
 
 	/**
@@ -40,7 +41,8 @@ public class CollisionEvent extends Event {
 	public boolean act() {
 		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
 			if (collision.isBetween(getEntity().getName(), (String) getParam("Entity"))
-					&& collision.getCollisionSide().equals(this.collision.getCollisionSide())) {
+					&& collision.getCollisionSide().equals(this.collisionSide)
+					&& collision.getCollisionDepth() > (double) getParam("Detection Depth")) {
 				return true;
 			}
 		}

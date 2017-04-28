@@ -8,10 +8,13 @@ import utils.views.View;
 import javafx.beans.binding.StringBinding;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -22,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -146,8 +150,15 @@ public class ComponentMaker {
 		Accordion accordion = new Accordion();
 		List<TitledPane> titledPanes = new ArrayList<TitledPane>();
 		for (int i = 0; i < subviews.size(); i++) {
+			Label infoLabel = new Label("?");
 			TitledPane pane = new TitledPane();
+			//infoLabel.setStyle("-fx-border-color: white;");
+			pane.setContentDisplay(ContentDisplay.RIGHT);
+			pane.setGraphic(infoLabel);
 			pane.textProperty().bind(subviews.get(i).getTitle());
+			Text t = new Text(pane.getText());
+
+			pane.setGraphicTextGap(188-t.getBoundsInLocal().getWidth());
 			pane.setContent(subviews.get(i));
 			titledPanes.add(pane);
 		}
@@ -155,7 +166,13 @@ public class ComponentMaker {
 		accordion.setExpandedPane(titledPanes.get(0));
 		return accordion;
 	}
-
+	
+	public void setToolTips(Accordion accordion, List<StringBinding> nameList){
+		for(int i = 0; i<nameList.size();i++){
+			new CustomTooltip(nameList.get(i),accordion.getPanes().get(i).getGraphic());
+		}
+	}
+	
 	/**
 	 * @param property
 	 *            the property that provides the title of the Button.

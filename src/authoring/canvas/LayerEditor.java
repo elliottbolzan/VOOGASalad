@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import authoring.Workspace;
-import engine.Entity;
-import engine.entities.CameraEntity;
+import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;

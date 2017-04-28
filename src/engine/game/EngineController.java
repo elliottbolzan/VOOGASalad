@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import engine.Action;
-import engine.Entity;
-import engine.Event;
-import engine.entities.CharacterEntity;
+import engine.actions.Action;
+import engine.entities.Entity;
+import engine.entities.entities.CharacterEntity;
+import engine.events.Event;
 
 /**
  * @author nikita This class is used for communication between game engine and
@@ -28,7 +28,7 @@ public class EngineController {
 	}
 
 	public List<String> getAllEntities() {
-		return findClasses("engine.entities");
+		return findClasses("engine.entities.entities");
 	}
 
 	/**
@@ -47,7 +47,8 @@ public class EngineController {
 
 	private List<String> getNames(Entity entity, String type) {
 		List<String> ret = findClasses("engine." + type + ".regular_" + type);
-		ret.addAll(entity.getAdditionalEvents().stream().map(s -> resources.getString(s)).collect(Collectors.toList()));
+		List<String> additional = type.equals("events") ? entity.getAdditionalEvents() : entity.getAdditionalActions();
+		ret.addAll(additional.stream().map(s -> resources.getString(s)).collect(Collectors.toList()));
 		return ret;
 	}
 
@@ -57,8 +58,9 @@ public class EngineController {
 
 	public Entity createEntity(String entity) {
 		try {
-			return (Entity) getInstance("engine.entities." + getClassName(entity));
+			return (Entity) getInstance("engine.entities.entities." + getClassName(entity));
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 
@@ -71,6 +73,7 @@ public class EngineController {
 			try {
 				return (Event) getInstance("engine.events.additional_events." + getClassName(event));
 			} catch (Exception e1) {
+				e1.printStackTrace();
 				return null;
 			}
 		}
@@ -83,6 +86,7 @@ public class EngineController {
 			try {
 				return (Action) getInstance("engine.actions.additional_actions." + getClassName(action));
 			} catch (Exception e1) {
+				e1.printStackTrace(); 	
 				return null;
 			}
 		}

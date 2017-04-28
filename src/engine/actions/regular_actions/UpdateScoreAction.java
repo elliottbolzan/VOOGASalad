@@ -1,7 +1,7 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
 import engine.Parameter;
+import engine.actions.Action;
 
 /**
  * Updates the score of the current game by the amount associated with the

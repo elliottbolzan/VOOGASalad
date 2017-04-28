@@ -2,10 +2,13 @@ package authoring;
 
 import java.io.File;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import authoring.components.HTMLDisplay;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -48,8 +51,11 @@ public class WorkspaceMenu extends View {
 	 */
 	private Menu createHelpMenu() {
 		Menu helpMenu = workspace.getMaker().makeMenu("HelpTitle");
-		helpMenu.getItems().add(workspace.getMaker().makeMenuItem(
-				workspace.getPolyglot().get("KeyCombinations", Case.TITLE), "Ctrl+H", e -> showKeyCombinations()));
+		helpMenu.getItems().addAll(workspace.getMaker().makeMenuItem(
+				workspace.getPolyglot().get("KeyCombinations", Case.TITLE), "Ctrl+H", e -> showKeyCombinations()),
+				workspace.getMaker().makeMenuItem(
+						workspace.getPolyglot().get("AuthoringTour", Case.TITLE), "Ctrl+G", e -> initTutorial())
+				);
 		return helpMenu;
 	}
 
@@ -116,6 +122,10 @@ public class WorkspaceMenu extends View {
 		HTMLDisplay display = new HTMLDisplay(workspace.getIOResources().getString("HelpPath"),
 				workspace.getPolyglot().get("KeyCombinations"));
 		display.show();
+	}
+	
+	private void initTutorial(){
+		new AuthoringTutorial(workspace.getPolyglot());
 	}
 
 }

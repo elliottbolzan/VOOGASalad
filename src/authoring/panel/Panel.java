@@ -1,14 +1,20 @@
 package authoring.panel;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
 import authoring.Workspace;
 import authoring.components.Direction;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
 import authoring.panel.settings.Settings;
+import javafx.beans.binding.StringBinding;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.Accordion;
+import javafx.beans.binding.StringBinding;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.Accordion;
 import utils.views.CollapsibleView;
 import utils.views.View;
@@ -71,10 +77,13 @@ public class Panel extends CollapsibleView {
 	 */
 	private void setup() {
 		Accordion accordion = workspace.getMaker().makeAccordion(subviews);
+		List<StringBinding> info = new ArrayList<StringBinding>(Arrays.asList(workspace.getPolyglot().get("EntityInfo"),
+				workspace.getPolyglot().get("ChatInfo"), workspace.getPolyglot().get("LayerPanelInfo"), workspace.getPolyglot().get("GameInfo")));
+		workspace.getMaker().setToolTips(accordion,info);
 		accordion.getStyleClass().add("gae-tile");
 		setCenter(accordion);
 	}
-
+	
 	/**
 	 * @return the EntityDisplay.
 	 */
@@ -117,6 +126,5 @@ public class Panel extends CollapsibleView {
 
 	public void selectLoadedLevelBox(int layerCount) {
 		layerPanel.selectLevelBox(layerCount);
-
 	}
 }

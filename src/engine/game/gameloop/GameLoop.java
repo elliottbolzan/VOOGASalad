@@ -20,20 +20,35 @@ public class GameLoop {
 	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
-	
-	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine){
+
+	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine) {
 		this.graphicsEngine = graphicsEngine;
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
 
-		levelManager = new LevelManager(game, new LevelStepStrategy());
+		levelManager = new LevelManager(game, new LevelStepStrategy(), scorebar);
 		levelManager.loadAllSavedLevels();
+		if (levelManager.getLevels().size() > 0) {
+			levelManager.addUnlockedLevel(1);
+		} else {
+			// TODO convert to exception
+			System.out.println("Error in GameLoop.java - game has no levels.");
+		}
+		setupFirstStrategy();
+
 		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
-		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
-		levelManager.setCurrentScreen(level1Screen);
+		Screen firstScreen = new Screen(levelManager, graphicsEngine, info);
+		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
+	}
+
+	private void setupFirstStrategy() {
+		// TODO set level selection screen mode from GAE here
+		StepStrategy firstStrategy = levelManager.getLevelSelectionScreenMode() ? new LevelSelectionStepStrategy()
+				: new LevelStepStrategy();
+		levelManager.setCurrentStepStrategy(firstStrategy);
 	}
 
 	public void startTimeline() {

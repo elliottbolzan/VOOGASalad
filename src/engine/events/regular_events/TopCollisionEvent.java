@@ -1,7 +1,6 @@
 package engine.events.regular_events;
 
-import engine.Collision;
-import engine.CollisionSide;
+import engine.collisions.CollisionSide;
 
 /**
  * Creates an Event that corresponds to two Entities colliding along the top
@@ -12,6 +11,6 @@ import engine.CollisionSide;
  */
 public class TopCollisionEvent extends CollisionEvent {
 	public TopCollisionEvent() {
-		setCollision(new Collision(null, null, CollisionSide.TOP));
+		setCollisionSide(CollisionSide.TOP);
 	}
 }

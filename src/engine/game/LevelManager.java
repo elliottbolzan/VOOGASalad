@@ -1,12 +1,18 @@
 package engine.game;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
+import engine.game.gameloop.Scorebar;
 import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
+import engine.game.timer.TimerManager;
 import game_data.Game;
 
 /**
@@ -22,20 +28,33 @@ import game_data.Game;
  */
 public class LevelManager {
 	private SelectionGroup<Level> levels; // zero-indexed
-	private SelectionGroup<Level> levelsInInitialState;
-	private List<Integer> wonLevelNumbers; // one-indexed
+	private SelectionGroup<Level> levelsInInitialState; // zero-indexed
+	private Set<Integer> unlockedLevelNumbers; // one-indexed
 	private int currentLevel; // one-indexed
-	private Game game;
+	private final Game game;
 	private Screen currentScreen;
 	private StepStrategy currentStepStrategy;
+	private boolean levelSelectionScreenMode;
+	private Scorebar scorebar;
 
-	public LevelManager(Game game, StepStrategy currentStepStrategy) {
+	public LevelManager(Game game, StepStrategy currentStepStrategy, Scorebar scorebar) {
 		levels = new ListSG<>();
 		levelsInInitialState = new ListSG<>();
-		wonLevelNumbers = new ArrayList<>();
+		unlockedLevelNumbers = new HashSet<>();
 		currentLevel = 1;
 		this.game = game;
 		this.currentStepStrategy = currentStepStrategy;
+		this.levelSelectionScreenMode = true;
+		this.scorebar = scorebar;
+	}
+
+	// TODO Call from GAE with small checkbox, or similar
+	public boolean getLevelSelectionScreenMode() {
+		return levelSelectionScreenMode;
+	}
+
+	public void setLevelSelectionScreenMode(boolean levelSelectionScreenMode) {
+		this.levelSelectionScreenMode = levelSelectionScreenMode;
 	}
 
 	public Screen getCurrentScreen() {
@@ -80,7 +99,6 @@ public class LevelManager {
 	 * @param currentLevel
 	 * @return
 	 */
-
 	public boolean setLevelNumber(int currentLevel) {
 		if (levelNumberInGame(currentLevel)) {
 			this.currentLevel = currentLevel;
@@ -89,7 +107,7 @@ public class LevelManager {
 	}
 
 	public boolean levelNumberInGame(int queriedLevel) {
-		return currentLevel >= 1 && currentLevel <= levels.size();
+		return queriedLevel >= 1 && queriedLevel <= levels.size();
 	}
 
 	public int getLevelNumber() {
@@ -101,7 +119,7 @@ public class LevelManager {
 	 * phase begins, level state should never be saved (unless add checkpoints).
 	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
 	 */
-	public void saveAllLevels() {
+	/*public void saveAllLevels() {
 		// GameDataExternalAPI gameData = new GameDataExternalAPI();
 		// gameData.saveGame(levels); // TODO Ask Game Data people if they can
 		// save
@@ -113,20 +131,26 @@ public class LevelManager {
 		// SelectionGroup interface)
 
 		System.out.println("Saved game");
-	}
+	}*/
 
 	/**
 	 * Since never save levels' state during gameplay, can call this method at
 	 * any point during game loop to get levels' initial states.
-	 * 
-	 * @param filename
 	 */
 
 	// Call once at beginning of the game
 	public void loadAllSavedLevels() {
 		// levels.removeAll();
-		levelsInInitialState.addAll(game.cloneLevels());
+		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
+				.collect(Collectors.toList());
+		//game.setAchievements(achievements);
+		List<Level> cloneLevels = game.cloneLevels();
+		cloneLevels.forEach(s -> s.addEntities(achievements));
+		levelsInInitialState.addAll(cloneLevels);
+		List<Level> tempLevels = game.getLevels();
+		tempLevels.forEach(s -> s.addEntities(achievements));
 		levels.addAll(game.getLevels());
+		scorebar.setTimerManager(new TimerManager(game.getCurrentTime(), game.getClockGoingDown()));
 	}
 
 	// Call when start up a level (first time AND after die)
@@ -138,11 +162,21 @@ public class LevelManager {
 		return levels;
 	}
 
-	public void rememberWonCurrentLevel() {
-		wonLevelNumbers.add(currentLevel);
+	public void addUnlockedLevel(int currentLevel) {
+		if (levelNumberInGame(currentLevel)) {
+			unlockedLevelNumbers.add(currentLevel);
+		}
 	}
 
-	public List<Integer> getWonLevelNumbers() {
-		return wonLevelNumbers;
+	public void clearUnlockedLevels() {
+		unlockedLevelNumbers.removeAll(unlockedLevelNumbers);
+	}
+
+	public Set<Integer> getUnlockedLevelNumbers() {
+		return unlockedLevelNumbers;
+	}
+
+	public Game getGame() {
+		return game;
 	}
 }
