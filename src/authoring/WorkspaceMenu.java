@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring;
 
 import java.io.File;
@@ -44,37 +41,6 @@ public class WorkspaceMenu extends View {
 		VBox box = new VBox(menuBar);
 		box.setPadding(new Insets(15, 0, 0, 0));
 		setCenter(box);
-	}
-
-	private void startServer() {
-		// ask for game identifier
-		Task<Void> task = new Task<Void>() {
-			@Override
-			public Void call() throws InterruptedException {
-				workspace.getNetworking().start("something");
-				return null;
-			}
-		};
-		workspace.showProgressForTask(task);
-		// tell them which IP to start;
-		// hide join server, show stop server
-	}
-
-	private void join() {
-		// ask for game identifier, too
-		String gameIdentifier = "something";
-		TextInputDialog dialog = workspace.getMaker().makeTextInputDialog("JoinTitle", "JoinHeader", "JoinPrompt", "");
-		Optional<String> IP = dialog.showAndWait();
-		if (IP.isPresent()) {
-			Task<Void> task = new Task<Void>() {
-				@Override
-				public Void call() throws InterruptedException {
-					workspace.getNetworking().join(IP.get(), gameIdentifier);
-					return null;
-				}
-			};
-			workspace.showProgressForTask(task);
-		}
 	}
 
 	/**
@@ -124,16 +90,14 @@ public class WorkspaceMenu extends View {
 
 	private Menu createServerMenu() {
 		Menu serverMenu = workspace.getMaker().makeMenu("ServerMenu");
-		/*
-		 * MenuItem IPItem = workspace.getMaker().makeMenuItem(
-		 * workspace.getPolyglot().get("IPItem", Case.TITLE).get() + " " +
-		 * workspace.getNetworking().getIP(), null);
-		 */
+		MenuItem IPItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("IPItem", Case.TITLE),
+				"Ctrl+I", e -> workspace.getNetworking().showIP());
 		MenuItem startItem = workspace.getMaker().makeMenuItem(
-				workspace.getPolyglot().get("StartServerItem", Case.TITLE), "Ctrl+Shift+S", e -> startServer());
+				workspace.getPolyglot().get("StartServerItem", Case.TITLE), "Ctrl+Shift+S",
+				e -> workspace.getNetworking().start());
 		MenuItem joinItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("JoinClientItem", Case.TITLE),
-				"Ctrl+J", e -> join());
-		serverMenu.getItems().addAll(/* IPItem, */ startItem, joinItem);
+				"Ctrl+J", e -> workspace.getNetworking().join());
+		serverMenu.getItems().addAll(IPItem, startItem, joinItem);
 		return serverMenu;
 	}
 

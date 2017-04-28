@@ -142,21 +142,25 @@ public class Workspace extends View {
 				return null;
 			}
 		};
-		showProgressForTask(task);
+		showProgressForTask(task, true);
 	}
 
-	public void showProgressForTask(Task<Void> task) {
+	public void showProgressForTask(Task<Void> task, boolean showResult) {
 		ProgressDialog dialog = new ProgressDialog(this);
 		task.setOnSucceeded(event -> {
 			dialog.getDialogStage().close();
-			Alert alert = maker.makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader",
-					polyglot.get("TaskSucceeded"));
-			alert.show();
+			if (showResult) {
+				Alert alert = maker.makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader",
+						polyglot.get("TaskSucceeded"));
+				alert.show();
+			}
 		});
 		task.setOnFailed(event -> {
 			dialog.getDialogStage().close();
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
-			alert.show();
+			if (showResult) {
+				Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
+				alert.show();
+			}
 		});
 		Thread thread = new Thread(task);
 		thread.start();
