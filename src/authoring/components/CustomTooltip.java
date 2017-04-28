@@ -8,23 +8,26 @@ import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.util.Duration;
 
-public class CustomTooltip {
+public class CustomTooltip extends Tooltip {
 	
 	public CustomTooltip(StringBinding string, Node node){
-		Tooltip t = new Tooltip();
-		t.textProperty().bind(string);
-		t.setMaxWidth(200);
-		t.setWrapText(true);
-		shortenToolTipTime(t);
-		Tooltip.install(node,t);
+		this(string);
+		Tooltip.install(node,this);
+	}
+	
+	public CustomTooltip(StringBinding string){
+		this.textProperty().bind(string);
+		this.setMaxWidth(200);
+		this.setWrapText(true);
+		this.shortenToolTipTime();
 	}
 	
 	//Resource used: http://stackoverflow.com/questions/26854301/control-javafx-tooltip-delay
-	private void shortenToolTipTime(Tooltip tooltip) {
+	private void shortenToolTipTime() {
 	    try {
-	        Field fieldBehavior = tooltip.getClass().getDeclaredField("BEHAVIOR");
+	        Field fieldBehavior = this.getClass().getDeclaredField("BEHAVIOR");
 	        fieldBehavior.setAccessible(true);
-	        Object objBehavior = fieldBehavior.get(tooltip);
+	        Object objBehavior = fieldBehavior.get(this);
 
 	        Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
 	        fieldTimer.setAccessible(true);
