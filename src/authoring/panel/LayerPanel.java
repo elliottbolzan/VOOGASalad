@@ -60,11 +60,12 @@ public class LayerPanel extends View {
 		VBox container = new VBox(8);
 		initLayerSelector();
 		Button addButton = workspace.getMaker().makeButton("AddLayerButton", e -> addLayer(), true);
-		CustomTooltip t = new CustomTooltip(workspace.getPolyglot().get("AddLayer"),addButton);
+		new CustomTooltip(workspace.getPolyglot().get("AddLayer"),addButton);
 		Button deleteButton = workspace.getMaker().makeButton("DeleteLayerButton", e -> {
 			initCloseRequest(e);
 			delete();
 		}, true);
+		new CustomTooltip(workspace.getPolyglot().get("DeleteLayer"),deleteButton);
 		container.getChildren().addAll(myBox, new VBox(deleteButton, addButton), createVelocitySlider());
 		container.setPadding(new Insets(20));
 		setCenter(container);
@@ -86,9 +87,6 @@ public class LayerPanel extends View {
 	}
 
 	private void delete() {
-		// int layer =
-		// Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split("
-		// ")[1]);
 		workspace.deleteLayer(myBox.getSelectionModel().getSelectedIndex() + 1);
 		selectionModel.remove(myBox.getSelectionModel().getSelectedIndex());
 		myBox.setItems(selectionModel);
@@ -141,8 +139,6 @@ public class LayerPanel extends View {
 	public void selectLevelBox(String oldLevel, String newLevel) {
 		nameList.put(oldLevel, new ArrayList<String>(selectionModel));
 		if (oldLevel.equals("+")) {
-			// selectionModel.clear();
-			// selectionModel.add(workspace.getResources().getString("DefaultLayer"));
 			nameList.put(newLevel, new ArrayList<String>(selectionModel));
 		}
 		if (!newLevel.equals("+")) {
