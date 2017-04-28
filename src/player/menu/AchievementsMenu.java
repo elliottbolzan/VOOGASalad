@@ -44,6 +44,7 @@ public class AchievementsMenu extends AbstractMenu {
 		pane.setFitToWidth(true);
 		VBox container = new VBox(10);
 		container.setAlignment(Pos.CENTER);
+		System.out.println("IN ACHIEMEVEMENTS: " + getGame().getDefaults());
 		for(Entity entity : this.getGame().getAchievements()){
 			container.getChildren().add(makeAchievementBox(entity));
 		}

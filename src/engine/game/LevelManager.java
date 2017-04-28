@@ -139,6 +139,7 @@ public class LevelManager {
 		// levels.removeAll();
 		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
 				.collect(Collectors.toList());
+		//game.setAchievements(achievements);
 		List<Level> cloneLevels = game.cloneLevels();
 		cloneLevels.forEach(s -> s.addEntities(achievements));
 		levelsInInitialState.addAll(cloneLevels);
