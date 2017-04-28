@@ -110,6 +110,8 @@ public class EntityConverter implements Converter {
 					((GameObject)value).setGameInfo(null);
 					context.convertAnother(value);
 				}
+				else
+					context.convertAnother(value);
 				writer.endNode();
 			}
 		}
