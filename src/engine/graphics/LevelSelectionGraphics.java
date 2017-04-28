@@ -55,8 +55,11 @@ public class LevelSelectionGraphics {
 		pane.setHgap(HORIZONTAL_GAP);
 		pane.setVgap(VERTICAL_GAP);
 		pane.setPadding(PADDING);
-		//System.out.println(displayArea.widthProperty() + " " + displayArea.width);
-		//pane.getColumnConstraints().add(new ColumnConstraints(AbstractPlayer.DEFAULT_WIDTH / COLUMNS)); //TODO Resolve this bug - changing size tiles
+		for(int column = 0; column < COLUMNS; column++){
+			ColumnConstraints constraint = new ColumnConstraints();
+			constraint.setPercentWidth(1.0/COLUMNS * 100);
+			pane.getColumnConstraints().add(constraint);
+		}
 	}
 
 	private void displayButtons() {
