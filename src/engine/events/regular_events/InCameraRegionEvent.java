@@ -6,8 +6,7 @@ import engine.events.Event;
 
 /**
  * Checks to see if the Entity associated with this Event is within the region
- * of the CameraEntity chosen for their game. act() returns true if the
- * associated Entity is in the camera region and false otherwise.
+ * of the CameraEntity chosen for their game.
  * 
  * @author Kyle Finke
  *
