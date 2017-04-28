@@ -15,26 +15,17 @@ public class Scorebar {
 	private static final int INITIAL_LIVES = 5;
 	
 	private LevelManager levelManager;
-	private TimerManager timerManager; // restart it every time restart new
-										// level! (perhaps in another class
-										// calling this class' methods
-	private int lives; // immutable except by Character Entity - TODO extension
-						// sprint - get rid of this duplication of lives in
-						// CharacterEntity and here by allowing GAE to set
-						// Scorebar values too! (also consider multiplayer)
+	private TimerManager timerManager;
+	private int lives;
 	private int score;
 	private Game game;
-	// Note: The level number is not a field because it is stored in
-	// LevelManager (but it is still displayed on the scorebar).
 
 	public Scorebar(Game game) {
-		this.timerManager = new TimerManager(120, false);
+		this.timerManager = null;
 		this.game = game;
 		lives = INITIAL_LIVES;
 		score = 0;
-		// Note levelManager is a dummy object (better than null!) - set it
-		// below.
-		levelManager = new LevelManager(game, new LevelStepStrategy());
+		levelManager = new LevelManager(game, null, null);
 	}
 	
 	public void setLivesToInitial(){

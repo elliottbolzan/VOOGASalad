@@ -32,6 +32,9 @@ public class Game {
 	private List<Score> highscoresBase;
 	private ObservableList<String> saveStates;
 	private boolean isTestGame = false;
+	private boolean clockGoingDown;
+	private double currentTime;
+	
 
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
@@ -251,7 +254,24 @@ public class Game {
 	public void setTestGame(boolean value) {
 		isTestGame = value;
 	}
+	
+	
+	public void setCurrentTime(double inputCurrentTime){
+		currentTime=inputCurrentTime;
+	}
+	
+	public void setClockGoingDown(boolean inputClockGoingDown){
+		clockGoingDown=inputClockGoingDown;
+	}
 
+	public double getCurrentTime(){
+		return currentTime;
+	}
+	//getTime from Scorebar from gameloop for currenttime
+	public boolean getClockGoingDown(){
+		return clockGoingDown;
+	}
+	
 	public Game clone() {
 		Game cloneGame = new Game();
 		cloneGame.setName(this.name);

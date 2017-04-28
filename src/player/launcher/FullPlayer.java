@@ -96,6 +96,7 @@ public class FullPlayer extends AbstractPlayer {
 		Game savedGame = this.getGame().clone();
 		savedGame.setLevels(this.getRunningGameLoop().getLevelManager().getLevels().getListRepresentation());
 		savedGame.setLevels(savedGame.cloneLevels());
+	//	savedGame.setInitialTime();
 		mediaManager.saveGame(savedGame);
 	}
 	

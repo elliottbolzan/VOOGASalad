@@ -26,7 +26,7 @@ public class GameLoop {
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
 
-		levelManager = new LevelManager(game, new LevelStepStrategy());
+		levelManager = new LevelManager(game, new LevelStepStrategy(), scorebar);
 		levelManager.loadAllSavedLevels();
 		if (levelManager.getLevels().size() > 0) {
 			levelManager.addUnlockedLevel(1);
