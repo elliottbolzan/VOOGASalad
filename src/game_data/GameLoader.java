@@ -68,8 +68,8 @@ public class GameLoader {
 		Game game = new Game();
 		addName(game, doc);
 		addInfo(game, doc);
-		addLevels(game, doc, tempFolderPath);
 		addDefaults(game, doc, tempFolderPath);
+		addLevels(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
 		
