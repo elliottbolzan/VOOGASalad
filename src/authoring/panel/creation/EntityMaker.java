@@ -148,5 +148,13 @@ public class EntityMaker extends View {
 		display.addEntity(getEntity());
 		dismiss();
 	}
+	
+	public EventPicker getEventPicker(){
+		return eventPicker;
+	}
+	
+	public ActionPicker getActionPicker(){
+		return actionPicker;
+	}
 
 }

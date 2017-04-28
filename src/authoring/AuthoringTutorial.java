@@ -33,8 +33,16 @@ public class AuthoringTutorial {
 	}
 	
 	private void clickedEdit(){
-		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "SecondStep", workspace.getPolyglot().get("ContinuePrompt"));
-		alert.setX(0);
+		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "SecondStep", workspace.getPolyglot().get("SecondPrompt"));
+		alert.setX(-10);
+		alert.setY(0);
+		alert.showAndWait();
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedEvent());
+	}
+	
+	private void addedEvent(){
+		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "ThirdStep", workspace.getPolyglot().get("ThirdPrompt"));
+		alert.setX(-30);
 		alert.setY(0);
 		alert.showAndWait();
 	}
