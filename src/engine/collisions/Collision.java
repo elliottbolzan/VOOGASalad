@@ -23,7 +23,13 @@ public class Collision implements CollisionInterface {
 		firstRelativeToSecond = side;
 		collisionDepth = depth;
 	}
-
+	public Entity getFirstEntity(){
+		return firstEntity;
+	}
+	
+	public Entity getSecondEntity(){
+		return secondEntity;
+	}
 	public CollisionSide getCollisionSide() {
 		return firstRelativeToSecond;
 	}

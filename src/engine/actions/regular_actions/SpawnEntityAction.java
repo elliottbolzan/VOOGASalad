@@ -33,6 +33,7 @@ public class SpawnEntityAction extends Action {
 							break;
 						}
 					}
+					newEntity.setZ(getEntity().getZ());
 					newEntity.setXSpeed((Double) newEntity.getParam("X Speed"));
 					newEntity.setYSpeed((Double) newEntity.getParam("Y Speed"));
 					newEntity.setXAcceleration((Double) newEntity.getParam("X Acceleration"));
@@ -44,6 +45,7 @@ public class SpawnEntityAction extends Action {
 					else
 						collisionSide.placeEntity(getEntity(), newEntity);
 					newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
+					newEntity.getGameInfo().getObservableBundle().attachEntityToAll(newEntity);
 					newEntity.getGameInfo().getGraphicsEngine().updateView();
 				}
 			});

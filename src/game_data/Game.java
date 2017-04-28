@@ -37,7 +37,7 @@ public class Game {
 	 * Returns an empty game object, with default values pre-loaded.
 	 */
 	public Game() {
-		//TODO Load these from a properties file.
+		// TODO Load these from a properties file.
 		name = "Game";
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
@@ -47,12 +47,12 @@ public class Game {
 		highscores = FXCollections.observableList(addDefaults());
 		saveStates = FXCollections.observableArrayList();
 	}
-	
-	public void setSaves(ObservableList<String> saves){
+
+	public void setSaves(ObservableList<String> saves) {
 		saveStates = saves;
 	}
-	
-	public ObservableList<String> getSaves(){
+
+	public ObservableList<String> getSaves() {
 		return saveStates;
 	}
 
@@ -110,7 +110,7 @@ public class Game {
 	 */
 	public List<Level> getLevels() {
 		return levels;
-		//return Collections.unmodifiableList(levels);
+		// return Collections.unmodifiableList(levels);
 	}
 
 	/**
@@ -121,7 +121,6 @@ public class Game {
 	 */
 	public void setLevels(List<Level> levels) {
 		this.levels = levels;
-		this.setAchievements(levels);
 	}
 
 	/**
@@ -167,15 +166,11 @@ public class Game {
 	}
 
 	public Collection<Entity> getAchievements() {
-		return achievements;
+		return defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 	}
-	
-	public void setAchievements(Collection<Level> levels){
-		achievements = new ArrayList<>();
-		for(Level level : levels){
-			achievements.addAll(level.getEntities().stream().filter(s -> s.getClass().equals(AchievementEntity.class)).collect(Collectors.toList()));
-		}
-		System.out.println(achievements.size());
+
+	public void setAchievements(List<Entity> achievements) {
+		this.achievements = achievements;
 	}
 
 	/**
