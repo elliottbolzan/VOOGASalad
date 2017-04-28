@@ -3,7 +3,10 @@ package starter;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import authoring.components.ComponentMaker;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -77,12 +80,26 @@ public class LanguagePicker {
 	}
 	
 	private void selected(String language) {
-		try {
-			polyglot.setLanguage(language);
-			stage.close();
-		} catch (PolyglotException exception) {
-			System.out.println(exception.getMessage());
-		}
+		Task<Void> task = new Task<Void>() {
+			@Override
+			protected Void call() {
+				try {
+					polyglot.setLanguage(language);
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							stage.close();							
+						}
+					});
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		};
+		ComponentMaker maker = new ComponentMaker(polyglot, resources);
+		maker.showProgressForTask(task, true);
 	}
 
 }

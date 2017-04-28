@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
@@ -68,7 +69,7 @@ public class LanguageManager {
 			vocabulary.put(key, resources.getString(key));
 		}
 		originalLanguage = new Language(vocabulary);
-		switchTo(defaultLocale, originalLanguage);
+		switchTo(defaultLocale, originalLanguage, false);
 	}
 
 	/**
@@ -78,8 +79,17 @@ public class LanguageManager {
 	 * @param newLocale
 	 *            the Locale to switch to.
 	 */
-	public void switchTo(Locale newLocale) {
-		locale.set(newLocale);
+	public void switchTo(Locale newLocale, boolean threaded) {
+		if (threaded) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					locale.set(newLocale);
+				}
+			});
+		} else {
+			locale.set(newLocale);
+		}
 	}
 
 	/**
@@ -92,9 +102,9 @@ public class LanguageManager {
 	 * @param newLocale
 	 * @param language
 	 */
-	public void switchTo(Locale newLocale, Language language) {
+	public void switchTo(Locale newLocale, Language language, boolean threaded) {
 		languages.put(newLocale, language);
-		switchTo(newLocale);
+		switchTo(newLocale, threaded);
 	}
 
 	/**
