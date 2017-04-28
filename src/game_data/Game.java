@@ -258,10 +258,13 @@ public class Game {
 	
 	public void setCurrentTime(double inputCurrentTime){
 		currentTime=inputCurrentTime;
+		System.out.println("setCurrentTime() called, set to " + currentTime);
 	}
 	
 	public void setClockGoingDown(boolean inputClockGoingDown){
 		clockGoingDown=inputClockGoingDown;
+		System.out.println("setClockGoingDown() called, set to " + clockGoingDown);
+		System.out.println("Game address = " + this);
 	}
 
 	public double getCurrentTime(){

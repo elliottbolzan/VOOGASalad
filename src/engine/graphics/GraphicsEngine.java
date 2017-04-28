@@ -44,6 +44,8 @@ import polyglot.Polyglot;
  *         time/lives/score) and the Camera.
  */
 public class GraphicsEngine {
+	private static final String BLANK_SCOREBAR_DISPLAY = "--";
+	
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 
@@ -204,6 +206,15 @@ public class GraphicsEngine {
 		overlay.setLives(Integer.toString(scorebar.getLives()));
 		overlay.setLevel(Integer.toString(scorebar.getLevel()));
 		overlay.setTime(scorebar.getTime());
+	}
+	
+	public void blankScorebar(boolean firstPass){
+		if(firstPass){
+			overlay.setScore(BLANK_SCOREBAR_DISPLAY);
+			overlay.setLives(BLANK_SCOREBAR_DISPLAY);
+		}
+		overlay.setLevel(BLANK_SCOREBAR_DISPLAY);
+		overlay.setTime(BLANK_SCOREBAR_DISPLAY);
 	}
 	
 	private void clearView() {

@@ -18,6 +18,8 @@ import polyglot.Polyglot;
  *
  */
 public abstract class AbstractPlayer extends PlayerView {
+	public final static int DEFAULT_WIDTH = 1000;
+	public final static int DEFAULT_HEIGHT = 600;
 	
 	private Stage stage;
 	private Scene gameScene;
@@ -65,7 +67,7 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	private void buildStage() {
 		loadScene = stage.getScene();
-		gameScene = this.createScene(1000, 600);	//TODO? Might be ok with resizing the game view and leaving this as is
+		gameScene = this.createScene(DEFAULT_WIDTH, DEFAULT_HEIGHT);	//TODO? Might be ok with resizing the game view and leaving this as is
 		
 		stage.setScene(gameScene);
 		stage.centerOnScreen();
