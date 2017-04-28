@@ -102,10 +102,6 @@ public class Scorebar {
 	}
 
 	public boolean isHighscore() {
-		if (!game.isTestGame()) {
-			return game.isHighscore(getScore(), getTimeValue(), 9);
-		} else {
-			return false;
-		}
+		return game.isHighscore(getScore(), getTimeValue(), 9);
 	}
 }
