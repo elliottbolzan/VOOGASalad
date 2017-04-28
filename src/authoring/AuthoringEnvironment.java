@@ -39,6 +39,10 @@ public class AuthoringEnvironment {
 	public AuthoringEnvironment(Polyglot polyglot, ResourceBundle IOResources) {
 		this(new Game(), polyglot, IOResources);
 	}
+	
+	public Workspace getWorkspace(){
+		return workspace;
+	}
 
 	private void setupStage() {
 		Stage stage = new Stage();

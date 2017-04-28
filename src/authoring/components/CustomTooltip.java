@@ -30,14 +30,13 @@ public class CustomTooltip extends Tooltip {
 	        fieldBehavior.setAccessible(true);
 	        Object objBehavior = fieldBehavior.get(this);
 
-	        Field fieldTimer = objBehavior.getClass().getSuperclass().getDeclaredField("activationTimer");
+	        Field fieldTimer = objBehavior.getClass().getDeclaredField("activationTimer");
 	        fieldTimer.setAccessible(true);
 	        Timeline objTimer = (Timeline) fieldTimer.get(objBehavior);
 
 	        objTimer.getKeyFrames().clear();
 	        objTimer.getKeyFrames().add(new KeyFrame(new Duration(250)));
 	    } catch (Exception e) {
-	    	System.out.println("not working");
 
 	    }
 	}
