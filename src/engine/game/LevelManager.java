@@ -7,10 +7,12 @@ import java.util.stream.Collectors;
 
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
+import engine.game.gameloop.Scorebar;
 import engine.game.gameloop.Screen;
 import engine.game.gameloop.StepStrategy;
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
+import engine.game.timer.TimerManager;
 import game_data.Game;
 
 /**
@@ -33,8 +35,9 @@ public class LevelManager {
 	private Screen currentScreen;
 	private StepStrategy currentStepStrategy;
 	private boolean levelSelectionScreenMode;
+	private Scorebar scorebar;
 
-	public LevelManager(Game game, StepStrategy currentStepStrategy) {
+	public LevelManager(Game game, StepStrategy currentStepStrategy, Scorebar scorebar) {
 		levels = new ListSG<>();
 		levelsInInitialState = new ListSG<>();
 		unlockedLevelNumbers = new HashSet<>();
@@ -42,6 +45,7 @@ public class LevelManager {
 		this.game = game;
 		this.currentStepStrategy = currentStepStrategy;
 		this.levelSelectionScreenMode = true;
+		this.scorebar = scorebar;
 	}
 
 	// TODO Call from GAE with small checkbox, or similar
@@ -146,6 +150,7 @@ public class LevelManager {
 		List<Level> tempLevels = game.getLevels();
 		tempLevels.forEach(s -> s.addEntities(achievements));
 		levels.addAll(game.getLevels());
+		scorebar.setTimerManager(new TimerManager(game.getCurrentTime(), game.getClockGoingDown()));
 	}
 
 	// Call when start up a level (first time AND after die)
