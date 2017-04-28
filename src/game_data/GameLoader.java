@@ -41,12 +41,13 @@ public class GameLoader {
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
 		
-		String tempFolderPath = System.getProperty("java.io.tmpdir");
+		String tempFolderPath = System.getProperty("java.io.tmpdir") +"VoogaSalad";
+		
 		//tempFolderPath=gameFolderPath.replace(".vs", "");
 		//System.out.println(tempFolderPath);
 		
 		//TempFolderPath
-		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
+		
 		//System.out.println(tempFolderPath);
 		//(new Unpackager()).unzip(gameFolderPath, System.getProperty("java.io.tmpdir"));
 		
@@ -54,7 +55,14 @@ public class GameLoader {
 		//gameFolderPath = gameFolderPath.replace(".vs", "");
 		//File dataFile = new File(gameFolderPath + File.separator + saveName);
 		
-		File dataFile = new File(tempFolderPath + File.separator + saveName);
+		File voogaDirectory = new File(tempFolderPath + "VoogaSalad");
+		if(!voogaDirectory.exists()){
+			voogaDirectory.mkdirs();
+		}
+		
+		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
+		File dataFile = new File(tempFolderPath +  File.separator + saveName);
+	
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -73,6 +81,10 @@ public class GameLoader {
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
 		
+		//addCurrentTime(game,doc);
+		//addIsCountingDown(game,doc);
+		
+		
 		//addLevels(game, doc, gameFolderPath);
 		//addDefaults(game, doc, gameFolderPath);
 		//addSong(game, doc, gameFolderPath);
@@ -80,6 +92,15 @@ public class GameLoader {
 		return game;
 	}
 	
+	private void addCurrentTime(Game game,Document doc){
+		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
+		game.setName(timeNodes.item(0).getAttributes().item(0).getNodeValue());
+		
+	}
+	private void addIsCountingDown(Game game,Document doc){
+		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
+		game.setName(countdownNodes.item(0).getAttributes().item(0).getNodeValue());
+	}
 	private void addSaves(Game game, String folderPath){
 		ObservableList<String> saves = FXCollections.observableArrayList();
 		File folder = new File(folderPath);
