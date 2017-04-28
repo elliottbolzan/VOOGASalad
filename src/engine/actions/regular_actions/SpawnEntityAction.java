@@ -26,7 +26,7 @@ public class SpawnEntityAction extends Action {
 				@Override
 				public void run() {
 					Entity newEntity = null;
-					for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()){
+					for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
 						if (((String) getParam("Entity Name")).equals(entity.getName())) {
 							newEntity = entity.clone();
 							newEntity.setGameInfo(getGameInfo());
