@@ -9,6 +9,8 @@ import authoring.command.AddCommand;
 import authoring.command.AddInfo;
 import authoring.command.MoveCommand;
 import authoring.command.MoveInfo;
+import authoring.command.ResizeCommand;
+import authoring.command.ResizeInfo;
 import authoring.networking.Packet;
 import engine.Entity;
 import engine.game.Level;
@@ -233,7 +235,6 @@ public class LevelEditor extends View
 					double x = addInfo.getX();
 					double y = addInfo.getY();
 					long entityId = addInfo.getEntityId();
-					System.out.println(addInfo.getEntityId() + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 					Entity entity = workspace.getDefaults().getEntity(addInfo.getEntityName());
 					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
 							(int) getCurrentLevel().getCanvas().getTileSize(), x, y);
@@ -242,10 +243,8 @@ public class LevelEditor extends View
 				}
 			});
 		} else if (packet instanceof MoveInfo) {
-			System.out.println("RECEIVED");
 			Platform.runLater(new Runnable()
 			{
-
 				@Override
 				public void run()
 				{
@@ -261,7 +260,26 @@ public class LevelEditor extends View
 							}
 						}
 					}
-					System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				}
+
+			});
+		} else if (packet instanceof ResizeInfo) {
+			Platform.runLater(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					ResizeInfo resizeInfo = (ResizeInfo) packet;
+					for (LayerEditor level : levels) {
+						for (Layer layer : level.getLayers()) {
+							for (EntityView entity : layer.getEntities()) {
+								if (entity.getEntityId() == resizeInfo.getEntityId()) {
+									ResizeCommand resizeCommand = new ResizeCommand(entity, resizeInfo);
+									resizeCommand.execute();
+								}
+							}
+						}
+					}
 				}
 
 			});

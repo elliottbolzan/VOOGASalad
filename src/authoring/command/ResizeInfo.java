@@ -4,24 +4,68 @@ public class ResizeInfo extends SingleEntityCommandInfo
 {
 
 	private static final long serialVersionUID = 1199205996330909954L;
-	private double deltaWidth;
-	private double deltaHeight;
+	private double oldHeight;
+	private double oldWidth;
+	private double newHeight;
+	private double newWidth;
 
-	public ResizeInfo(String entityName, long entityId, double deltaWidth, double deltaHeight)
+	private double oldX;
+	private double oldY;
+	private double newX;
+	private double newY;
+
+	public ResizeInfo(String entityName, long entityId, double oldHeight, double oldWidth, double newHeight,
+			double newWidth, double oldX, double oldY, double newX, double newY)
 	{
 		super(entityName, entityId);
-		this.deltaWidth = deltaWidth;
-		this.deltaHeight = deltaHeight;
+		this.oldHeight = oldHeight;
+		this.oldWidth = oldWidth;
+		this.newHeight = newHeight;
+		this.newWidth = newWidth;
+		this.oldX = oldX;
+		this.oldY = oldY;
+		this.newX = newX;
+		this.newY = newY;
 	}
 
-	public double getDeltaHeight()
+	public double getOldHeight()
 	{
-		return deltaHeight;
+		return oldHeight;
 	}
 
-	public double getDeltaWidth()
+	public double getOldWidth()
 	{
-		return deltaWidth;
+		return oldWidth;
+	}
+
+	public double getNewHeight()
+	{
+		return newHeight;
+	}
+
+	public double getNewWidth()
+	{
+		return newWidth;
+	}
+
+	public double getOldX()
+	{
+		return oldX;
+	}
+
+	public double getOldY()
+	{
+		return oldY;
+	}
+
+	public double getNewX()
+	{
+		return newX;
+	}
+
+	public double getNewY()
+	{
+		return newY;
 	}
 
 }

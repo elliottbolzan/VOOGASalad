@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import authoring.Workspace;
 import authoring.command.MoveInfo;
+import authoring.command.ResizeInfo;
 import engine.Entity;
 import engine.entities.CameraEntity;
 import engine.game.Level;
@@ -290,10 +291,18 @@ public class LayerEditor extends View
 		entity.addEventHandler(MouseEvent.DRAG_DETECTED, e -> {
 			double oldX = entity.getTranslateX();
 			double oldY = entity.getTranslateY();
+			double oldHeight = entity.getMinHeight();
+			double oldWidth = entity.getMinWidth();
 			EventHandler<MouseEvent> dragFinishHandler = e2 -> {
 				double newX = entity.getTranslateX();
 				double newY = entity.getTranslateY();
-				if (oldX != newX || oldY != newY) {
+				double newHeight = entity.getMinHeight();
+				double newWidth = entity.getMinWidth();
+				if (oldHeight != newHeight || oldWidth != newWidth) {
+					ResizeInfo resizeInfo = new ResizeInfo(entity.getEntity().getName(), entity.getEntityId(),
+							oldHeight, oldWidth, newHeight, newWidth, oldX, oldY, newX, newY);
+					workspace.getNetworking().send(resizeInfo);
+				} else if (oldX != newX || oldY != newY) {
 					MoveInfo moveInfo = new MoveInfo(entity.getEntity().getName(), entity.getEntityId(), oldX, oldY,
 							newX, newY);
 					workspace.getNetworking().send(moveInfo);
