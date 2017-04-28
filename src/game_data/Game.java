@@ -279,6 +279,9 @@ public class Game {
 		cloneGame.setDefaults(this.cloneDefaults());
 		cloneGame.setSongPath(this.songPath);
 		cloneGame.setInfo(this.info);
+		cloneGame.setClockGoingDown(this.clockGoingDown);
+		cloneGame.setCurrentTime(this.currentTime);
+		//TODO : cloneGame.setAchievements();
 		// TODO: clone scores
 		cloneGame.setTestGame(this.isTestGame);
 		return cloneGame;

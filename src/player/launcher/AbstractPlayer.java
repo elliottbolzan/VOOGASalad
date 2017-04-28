@@ -18,6 +18,8 @@ import polyglot.Polyglot;
  *
  */
 public abstract class AbstractPlayer extends PlayerView {
+	public final static int DEFAULT_WIDTH = 1000;
+	public final static int DEFAULT_HEIGHT = 600;
 	
 	public static final int DEFAULT_WIDTH = 1000;
 	public static final int DEFAULT_HEIGHT = 600;

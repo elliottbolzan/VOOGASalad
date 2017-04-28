@@ -9,8 +9,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import player.menu.AbstractMenu;
+import player.launcher.AbstractPlayer;
 import player.menu.Tile;
 import polyglot.Case;
 import polyglot.Polyglot;
@@ -56,7 +55,8 @@ public class LevelSelectionGraphics {
 		pane.setHgap(HORIZONTAL_GAP);
 		pane.setVgap(VERTICAL_GAP);
 		pane.setPadding(PADDING);
-		//pane.getColumnConstraints().add(new ColumnConstraints(displayArea.getMaxWidth() / COLUMNS)); //TODO Resolve this bug - changing size tiles
+		//System.out.println(displayArea.widthProperty() + " " + displayArea.width);
+		//pane.getColumnConstraints().add(new ColumnConstraints(AbstractPlayer.DEFAULT_WIDTH / COLUMNS)); //TODO Resolve this bug - changing size tiles
 	}
 
 	private void displayButtons() {
