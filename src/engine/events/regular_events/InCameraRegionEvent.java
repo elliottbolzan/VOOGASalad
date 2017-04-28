@@ -1,5 +1,6 @@
 package engine.events.regular_events;
 
+import engine.Parameter;
 import engine.entities.entities.CameraEntity;
 import engine.events.Event;
 
@@ -13,13 +14,17 @@ import engine.events.Event;
  */
 public class InCameraRegionEvent extends Event {
 
+	public InCameraRegionEvent() {
+		addParam(new Parameter("Is In Region", Boolean.class, "true"));
+	}
+
 	@Override
 	public boolean act() {
 		CameraEntity camera = getGameInfo().getGraphicsEngine().getCamera();
 		return !(getEntity().getX() > camera.getX() + camera.getWidth()
 				|| getEntity().getX() + getEntity().getWidth() < camera.getX()
 				|| getEntity().getY() > camera.getY() + camera.getHeight()
-				|| getEntity().getY() + getEntity().getHeight() < camera.getY());
+				|| getEntity().getY() + getEntity().getHeight() < camera.getY()) && (boolean) getParam("Is In Region");
 	}
 
 }
