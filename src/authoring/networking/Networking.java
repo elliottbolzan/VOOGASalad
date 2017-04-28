@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import authoring.Workspace;
 import authoring.command.EntityCommandInfo;
+import authoring.command.EntityListInfo;
 import authoring.panel.chat.Message;
 import networking.io.Serializer;
 import networking.io.Unserializer;
@@ -76,6 +77,11 @@ public class Networking
 			client.close();
 	}
 
+	public boolean isConnected()
+	{
+		return client != null && client.isActive() || server != null && server.isActive();
+	}
+
 	public void send(Packet packet)
 	{
 		packet.setIdentifier(identifier);
@@ -89,6 +95,8 @@ public class Networking
 				workspace.getPanel().getChat().received(packet);
 			} else if (packet instanceof EntityCommandInfo) {
 				workspace.getLevelEditor().received(packet);
+			} else if (packet instanceof EntityListInfo) {
+				workspace.received(packet);
 			}
 		}
 	}

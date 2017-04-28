@@ -114,11 +114,13 @@ public class LayerEditor extends View
 				}
 			}
 			concerned.forEach(entityView -> {
-				Entity toRemove = entityView.getEntity();
-				addEntity(entity, toRemove.getX(), toRemove.getY(), (int) toRemove.getZ());
-				canvas.removeEntity(entityView);
+				entityView.setEntity(entity);
+				// Entity toRemove = entityView.getEntity();
+				// addEntity(entity, toRemove.getX(), toRemove.getY(), (int)
+				// toRemove.getZ());
+				// canvas.removeEntity(entityView);
 			});
-			layer.getEntities().removeAll(concerned);
+			// layer.getEntities().removeAll(concerned);
 		}
 	}
 
@@ -134,6 +136,7 @@ public class LayerEditor extends View
 		this.clear();
 		canvas.clear();
 		for (Entity entity : level.getEntities()) {
+			System.out.println(entity.getName());
 			addEntity(entity, entity.getX(), entity.getY(), (int) entity.getZ());
 		}
 		selectLayer(1);
@@ -267,8 +270,7 @@ public class LayerEditor extends View
 	 */
 	public EntityView addEntity(Entity entity, double x, double y, int z)
 	{
-		EntityView addedEntity = canvas.addEntity(entity, x, y);
-		return addEntity(addedEntity, z);
+		return canvas.addEntity(entity, x, y);
 	}
 
 	public EntityView addEntity(EntityView entity, int z)
@@ -301,11 +303,17 @@ public class LayerEditor extends View
 				if (oldHeight != newHeight || oldWidth != newWidth) {
 					ResizeInfo resizeInfo = new ResizeInfo(entity.getEntity().getName(), entity.getEntityId(),
 							oldHeight, oldWidth, newHeight, newWidth, oldX, oldY, newX, newY);
-					workspace.getNetworking().send(resizeInfo);
+					if (workspace.getNetworking() != null) {
+						if (workspace.getNetworking().isConnected()) {
+							workspace.getNetworking().send(resizeInfo);
+						}
+					}
 				} else if (oldX != newX || oldY != newY) {
 					MoveInfo moveInfo = new MoveInfo(entity.getEntity().getName(), entity.getEntityId(), oldX, oldY,
 							newX, newY);
-					workspace.getNetworking().send(moveInfo);
+					if (workspace.getNetworking().isConnected()) {
+						workspace.getNetworking().send(moveInfo);
+					}
 				}
 			};
 			entity.addEventHandler(MouseEvent.MOUSE_RELEASED, dragFinishHandler);

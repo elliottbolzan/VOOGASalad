@@ -7,13 +7,16 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.command.AddInfo;
+import authoring.command.EntityListInfo;
 import authoring.components.ComponentMaker;
 import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
+import authoring.networking.Packet;
 import authoring.panel.Panel;
 import engine.Entity;
 import game_data.Game;
 import game_data.GameData;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
@@ -105,6 +108,43 @@ public class Workspace extends View
 		setCenter(pane);
 		setTop(new WorkspaceMenu(this));
 		setupDragToAddEntity();
+		// defaults.getEntities().addListener(new ListChangeListener<Entity>()
+		// {
+		// @Override
+		// public void onChanged(javafx.collections.ListChangeListener.Change<?
+		// extends Entity> changed)
+		// {
+		// changed.next();
+		// List<? extends Entity> addedSublist = changed.getList();
+		// if (addedSublist.size() > 0) {
+		// EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
+		// Workspace.this.getNetworking().send(entityListInfo);
+		// }
+		// }
+		//
+		// });
+	}
+
+	public void received(Packet packet)
+	{
+		if (packet instanceof EntityListInfo) {
+			System.out.println("HI");
+			Platform.runLater(new Runnable()
+			{
+
+				@Override
+				public void run()
+				{
+					defaults.getEntities().clear();
+					defaults.getEntities().addAll(((EntityListInfo) packet).getEntities());
+					((EntityListInfo) packet).getEntities().forEach(e -> {
+						Workspace.this.updateEntity(e);
+					});
+				}
+
+			});
+			// panel.getEntityDisplay().createContainer();
+		}
 	}
 
 	private void setupDragToAddEntity()
@@ -115,12 +155,15 @@ public class Workspace extends View
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
 				AddInfo addInfo = new AddInfo(addedEntity.getName(), e2.getX(), e2.getY());
-				getNetworking().send(addInfo);
+				if (getNetworking().isConnected()) {
+					getNetworking().send(addInfo);
+				} else {
+					getLevelEditor().received(addInfo);
+				}
 				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
 				levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});
-			System.out.println("SENT");
 		});
 	}
 

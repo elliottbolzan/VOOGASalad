@@ -13,7 +13,8 @@ import polyglot.Polyglot;
  *         The most high-level class in the Authoring Environment. Creates the
  *         Stage for the Environment, and loads the Workspace into it.
  */
-public class AuthoringEnvironment {
+public class AuthoringEnvironment
+{
 
 	private ResourceBundle IOResources;
 	private Polyglot polyglot;
@@ -26,7 +27,8 @@ public class AuthoringEnvironment {
 	 * @param gamePath
 	 *            the path of the Game to be loaded.
 	 */
-	public AuthoringEnvironment(Game game, Polyglot polyglot, ResourceBundle IOResources) {
+	public AuthoringEnvironment(Game game, Polyglot polyglot, ResourceBundle IOResources)
+	{
 		this.game = game;
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
@@ -36,11 +38,13 @@ public class AuthoringEnvironment {
 	/**
 	 * Creates a new AuthoringEnvironment.
 	 */
-	public AuthoringEnvironment(Polyglot polyglot, ResourceBundle IOResources) {
+	public AuthoringEnvironment(Polyglot polyglot, ResourceBundle IOResources)
+	{
 		this(new Game(), polyglot, IOResources);
 	}
 
-	private void setupStage() {
+	private void setupStage()
+	{
 		Stage stage = new Stage();
 		stage.titleProperty().bind(polyglot.get("AuthoringEnvironmentTitle"));
 		stage.setMinWidth(600);
@@ -52,7 +56,8 @@ public class AuthoringEnvironment {
 		});
 	}
 
-	private Scene createScene() {
+	private Scene createScene()
+	{
 		workspace = new Workspace(game, polyglot, IOResources);
 		Scene scene = new Scene(workspace, 1000, 600);
 		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));

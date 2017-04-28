@@ -23,7 +23,7 @@ public class AddCommand extends EntityCommand
 	@Override
 	public void unexecute()
 	{
-		layer.getChildren().remove(super.getEntityView());
+		layer.getCanvas().removeEntity(super.getEntityView());
 	}
 
 }

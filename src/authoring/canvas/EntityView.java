@@ -112,6 +112,14 @@ public class EntityView extends VBox
 		DragUtil.makeResizeable(this, gridSize);
 	}
 
+	public void setEntity(Entity entity)
+	{
+		this.entity = entity.clone();
+		image.setImage(new Image(entity.getImagePath()));
+		// this.getChildren().clear();
+		// setup(tileSize);
+	}
+
 	/**
 	 * Returns the Entity that this EntityView is representing. The returned
 	 * Entity's xProperty, yProperty, widthProperty, and heightProperty reflect
