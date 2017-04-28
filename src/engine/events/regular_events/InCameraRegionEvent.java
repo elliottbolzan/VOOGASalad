@@ -19,11 +19,19 @@ public class InCameraRegionEvent extends Event {
 
 	@Override
 	public boolean act() {
+		if ((boolean) getParam("Is In Region")) {
+			return isInRegion();
+		}
+		return !isInRegion();
+	}
+
+	private boolean isInRegion() {
 		CameraEntity camera = getGameInfo().getGraphicsEngine().getCamera();
 		return !(getEntity().getX() > camera.getX() + camera.getWidth()
 				|| getEntity().getX() + getEntity().getWidth() < camera.getX()
 				|| getEntity().getY() > camera.getY() + camera.getHeight()
-				|| getEntity().getY() + getEntity().getHeight() < camera.getY()) && (boolean) getParam("Is In Region");
+				|| getEntity().getY() + getEntity().getHeight() < camera.getY());
+
 	}
 
 }
