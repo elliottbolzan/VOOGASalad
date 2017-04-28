@@ -110,5 +110,6 @@ public class FullPlayer extends AbstractPlayer {
 	@Override
 	public void endGame(Scorebar scorebar) {
 		this.getStage().setScene(new EndGameMenu(this.getStage(), this.getGame(), mediaManager, this.getPolyglot(), this.getResources(), scorebar).createScene());
+		this.getStage().centerOnScreen();
 	}
 }

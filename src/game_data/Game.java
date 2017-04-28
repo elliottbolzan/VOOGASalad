@@ -271,7 +271,6 @@ public class Game {
 		cloneGame.setInfo(this.info);
 		cloneGame.setClockGoingDown(this.clockGoingDown);
 		cloneGame.setCurrentTime(this.currentTime);
-		//TODO : cloneGame.setAchievements();
 		// TODO: clone scores
 		cloneGame.setAchievements(this.cloneAchievements());
 		return cloneGame;
