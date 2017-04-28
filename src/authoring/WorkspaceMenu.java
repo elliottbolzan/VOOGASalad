@@ -68,7 +68,7 @@ public class WorkspaceMenu extends View {
 				workspace.getPolyglot().get("DirectionItem", Case.TITLE), e -> setTimeDirection(),
 				workspace.getGame().getClockGoingDown());
 		MenuItem timeItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("TimeItem", Case.TITLE),
-				"Ctrl+T", e -> setMaxTime());
+				"Ctrl+Shift+T", e -> setMaxTime());
 		settingsMenu.getItems().addAll(musicItem, new SeparatorMenuItem(), directionItem, timeItem);
 		return settingsMenu;
 	}
