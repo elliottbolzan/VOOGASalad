@@ -269,8 +269,19 @@ public class ComponentMaker {
 	}
 	
 	public CheckMenuItem makeCheckItem(StringBinding binding, EventHandler<ActionEvent> handler, boolean selected) {
-		CheckMenuItem item = new CheckMenuItem();
+		CheckMenuItem item = checkItemHelper(handler, selected);
 		item.textProperty().bind(binding);
+		return item;
+	}
+	
+	public CheckMenuItem makeCheckItem(String content, EventHandler<ActionEvent> handler, boolean selected) {
+		CheckMenuItem item = checkItemHelper(handler, selected);
+		item.setText(content);
+		return item;
+	}
+	
+	public CheckMenuItem checkItemHelper(EventHandler<ActionEvent> handler, boolean selected) {
+		CheckMenuItem item = new CheckMenuItem();
 		item.setOnAction(handler);
 		item.setSelected(selected);
 		return item;
