@@ -1,6 +1,8 @@
 package game_data;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
@@ -58,13 +60,18 @@ public class EntityConverter implements Converter {
 
 		Class<?> objClass = entity.getClass();
 		Field[] fields = objClass.getDeclaredFields();
-
+		ArrayList<String> names = new ArrayList<String>();
+		for (Field field : fields) {
+			names.add(field.getName());
+		}
 		writeFields(entity, fields, writer, context);
-
-		objClass = objClass.getSuperclass();
+		objClass = entity.getClass().getSuperclass();
 		fields = objClass.getDeclaredFields();
 		writeFields(entity, fields, writer, context);
 
+		objClass = entity.getClass().getSuperclass().getSuperclass();
+		fields = objClass.getDeclaredFields();
+		writeFields(entity, fields, writer, context);
 		writer.close();
 	}
 
@@ -84,7 +91,8 @@ public class EntityConverter implements Converter {
 	private void writeFields(Object entity, Field[] fields, HierarchicalStreamWriter writer,
 			MarshallingContext context) {
 		for (Field field : fields) {
-			if (java.lang.reflect.Modifier.isStatic(field.getModifiers()))
+			if (java.lang.reflect.Modifier.isStatic(field.getModifiers())
+					|| java.lang.reflect.Modifier.isTransient(field.getModifiers()))
 				continue;
 			field.setAccessible(true);
 			String name = field.getName();
@@ -97,8 +105,8 @@ public class EntityConverter implements Converter {
 			}
 			if (value != null) {
 				writer.startNode(name);
-				if (value instanceof Property){
-					((Property)value).unbind();
+				if (value instanceof Property) {
+					((Property) value).unbind();
 				}
 				if (value instanceof SimpleDoubleProperty)
 					writer.setValue(((SimpleDoubleProperty) value).get() + "");
@@ -106,11 +114,10 @@ public class EntityConverter implements Converter {
 					writer.setValue(((SimpleStringProperty) value).get());
 				else if (value instanceof SimpleBooleanProperty)
 					writer.setValue(((SimpleBooleanProperty) value).get() + "");
-				else if (value instanceof GameObject){
-					((GameObject)value).setGameInfo(null);
+				else if (value instanceof GameObject) {
+					((GameObject) value).setGameInfo(null);
 					context.convertAnother(value);
-				}
-				else
+				} else
 					context.convertAnother(value);
 				writer.endNode();
 			}
@@ -144,7 +151,13 @@ public class EntityConverter implements Converter {
 				try {
 					field = entity.getClass().getSuperclass().getDeclaredField(reader.getNodeName());
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					try {
+						field = entity.getClass().getSuperclass().getSuperclass()
+								.getDeclaredField(reader.getNodeName());
+					} catch (Exception e2) {
+						e1.printStackTrace();
+					}
+
 				}
 			}
 			if (field == null)
