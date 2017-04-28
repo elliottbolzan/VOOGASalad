@@ -69,8 +69,23 @@ public class EntitySaver {
 		
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
-		String xmlString = xStream.toXML(entity);	
+		//xStream.registerConverter(new GameObjectConverter());
+		String xmlString = xStream.toXML(entity);
+		
 		entity.setImagePath(absoluteImagePath);
+		/*System.out.println("======================");
+		System.out.println(entity);
+		System.out.println(entity.getEvents());
+		System.out.println("XMLSTRING");(/
+
+		/*try (PrintStream out = new PrintStream(new FileOutputStream("filename" + entity.getName() + ".txt"))) {
+		    out.print(xmlString);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	 	System.out.println("XMLSTRING: " + xmlString);*/
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 	
