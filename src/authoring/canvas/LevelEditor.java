@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import authoring.Workspace;
+import authoring.components.CustomTooltip;
 import engine.entities.Entity;
 import engine.game.Level;
 import javafx.beans.value.ChangeListener;
@@ -248,6 +249,7 @@ public class LevelEditor extends View
 	private Tab makePlusTab()
 	{
 		Tab plusTab = new Tab("+");
+		plusTab.setTooltip(new CustomTooltip(workspace.getPolyglot().get("AddLevel")));
 		plusTab.setClosable(false);
 		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
 		{

@@ -126,6 +126,5 @@ public class Panel extends CollapsibleView {
 
 	public void selectLoadedLevelBox(int layerCount) {
 		layerPanel.selectLevelBox(layerCount);
-
 	}
 }
