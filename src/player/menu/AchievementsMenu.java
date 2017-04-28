@@ -2,8 +2,8 @@ package player.menu;
 
 import java.util.ResourceBundle;
 
-import engine.Entity;
-import engine.entities.AchievementEntity;
+import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
 import game_data.Game;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -44,16 +44,10 @@ public class AchievementsMenu extends AbstractMenu {
 		pane.setFitToWidth(true);
 		VBox container = new VBox(10);
 		container.setAlignment(Pos.CENTER);
+		System.out.println("IN ACHIEMEVEMENTS: " + getGame().getDefaults());
 		for(Entity entity : this.getGame().getAchievements()){
 			container.getChildren().add(makeAchievementBox(entity));
 		}
-		//Test
-		AchievementEntity achievement = new AchievementEntity();
-		achievement.setName("Winner winner chicken dinner");
-		container.getChildren().add(makeAchievementBox(achievement));
-		achievement.setCompleted(20);
-		achievement.setTotal(50);
-		//
 		
 		pane.setContent(container);
 		this.setCenter(pane);
@@ -97,15 +91,12 @@ public class AchievementsMenu extends AbstractMenu {
 	
 	private HBox makeProgressBox(Entity achievement){
 		HBox container = new HBox(10);
+		DoubleProperty percentage = ((AchievementEntity)achievement).getPercentCompleted();
 		ProgressBar progress = new ProgressBar();
+		progress.progressProperty().bind(percentage);
 		HBox.getHgrow(progress);
-		Label percentage = new Label();
-		progress.progressProperty().bind(((AchievementEntity) achievement).getCompleted().divide(((AchievementEntity) achievement).getTotal()));
-		StringProperty sp = percentage.textProperty();
-		DoubleProperty dp = progress.progressProperty();
-		StringConverter<Number> converter = new NumberStringConverter();
-		Bindings.bindBidirectional(sp, dp, converter);
-		container.getChildren().addAll(progress, percentage);
+		Label percentageLabel = new Label(percentage.toString());
+		container.getChildren().addAll(progress, percentageLabel);
 		return container;
 	}
 	

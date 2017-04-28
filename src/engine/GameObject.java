@@ -1,18 +1,20 @@
 package engine;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import engine.entities.Entity;
 import exceptions.GameObjectException;
 
 /**
- * @author nikita This is the abstract class from which event, action and entity
- *         all inherit. It contains methods that are common to all of these
- *         types of game objects, such as getting names and descriptions to
- *         display to the user, getting and setting parameters, cloning and etc
+ * @author nikita
+ * 
+ *         This is the abstract class from which event, action and entity all
+ *         inherit. It contains methods that are common to all of these types of
+ *         game objects, such as getting names and descriptions to display to
+ *         the user, getting and setting parameters, cloning and etc
  */
 public abstract class GameObject {
 	private transient ResourceBundle resources, notTranslatedResources;
@@ -20,7 +22,7 @@ public abstract class GameObject {
 	private Entity entity;
 	private GameInfo info;
 
-	public GameObject(String name) {
+	public GameObject() {
 		setUpResources();
 		params = new ArrayList<Parameter>();
 	}
@@ -53,7 +55,7 @@ public abstract class GameObject {
 
 	public List<Parameter> getParams() {
 		return params;
-		//return Collections.unmodifiableList(params);
+		// return Collections.unmodifiableList(params);
 	}
 
 	public void addParam(Parameter param) {
@@ -63,7 +65,7 @@ public abstract class GameObject {
 	public void updateParam(String name, Object value) {
 		findParameter(name).setObject(value);
 	}
-	
+
 	public boolean hasParam(String name) {
 		for (Parameter param : params) {
 			if (param.getName().equals(name)) {

@@ -17,8 +17,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import engine.Entity;
-import engine.entities.CameraEntity;
+
+import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import exceptions.NotAGameFolderException;
 import javafx.collections.FXCollections;
@@ -40,15 +41,28 @@ public class GameLoader {
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
 		
-		String tempFolderPath = System.getProperty("java.io.tmpdir");
-		System.out.println(tempFolderPath);
-		(new Unpackager()).unzip(gameFolderPath, System.getProperty("java.io.tmpdir"));
+		String tempFolderPath = System.getProperty("java.io.tmpdir") +"VoogaSalad";
+		
+		//tempFolderPath=gameFolderPath.replace(".vs", "");
+		//System.out.println(tempFolderPath);
+		
+		//TempFolderPath
+		
+		//System.out.println(tempFolderPath);
+		//(new Unpackager()).unzip(gameFolderPath, System.getProperty("java.io.tmpdir"));
 		
 		//(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".vs", ""));
 		//gameFolderPath = gameFolderPath.replace(".vs", "");
 		//File dataFile = new File(gameFolderPath + File.separator + saveName);
 		
-		File dataFile = new File(tempFolderPath + File.separator + saveName);
+		File voogaDirectory = new File(tempFolderPath + "VoogaSalad");
+		if(!voogaDirectory.exists()){
+			voogaDirectory.mkdirs();
+		}
+		
+		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
+		File dataFile = new File(tempFolderPath +  File.separator + saveName);
+	
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -62,10 +76,14 @@ public class GameLoader {
 		Game game = new Game();
 		addName(game, doc);
 		addInfo(game, doc);
-		addLevels(game, doc, tempFolderPath);
 		addDefaults(game, doc, tempFolderPath);
+		addLevels(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
+		
+		//addCurrentTime(game,doc);
+		//addIsCountingDown(game,doc);
+		
 		
 		//addLevels(game, doc, gameFolderPath);
 		//addDefaults(game, doc, gameFolderPath);
@@ -73,22 +91,30 @@ public class GameLoader {
 		
 		return game;
 	}
-
-	private void addAchievements(Game game, Document doc, String folderPath) {
-		NodeList achieveNode = doc.getElementsByTagName("Achievements");
-		//game.setAchievements(achieveNode.item(0).getAttributes().item(0).getNodeValue());
-	}
 	
+	private void addCurrentTime(Game game,Document doc){
+		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
+		game.setName(timeNodes.item(0).getAttributes().item(0).getNodeValue());
+		
+	}
+	private void addIsCountingDown(Game game,Document doc){
+		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
+		game.setName(countdownNodes.item(0).getAttributes().item(0).getNodeValue());
+	}
 	private void addSaves(Game game, String folderPath){
 		ObservableList<String> saves = FXCollections.observableArrayList();
 		File folder = new File(folderPath);
 		File[] allFiles = folder.listFiles();
 		for(File file : allFiles){
-			if(file.getName().contains("save") && file.getName().contains(".xml")){
+			if(isSave(game, file)){
 				saves.add(file.getName());
 			}
 		}
 		game.setSaves(saves);
+	}
+	
+	private boolean isSave(Game game, File file){
+		return (file.getName().contains(game.getName()) && file.getName().contains("save") && file.getName().contains(".xml"));
 	}
 
 	private void addInfo(Game game, Document doc) {

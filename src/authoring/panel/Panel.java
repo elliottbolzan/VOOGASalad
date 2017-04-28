@@ -12,6 +12,10 @@ import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.Accordion;
+import javafx.beans.binding.StringBinding;
+import javafx.scene.control.Accordion;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.Accordion;
 import utils.views.CollapsibleView;
 import utils.views.View;
 import polyglot.Case;
@@ -122,6 +126,5 @@ public class Panel extends CollapsibleView {
 
 	public void selectLoadedLevelBox(int layerCount) {
 		layerPanel.selectLevelBox(layerCount);
-
 	}
 }

@@ -1,9 +1,9 @@
 package engine.actions.regular_actions;
 
-import engine.Action;
-import engine.CollisionSide;
-import engine.Entity;
 import engine.Parameter;
+import engine.actions.Action;
+import engine.collisions.CollisionSide;
+import engine.entities.Entity;
 import javafx.application.Platform;
 
 /**
@@ -12,14 +12,9 @@ import javafx.application.Platform;
  * @author nikita
  */
 public class SpawnEntityAction extends Action {
-
 	public SpawnEntityAction() {
 		addParam(new Parameter("Entity Name", String.class, ""));
 		addParam(new Parameter("Side", String.class, ""));
-		addParam(new Parameter("X Speed", double.class, 0.0));
-		addParam(new Parameter("Y Speed", double.class, 0.0));
-		addParam(new Parameter("X Acceleration", double.class, 0.0));
-		addParam(new Parameter("Y Acceleration", double.class, 0.0));
 		addParam(new Parameter("Spawn Probability", double.class, 1.0));
 		addParam(new Parameter("Random Spawn", boolean.class, false));
 	}
@@ -31,16 +26,18 @@ public class SpawnEntityAction extends Action {
 				@Override
 				public void run() {
 					Entity newEntity = null;
-					for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
+					for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
 						if (((String) getParam("Entity Name")).equals(entity.getName())) {
 							newEntity = entity.clone();
+							newEntity.setGameInfo(getGameInfo());
 							break;
 						}
 					}
-					newEntity.setXSpeed((Double) getParam("X Speed"));
-					newEntity.setYSpeed((Double) getParam("Y Speed"));
-					newEntity.setXAcceleration((Double) getParam("X Acceleration"));
-					newEntity.setYAcceleration((Double) getParam("Y Acceleration"));
+					newEntity.setZ(getEntity().getZ());
+					newEntity.setXSpeed((Double) newEntity.getParam("X Speed"));
+					newEntity.setYSpeed((Double) newEntity.getParam("Y Speed"));
+					newEntity.setXAcceleration((Double) newEntity.getParam("X Acceleration"));
+					newEntity.setYAcceleration((Double) newEntity.getParam("Y Acceleration"));
 					String side = ((String) getParam("Side"));
 					CollisionSide collisionSide = getCollisionSide(side.toUpperCase());
 					if ((boolean) getParam("Random Spawn"))
@@ -48,6 +45,7 @@ public class SpawnEntityAction extends Action {
 					else
 						collisionSide.placeEntity(getEntity(), newEntity);
 					newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
+					newEntity.getGameInfo().getObservableBundle().attachEntityToAll(newEntity);
 					newEntity.getGameInfo().getGraphicsEngine().updateView();
 				}
 			});

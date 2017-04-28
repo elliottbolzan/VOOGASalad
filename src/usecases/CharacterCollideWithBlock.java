@@ -1,10 +1,10 @@
 package usecases;
 
-import engine.ActionInterface;
-import engine.CollisionInterface;
-import engine.EntityInterface;
-import engine.EventInterface;
 import engine.GameInterface;
+import engine.actions.ActionInterface;
+import engine.collisions.CollisionInterface;
+import engine.entities.EntityInterface;
+import engine.events.EventInterface;
 
 /**
  * @author nikita This class contains the functions that get called when a

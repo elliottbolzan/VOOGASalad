@@ -18,7 +18,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import engine.Entity;
+
+import engine.entities.Entity;
 import engine.game.Level;
 
 public class GameSaver {
@@ -38,13 +39,15 @@ public class GameSaver {
 	}
 	
 	protected void saveGameState(Game game, String zipFolderPath, String saveName) {
+		/*
 		try {
 			(new Unpackager()).unzip(zipFolderPath, zipFolderPath.replace(".vs", ""));
 		} catch(Exception e) {
 			//TODO?
-		}
+		}*/
 		
 		String gameFolderPath = zipFolderPath.replace(".vs", "");
+		//System.out.println(gameFolderPath);
 		this.saveAndCompress(game, gameFolderPath, saveName);
 	}
 	
@@ -56,11 +59,19 @@ public class GameSaver {
 		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
 		this.saveLevels(gameFolderPath, game.getLevels());
 		this.saveDefaults(gameFolderPath, game.getDefaults());
-		//this.saveAchievements(game.getAchievements(), gameFolderPath);
-		
+		this.saveTime(game.getCurrentTime());
+		this.saveClockGoingDown(game.getClockGoingDown());
 		this.saveDocument(gameFolderPath, saveName);
 		this.zipDoc(gameFolderPath);
 	}
+	
+	private void saveTime(double initialTime){
+	gameXMLFactory.setTime(initialTime);
+	}
+	private void saveClockGoingDown(boolean clockGoingDown){
+	gameXMLFactory.setCountdown(clockGoingDown);
+	}
+	
 
 	/**
 	 * Saves the document as a whole, after the XML serializing is done

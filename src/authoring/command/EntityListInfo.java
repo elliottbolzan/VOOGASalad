@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.networking.Packet;
-import engine.Entity;
+import engine.entities.Entity;
 
 public class EntityListInfo extends Packet
 {

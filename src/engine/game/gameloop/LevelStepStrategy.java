@@ -1,10 +1,10 @@
 package engine.game.gameloop;
 
-import engine.Action;
-import engine.Entity;
-import engine.entities.CameraEntity;
-import engine.Event;
+import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
+import engine.events.Event;
 import engine.GameInfo;
+import engine.actions.Action;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
@@ -59,11 +59,10 @@ public class LevelStepStrategy implements StepStrategy {
 	@Override
 	public void step() {
 		info.getObservableBundle().updateObservers();
-		// TODO If need an update method in GameInfo, update it here, right
+		// TODO If need an update method in GameInfo, update it here, rsoight
 		// before entity.update();
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			entity.update();
-		}
+		//System.out.println(levelManager.getCurrentLevel().getEntities());
+		levelManager.getCurrentLevel().getEntities().forEach(e -> e.update());
 		info.setEntitiesNeverUpdatedFalse();
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
@@ -93,7 +92,6 @@ public class LevelStepStrategy implements StepStrategy {
 		}
 	}
 
-	
 	private void setupGameView() {
 		CameraEntity levelCamera = levelManager.getCurrentLevel().getCamera();
 		levelManager.getCurrentLevel().getEntities().add(levelCamera);

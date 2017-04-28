@@ -13,7 +13,7 @@ import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
 import authoring.networking.Packet;
 import authoring.panel.Panel;
-import engine.Entity;
+import engine.entities.Entity;
 import game_data.Game;
 import game_data.GameData;
 import javafx.application.Platform;

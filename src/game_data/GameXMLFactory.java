@@ -27,6 +27,8 @@ public class GameXMLFactory
 	private Element achieveNode;
 	private Element backgroundNode;
 	private Element infoNode;
+	private Element timeNode;
+	private Element countdownNode;
 	private ResourceManager rm;
 
 	/**
@@ -76,7 +78,39 @@ public class GameXMLFactory
 		
 		infoNode = doc.createElement("GameInfo");
 		rootElement.appendChild(infoNode);
+		
+		timeNode = doc.createElement("CurrentTime");
+		rootElement.appendChild(timeNode);
+		
+		countdownNode = doc.createElement("TimeGoingDown");
+		rootElement.appendChild(countdownNode);
 	}
+	
+	
+	/**
+	 * Sets the current time of the game in the XML file
+	 * @param currentTime
+	 * 				time to be set in XML
+	 */
+	public void setTime(double gameTime) {
+		Attr attr = doc.createAttribute("ClockTime");
+		attr.setValue( Double.toString(gameTime));
+		timeNode.setAttributeNode(attr);
+	}
+	
+	
+
+	/**
+	 * Sets the current time of the game in the XML file
+	 * @param currentTime
+	 * 				time to be set in XML
+	 */
+	public void setCountdown(boolean clockGoingDown) {
+		Attr attr = doc.createAttribute("CountingDown");
+		attr.setValue(Boolean.toString(clockGoingDown));
+		countdownNode.setAttributeNode(attr);
+	}
+	
 	
 	/**
 	 * Sets the name of the game in the XML file

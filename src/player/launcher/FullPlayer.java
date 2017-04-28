@@ -93,15 +93,10 @@ public class FullPlayer extends AbstractPlayer {
 	}
 	
 	private void save() {
-		Game savedGame = new Game();
-		savedGame.setName(this.getGame().getName());
-		savedGame.setInfo(this.getGame().getInfo());
-		savedGame.setSongPath(this.getGame().getSongPath());
-		savedGame.setDefaults(this.getGame().getDefaults());
-		//savedGame.setAchievements();
-		//savedGame.setHighscores();
+		Game savedGame = this.getGame().clone();
 		savedGame.setLevels(this.getRunningGameLoop().getLevelManager().getLevels().getListRepresentation());
 		savedGame.setLevels(savedGame.cloneLevels());
+	//	savedGame.setInitialTime();
 		mediaManager.saveGame(savedGame);
 	}
 	

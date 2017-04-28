@@ -1,6 +1,6 @@
 package engine.events.regular_events;
 
-import engine.Event;
+import engine.events.Event;
 
 /**
  * Event that triggers attached Actions just once when the game starts up.

@@ -3,6 +3,7 @@ package authoring.components;
 import authoring.Workspace;
 import utils.views.View;
 import javafx.beans.binding.StringBinding;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
@@ -143,6 +144,18 @@ public abstract class EditableContainer extends View {
 					}
 				}
 			}
+		});
+	}
+	
+	public void changeEditHandler(Runnable r){
+		editButton.setOnAction(e -> {edit();
+									r.run();
+		});
+	}
+	
+	public void changeNewHandler(Runnable r){
+		newButton.setOnAction(e -> {createNew();
+									r.run();
 		});
 	}
 

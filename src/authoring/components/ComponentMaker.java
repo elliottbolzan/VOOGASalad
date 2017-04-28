@@ -150,7 +150,7 @@ public class ComponentMaker {
 		Accordion accordion = new Accordion();
 		List<TitledPane> titledPanes = new ArrayList<TitledPane>();
 		for (int i = 0; i < subviews.size(); i++) {
-			Label infoLabel = new Label("  ?  ");
+			Label infoLabel = new Label("?");
 			TitledPane pane = new TitledPane();
 			//infoLabel.setStyle("-fx-border-color: white;");
 			pane.setContentDisplay(ContentDisplay.RIGHT);
@@ -159,7 +159,6 @@ public class ComponentMaker {
 			Text t = new Text(pane.getText());
 
 			pane.setGraphicTextGap(188-t.getBoundsInLocal().getWidth());
-			//System.out.println(infoLabel.getBoundsInParent().getX());
 			pane.setContent(subviews.get(i));
 			titledPanes.add(pane);
 		}
@@ -170,7 +169,7 @@ public class ComponentMaker {
 	
 	public void setToolTips(Accordion accordion, List<StringBinding> nameList){
 		for(int i = 0; i<nameList.size();i++){
-			CustomTooltip t = new CustomTooltip(nameList.get(i),accordion.getPanes().get(i).getGraphic());
+			new CustomTooltip(nameList.get(i),accordion.getPanes().get(i).getGraphic());
 		}
 	}
 	

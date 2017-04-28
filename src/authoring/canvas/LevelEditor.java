@@ -11,8 +11,9 @@ import authoring.command.MoveCommand;
 import authoring.command.MoveInfo;
 import authoring.command.ResizeCommand;
 import authoring.command.ResizeInfo;
+import authoring.components.CustomTooltip;
 import authoring.networking.Packet;
-import engine.Entity;
+import engine.entities.Entity;
 import engine.game.Level;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -264,6 +265,7 @@ public class LevelEditor extends View
 	private Tab makePlusTab()
 	{
 		Tab plusTab = new Tab("+");
+		plusTab.setTooltip(new CustomTooltip(workspace.getPolyglot().get("AddLevel")));
 		plusTab.setClosable(false);
 		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
 		{

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import engine.Entity;
-import engine.entities.AchievementEntity;
-import engine.entities.CameraEntity;
+
+import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,12 +32,15 @@ public class Game {
 	private List<Score> highscoresBase;
 	private ObservableList<String> saveStates;
 	private boolean isTestGame = false;
+	private boolean clockGoingDown;
+	private double currentTime;
+	
 
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
 	 */
 	public Game() {
-		//TODO Load these from a properties file.
+		// TODO Load these from a properties file.
 		name = "Game";
 		levels = new ArrayList<Level>();
 		defaults = new ArrayList<Entity>();
@@ -46,12 +50,12 @@ public class Game {
 		highscores = FXCollections.observableList(addDefaults());
 		saveStates = FXCollections.observableArrayList();
 	}
-	
-	public void setSaves(ObservableList<String> saves){
+
+	public void setSaves(ObservableList<String> saves) {
 		saveStates = saves;
 	}
-	
-	public ObservableList<String> getSaves(){
+
+	public ObservableList<String> getSaves() {
 		return saveStates;
 	}
 
@@ -109,7 +113,7 @@ public class Game {
 	 */
 	public List<Level> getLevels() {
 		return levels;
-		//return Collections.unmodifiableList(levels);
+		// return Collections.unmodifiableList(levels);
 	}
 
 	/**
@@ -120,7 +124,6 @@ public class Game {
 	 */
 	public void setLevels(List<Level> levels) {
 		this.levels = levels;
-		this.setAchievements(levels);
 	}
 
 	/**
@@ -166,14 +169,11 @@ public class Game {
 	}
 
 	public Collection<Entity> getAchievements() {
-		return achievements;
+		return defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 	}
-	
-	public void setAchievements(Collection<Level> levels){
-		achievements = new ArrayList<>();
-		for(Level level : levels){
-			achievements.addAll(level.getEntities().stream().filter(s -> s.getClass().equals(AchievementEntity.class)).collect(Collectors.toList()));
-		}
+
+	public void setAchievements(List<Entity> achievements) {
+		this.achievements = achievements;
 	}
 
 	/**
@@ -254,7 +254,24 @@ public class Game {
 	public void setTestGame(boolean value) {
 		isTestGame = value;
 	}
+	
+	
+	public void setCurrentTime(double inputCurrentTime){
+		currentTime=inputCurrentTime;
+	}
+	
+	public void setClockGoingDown(boolean inputClockGoingDown){
+		clockGoingDown=inputClockGoingDown;
+	}
 
+	public double getCurrentTime(){
+		return currentTime;
+	}
+	//getTime from Scorebar from gameloop for currenttime
+	public boolean getClockGoingDown(){
+		return clockGoingDown;
+	}
+	
 	public Game clone() {
 		Game cloneGame = new Game();
 		cloneGame.setName(this.name);

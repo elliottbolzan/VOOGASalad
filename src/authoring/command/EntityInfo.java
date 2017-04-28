@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-import engine.Entity;
+import engine.entities.Entity;
 import game_data.EntityConverter;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
