@@ -24,6 +24,7 @@ public class EntityInfo implements Serializable
 	 */
 	private static final long serialVersionUID = -5310590949892001516L;
 	private transient Entity entity;
+	private String extension;
 	// private transient Image image;
 	private String xmlString;
 
@@ -31,6 +32,7 @@ public class EntityInfo implements Serializable
 	{
 		this.entity = entity;
 		xmlString = "";
+		extension = entity.getImagePath().replaceAll("^.*\\.(.*)$", "$1");
 	}
 
 	public Entity getEntity()
@@ -45,22 +47,25 @@ public class EntityInfo implements Serializable
 		xStream.registerConverter(new EntityConverter());
 		xmlString = (String) s.readObject();
 		entity = (Entity) xStream.fromXML(xmlString);
+		extension = entity.getImagePath().replaceAll("^.*\\.(.*)$", "$1");
 		String tempDir = System.getProperty("java.io.tmpdir");
 		File dir = new File(tempDir);
-		File filename = File.createTempFile(entity.getName() + "Image", ".png", dir);
+		File filename = File.createTempFile(entity.getName() + "Image", "." + extension, dir);
 		RenderedImage renderedImage = SwingFXUtils.fromFXImage(SwingFXUtils.toFXImage(ImageIO.read(s), null), null);
-		ImageIO.write(renderedImage, "gif", filename);
+		ImageIO.write(renderedImage, extension, filename);
 		entity.setImagePath("file:" + filename.getAbsolutePath());
+		System.out.println(entity.getImagePath());
 	}
 
 	private void writeObject(ObjectOutputStream s) throws IOException
 	{
 		s.defaultWriteObject();
+		extension = entity.getImagePath().replaceAll("^.*\\.(.*)$", "$1");
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
 		xmlString = xStream.toXML(entity);
 		s.writeObject(xmlString);
 
-		ImageIO.write(SwingFXUtils.fromFXImage(new Image(entity.getImagePath()), null), "png", s);
+		ImageIO.write(SwingFXUtils.fromFXImage(new Image(entity.getImagePath()), null), extension, s);
 	}
 }

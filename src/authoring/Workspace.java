@@ -218,6 +218,9 @@ public class Workspace extends View
 	private void save(String title)
 	{
 		game.setName(title);
+		defaults.getEntities().forEach(e -> {
+			System.out.println(e.getName() + "~~~~~~" + e.getImagePath());
+		});
 		String path = askForOutputPath();
 		Task<Void> task = new Task<Void>()
 		{
@@ -283,6 +286,7 @@ public class Workspace extends View
 	private void createGame()
 	{
 		game.setLevels(levelEditor.getLevels());
+		game.setDefaults(defaults.getEntities());
 	}
 
 	public ComponentMaker getMaker()

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import authoring.Workspace;
+import authoring.command.DeleteInfo;
 import authoring.command.MoveInfo;
 import authoring.command.ResizeInfo;
 import engine.entities.Entity;
@@ -195,8 +196,18 @@ public class LayerEditor extends View
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
 				for (Layer layer : layers.values()) {
 					List<EntityView> selectedEntities = layer.getSelectedEntities();
-					layer.getEntities().removeAll(layer.getSelectedEntities());
-					selectedEntities.forEach(entity -> canvas.removeEntity(entity));
+					selectedEntities.forEach(entity -> {
+						DeleteInfo removeInfo = new DeleteInfo(entity.getEntity().getName(), entity.getTranslateX(),
+								entity.getTranslateY(), entity.getEntityId());
+						if (workspace.getNetworking().isConnected()) {
+							workspace.getNetworking().send(removeInfo);
+						} else {
+							workspace.getLevelEditor().received(removeInfo);
+						}
+					});
+					// layer.getEntities().removeAll(layer.getSelectedEntities());
+					// selectedEntities.forEach(entity ->
+					// canvas.removeEntity(entity));
 				}
 				e.consume();
 			}
