@@ -96,13 +96,13 @@ public class GameLoader {
 	
 	private void addCurrentTime(Game game,Document doc){
 		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
-		System.out.println(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
+		
 		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
 		
 	}
 	private void addIsCountingDown(Game game,Document doc){
 		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
-		System.out.println(countdownNodes.item(0).getAttributes().item(0).getNodeValue());
+		
 		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 	private void addSaves(Game game, String folderPath){
