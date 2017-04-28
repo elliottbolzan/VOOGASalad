@@ -4,11 +4,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import authoring.Workspace;
 import utils.views.View;
 import javafx.beans.binding.StringBinding;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
@@ -152,13 +153,12 @@ public class ComponentMaker {
 		for (int i = 0; i < subviews.size(); i++) {
 			Label infoLabel = new Label("?");
 			TitledPane pane = new TitledPane();
-			//infoLabel.setStyle("-fx-border-color: white;");
 			pane.setContentDisplay(ContentDisplay.RIGHT);
 			pane.setGraphic(infoLabel);
 			pane.textProperty().bind(subviews.get(i).getTitle());
 			Text t = new Text(pane.getText());
 
-			pane.setGraphicTextGap(188-t.getBoundsInLocal().getWidth());
+			pane.setGraphicTextGap(188 - t.getBoundsInLocal().getWidth());
 			pane.setContent(subviews.get(i));
 			titledPanes.add(pane);
 		}
@@ -166,13 +166,13 @@ public class ComponentMaker {
 		accordion.setExpandedPane(titledPanes.get(0));
 		return accordion;
 	}
-	
-	public void setToolTips(Accordion accordion, List<StringBinding> nameList){
-		for(int i = 0; i<nameList.size();i++){
-			new CustomTooltip(nameList.get(i),accordion.getPanes().get(i).getGraphic());
+
+	public void setToolTips(Accordion accordion, List<StringBinding> nameList) {
+		for (int i = 0; i < nameList.size(); i++) {
+			new CustomTooltip(nameList.get(i), accordion.getPanes().get(i).getGraphic());
 		}
 	}
-	
+
 	/**
 	 * @param property
 	 *            the property that provides the title of the Button.
@@ -247,6 +247,12 @@ public class ComponentMaker {
 		stage.centerOnScreen();
 	}
 
+	public Menu makeMenu(String titleProperty) {
+		Menu menu = new Menu();
+		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
+		return menu;
+	}
+
 	public MenuItem makeMenuItem(String title, EventHandler<ActionEvent> handler) {
 		return new CustomMenuItem(title, handler);
 	}
@@ -259,10 +265,33 @@ public class ComponentMaker {
 		return new CustomMenuItem(binding, keyCombination, handler);
 	}
 
-	public Menu makeMenu(String titleProperty) {
-		Menu menu = new Menu();
-		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
-		return menu;
+	public void showProgressForTask(Workspace workspace, Task<Void> task, boolean showResult) {
+		ProgressDialog dialog = new ProgressDialog(workspace);
+		task.setOnSucceeded(event -> {
+			dialog.getDialogStage().close();
+			if (showResult) {
+				showSuccess();
+			}
+		});
+		task.setOnFailed(event -> {
+			dialog.getDialogStage().close();
+			if (showResult) {
+				showFailure();
+			}
+		});
+		Thread thread = new Thread(task);
+		thread.start();
+	}
+	
+	public void showSuccess() {
+		Alert alert = makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader",
+				polyglot.get("TaskSucceeded"));
+		alert.show();
+	}
+	
+	public void showFailure() {
+		Alert alert = makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
+		alert.show();
 	}
 
 }

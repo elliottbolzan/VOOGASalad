@@ -3,7 +3,9 @@ package starter;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import authoring.components.ComponentMaker;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -77,12 +79,16 @@ public class LanguagePicker {
 	}
 	
 	private void selected(String language) {
-		try {
-			polyglot.setLanguage(language);
-			stage.close();
-		} catch (PolyglotException exception) {
-			System.out.println(exception.getMessage());
-		}
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws InterruptedException {
+				ComponentMaker maker = new ComponentMaker(polyglot, resources.getString("StylesheetPath"));
+				maker.showProgressForTask(workspace, task, true);
+				polyglot.setLanguage(language);
+				stage.close();
+				return null;
+			}
+		};
 	}
 
 }

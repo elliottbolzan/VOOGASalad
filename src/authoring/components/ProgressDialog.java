@@ -22,11 +22,12 @@ import javafx.stage.StageStyle;
  */
 public class ProgressDialog {
 
-	private Workspace workspace;
+	private Polyglot polyglot;
+	private ResourceBundle IOResources;
 	private Stage stage;
 	private ProgressBar progressBar = new ProgressBar();
 
-	public ProgressDialog(Workspace workspace) {
+	public ProgressDialog(Polyglot polyglot, ResourceBundle IOResources) {
 		this.workspace = workspace;
 		setupStage();
 		setupView();

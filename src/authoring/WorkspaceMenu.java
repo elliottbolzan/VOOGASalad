@@ -1,18 +1,12 @@
 package authoring;
 
 import java.io.File;
-import java.util.Optional;
-import java.util.ResourceBundle;
 
 import authoring.components.HTMLDisplay;
-import javafx.concurrent.Task;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import polyglot.Case;
