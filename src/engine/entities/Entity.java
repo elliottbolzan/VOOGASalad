@@ -116,7 +116,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	 *            Set the Entity's depth on the screen with respect to other
 	 *            Entity's.
 	 */
-	public void setZ(int z) {
+	public void setZ(double z) {
 		this.zIndex.set(z);
 	}
 
@@ -317,6 +317,8 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.setWidth(entity.getWidth());
 		this.setX(entity.getX());
 		this.setY(entity.getY());
+		this.setZ(entity.getZ());
+		this.setIsVisible(entity.getIsVisible());
 	}
 
 	/**
