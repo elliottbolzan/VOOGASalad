@@ -81,6 +81,8 @@ public class GameLoader {
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
 		
+		addCurrentTime(game,doc);
+		addIsCountingDown(game,doc);
 		//addCurrentTime(game,doc);
 		//addIsCountingDown(game,doc);
 		
@@ -94,12 +96,14 @@ public class GameLoader {
 	
 	private void addCurrentTime(Game game,Document doc){
 		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
-		game.setName(timeNodes.item(0).getAttributes().item(0).getNodeValue());
+		
+		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
 		
 	}
 	private void addIsCountingDown(Game game,Document doc){
 		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
-		game.setName(countdownNodes.item(0).getAttributes().item(0).getNodeValue());
+		
+		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 	private void addSaves(Game game, String folderPath){
 		ObservableList<String> saves = FXCollections.observableArrayList();

@@ -32,7 +32,7 @@ public class Game {
 	private List<Score> highscoresBase;
 	private ObservableList<String> saveStates;
 	private boolean isTestGame = false;
-	private boolean clockGoingDown;
+	private boolean clockGoingDown=false;
 	private double currentTime;
 	
 
