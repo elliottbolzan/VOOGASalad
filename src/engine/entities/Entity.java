@@ -361,6 +361,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 	
 	public void addEntityToCanvas(Canvas canvas, LayerEditor editor, EntityView addedEntityView, int z) {
-		
+		//Do nothing (Null Object Design Pattern)
 	}
 }

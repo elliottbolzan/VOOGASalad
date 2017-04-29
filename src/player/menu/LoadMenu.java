@@ -49,12 +49,15 @@ public class LoadMenu extends AbstractMenu {
 	}
 
 	private void loadSaveState(Stage stage, String saveName) {
+		System.out.println(this.getMediaManager().getGamePath());
+		System.out.println(saveName);
 		GameData data = new GameData();
 		try {
 			Game game = data.loadGameState(this.getMediaManager().getGamePath(), saveName);
 			MediaManager mediaManager = new MediaManager(game, this.getMediaManager().getGamePath());
 			new FullPlayer(stage, game, mediaManager, this.getPolyglot(), this.getResources());
 		} catch (Exception e) {
+			e.printStackTrace();
 			// Game couldn't be loaded, perhaps a wrong Game selected. Might
 			// want to tell user!
 			//TODO

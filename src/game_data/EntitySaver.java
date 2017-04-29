@@ -77,6 +77,7 @@ public class EntitySaver {
 		xStream.registerConverter(new EntityConverter());
 		String xmlString = xStream.toXML(entity);
 		entity.setImagePath(absoluteImagePath);
+
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 
