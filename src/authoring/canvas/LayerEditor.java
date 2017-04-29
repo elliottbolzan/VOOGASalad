@@ -293,6 +293,7 @@ public class LayerEditor extends View
 	public EntityView addEntity(EntityView entity, int z)
 	{
 		canvas.addEntity(entity);
+		this.addEntityToLayer(entity, z);
 		attachSelectionListeners(entity);
 		addDragDetection(entity);
 		
