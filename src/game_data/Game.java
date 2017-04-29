@@ -2,6 +2,7 @@ package game_data;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -52,6 +53,8 @@ public class Game {
 		achievements = new ArrayList<Entity>();
 		highscores = FXCollections.observableList(addDefaults());
 		saveStates = FXCollections.observableArrayList();
+		unlockedLevels= new HashSet<Integer>();
+		unlockedLevels.add(1);
 	}
 
 	public void setSaves(ObservableList<String> saves) {

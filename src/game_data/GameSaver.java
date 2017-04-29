@@ -63,19 +63,17 @@ public class GameSaver
 
 	private void saveAndCompress(Game game, String gameFolderPath, String saveName)
 	{
+		
 		gameXMLFactory = new GameXMLFactory();
-
 		gameXMLFactory.setName(game.getName());
 		gameXMLFactory.addInfo(game.getInfo());
 		gameXMLFactory.setTime(game.getCurrentTime());
 		gameXMLFactory.setCountdown(game.getClockGoingDown());
 		gameXMLFactory.setNumberOfLives(game.getNumberOfLives());
 		gameXMLFactory.setUnlockedLevels(game.getUnlockedLevels());
-
 		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
 		this.saveLevels(gameFolderPath, game.getLevels());
 		this.saveDefaults(gameFolderPath, game.getDefaults());
-
 		this.saveDocument(gameFolderPath, saveName);
 		this.zipDoc(gameFolderPath);
 	}

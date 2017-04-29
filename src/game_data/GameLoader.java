@@ -99,6 +99,7 @@ public class GameLoader {
 		for (int i = 0; i < levelsList.getLength(); i++) {
 			Element levelElement = (Element) levelsList.item(i);
 			int instantiatedLevel = Integer.parseInt(levelElement.getAttributes().item(0).getNodeValue());
+			System.out.println("int: " + instantiatedLevel);
 			gameLevelsUnlocked.add(instantiatedLevel);
 		}
 		

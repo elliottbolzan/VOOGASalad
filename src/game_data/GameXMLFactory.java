@@ -114,12 +114,11 @@ public class GameXMLFactory
 	 * 				lives to be set in XML
 	 */
 	public void setUnlockedLevels(Set<Integer> unlockedLevels) {
-		for(Integer key : unlockedLevels){
 		
+		for(Integer key : unlockedLevels){
 		Element unlockedLevel = doc.createElement("Level");
 		Attr attr=doc.createAttribute("levelnumber");
 		attr.setValue(key.toString());
-		
 		unlockedLevel.setAttributeNode(attr);
 		unlockedLevelsNode.appendChild(unlockedLevel);
 		}
