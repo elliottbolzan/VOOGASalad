@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -11,14 +12,17 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import engine.entities.Entity;
+import engine.entities.entities.BackgroundEntity;
 import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import exceptions.NotAGameFolderException;
@@ -40,31 +44,27 @@ public class GameLoader {
 	 *             : incorrect folder path exception
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
-		
-		String tempFolderPath = System.getProperty("java.io.tmpdir");
-		//tempFolderPath=gameFolderPath.replace(".vs", "");
-		//System.out.println(tempFolderPath);
-		
-		//TempFolderPath
+		String tempFolderPath = System.getProperty("java.io.tmpdir") + File.separator + "VoogaSalad";
+
+		File voogaDirectory = new File(tempFolderPath);
+		if (!voogaDirectory.exists()) {
+			voogaDirectory.mkdirs();
+		}
+
 		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
-		//System.out.println(tempFolderPath);
-		//(new Unpackager()).unzip(gameFolderPath, System.getProperty("java.io.tmpdir"));
-		
-		//(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".vs", ""));
-		//gameFolderPath = gameFolderPath.replace(".vs", "");
-		//File dataFile = new File(gameFolderPath + File.separator + saveName);
-		
 		File dataFile = new File(tempFolderPath + File.separator + saveName);
+
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
-		
+
 		resourceManager = new ResourceManager();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 		Document doc = docBuilder.parse(tempFolderPath + File.separator + saveName);
-		//Document doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
-		
+		// Document doc = docBuilder.parse(gameFolderPath + File.separator +
+		// saveName);
+
 		Game game = new Game();
 		addName(game, doc);
 		addInfo(game, doc);
@@ -72,28 +72,40 @@ public class GameLoader {
 		addLevels(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
-		
-		//addLevels(game, doc, gameFolderPath);
-		//addDefaults(game, doc, gameFolderPath);
-		//addSong(game, doc, gameFolderPath);
-		
+		addCurrentTime(game, doc);
+		addIsCountingDown(game, doc);
+
+		addCurrentTime(game, doc);
+		addIsCountingDown(game, doc);
 		return game;
 	}
-	
-	private void addSaves(Game game, String folderPath){
+
+	private void addCurrentTime(Game game, Document doc) {
+		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
+		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
+	}
+
+	private void addIsCountingDown(Game game, Document doc) {
+		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
+
+		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
+	}
+
+	private void addSaves(Game game, String folderPath) {
 		ObservableList<String> saves = FXCollections.observableArrayList();
 		File folder = new File(folderPath);
 		File[] allFiles = folder.listFiles();
-		for(File file : allFiles){
-			if(isSave(game, file)){
+		for (File file : allFiles) {
+			if (isSave(game, file)) {
 				saves.add(file.getName());
 			}
 		}
 		game.setSaves(saves);
 	}
-	
-	private boolean isSave(Game game, File file){
-		return (file.getName().contains(game.getName()) && file.getName().contains("save") && file.getName().contains(".xml"));
+
+	private boolean isSave(Game game, File file) {
+		return (file.getName().contains(game.getName()) && file.getName().contains("save")
+				&& file.getName().contains(".xml"));
 	}
 
 	private void addInfo(Game game, Document doc) {
@@ -189,11 +201,15 @@ public class GameLoader {
 		for (Entity entity : getEntities(entitiesNode, gameFolderPath)) {
 			returnedLevel.addEntity(entity);
 		}
-		
+
 		Element cameraNode = (Element) levelElement.getChildNodes().item(1);
 		Entity camera = getEntityFromElement(cameraNode, gameFolderPath);
 		returnedLevel.setCamera((CameraEntity) camera);
-		
+
+		Element backgroundNode = (Element) levelElement.getChildNodes().item(2);
+		Entity background = getEntityFromElement(backgroundNode, gameFolderPath);
+		returnedLevel.setBackground((BackgroundEntity) background);
+
 		return returnedLevel;
 	}
 
@@ -228,10 +244,10 @@ public class GameLoader {
 	private Entity getEntityFromElement(Element entityElement, String gameFolderPath) {
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
-		
+
 		Entity entity = (Entity) xStream.fromXML(getXMLStringFromElement(entityElement));
 		entity.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(entity.getImagePath()));
-		
+
 		return entity;
 	}
 
@@ -255,7 +271,7 @@ public class GameLoader {
 
 		return newPath;
 	}
-	
+
 	// http://stackoverflow.com/questions/32739278/convert-elementorg-w3c-dom-to-string-in-java
 	/**
 	 * Method to convert an element node from XML into a string

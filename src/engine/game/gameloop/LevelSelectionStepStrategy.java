@@ -15,6 +15,11 @@ public class LevelSelectionStepStrategy implements StepStrategy{
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
+	private boolean firstPass;
+	
+	public LevelSelectionStepStrategy(boolean firstPass){
+		 this.firstPass = firstPass;
+	}
 	
 	@Override
 	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info) {
@@ -22,6 +27,7 @@ public class LevelSelectionStepStrategy implements StepStrategy{
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
 		graphicsEngine.displayLevelSelectionScreen(levelManager, this);  //TODO implement this
+		graphicsEngine.blankScorebar(firstPass);
 	}
 
 	@Override
@@ -36,7 +42,7 @@ public class LevelSelectionStepStrategy implements StepStrategy{
 		if(hasSelectedLevel){
 			StepStrategy nextStepStrategy = new LevelStepStrategy();
 			levelManager.setCurrentStepStrategy(nextStepStrategy);
-			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
+			Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
 			nextScreen.getTimeline().play();
 		}
 		else{
