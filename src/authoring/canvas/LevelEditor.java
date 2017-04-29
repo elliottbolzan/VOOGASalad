@@ -37,7 +37,7 @@ import utils.views.View;
  *
  */
 public class LevelEditor extends View {
-	
+
 	private int PASTE_OFFSET = 25;
 
 	private Workspace workspace;
@@ -168,9 +168,20 @@ public class LevelEditor extends View {
 			// currentLevel.getCurrentLayer()).setSelected(true);
 		}
 	}
+	
+	public void sendToFront() {
+		for (Layer layer : currentLevel.getLayers()) {
+			layer.getSelectedEntities().forEach(entity -> entity.toFront());
+		}
+	}
+	
+	public void sendToBack() {
+		for (Layer layer : currentLevel.getLayers()) {
+			layer.getSelectedEntities().forEach(entity -> entity.toBack());
+		}
+	}
 
-	public EntityView getEntity(long entityId)
-	{
+	public EntityView getEntity(long entityId) {
 		for (LayerEditor level : levels) {
 			for (Layer layer : level.getLayers()) {
 				for (EntityView entity : layer.getEntities()) {
@@ -183,15 +194,12 @@ public class LevelEditor extends View {
 		return null;
 	}
 
-	public void received(Packet packet)
-	{
+	public void received(Packet packet) {
 
 		if (packet instanceof AddInfo) {
-			Platform.runLater(new Runnable()
-			{
+			Platform.runLater(new Runnable() {
 				@Override
-				public void run()
-				{
+				public void run() {
 					AddInfo addInfo = (AddInfo) packet;
 					double x = addInfo.getX();
 					double y = addInfo.getY();
@@ -207,12 +215,10 @@ public class LevelEditor extends View {
 				}
 			});
 		} else if (packet instanceof DeleteInfo) {
-			Platform.runLater(new Runnable()
-			{
+			Platform.runLater(new Runnable() {
 
 				@Override
-				public void run()
-				{
+				public void run() {
 					DeleteInfo deleteInfo = (DeleteInfo) packet;
 					EntityView deletedEntity = LevelEditor.this.getEntity(deleteInfo.getEntityId());
 					AddDeleteCommand deleteCommand = new AddDeleteCommand(deletedEntity,
@@ -222,11 +228,9 @@ public class LevelEditor extends View {
 
 			});
 		} else if (packet instanceof MoveInfo) {
-			Platform.runLater(new Runnable()
-			{
+			Platform.runLater(new Runnable() {
 				@Override
-				public void run()
-				{
+				public void run() {
 					MoveInfo moveInfo = (MoveInfo) packet;
 					EntityView movedEntity = LevelEditor.this.getEntity(moveInfo.getEntityId());
 					if (movedEntity != null) {
@@ -237,11 +241,9 @@ public class LevelEditor extends View {
 
 			});
 		} else if (packet instanceof ResizeInfo) {
-			Platform.runLater(new Runnable()
-			{
+			Platform.runLater(new Runnable() {
 				@Override
-				public void run()
-				{
+				public void run() {
 					ResizeInfo resizeInfo = (ResizeInfo) packet;
 					EntityView resizedEntity = LevelEditor.this.getEntity(resizeInfo.getEntityId());
 					if (resizedEntity != null) {
