@@ -297,15 +297,6 @@ public class ExpandablePane extends Pane
 			}
 
 		});
-
-		// TODO: Fix height, width resizing updating display
-
-		// node.minHeightProperty().addListener(e -> {
-		// updateDisplay();
-		// });
-		// node.minWidthProperty().addListener(e -> {
-		// updateDisplay();
-		// });
 	}
 
 	private void shiftNodesX(double xShift)
@@ -335,8 +326,10 @@ public class ExpandablePane extends Pane
 		updateCanvasBounds();
 		this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		drawGrid();
-		this.setPrefHeight(height);
-		this.setPrefWidth(width);
+		this.setMinHeight(height);
+		this.setMinWidth(width);
+		// this.setPrefHeight(height);
+		// this.setPrefWidth(width);
 	}
 
 	/**
