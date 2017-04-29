@@ -25,6 +25,7 @@ public class ActionPicker extends Picker {
 	private EntityMaker entityMaker;
 	private EngineController engine = new EngineController();
 	private ListView<Action> list;
+	private ActionEditor editor;
 
 	/** 
 	 * Creates an ActionPicker.
@@ -141,7 +142,7 @@ public class ActionPicker extends Picker {
 	 */
 	@Override
 	public void showEditor() {
-		ActionEditor editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
+				editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
 				engine.getAllActions(entityMaker.getEntity()));
 		getWorkspace().getMaker().display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
@@ -152,6 +153,10 @@ public class ActionPicker extends Picker {
 	@Override
 	public void select(GameObject object) {
 		list.getSelectionModel().select((Action) object);
+	}
+	
+	public ActionEditor getEditor(){
+		return editor;
 	}
 
 }

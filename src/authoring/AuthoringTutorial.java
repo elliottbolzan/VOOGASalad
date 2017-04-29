@@ -39,7 +39,34 @@ public class AuthoringTutorial {
 	
 	private void addedEvent(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("ThirdStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().initTutorialAction("Key Press", () -> addedKeyPress());
 	}
+	
+	private void addedKeyPress(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FourthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(() -> savedEvent());
+	}
+	
+	private void savedEvent(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FifthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().changeNewHandler(() -> addedAction());
+	}
+	
+	private void addedAction(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SixthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().initTutorialAction("Jump", () -> addedJump());
+	}
+	
+	private void addedJump(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SeventhStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().changeSaveHandler(() -> savedAction());
+	}
+	
+	private void savedAction(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EighthStep"));	
+	}
+	
+	
 
 	
 	

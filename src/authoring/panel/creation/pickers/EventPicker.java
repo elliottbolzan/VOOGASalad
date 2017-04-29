@@ -25,6 +25,7 @@ public class EventPicker extends Picker {
 	private EntityMaker entityMaker;
 	private EngineController engine = new EngineController();
 	private ListView<Event> list;
+	private EventEditor editor;
 
 	/**
 	 * Creates an EventPicker.
@@ -136,13 +137,17 @@ public class EventPicker extends Picker {
 	public void update() {
 		list.setItems(FXCollections.observableArrayList(entityMaker.getEntity().getEvents()));
 	}
+	
+	public EventEditor getEditor(){
+		return editor;
+	}
 
 	/* (non-Javadoc)
 	 * @see authoring.panel.creation.pickers.Picker#showEditor()
 	 */
 	@Override
 	public void showEditor() {
-		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
+		 editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
 				engine.getAllEvents(entityMaker.getEntity()));
 		getWorkspace().getMaker().display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
