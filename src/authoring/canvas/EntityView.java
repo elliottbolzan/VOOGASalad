@@ -1,6 +1,7 @@
 package authoring.canvas;
 
 import java.util.List;
+import java.util.Random;
 
 import authoring.Workspace;
 import engine.entities.Entity;
@@ -35,12 +36,15 @@ import javafx.scene.paint.Color;
  * @author jimmy
  *
  */
-public class EntityView extends VBox {
-	private Entity entity;
+public class EntityView extends VBox
+{
+	private transient Entity entity;
+
 	private ImageView image;
 	private int tileSize;
 	private boolean selected;
 	private Canvas canvas;
+	private long entityId;
 
 	/**
 	 * Create an EntityView with the given gridSize and (x,y) position. The
@@ -57,14 +61,23 @@ public class EntityView extends VBox {
 	 * @param y
 	 *            initial y position of the EntityView
 	 */
-	public EntityView(Entity entity, Canvas canvas, int gridSize, double x, double y) {
+	public EntityView(Entity entity, Canvas canvas, int gridSize, double x, double y)
+	{
+		this(entity, new Random().nextLong(), canvas, gridSize, x, y);
+	}
+
+	public EntityView(Entity entity, long entityId, Canvas canvas, int gridSize, double x, double y)
+	{
 		this.entity = entity.clone();
 		this.image = new ImageView(new Image(entity.getImagePath()));
 		this.canvas = canvas;
 		this.setMinHeight(entity.getHeight());
 		this.setMinWidth(entity.getWidth());
+		this.setTranslateX(x);
+		this.setTranslateY(y);
 		this.tileSize = gridSize;
 		selected = false;
+		this.entityId = entityId;
 
 		setup(gridSize);
 	}
@@ -81,7 +94,8 @@ public class EntityView extends VBox {
 	 * @param y
 	 *            initial y position of the EntityView
 	 */
-	private void setup(int gridSize) {
+	private void setup(int gridSize)
+	{
 		this.setPrefHeight(10);
 		this.setPrefWidth(10);
 		image.fitWidthProperty().bind(this.minWidthProperty());
@@ -100,6 +114,14 @@ public class EntityView extends VBox {
 		DragUtil.makeResizeable(this, gridSize);
 	}
 
+	public void setEntity(Entity entity)
+	{
+		this.entity = entity.clone();
+		image.setImage(new Image(entity.getImagePath()));
+		// this.getChildren().clear();
+		// setup(tileSize);
+	}
+
 	/**
 	 * Returns the Entity that this EntityView is representing. The returned
 	 * Entity's xProperty, yProperty, widthProperty, and heightProperty reflect
@@ -107,7 +129,8 @@ public class EntityView extends VBox {
 	 * 
 	 * @return the Entity that this EntityView represents.
 	 */
-	public Entity getEntity() {
+	public Entity getEntity()
+	{
 		return entity;
 	}
 
@@ -119,7 +142,8 @@ public class EntityView extends VBox {
 	 * @param selected
 	 *            true if selected, false if not selected
 	 */
-	public void setSelected(boolean selected) {
+	public void setSelected(boolean selected)
+	{
 		this.selected = selected;
 		if (selected) {
 			Color borderColor = new Color(0, 0, 0, 0.2);
@@ -137,13 +161,19 @@ public class EntityView extends VBox {
 		}
 	}
 
+	public long getEntityId()
+	{
+		return entityId;
+	}
+
 	/**
 	 * Move by the given amount in the x direction
 	 * 
 	 * @param xAmount
 	 *            amount to move in the x direction.
 	 */
-	public void moveX(double xAmount) {
+	public void moveX(double xAmount)
+	{
 		this.setTranslateX(this.getTranslateX() + xAmount);
 	}
 
@@ -153,8 +183,19 @@ public class EntityView extends VBox {
 	 * @param yAmount
 	 *            amount to move in the y direction.
 	 */
-	public void moveY(double yAmount) {
+	public void moveY(double yAmount)
+	{
 		this.setTranslateY(this.getTranslateY() + yAmount);
+	}
+
+	public void setX(double x)
+	{
+		this.setTranslateX(x);
+	}
+
+	public void setY(double y)
+	{
+		this.setTranslateY(y);
 	}
 
 	/**
@@ -162,7 +203,8 @@ public class EntityView extends VBox {
 	 * 
 	 * @return EntityViews in same canvas that are also selected.
 	 */
-	public List<EntityView> getSelectedNeighbors() {
+	public List<EntityView> getSelectedNeighbors()
+	{
 		List<EntityView> selectedNeighbors = canvas.getSelectedEntities();
 		if (selectedNeighbors.contains(this)) {
 			selectedNeighbors.remove(this);
@@ -176,7 +218,8 @@ public class EntityView extends VBox {
 	 * @param xGridAmount
 	 *            number of grid tiles to shift by
 	 */
-	public void moveXGrid(double xGridAmount) {
+	public void moveXGrid(double xGridAmount)
+	{
 		moveX(xGridAmount * tileSize);
 	}
 
@@ -186,7 +229,8 @@ public class EntityView extends VBox {
 	 * @param yGridAmount
 	 *            number of grid tiles to shift by
 	 */
-	public void moveYGrid(double yGridAmount) {
+	public void moveYGrid(double yGridAmount)
+	{
 		moveY(yGridAmount * tileSize);
 	}
 
@@ -195,16 +239,19 @@ public class EntityView extends VBox {
 	 * 
 	 * @return true if this entity is selected, false if not selected.
 	 */
-	public boolean isSelected() {
+	public boolean isSelected()
+	{
 		return this.selected;
 	}
-	
-	public Workspace getWorkspace() {
+
+	public Workspace getWorkspace()
+	{
 		return canvas.getWorkspace();
 	}
 
 	// TODO: This method is repeated in DragResizer and Canvas
-	private double getTiledCoordinate(double coordinate) {
+	private double getTiledCoordinate(double coordinate)
+	{
 		double gridCoordinate = ((int) coordinate / tileSize) * tileSize;
 		if (coordinate % tileSize > tileSize / 2) {
 			return gridCoordinate + tileSize;
