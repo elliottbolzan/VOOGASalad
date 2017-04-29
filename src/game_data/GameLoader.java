@@ -83,7 +83,6 @@ public class GameLoader {
 	
 	private void addIsCountingDown(Game game,Document doc){
 		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
-		
 		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 	

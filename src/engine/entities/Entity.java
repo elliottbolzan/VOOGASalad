@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import authoring.canvas.Canvas;
+import authoring.canvas.EntityView;
+import authoring.canvas.LayerEditor;
 import engine.GameObject;
 import engine.Parameter;
 import engine.actions.Action;
@@ -113,7 +116,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	/**
-	 * 
 	 * @param z
 	 *            Set the Entity's depth on the screen with respect to other
 	 *            Entity's.
@@ -128,7 +130,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	/**
-	 * 
 	 * @param name
 	 *            Set reference that refers to this specific Entity.
 	 */
@@ -281,11 +282,9 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	@Override
 	public List<Event> getEvents() {
 		return events;
-		// return Collections.unmodifiableList(events);
 	}
 
 	/**
-	 * 
 	 * @param events
 	 *            Sets the list of Events that are associated with this Entity.
 	 */
@@ -294,7 +293,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	/**
-	 * 
 	 * @param visible
 	 *            Sets the visibility of this Entity. True means the Entity is
 	 *            visible. False means the Entity is not visible.
@@ -304,7 +302,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	/**
-	 * 
 	 * @return True if this Entity is meant to be visible. False if this Entity
 	 *         is meant to be hidden from view.
 	 */
@@ -361,5 +358,9 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	public void addAdditionalActionClass(Class<?> action) {
 		additionalActionClasses.add(action);
+	}
+	
+	public void addEntityToCanvas(Canvas canvas, LayerEditor editor, EntityView addedEntityView, int z) {
+		editor.addEntityToLayer(addedEntityView, z);
 	}
 }

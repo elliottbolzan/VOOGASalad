@@ -35,7 +35,7 @@ public class LayerEditor extends View
 	private int currLayer;
 	
 	private EntityView levelCameraView;
-	private EntityView backgroundView;
+	private EntityView levelBackgroundView;
 
 
 	/**
@@ -83,7 +83,7 @@ public class LayerEditor extends View
 			}
 		}
 		thisLevel.setCamera((CameraEntity) levelCameraView.getEntity());
-		thisLevel.setBackground((BackgroundEntity) backgroundView.getEntity());
+		thisLevel.setBackground((BackgroundEntity) levelBackgroundView.getEntity());
 		return thisLevel;
 	}
 
@@ -178,7 +178,7 @@ public class LayerEditor extends View
 		layerCount = 0;
 		currLayer = 1;
 		levelCameraView = new EntityView(new CameraEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
-		backgroundView = new EntityView(new BackgroundEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
+		levelBackgroundView = new EntityView(new BackgroundEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
 		addKeyActions();
 		newLayer();
 	}
@@ -270,23 +270,14 @@ public class LayerEditor extends View
 	public EntityView addEntity(Entity entity, double x, double y, int z)
 	{
 		EntityView addedEntity = canvas.addEntity(entity, x, y);
-		addEntityToLayer(addedEntity, z);
 		attachSelectionListeners(addedEntity);
 		
-		if(entity instanceof CameraEntity) {
-			canvas.removeEntity(levelCameraView);
-			levelCameraView = addedEntity;
-		} 
-		
-		if(entity instanceof BackgroundEntity) {
-			canvas.removeEntity(backgroundView);
-			backgroundView = addedEntity;
-		}
+		entity.addEntityToCanvas(canvas, this, addedEntity, z);
 		
 		return addedEntity;
 	}
 	
-	private void addEntityToLayer(EntityView entityView, int z) {
+	public void addEntityToLayer(EntityView entityView, int z) {
 		entityView.getEntity().setZ(z);
 		setNumLayers(z);
 		layers.get(z).addEntity(entityView);
@@ -440,4 +431,19 @@ public class LayerEditor extends View
 		layerCount--;
 	}
 
+	public EntityView getLevelCamera() {
+		return levelCameraView;
+	}
+	
+	public EntityView getLevelBackground() {
+		return levelBackgroundView;
+	}
+	
+	public void setLevelCamera(EntityView camera) {
+		this.levelCameraView = camera;
+	}
+	
+	public void setLevelBackground(EntityView background) {
+		this.levelBackgroundView = background;
+	}
 }
