@@ -14,7 +14,7 @@ import engine.events.Event;
 public class InsideCameraRegionEvent extends Event {
 
 	public InsideCameraRegionEvent() {
-		addParam(new Parameter("Is In Region", Boolean.class, "true"));
+		addParam(new Parameter("Is In Region", boolean.class, true));
 	}
 
 	@Override

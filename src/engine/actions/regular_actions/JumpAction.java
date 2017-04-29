@@ -14,7 +14,7 @@ import engine.entities.Entity;
 public class JumpAction extends Action {
 
 	public JumpAction() {
-		addParam(new Parameter("Initial Jump Speed", Double.class, 0));
+		addParam(new Parameter("Initial Jump Speed", Double.class, 0.0));
 	}
 
 	@Override
