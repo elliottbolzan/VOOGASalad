@@ -165,6 +165,11 @@ public class GameLoader {
 		
 	}
 	
+	/**
+	 * Method to set the achievements extracted from the defaults
+	 * Must be called after addDefaults
+	 * @param game
+	 */
 	private void addAchievements(Game game){
 		game.setAchievements(game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
 				.collect(Collectors.toList()));

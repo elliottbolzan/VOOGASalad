@@ -66,7 +66,6 @@ public class Game {
 	 * @return the clone of levels
 	 */
 	public List<Level> cloneLevels() {
-		//achievements = defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 		List<Level> cloneOfLevels = new ArrayList<Level>();
 		for (Level level : levels) {
 			cloneOfLevels.add(cloneLevel(level));
