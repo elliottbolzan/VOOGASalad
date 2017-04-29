@@ -1,9 +1,9 @@
 package engine.game.gameloop;
 
+import data.Game;
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 

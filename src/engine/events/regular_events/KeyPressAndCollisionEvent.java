@@ -17,14 +17,14 @@ import javafx.scene.input.KeyCode;
 public class KeyPressAndCollisionEvent extends Event {
 
 	private KeyPressEvent keyPressEvent;
-	private CollisionEvent collisionEvent;
+	private CollisionAllEvent collisionEvent;
 	
 	public KeyPressAndCollisionEvent() {
 		addParam(new Parameter("Key", KeyCode.class, KeyCode.UNDEFINED));
 		addParam(new Parameter("Entity", String.class, ""));
 		addParam(new Parameter("Detection Depth", double.class, 0.0));
 		keyPressEvent = new KeyPressEvent();
-		collisionEvent = new CollisionEvent();
+		collisionEvent = new CollisionAllEvent();
 	}
 	
 	@Override
