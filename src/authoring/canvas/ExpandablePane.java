@@ -131,6 +131,7 @@ public class ExpandablePane extends Pane
 		Point2D tiledCoordinate = getTiledCoordinate(x, y);
 		node.setTranslateX(tiledCoordinate.getX());
 		node.setTranslateY(tiledCoordinate.getY());
+		System.out.println("ADDED" + node);
 		this.getChildren().add(node);
 
 		makeDraggable(node);
