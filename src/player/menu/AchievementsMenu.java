@@ -1,14 +1,11 @@
 package player.menu;
 
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
-import engine.events.Event;
 import game_data.Game;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -34,10 +31,12 @@ import polyglot.Polyglot;
  *
  */
 public class AchievementsMenu extends AbstractMenu {
+	private DoubleProperty percent;
 
 	public AchievementsMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot,
 			ResourceBundle IOResources) {
 		super(stage, game, mediaManager, "AchievementsTitle", polyglot, IOResources);
+		System.out.println(getGame().getAchievements());
 	}
 
 	@Override
@@ -54,6 +53,8 @@ public class AchievementsMenu extends AbstractMenu {
 		this.setCenter(pane);
 		this.setBottom(this.makeBackButton());
 		this.setInsets();
+		System.out.println("AchievementsMenu: "+getGame());
+		
 	}
 
 	private HBox makeAchievementBox(Entity achievement) {
@@ -87,32 +88,29 @@ public class AchievementsMenu extends AbstractMenu {
 			description.setText((String) achievement.getParam("Description"));
 		}
 
-		box.getChildren().addAll(name, description);
-		Map<Event, DoubleBinding> map = achievement.createBindings();
-		for (Event event : map.keySet()) {
-			box.getChildren().add(makeProgressBox(map, event));
-		}
+		box.getChildren().addAll(name, description, makeProgressBox(achievement));
 
 		return box;
 	}
 
-	private HBox makeProgressBox(Map<Event, DoubleBinding> map, Event event) {
+	private HBox makeProgressBox(AchievementEntity achievement) {
 		HBox container = new HBox(10);
-		Label eventName = new Label(event.getDisplayName());
 
 		ProgressBar progress = new ProgressBar();
-		progress.progressProperty().bind(map.get(event));
+		progress.progressProperty().bind(achievement.getPercent());
 		
 		HBox percentContainer = new HBox();
 		Label percent = new Label();
-		percent.textProperty().bind(Bindings.convert(map.get(event)));
+		percent.textProperty().bind(Bindings.convert(achievement.getPercent().multiply(100)));
 		Label percentSymbol = new Label("%");
 		percentContainer.getChildren().addAll(percent, percentSymbol);
 		
-		container.getChildren().addAll(eventName, progress, percentContainer);
+		container.getChildren().addAll(progress, percentContainer);
 		return container;
 	}
 	
-	
+	public void setPercent(DoubleProperty percent){
+		this.percent = percent;
+	}
 
 }

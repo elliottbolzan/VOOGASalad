@@ -28,7 +28,7 @@ public class Game {
 	private List<Entity> defaults;
 	private String songPath;
 	private String info;
-	private Collection<Entity> achievements;
+	private List<Entity> achievements;
 	private ObservableList<Score> highscores;
 	private List<Score> highscoresBase;
 	private ObservableList<String> saveStates;
@@ -67,10 +67,12 @@ public class Game {
 	 * @return the clone of levels
 	 */
 	public List<Level> cloneLevels() {
+		achievements = defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 		List<Level> cloneOfLevels = new ArrayList<Level>();
 		for (Level level : levels) {
 			cloneOfLevels.add(cloneLevel(level));
 		}
+		achievements = cloneDefaults().stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 		return cloneOfLevels;
 	}
 
@@ -168,20 +170,16 @@ public class Game {
 		this.info = info;
 	}
 
-	public Collection<Entity> getAchievements() {
-		return defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
+	public List<Entity> getAchievements() {
+		return achievements;
 	}
 
-	public void setAchievements(Collection<Entity> achievements) {
+	public void setAchievements(List<Entity> achievements) {
 		this.achievements = achievements;
 	}
 	
-	public Collection<Entity> cloneAchievements() {
-		Collection<Entity> cloneOfAchievements = new ArrayList<Entity>();
-		for (Entity entity : this.getAchievements()) {
-			cloneOfAchievements.add(entity.clone());
-		}
-		return cloneOfAchievements;
+	public List<Entity> cloneAchievements() {
+		return achievements.stream().map(s -> s.clone()).collect(Collectors.toList());
 	}
 
 	/**

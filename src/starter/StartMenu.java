@@ -5,9 +5,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
+import engine.entities.entities.AchievementEntity;
 import game_data.Game;
 import game_data.GameData;
 import javafx.animation.FadeTransition;

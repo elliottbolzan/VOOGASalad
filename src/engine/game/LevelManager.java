@@ -119,19 +119,16 @@ public class LevelManager {
 	 * phase begins, level state should never be saved (unless add checkpoints).
 	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
 	 */
-	/*public void saveAllLevels() {
-		// GameDataExternalAPI gameData = new GameDataExternalAPI();
-		// gameData.saveGame(levels); // TODO Ask Game Data people if they can
-		// save
-		// the entire SelectionGroup object (so I
-		// don't have to reconstruct a graph from a
-		// List...alternatively if I have them save
-		// the edge list, this will be OK: create
-		// getSaveableList() method in
-		// SelectionGroup interface)
-
-		System.out.println("Saved game");
-	}*/
+	/*
+	 * public void saveAllLevels() { // GameDataExternalAPI gameData = new
+	 * GameDataExternalAPI(); // gameData.saveGame(levels); // TODO Ask Game
+	 * Data people if they can // save // the entire SelectionGroup object (so I
+	 * // don't have to reconstruct a graph from a // List...alternatively if I
+	 * have them save // the edge list, this will be OK: create //
+	 * getSaveableList() method in // SelectionGroup interface)
+	 * 
+	 * System.out.println("Saved game"); }
+	 */
 
 	/**
 	 * Since never save levels' state during gameplay, can call this method at
@@ -140,10 +137,10 @@ public class LevelManager {
 
 	// Call once at beginning of the game
 	public void loadAllSavedLevels() {
-		// levels.removeAll();
 		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
 				.collect(Collectors.toList());
-		//game.setAchievements(achievements);
+		game.setAchievements(achievements);
+		System.out.println("INSIDE LEVEL MANAGER: " + achievements);
 		List<Level> cloneLevels = game.cloneLevels();
 		cloneLevels.forEach(s -> s.addEntities(achievements));
 		levelsInInitialState.addAll(cloneLevels);
@@ -156,6 +153,11 @@ public class LevelManager {
 	// Call when start up a level (first time AND after die)
 	public void resetCurrentLevel() {
 		levels.set(currentLevel - 1, game.cloneLevel(levelsInInitialState.get(currentLevel - 1)));
+		System.out.println("CALLED: " + levels.get(0).getEntities().stream().filter(s -> s instanceof AchievementEntity)
+				.collect(Collectors.toList()));
+		System.out.println("BITCH: " + game);
+		game.setAchievements(levels.get(0).getEntities().stream().filter(s -> s instanceof AchievementEntity)
+				.collect(Collectors.toList()));
 	}
 
 	public SelectionGroup<Level> getLevels() {

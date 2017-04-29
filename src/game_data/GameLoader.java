@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -19,6 +21,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
 import engine.entities.entities.BackgroundEntity;
 import engine.entities.entities.CameraEntity;
 import engine.game.Level;
@@ -69,6 +72,7 @@ public class GameLoader {
 		addLevels(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
+		addAchievements(game);
 		
 		addCurrentTime(game,doc);
 		addIsCountingDown(game,doc);
@@ -158,6 +162,12 @@ public class GameLoader {
 		NodeList defaultsNode = doc.getElementsByTagName(resourceManager.getDefaultsTitle());
 		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0);
 		game.setDefaults(getEntities(entitiesNode, gameFolderPath));
+		
+	}
+	
+	private void addAchievements(Game game){
+		game.setAchievements(game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
+				.collect(Collectors.toList()));
 	}
 
 	/**
