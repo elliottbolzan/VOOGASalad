@@ -37,7 +37,7 @@ public class LoadMenu extends AbstractMenu {
 	
 	private void setupSaveTiles(Stage stage, MediaManager mediaManager){
 		for(int i = 0; i < mediaManager.getSaves().size(); i++){
-			final int j = i; //not sure if this works
+			final int j = i; 
 			Tile game = new Tile(getPolyglot().get(Integer.toString(i+1), Case.TITLE), 
 					"blue", e -> loadSaveState(stage, saveStates.get(j)));
 			saveTiles.add(game);
