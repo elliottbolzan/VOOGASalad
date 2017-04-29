@@ -20,22 +20,19 @@ import utils.views.View;
  * @author Elliott Bolzan
  *
  */
-public class WorkspaceMenu extends View
-{
+public class WorkspaceMenu extends View {
 
 	private Workspace workspace;
 
 	/**
 	 * 
 	 */
-	public WorkspaceMenu(Workspace workspace)
-	{
+	public WorkspaceMenu(Workspace workspace) {
 		this.workspace = workspace;
 		setup();
 	}
 
-	private void setup()
-	{
+	private void setup() {
 		Menu gameMenu = createGameMenu();
 		Menu editMenu = createEditMenu();
 		Menu settingsMenu = createSettingsMenu();
@@ -50,8 +47,7 @@ public class WorkspaceMenu extends View
 	/**
 	 * @return
 	 */
-	private Menu createHelpMenu()
-	{
+	private Menu createHelpMenu() {
 		Menu helpMenu = workspace.getMaker().makeMenu("HelpTitle");
 		helpMenu.getItems()
 				.addAll(workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("KeyCombinations", Case.TITLE),
@@ -64,8 +60,7 @@ public class WorkspaceMenu extends View
 	/**
 	 * @return
 	 */
-	private Menu createSettingsMenu()
-	{
+	private Menu createSettingsMenu() {
 		Menu settingsMenu = workspace.getMaker().makeMenu("SettingsTitle");
 		MenuItem musicItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("MusicSelect", Case.TITLE),
 				"Ctrl+M", e -> chooseSong());
@@ -78,8 +73,7 @@ public class WorkspaceMenu extends View
 		return settingsMenu;
 	}
 
-	private Menu createEditMenu()
-	{
+	private Menu createEditMenu() {
 		Menu editMenu = workspace.getMaker().makeMenu("EditTitle");
 		editMenu.getItems()
 				.addAll(workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Copy", Case.TITLE), "Ctrl+C",
@@ -98,8 +92,7 @@ public class WorkspaceMenu extends View
 	/**
 	 * @return
 	 */
-	private Menu createGameMenu()
-	{
+	private Menu createGameMenu() {
 		Menu gameMenu = workspace.getMaker().makeMenu("GameMenu");
 		gameMenu.getItems()
 				.addAll(workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("Save", Case.TITLE), "Ctrl+S",
@@ -109,9 +102,14 @@ public class WorkspaceMenu extends View
 		return gameMenu;
 	}
 
-	private Menu createServerMenu()
-	{
+	private Menu createServerMenu() {
 		Menu serverMenu = workspace.getMaker().makeMenu("ServerMenu");
+		serverMenu.setOnShowing(e -> serverMenuWillShow(serverMenu));
+		serverMenuWillShow(serverMenu);
+		return serverMenu;
+	}
+
+	private void serverMenuWillShow(Menu menu) {
 		MenuItem IPItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("IPItem", Case.TITLE), "Ctrl+I",
 				e -> workspace.getNetworking().showIP());
 		MenuItem startItem = workspace.getMaker().makeMenuItem(
@@ -119,12 +117,19 @@ public class WorkspaceMenu extends View
 				e -> workspace.getNetworking().start());
 		MenuItem joinItem = workspace.getMaker().makeMenuItem(workspace.getPolyglot().get("JoinClientItem", Case.TITLE),
 				"Ctrl+J", e -> workspace.getNetworking().join());
-		serverMenu.getItems().addAll(IPItem, startItem, joinItem);
-		return serverMenu;
+
+		MenuItem disconnectItem = workspace.getMaker().makeMenuItem(
+				workspace.getPolyglot().get("DisconnectItem", Case.TITLE), "Ctrl+D",
+				e -> workspace.getNetworking().close());
+		menu.getItems().clear();
+		if (workspace.getNetworking().isConnected()) {
+			menu.getItems().addAll(IPItem, disconnectItem);
+		} else {
+			menu.getItems().addAll(IPItem, startItem, joinItem);
+		}
 	}
 
-	private void chooseSong()
-	{
+	private void chooseSong() {
 		String directory = System.getProperty("user.dir") + workspace.getIOResources().getString("DefaultDirectory");
 		FileChooser chooser = workspace.getMaker().makeFileChooser(directory,
 				workspace.getPolyglot().get("MusicChooserTitle").get(),
@@ -135,25 +140,21 @@ public class WorkspaceMenu extends View
 		}
 	}
 
-	private void showKeyCombinations()
-	{
+	private void showKeyCombinations() {
 		HTMLDisplay display = new HTMLDisplay(workspace.getIOResources().getString("HelpPath"),
 				workspace.getPolyglot().get("KeyCombinations"));
 		display.show();
 	}
 
-	private void initTutorial()
-	{
+	private void initTutorial() {
 		new AuthoringTutorial(workspace.getPolyglot());
 	}
 
-	private void setTimeDirection()
-	{
+	private void setTimeDirection() {
 		workspace.getGame().setClockGoingDown(!workspace.getGame().getClockGoingDown());
 	}
 
-	private void setMaxTime()
-	{
+	private void setMaxTime() {
 		TextInputDialog dialog = workspace.getMaker().makeTextInputDialog("TimeTitle", "TimeHeader", "TimePrompt",
 				Double.toString(workspace.getGame().getCurrentTime()));
 		Optional<String> result = dialog.showAndWait();
