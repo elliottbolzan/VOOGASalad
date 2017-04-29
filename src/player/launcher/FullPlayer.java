@@ -88,6 +88,9 @@ public class FullPlayer extends AbstractPlayer {
 		this.buildGameView(true);
 		this.buildControlBar();
 		this.togglePlayPause(true);
+		
+		getRunningGameLoop().getLevelManager().clearUnlockedLevels();
+		getRunningGameLoop().getLevelManager().addUnlockedLevel(1);
 	}
 	
 	private void playSong() {

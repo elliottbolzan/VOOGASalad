@@ -44,7 +44,6 @@ public class GameLoop {
 		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
-		System.out.println("firstTimeLoading = " + firstTimeLoading);
 		scorebar.setupLives(levelManager, firstTimeLoading);
 	}
 
