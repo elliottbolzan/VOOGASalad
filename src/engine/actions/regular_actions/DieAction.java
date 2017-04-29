@@ -13,7 +13,7 @@ public class DieAction extends Action {
 	@Override
 	public void act() {
 		if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
-			getGameInfo().getTimelineManipulator().die(getEntity().getLives() <= 0);
+			getGameInfo().getTimelineManipulator().die(getGameInfo().getScorebar().getLives() <= 0);
 		}
 	}
 

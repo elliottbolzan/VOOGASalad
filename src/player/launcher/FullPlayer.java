@@ -29,13 +29,12 @@ public class FullPlayer extends AbstractPlayer {
 	private boolean isPaused;
 	private ImageView playImage;
 	private ImageView pauseImage;
-
+	
 	private MediaManager mediaManager;
 
-	public FullPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
-		super(primaryStage, game, polyglot, IOResources);
+	public FullPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources, boolean firstTimeLoading) {
+		super(primaryStage, game, polyglot, IOResources, firstTimeLoading);
 		this.mediaManager = mediaManager;
-
 		this.buildControlBar();
 		this.playSong();
 
@@ -85,9 +84,12 @@ public class FullPlayer extends AbstractPlayer {
 	
 	private void restart() {
 		this.getRunningGameLoop().pauseTimeline();
-		this.buildGameView();
+		this.buildGameView(true);
 		this.buildControlBar();
 		this.togglePlayPause(true);
+		
+		getRunningGameLoop().getLevelManager().clearUnlockedLevels();
+		getRunningGameLoop().getLevelManager().addUnlockedLevel(1);
 	}
 	
 	private void playSong() {

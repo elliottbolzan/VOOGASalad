@@ -37,22 +37,6 @@
 	-fx-background-radius: 2;
 }
 
-.tab-pane .tab-header-area .tab-header-background {
-    -fx-opacity: 0;
-}
-
-.tab-pane {
-    -fx-tab-min-width: 90px;
-}
-
-.tab-pane .tab:selected {
-	-fx-background-color: #3a3a3a;
-}
-
-.tab .tab-label { 
-    -fx-alignment: CENTER;
-}
-
 .menu-bar {
 	-fx-background-color: #101010;
 	-fx-base: #101010;
@@ -162,10 +146,6 @@
     -fx-background-color: transparent;
 }
 
-.scroll-pane {
-	-fx-background: #101010;
-}
-
 .scroll-pane .scroll-bar {
 	-fx-background: transparent;
 }
@@ -173,4 +153,36 @@
 .bordered {
 	-fx-border-color: #101010;
 	-fx-background-color: black;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-background-color: #101010;
+}
+
+.tab-pane .tab-header-area {
+    -fx-background-color: #101010;
+}
+
+.tab-pane {
+    -fx-tab-min-width: 80px;
+    -fx-background-color: #101010;
+}
+
+.tab-pane .tab:selected {
+	-fx-background-color: #3a3a3a;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+}
+
+.scroll-pane {
+	-fx-background: #101010;
+}
+
+.chat-bubble {
+ 	-fx-shape: "M35,0 H0 V25 H16 L20,32 L25,25 H35 z";
+	-fx-border-color: white;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 5 5 25 5;
 }

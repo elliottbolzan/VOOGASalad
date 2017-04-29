@@ -11,6 +11,7 @@ import authoring.command.AddInfo;
 import authoring.command.EntityListInfo;
 import authoring.command.UndoableCommand;
 import authoring.components.ComponentMaker;
+import authoring.menu.WorkspaceMenuBar;
 import authoring.networking.Networking;
 import authoring.networking.Packet;
 import authoring.panel.Panel;
@@ -18,13 +19,19 @@ import engine.entities.Entity;
 import game_data.Game;
 import game_data.GameData;
 import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
 import javafx.concurrent.Task;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import player.launcher.BasicPlayer;
@@ -55,6 +62,7 @@ public class Workspace extends View
 	private Networking networking;
 	private Stack<UndoableCommand> undoStack;
 	private Stack<UndoableCommand> redoStack;
+	private Label tutorialMessage;
 
 	/**
 	 * Creates the Workspace.
@@ -109,7 +117,7 @@ public class Workspace extends View
 		pane.setDividerPositions(0.27);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
-		setTop(new WorkspaceMenu(this));
+		setTop(new WorkspaceMenuBar(this));
 		setupDragToAddEntity();
 		// defaults.getEntities().addListener(new ListChangeListener<Entity>()
 		// {
@@ -213,6 +221,29 @@ public class Workspace extends View
 		defaults.setEntities(game.getDefaults());
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
 	}
+	
+	public void addTutorialHost(){
+		VBox tutorialBox = new VBox();
+		tutorialBox.setPrefWidth(150);
+		Image mario = new Image(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
+		ImageView marioView = new ImageView(mario);
+		marioView.setScaleX(.75);
+		marioView.setScaleY(.75);
+		tutorialMessage = new Label();
+		tutorialMessage.textProperty().bind(polyglot.get("FirstStep"));
+		tutorialMessage.getStyleClass().add("chat-bubble");
+        tutorialMessage.setWrapText(true);
+        tutorialMessage.setMaxWidth(150);
+        tutorialBox.getChildren().addAll(tutorialMessage, marioView);
+        tutorialBox.setAlignment(Pos.CENTER);
+        tutorialMessage.setContentDisplay(ContentDisplay.CENTER);
+        pane.setDividerPositions(.30);
+        setRight(tutorialBox);
+	}
+	
+	public Label getMessage(){
+		return tutorialMessage;
+	}
 
 	/**
 	 * Save the Game to disk. A DirectoryChooser is presented to the user; the
@@ -268,7 +299,7 @@ public class Workspace extends View
 	{
 		createGame();
 		Stage stage = new Stage();
-		new BasicPlayer(stage, game.clone(), polyglot, IOResources);
+		new BasicPlayer(stage, game.clone(), polyglot, IOResources, true);
 		stage.show();
 	}
 

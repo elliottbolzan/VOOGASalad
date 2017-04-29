@@ -25,99 +25,73 @@ import networking.net.ObservableServer;
  * @author Elliott Bolzan
  *
  */
-public class Networking
-{
+public class Networking {
 
 	private Workspace workspace;
 	private ObservableServer<Packet> server;
 	private ObservableClient<Packet> client;
-	private String identifier;
 	private static final int PORT = 1337;
 
-	public Networking(Workspace workspace)
-	{
+	public Networking(Workspace workspace) {
 		this.workspace = workspace;
 	}
 
+	public void start() {
+		Task<Void> task = new Task<Void>() {
+			@Override
+			public Void call() throws InterruptedException {
+				startHelper();
+				return null;
+			}
+		};
+		workspace.getMaker().showProgressForTask(task, true);
+	}
+	
 	@SuppressWarnings("unchecked")
-	public void start(String identifier) throws InterruptedException
-	{
+	private void startHelper() throws InterruptedException {
 		try {
 			server = new ObservableServer<Packet>(null, PORT, Serializer.NONE, Unserializer.NONE,
 					Duration.ofSeconds(5));
 			Executors.newSingleThreadExecutor().submit(server);
-			join(getIP(), identifier);
-			this.identifier = identifier;
+			join(getIP());
 		} catch (Exception e) {
 			throw new InterruptedException();
 		}
 	}
-
-	public void start()
-	{
-		Optional<String> identifier = askForGameIdentifier();
-		if (identifier.isPresent()) {
-			Task<Void> task = new Task<Void>()
-			{
+	
+	public void join() {
+		Optional<String> IP = askForIP();
+		if (IP.isPresent()) {
+			Task<Void> task = new Task<Void>() {
 				@Override
-				public Void call() throws InterruptedException
-				{
-					start(identifier.get());
+				public Void call() throws InterruptedException {
+					join(IP.get());
 					return null;
 				}
 			};
 			workspace.getMaker().showProgressForTask(task, true);
 		}
-		// tell them which IP to start;
-		// hide join server, show stop server
 	}
 
 	@SuppressWarnings("unchecked")
-	public void join(String IP, String identifier) throws InterruptedException
-	{
+	private void join(String IP) throws InterruptedException {
 		try {
 			client = new ObservableClient<>(IP, PORT, Serializer.NONE, Unserializer.NONE, Duration.ofSeconds(5));
 			client.addListener(client -> received(client));
 			Executors.newSingleThreadExecutor().submit(client);
-			this.identifier = identifier;
 		} catch (IOException e) {
 			throw new InterruptedException();
 		}
 	}
 
-	public void join()
-	{
-		Optional<String> IP = askForIP();
-		if (IP.isPresent()) {
-			Optional<String> identifier = askForGameIdentifier();
-			if (identifier.isPresent()) {
-				Task<Void> task = new Task<Void>()
-				{
-					@Override
-					public Void call() throws InterruptedException
-					{
-						join(IP.get(), identifier.get());
-						return null;
-					}
-				};
-				workspace.getMaker().showProgressForTask(task, true);
-			}
-		}
-	}
-
-	public void showIP()
-	{
-		Task<Void> task = new Task<Void>()
-		{
+	public void showIP() {
+		Task<Void> task = new Task<Void>() {
 			@Override
-			public Void call() throws InterruptedException
-			{
+			public Void call() throws InterruptedException {
 				String IP = getIP();
-				Platform.runLater(new Runnable()
-				{
+				Platform.runLater(new Runnable() {
 					@Override
-					public void run()
-					{
+					public void run() {
 						Alert alert = workspace.getMaker().makeAlert(AlertType.INFORMATION, "IPTitle", "IPHeader",
 								workspace.getPolyglot().get("IPContent").get() + " " + IP + ".");
 						alert.show();
@@ -129,8 +103,7 @@ public class Networking
 		workspace.getMaker().showProgressForTask(task, false);
 	}
 
-	private String getIP()
-	{
+	private String getIP() {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
 		} catch (UnknownHostException e) {
@@ -138,28 +111,23 @@ public class Networking
 		}
 	}
 
-	public void close()
-	{
+	public void close() {
 		if (server != null && server.isActive())
 			server.close();
 		if (client != null && client.isActive())
 			client.close();
 	}
 
-	public boolean isConnected()
-	{
+	public boolean isConnected() {
 		return client != null && client.isActive() || server != null && server.isActive();
 	}
 
-	public void send(Packet packet)
-	{
-		packet.setIdentifier(identifier);
+	public void send(Packet packet) {
 		client.addToOutbox(state -> packet);
 	}
 
-	private void received(Packet packet)
-	{
-		if (packet != null && packet.getIdentifier().equals(identifier)) {
+	private void received(Packet packet) {
+		if (packet != null) {
 			if (packet instanceof Message) {
 				workspace.getPanel().getChat().received(packet);
 			} else if (packet instanceof EntityCommandInfo) {
@@ -170,16 +138,8 @@ public class Networking
 		}
 	}
 
-	private Optional<String> askForIP()
-	{
+	private Optional<String> askForIP() {
 		TextInputDialog dialog = workspace.getMaker().makeTextInputDialog("JoinTitle", "JoinHeader", "JoinPrompt", "");
-		return dialog.showAndWait();
-	}
-
-	private Optional<String> askForGameIdentifier()
-	{
-		TextInputDialog dialog = workspace.getMaker().makeTextInputDialog("GameIDTitle", "GameIDHeader", "GameIDPrompt",
-				"");
 		return dialog.showAndWait();
 	}
 

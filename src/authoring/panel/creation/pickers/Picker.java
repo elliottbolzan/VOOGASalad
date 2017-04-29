@@ -70,8 +70,7 @@ public abstract class Picker extends EditableContainer {
 			HBox spacing = new HBox();
 			spacing.maxWidth(Double.MAX_VALUE);
 			HBox.setHgrow(spacing, Priority.ALWAYS);
-			infoLabel = new Label("  ?  ");
-			infoLabel.setStyle("-fx-border-color: white;");
+			infoLabel = new Label("?");
 			ToolBar toolBar = new ToolBar(label, spacing,
 					infoLabel);
 			setTop(toolBar);
