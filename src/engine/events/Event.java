@@ -67,6 +67,7 @@ public abstract class Event extends GameObject implements EventInterface {
 	 */
 	public void trigger() {
 		actions.forEach(s -> s.act());
+		//System.out.println(timesEventHasOccurred);
 	}
 
 	public SimpleIntegerProperty getNumberTimesTriggered() {

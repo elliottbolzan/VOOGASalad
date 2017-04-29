@@ -47,7 +47,7 @@ public class LevelManager {
 		this.levelSelectionScreenMode = true;
 		this.scorebar = scorebar;
 	}
-
+	
 	// TODO Call from GAE with small checkbox, or similar
 	public boolean getLevelSelectionScreenMode() {
 		return levelSelectionScreenMode;
@@ -115,6 +115,8 @@ public class LevelManager {
 	}
 
 	/**
+<<<<<<< HEAD
+=======
 	 * Called only from GAE. (Maybe don't need this method?). Once game play
 	 * phase begins, level state should never be saved (unless add checkpoints).
 	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
@@ -136,7 +138,7 @@ public class LevelManager {
 	 */
 
 	// Call once at beginning of the game
-	public void loadAllSavedLevels() {
+	public void loadAllSavedLevels(boolean firstTimeLoading) {
 		List<Entity> achievements = game.getAchievements();
 		List<Level> cloneLevels = game.cloneLevels();
 		cloneLevels.forEach(s -> s.addEntities(achievements));
@@ -145,9 +147,10 @@ public class LevelManager {
 		tempLevels.forEach(s -> s.addEntities(achievements));
 		levels.addAll(game.getLevels());
 		scorebar.setTimerManager(new TimerManager(game.getCurrentTime(), game.getClockGoingDown()));
-		
 		unlockedLevelNumbers = game.getUnlockedLevels();
-	
+		if(!firstTimeLoading){
+			scorebar.setLives(game.getNumberOfLives());
+		}
 	}
 
 	// Call when start up a level (first time AND after die)

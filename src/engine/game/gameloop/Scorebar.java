@@ -1,5 +1,7 @@
 package engine.game.gameloop;
 
+import engine.entities.Entity;
+import engine.entities.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.game.timer.TimerManager;
 import game_data.Game;
@@ -12,28 +14,42 @@ import game_data.Game;
  *
  */
 public class Scorebar {
-	private static final int INITIAL_LIVES = 5;
 	
 	private LevelManager levelManager;
 	private TimerManager timerManager;
-	private int lives;
 	private int score;
 	private Game game;
+	private int lives;
+	private int initialLives;
 
 	public Scorebar(Game game) {
 		this.timerManager = null;
 		this.game = game;
-		lives = INITIAL_LIVES;
 		score = 0;
 		levelManager = new LevelManager(game, null, null);
 	}
 	
-	public void setLivesToInitial(){
-		lives = INITIAL_LIVES;
+	public void setupLives(LevelManager levelManager, boolean firstTimeLoading){
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			 if(entity instanceof CharacterEntity){
+				 initialLives = entity.getLives();
+			 }
+		}
+		if(firstTimeLoading){
+			lives = initialLives;  //For loading saved game, setLives() is called.
+		}
 	}
 	
-	public int getInitialLives(){
-		return INITIAL_LIVES;
+	public int getLives() {
+		return lives;
+	}
+	
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+	
+	public void resetLives(){
+		lives = initialLives;
 	}
 	
 	public void setLevelManager(LevelManager levelManager) {
@@ -59,15 +75,7 @@ public class Scorebar {
 	public void setTimerManager(TimerManager timerManager) {
 		this.timerManager = timerManager;
 	}
-
-	public int getLives() {
-		return lives;
-	}
-
-	public void setLives(int lives) {
-		this.lives = lives;
-	}
-
+	
 	public String getScore() {
 		return convertScore(score);
 	}

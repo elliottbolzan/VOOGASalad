@@ -14,6 +14,9 @@ import javafx.scene.layout.Pane;
  * @author Matthew Barbano
  *
  */
+
+//This is a git test.
+
 public class GameLoop {
 	private ObservableBundle observableBundle;
 	private Scorebar scorebar;
@@ -21,13 +24,13 @@ public class GameLoop {
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 
-	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine) {
+	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine, boolean firstTimeLoading) {
 		this.graphicsEngine = graphicsEngine;
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
 
 		levelManager = new LevelManager(game, new LevelStepStrategy(), scorebar);
-		levelManager.loadAllSavedLevels();
+		levelManager.loadAllSavedLevels(firstTimeLoading);
 		if (levelManager.getLevels().size() > 0) {
 			levelManager.addUnlockedLevel(1);
 		} else {
@@ -35,13 +38,13 @@ public class GameLoop {
 			System.out.println("Error in GameLoop.java - game has no levels.");
 		}
 		setupFirstStrategy();
-
 		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
 		Screen firstScreen = new Screen(levelManager, graphicsEngine, info, true);
 		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
+		scorebar.setupLives(levelManager, firstTimeLoading);
 	}
 
 	private void setupFirstStrategy() {

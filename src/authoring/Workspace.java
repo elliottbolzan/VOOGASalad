@@ -268,7 +268,7 @@ public class Workspace extends View
 	{
 		createGame();
 		Stage stage = new Stage();
-		new BasicPlayer(stage, game.clone(), polyglot, IOResources);
+		new BasicPlayer(stage, game.clone(), polyglot, IOResources, true);
 		stage.show();
 	}
 
