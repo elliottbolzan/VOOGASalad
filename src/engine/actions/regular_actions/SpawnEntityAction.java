@@ -4,6 +4,7 @@ import engine.Parameter;
 import engine.actions.Action;
 import engine.collisions.CollisionSide;
 import engine.entities.Entity;
+import exceptions.ActionException;
 import javafx.application.Platform;
 
 /**
@@ -39,7 +40,12 @@ public class SpawnEntityAction extends Action {
 					newEntity.setXAcceleration((Double) newEntity.getParam("X Acceleration"));
 					newEntity.setYAcceleration((Double) newEntity.getParam("Y Acceleration"));
 					String side = ((String) getParam("Side"));
-					CollisionSide collisionSide = getCollisionSide(side.toUpperCase());
+					CollisionSide collisionSide;
+					try {
+						collisionSide = getCollisionSide(side.toUpperCase());
+					} catch (Exception e) {
+						throw new ActionException(getResource("InvalidCollisionSide"));
+					}
 					if ((boolean) getParam("Random Spawn"))
 						collisionSide.placeEntityRandomly(getEntity(), newEntity);
 					else
