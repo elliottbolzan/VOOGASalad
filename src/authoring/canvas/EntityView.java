@@ -129,7 +129,6 @@ public class EntityView extends VBox
 		entity.yProperty().bind(this.translateYProperty());
 		entity.widthProperty().bind(image.fitWidthProperty());
 		entity.heightProperty().bind(image.fitHeightProperty());
-		System.out.println("DONE");
 
 		this.setMinWidth(getTiledCoordinate(image.getBoundsInLocal().getWidth()));
 		this.setMinHeight(getTiledCoordinate(image.getBoundsInLocal().getHeight()));
