@@ -1,12 +1,13 @@
 package player.menu;
 
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
 import game_data.Game;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -31,12 +32,11 @@ import polyglot.Polyglot;
  *
  */
 public class AchievementsMenu extends AbstractMenu {
-	private DoubleProperty percent;
+	private Set<String> achievements;
 
 	public AchievementsMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot,
 			ResourceBundle IOResources) {
 		super(stage, game, mediaManager, "AchievementsTitle", polyglot, IOResources);
-		System.out.println(getGame().getAchievements());
 	}
 
 	@Override
@@ -45,16 +45,19 @@ public class AchievementsMenu extends AbstractMenu {
 		pane.setFitToWidth(true);
 		VBox container = new VBox(10);
 		container.setAlignment(Pos.CENTER);
+		achievements = new HashSet<>();
 		for (Entity entity : this.getGame().getAchievements()) {
-			container.getChildren().add(makeAchievementBox(entity));
+			if(!achievements.contains(entity.getName())){
+				achievements.add(entity.getName());
+				container.getChildren().add(makeAchievementBox(entity));
+			}
+			
 		}
 
 		pane.setContent(container);
 		this.setCenter(pane);
 		this.setBottom(this.makeBackButton());
-		this.setInsets();
-		System.out.println("AchievementsMenu: "+getGame());
-		
+		this.setInsets();		
 	}
 
 	private HBox makeAchievementBox(Entity achievement) {
@@ -107,10 +110,6 @@ public class AchievementsMenu extends AbstractMenu {
 		
 		container.getChildren().addAll(progress, percentContainer);
 		return container;
-	}
-	
-	public void setPercent(DoubleProperty percent){
-		this.percent = percent;
 	}
 
 }

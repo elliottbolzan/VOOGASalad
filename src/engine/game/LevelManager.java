@@ -137,10 +137,10 @@ public class LevelManager {
 
 	// Call once at beginning of the game
 	public void loadAllSavedLevels() {
-		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
-				.collect(Collectors.toList());
-		game.setAchievements(achievements);
-		System.out.println("INSIDE LEVEL MANAGER: " + achievements);
+//		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
+//				.collect(Collectors.toList());
+//		game.setAchievements(achievements);
+		List<Entity> achievements = game.getAchievements();
 		List<Level> cloneLevels = game.cloneLevels();
 		cloneLevels.forEach(s -> s.addEntities(achievements));
 		levelsInInitialState.addAll(cloneLevels);
@@ -153,9 +153,6 @@ public class LevelManager {
 	// Call when start up a level (first time AND after die)
 	public void resetCurrentLevel() {
 		levels.set(currentLevel - 1, game.cloneLevel(levelsInInitialState.get(currentLevel - 1)));
-		System.out.println("CALLED: " + levels.get(0).getEntities().stream().filter(s -> s instanceof AchievementEntity)
-				.collect(Collectors.toList()));
-		System.out.println("BITCH: " + game);
 		game.setAchievements(levels.get(0).getEntities().stream().filter(s -> s instanceof AchievementEntity)
 				.collect(Collectors.toList()));
 	}

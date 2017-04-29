@@ -1,9 +1,7 @@
 package player.menu;
 
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
-import engine.entities.entities.AchievementEntity;
 import game_data.Game;
 import javafx.stage.Stage;
 import player.MediaManager;
