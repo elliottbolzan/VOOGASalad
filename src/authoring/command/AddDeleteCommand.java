@@ -34,6 +34,11 @@ public class AddDeleteCommand extends EntityCommand
 			layer.addEntity(super.getEntityView(), 1);
 		} else {
 			layer.getCanvas().removeEntity(super.getEntityView());
+			layer.getLayers().forEach(e -> {
+				if (e.getEntities().contains(super.getEntityView())) {
+					e.getEntities().remove(super.getEntityView());
+				}
+			});
 		}
 	}
 }

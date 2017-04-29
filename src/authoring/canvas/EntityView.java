@@ -73,6 +73,8 @@ public class EntityView extends VBox
 		this.canvas = canvas;
 		this.setMinHeight(entity.getHeight());
 		this.setMinWidth(entity.getWidth());
+		this.setTranslateX(x);
+		this.setTranslateY(y);
 		this.tileSize = gridSize;
 		selected = false;
 		this.entityId = entityId;

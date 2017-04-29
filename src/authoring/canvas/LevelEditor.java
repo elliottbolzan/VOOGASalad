@@ -162,8 +162,18 @@ public class LevelEditor extends View
 			layer.getSelectedEntities().forEach(entity -> entity.setSelected(false));
 		}
 		for (EntityView entity : copiedEntities) {
-			currentLevel.addEntity(entity.getEntity(), entity.getEntity().getX() + PASTE_OFFSET,
-					entity.getEntity().getY() + PASTE_OFFSET, currentLevel.getCurrentLayer()).setSelected(true);
+			System.out.println(entity.getTranslateX());
+			AddInfo addInfo = new AddInfo(entity.getEntity().getName(), entity.getTranslateX() + PASTE_OFFSET,
+					entity.getTranslateY() + PASTE_OFFSET);
+			if (workspace.getNetworking().isConnected()) {
+				workspace.getNetworking().send(addInfo);
+			} else {
+				this.received(addInfo);
+			}
+			// currentLevel.addEntity(entity.getEntity(),
+			// entity.getEntity().getX() + PASTE_OFFSET,
+			// entity.getEntity().getY() + PASTE_OFFSET,
+			// currentLevel.getCurrentLayer()).setSelected(true);
 		}
 	}
 
@@ -193,6 +203,7 @@ public class LevelEditor extends View
 					AddInfo addInfo = (AddInfo) packet;
 					double x = addInfo.getX();
 					double y = addInfo.getY();
+					System.out.println(x + ", " + y);
 					long entityId = addInfo.getEntityId();
 					Entity entity = workspace.getDefaults().getEntity(addInfo.getEntityName());
 					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
