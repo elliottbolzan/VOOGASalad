@@ -38,6 +38,8 @@ import javafx.scene.paint.Color;
  */
 public class EntityView extends VBox
 {
+	private final int MIN_SIZE = 10;
+
 	private transient Entity entity;
 
 	private ImageView image;
@@ -79,7 +81,7 @@ public class EntityView extends VBox
 		selected = false;
 		this.entityId = entityId;
 
-		setup(gridSize);
+		setup();
 	}
 
 	/**
@@ -94,10 +96,32 @@ public class EntityView extends VBox
 	 * @param y
 	 *            initial y position of the EntityView
 	 */
-	private void setup(int gridSize)
+	private void setup()
 	{
-		this.setPrefHeight(10);
-		this.setPrefWidth(10);
+		// this.setPrefHeight(MIN_SIZE);
+		// this.setPrefWidth(MIN_SIZE);
+		// image.fitWidthProperty().bind(this.minWidthProperty());
+		// image.fitHeightProperty().bind(this.minHeightProperty());
+		//
+		// entity.xProperty().bind(this.translateXProperty());
+		// entity.yProperty().bind(this.translateYProperty());
+		// entity.widthProperty().bind(image.fitWidthProperty());
+		// entity.heightProperty().bind(image.fitHeightProperty());
+		setupBounds();
+
+		this.getChildren().add(image);
+		// this.setMinWidth(getTiledCoordinate(image.getBoundsInLocal().getWidth()));
+		// this.setMinHeight(getTiledCoordinate(image.getBoundsInLocal().getHeight()));
+
+		DragUtil.makeDraggable(this, tileSize);
+		DragUtil.makeResizeable(this, tileSize);
+	}
+
+	private void setupBounds()
+	{
+		this.setPrefHeight(MIN_SIZE);
+		this.setPrefWidth(MIN_SIZE);
+
 		image.fitWidthProperty().bind(this.minWidthProperty());
 		image.fitHeightProperty().bind(this.minHeightProperty());
 
@@ -105,21 +129,17 @@ public class EntityView extends VBox
 		entity.yProperty().bind(this.translateYProperty());
 		entity.widthProperty().bind(image.fitWidthProperty());
 		entity.heightProperty().bind(image.fitHeightProperty());
+		System.out.println("DONE");
 
-		this.getChildren().add(image);
 		this.setMinWidth(getTiledCoordinate(image.getBoundsInLocal().getWidth()));
 		this.setMinHeight(getTiledCoordinate(image.getBoundsInLocal().getHeight()));
-
-		DragUtil.makeDraggable(this, gridSize);
-		DragUtil.makeResizeable(this, gridSize);
 	}
 
 	public void setEntity(Entity entity)
 	{
 		this.entity = entity.clone();
 		image.setImage(new Image(entity.getImagePath()));
-		// this.getChildren().clear();
-		// setup(tileSize);
+		setupBounds();
 	}
 
 	/**

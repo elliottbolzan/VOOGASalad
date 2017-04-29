@@ -39,7 +39,7 @@ public class LayerEditor extends View
 	private int currLayer;
 
 	private EntityView levelCameraView;
-	private EntityView backgroundView;
+	private EntityView levelBackgroundView;
 
 	/**
 	 * Make a new LayerEditor.
@@ -87,7 +87,7 @@ public class LayerEditor extends View
 			}
 		}
 		thisLevel.setCamera((CameraEntity) levelCameraView.getEntity());
-		thisLevel.setBackground((BackgroundEntity) backgroundView.getEntity());
+		thisLevel.setBackground((BackgroundEntity) levelBackgroundView.getEntity());
 		return thisLevel;
 	}
 
@@ -184,7 +184,7 @@ public class LayerEditor extends View
 		layerCount = 0;
 		currLayer = 1;
 		levelCameraView = new EntityView(new CameraEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
-		backgroundView = new EntityView(new BackgroundEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
+		levelBackgroundView = new EntityView(new BackgroundEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
 		addKeyActions();
 		newLayer();
 	}
@@ -292,19 +292,11 @@ public class LayerEditor extends View
 	public EntityView addEntity(EntityView entity, int z)
 	{
 		canvas.addEntity(entity);
-		addEntityToLayer(entity, z);
+		this.addEntityToLayer(entity, z);
 		attachSelectionListeners(entity);
-
-		if (entity.getEntity() instanceof CameraEntity) {
-			canvas.removeEntity(levelCameraView);
-			levelCameraView = entity;
-		}
 		addDragDetection(entity);
 
-		if (entity.getEntity() instanceof BackgroundEntity) {
-			canvas.removeEntity(backgroundView);
-			backgroundView = entity;
-		}
+		entity.getEntity().addEntityToCanvas(canvas, this, entity, z);
 
 		return entity;
 	}
@@ -347,7 +339,7 @@ public class LayerEditor extends View
 		});
 	}
 
-	private void addEntityToLayer(EntityView entityView, int z)
+	public void addEntityToLayer(EntityView entityView, int z)
 	{
 		entityView.getEntity().setZ(z);
 		setNumLayers(z);
@@ -503,4 +495,23 @@ public class LayerEditor extends View
 		layerCount--;
 	}
 
+	public EntityView getLevelCamera()
+	{
+		return levelCameraView;
+	}
+
+	public EntityView getLevelBackground()
+	{
+		return levelBackgroundView;
+	}
+
+	public void setLevelCamera(EntityView camera)
+	{
+		this.levelCameraView = camera;
+	}
+
+	public void setLevelBackground(EntityView background)
+	{
+		this.levelBackgroundView = background;
+	}
 }

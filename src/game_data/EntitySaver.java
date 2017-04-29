@@ -27,13 +27,11 @@ import engine.entities.Entity;
  * @author Jay Doherty
  *
  */
-public class EntitySaver
-{
+public class EntitySaver {
 
 	private GameXMLFactory gameXMLFactory;
 
-	public EntitySaver(GameXMLFactory gameXMLFactory)
-	{
+	public EntitySaver(GameXMLFactory gameXMLFactory) {
 		this.gameXMLFactory = gameXMLFactory;
 	}
 
@@ -47,8 +45,7 @@ public class EntitySaver
 	 *            : path of the top-level game folder
 	 * @return XML element for the list of entities
 	 */
-	protected List<Element> getEntityListAsXML(Collection<Entity> entities, String gameFolderPath)
-	{
+	protected List<Element> getEntityListAsXML(Collection<Entity> entities, String gameFolderPath) {
 		List<Element> entityNodes = new ArrayList<Element>();
 
 		for (Entity entity : entities) {
@@ -69,8 +66,7 @@ public class EntitySaver
 	 *            : top-level directory of the game
 	 * @return XML Element for given Entity
 	 */
-	protected Element getEntityAsXML(Entity entity, String gameFolderPath)
-	{
+	protected Element getEntityAsXML(Entity entity, String gameFolderPath) {
 		String absoluteImagePath = entity.getImagePath();
 		String relativeImagePath = "resources" + File.separator + entity.getName() + "Image.png";
 		this.saveImage(absoluteImagePath, relativeImagePath, gameFolderPath);
@@ -79,23 +75,9 @@ public class EntitySaver
 
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
-		// xStream.registerConverter(new GameObjectConverter());
 		String xmlString = xStream.toXML(entity);
-
 		entity.setImagePath(absoluteImagePath);
-		/*
-		 * System.out.println("======================");
-		 * System.out.println(entity); System.out.println(entity.getEvents());
-		 * System.out.println("XMLSTRING");(/
-		 */
-		try (PrintStream out = new PrintStream(new FileOutputStream("filename" + entity.getName() + ".txt"))) {
-			out.print(xmlString);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
-		// System.out.println("XMLSTRING: " + xmlString);
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 
@@ -107,8 +89,7 @@ public class EntitySaver
 	 * @param gameFolderPath
 	 *            : top-level directory of the game
 	 */
-	private void saveImage(String originalImagePath, String relativeImagePath, String gameFolderPath)
-	{
+	private void saveImage(String originalImagePath, String relativeImagePath, String gameFolderPath) {
 		try {
 			File originalImageFile = new File(new URI(originalImagePath));
 			String savedImagePath = gameFolderPath + File.separator + relativeImagePath;
@@ -122,8 +103,7 @@ public class EntitySaver
 	/**
 	 * Makes a a new empty file for the given path.
 	 */
-	private void makeFile(String filePath) throws IOException
-	{
+	private void makeFile(String filePath) throws IOException {
 		File file = new File(filePath);
 		file.getParentFile().mkdirs();
 		file.createNewFile();
@@ -132,8 +112,7 @@ public class EntitySaver
 	/**
 	 * Copies the contents of one file to a destination file path.
 	 */
-	private void copyFileContents(File originalFile, String destinationPath) throws IOException
-	{
+	private void copyFileContents(File originalFile, String destinationPath) throws IOException {
 		Path sourcePath = Paths.get(originalFile.getAbsolutePath());
 		Path targetPath = Paths.get(destinationPath);
 		Files.copy(sourcePath, targetPath, REPLACE_EXISTING);

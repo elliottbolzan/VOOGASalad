@@ -3,7 +3,9 @@ package game_data;
 import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,8 +31,7 @@ import exceptions.NotAGameFolderException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class GameLoader
-{
+public class GameLoader {
 
 	private ResourceManager resourceManager;
 
@@ -44,10 +45,8 @@ public class GameLoader
 	 * @throws NotAGameFolderException
 	 *             : incorrect folder path exception
 	 */
-	public Game loadGame(String gameFolderPath, String saveName) throws Exception
-	{
-
-		String tempFolderPath = System.getProperty("java.io.tmpdir");
+	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
+		String tempFolderPath = System.getProperty("java.io.tmpdir") + File.separator + "VoogaSalad";
 
 		File voogaDirectory = new File(tempFolderPath);
 		if (!voogaDirectory.exists()) {
@@ -77,26 +76,48 @@ public class GameLoader
 		addSaves(game, tempFolderPath);
 		addCurrentTime(game, doc);
 		addIsCountingDown(game, doc);
-
+		addNumberOfLives(game,doc);
+		addUnlockedLevels(game,doc);
+		
+		
 		return game;
 	}
 
-	private void addCurrentTime(Game game, Document doc)
-	{
+	
+	private void addNumberOfLives(Game game, Document doc){
+		NodeList timeNodes = doc.getElementsByTagName("NumberOfLives");
+		game.setNumberOfLives(Integer.parseInt(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
+	}
+	
+	private void addUnlockedLevels(Game game, Document doc){
+		
+		
+		NodeList unlockedLevelsNode = doc.getElementsByTagName("UnlockedLevels");
+		NodeList levelsList = unlockedLevelsNode.item(0).getChildNodes();
+		Set<Integer> gameLevelsUnlocked = new HashSet<Integer>();
+
+		for (int i = 0; i < levelsList.getLength(); i++) {
+			Element levelElement = (Element) levelsList.item(i);
+			int instantiatedLevel = Integer.parseInt(levelElement.getAttributes().item(0).getNodeValue());
+			System.out.println("int: " + instantiatedLevel);
+			gameLevelsUnlocked.add(instantiatedLevel);
+		}
+		
+		game.setUnlockedLevels(gameLevelsUnlocked);
+		
+		
+	}
+	private void addCurrentTime(Game game, Document doc) {
 		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
 		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
-
 	}
 
-	private void addIsCountingDown(Game game, Document doc)
-	{
+	private void addIsCountingDown(Game game, Document doc) {
 		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
-
 		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 
-	private void addSaves(Game game, String folderPath)
-	{
+	private void addSaves(Game game, String folderPath) {
 		ObservableList<String> saves = FXCollections.observableArrayList();
 		File folder = new File(folderPath);
 		File[] allFiles = folder.listFiles();
@@ -108,14 +129,12 @@ public class GameLoader
 		game.setSaves(saves);
 	}
 
-	private boolean isSave(Game game, File file)
-	{
+	private boolean isSave(Game game, File file) {
 		return (file.getName().contains(game.getName()) && file.getName().contains("save")
 				&& file.getName().contains(".xml"));
 	}
 
-	private void addInfo(Game game, Document doc)
-	{
+	private void addInfo(Game game, Document doc) {
 		NodeList infoNode = doc.getElementsByTagName("GameInfo");
 		game.setInfo(infoNode.item(0).getAttributes().item(0).getNodeValue());
 	}
@@ -128,8 +147,7 @@ public class GameLoader
 	 * @param doc
 	 *            : Document that contains game name, extracted by XML
 	 */
-	private void addName(Game game, Document doc)
-	{
+	private void addName(Game game, Document doc) {
 		NodeList nameNodes = doc.getElementsByTagName(resourceManager.getNameTitle());
 		game.setName(nameNodes.item(0).getAttributes().item(0).getNodeValue());
 	}
@@ -144,8 +162,7 @@ public class GameLoader
 	 * @param gameFolderPath
 	 *            : top-level directory of the game
 	 */
-	private void addSong(Game game, Document doc, String gameFolderPath)
-	{
+	private void addSong(Game game, Document doc, String gameFolderPath) {
 		try {
 			NodeList songNodes = doc.getElementsByTagName(resourceManager.getResourceTitle());
 			game.setSongPath(gameFolderPath + File.separator
@@ -166,8 +183,7 @@ public class GameLoader
 	 * @param gameFolderPath
 	 *            : top-level directory of the game
 	 */
-	private void addDefaults(Game game, Document doc, String gameFolderPath)
-	{
+	private void addDefaults(Game game, Document doc, String gameFolderPath) {
 		NodeList defaultsNode = doc.getElementsByTagName(resourceManager.getDefaultsTitle());
 		Element entitiesNode = (Element) defaultsNode.item(0).getChildNodes().item(0);
 		game.setDefaults(getEntities(entitiesNode, gameFolderPath));
@@ -183,8 +199,7 @@ public class GameLoader
 	 * @param gameFolderPath
 	 *            : top-level directory of the game
 	 */
-	private void addLevels(Game game, Document doc, String gameFolderPath)
-	{
+	private void addLevels(Game game, Document doc, String gameFolderPath) {
 		NodeList levelsNode = doc.getElementsByTagName(resourceManager.getLevelsTitle());
 		NodeList levelsList = levelsNode.item(0).getChildNodes();
 		List<Level> gameLevels = new ArrayList<Level>();
@@ -206,8 +221,7 @@ public class GameLoader
 	 *            : top-level directory of the game
 	 * @return
 	 */
-	private Level convertElementToLevel(Element levelElement, String gameFolderPath)
-	{
+	private Level convertElementToLevel(Element levelElement, String gameFolderPath) {
 		Element entitiesNode = (Element) levelElement.getChildNodes().item(0);
 		Level returnedLevel = new Level();
 		for (Entity entity : getEntities(entitiesNode, gameFolderPath)) {
@@ -234,8 +248,7 @@ public class GameLoader
 	 *            : top-level directory of the game
 	 * @return
 	 */
-	private List<Entity> getEntities(Element entitiesNode, String gameFolderPath)
-	{
+	private List<Entity> getEntities(Element entitiesNode, String gameFolderPath) {
 		NodeList entitiesList = entitiesNode.getChildNodes();
 		List<Entity> entityList = new ArrayList<Entity>();
 		for (int i = 0; i < entitiesList.getLength(); i++) {
@@ -254,8 +267,7 @@ public class GameLoader
 	 *            : element to be converted into an entity
 	 * @return
 	 */
-	private Entity getEntityFromElement(Element entityElement, String gameFolderPath)
-	{
+	private Entity getEntityFromElement(Element entityElement, String gameFolderPath) {
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
 
@@ -271,8 +283,7 @@ public class GameLoader
 	 * @param path
 	 * @return
 	 */
-	private String convertPathForSystem(String path)
-	{
+	private String convertPathForSystem(String path) {
 		String newPath = path;
 		if (File.separator.equals("/")) {
 			if (path.contains("\\")) {
@@ -295,8 +306,7 @@ public class GameLoader
 	 *            element to be converted into a string
 	 * @return
 	 */
-	private String getXMLStringFromElement(Element entityElement)
-	{
+	private String getXMLStringFromElement(Element entityElement) {
 		StreamResult result = null;
 		NodeList entityChildren = entityElement.getChildNodes();
 		Element entityXMLElement = null;
