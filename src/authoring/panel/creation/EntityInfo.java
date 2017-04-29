@@ -38,6 +38,7 @@ public class EntityInfo extends View {
 	private Slider heightSlider;
 	private ToggleButton link;
 	private boolean linked;
+	private Button saveButton;
 
 	/**
 	 * Creates an EntityInfo.
@@ -125,7 +126,7 @@ public class EntityInfo extends View {
 
 	private HBox createButtonBar() {
 		HBox buttonBar = new HBox();
-		Button saveButton = workspace.getMaker().makeButton("SaveButtonEditor", e -> editor.save(), true);
+		saveButton = workspace.getMaker().makeButton("SaveButtonEditor", e -> editor.save(), true);
 		Button cancelButton = workspace.getMaker().makeButton("CancelButton", e -> editor.dismiss(), true);
 		buttonBar.getChildren().addAll(saveButton, cancelButton);
 		return buttonBar;
@@ -200,4 +201,10 @@ public class EntityInfo extends View {
 		return heightSlider.getValue();
 	}
 
+	public void changeSaveHandler(Runnable r){
+		saveButton.setOnAction(e -> {
+			editor.save();
+			r.run();
+		});
+	}
 }

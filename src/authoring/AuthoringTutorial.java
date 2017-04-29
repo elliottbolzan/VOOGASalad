@@ -64,6 +64,17 @@ public class AuthoringTutorial {
 	
 	private void savedAction(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EighthStep"));	
+		workspace.getPanel().getEntityDisplay().getEntityMaker().changeSaveHandler(() -> savedCharacter());
+	}
+	
+	private void savedCharacter(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("NinthStep"));	
+		workspace.getLevelEditor().getCurrentLevel().addEntityListener(() -> canvasCharacter());
+	}
+	
+	private void canvasCharacter(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("TenthStep"));	
+	//	workspace.getLevelEditor().getCurrentLevel().addEntityListener(() -> canvasCharacter());
 	}
 	
 	
