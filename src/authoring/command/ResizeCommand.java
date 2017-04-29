@@ -1,14 +1,17 @@
 package authoring.command;
 
 import authoring.canvas.EntityView;
+import javafx.scene.layout.Region;
+import javafx.util.Duration;
+import utils.animation.ResizeHeightTranslation;
+import utils.animation.ResizeWidthTranslation;
 
 /**
  * 
  * @author jimmy
  *
  */
-public class ResizeCommand extends EntityCommand
-{
+public class ResizeCommand extends EntityCommand {
 
 	double oldHeight;
 	double oldWidth;
@@ -19,8 +22,7 @@ public class ResizeCommand extends EntityCommand
 	double newX;
 	double newY;
 
-	public ResizeCommand(EntityView entityView, ResizeInfo resizeInfo)
-	{
+	public ResizeCommand(EntityView entityView, ResizeInfo resizeInfo) {
 		super(entityView);
 		this.oldHeight = resizeInfo.getOldHeight();
 		this.oldWidth = resizeInfo.getOldWidth();
@@ -33,21 +35,29 @@ public class ResizeCommand extends EntityCommand
 	}
 
 	@Override
-	public void execute()
-	{
+	public void execute() {
 		super.getEntityView().setTranslateX(newX);
 		super.getEntityView().setTranslateY(newY);
-		super.getEntityView().setMinHeight(newHeight);
-		super.getEntityView().setMinWidth(newWidth);
+		animateHeight(super.getEntityView(), newHeight);
+		animateWidth(super.getEntityView(), newWidth);
 	}
 
 	@Override
-	public void unexecute()
-	{
+	public void unexecute() {
 		super.getEntityView().setTranslateX(oldX);
 		super.getEntityView().setTranslateY(oldY);
-		super.getEntityView().setMinHeight(oldHeight);
-		super.getEntityView().setMinWidth(oldWidth);
+		animateHeight(super.getEntityView(), oldHeight);
+		animateWidth(super.getEntityView(), oldWidth);
+	}
+
+	private void animateWidth(Region region, double width) {
+		ResizeWidthTranslation resize = new ResizeWidthTranslation(Duration.millis(300), region, width);
+		resize.play();
+	}
+
+	private void animateHeight(Region region, double height) {
+		ResizeHeightTranslation resize = new ResizeHeightTranslation(Duration.millis(300), region, height);
+		resize.play();
 	}
 
 }

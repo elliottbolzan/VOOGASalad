@@ -1,22 +1,22 @@
 package authoring.command;
 
 import authoring.canvas.EntityView;
+import javafx.animation.TranslateTransition;
+import javafx.util.Duration;
 
 /**
  * 
  * @author jimmy
  *
  */
-public class MoveCommand extends EntityCommand
-{
+public class MoveCommand extends EntityCommand {
 
 	double oldX;
 	double oldY;
 	double newX;
 	double newY;
 
-	public MoveCommand(EntityView entityView, MoveInfo moveInfo)
-	{
+	public MoveCommand(EntityView entityView, MoveInfo moveInfo) {
 		super(entityView);
 		this.oldX = moveInfo.getOldX();
 		this.oldY = moveInfo.getOldY();
@@ -25,17 +25,20 @@ public class MoveCommand extends EntityCommand
 	}
 
 	@Override
-	public void execute()
-	{
-		super.getEntityView().setTranslateX(newX);
-		super.getEntityView().setTranslateY(newY);
+	public void execute() {
+		animate(newX - super.getEntityView().getTranslateX(), newY - super.getEntityView().getTranslateY());
 	}
 
 	@Override
-	public void unexecute()
-	{
-		super.getEntityView().setTranslateX(oldX);
-		super.getEntityView().setTranslateY(oldY);
+	public void unexecute() {
+		animate(oldX - newX, oldY - newY);
+	}
+
+	private void animate(double byX, double byY) {
+		TranslateTransition translation = new TranslateTransition(Duration.millis(300), super.getEntityView());
+		translation.setByX(byX);
+		translation.setByY(byY);
+		translation.play();
 	}
 
 }

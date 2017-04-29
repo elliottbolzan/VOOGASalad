@@ -2,49 +2,62 @@ package authoring.command;
 
 import authoring.canvas.EntityView;
 import authoring.canvas.LayerEditor;
+import javafx.animation.FadeTransition;
+import javafx.scene.Node;
+import javafx.util.Duration;
 
 /**
  * 
  * @author jimmy
  *
  */
-public class AddDeleteCommand extends EntityCommand
-{
+public class AddDeleteCommand extends EntityCommand {
 
 	private LayerEditor layer;
 	private boolean add;
 
-	public AddDeleteCommand(EntityView entityView, LayerEditor layer, boolean add)
-	{
+	public AddDeleteCommand(EntityView entityView, LayerEditor layer, boolean add) {
 		super(entityView);
 		this.layer = layer;
 		this.add = add;
 	}
 
 	@Override
-	public void execute()
-	{
+	public void execute() {
 		addOrRemove(add);
 	}
 
 	@Override
-	public void unexecute()
-	{
+	public void unexecute() {
 		addOrRemove(!add);
 	}
 
-	private void addOrRemove(boolean add)
-	{
+	private void addOrRemove(boolean add) {
+		EntityView entityView = super.getEntityView();
 		if (add) {
-			layer.addEntity(super.getEntityView(), 1);
-			super.getEntityView().setSelected(true);
+			entityView.setOpacity(0);
+			layer.addEntity(entityView, 1);
+			animate(entityView, 0, 1);
+			entityView.setSelected(true);
 		} else {
-			layer.getCanvas().removeEntity(super.getEntityView());
-			layer.getLayers().forEach(e -> {
-				if (e.getEntities().contains(super.getEntityView())) {
-					e.getEntities().remove(super.getEntityView());
-				}
+			FadeTransition ft = animate(entityView, 1, 0);
+			ft.setOnFinished(event -> {
+				layer.getCanvas().removeEntity(entityView);
+				layer.getLayers().forEach(e -> {
+					if (e.getEntities().contains(entityView)) {
+						e.getEntities().remove(entityView);
+					}
+				});
 			});
 		}
 	}
+
+	private FadeTransition animate(Node node, double from, double to) {
+		FadeTransition ft = new FadeTransition(Duration.millis(300), node);
+		ft.setFromValue(from);
+		ft.setToValue(to);
+		ft.play();
+		return ft;
+	}
+
 }

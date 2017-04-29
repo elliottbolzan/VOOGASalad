@@ -11,6 +11,7 @@ import authoring.command.AddInfo;
 import authoring.command.EntityListInfo;
 import authoring.command.UndoableCommand;
 import authoring.components.ComponentMaker;
+import authoring.menu.WorkspaceMenuBar;
 import authoring.networking.Networking;
 import authoring.networking.Packet;
 import authoring.panel.Panel;
@@ -116,7 +117,7 @@ public class Workspace extends View
 		pane.setDividerPositions(0.27);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
-		setTop(new WorkspaceMenu(this));
+		setTop(new WorkspaceMenuBar(this));
 		setupDragToAddEntity();
 		// defaults.getEntities().addListener(new ListChangeListener<Entity>()
 		// {
