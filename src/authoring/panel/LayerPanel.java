@@ -60,13 +60,15 @@ public class LayerPanel extends View {
 		VBox container = new VBox(8);
 		initLayerSelector();
 		Button addButton = workspace.getMaker().makeButton("AddLayerButton", e -> addLayer(), true);
-		new CustomTooltip(workspace.getPolyglot().get("AddLayer"),addButton);
+		new CustomTooltip(workspace.getPolyglot().get("AddLayer"), addButton);
 		Button deleteButton = workspace.getMaker().makeButton("DeleteLayerButton", e -> {
 			initCloseRequest(e);
 			delete();
 		}, true);
-		new CustomTooltip(workspace.getPolyglot().get("DeleteLayer"),deleteButton);
-		container.getChildren().addAll(myBox, new VBox(deleteButton, addButton), createVelocitySlider());
+		new CustomTooltip(workspace.getPolyglot().get("DeleteLayer"), deleteButton);
+		VBox buttonBox = new VBox(2);
+		buttonBox.getChildren().addAll(deleteButton, addButton);
+		container.getChildren().addAll(myBox, buttonBox, createVelocitySlider());
 		container.setPadding(new Insets(20));
 		setCenter(container);
 	}

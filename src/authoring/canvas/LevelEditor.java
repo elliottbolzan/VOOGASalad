@@ -115,7 +115,6 @@ public class LevelEditor extends View {
 		tabPane.getTabs().add(makePlusTab());
 		setCenter(tabPane);
 		setPadding(new Insets(0, 10, 0, 5));
-		getStyleClass().add("gae-tile");
 	}
 
 	/**
