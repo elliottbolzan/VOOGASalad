@@ -21,6 +21,8 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -108,6 +110,7 @@ public class Workspace extends View
 		pane.setDividerPositions(0.27);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
+		addTutorialHost();
 		setTop(new WorkspaceMenu(this));
 		setupDragToAddEntity();
 		// defaults.getEntities().addListener(new ListChangeListener<Entity>()
@@ -197,6 +200,16 @@ public class Workspace extends View
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
+	}
+	
+	private void addTutorialHost(){
+		Label chatMessage = new Label("Hi hdiwheiwfehwfui heuifhewfiuewhfewiu efhewiufhew");
+        chatMessage.getStyleClass().add("chat-bubble");
+        chatMessage.setWrapText(true);
+        chatMessage.setMaxWidth(300);
+        //chatMessage.setContentDisplay(ContentDisplay.CENTER);
+        //pane.getItems().add(chatMessage);
+        setRight(chatMessage);
 	}
 
 	/**
