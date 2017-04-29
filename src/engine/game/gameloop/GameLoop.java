@@ -1,8 +1,6 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
-import engine.entities.Entity;
-import engine.entities.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import game_data.Game;
@@ -26,7 +24,7 @@ public class GameLoop {
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 
-	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine) {
+	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine, boolean firstTimeLoading) {
 		this.graphicsEngine = graphicsEngine;
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
@@ -46,7 +44,7 @@ public class GameLoop {
 		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
-		scorebar.setupLives(levelManager);
+		scorebar.setupLives(levelManager, firstTimeLoading);
 	}
 
 	private void setupFirstStrategy() {

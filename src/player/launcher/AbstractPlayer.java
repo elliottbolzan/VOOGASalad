@@ -1,6 +1,7 @@
 package player.launcher;
 
 import java.util.ResourceBundle;
+
 import engine.game.gameloop.GameLoop;
 import engine.game.gameloop.Scorebar;
 import engine.graphics.GraphicsEngine;
@@ -28,8 +29,10 @@ public abstract class AbstractPlayer extends PlayerView {
 	private Game game;
 	private GameLoop gameLoop;
 	private Polyglot polyglot;
+	
+	private boolean firstTimeLoading;
 
-	public AbstractPlayer(Stage primaryStage, Game game, Polyglot polyglot, ResourceBundle IOResources) {
+	public AbstractPlayer(Stage primaryStage, Game game, Polyglot polyglot, ResourceBundle IOResources, boolean firstTimeLoading) {
 		super(polyglot, IOResources);
 		this.stage = primaryStage;
 		this.game = game;
@@ -37,6 +40,8 @@ public abstract class AbstractPlayer extends PlayerView {
 		
 		this.buildStage();
 		this.buildGameView();
+		
+		this.firstTimeLoading = firstTimeLoading;
 	}
 	
 	public void endGame(Scorebar scorebar) {
@@ -57,7 +62,7 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	protected void buildGameView() {
 		Overlay overlay = new Overlay(this.getPolyglot(), this.getResources());
-		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, this, overlay, polyglot));
+		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, this, overlay, polyglot), firstTimeLoading);
 		
 		StackPane pane = new StackPane();
 		pane.getChildren().addAll(gameLoop.getGameView(), overlay.display());

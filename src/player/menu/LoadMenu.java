@@ -45,7 +45,7 @@ public class LoadMenu extends AbstractMenu {
 	}
 
 	private void loadNewGame(Stage stage) {
-		new FullPlayer(stage, this.getGame(), this.getMediaManager(), this.getPolyglot(), this.getResources());
+		new FullPlayer(stage, this.getGame(), this.getMediaManager(), this.getPolyglot(), this.getResources(), true);
 	}
 
 	private void loadSaveState(Stage stage, String saveName) {
@@ -55,7 +55,7 @@ public class LoadMenu extends AbstractMenu {
 		try {
 			Game game = data.loadGameState(this.getMediaManager().getGamePath(), saveName);
 			MediaManager mediaManager = new MediaManager(game, this.getMediaManager().getGamePath());
-			new FullPlayer(stage, game, mediaManager, this.getPolyglot(), this.getResources());
+			new FullPlayer(stage, game, mediaManager, this.getPolyglot(), this.getResources(), false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			// Game couldn't be loaded, perhaps a wrong Game selected. Might
