@@ -3,6 +3,12 @@ package engine.actions.regular_actions;
 import engine.actions.Action;
 import javafx.application.Platform;
 
+/**
+ * Remove the Entity associated with this Action from the game.
+ * 
+ * @author Kyle Finke
+ *
+ */
 public class RemoveEntityAction extends Action {
 
 	@Override
