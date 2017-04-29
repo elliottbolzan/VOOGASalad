@@ -21,10 +21,10 @@ import engine.events.Event;
 public class InsideRegionEvent extends Event {
 
 	public InsideRegionEvent() {
-		addParam(new Parameter("MinX", Integer.class, 0));
-		addParam(new Parameter("MaxX", Integer.class, 0));
-		addParam(new Parameter("MinY", Integer.class, 0));
-		addParam(new Parameter("MaxY", Integer.class, 0));
+		addParam(new Parameter("Minimum X", Double.class, 0.0));
+		addParam(new Parameter("Maximum X", Double.class, 0.0));
+		addParam(new Parameter("Minimum Y", Double.class, 0.0));
+		addParam(new Parameter("Maximum Y", Double.class, 0.0));
 	}
 
 	@Override
