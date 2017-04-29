@@ -20,6 +20,8 @@ import polyglot.Polyglot;
  *
  */
 public class Overlay extends BorderPane{
+	public static final String BLANK_SCOREBAR_DISPLAY = "--";
+	
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	
