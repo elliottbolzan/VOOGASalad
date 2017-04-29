@@ -1,5 +1,10 @@
 package authoring.command;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public abstract class SingleEntityCommandInfo extends EntityCommandInfo
 {
 	private static final long serialVersionUID = 7742404661749847649L;

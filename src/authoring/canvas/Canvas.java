@@ -46,6 +46,11 @@ public class Canvas extends View
 		return expandablePane;
 	}
 
+	public ZoomablePane getZoomablePane()
+	{
+		return zoomablePane;
+	}
+
 	/**
 	 * Remove all of the entities from within the canvas.
 	 */

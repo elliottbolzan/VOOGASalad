@@ -3,7 +3,6 @@ package authoring.canvas;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -287,16 +286,17 @@ public class ExpandablePane extends Pane
 
 		});
 
-		node.boundsInLocalProperty().addListener(new ChangeListener<Bounds>()
-		{
-
-			@Override
-			public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue)
-			{
-				updateDisplay();
-			}
-
-		});
+		// node.boundsInLocalProperty().addListener(new ChangeListener<Bounds>()
+		// {
+		//
+		// @Override
+		// public void changed(ObservableValue<? extends Bounds> observable,
+		// Bounds oldValue, Bounds newValue)
+		// {
+		// updateDisplay();
+		// }
+		//
+		// });
 	}
 
 	private void shiftNodesX(double xShift)
@@ -326,10 +326,10 @@ public class ExpandablePane extends Pane
 		updateCanvasBounds();
 		this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		drawGrid();
-		this.setMinHeight(height);
-		this.setMinWidth(width);
-		// this.setPrefHeight(height);
-		// this.setPrefWidth(width);
+		// this.setMinHeight(height);
+		// this.setMinWidth(width);
+		this.setPrefHeight(height);
+		this.setPrefWidth(width);
 	}
 
 	/**

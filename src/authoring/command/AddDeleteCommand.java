@@ -3,6 +3,11 @@ package authoring.command;
 import authoring.canvas.EntityView;
 import authoring.canvas.LayerEditor;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class AddDeleteCommand extends EntityCommand
 {
 
