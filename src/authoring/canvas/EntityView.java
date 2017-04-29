@@ -139,6 +139,8 @@ public class EntityView extends VBox
 	{
 		this.entity = entity.clone();
 		image.setImage(new Image(entity.getImagePath()));
+		this.setMinHeight(entity.getHeight());
+		this.setMinWidth(entity.getWidth());
 		setupBounds();
 	}
 
