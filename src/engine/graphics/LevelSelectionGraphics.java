@@ -9,8 +9,6 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
-import player.menu.AbstractMenu;
 import player.menu.Tile;
 import polyglot.Case;
 import polyglot.Polyglot;
@@ -56,7 +54,11 @@ public class LevelSelectionGraphics {
 		pane.setHgap(HORIZONTAL_GAP);
 		pane.setVgap(VERTICAL_GAP);
 		pane.setPadding(PADDING);
-		//pane.getColumnConstraints().add(new ColumnConstraints(displayArea.getMaxWidth() / COLUMNS)); //TODO Resolve this bug - changing size tiles
+		for(int column = 0; column < COLUMNS; column++){
+			ColumnConstraints constraint = new ColumnConstraints();
+			constraint.setPercentWidth(1.0/COLUMNS * 100);
+			pane.getColumnConstraints().add(constraint);
+		}
 	}
 
 	private void displayButtons() {

@@ -3,6 +3,7 @@ package player.launcher;
 import java.util.ResourceBundle;
 
 import authoring.components.ComponentMaker;
+import engine.game.gameloop.Scorebar;
 import game_data.Game;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -10,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import player.MediaManager;
+import player.menu.EndGameMenu;
 import polyglot.Polyglot;
 
 /**
@@ -31,7 +33,7 @@ public class FullPlayer extends AbstractPlayer {
 	private MediaManager mediaManager;
 
 	public FullPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
-		super(primaryStage, game, mediaManager, polyglot, IOResources);
+		super(primaryStage, game, polyglot, IOResources);
 		this.mediaManager = mediaManager;
 
 		this.buildControlBar();
@@ -96,11 +98,18 @@ public class FullPlayer extends AbstractPlayer {
 		Game savedGame = this.getGame().clone();
 		savedGame.setLevels(this.getRunningGameLoop().getLevelManager().getLevels().getListRepresentation());
 		savedGame.setLevels(savedGame.cloneLevels());
+		//TODO:? savedGame.setInitialTime();
 		mediaManager.saveGame(savedGame);
 	}
 	
 	protected void exit() {
 		super.exit();
 		mediaManager.pauseSong();
+	}
+	
+	@Override
+	public void endGame(Scorebar scorebar) {
+		this.getStage().setScene(new EndGameMenu(this.getStage(), this.getGame(), mediaManager, this.getPolyglot(), this.getResources(), scorebar).createScene());
+		this.getStage().centerOnScreen();
 	}
 }

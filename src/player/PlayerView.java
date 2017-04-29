@@ -31,7 +31,7 @@ public class PlayerView extends View {
 	public PlayerView(Polyglot polyglot, ResourceBundle IOResources) {
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
-		this.factory = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		this.factory = new ComponentMaker(polyglot, IOResources);
 		setMinSize(420, 600);
 	}
 	

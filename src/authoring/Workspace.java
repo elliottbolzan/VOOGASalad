@@ -7,24 +7,19 @@ import java.util.ResourceBundle;
 
 import authoring.canvas.LevelEditor;
 import authoring.components.ComponentMaker;
-import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
 import authoring.panel.Panel;
 import engine.entities.Entity;
-import engine.game.Level;
 import game_data.Game;
 import game_data.GameData;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.control.Alert;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import player.MediaManager;
 import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
 import utils.views.View;
@@ -88,7 +83,7 @@ public class Workspace extends View {
 	private void setup() {
 		networking = new Networking(this);
 		data = new GameData();
-		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		maker = new ComponentMaker(polyglot, IOResources);
 		defaults = new DefaultEntities(this);
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
@@ -134,34 +129,17 @@ public class Workspace extends View {
 	private void save(String title) {
 		game.setName(title);
 		String path = askForOutputPath();
-		Task<Void> task = new Task<Void>() {
-			@Override
-			public Void call() throws InterruptedException {
-				createGame();
-				if (!path.equals("")) {
+		if (!path.equals("")) {
+			Task<Void> task = new Task<Void>() {
+				@Override
+				public Void call() throws InterruptedException {
+					createGame();
 					data.saveGame(game, path);
+					return null;
 				}
-				return null;
-			}
-		};
-		showProgressForTask(task);
-	}
-
-	public void showProgressForTask(Task<Void> task) {
-		ProgressDialog dialog = new ProgressDialog(this);
-		task.setOnSucceeded(event -> {
-			dialog.getDialogStage().close();
-			Alert alert = maker.makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader",
-					polyglot.get("TaskSucceeded"));
-			alert.show();
-		});
-		task.setOnFailed(event -> {
-			dialog.getDialogStage().close();
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
-			alert.show();
-		});
-		Thread thread = new Thread(task);
-		thread.start();
+			};
+			maker.showProgressForTask(task, true);
+		}
 	}
 
 	private String askForOutputPath() {
@@ -183,10 +161,8 @@ public class Workspace extends View {
 	 */
 	public void test() {
 		createGame();
-		Game testGame = game.clone();
-		testGame.setTestGame(true);
 		Stage stage = new Stage();
-		new BasicPlayer(stage, testGame, new MediaManager(testGame, null), polyglot, IOResources);
+		new BasicPlayer(stage, game.clone(), polyglot, IOResources);
 		stage.show();
 	}
 

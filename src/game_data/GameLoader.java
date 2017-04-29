@@ -19,6 +19,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import engine.entities.Entity;
+import engine.entities.entities.BackgroundEntity;
 import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import exceptions.NotAGameFolderException;
@@ -41,20 +42,16 @@ public class GameLoader {
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
 		
-		String tempFolderPath = System.getProperty("java.io.tmpdir");
-		//tempFolderPath=gameFolderPath.replace(".vs", "");
-		//System.out.println(tempFolderPath);
+		String tempFolderPath = System.getProperty("java.io.tmpdir") +"VoogaSalad";
 		
-		//TempFolderPath
+		File voogaDirectory = new File(tempFolderPath + "VoogaSalad");
+		if(!voogaDirectory.exists()){
+			voogaDirectory.mkdirs();
+		}
+		
 		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
-		//System.out.println(tempFolderPath);
-		//(new Unpackager()).unzip(gameFolderPath, System.getProperty("java.io.tmpdir"));
-		
-		//(new Unpackager()).unzip(gameFolderPath, gameFolderPath.replace(".vs", ""));
-		//gameFolderPath = gameFolderPath.replace(".vs", "");
-		//File dataFile = new File(gameFolderPath + File.separator + saveName);
-		
-		File dataFile = new File(tempFolderPath + File.separator + saveName);
+		File dataFile = new File(tempFolderPath +  File.separator + saveName);
+	
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
@@ -73,11 +70,23 @@ public class GameLoader {
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
 		
-		//addLevels(game, doc, gameFolderPath);
-		//addDefaults(game, doc, gameFolderPath);
-		//addSong(game, doc, gameFolderPath);
+		addCurrentTime(game,doc);
+		addIsCountingDown(game,doc);
 		
 		return game;
+	}
+	
+	private void addCurrentTime(Game game,Document doc){
+		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
+		
+		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
+		
+	}
+	
+	private void addIsCountingDown(Game game,Document doc){
+		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
+		
+		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 	
 	private void addSaves(Game game, String folderPath){
@@ -173,7 +182,7 @@ public class GameLoader {
 		}
 		game.setLevels(gameLevels);
 	}
-
+	
 	/**
 	 * Converts an element from the XML into a level by filling it with entities
 	 * 
@@ -193,6 +202,10 @@ public class GameLoader {
 		Element cameraNode = (Element) levelElement.getChildNodes().item(1);
 		Entity camera = getEntityFromElement(cameraNode, gameFolderPath);
 		returnedLevel.setCamera((CameraEntity) camera);
+		
+		Element backgroundNode = (Element) levelElement.getChildNodes().item(2);
+		Entity background = getEntityFromElement(backgroundNode, gameFolderPath);
+		returnedLevel.setBackground((BackgroundEntity) background);
 		
 		return returnedLevel;
 	}

@@ -26,7 +26,7 @@ public class GameLoop {
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
 
-		levelManager = new LevelManager(game, new LevelStepStrategy());
+		levelManager = new LevelManager(game, new LevelStepStrategy(), scorebar);
 		levelManager.loadAllSavedLevels();
 		if (levelManager.getLevels().size() > 0) {
 			levelManager.addUnlockedLevel(1);
@@ -38,7 +38,7 @@ public class GameLoop {
 
 		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
-		Screen firstScreen = new Screen(levelManager, graphicsEngine, info);
+		Screen firstScreen = new Screen(levelManager, graphicsEngine, info, true);
 		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
@@ -46,7 +46,7 @@ public class GameLoop {
 
 	private void setupFirstStrategy() {
 		// TODO set level selection screen mode from GAE here
-		StepStrategy firstStrategy = levelManager.getLevelSelectionScreenMode() ? new LevelSelectionStepStrategy()
+		StepStrategy firstStrategy = levelManager.getLevelSelectionScreenMode() ? new LevelSelectionStepStrategy(true)
 				: new LevelStepStrategy();
 		levelManager.setCurrentStepStrategy(firstStrategy);
 	}
