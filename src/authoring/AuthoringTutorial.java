@@ -28,30 +28,19 @@ public class AuthoringTutorial {
 	}
 	
 	private void editMario(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FirstStep"));
-		Button OKButton = workspace.getMaker().makeButton("OKButton",e ->
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FirstPrompt")),true);
-		workspace.getMessage().setGraphic(OKButton);
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FirstPrompt"));
 		workspace.getPanel().getEntityDisplay().changeEditHandler(() -> clickedEdit());
 	}
 	
 	private void clickedEdit(){
-		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "SecondStep", workspace.getPolyglot().get("SecondPrompt"));
-		setCoordinates(20,50);
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SecondStep"));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedEvent());
 	}
 	
 	private void addedEvent(){
-		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "ThirdStep", workspace.getPolyglot().get("ThirdPrompt"));
-	
-		alert.showAndWait();
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("ThirdStep"));
 	}
-	
-	private void setCoordinates(int x, int y){
-		alert.setX(x);
-		alert.setY(y);
-		alert.showAndWait();
-	}
+
 	
 	
 	

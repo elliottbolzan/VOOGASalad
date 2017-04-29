@@ -160,6 +160,11 @@ public class EntityMaker extends View
 		display.addEntity(getEntity());
 		dismiss();
 	}
+	
+	public void setStagePos(double x, double y){
+		stage.setX(x);
+		stage.setY(y);
+	}
 
 	public EventPicker getEventPicker()
 	{
