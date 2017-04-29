@@ -176,7 +176,7 @@
 }
 
 .chat-bubble {
-  -fx-shape: "M35,0 H0 V30 H16 L20,40 L25,30 H35 z";
+  -fx-shape: "M35,0 H0 V25 H16 L20,32 L25,25 H35 z";
 -fx-border-color: white;
     -fx-background-insets: 0,1;
     -fx-padding: 20;

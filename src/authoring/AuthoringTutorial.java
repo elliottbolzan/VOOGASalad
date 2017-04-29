@@ -1,9 +1,11 @@
 package authoring;
 
+
 import java.util.ResourceBundle;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import polyglot.Polyglot;
 
 public class AuthoringTutorial {
@@ -15,6 +17,7 @@ public class AuthoringTutorial {
 	public AuthoringTutorial(Polyglot polyglot){
 		myEnvironment = new AuthoringEnvironment(polyglot,ResourceBundle.getBundle("resources/IO"));
 		workspace = myEnvironment.getWorkspace();
+		workspace.addTutorialHost();
 		initTutorial();
 	}
 	
@@ -25,9 +28,10 @@ public class AuthoringTutorial {
 	}
 	
 	private void editMario(){
-		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "FirstStep", workspace.getPolyglot().get("FirstPrompt"));
-		setCoordinates(200,-20);
-		alert.showAndWait();
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FirstStep"));
+		Button OKButton = workspace.getMaker().makeButton("OKButton",e ->
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FirstPrompt")),true);
+		workspace.getMessage().setGraphic(OKButton);
 		workspace.getPanel().getEntityDisplay().changeEditHandler(() -> clickedEdit());
 	}
 	

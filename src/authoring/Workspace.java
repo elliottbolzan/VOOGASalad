@@ -18,6 +18,7 @@ import engine.entities.Entity;
 import game_data.Game;
 import game_data.GameData;
 import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
 import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -59,6 +60,7 @@ public class Workspace extends View
 	private Networking networking;
 	private Stack<UndoableCommand> undoStack;
 	private Stack<UndoableCommand> redoStack;
+	private Label tutorialMessage;
 
 	/**
 	 * Creates the Workspace.
@@ -113,7 +115,6 @@ public class Workspace extends View
 		pane.setDividerPositions(0.27);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
-		addTutorialHost();
 		setTop(new WorkspaceMenu(this));
 		setupDragToAddEntity();
 		// defaults.getEntities().addListener(new ListChangeListener<Entity>()
@@ -205,22 +206,27 @@ public class Workspace extends View
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
 	}
 	
-	private void addTutorialHost(){
+	public void addTutorialHost(){
 		VBox tutorialBox = new VBox();
 		tutorialBox.setPrefWidth(150);
 		Image mario = new Image(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
 		ImageView marioView = new ImageView(mario);
 		marioView.setScaleX(.75);
 		marioView.setScaleY(.75);
-		Label chatMessage = new Label("Hi hdiwheiwfehwfui heuifhewfiuewhfewiu efhewiufhew");
-        chatMessage.getStyleClass().add("chat-bubble");
-        chatMessage.setWrapText(true);
-        chatMessage.setMaxWidth(150);
-        tutorialBox.getChildren().addAll(chatMessage, marioView);
-       // tutorialBox.setAlignment(Pos.CENTER);
-        //chatMessage.setContentDisplay(ContentDisplay.CENTER);
-        //pane.getItems().add(tutorialBox);
+		tutorialMessage = new Label();
+		tutorialMessage.textProperty().bind(polyglot.get("FirstStep"));
+		tutorialMessage.getStyleClass().add("chat-bubble");
+        tutorialMessage.setWrapText(true);
+        tutorialMessage.setMaxWidth(150);
+        tutorialBox.getChildren().addAll(tutorialMessage, marioView);
+        tutorialBox.setAlignment(Pos.CENTER);
+        tutorialMessage.setContentDisplay(ContentDisplay.CENTER);
+        pane.setDividerPositions(.30);
         setRight(tutorialBox);
+	}
+	
+	public Label getMessage(){
+		return tutorialMessage;
 	}
 
 	/**
