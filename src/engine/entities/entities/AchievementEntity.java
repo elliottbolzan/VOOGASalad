@@ -16,7 +16,6 @@ import javafx.beans.property.SimpleDoubleProperty;
  * @author nikita
  */
 public class AchievementEntity extends Entity {
-	private SimpleDoubleProperty percent;
 
 
 	@Override
@@ -24,7 +23,6 @@ public class AchievementEntity extends Entity {
 		addParam(new Parameter("Description", String.class, ""));
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		addAdditionalEventClass(FinishAchievementEvent.class);
-		percent = new SimpleDoubleProperty(0);
 	}
 
 	@Override
@@ -41,11 +39,7 @@ public class AchievementEntity extends Entity {
 						? event.getNumberTimesTriggered().get() : (int) event.getParam("How often to trigger");
 			}
 		}
-		
-		System.out.println(completed);
-		System.out.println(total);
-		percent.set(completed/total);
-		return percent;
+		return new SimpleDoubleProperty(completed/total);
 	}
 	
 }

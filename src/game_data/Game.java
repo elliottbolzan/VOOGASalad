@@ -1,7 +1,6 @@
 package game_data;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +66,7 @@ public class Game {
 	 * @return the clone of levels
 	 */
 	public List<Level> cloneLevels() {
-		achievements = defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
+		//achievements = defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 		List<Level> cloneOfLevels = new ArrayList<Level>();
 		for (Level level : levels) {
 			cloneOfLevels.add(cloneLevel(level));
