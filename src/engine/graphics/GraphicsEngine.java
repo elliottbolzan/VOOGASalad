@@ -55,6 +55,7 @@ public class GraphicsEngine {
 	private Overlay overlay;
 
 	private BorderPane displayArea;
+	private Game game;
 
 	public GraphicsEngine(Game game, AbstractPlayer player, Overlay overlay, Polyglot polyglot) {
 		this.camera = new CameraEntity();
@@ -65,6 +66,7 @@ public class GraphicsEngine {
 		this.overlay = overlay;
 		this.polyglot = polyglot;
 		this.player = player;
+		this.game =game;
 		
 		this.setupView();
 	}

@@ -6,6 +6,11 @@ import java.util.List;
 import authoring.networking.Packet;
 import engine.entities.Entity;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class EntityListInfo extends Packet
 {
 

@@ -19,6 +19,7 @@ import game_data.Game;
 import game_data.GameData;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.SplitPane;
@@ -156,6 +157,11 @@ public class Workspace extends View
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
 				AddInfo addInfo = new AddInfo(addedEntity.getName(), e2.getX(), e2.getY());
+				getLevelEditor().getCurrentLevel().getLayers().forEach(layer -> {
+					layer.getSelectedEntities().forEach(selectedEntity -> {
+						selectedEntity.setSelected(false);
+					});
+				});
 				if (getNetworking().isConnected()) {
 					getNetworking().send(addInfo);
 				} else {
@@ -164,6 +170,15 @@ public class Workspace extends View
 				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
 				levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
+			});
+			panel.getEntityDisplay().getList().setOnMouseReleased(e2 -> {
+				Point2D canvasPoint = levelEditor.getCurrentLevel().getCanvas().getExpandablePane()
+						.screenToLocal(new Point2D(e2.getScreenX(), e2.getScreenY()));
+				if (!levelEditor.getCurrentLevel().getCanvas().getExpandablePane().intersects(canvasPoint.getX(),
+						canvasPoint.getY(), 0, 0)) {
+					levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
+					panel.setCursor(Cursor.DEFAULT);
+				}
 			});
 		});
 	}

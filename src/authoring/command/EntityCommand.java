@@ -2,6 +2,11 @@ package authoring.command;
 
 import authoring.canvas.EntityView;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public abstract class EntityCommand implements UndoableCommand
 {
 
