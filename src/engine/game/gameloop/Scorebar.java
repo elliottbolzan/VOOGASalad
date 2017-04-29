@@ -1,5 +1,7 @@
 package engine.game.gameloop;
 
+import engine.entities.Entity;
+import engine.entities.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.game.timer.TimerManager;
 import game_data.Game;
@@ -12,28 +14,17 @@ import game_data.Game;
  *
  */
 public class Scorebar {
-	private static final int INITIAL_LIVES = 5;
 	
 	private LevelManager levelManager;
 	private TimerManager timerManager;
-	private int lives;
 	private int score;
 	private Game game;
 
 	public Scorebar(Game game) {
 		this.timerManager = null;
 		this.game = game;
-		lives = INITIAL_LIVES;
 		score = 0;
 		levelManager = new LevelManager(game, null, null);
-	}
-	
-	public void setLivesToInitial(){
-		lives = INITIAL_LIVES;
-	}
-	
-	public int getInitialLives(){
-		return INITIAL_LIVES;
 	}
 	
 	public void setLevelManager(LevelManager levelManager) {
@@ -61,13 +52,22 @@ public class Scorebar {
 	}
 
 	public int getLives() {
-		return lives;
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			 if(entity instanceof CharacterEntity){
+				  return ((CharacterEntity) entity).getLives();
+			 }
+		}
+		return -1;
 	}
 
 	public void setLives(int lives) {
-		this.lives = lives;
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			 if(entity instanceof CharacterEntity){
+				  ((CharacterEntity) entity).setLives(lives);
+			 }
+		}
 	}
-
+	
 	public String getScore() {
 		return convertScore(score);
 	}

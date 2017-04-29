@@ -1,6 +1,8 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
+import engine.entities.Entity;
+import engine.entities.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 import game_data.Game;
@@ -45,6 +47,15 @@ public class GameLoop {
 		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
+		
+		int initialLives = -1;
+		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+			if(entity instanceof CharacterEntity){
+				((CharacterEntity) entity).initializeInitialLives();
+				initialLives = ((CharacterEntity) entity).getInitialLives();
+			}
+		}
+		levelManager.setCarryoverLives(initialLives);
 	}
 
 	private void setupFirstStrategy() {
