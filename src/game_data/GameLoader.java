@@ -41,13 +41,10 @@ public class GameLoader {
 	 *             : incorrect folder path exception
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
-
-		//String tempFolderPath = System.getProperty("java.io.tmpdir") + "/VoogaSalad";
-		//System.out.println("TEMP FOLDER PATH: " + tempFolderPath);
-		String tempFolderPath = "/home/nikita/";	
+		String tempFolderPath = System.getProperty("java.io.tmpdir") + File.separator + "VoogaSalad";
 
 		File voogaDirectory = new File(tempFolderPath);
-		if (!voogaDirectory.exists()) {
+		if(!voogaDirectory.exists()){
 			voogaDirectory.mkdirs();
 		}
 
@@ -72,18 +69,17 @@ public class GameLoader {
 		addLevels(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
-
 		addCurrentTime(game, doc);
 		addIsCountingDown(game, doc);
 
-		return game;
+		addCurrentTime(game,doc);
+		addIsCountingDown(game,doc);
+			return game;
 	}
 
 	private void addCurrentTime(Game game, Document doc) {
 		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
-
 		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
-
 	}
 
 	private void addIsCountingDown(Game game, Document doc) {

@@ -1,8 +1,6 @@
 package engine.entities.entities;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import engine.Parameter;
@@ -10,8 +8,10 @@ import engine.entities.Entity;
 import engine.events.Event;
 import engine.events.additional_events.FinishAchievementEvent;
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 
 /**
  * Entity for achievements. Properties of achievements are very similar to those
@@ -36,26 +36,23 @@ public class AchievementEntity extends Entity {
 	protected void move() {
 	}
 
-	/**
-	 * Get percentage of progress made towards completing this achievement.
-	 * 
-	 * @return percentage of progress made towards completing this achievement
-	 */
-	public Map<Event, DoubleBinding> getPercentCompleted() {
-		percent.clear();
-		for (Event event : getEvents()) {
+	
+	public Map<Event, DoubleBinding> createBindings(){
+		for(Event event : getEvents()){
 			if (!(event instanceof FinishAchievementEvent)) {
-				DoubleProperty completed = new SimpleDoubleProperty();
+				System.out.println(event.getNumberTimesTriggered());
+				
+				SimpleIntegerProperty completed = new SimpleIntegerProperty();
 				if(event.getNumberTimesTriggered().get() <= (int) event.getParam("How often to trigger")){
-					completed.bind(event.getNumberTimesTriggered());				
-				}else{
-					completed.unbind();
+					completed.bind(event.getNumberTimesTriggered());	
+					
+					
 				}
-				int total = (int) event.getParam("How often to trigger");
-				percent.put(event, completed.divide(total));
+				double total = (int) event.getParam("How often to trigger");
+				percent.put(event, completed.divide(total).multiply(100));
 			}
 		}
-		
 		return percent;
 	}
+	
 }

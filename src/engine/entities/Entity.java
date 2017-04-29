@@ -40,7 +40,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		isVisible = new SimpleBooleanProperty(true);
 		additionalEventClasses = new ArrayList<Class<?>>();
 		additionalActionClasses = new ArrayList<Class<?>>();
-		addParam(new Parameter("Poop", double.class, 10.0));
 		this.setupDefaultParameters();
 	}
 
