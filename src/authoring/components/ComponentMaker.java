@@ -47,6 +47,7 @@ public class ComponentMaker {
 
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
+	private ResourceBundle combinations;
 	private String stylesheetPath;
 
 	/**
@@ -58,6 +59,7 @@ public class ComponentMaker {
 	public ComponentMaker(Polyglot polyglot, ResourceBundle IOResources) {
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
+		this.combinations = ResourceBundle.getBundle(IOResources.getString("CombinationsPath"));
 		this.stylesheetPath = IOResources.getString("StylesheetPath");
 	}
 
@@ -255,34 +257,19 @@ public class ComponentMaker {
 		return menu;
 	}
 
-	public MenuItem makeMenuItem(String title, EventHandler<ActionEvent> handler) {
-		return new CustomMenuItem(title, handler);
+	public MenuItem makeMenuItem(String property, EventHandler<ActionEvent> handler, boolean showAccelerator) {
+		if (showAccelerator) {
+			return new CustomMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), combinations.getString(property),
+					handler);
+		}
+		return new CustomMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), handler);
 	}
 
-	public MenuItem makeMenuItem(StringBinding binding, EventHandler<ActionEvent> handler) {
-		return new CustomMenuItem(binding, handler);
-	}
-
-	public MenuItem makeMenuItem(StringBinding binding, String keyCombination, EventHandler<ActionEvent> handler) {
-		return new CustomMenuItem(binding, keyCombination, handler);
-	}
-	
-	public CheckMenuItem makeCheckItem(StringBinding binding, EventHandler<ActionEvent> handler, boolean selected) {
-		CheckMenuItem item = checkItemHelper(handler, selected);
-		item.textProperty().bind(binding);
-		return item;
-	}
-	
-	public CheckMenuItem makeCheckItem(String content, EventHandler<ActionEvent> handler, boolean selected) {
-		CheckMenuItem item = checkItemHelper(handler, selected);
-		item.setText(content);
-		return item;
-	}
-	
-	public CheckMenuItem checkItemHelper(EventHandler<ActionEvent> handler, boolean selected) {
+	public CheckMenuItem makeCheckItem(String property, EventHandler<ActionEvent> handler, boolean selected) {
 		CheckMenuItem item = new CheckMenuItem();
 		item.setOnAction(handler);
 		item.setSelected(selected);
+		item.textProperty().bind(polyglot.get(property + "MenuItem", Case.TITLE));
 		return item;
 	}
 
@@ -303,13 +290,12 @@ public class ComponentMaker {
 		Thread thread = new Thread(task);
 		thread.start();
 	}
-	
+
 	public void showSuccess() {
-		Alert alert = makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader",
-				polyglot.get("TaskSucceeded"));
+		Alert alert = makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader", polyglot.get("TaskSucceeded"));
 		alert.show();
 	}
-	
+
 	public void showFailure() {
 		Alert alert = makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
 		alert.show();

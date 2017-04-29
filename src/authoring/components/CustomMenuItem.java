@@ -36,11 +36,6 @@ public class CustomMenuItem extends MenuItem {
 		setBinding(binding);
 	}
 	
-	public CustomMenuItem(String text, EventHandler<ActionEvent> handler) {
-		this(handler);
-		label.setText(text);
-	}
-	
 	private void setBinding(StringBinding binding) {
 		label.textProperty().bind(binding);
 	}
