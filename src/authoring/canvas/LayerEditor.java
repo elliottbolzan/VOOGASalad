@@ -141,7 +141,6 @@ public class LayerEditor extends View
 		this.clear();
 		canvas.clear();
 		for (Entity entity : level.getEntities()) {
-			System.out.println(entity.getName());
 			addEntity(entity, entity.getX(), entity.getY(), (int) entity.getZ());
 		}
 		selectLayer(1);
@@ -286,7 +285,8 @@ public class LayerEditor extends View
 	 */
 	public EntityView addEntity(Entity entity, double x, double y, int z)
 	{
-		return canvas.addEntity(entity, x, y);
+		EntityView entityView = new EntityView(entity, this.getCanvas(), canvas.getTileSize(), x, y);
+		return this.addEntity(entityView, z);
 	}
 
 	public EntityView addEntity(EntityView entity, int z)

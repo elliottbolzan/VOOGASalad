@@ -129,7 +129,7 @@ public class Canvas extends View
 	 * 
 	 * @return canvas tile size.
 	 */
-	public double getTileSize()
+	public int getTileSize()
 	{
 		return TILE_SIZE;
 	}
