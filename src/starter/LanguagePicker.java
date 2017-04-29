@@ -24,8 +24,8 @@ import polyglot.PolyglotException;
 /**
  * @author Elliott Bolzan
  * 
-
  *
+ * 
  */
 public class LanguagePicker {
 
@@ -49,7 +49,7 @@ public class LanguagePicker {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.titleProperty().bind(polyglot.get("LanguagePickerTitle", Case.TITLE));
 	}
-	
+
 	private void setupView() {
 		Label info = new Label();
 		info.setWrapText(true);
@@ -69,8 +69,8 @@ public class LanguagePicker {
 	public Stage getDialogStage() {
 		return stage;
 	}
-	
-	private ListView<String> makeListView() {	
+
+	private ListView<String> makeListView() {
 		ListView<String> list = new ListView<String>();
 		list.getStyleClass().add("visible-container");
 		list.setEditable(false);
@@ -78,23 +78,18 @@ public class LanguagePicker {
 		list.setOnMouseClicked(e -> selected(list.getSelectionModel().getSelectedItem()));
 		return list;
 	}
-	
+
 	private void selected(String language) {
 		Task<Void> task = new Task<Void>() {
 			@Override
-			protected Void call() {
-				try {
-					polyglot.setLanguage(language);
-					Platform.runLater(new Runnable() {
-						@Override
-						public void run() {
-							stage.close();							
-						}
-					});
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
+			protected Void call() throws PolyglotException {
+				polyglot.setLanguage(language);
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						stage.close();
+					}
+				});
 				return null;
 			}
 		};

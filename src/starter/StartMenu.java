@@ -18,11 +18,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -36,7 +36,8 @@ import polyglot.Case;
 import polyglot.Polyglot;
 import polyglot.PolyglotException;
 
-public class StartMenu extends BorderPane {
+public class StartMenu extends BorderPane
+{
 
 	private static final String KEY = "AIzaSyCOWQRgYSfbiNnOdIRPBcuY6iLTqwfmOc4";
 
@@ -46,7 +47,8 @@ public class StartMenu extends BorderPane {
 	private ComponentMaker maker;
 	private List<String> languages;
 
-	public StartMenu(Stage primaryStage) {
+	public StartMenu(Stage primaryStage)
+	{
 		this.stage = primaryStage;
 		try {
 			this.polyglot = new Polyglot(KEY, "resources/Strings");
@@ -59,7 +61,8 @@ public class StartMenu extends BorderPane {
 		this.buildStage();
 	}
 
-	private void setIcon() {
+	private void setIcon()
+	{
 		String iconPath = IOResources.getString("IconPath");
 		URL path = getClass().getResource(iconPath);
 		if (isOSX()) {
@@ -69,7 +72,8 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private void buildStage() {
+	private void buildStage()
+	{
 		stage.titleProperty().bind(polyglot.get("StartMenuTitle", Case.TITLE));
 		stage.setMinWidth(380);
 		stage.setMinHeight(300);
@@ -79,18 +83,21 @@ public class StartMenu extends BorderPane {
 		stage.show();
 	}
 
-	private Scene buildScene() {
+	private Scene buildScene()
+	{
 		Scene scene = new Scene(this, 380, 300);
 		scene.getStylesheets().addAll(IOResources.getString("StylesheetPath"), IOResources.getString("ToolStylePath"));
 		return scene;
 	}
 
-	private void buildView() {
+	private void buildView()
+	{
 		this.setTop(createMenu());
 		this.setCenter(createLogo());
 	}
 
-	private ImageView createLogo() {
+	private ImageView createLogo()
+	{
 		ImageView imageView = new ImageView(new Image(IOResources.getString("LogoPath")));
 		imageView.setPreserveRatio(true);
 		imageView.setFitWidth(300);
@@ -102,7 +109,8 @@ public class StartMenu extends BorderPane {
 		return imageView;
 	}
 
-	private VBox createMenu() {
+	private VBox createMenu()
+	{
 		MenuBar menuBar = new MenuBar();
 		Menu menuFile = maker.makeMenu("GameMenu");
 		menuFile.getItems().addAll(maker.makeMenuItem(polyglot.get("NewButton", Case.TITLE), "Ctrl+N", e -> newGame()),
@@ -120,12 +128,14 @@ public class StartMenu extends BorderPane {
 		return box;
 	}
 
-	private void playIn(double seconds, EventHandler<ActionEvent> handler) {
+	private void playIn(double seconds, EventHandler<ActionEvent> handler)
+	{
 		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(seconds), handler));
 		timeline.play();
 	}
 
-	private String chooseGame() {
+	private String chooseGame()
+	{
 		FileChooser chooser = maker.makeFileChooser(
 				System.getProperty("user.dir") + IOResources.getString("DefaultDirectory"),
 				IOResources.getString("ZIPChooserFilter"), IOResources.getString("ZIPChooserExtension"));
@@ -138,23 +148,27 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private Game createGame(String path) {
+	private Game createGame(String path)
+	{
 		try {
 			GameData gameData = new GameData();
 			return gameData.loadGame(path);
 		} catch (Exception e) {
 			// Thread this.
+			e.printStackTrace();
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NotAGame").get());
 			alert.show();
 			return null;
 		}
 	}
 
-	private void newGame() {
+	private void newGame()
+	{
 		new AuthoringEnvironment(polyglot, IOResources);
 	}
 
-	private void editGame() {
+	private void editGame()
+	{
 		String path = chooseGame();
 		if (!path.equals("")) {
 			Game game = createGame(path);
@@ -164,7 +178,8 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private void playGame() {
+	private void playGame()
+	{
 		String path = chooseGame();
 		if (!path.equals("")) {
 			Game game = createGame(path);
@@ -174,7 +189,8 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private Menu makeLanguageMenu() {
+	private Menu makeLanguageMenu()
+	{
 		Menu languageMenu = maker.makeMenu("LanguageMenu");
 		MenuItem pickLanguage = maker.makeMenuItem(polyglot.get("PickLanguageItem", Case.TITLE), "Ctrl+L",
 				e -> checkForInternet());
@@ -182,7 +198,8 @@ public class StartMenu extends BorderPane {
 		return languageMenu;
 	}
 
-	private void checkForInternet() {
+	private void checkForInternet()
+	{
 		try {
 			URLConnection connection = new URL("http://www.google.com").openConnection();
 			connection.connect();
@@ -193,7 +210,8 @@ public class StartMenu extends BorderPane {
 		}
 	}
 
-	private boolean isOSX() {
+	private boolean isOSX()
+	{
 		return System.getProperty("os.name").equals("Mac OS X");
 	}
 

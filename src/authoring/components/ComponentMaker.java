@@ -160,7 +160,6 @@ public class ComponentMaker {
 			pane.setGraphic(infoLabel);
 			pane.textProperty().bind(subviews.get(i).getTitle());
 			Text t = new Text(pane.getText());
-
 			pane.setGraphicTextGap(188 - t.getBoundsInLocal().getWidth());
 			pane.setContent(subviews.get(i));
 			titledPanes.add(pane);
