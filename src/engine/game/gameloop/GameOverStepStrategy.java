@@ -37,10 +37,9 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	protected void modifyUnlockedScreens() {
 		levelManager.clearUnlockedLevels();
 		levelManager.addUnlockedLevel(1);
-		info.getScorebar().setLivesToInitial();
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			if(entity instanceof CharacterEntity){
-				 entity.setLives(info.getScorebar().getInitialLives());
+				 ((CharacterEntity) entity).setLivesToInitial();
 			}
 		}
 	}

@@ -115,25 +115,6 @@ public class LevelManager {
 	}
 
 	/**
-	 * Called only from GAE. (Maybe don't need this method?). Once game play
-	 * phase begins, level state should never be saved (unless add checkpoints).
-	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
-	 */
-	/*public void saveAllLevels() {
-		// GameDataExternalAPI gameData = new GameDataExternalAPI();
-		// gameData.saveGame(levels); // TODO Ask Game Data people if they can
-		// save
-		// the entire SelectionGroup object (so I
-		// don't have to reconstruct a graph from a
-		// List...alternatively if I have them save
-		// the edge list, this will be OK: create
-		// getSaveableList() method in
-		// SelectionGroup interface)
-
-		System.out.println("Saved game");
-	}*/
-
-	/**
 	 * Since never save levels' state during gameplay, can call this method at
 	 * any point during game loop to get levels' initial states.
 	 */
@@ -151,6 +132,8 @@ public class LevelManager {
 		tempLevels.forEach(s -> s.addEntities(achievements));
 		levels.addAll(game.getLevels());
 		scorebar.setTimerManager(new TimerManager(game.getCurrentTime(), game.getClockGoingDown()));
+		//unlockedLevelNumbers = game.getUnlockedLevels();  //<---
+		//scorebar.setLives(game.getNumberOfLives());  //<---
 	}
 
 	// Call when start up a level (first time AND after die)

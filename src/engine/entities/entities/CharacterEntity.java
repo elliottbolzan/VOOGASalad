@@ -7,11 +7,10 @@ import engine.entities.Entity;
  * have additional information, such as health or lives.
  * 
  * @author nikita
+ * @author Matthew Barbano
  */
 public class CharacterEntity extends Entity {
-	// TODO currently lives are stored in Scorebar, which is necessary since it
-	// needs to save between
-	// instantiations of entities. Need to remake it changeable by the GAE.
+	private int initialLives;
 
 	@Override
 	protected void setupDefaultParameters() {
@@ -28,9 +27,19 @@ public class CharacterEntity extends Entity {
 	 */
 	@Override
 	public int getLives() {
-		return getGameInfo().getScorebar().getLives();
+		System.out.println("getLives()");
+		return super.getLives();
 	}
-
+	
+	/**
+	 * Stores the current number of lives as the initial number of lives. Called at the beginning of 
+	 * the game loop when a game first starts up.
+	 */
+	public void initializeInitialLives(){
+		initialLives = super.getLives();
+		System.out.println("Initial lives initialized to " + initialLives);
+	}
+	
 	/**
 	 * Sets the number of lives for the CharacterEntity
 	 * 
@@ -40,6 +49,24 @@ public class CharacterEntity extends Entity {
 	@Override
 	public void setLives(int lives) {
 		super.setLives(lives);
-		getGameInfo().getScorebar().setLives(lives);
+		System.out.println("setLives()");
+	}
+	
+	/**
+	 * Gets the number of lives initially set by the Authoring Environment.
+	 * @return
+	 */
+	public int getInitialLives(){
+		System.out.println("getInitialLives()");
+		return initialLives;
+	}
+	
+	/**
+	 * Resets number of lives to that initially specified by the Authoring Environment.
+	 * @param initialLives
+	 */
+	public void setLivesToInitial(){
+		System.out.println("setLivesToInitial()");
+		super.setLives(initialLives);
 	}
 }
