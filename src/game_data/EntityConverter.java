@@ -2,14 +2,12 @@ package game_data;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
-import engine.GameObject;
 import engine.entities.Entity;
 import engine.game.EngineController;
 import javafx.beans.property.Property;
@@ -53,6 +51,10 @@ public class EntityConverter implements Converter {
 	public void marshal(Object arg0, HierarchicalStreamWriter writer, MarshallingContext context) {
 		Entity entity = (Entity) arg0;
 		entity.setGameInfo(null);
+		entity.getEvents().stream().forEach(s -> {
+			s.setGameInfo(null);
+			s.getActions().stream().forEach(a -> a.setGameInfo(null));
+		});
 		writer.startNode("EntityType");
 		writer.setValue(entity.getDisplayName());
 		writer.endNode();
@@ -113,10 +115,7 @@ public class EntityConverter implements Converter {
 					writer.setValue(((SimpleStringProperty) value).get());
 				else if (value instanceof SimpleBooleanProperty)
 					writer.setValue(((SimpleBooleanProperty) value).get() + "");
-				else if (value instanceof GameObject) {
-					((GameObject) value).setGameInfo(null);
-					context.convertAnother(value);
-				} else
+				else
 					context.convertAnother(value);
 				writer.endNode();
 			}
