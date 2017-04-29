@@ -2,6 +2,11 @@ package authoring.command;
 
 import java.util.Random;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class AddInfo extends PositionInfo
 {
 

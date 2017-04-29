@@ -286,13 +286,16 @@ public class ExpandablePane extends Pane
 
 		});
 
-		// TODO: Fix height, width resizing updating display
-
-		// node.minHeightProperty().addListener(e -> {
+		// node.boundsInLocalProperty().addListener(new ChangeListener<Bounds>()
+		// {
+		//
+		// @Override
+		// public void changed(ObservableValue<? extends Bounds> observable,
+		// Bounds oldValue, Bounds newValue)
+		// {
 		// updateDisplay();
-		// });
-		// node.minWidthProperty().addListener(e -> {
-		// updateDisplay();
+		// }
+		//
 		// });
 	}
 
@@ -323,6 +326,8 @@ public class ExpandablePane extends Pane
 		updateCanvasBounds();
 		this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 		drawGrid();
+		// this.setMinHeight(height);
+		// this.setMinWidth(width);
 		this.setPrefHeight(height);
 		this.setPrefWidth(width);
 	}

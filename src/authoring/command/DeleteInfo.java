@@ -1,5 +1,10 @@
 package authoring.command;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class DeleteInfo extends PositionInfo
 {
 

@@ -2,6 +2,11 @@ package authoring.command;
 
 import authoring.canvas.EntityView;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class ResizeCommand extends EntityCommand
 {
 

@@ -17,6 +17,11 @@ import game_data.EntityConverter;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class EntityInfo implements Serializable
 {
 	/**
