@@ -1,7 +1,9 @@
 package game_data;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import engine.entities.Entity;
@@ -33,6 +35,8 @@ public class Game {
 	private ObservableList<String> saveStates;
 	private boolean clockGoingDown=false;
 	private double currentTime;
+	private Set<Integer> unlockedLevels;
+	private int numberOfLives;
 	
 
 	/**
@@ -48,6 +52,8 @@ public class Game {
 		achievements = new ArrayList<Entity>();
 		highscores = FXCollections.observableList(addDefaults());
 		saveStates = FXCollections.observableArrayList();
+		unlockedLevels= new HashSet<Integer>();
+		unlockedLevels.add(1);
 	}
 
 	public void setSaves(ObservableList<String> saves) {
@@ -141,6 +147,21 @@ public class Game {
 	 */
 	public void setDefaults(List<Entity> defaults) {
 		this.defaults = defaults;
+	}
+	
+	public void setUnlockedLevels(Set<Integer> inputUnlockedLevels){
+		unlockedLevels=inputUnlockedLevels;
+	}
+	
+	public void setNumberOfLives(int inputNumberOfLives){
+		numberOfLives=inputNumberOfLives;
+	}
+	
+	public Set<Integer> getUnlockedLevels(){
+		return unlockedLevels;
+	}
+	public int getNumberOfLives(){
+		return numberOfLives;
 	}
 
 	/**

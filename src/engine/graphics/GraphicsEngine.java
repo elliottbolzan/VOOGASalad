@@ -43,9 +43,7 @@ import polyglot.Polyglot;
  *         on screen. This class also holds the Scorebar (which has
  *         time/lives/score) and the Camera.
  */
-public class GraphicsEngine {
-	private static final String BLANK_SCOREBAR_DISPLAY = "--";
-	
+public class GraphicsEngine {	
 	private Polyglot polyglot;
 
 	private Collection<Entity> entities;
@@ -189,11 +187,11 @@ public class GraphicsEngine {
 	
 	public void blankScorebar(boolean firstPass){
 		if(firstPass){
-			overlay.setScore(BLANK_SCOREBAR_DISPLAY);
-			overlay.setLives(BLANK_SCOREBAR_DISPLAY);
+			overlay.setScore(Overlay.BLANK_SCOREBAR_DISPLAY);
+			overlay.setLives(Overlay.BLANK_SCOREBAR_DISPLAY);
 		}
-		overlay.setLevel(BLANK_SCOREBAR_DISPLAY);
-		overlay.setTime(BLANK_SCOREBAR_DISPLAY);
+		overlay.setLevel(Overlay.BLANK_SCOREBAR_DISPLAY);
+		overlay.setTime(Overlay.BLANK_SCOREBAR_DISPLAY);
 	}
 	
 	private void clearView() {

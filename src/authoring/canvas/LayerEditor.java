@@ -7,10 +7,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import authoring.Workspace;
+import authoring.command.DeleteInfo;
+import authoring.command.MoveInfo;
+import authoring.command.ResizeInfo;
 import engine.entities.Entity;
 import engine.entities.entities.BackgroundEntity;
 import engine.entities.entities.CameraEntity;
 import engine.game.Level;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -33,10 +37,9 @@ public class LayerEditor extends View
 	private Map<Integer, Layer> layers;
 	private int layerCount;
 	private int currLayer;
-	
-	private EntityView levelCameraView;
-	private EntityView backgroundView;
 
+	private EntityView levelCameraView;
+	private EntityView levelBackgroundView;
 
 	/**
 	 * Make a new LayerEditor.
@@ -63,7 +66,8 @@ public class LayerEditor extends View
 		layers.keySet().stream().forEach(id -> {
 			for (EntityView entity : layers.get(id).getEntities()) {
 				newLevel.addEntity(entity.getEntity(), entity.getEntity().getX(), entity.getEntity().getY(), id);
-			};
+			}
+			;
 		});
 		return newLevel;
 	}
@@ -83,7 +87,7 @@ public class LayerEditor extends View
 			}
 		}
 		thisLevel.setCamera((CameraEntity) levelCameraView.getEntity());
-		thisLevel.setBackground((BackgroundEntity) backgroundView.getEntity());
+		thisLevel.setBackground((BackgroundEntity) levelBackgroundView.getEntity());
 		return thisLevel;
 	}
 
@@ -115,11 +119,13 @@ public class LayerEditor extends View
 				}
 			}
 			concerned.forEach(entityView -> {
-				Entity toRemove = entityView.getEntity();
-				addEntity(entity, toRemove.getX(), toRemove.getY(), (int) toRemove.getZ());
-				canvas.removeEntity(entityView);
+				entityView.setEntity(entity);
+				// Entity toRemove = entityView.getEntity();
+				// addEntity(entity, toRemove.getX(), toRemove.getY(), (int)
+				// toRemove.getZ());
+				// canvas.removeEntity(entityView);
 			});
-			layer.getEntities().removeAll(concerned);
+			// layer.getEntities().removeAll(concerned);
 		}
 	}
 
@@ -178,7 +184,7 @@ public class LayerEditor extends View
 		layerCount = 0;
 		currLayer = 1;
 		levelCameraView = new EntityView(new CameraEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
-		backgroundView = new EntityView(new BackgroundEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
+		levelBackgroundView = new EntityView(new BackgroundEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
 		addKeyActions();
 		newLayer();
 	}
@@ -194,8 +200,18 @@ public class LayerEditor extends View
 			if (e.getCode().equals(KeyCode.BACK_SPACE)) {
 				for (Layer layer : layers.values()) {
 					List<EntityView> selectedEntities = layer.getSelectedEntities();
-					layer.getEntities().removeAll(layer.getSelectedEntities());
-					selectedEntities.forEach(entity -> canvas.removeEntity(entity));
+					selectedEntities.forEach(entity -> {
+						DeleteInfo removeInfo = new DeleteInfo(entity.getEntity().getName(), entity.getTranslateX(),
+								entity.getTranslateY(), entity.getEntityId());
+						if (workspace.getNetworking().isConnected()) {
+							workspace.getNetworking().send(removeInfo);
+						} else {
+							workspace.getLevelEditor().received(removeInfo);
+						}
+					});
+					// layer.getEntities().removeAll(layer.getSelectedEntities());
+					// selectedEntities.forEach(entity ->
+					// canvas.removeEntity(entity));
 				}
 				e.consume();
 			}
@@ -269,30 +285,69 @@ public class LayerEditor extends View
 	 */
 	public EntityView addEntity(Entity entity, double x, double y, int z)
 	{
-		EntityView addedEntity = canvas.addEntity(entity, x, y);
-		addEntityToLayer(addedEntity, z);
-		attachSelectionListeners(addedEntity);
-		
-		if(entity instanceof CameraEntity) {
-			canvas.removeEntity(levelCameraView);
-			levelCameraView = addedEntity;
-		} 
-		
-		if(entity instanceof BackgroundEntity) {
-			canvas.removeEntity(backgroundView);
-			backgroundView = addedEntity;
-		}
-		
-		return addedEntity;
+		EntityView entityView = new EntityView(entity, this.getCanvas(), canvas.getTileSize(), x, y);
+		return this.addEntity(entityView, z);
 	}
-	
-	private void addEntityToLayer(EntityView entityView, int z) {
+
+	public EntityView addEntity(EntityView entity, int z)
+	{
+		canvas.addEntity(entity);
+		this.addEntityToLayer(entity, z);
+		attachSelectionListeners(entity);
+		addDragDetection(entity);
+
+		entity.getEntity().addEntityToCanvas(canvas, this, entity, z);
+
+		return entity;
+	}
+
+	private void addDragDetection(EntityView entity)
+	{
+		entity.addEventHandler(MouseEvent.DRAG_DETECTED, e -> {
+			double oldX = entity.getTranslateX();
+			double oldY = entity.getTranslateY();
+			double oldHeight = entity.getMinHeight();
+			double oldWidth = entity.getMinWidth();
+			EventHandler<MouseEvent> dragFinishHandler = e2 -> {
+				double newX = entity.getTranslateX();
+				double newY = entity.getTranslateY();
+				double newHeight = entity.getMinHeight();
+				double newWidth = entity.getMinWidth();
+				if (oldHeight != newHeight || oldWidth != newWidth) {
+					ResizeInfo resizeInfo = new ResizeInfo(entity.getEntity().getName(), entity.getEntityId(),
+							oldHeight, oldWidth, newHeight, newWidth, oldX, oldY, newX, newY);
+					if (workspace.getNetworking() != null) {
+						if (workspace.getNetworking().isConnected()) {
+							workspace.getNetworking().send(resizeInfo);
+						} else {
+							workspace.getLevelEditor().received(resizeInfo);
+						}
+					}
+				} else if (oldX != newX || oldY != newY) {
+					MoveInfo moveInfo = new MoveInfo(entity.getEntity().getName(), entity.getEntityId(), oldX, oldY,
+							newX, newY);
+					if (workspace.getNetworking().isConnected()) {
+						workspace.getNetworking().send(moveInfo);
+					} else {
+						workspace.getLevelEditor().received(moveInfo);
+					}
+				}
+			};
+			entity.addEventHandler(MouseEvent.MOUSE_RELEASED, dragFinishHandler);
+			entity.addEventHandler(MouseEvent.MOUSE_RELEASED,
+					e2 -> entity.removeEventHandler(MouseEvent.MOUSE_RELEASED, dragFinishHandler));
+		});
+	}
+
+	public void addEntityToLayer(EntityView entityView, int z)
+	{
 		entityView.getEntity().setZ(z);
 		setNumLayers(z);
 		layers.get(z).addEntity(entityView);
 	}
-	
-	private void attachSelectionListeners(EntityView entityView) {
+
+	private void attachSelectionListeners(EntityView entityView)
+	{
 		entityView.addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
 			if (!e.isShiftDown() && !entityView.isSelected()) {
 				for (Layer layer : layers.values()) {
@@ -440,4 +495,23 @@ public class LayerEditor extends View
 		layerCount--;
 	}
 
+	public EntityView getLevelCamera()
+	{
+		return levelCameraView;
+	}
+
+	public EntityView getLevelBackground()
+	{
+		return levelBackgroundView;
+	}
+
+	public void setLevelCamera(EntityView camera)
+	{
+		this.levelCameraView = camera;
+	}
+
+	public void setLevelBackground(EntityView background)
+	{
+		this.levelBackgroundView = background;
+	}
 }

@@ -2,6 +2,7 @@ package game_data;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,6 +30,8 @@ public class GameXMLFactory
 	private Element infoNode;
 	private Element timeNode;
 	private Element countdownNode;
+	private Element livesNode;
+	private Element unlockedLevelsNode;
 	private ResourceManager rm;
 
 	/**
@@ -84,7 +87,44 @@ public class GameXMLFactory
 		
 		countdownNode = doc.createElement("TimeGoingDown");
 		rootElement.appendChild(countdownNode);
+		
+		livesNode = doc.createElement("NumberOfLives");
+		rootElement.appendChild(livesNode);
+		
+		unlockedLevelsNode = doc.createElement("UnlockedLevels");
+		rootElement.appendChild(unlockedLevelsNode);
+		
 	}
+	
+	
+	/**
+	 * Sets the number of lives of the game in the XML file
+	 * @param numberOfLives
+	 * 				lives to be set in XML
+	 */
+	public void setNumberOfLives(int numberOfLives) {
+		Attr attr = doc.createAttribute("LivesAmount");
+		attr.setValue( Integer.toString(numberOfLives));
+		livesNode.setAttributeNode(attr);
+	}
+
+	/**
+	 * Sets the number of lives of the game in the XML file
+	 * @param numberOfLives
+	 * 				lives to be set in XML
+	 */
+	public void setUnlockedLevels(Set<Integer> unlockedLevels) {
+		
+		for(Integer key : unlockedLevels){
+		Element unlockedLevel = doc.createElement("Level");
+		Attr attr=doc.createAttribute("levelnumber");
+		attr.setValue(key.toString());
+		unlockedLevel.setAttributeNode(attr);
+		unlockedLevelsNode.appendChild(unlockedLevel);
+		}
+	}
+	
+	
 	
 	
 	/**
