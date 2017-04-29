@@ -9,7 +9,6 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import player.launcher.AbstractPlayer;
 import player.menu.Tile;
 import polyglot.Case;
 import polyglot.Polyglot;
