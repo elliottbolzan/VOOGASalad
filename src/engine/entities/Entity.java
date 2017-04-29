@@ -42,7 +42,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		additionalActionClasses = new ArrayList<Class<?>>();
 		this.setupDefaultParameters();
 	}
-	
+
 	protected abstract void setupDefaultParameters();
 
 	protected void defaultSetup() {
@@ -65,12 +65,14 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		List<Event> eventsToTrigger = events.stream().filter(s -> s.isTriggered(false)).collect(Collectors.toList());
 		eventsToTrigger.forEach(event -> event.trigger());
 	}
-	protected void move(){
+
+	protected void move() {
 		setX(getX() + getXSpeed() * TIME_STEP);
 		setY(getY() + getYSpeed() * TIME_STEP);
 		setXSpeed(getXSpeed() + getXAcceleration() * TIME_STEP);
 		setYSpeed(getYSpeed() + getYAcceleration() * TIME_STEP);
 	}
+
 	@Override
 	public void addEvent(Event event) {
 		this.events.add(event);

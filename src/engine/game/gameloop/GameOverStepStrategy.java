@@ -47,6 +47,6 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	
 	@Override
 	protected StepStrategy nextStrategyLevelSelectionMode() {
-		return new LevelSelectionStepStrategy();
+		return new LevelSelectionStepStrategy(false);
 	}
 }

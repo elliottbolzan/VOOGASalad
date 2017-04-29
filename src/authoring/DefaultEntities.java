@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import engine.entities.Entity;
+import engine.entities.entities.BackgroundEntity;
 import engine.entities.entities.BlockEntity;
 import engine.entities.entities.CameraEntity;
 import engine.entities.entities.CharacterEntity;
@@ -36,6 +37,7 @@ public class DefaultEntities {
 			add(new CharacterEntity());
 			add(new BlockEntity());
 			add(new CameraEntity());
+			add(new BackgroundEntity());
 		}
 	}
 

@@ -8,13 +8,14 @@ import java.util.stream.Collectors;
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
 import engine.entities.entities.CameraEntity;
+import engine.entities.entities.BackgroundEntity;
 import engine.game.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import player.score.Score;
 
 /**
- * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano)
+ * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano, Jay Doherty)
  * 
  *         This class represents a Game. It is designed to be shared through
  *         submodules: the GameData, Game Authoring Environment, Game Player and
@@ -31,7 +32,9 @@ public class Game {
 	private ObservableList<Score> highscores;
 	private List<Score> highscoresBase;
 	private ObservableList<String> saveStates;
-	private boolean isTestGame = false;
+	private boolean clockGoingDown=false;
+	private double currentTime;
+	
 
 	/**
 	 * Returns an empty game object, with default values pre-loaded.
@@ -57,7 +60,7 @@ public class Game {
 	}
 
 	/**
-	 * Create a deepcopy of List<Level> by copying clones of the entities in
+	 * Create a deep copy of List<Level> by copying clones of the entities in
 	 * each constituent Level. Uses GameObject's clone() method to accomplish
 	 * this.
 	 * 
@@ -77,6 +80,7 @@ public class Game {
 			cloneOfLevel.addEntity(entity.clone());
 		}
 		cloneOfLevel.setCamera((CameraEntity) level.getCamera().clone());
+		cloneOfLevel.setBackground((BackgroundEntity) level.getBackground().clone());
 		return cloneOfLevel;
 	}
 
@@ -97,7 +101,6 @@ public class Game {
 
 	/**
 	 * Set the game's name.
-	 * 
 	 * @param name
 	 *            the new name for the game.
 	 */
@@ -169,8 +172,16 @@ public class Game {
 		return defaults.stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 	}
 
-	public void setAchievements(List<Entity> achievements) {
+	public void setAchievements(Collection<Entity> achievements) {
 		this.achievements = achievements;
+	}
+	
+	public Collection<Entity> cloneAchievements() {
+		Collection<Entity> cloneOfAchievements = new ArrayList<Entity>();
+		for (Entity entity : this.getAchievements()) {
+			cloneOfAchievements.add(entity.clone());
+		}
+		return cloneOfAchievements;
 	}
 
 	/**
@@ -234,24 +245,23 @@ public class Game {
 
 		return highscoresBase;
 	}
-
-	/**
-	 * 
-	 * @returns if the game is a test game
-	 */
-	public boolean isTestGame() {
-		return isTestGame;
+	
+	public void setCurrentTime(double inputCurrentTime){
+		currentTime = inputCurrentTime;
+	}
+	
+	public void setClockGoingDown(boolean inputClockGoingDown){
+		clockGoingDown = inputClockGoingDown;
 	}
 
-	/**
-	 * sets if this game is a test game
-	 * 
-	 * @param value
-	 */
-	public void setTestGame(boolean value) {
-		isTestGame = value;
+	public double getCurrentTime(){
+		return currentTime;
 	}
-
+	
+	public boolean getClockGoingDown(){
+		return clockGoingDown;
+	}
+	
 	public Game clone() {
 		Game cloneGame = new Game();
 		cloneGame.setName(this.name);
@@ -259,8 +269,10 @@ public class Game {
 		cloneGame.setDefaults(this.cloneDefaults());
 		cloneGame.setSongPath(this.songPath);
 		cloneGame.setInfo(this.info);
+		cloneGame.setClockGoingDown(this.clockGoingDown);
+		cloneGame.setCurrentTime(this.currentTime);
 		// TODO: clone scores
-		cloneGame.setTestGame(this.isTestGame);
+		cloneGame.setAchievements(this.cloneAchievements());
 		return cloneGame;
 	}
 }
