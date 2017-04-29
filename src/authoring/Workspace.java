@@ -19,6 +19,7 @@ import game_data.Game;
 import game_data.GameData;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
 import javafx.scene.control.ContentDisplay;
@@ -26,6 +27,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import player.launcher.BasicPlayer;
@@ -203,13 +206,21 @@ public class Workspace extends View
 	}
 	
 	private void addTutorialHost(){
+		VBox tutorialBox = new VBox();
+		tutorialBox.setPrefWidth(150);
+		Image mario = new Image(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
+		ImageView marioView = new ImageView(mario);
+		marioView.setScaleX(.75);
+		marioView.setScaleY(.75);
 		Label chatMessage = new Label("Hi hdiwheiwfehwfui heuifhewfiuewhfewiu efhewiufhew");
         chatMessage.getStyleClass().add("chat-bubble");
         chatMessage.setWrapText(true);
-        chatMessage.setMaxWidth(300);
+        chatMessage.setMaxWidth(150);
+        tutorialBox.getChildren().addAll(chatMessage, marioView);
+       // tutorialBox.setAlignment(Pos.CENTER);
         //chatMessage.setContentDisplay(ContentDisplay.CENTER);
-        //pane.getItems().add(chatMessage);
-        setRight(chatMessage);
+        //pane.getItems().add(tutorialBox);
+        setRight(tutorialBox);
 	}
 
 	/**
