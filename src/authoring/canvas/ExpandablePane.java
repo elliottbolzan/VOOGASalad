@@ -3,6 +3,7 @@ package authoring.canvas;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -281,6 +282,17 @@ public class ExpandablePane extends Pane
 					shiftNodesY(-1 * newY.intValue());
 					node.setTranslateY(0);
 				}
+				updateDisplay();
+			}
+
+		});
+
+		node.boundsInLocalProperty().addListener(new ChangeListener<Bounds>()
+		{
+
+			@Override
+			public void changed(ObservableValue<? extends Bounds> observable, Bounds oldValue, Bounds newValue)
+			{
 				updateDisplay();
 			}
 
