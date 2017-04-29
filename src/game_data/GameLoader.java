@@ -44,7 +44,7 @@ public class GameLoader {
 		
 		String tempFolderPath = System.getProperty("java.io.tmpdir") +"VoogaSalad";
 		
-		File voogaDirectory = new File(tempFolderPath + "VoogaSalad");
+		File voogaDirectory = new File(tempFolderPath);
 		if(!voogaDirectory.exists()){
 			voogaDirectory.mkdirs();
 		}
@@ -69,7 +69,6 @@ public class GameLoader {
 		addLevels(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
-		
 		addCurrentTime(game,doc);
 		addIsCountingDown(game,doc);
 		
@@ -78,7 +77,6 @@ public class GameLoader {
 	
 	private void addCurrentTime(Game game,Document doc){
 		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
-		
 		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
 		
 	}
