@@ -41,27 +41,30 @@ public class GameLoader {
 	 *             : incorrect folder path exception
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
-		
-		String tempFolderPath = System.getProperty("java.io.tmpdir") +"VoogaSalad";
-		
-		File voogaDirectory = new File(tempFolderPath + "VoogaSalad");
-		if(!voogaDirectory.exists()){
+
+		//String tempFolderPath = System.getProperty("java.io.tmpdir") + "/VoogaSalad";
+		//System.out.println("TEMP FOLDER PATH: " + tempFolderPath);
+		String tempFolderPath = "/home/nikita/";	
+
+		File voogaDirectory = new File(tempFolderPath);
+		if (!voogaDirectory.exists()) {
 			voogaDirectory.mkdirs();
 		}
-		
+
 		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
-		File dataFile = new File(tempFolderPath +  File.separator + saveName);
-	
+		File dataFile = new File(tempFolderPath + File.separator + saveName);
+
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
-		
+
 		resourceManager = new ResourceManager();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 		Document doc = docBuilder.parse(tempFolderPath + File.separator + saveName);
-		//Document doc = docBuilder.parse(gameFolderPath + File.separator + saveName);
-		
+		// Document doc = docBuilder.parse(gameFolderPath + File.separator +
+		// saveName);
+
 		Game game = new Game();
 		addName(game, doc);
 		addInfo(game, doc);
@@ -69,40 +72,41 @@ public class GameLoader {
 		addLevels(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
-		
-		addCurrentTime(game,doc);
-		addIsCountingDown(game,doc);
-		
+
+		addCurrentTime(game, doc);
+		addIsCountingDown(game, doc);
+
 		return game;
 	}
-	
-	private void addCurrentTime(Game game,Document doc){
+
+	private void addCurrentTime(Game game, Document doc) {
 		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
-		
+
 		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
-		
+
 	}
-	
-	private void addIsCountingDown(Game game,Document doc){
+
+	private void addIsCountingDown(Game game, Document doc) {
 		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
-		
+
 		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
-	
-	private void addSaves(Game game, String folderPath){
+
+	private void addSaves(Game game, String folderPath) {
 		ObservableList<String> saves = FXCollections.observableArrayList();
 		File folder = new File(folderPath);
 		File[] allFiles = folder.listFiles();
-		for(File file : allFiles){
-			if(isSave(game, file)){
+		for (File file : allFiles) {
+			if (isSave(game, file)) {
 				saves.add(file.getName());
 			}
 		}
 		game.setSaves(saves);
 	}
-	
-	private boolean isSave(Game game, File file){
-		return (file.getName().contains(game.getName()) && file.getName().contains("save") && file.getName().contains(".xml"));
+
+	private boolean isSave(Game game, File file) {
+		return (file.getName().contains(game.getName()) && file.getName().contains("save")
+				&& file.getName().contains(".xml"));
 	}
 
 	private void addInfo(Game game, Document doc) {
@@ -182,7 +186,7 @@ public class GameLoader {
 		}
 		game.setLevels(gameLevels);
 	}
-	
+
 	/**
 	 * Converts an element from the XML into a level by filling it with entities
 	 * 
@@ -198,15 +202,15 @@ public class GameLoader {
 		for (Entity entity : getEntities(entitiesNode, gameFolderPath)) {
 			returnedLevel.addEntity(entity);
 		}
-		
+
 		Element cameraNode = (Element) levelElement.getChildNodes().item(1);
 		Entity camera = getEntityFromElement(cameraNode, gameFolderPath);
 		returnedLevel.setCamera((CameraEntity) camera);
-		
+
 		Element backgroundNode = (Element) levelElement.getChildNodes().item(2);
 		Entity background = getEntityFromElement(backgroundNode, gameFolderPath);
 		returnedLevel.setBackground((BackgroundEntity) background);
-		
+
 		return returnedLevel;
 	}
 
@@ -241,10 +245,10 @@ public class GameLoader {
 	private Entity getEntityFromElement(Element entityElement, String gameFolderPath) {
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
-		
+
 		Entity entity = (Entity) xStream.fromXML(getXMLStringFromElement(entityElement));
 		entity.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(entity.getImagePath()));
-		
+
 		return entity;
 	}
 
@@ -268,7 +272,7 @@ public class GameLoader {
 
 		return newPath;
 	}
-	
+
 	// http://stackoverflow.com/questions/32739278/convert-elementorg-w3c-dom-to-string-in-java
 	/**
 	 * Method to convert an element node from XML into a string
