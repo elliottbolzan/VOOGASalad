@@ -3,7 +3,9 @@ package game_data;
 import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -74,12 +76,37 @@ public class GameLoader {
 		addSaves(game, tempFolderPath);
 		addCurrentTime(game, doc);
 		addIsCountingDown(game, doc);
-
-		addCurrentTime(game, doc);
-		addIsCountingDown(game, doc);
+		addNumberOfLives(game,doc);
+		addUnlockedLevels(game,doc);
+		
+		
 		return game;
 	}
 
+	
+	private void addNumberOfLives(Game game, Document doc){
+		NodeList timeNodes = doc.getElementsByTagName("NumberOfLives");
+		game.setNumberOfLives(Integer.parseInt(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
+	}
+	
+	private void addUnlockedLevels(Game game, Document doc){
+		
+		
+		NodeList unlockedLevelsNode = doc.getElementsByTagName("UnlockedLevels");
+		NodeList levelsList = unlockedLevelsNode.item(0).getChildNodes();
+		Set<Integer> gameLevelsUnlocked = new HashSet<Integer>();
+
+		for (int i = 0; i < levelsList.getLength(); i++) {
+			Element levelElement = (Element) levelsList.item(i);
+			int instantiatedLevel = Integer.parseInt(levelElement.getAttributes().item(0).getNodeValue());
+			System.out.println("int: " + instantiatedLevel);
+			gameLevelsUnlocked.add(instantiatedLevel);
+		}
+		
+		game.setUnlockedLevels(gameLevelsUnlocked);
+		
+		
+	}
 	private void addCurrentTime(Game game, Document doc) {
 		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
 		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
