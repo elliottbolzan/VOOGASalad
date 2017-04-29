@@ -56,7 +56,7 @@ public class StartMenu extends BorderPane
 		} catch (PolyglotException e) {
 			System.out.println("There probably is no Internet connection.");
 		}
-		this.maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		this.maker = new ComponentMaker(polyglot, IOResources);
 		this.setIcon();
 		this.buildStage();
 	}

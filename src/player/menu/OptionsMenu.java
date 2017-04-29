@@ -20,8 +20,6 @@ import engine.events.regular_events.KeyPressEvent;
 import engine.events.regular_events.KeyReleaseEvent;
 import engine.game.Level;
 import game_data.Game;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.binding.StringBinding;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

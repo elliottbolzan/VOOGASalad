@@ -69,7 +69,7 @@ public class LevelStepStrategy implements StepStrategy {
 		graphicsEngine.updateFrame();
 		if (screenFinished) {
 			levelManager.setCurrentStepStrategy(nextStepStrategy);
-			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
+			Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
 			nextScreen.getTimeline().play();
 		}
 

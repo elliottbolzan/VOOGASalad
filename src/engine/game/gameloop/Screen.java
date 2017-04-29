@@ -19,7 +19,7 @@ public class Screen {
 	private Timeline timeline;
 	private LevelManager levelManager;
 
-	public Screen(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info) {
+	public Screen(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info, boolean firstPassLevelSelection) {
 		this.levelManager = levelManager;
 		levelManager.setCurrentScreen(this);
 		setupTimeline();

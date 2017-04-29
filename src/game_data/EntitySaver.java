@@ -3,7 +3,10 @@ package game_data;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -84,14 +87,15 @@ public class EntitySaver
 		 * System.out.println("======================");
 		 * System.out.println(entity); System.out.println(entity.getEvents());
 		 * System.out.println("XMLSTRING");(/
-		 * 
-		 * /*try (PrintStream out = new PrintStream(new
-		 * FileOutputStream("filename" + entity.getName() + ".txt"))) {
-		 * out.print(xmlString); } catch (FileNotFoundException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); }
-		 * 
-		 * System.out.println("XMLSTRING: " + xmlString);
 		 */
+		try (PrintStream out = new PrintStream(new FileOutputStream("filename" + entity.getName() + ".txt"))) {
+			out.print(xmlString);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// System.out.println("XMLSTRING: " + xmlString);
 		return gameXMLFactory.stringToElement(xmlString);
 	}
 

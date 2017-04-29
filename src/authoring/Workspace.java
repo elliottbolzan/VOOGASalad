@@ -11,7 +11,6 @@ import authoring.command.AddInfo;
 import authoring.command.EntityListInfo;
 import authoring.command.UndoableCommand;
 import authoring.components.ComponentMaker;
-import authoring.components.ProgressDialog;
 import authoring.networking.Networking;
 import authoring.networking.Packet;
 import authoring.panel.Panel;
@@ -22,14 +21,11 @@ import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import player.MediaManager;
 import player.launcher.BasicPlayer;
 import polyglot.Polyglot;
 import utils.views.View;
@@ -103,7 +99,7 @@ public class Workspace extends View
 		redoStack = new Stack<UndoableCommand>();
 		networking = new Networking(this);
 		data = new GameData();
-		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		maker = new ComponentMaker(polyglot, IOResources);
 		defaults = new DefaultEntities(this);
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
@@ -218,41 +214,21 @@ public class Workspace extends View
 	private void save(String title)
 	{
 		game.setName(title);
-		defaults.getEntities().forEach(e -> {
-			System.out.println(e.getName() + "~~~~~~" + e.getImagePath());
-		});
 		String path = askForOutputPath();
-		Task<Void> task = new Task<Void>()
-		{
-			@Override
-			public Void call() throws InterruptedException
+		if (!path.equals("")) {
+			Task<Void> task = new Task<Void>()
 			{
-				createGame();
-				if (!path.equals("")) {
+				@Override
+				public Void call() throws InterruptedException
+				{
+					createGame();
 					data.saveGame(game, path);
+					return null;
 				}
-				return null;
-			}
-		};
-		showProgressForTask(task);
-	}
+			};
+			maker.showProgressForTask(task, true);
+		}
 
-	public void showProgressForTask(Task<Void> task)
-	{
-		ProgressDialog dialog = new ProgressDialog(this);
-		task.setOnSucceeded(event -> {
-			dialog.getDialogStage().close();
-			Alert alert = maker.makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader",
-					polyglot.get("TaskSucceeded"));
-			alert.show();
-		});
-		task.setOnFailed(event -> {
-			dialog.getDialogStage().close();
-			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
-			alert.show();
-		});
-		Thread thread = new Thread(task);
-		thread.start();
 	}
 
 	private String askForOutputPath()
@@ -276,10 +252,8 @@ public class Workspace extends View
 	public void test()
 	{
 		createGame();
-		Game testGame = game.clone();
-		testGame.setTestGame(true);
 		Stage stage = new Stage();
-		new BasicPlayer(stage, testGame, new MediaManager(testGame, null), polyglot, IOResources);
+		new BasicPlayer(stage, game.clone(), polyglot, IOResources);
 		stage.show();
 	}
 

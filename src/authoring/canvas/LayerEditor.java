@@ -11,6 +11,7 @@ import authoring.command.DeleteInfo;
 import authoring.command.MoveInfo;
 import authoring.command.ResizeInfo;
 import engine.entities.Entity;
+import engine.entities.entities.BackgroundEntity;
 import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import javafx.event.EventHandler;
@@ -36,7 +37,9 @@ public class LayerEditor extends View
 	private Map<Integer, Layer> layers;
 	private int layerCount;
 	private int currLayer;
+
 	private EntityView levelCameraView;
+	private EntityView backgroundView;
 
 	/**
 	 * Make a new LayerEditor.
@@ -84,6 +87,7 @@ public class LayerEditor extends View
 			}
 		}
 		thisLevel.setCamera((CameraEntity) levelCameraView.getEntity());
+		thisLevel.setBackground((BackgroundEntity) backgroundView.getEntity());
 		return thisLevel;
 	}
 
@@ -181,6 +185,7 @@ public class LayerEditor extends View
 		layerCount = 0;
 		currLayer = 1;
 		levelCameraView = new EntityView(new CameraEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
+		backgroundView = new EntityView(new BackgroundEntity(), canvas, Canvas.TILE_SIZE, 0, 0);
 		addKeyActions();
 		newLayer();
 	}
@@ -295,6 +300,11 @@ public class LayerEditor extends View
 			levelCameraView = entity;
 		}
 		addDragDetection(entity);
+
+		if (entity.getEntity() instanceof BackgroundEntity) {
+			canvas.removeEntity(backgroundView);
+			backgroundView = entity;
+		}
 
 		return entity;
 	}

@@ -48,13 +48,7 @@ public class GameSaver
 
 	protected void saveGameState(Game game, String zipFolderPath, String saveName)
 	{
-		/*
-		 * try { (new Unpackager()).unzip(zipFolderPath,
-		 * zipFolderPath.replace(".vs", "")); } catch(Exception e) { //TODO? }
-		 */
-
 		String gameFolderPath = zipFolderPath.replace(".vs", "");
-		// System.out.println(gameFolderPath);
 		this.saveAndCompress(game, gameFolderPath, saveName);
 	}
 
@@ -64,23 +58,15 @@ public class GameSaver
 
 		gameXMLFactory.setName(game.getName());
 		gameXMLFactory.addInfo(game.getInfo());
+		gameXMLFactory.setTime(game.getCurrentTime());
+		gameXMLFactory.setCountdown(game.getClockGoingDown());
+
 		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
 		this.saveLevels(gameFolderPath, game.getLevels());
 		this.saveDefaults(gameFolderPath, game.getDefaults());
-		this.saveTime(game.getCurrentTime());
-		this.saveClockGoingDown(game.getClockGoingDown());
+
 		this.saveDocument(gameFolderPath, saveName);
 		this.zipDoc(gameFolderPath);
-	}
-
-	private void saveTime(double initialTime)
-	{
-		gameXMLFactory.setTime(initialTime);
-	}
-
-	private void saveClockGoingDown(boolean clockGoingDown)
-	{
-		gameXMLFactory.setCountdown(clockGoingDown);
 	}
 
 	/**
@@ -139,9 +125,10 @@ public class GameSaver
 			EntitySaver entitySaver = new EntitySaver(gameXMLFactory);
 			List<Element> entityElements = entitySaver.getEntityListAsXML(level.getEntities(), gameFolderPath);
 			Element cameraElement = entitySaver.getEntityAsXML(level.getCamera(), gameFolderPath);
+			Element backgroundElement = entitySaver.getEntityAsXML(level.getBackground(), gameFolderPath);
 
 			LevelSaver levelSaver = new LevelSaver(gameXMLFactory);
-			Element levelElement = levelSaver.wrapLevelInXMLTags(entityElements, cameraElement);
+			Element levelElement = levelSaver.wrapLevelInXMLTags(entityElements, cameraElement, backgroundElement);
 			gameXMLFactory.addLevel(levelElement);
 		}
 	}
@@ -174,7 +161,7 @@ public class GameSaver
 	}
 
 	/**
-	 * Saves achievements into XML file
+	 * <<<<<<< HEAD Saves achievements into XML file
 	 * 
 	 * @param achieve
 	 * @param filePath
@@ -188,7 +175,8 @@ public class GameSaver
 	}
 
 	/**
-	 * Creates the folder for the game
+	 * ======= >>>>>>> d4617f6e59b8f2a9411a8f00fd3d3ebc4088a944 Creates the
+	 * folder for the game
 	 */
 	private void createFolder(String gameFolderPath)
 	{
