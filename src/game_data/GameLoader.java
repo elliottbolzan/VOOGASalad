@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
@@ -11,10 +12,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -44,7 +47,7 @@ public class GameLoader {
 		String tempFolderPath = System.getProperty("java.io.tmpdir") + File.separator + "VoogaSalad";
 
 		File voogaDirectory = new File(tempFolderPath);
-		if(!voogaDirectory.exists()){
+		if (!voogaDirectory.exists()) {
 			voogaDirectory.mkdirs();
 		}
 
@@ -72,9 +75,9 @@ public class GameLoader {
 		addCurrentTime(game, doc);
 		addIsCountingDown(game, doc);
 
-		addCurrentTime(game,doc);
-		addIsCountingDown(game,doc);
-			return game;
+		addCurrentTime(game, doc);
+		addIsCountingDown(game, doc);
+		return game;
 	}
 
 	private void addCurrentTime(Game game, Document doc) {
