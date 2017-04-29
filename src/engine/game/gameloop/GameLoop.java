@@ -40,22 +40,13 @@ public class GameLoop {
 			System.out.println("Error in GameLoop.java - game has no levels.");
 		}
 		setupFirstStrategy();
-
 		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
 		Screen firstScreen = new Screen(levelManager, graphicsEngine, info, true);
 		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
-		
-		int initialLives = -1;
-		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
-			if(entity instanceof CharacterEntity){
-				((CharacterEntity) entity).initializeInitialLives();
-				initialLives = ((CharacterEntity) entity).getInitialLives();
-			}
-		}
-		levelManager.setCarryoverLives(initialLives);
+		scorebar.setupLives(levelManager);
 	}
 
 	private void setupFirstStrategy() {

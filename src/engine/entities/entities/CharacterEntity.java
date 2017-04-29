@@ -10,7 +10,6 @@ import engine.entities.Entity;
  * @author Matthew Barbano
  */
 public class CharacterEntity extends Entity {
-	private int initialLives;
 
 	@Override
 	protected void setupDefaultParameters() {
@@ -31,14 +30,6 @@ public class CharacterEntity extends Entity {
 	}
 	
 	/**
-	 * Stores the current number of lives as the initial number of lives. Called at the beginning of 
-	 * the game loop when a game first starts up.
-	 */
-	public void initializeInitialLives(){
-		initialLives = super.getLives();
-	}
-	
-	/**
 	 * Sets the number of lives for the CharacterEntity
 	 * 
 	 * @param lives
@@ -47,21 +38,5 @@ public class CharacterEntity extends Entity {
 	@Override
 	public void setLives(int lives) {
 		super.setLives(lives);
-	}
-	
-	/**
-	 * Gets the number of lives initially set by the Authoring Environment.
-	 * @return
-	 */
-	public int getInitialLives(){
-		return initialLives;
-	}
-	
-	/**
-	 * Resets number of lives to that initially specified by the Authoring Environment.
-	 * @param initialLives
-	 */
-	public void setLivesToInitial(){
-		super.setLives(initialLives);
 	}
 }

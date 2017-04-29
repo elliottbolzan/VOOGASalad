@@ -37,8 +37,6 @@ public class LevelStepStrategy implements StepStrategy {
 		info.getScorebar().resetTimerManager();
 		setupGameView();
 		addInfoToEntities();
-		this.info.getScorebar().setLives(levelManager.getCarryoverLives());
-		System.out.println(info.getScorebar().getLives());
 	}
 
 	public void flagScreenFinished(StepStrategy nextStepStrategy) {
@@ -71,7 +69,6 @@ public class LevelStepStrategy implements StepStrategy {
 		graphicsEngine.updateFrame();
 		if (screenFinished) {
 			levelManager.setCurrentStepStrategy(nextStepStrategy);
-			levelManager.setCarryoverLives(info.getScorebar().getLives());
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
 			nextScreen.getTimeline().play();
 		}

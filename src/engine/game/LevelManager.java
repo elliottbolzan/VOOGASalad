@@ -36,7 +36,6 @@ public class LevelManager {
 	private StepStrategy currentStepStrategy;
 	private boolean levelSelectionScreenMode;
 	private Scorebar scorebar;
-	private int carryoverLives; //for between DieActions, otherwise not reliable; use CharacterEntity's lives instead
 
 	public LevelManager(Game game, StepStrategy currentStepStrategy, Scorebar scorebar) {
 		levels = new ListSG<>();
@@ -47,16 +46,6 @@ public class LevelManager {
 		this.currentStepStrategy = currentStepStrategy;
 		this.levelSelectionScreenMode = true;
 		this.scorebar = scorebar;
-		this.carryoverLives = -1;
-	}
-	
-	public int getCarryoverLives(){
-		 return carryoverLives;
-	}
-	
-	public void setCarryoverLives(int carryoverLives){
-		this.carryoverLives = carryoverLives;
-		System.out.println("Carryover lives set to " + this.carryoverLives);
 	}
 	
 	// TODO Call from GAE with small checkbox, or similar
