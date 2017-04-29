@@ -1,15 +1,13 @@
 package player.menu;
 
-import java.util.Map;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
-import engine.events.Event;
 import game_data.Game;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -34,6 +32,7 @@ import polyglot.Polyglot;
  *
  */
 public class AchievementsMenu extends AbstractMenu {
+	private Set<String> achievements;
 
 	public AchievementsMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot,
 			ResourceBundle IOResources) {
@@ -46,14 +45,19 @@ public class AchievementsMenu extends AbstractMenu {
 		pane.setFitToWidth(true);
 		VBox container = new VBox(10);
 		container.setAlignment(Pos.CENTER);
+		achievements = new HashSet<>();
 		for (Entity entity : this.getGame().getAchievements()) {
-			container.getChildren().add(makeAchievementBox(entity));
+			if(!achievements.contains(entity.getName())){
+				achievements.add(entity.getName());
+				container.getChildren().add(makeAchievementBox(entity));
+			}
+			
 		}
 
 		pane.setContent(container);
 		this.setCenter(pane);
 		this.setBottom(this.makeBackButton());
-		this.setInsets();
+		this.setInsets();		
 	}
 
 	private HBox makeAchievementBox(Entity achievement) {
@@ -87,32 +91,25 @@ public class AchievementsMenu extends AbstractMenu {
 			description.setText((String) achievement.getParam("Description"));
 		}
 
-		box.getChildren().addAll(name, description);
-		Map<Event, DoubleBinding> map = achievement.createBindings();
-		for (Event event : map.keySet()) {
-			box.getChildren().add(makeProgressBox(map, event));
-		}
+		box.getChildren().addAll(name, description, makeProgressBox(achievement));
 
 		return box;
 	}
 
-	private HBox makeProgressBox(Map<Event, DoubleBinding> map, Event event) {
+	private HBox makeProgressBox(AchievementEntity achievement) {
 		HBox container = new HBox(10);
-		Label eventName = new Label(event.getDisplayName());
 
 		ProgressBar progress = new ProgressBar();
-		progress.progressProperty().bind(map.get(event));
+		progress.progressProperty().bind(achievement.getPercent());
 		
 		HBox percentContainer = new HBox();
 		Label percent = new Label();
-		percent.textProperty().bind(Bindings.convert(map.get(event)));
+		percent.textProperty().bind(Bindings.convert(achievement.getPercent().multiply(100)));
 		Label percentSymbol = new Label("%");
 		percentContainer.getChildren().addAll(percent, percentSymbol);
 		
-		container.getChildren().addAll(eventName, progress, percentContainer);
+		container.getChildren().addAll(progress, percentContainer);
 		return container;
 	}
-	
-	
 
 }

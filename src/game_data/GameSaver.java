@@ -48,23 +48,32 @@ public class GameSaver
 
 	protected void saveGameState(Game game, String zipFolderPath, String saveName)
 	{
+		
+		
 		String gameFolderPath = zipFolderPath.replace(".vs", "");
+		try{
+		(new Unpackager()).unzip(zipFolderPath,gameFolderPath);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		//System.out.println("GameFolderPath: " + gameFolderPath);
 		this.saveAndCompress(game, gameFolderPath, saveName);
 	}
 
 	private void saveAndCompress(Game game, String gameFolderPath, String saveName)
 	{
+		
 		gameXMLFactory = new GameXMLFactory();
-
 		gameXMLFactory.setName(game.getName());
 		gameXMLFactory.addInfo(game.getInfo());
 		gameXMLFactory.setTime(game.getCurrentTime());
 		gameXMLFactory.setCountdown(game.getClockGoingDown());
-
+		gameXMLFactory.setNumberOfLives(game.getNumberOfLives());
+		gameXMLFactory.setUnlockedLevels(game.getUnlockedLevels());
 		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
 		this.saveLevels(gameFolderPath, game.getLevels());
 		this.saveDefaults(gameFolderPath, game.getDefaults());
-
 		this.saveDocument(gameFolderPath, saveName);
 		this.zipDoc(gameFolderPath);
 	}
@@ -103,7 +112,7 @@ public class GameSaver
 		EntitySaver entitySaver = new EntitySaver(gameXMLFactory);
 		List<Element> xmlDefaults = entitySaver.getEntityListAsXML(defaults, gameFolderPath);
 		defaults.forEach(e -> {
-			System.out.println("~~~~~~~~~~~~~~~" + e.getImagePath());
+			//System.out.println("~~~~~~~~~~~~~~~" + e.getImagePath());
 		});
 		LevelSaver saver = new LevelSaver(gameXMLFactory);
 		Element defaultsElement = saver.wrapEntityListInXMLTags(xmlDefaults);
@@ -160,19 +169,7 @@ public class GameSaver
 		}
 	}
 
-	/**
-	 * <<<<<<< HEAD Saves achievements into XML file
-	 * 
-	 * @param achieve
-	 * @param filePath
-	 */
-	private void saveAchievements(String achieve, String filePath)
-	{
-		if (achieve.equals("")) {
-			return;
-		}
-		gameXMLFactory.addAchievement(achieve);
-	}
+
 
 	/**
 	 * ======= >>>>>>> d4617f6e59b8f2a9411a8f00fd3d3ebc4088a944 Creates the

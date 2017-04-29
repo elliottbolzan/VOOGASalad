@@ -7,11 +7,9 @@ import engine.entities.Entity;
  * have additional information, such as health or lives.
  * 
  * @author nikita
+ * @author Matthew Barbano
  */
 public class CharacterEntity extends Entity {
-	// TODO currently lives are stored in Scorebar, which is necessary since it
-	// needs to save between
-	// instantiations of entities. Need to remake it changeable by the GAE.
 
 	@Override
 	protected void setupDefaultParameters() {
@@ -28,9 +26,9 @@ public class CharacterEntity extends Entity {
 	 */
 	@Override
 	public int getLives() {
-		return getGameInfo().getScorebar().getLives();
+		return super.getLives();
 	}
-
+	
 	/**
 	 * Sets the number of lives for the CharacterEntity
 	 * 
@@ -40,6 +38,5 @@ public class CharacterEntity extends Entity {
 	@Override
 	public void setLives(int lives) {
 		super.setLives(lives);
-		getGameInfo().getScorebar().setLives(lives);
 	}
 }

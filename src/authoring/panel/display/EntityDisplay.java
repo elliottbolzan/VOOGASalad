@@ -107,6 +107,8 @@ public class EntityDisplay extends EditableContainer
 	{
 		setCurrentlyEditing(entity);
 		entityMaker = new EntityMaker(getWorkspace(), this, entity);
+		entityMaker.setStagePos(0,0);
+		
 	}
 
 	/*

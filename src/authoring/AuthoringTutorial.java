@@ -1,9 +1,11 @@
 package authoring;
 
+
 import java.util.ResourceBundle;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import polyglot.Polyglot;
 
 public class AuthoringTutorial {
@@ -15,6 +17,7 @@ public class AuthoringTutorial {
 	public AuthoringTutorial(Polyglot polyglot){
 		myEnvironment = new AuthoringEnvironment(polyglot,ResourceBundle.getBundle("resources/IO"));
 		workspace = myEnvironment.getWorkspace();
+		workspace.addTutorialHost();
 		initTutorial();
 	}
 	
@@ -25,27 +28,19 @@ public class AuthoringTutorial {
 	}
 	
 	private void editMario(){
-		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "FirstStep", workspace.getPolyglot().get("FirstPrompt"));
-		alert.setX(200);
-		alert.setY(-20);
-		alert.showAndWait();
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FirstPrompt"));
 		workspace.getPanel().getEntityDisplay().changeEditHandler(() -> clickedEdit());
 	}
 	
 	private void clickedEdit(){
-		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "SecondStep", workspace.getPolyglot().get("SecondPrompt"));
-		alert.setX(-10);
-		alert.setY(0);
-		alert.showAndWait();
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SecondStep"));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedEvent());
 	}
 	
 	private void addedEvent(){
-		alert = workspace.getMaker().makeAlert(AlertType.INFORMATION,"TutorialTitle", "ThirdStep", workspace.getPolyglot().get("ThirdPrompt"));
-		alert.setX(-30);
-		alert.setY(0);
-		alert.showAndWait();
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("ThirdStep"));
 	}
+
 	
 	
 	

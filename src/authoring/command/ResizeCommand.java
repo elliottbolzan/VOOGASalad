@@ -6,6 +6,11 @@ import javafx.util.Duration;
 import utils.animation.ResizeHeightTranslation;
 import utils.animation.ResizeWidthTranslation;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class ResizeCommand extends EntityCommand {
 
 	double oldHeight;

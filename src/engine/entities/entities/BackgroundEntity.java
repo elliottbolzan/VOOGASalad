@@ -1,7 +1,14 @@
 package engine.entities.entities;
 
+import authoring.canvas.Canvas;
+import authoring.canvas.EntityView;
+import authoring.canvas.LayerEditor;
 import engine.entities.Entity;
 
+/**
+ * @author Jay Doherty
+ *
+ */
 public class BackgroundEntity extends Entity {
 
 	public BackgroundEntity() {
@@ -16,4 +23,9 @@ public class BackgroundEntity extends Entity {
 		this.setIsVisible(false);
 	}
 
+	@Override
+	public void addEntityToCanvas(Canvas canvas, LayerEditor editor, EntityView addedEntityView, int z) {
+		canvas.removeEntity(editor.getLevelBackground());
+		editor.setLevelBackground(addedEntityView);
+	}
 }

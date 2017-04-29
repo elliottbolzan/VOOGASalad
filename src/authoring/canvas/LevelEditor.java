@@ -162,10 +162,6 @@ public class LevelEditor extends View {
 			} else {
 				this.received(addInfo);
 			}
-			// currentLevel.addEntity(entity.getEntity(),
-			// entity.getEntity().getX() + PASTE_OFFSET,
-			// entity.getEntity().getY() + PASTE_OFFSET,
-			// currentLevel.getCurrentLayer()).setSelected(true);
 		}
 	}
 	
@@ -207,7 +203,7 @@ public class LevelEditor extends View {
 					long entityId = addInfo.getEntityId();
 					Entity entity = workspace.getDefaults().getEntity(addInfo.getEntityName());
 					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
-							(int) getCurrentLevel().getCanvas().getTileSize(), x, y);
+							getCurrentLevel().getCanvas().getTileSize(), x, y);
 					AddDeleteCommand addCommand = new AddDeleteCommand(newEntity, LevelEditor.this.getCurrentLevel(),
 							true);
 					workspace.execute(addCommand);

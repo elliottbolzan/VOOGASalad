@@ -179,3 +179,10 @@
 .scroll-pane {
 	-fx-background: #101010;
 }
+
+.chat-bubble {
+ 	-fx-shape: "M35,0 H0 V25 H16 L20,32 L25,25 H35 z";
+	-fx-border-color: white;
+    -fx-background-insets: 0, 1;
+    -fx-padding: 5 5 25 5;
+}

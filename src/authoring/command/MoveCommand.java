@@ -4,6 +4,11 @@ import authoring.canvas.EntityView;
 import javafx.animation.TranslateTransition;
 import javafx.util.Duration;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class MoveCommand extends EntityCommand {
 
 	double oldX;

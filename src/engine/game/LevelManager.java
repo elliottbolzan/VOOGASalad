@@ -47,7 +47,7 @@ public class LevelManager {
 		this.levelSelectionScreenMode = true;
 		this.scorebar = scorebar;
 	}
-
+	
 	// TODO Call from GAE with small checkbox, or similar
 	public boolean getLevelSelectionScreenMode() {
 		return levelSelectionScreenMode;
@@ -115,23 +115,22 @@ public class LevelManager {
 	}
 
 	/**
+<<<<<<< HEAD
+=======
 	 * Called only from GAE. (Maybe don't need this method?). Once game play
 	 * phase begins, level state should never be saved (unless add checkpoints).
 	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
 	 */
-	/*public void saveAllLevels() {
-		// GameDataExternalAPI gameData = new GameDataExternalAPI();
-		// gameData.saveGame(levels); // TODO Ask Game Data people if they can
-		// save
-		// the entire SelectionGroup object (so I
-		// don't have to reconstruct a graph from a
-		// List...alternatively if I have them save
-		// the edge list, this will be OK: create
-		// getSaveableList() method in
-		// SelectionGroup interface)
-
-		System.out.println("Saved game");
-	}*/
+	/*
+	 * public void saveAllLevels() { // GameDataExternalAPI gameData = new
+	 * GameDataExternalAPI(); // gameData.saveGame(levels); // TODO Ask Game
+	 * Data people if they can // save // the entire SelectionGroup object (so I
+	 * // don't have to reconstruct a graph from a // List...alternatively if I
+	 * have them save // the edge list, this will be OK: create //
+	 * getSaveableList() method in // SelectionGroup interface)
+	 * 
+	 * System.out.println("Saved game"); }
+	 */
 
 	/**
 	 * Since never save levels' state during gameplay, can call this method at
@@ -139,11 +138,8 @@ public class LevelManager {
 	 */
 
 	// Call once at beginning of the game
-	public void loadAllSavedLevels() {
-		// levels.removeAll();
-		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
-				.collect(Collectors.toList());
-		//game.setAchievements(achievements);
+	public void loadAllSavedLevels(boolean firstTimeLoading) {
+		List<Entity> achievements = game.getAchievements();
 		List<Level> cloneLevels = game.cloneLevels();
 		cloneLevels.forEach(s -> s.addEntities(achievements));
 		levelsInInitialState.addAll(cloneLevels);
@@ -151,11 +147,17 @@ public class LevelManager {
 		tempLevels.forEach(s -> s.addEntities(achievements));
 		levels.addAll(game.getLevels());
 		scorebar.setTimerManager(new TimerManager(game.getCurrentTime(), game.getClockGoingDown()));
+		unlockedLevelNumbers = game.getUnlockedLevels();
+		if(!firstTimeLoading){
+			scorebar.setLives(game.getNumberOfLives());
+		}
 	}
 
 	// Call when start up a level (first time AND after die)
 	public void resetCurrentLevel() {
 		levels.set(currentLevel - 1, game.cloneLevel(levelsInInitialState.get(currentLevel - 1)));
+		game.setAchievements(levels.get(0).getEntities().stream().filter(s -> s instanceof AchievementEntity)
+				.collect(Collectors.toList()));
 	}
 
 	public SelectionGroup<Level> getLevels() {

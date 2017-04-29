@@ -17,6 +17,11 @@ import game_data.EntityConverter;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class EntityInfo implements Serializable
 {
 	/**
@@ -66,6 +71,7 @@ public class EntityInfo implements Serializable
 		xmlString = xStream.toXML(entity);
 		s.writeObject(xmlString);
 
+		System.out.println(extension);
 		ImageIO.write(SwingFXUtils.fromFXImage(new Image(entity.getImagePath()), null), extension, s);
 	}
 }

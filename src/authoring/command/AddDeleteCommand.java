@@ -6,6 +6,11 @@ import javafx.animation.FadeTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
+/**
+ * 
+ * @author jimmy
+ *
+ */
 public class AddDeleteCommand extends EntityCommand {
 
 	private LayerEditor layer;
@@ -33,6 +38,7 @@ public class AddDeleteCommand extends EntityCommand {
 			entityView.setOpacity(0);
 			layer.addEntity(entityView, 1);
 			animate(entityView, 0, 1);
+			entityView.setSelected(true);
 		} else {
 			FadeTransition ft = animate(entityView, 1, 0);
 			ft.setOnFinished(event -> {

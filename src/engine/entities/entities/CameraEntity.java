@@ -1,5 +1,8 @@
 package engine.entities.entities;
 
+import authoring.canvas.Canvas;
+import authoring.canvas.EntityView;
+import authoring.canvas.LayerEditor;
 import engine.entities.Entity;
 
 /**
@@ -17,5 +20,11 @@ public class CameraEntity extends Entity {
 		this.setName("Camera");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		this.setIsVisible(false);
+	}
+	
+	@Override
+	public void addEntityToCanvas(Canvas canvas, LayerEditor editor, EntityView addedEntityView, int z) {
+		canvas.removeEntity(editor.getLevelCamera());
+		editor.setLevelCamera(addedEntityView);
 	}
 }

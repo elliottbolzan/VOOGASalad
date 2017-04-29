@@ -38,8 +38,6 @@ import polyglot.PolyglotException;
 
 public class StartMenu extends BorderPane {
 
-	private static final String KEY = "AIzaSyCOWQRgYSfbiNnOdIRPBcuY6iLTqwfmOc4";
-
 	private Stage stage;
 	private Polyglot polyglot;
 	private ResourceBundle IOResources = ResourceBundle.getBundle("resources/IO");
@@ -49,7 +47,7 @@ public class StartMenu extends BorderPane {
 	public StartMenu(Stage primaryStage) {
 		this.stage = primaryStage;
 		try {
-			this.polyglot = new Polyglot(KEY, "resources/Strings");
+			this.polyglot = new Polyglot(IOResources.getString("Google_API_KEY"), "resources/Strings");
 			this.languages = polyglot.languages();
 		} catch (PolyglotException e) {
 			System.out.println("There probably is no Internet connection.");
