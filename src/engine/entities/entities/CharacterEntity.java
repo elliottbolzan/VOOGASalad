@@ -27,7 +27,6 @@ public class CharacterEntity extends Entity {
 	 */
 	@Override
 	public int getLives() {
-		System.out.println("getLives()");
 		return super.getLives();
 	}
 	
@@ -37,7 +36,6 @@ public class CharacterEntity extends Entity {
 	 */
 	public void initializeInitialLives(){
 		initialLives = super.getLives();
-		System.out.println("Initial lives initialized to " + initialLives);
 	}
 	
 	/**
@@ -49,7 +47,6 @@ public class CharacterEntity extends Entity {
 	@Override
 	public void setLives(int lives) {
 		super.setLives(lives);
-		System.out.println("setLives()");
 	}
 	
 	/**
@@ -57,7 +54,6 @@ public class CharacterEntity extends Entity {
 	 * @return
 	 */
 	public int getInitialLives(){
-		System.out.println("getInitialLives()");
 		return initialLives;
 	}
 	
@@ -66,7 +62,6 @@ public class CharacterEntity extends Entity {
 	 * @param initialLives
 	 */
 	public void setLivesToInitial(){
-		System.out.println("setLivesToInitial()");
 		super.setLives(initialLives);
 	}
 }

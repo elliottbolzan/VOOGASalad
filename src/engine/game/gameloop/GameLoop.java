@@ -45,11 +45,14 @@ public class GameLoop {
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
 		
+		int initialLives = -1;
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			if(entity instanceof CharacterEntity){
 				((CharacterEntity) entity).initializeInitialLives();
+				initialLives = ((CharacterEntity) entity).getInitialLives();
 			}
 		}
+		levelManager.setCarryoverLives(initialLives);
 	}
 
 	private void setupFirstStrategy() {
