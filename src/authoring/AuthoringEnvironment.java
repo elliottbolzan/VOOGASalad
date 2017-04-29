@@ -2,7 +2,7 @@ package authoring;
 
 import java.util.ResourceBundle;
 
-import game_data.Game;
+import data.Game;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import polyglot.Polyglot;
