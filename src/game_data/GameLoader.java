@@ -44,7 +44,7 @@ public class GameLoader {
 		
 		String tempFolderPath = System.getProperty("java.io.tmpdir") +"VoogaSalad";
 		
-		File voogaDirectory = new File(tempFolderPath + "VoogaSalad");
+		File voogaDirectory = new File(tempFolderPath);
 		if(!voogaDirectory.exists()){
 			voogaDirectory.mkdirs();
 		}
