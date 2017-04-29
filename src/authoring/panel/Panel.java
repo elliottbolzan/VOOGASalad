@@ -1,4 +1,5 @@
 package authoring.panel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -70,14 +71,14 @@ public class Panel extends CollapsibleView {
 	 * Create the Accordion and add it to the view.
 	 */
 	private void setup() {
-		Accordion accordion = workspace.getMaker().makeAccordion(subviews);
-		List<StringBinding> info = new ArrayList<StringBinding>(Arrays.asList(workspace.getPolyglot().get("EntityInfo"),
-				workspace.getPolyglot().get("ChatInfo"), workspace.getPolyglot().get("LayerPanelInfo"), workspace.getPolyglot().get("GameInfo")));
-		workspace.getMaker().setToolTips(accordion,info);
+		List<StringBinding> info = new ArrayList<StringBinding>(
+				Arrays.asList(workspace.getPolyglot().get("EntityInfo"), workspace.getPolyglot().get("ChatInfo"),
+						workspace.getPolyglot().get("LayerPanelInfo"), workspace.getPolyglot().get("GameInfo")));
+		Accordion accordion = workspace.getMaker().makeAccordion(subviews, info);
 		accordion.getStyleClass().add("gae-tile");
 		setCenter(accordion);
 	}
-	
+
 	/**
 	 * @return the EntityDisplay.
 	 */
