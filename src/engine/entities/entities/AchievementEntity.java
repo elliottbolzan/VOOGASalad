@@ -1,10 +1,17 @@
 package engine.entities.entities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import engine.Parameter;
 import engine.entities.Entity;
 import engine.events.Event;
 import engine.events.additional_events.FinishAchievementEvent;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 
 /**
  * Entity for achievements. Properties of achievements are very similar to those
@@ -15,32 +22,37 @@ import javafx.beans.property.SimpleDoubleProperty;
  * @author nikita
  */
 public class AchievementEntity extends Entity {
+	private Map<Event, DoubleBinding> percent;
 
 	@Override
 	protected void setupDefaultParameters() {
 		addParam(new Parameter("Description", String.class, ""));
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		addAdditionalEventClass(FinishAchievementEvent.class);
+		percent = new HashMap<>();
 	}
 
 	@Override
 	protected void move() {
 	}
 
-	/**
-	 * Get percentage of progress made towards completing this achievement.
-	 * 
-	 * @return percentage of progress made towards completing this achievement
-	 */
-	public SimpleDoubleProperty getPercentCompleted() {
-		double completed = 0, total = 0;
-		for (Event event : getEvents()) {
+	
+	public Map<Event, DoubleBinding> createBindings(){
+		for(Event event : getEvents()){
 			if (!(event instanceof FinishAchievementEvent)) {
-				total += (int) event.getParam("How often to trigger");
-				completed += event.getNumberTimesTriggered().get() >= (int) event.getParam("How often to trigger")
-						? event.getNumberTimesTriggered().get() : (int) event.getParam("How often to trigger");
+				System.out.println(event.getNumberTimesTriggered());
+				
+				SimpleIntegerProperty completed = new SimpleIntegerProperty();
+				if(event.getNumberTimesTriggered().get() <= (int) event.getParam("How often to trigger")){
+					completed.bind(event.getNumberTimesTriggered());	
+					
+					
+				}
+				double total = (int) event.getParam("How often to trigger");
+				percent.put(event, completed.divide(total).multiply(100));
 			}
 		}
-		return new SimpleDoubleProperty(completed / total);
+		return percent;
 	}
+	
 }
