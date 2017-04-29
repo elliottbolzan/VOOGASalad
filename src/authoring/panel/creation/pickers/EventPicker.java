@@ -165,4 +165,10 @@ public class EventPicker extends Picker {
 		entityMaker.setSelectedEvent(list.getSelectionModel().getSelectedItem());
 	}
 
+	@Override
+	public void setContainerPos() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

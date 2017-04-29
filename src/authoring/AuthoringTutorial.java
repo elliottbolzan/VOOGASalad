@@ -74,7 +74,12 @@ public class AuthoringTutorial {
 	
 	private void canvasCharacter(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("TenthStep"));	
-	//	workspace.getLevelEditor().getCurrentLevel().addEntityListener(() -> canvasCharacter());
+		workspace.getPanel().getEntityDisplay().changeNewHandler(() -> createMonster());
+	}
+	
+	private void createMonster(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EleventhStep"));	
+	//	workspace.getPanel().getEntityDisplay().changeNewHandler(() -> createMonster());
 	}
 	
 	

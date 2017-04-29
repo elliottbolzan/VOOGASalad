@@ -159,4 +159,10 @@ public class ActionPicker extends Picker {
 		return editor;
 	}
 
+	@Override
+	public void setContainerPos() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
