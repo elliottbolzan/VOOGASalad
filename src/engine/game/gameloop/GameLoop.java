@@ -30,7 +30,7 @@ public class GameLoop {
 		observableBundle = new ObservableBundle(gameScene);
 
 		levelManager = new LevelManager(game, new LevelStepStrategy(), scorebar);
-		levelManager.loadAllSavedLevels();
+		levelManager.loadAllSavedLevels(firstTimeLoading);
 		if (levelManager.getLevels().size() > 0) {
 			levelManager.addUnlockedLevel(1);
 		} else {
@@ -44,6 +44,7 @@ public class GameLoop {
 		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
+		System.out.println("firstTimeLoading = " + firstTimeLoading);
 		scorebar.setupLives(levelManager, firstTimeLoading);
 	}
 

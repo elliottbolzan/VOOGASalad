@@ -120,7 +120,7 @@ public class LevelManager {
 	 */
 
 	// Call once at beginning of the game
-	public void loadAllSavedLevels() {
+	public void loadAllSavedLevels(boolean firstTimeLoading) {
 		// levels.removeAll();
 		List<Entity> achievements = game.getDefaults().stream().filter(s -> s instanceof AchievementEntity)
 				.collect(Collectors.toList());
@@ -133,7 +133,9 @@ public class LevelManager {
 		levels.addAll(game.getLevels());
 		scorebar.setTimerManager(new TimerManager(game.getCurrentTime(), game.getClockGoingDown()));
 		unlockedLevelNumbers = game.getUnlockedLevels();
-		scorebar.setLives(game.getNumberOfLives());
+		if(!firstTimeLoading){
+			scorebar.setLives(game.getNumberOfLives());
+		}
 	}
 
 	// Call when start up a level (first time AND after die)

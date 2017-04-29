@@ -29,13 +29,13 @@ public class Scorebar {
 		levelManager = new LevelManager(game, null, null);
 	}
 	
-	public void setupLives(LevelManager levelManager, boolean newGame){
+	public void setupLives(LevelManager levelManager, boolean firstTimeLoading){
 		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
 			 if(entity instanceof CharacterEntity){
 				 initialLives = entity.getLives();
 			 }
 		}
-		if(newGame){
+		if(firstTimeLoading){
 			lives = initialLives;  //For loading saved game, setLives() is called.
 		}
 	}

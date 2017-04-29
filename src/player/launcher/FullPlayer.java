@@ -85,7 +85,7 @@ public class FullPlayer extends AbstractPlayer {
 	
 	private void restart() {
 		this.getRunningGameLoop().pauseTimeline();
-		this.buildGameView();
+		this.buildGameView(true);
 		this.buildControlBar();
 		this.togglePlayPause(true);
 	}

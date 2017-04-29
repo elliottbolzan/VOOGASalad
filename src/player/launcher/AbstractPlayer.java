@@ -29,19 +29,16 @@ public abstract class AbstractPlayer extends PlayerView {
 	private Game game;
 	private GameLoop gameLoop;
 	private Polyglot polyglot;
-	
-	private boolean firstTimeLoading;
 
 	public AbstractPlayer(Stage primaryStage, Game game, Polyglot polyglot, ResourceBundle IOResources, boolean firstTimeLoading) {
 		super(polyglot, IOResources);
+		
 		this.stage = primaryStage;
 		this.game = game;
 		this.polyglot = polyglot;
 		
 		this.buildStage();
-		this.buildGameView();
-		
-		this.firstTimeLoading = firstTimeLoading;
+		this.buildGameView(firstTimeLoading);
 	}
 	
 	public void endGame(Scorebar scorebar) {
@@ -60,7 +57,7 @@ public abstract class AbstractPlayer extends PlayerView {
 		return this.stage;
 	}
 	
-	protected void buildGameView() {
+	protected void buildGameView(boolean firstTimeLoading) {
 		Overlay overlay = new Overlay(this.getPolyglot(), this.getResources());
 		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, this, overlay, polyglot), firstTimeLoading);
 		
