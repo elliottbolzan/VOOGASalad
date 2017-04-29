@@ -66,6 +66,7 @@ public class EntityInfo implements Serializable
 		xmlString = xStream.toXML(entity);
 		s.writeObject(xmlString);
 
+		System.out.println(extension);
 		ImageIO.write(SwingFXUtils.fromFXImage(new Image(entity.getImagePath()), null), extension, s);
 	}
 }

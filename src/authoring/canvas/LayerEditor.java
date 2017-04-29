@@ -141,7 +141,6 @@ public class LayerEditor extends View
 		this.clear();
 		canvas.clear();
 		for (Entity entity : level.getEntities()) {
-			System.out.println(entity.getName());
 			addEntity(entity, entity.getX(), entity.getY(), (int) entity.getZ());
 		}
 		selectLayer(1);
@@ -286,8 +285,8 @@ public class LayerEditor extends View
 	 */
 	public EntityView addEntity(Entity entity, double x, double y, int z)
 	{
-		EntityView addedEntity = new EntityView(entity, this.getCanvas(), (int)canvas.getTileSize(), x, y);
-		return this.addEntity(addedEntity, z);
+		EntityView entityView = new EntityView(entity, this.getCanvas(), canvas.getTileSize(), x, y);
+		return this.addEntity(entityView, z);
 	}
 
 	public EntityView addEntity(EntityView entity, int z)
@@ -296,9 +295,9 @@ public class LayerEditor extends View
 		this.addEntityToLayer(entity, z);
 		attachSelectionListeners(entity);
 		addDragDetection(entity);
-		
+
 		entity.getEntity().addEntityToCanvas(canvas, this, entity, z);
-		
+
 		return entity;
 	}
 
@@ -496,19 +495,23 @@ public class LayerEditor extends View
 		layerCount--;
 	}
 
-	public EntityView getLevelCamera() {
+	public EntityView getLevelCamera()
+	{
 		return levelCameraView;
 	}
-	
-	public EntityView getLevelBackground() {
+
+	public EntityView getLevelBackground()
+	{
 		return levelBackgroundView;
 	}
-	
-	public void setLevelCamera(EntityView camera) {
+
+	public void setLevelCamera(EntityView camera)
+	{
 		this.levelCameraView = camera;
 	}
-	
-	public void setLevelBackground(EntityView background) {
+
+	public void setLevelBackground(EntityView background)
+	{
 		this.levelBackgroundView = background;
 	}
 }
