@@ -1,12 +1,13 @@
 package engine.events.regular_events;
 
-import engine.GameInfo;
 import engine.events.Event;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 
 /**
  * A helper class for the Events related to clicking.
+ * 
+ * * Source for getting Node's Bounds: http://stackoverflow.com/questions/31148690/get-real-position-of-a-node-in-javafx
  * 
  * @author Matthew Barbano
  *
