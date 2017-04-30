@@ -1,6 +1,5 @@
-package engine.events.regular_events;
+package engine.events;
 
-import engine.events.Event;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseButton;
 

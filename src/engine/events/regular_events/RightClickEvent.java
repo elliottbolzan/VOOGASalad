@@ -1,5 +1,6 @@
 package engine.events.regular_events;
 
+import engine.events.ClickHelper;
 import engine.events.Event;
 import javafx.scene.input.MouseButton;
 
