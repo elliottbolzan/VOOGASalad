@@ -198,8 +198,7 @@ public class ZoomablePane extends ScrollPane
 		return new Point2D(scrollXOffset, scrollYOffset);
 	}
 
-	private void repositionScroller(Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset)
-	{
+	private void repositionScroller(Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
 		double scrollXOffset = scrollOffset.getX();
 		double scrollYOffset = scrollOffset.getY();
 		double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
