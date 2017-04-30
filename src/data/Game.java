@@ -181,10 +181,19 @@ public class Game {
 		this.songPath = songPath;
 	}
 
+	/**
+	 * Get the game's information, such as playing instructions or other important info
+	 * @return
+	 */
 	public String getInfo() {
 		return info;
 	}
 
+	/**
+	 * Set game's information
+	 * @param info
+	 * 		new info for game
+	 */
 	public void setInfo(String info) {
 		this.info = info;
 	}

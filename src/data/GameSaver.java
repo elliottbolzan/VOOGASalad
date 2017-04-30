@@ -25,9 +25,8 @@ import engine.game.Level;
 
 public class GameSaver
 {
-
-	private static final String SETTINGS_FILE_NAME = "settings.xml";
 	private GameXMLFactory gameXMLFactory;
+	private ResourceManager resourceManager = new ResourceManager();
 
 	/**
 	 * Main method to save the entire game to the selected file path. Utilizes
@@ -43,14 +42,12 @@ public class GameSaver
 	{
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
 		createFolder(gameFolderPath);
-		this.saveAndCompress(game, gameFolderPath, SETTINGS_FILE_NAME);
+		this.saveAndCompress(game, gameFolderPath, resourceManager.getFileName() + resourceManager.getXML());
 	}
 
 	protected void saveGameState(Game game, String zipFolderPath, String saveName)
 	{
-		
-		
-		String gameFolderPath = zipFolderPath.replace(".vs", "");
+		String gameFolderPath = zipFolderPath.replace(resourceManager.getVS(), "");
 		try{
 		(new Unpackager()).unzip(zipFolderPath,gameFolderPath);
 		}catch(Exception e){
@@ -63,7 +60,6 @@ public class GameSaver
 
 	private void saveAndCompress(Game game, String gameFolderPath, String saveName)
 	{
-		
 		gameXMLFactory = new GameXMLFactory();
 		gameXMLFactory.setName(game.getName());
 		gameXMLFactory.addInfo(game.getInfo());
@@ -90,7 +86,7 @@ public class GameSaver
 		try {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
-			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			transformer.setOutputProperty(OutputKeys.ENCODING, resourceManager.getXMLFormat());
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(gameFolderPath + File.separator + filename));
 			transformer.transform(source, result);
@@ -156,7 +152,7 @@ public class GameSaver
 			return;
 		}
 		try {
-			String relativePath = "resources" + File.separator + gameName + ".mp3";
+			String relativePath = resourceManager.getResourceTitle().toLowerCase() + File.separator + gameName + resourceManager.getMP3();
 
 			File originalSongFile = new File(originalSongPath);
 			String savedSongPath = gameFolderPath + File.separator + relativePath;
@@ -169,11 +165,10 @@ public class GameSaver
 		}
 	}
 
-
-
 	/**
-	 * ======= >>>>>>> d4617f6e59b8f2a9411a8f00fd3d3ebc4088a944 Creates the
-	 * folder for the game
+	 * Creates folder for game
+	 * @param gameFolderPath
+	 * 		location to save game folder
 	 */
 	private void createFolder(String gameFolderPath)
 	{
@@ -203,6 +198,10 @@ public class GameSaver
 		Files.copy(sourcePath, targetPath, REPLACE_EXISTING);
 	}
 
+	/**
+	 * Zips all files in the directory at the folder path 
+	 * @param gameFolderPath
+	 */
 	private void zipDoc(String gameFolderPath)
 	{
 		List<File> toCompress = new ArrayList<File>();
@@ -215,13 +214,18 @@ public class GameSaver
 		}
 		try {
 			Packager zipper = new Packager();
-			zipper.packZip(new File(gameFolderPath + ".vs"), toCompress);
+			zipper.packZip(new File(gameFolderPath + resourceManager.getVS()), toCompress);
 		} catch (IOException e) {
 			// TODO
 		}
 		this.deleteDir(dir);
 	}
 
+	/**
+	 * Deletes directory, called after all files in directory are zipped to a single file
+	 * @param dir
+	 * @return
+	 */
 	private boolean deleteDir(File dir)
 	{
 		dir.listFiles();

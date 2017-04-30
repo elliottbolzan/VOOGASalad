@@ -25,6 +25,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
+import javafx.scene.Node;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -62,6 +63,7 @@ public class Workspace extends View {
 	private Stack<UndoableCommand> undoStack;
 	private Stack<UndoableCommand> redoStack;
 	private Label tutorialMessage;
+	private VBox tutorialBox;
 
 	/**
 	 * Creates the Workspace.
@@ -207,7 +209,7 @@ public class Workspace extends View {
 	}
 
 	public void addTutorialHost() {
-		VBox tutorialBox = new VBox();
+		tutorialBox = new VBox();
 		tutorialBox.setPrefWidth(150);
 		Image mario = new Image(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
 		ImageView marioView = new ImageView(mario);
@@ -225,7 +227,7 @@ public class Workspace extends View {
 		setRight(tutorialBox);
 	}
 
-	public Label getMessage() {
+	public Label getMessage(){
 		return tutorialMessage;
 	}
 
