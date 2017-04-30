@@ -7,7 +7,8 @@ import engine.entities.Entity;
 
 /**
  * This type of Entity is used to translate the display as the character
- * progresses through the level.
+ * progresses through the level. Like BackgroundEntity, there can only be one
+ * per level, so it removes the old camera, if it exists.
  * 
  * @author Jay Doherty
  *

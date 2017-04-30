@@ -5,7 +5,10 @@ import java.util.List;
 import org.w3c.dom.Element;
 
 /**
- * @author jaydoherty
+ * This class provides helper methods for wrapping lists of Entities or entire Levels in the 
+ * proper XML tags. 
+ * 
+ * @author Jay Doherty
  *
  */
 public class LevelSaver {
