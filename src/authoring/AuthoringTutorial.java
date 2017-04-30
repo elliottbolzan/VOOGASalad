@@ -34,45 +34,32 @@ public class AuthoringTutorial {
 	
 	private void clickedEdit(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SecondStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedEvent());
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedEvent("ThirdStep","Key Press", 
+				()->addedKeyPress("FourthStep",
+						()->savedEvent("FifthStep",()->addedAction("SixthStep","Jump",
+								()->afterAction("SeventhStep",()->savedAction()))))));
 	}
 	
-	private void addedEvent(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("ThirdStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().initTutorialAction("Key Press", () -> addedKeyPress());
+	private void addedEvent(String s, String event, Runnable r){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get(s));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().initTutorialAction(event, r);
+	
 	}
 	
-	private void addedKeyPress(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FourthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(
-				() -> savedEvent("FifthStep",()->addedAction("SixthStep","Jump",
-						()->afterAction("SeventhStep",()->savedAction()))));
-	}
-	
-	/*private void savedEvent(String s, Runnable r){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FifthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().changeNewHandler(() -> addedAction());
-	} */
-	
+	private void addedKeyPress(String s, Runnable r){
+	workspace.getMessage().textProperty().bind(workspace.getPolyglot().get(s));
+	workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(r);
+}
+
 	private void savedEvent(String s, Runnable r){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get(s));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().changeNewHandler(r);
 	}
 	
-	/*private void addedAction(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SixthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().initTutorialAction("Jump", () -> addedJump());
-	} */
-	
 	private void addedAction(String s, String action, Runnable r){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get(s));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().initTutorialAction(action, r);
-	}
-	
-	/*private void addedJump(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SeventhStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().changeSaveHandler(() -> savedAction());
-	} */
+	} 
 	
 	private void afterAction(String s, Runnable r){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get(s));
@@ -99,35 +86,18 @@ public class AuthoringTutorial {
 	
 	private void changedMonsterImage(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("TwelfthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedMonsterEvent());
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedEvent("ThirteenthStep","Collision",
+				()->addedCollision("FourteenthStep",
+						() -> savedEvent("FifteenthStep",
+								()->addedAction("SixteenthStep","Entity Remove",()->afterAction("SeventeenthStep",
+										()->savedMonsterAction()))))));
 	}
 	
-	private void addedMonsterEvent(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("ThirteenthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().initTutorialAction("Collision", () -> addedCollision());
+	private void addedCollision(String s, Runnable r){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get(s));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(r);
 	}
 	
-	private void addedCollision(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FourteenthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(() -> savedEvent("FifteenthStep",
-				()->addedAction("SixteenthStep","Entity Remove",()->afterAction("SeventeenthStep",
-						()->savedMonsterAction()))));
-	}
-
-/*	private void savedMonsterEvent(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FifteenthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().changeNewHandler(() -> addedAction());
-	} */
-	
-	/*private void addedMonsterAction(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SixteenthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().initTutorialAction("Entity Remove", () -> addedDeath());
-	} */
-	
-	/*private void addedDeath(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SeventeenthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().changeSaveHandler(() -> savedMonsterAction());
-	}*/
 	
 	private void savedMonsterAction(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EighteenthStep"));	
