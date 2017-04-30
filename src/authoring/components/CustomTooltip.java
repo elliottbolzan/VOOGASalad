@@ -22,13 +22,6 @@ public class CustomTooltip extends Tooltip {
 		this.setWrapText(true);
 		this.shortenToolTipTime();
 	}
-	
-	public CustomTooltip(String string) {
-		this.setMaxWidth(200);
-		this.setWrapText(true);
-		this.shortenToolTipTime();
-		this.setText(string);
-	}
 
 	// Resource used:
 	// http://stackoverflow.com/questions/26854301/control-javafx-tooltip-delay
