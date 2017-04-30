@@ -29,6 +29,7 @@ public abstract class AbstractPlayer extends PlayerView {
 	private Game game;
 	private GameLoop gameLoop;
 	private Polyglot polyglot;
+	private ResourceBundle resources;
 
 	public AbstractPlayer(Stage primaryStage, Game game, Polyglot polyglot, ResourceBundle IOResources, boolean firstTimeLoading) {
 		super(polyglot, IOResources);
@@ -36,6 +37,7 @@ public abstract class AbstractPlayer extends PlayerView {
 		this.stage = primaryStage;
 		this.game = game;
 		this.polyglot = polyglot;
+		this.resources = IOResources;
 		
 		this.buildStage();
 		this.buildGameView(firstTimeLoading);
@@ -59,10 +61,11 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	protected void buildGameView(boolean firstTimeLoading) {
 		Overlay overlay = new Overlay(this.getPolyglot(), this.getResources());
-		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, this, overlay, polyglot), firstTimeLoading);
+		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, this, overlay, polyglot, resources), firstTimeLoading);
 		
 		StackPane pane = new StackPane();
 		pane.getChildren().addAll(gameLoop.getGameView(), overlay.display());
+
 		this.setCenter(pane);
 	}
 	
@@ -76,6 +79,8 @@ public abstract class AbstractPlayer extends PlayerView {
 		gameScene = this.createScene(DEFAULT_WIDTH, DEFAULT_HEIGHT);	//TODO? Might be ok with resizing the game view and leaving this as is
 		
 		stage.setScene(gameScene);
+		//stage.setMaxHeight(gameScene.getHeight());
+		//stage.setMaxWidth(gameScene.getWidth());
 		stage.centerOnScreen();
 		stage.setOnCloseRequest(e -> this.exit());
 	}

@@ -1,4 +1,5 @@
 package authoring.panel;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,7 +8,6 @@ import authoring.components.Direction;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
-import authoring.panel.settings.Settings;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Accordion;
 import utils.views.CollapsibleView;
@@ -28,7 +28,6 @@ public class Panel extends CollapsibleView {
 	private List<View> subviews;
 	private EntityDisplay entityDisplay;
 	private Chat chat;
-	private Settings settings;
 	private LayerPanel layerPanel;
 	private InfoPanel info;
 
@@ -47,7 +46,6 @@ public class Panel extends CollapsibleView {
 		this.workspace = workspace;
 		entityDisplay = new EntityDisplay(workspace);
 		chat = new Chat(workspace);
-		settings = new Settings(workspace);
 		layerPanel = new LayerPanel(workspace);
 		info = new InfoPanel(workspace);
 		createSubviews();
@@ -70,26 +68,19 @@ public class Panel extends CollapsibleView {
 	 * Create the Accordion and add it to the view.
 	 */
 	private void setup() {
-		Accordion accordion = workspace.getMaker().makeAccordion(subviews);
-		List<StringBinding> info = new ArrayList<StringBinding>(Arrays.asList(workspace.getPolyglot().get("EntityInfo"),
-				workspace.getPolyglot().get("ChatInfo"), workspace.getPolyglot().get("LayerPanelInfo"), workspace.getPolyglot().get("GameInfo")));
-		workspace.getMaker().setToolTips(accordion,info);
+		List<StringBinding> info = new ArrayList<StringBinding>(
+				Arrays.asList(workspace.getPolyglot().get("EntityInfo"), workspace.getPolyglot().get("ChatInfo"),
+						workspace.getPolyglot().get("LayerPanelInfo"), workspace.getPolyglot().get("GameInfo")));
+		Accordion accordion = workspace.getMaker().makeAccordion(subviews, info);
 		accordion.getStyleClass().add("gae-tile");
 		setCenter(accordion);
 	}
-	
+
 	/**
 	 * @return the EntityDisplay.
 	 */
 	public EntityDisplay getEntityDisplay() {
 		return entityDisplay;
-	}
-
-	/**
-	 * @return the Settings subview.
-	 */
-	public Settings getSettings() {
-		return settings;
 	}
 
 	public Chat getChat() {

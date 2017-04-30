@@ -15,14 +15,14 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	private static final int FRAME_DURATION = 150;
 
 	private int frameNumber = 1;
-	private String resourceFileTextName;
+	private String imageKey;
 
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
 
-	public TransitionStepStrategy(String resourceFileTextName) {
-		this.resourceFileTextName = resourceFileTextName;
+	public TransitionStepStrategy(String imageKey) {
+		this.imageKey = imageKey;
 	}
 
 	@Override
@@ -30,15 +30,14 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
-		graphicsEngine.fillScreenWithText(resourceFileTextName);
+		graphicsEngine.showImage(imageKey);
 	}
 
 	@Override
 	public void step() {
 		if (frameNumber == FRAME_DURATION && levelManager.getLevelSelectionScreenMode()) {
 			nextScreenLevelSelectionMode();
-		} 
-		else if(frameNumber == FRAME_DURATION){
+		} else if (frameNumber == FRAME_DURATION) {
 			nextScreenJustLevelsMode();
 		}
 		frameNumber++;
@@ -47,22 +46,22 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	protected abstract int nextLevelNumber();
 
 	protected abstract boolean handleHighscore(GraphicsEngine graphicsEngine);
-	
+
 	protected abstract void modifyUnlockedScreens();
-	
+
 	protected abstract StepStrategy nextStrategyLevelSelectionMode();
-	
+
 	private void nextScreenLevelSelectionMode() {
 		stopCurrentTimeline();
 		modifyUnlockedScreens();
-		if(!handleHighscore(graphicsEngine)){
+		if (!handleHighscore(graphicsEngine)) {
 			nextScreenAndStrategy(nextStrategyLevelSelectionMode());
 		}
 	}
 
 	private void nextScreenJustLevelsMode() {
 		stopCurrentTimeline();
-		if(!handleHighscore(graphicsEngine) && levelManager.setLevelNumber(nextLevelNumber())){
+		if (!handleHighscore(graphicsEngine) && levelManager.setLevelNumber(nextLevelNumber())) {
 			nextScreenAndStrategy(new LevelStepStrategy());
 		}
 	}
@@ -70,7 +69,7 @@ public abstract class TransitionStepStrategy implements StepStrategy {
 	private void stopCurrentTimeline() {
 		levelManager.getCurrentScreen().getTimeline().stop();
 	}
-	
+
 	private void nextScreenAndStrategy(StepStrategy nextStepStrategy) {
 		levelManager.setCurrentStepStrategy(nextStepStrategy);
 		Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
