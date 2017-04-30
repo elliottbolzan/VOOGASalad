@@ -67,6 +67,7 @@ public abstract class Picker extends EditableContainer {
 		HBox.setHgrow(spacing, Priority.ALWAYS);
 		infoLabel = new Label("?");
 		ToolBar toolBar = new ToolBar(label, spacing, infoLabel);
+		toolBar.getStyleClass().add("picker-header");
 		setTop(toolBar);
 	}
 

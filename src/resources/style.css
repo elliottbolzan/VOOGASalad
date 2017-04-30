@@ -152,6 +152,10 @@
     -fx-background-color: transparent;
 }
 
+.picker-header {
+	-fx-background-color: #151515;
+}
+
 .scroll-pane .scroll-bar {
 	-fx-background: transparent;
 }
