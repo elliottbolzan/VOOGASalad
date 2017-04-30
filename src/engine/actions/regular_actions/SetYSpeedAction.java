@@ -13,11 +13,11 @@ import engine.actions.Action;
 public class SetYSpeedAction extends Action {
 
 	public SetYSpeedAction() {
-		addParam(new Parameter("Y Speed", Double.class, 0.0));
+		addParam(new Parameter(getResource("YSpeed"), Double.class, 0.0));
 	}
 
 	@Override
 	public void act() {
-		getEntity().setYSpeed(((Double) getParam("Y Speed")));
+		getEntity().setYSpeed(((Double) getParam(getResource("YSpeed"))));
 	}
 }

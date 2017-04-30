@@ -12,12 +12,12 @@ import engine.actions.Action;
 public class SetYAccelerationAction extends Action {
 
 	public SetYAccelerationAction() {
-		addParam(new Parameter("Y Acceleration", Double.class, 0));
+		addParam(new Parameter(getResource("YAcceleration"), Double.class, 0));
 	}
 
 	@Override
 	public void act() {
-		getEntity().setYAcceleration((double) getParam("Y Acceleration"));
+		getEntity().setYAcceleration((double) getParam(getResource("YAcceleration")));
 	}
 
 }

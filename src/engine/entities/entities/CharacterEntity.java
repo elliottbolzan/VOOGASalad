@@ -14,12 +14,12 @@ public class CharacterEntity extends Entity {
 	@Override
 	protected void setupDefaultParameters() {
 		defaultSetup();
-		this.setName("Mario");
+		this.setName(getResource("Mario"));
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
-		this.updateParam("Lives", 5);
+		this.updateParam(getResource("Lives"), 5);
 		this.setYAcceleration(Entity.YACCELERATION);
 	}
-	
+
 	/**
 	 * 
 	 * @return The number of lives that the CharacterEntity has
@@ -28,7 +28,7 @@ public class CharacterEntity extends Entity {
 	public int getLives() {
 		return super.getLives();
 	}
-	
+
 	/**
 	 * Sets the number of lives for the CharacterEntity
 	 * 

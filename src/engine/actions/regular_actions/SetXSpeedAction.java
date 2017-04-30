@@ -10,14 +10,14 @@ import engine.actions.Action;
  * @author Kyle Finke
  *
  */
-public class SetXSpeed extends Action {
+public class SetXSpeedAction extends Action {
 
-	public SetXSpeed() {
-		addParam(new Parameter("X Speed", Double.class, 0.0));
+	public SetXSpeedAction() {
+		addParam(new Parameter(getResource("XSpeed"), Double.class, 0.0));
 	}
 
 	@Override
 	public void act() {
-		getEntity().setXSpeed((Double) getParam("X Speed"));
+		getEntity().setXSpeed((Double) getParam(getResource("XSpeed")));
 	}
 }

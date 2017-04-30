@@ -13,12 +13,12 @@ import engine.actions.Action;
 public class ShiftVerticalAction extends Action {
 
 	public ShiftVerticalAction() {
-		addParam(new Parameter("Move amount", Double.class, 0));
+		addParam(new Parameter(getResource("MoveAmount"), Double.class, 0));
 	}
 
 	@Override
 	public void act() {
-		getEntity().setY(getEntity().getY() + (Double) getParam("Move amount"));
+		getEntity().setY(getEntity().getY() + (Double) getParam(getResource("MoveAmount")));
 	}
 
 }

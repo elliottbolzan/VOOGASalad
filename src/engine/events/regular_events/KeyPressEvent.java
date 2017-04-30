@@ -12,12 +12,13 @@ import javafx.scene.input.KeyCode;
 public class KeyPressEvent extends Event {
 
 	public KeyPressEvent() {
-		addParam(new Parameter("Key", KeyCode.class, KeyCode.UNDEFINED));
+		addParam(new Parameter(getResource("Key"), KeyCode.class, KeyCode.UNDEFINED));
 	}
 
 	@Override
 	public boolean act() {
 		return getGameInfo().getObservableBundle().getInputObservable().isKeyPressToProcess()
-				&& getParam("Key").equals(getGameInfo().getObservableBundle().getInputObservable().getLastPressedKey());
+				&& getParam(getResource("Key"))
+						.equals(getGameInfo().getObservableBundle().getInputObservable().getLastPressedKey());
 	}
 }
