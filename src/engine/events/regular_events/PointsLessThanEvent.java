@@ -3,6 +3,11 @@ package engine.events.regular_events;
 import engine.Parameter;
 import engine.events.Event;
 
+/**
+ * React to points being less than a certain amount
+ * 
+ * @author nikita
+ */
 public class PointsLessThanEvent extends Event {
 
 	public PointsLessThanEvent() {
