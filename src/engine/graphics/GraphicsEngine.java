@@ -3,6 +3,7 @@ package engine.graphics;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
@@ -43,8 +44,10 @@ import polyglot.Polyglot;
  *         on screen. This class also holds the Scorebar (which has
  *         time/lives/score) and the Camera.
  */
-public class GraphicsEngine {	
+public class GraphicsEngine {
+	
 	private Polyglot polyglot;
+	private ResourceBundle resources;
 
 	private Collection<Entity> entities;
 	private Collection<ImageView> nodes;
@@ -57,32 +60,34 @@ public class GraphicsEngine {
 	private BorderPane displayArea;
 	private Game game;
 
-	public GraphicsEngine(Game game, AbstractPlayer player, Overlay overlay, Polyglot polyglot) {
+	public GraphicsEngine(Game game, AbstractPlayer player, Overlay overlay, Polyglot polyglot, ResourceBundle resources) {
 		this.camera = new CameraEntity();
 		this.entities = new ArrayList<Entity>();
 		this.nodes = new ArrayList<ImageView>();
 		this.scorebar = new Scorebar(game);
-		
+
 		this.overlay = overlay;
 		this.polyglot = polyglot;
+		this.resources = resources;
 		this.player = player;
-		this.game =game;
-		
+		this.game = game;
+
 		this.setupView();
 	}
 
 	public void setupLevel(Level level) {
+		
 		this.setCamera(level.getCamera());
 		this.setEntitiesCollection(level.getEntities());
-		
+
 		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
 		
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
 		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-	
+
 	}
-	
+
 	/**
 	 * @return the graphical display for the game
 	 */
@@ -105,7 +110,7 @@ public class GraphicsEngine {
 	public Scorebar getScorebar() {
 		return scorebar;
 	}
-	
+
 	/**
 	 * Sets the camera used to move around the display
 	 * 
@@ -141,12 +146,21 @@ public class GraphicsEngine {
 		label.setAlignment(Pos.CENTER);
 		displayArea.setCenter(label);
 	}
-	
-	public void displayLevelSelectionScreen(LevelManager levelManager, LevelSelectionStepStrategy strategy){
+
+	public void showImage(String imageName) {
+		this.clearView();
+		Image image = new Image(resources.getString(imageName));
+		ImageView imageView = new ImageView(image);
+		imageView.setFitWidth(400);
+		imageView.setPreserveRatio(true);
+		displayArea.setCenter(imageView);
+	}
+
+	public void displayLevelSelectionScreen(LevelManager levelManager, LevelSelectionStepStrategy strategy) {
 		this.clearView();
 		new LevelSelectionGraphics(displayArea, levelManager, polyglot, strategy).draw();
 	}
-	
+
 	/**
 	 * Show Highscore and ability to share to Facebook
 	 */
@@ -184,16 +198,16 @@ public class GraphicsEngine {
 		overlay.setLevel(Integer.toString(scorebar.getLevel()));
 		overlay.setTime(scorebar.getTime());
 	}
-	
-	public void blankScorebar(boolean firstPass){
-		if(firstPass){
+
+	public void blankScorebar(boolean firstPass) {
+		if (firstPass) {
 			overlay.setScore(Overlay.BLANK_SCOREBAR_DISPLAY);
 			overlay.setLives(Overlay.BLANK_SCOREBAR_DISPLAY);
 		}
 		overlay.setLevel(Overlay.BLANK_SCOREBAR_DISPLAY);
 		overlay.setTime(Overlay.BLANK_SCOREBAR_DISPLAY);
 	}
-	
+
 	private void clearView() {
 		this.nodes.clear();
 		displayArea.getChildren().clear();

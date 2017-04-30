@@ -14,7 +14,7 @@ import game_data.Game;
  *
  */
 public class Scorebar {
-	
+
 	private LevelManager levelManager;
 	private TimerManager timerManager;
 	private int score;
@@ -28,30 +28,31 @@ public class Scorebar {
 		score = 0;
 		levelManager = new LevelManager(game, null, null);
 	}
-	
-	public void setupLives(LevelManager levelManager, boolean firstTimeLoading){
-		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
-			 if(entity instanceof CharacterEntity){
-				 initialLives = entity.getLives();
-			 }
+
+	public void setupLives(LevelManager levelManager, boolean firstTimeLoading) {
+		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
+			if (entity instanceof CharacterEntity) {
+				initialLives = entity.getLives();
+			}
 		}
-		if(firstTimeLoading){
-			lives = initialLives;  //For loading saved game, setLives() is called.
+		if (firstTimeLoading) {
+			lives = initialLives; // For loading saved game, setLives() is
+									// called.
 		}
 	}
-	
+
 	public int getLives() {
 		return lives;
 	}
-	
+
 	public void setLives(int lives) {
 		this.lives = lives;
 	}
-	
-	public void resetLives(){
+
+	public void resetLives() {
 		lives = initialLives;
 	}
-	
+
 	public void setLevelManager(LevelManager levelManager) {
 		this.levelManager = levelManager;
 	}
@@ -75,7 +76,7 @@ public class Scorebar {
 	public void setTimerManager(TimerManager timerManager) {
 		this.timerManager = timerManager;
 	}
-	
+
 	public String getScore() {
 		return convertScore(score);
 	}

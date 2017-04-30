@@ -18,6 +18,7 @@ public class InfoPanel extends View {
 	}
 
 	private void setup() {
+		getStyleClass().add("background");
 		VBox container = new VBox(10);
 		setCenter(container);
 		editor = new HTMLEditor();

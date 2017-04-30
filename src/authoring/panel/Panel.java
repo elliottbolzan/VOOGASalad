@@ -8,7 +8,6 @@ import authoring.components.Direction;
 import authoring.panel.chat.Chat;
 import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
-import authoring.panel.settings.Settings;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Accordion;
 import utils.views.CollapsibleView;
@@ -29,7 +28,6 @@ public class Panel extends CollapsibleView {
 	private List<View> subviews;
 	private EntityDisplay entityDisplay;
 	private Chat chat;
-	private Settings settings;
 	private LayerPanel layerPanel;
 	private InfoPanel info;
 
@@ -48,7 +46,6 @@ public class Panel extends CollapsibleView {
 		this.workspace = workspace;
 		entityDisplay = new EntityDisplay(workspace);
 		chat = new Chat(workspace);
-		settings = new Settings(workspace);
 		layerPanel = new LayerPanel(workspace);
 		info = new InfoPanel(workspace);
 		createSubviews();
@@ -84,13 +81,6 @@ public class Panel extends CollapsibleView {
 	 */
 	public EntityDisplay getEntityDisplay() {
 		return entityDisplay;
-	}
-
-	/**
-	 * @return the Settings subview.
-	 */
-	public Settings getSettings() {
-		return settings;
 	}
 
 	public Chat getChat() {

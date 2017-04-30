@@ -45,7 +45,7 @@ public class LayerPanel extends View {
 	}
 
 	private void setup() {
-		getStyleClass().add("bordered");
+		getStyleClass().add("background");
 		selectionModel = FXCollections.observableArrayList();
 		nameList = new HashMap<String, ArrayList<String>>();
 		myBox = new ComboBox<String>();

@@ -3,6 +3,7 @@ package player.score;
 import java.util.ResourceBundle;
 
 import javafx.beans.binding.StringBinding;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -19,71 +20,76 @@ import polyglot.Polyglot;
  * @author Jesse
  *
  */
-public class Overlay extends BorderPane{
+public class Overlay extends BorderPane {
+
 	public static final String BLANK_SCOREBAR_DISPLAY = "--";
-	
+
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
-	
+
 	private Label score;
 	private Label lives;
 	private Label level;
 	private Label time;
 
-	public Overlay(Polyglot polyglot, ResourceBundle IOResources){
+	public Overlay(Polyglot polyglot, ResourceBundle IOResources) {
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
-		setup();	
+		setup();
 	}
-	
-	private void setup(){
+
+	private void setup() {
 		score = new Label();
 		lives = new Label();
 		level = new Label();
 		time = new Label();
-		
+
 		HBox container = new HBox(100);
+		container.setPadding(new Insets(5, 0, 0, 0));
 		container.setAlignment(Pos.CENTER);
 		container.getChildren().addAll(makeLabelBox(new Label(), polyglot.get("Score", Case.UPPER), score),
-				makeImageBox(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("HeartPath")))), lives),
+				makeImageBox(
+						new ImageView(new Image(
+								getClass().getClassLoader().getResourceAsStream(IOResources.getString("HeartPath")))),
+						lives),
 				makeLabelBox(new Label(), polyglot.get("Level", Case.UPPER), level),
 				makeLabelBox(new Label(), polyglot.get("Time", Case.UPPER), time));
 		this.setTop(container);
 		this.setPickOnBounds(false);
 	}
-	
-	private VBox makeLabelBox(Label title, StringBinding titleValue, Label value){
+
+	private VBox makeLabelBox(Label title, StringBinding titleValue, Label value) {
 		title.textProperty().bind(titleValue);
 		VBox box = new VBox(5);
 		box.getChildren().addAll(title, value);
 		box.setAlignment(Pos.CENTER);
 		return box;
 	}
-	
-	private VBox makeImageBox(ImageView image, Label value){
+
+	private VBox makeImageBox(ImageView image, Label value) {
 		VBox box = new VBox(5);
 		box.getChildren().addAll(image, value);
 		box.setAlignment(Pos.CENTER);
 		return box;
 	}
-	
-	public Pane display(){
+
+	public Pane display() {
 		return this;
 	}
-	
-	public void setScore(String newScore){
+
+	public void setScore(String newScore) {
 		score.setText(newScore);
 	}
-	
-	public void setLives(String newLives){
+
+	public void setLives(String newLives) {
 		lives.setText(newLives);
 	}
-	
-	public void setLevel(String newLevel){
+
+	public void setLevel(String newLevel) {
 		level.setText(newLevel);
 	}
-	
-	public void setTime(String newTime){
+
+	public void setTime(String newTime) {
 		time.setText(newTime);
 	}
 }

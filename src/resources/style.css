@@ -26,11 +26,11 @@
 
 .split-pane > .split-pane-divider {  
     -fx-padding: 0 1 0 1;
-    -fx-background-color: #101010;
+    -fx-background-color: #151515;
 }
 
 .visible-container {
-    -fx-control-inner-background: #606060;
+    -fx-control-inner-background: #777870;
 }
 
 .list-view {
@@ -38,8 +38,8 @@
 }
 
 .menu-bar {
-	-fx-background-color: #101010;
-	-fx-base: #101010;
+	-fx-background-color: #151515;
+	-fx-base: #151515;
 	-fx-border-color: #3a3a3a;
 }
 
@@ -48,8 +48,8 @@
 }
 
 .menu:hover {
-	-fx-background-color: #101010;
-	-fx-base: #101010;
+	-fx-background-color: #151515;
+	-fx-base: #151515;
 }
 
 .menu:hover {
@@ -57,7 +57,7 @@
 }
 
 .menu-item:focused {
-    -fx-background-color: #101010;
+    -fx-background-color: #151515;
 }
 
 .menu-item .label {
@@ -108,11 +108,11 @@
 }
 
 .toggle-button {
-	-fx-background-color: #101010;
+	-fx-background-color: #151515;
 }
 
 .button, .combo-box {
-	-fx-background-color: #101010;
+	-fx-background-color: #151515;
 	-fx-background-radius: 0;
     -fx-border-radius: 0;
 }
@@ -126,11 +126,11 @@
 }
 
 .dialog-pane:header *.header-panel {
-    -fx-background-color: #101010;
+    -fx-background-color: #151515;
 }
 
 .gae-tile {
-	-fx-background-color: #101010;
+	-fx-background-color: #151515;
 	-fx-padding: 15px;
     -fx-border-insets: 15px;
     -fx-background-insets: 15px;
@@ -138,8 +138,14 @@
     -fx-background-radius: 2px;
 }
 
+.accordion .titled-pane {
+	-fx-border-width: 1;
+	-fx-border-color: #151515;
+	-fx-background-color: #151515;
+}
+
 .accordion .titled-pane > *.content {
-    -fx-background-color: #101010;
+    -fx-background-color: #151515;
 }
 
 .accordion .titled-pane .title {
@@ -150,8 +156,7 @@
 	-fx-background: transparent;
 }
 
-.bordered {
-	-fx-border-color: #101010;
+.background {
 	-fx-background-color: black;
 }
 
@@ -177,7 +182,7 @@
 	-fx-background-radius: 0;
 	-fx-border-radius: 0;
 	-fx-border-width: 0;
-	-fx-background-color: #101010;
+	-fx-background-color: #151515;
 }
 
 .tab-pane .tab:selected {
@@ -193,4 +198,21 @@
 	-fx-border-color: white;
     -fx-background-insets: 0, 1;
     -fx-padding: 5 5 25 5;
+}
+
+.slider .thumb { 
+	-fx-base: #bfbabe;
+	-fx-background-color: #bfbabe;
+}
+
+.check-menu-item {
+	-fx-width: 170;
+}
+
+.check-menu-item:checked > .left-container > .check {
+	-fx-translate-x: 235;
+}
+
+.check-menu-item > .label {
+    -fx-translate-x: -105;
 }
