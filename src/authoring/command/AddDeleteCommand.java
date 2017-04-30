@@ -11,29 +11,36 @@ import javafx.util.Duration;
  * @author jimmy
  *
  */
-public class AddDeleteCommand extends EntityCommand {
+public class AddDeleteCommand extends EntityCommand
+{
 
 	private LayerEditor layer;
 	private boolean add;
 
-	public AddDeleteCommand(EntityView entityView, LayerEditor layer, boolean add) {
+	public AddDeleteCommand(EntityView entityView, LayerEditor layer, boolean add)
+	{
 		super(entityView);
 		this.layer = layer;
 		this.add = add;
 	}
 
 	@Override
-	public void execute() {
+	public void execute()
+	{
 		addOrRemove(add);
 	}
 
 	@Override
-	public void unexecute() {
+	public void unexecute()
+	{
 		addOrRemove(!add);
 	}
 
-	private void addOrRemove(boolean add) {
+	private void addOrRemove(boolean add)
+	{
 		EntityView entityView = super.getEntityView();
+		System.out.println(entityView + "~~~~~~~~~~~~~~~" + entityView.getEntity() + "~~~~~~~~~~~~~~~~~"
+				+ entityView.getEntityId());
 		if (add) {
 			entityView.setOpacity(0);
 			layer.addEntity(entityView, 1);
@@ -52,7 +59,8 @@ public class AddDeleteCommand extends EntityCommand {
 		}
 	}
 
-	private FadeTransition animate(Node node, double from, double to) {
+	private FadeTransition animate(Node node, double from, double to)
+	{
 		FadeTransition ft = new FadeTransition(Duration.millis(300), node);
 		ft.setFromValue(from);
 		ft.setToValue(to);
