@@ -10,7 +10,7 @@ import authoring.command.AddInfo;
 import authoring.command.DeleteInfo;
 import authoring.command.MoveCommand;
 import authoring.command.MoveInfo;
-import authoring.command.MultiAddInfo;
+import authoring.command.MultiEntityInfo;
 import authoring.command.ResizeCommand;
 import authoring.command.ResizeInfo;
 import authoring.components.CustomTooltip;
@@ -159,7 +159,7 @@ public class LevelEditor extends View {
 					entity.getTranslateY() + PASTE_OFFSET);
 			totalAddInfo.add(addInfo);
 		}
-		MultiAddInfo multiAddInfo = new MultiAddInfo(totalAddInfo);
+		MultiEntityInfo<AddInfo> multiAddInfo = new MultiEntityInfo<AddInfo>(totalAddInfo);
 		if (workspace.getNetworking().isConnected()) {
 			workspace.getNetworking().send(multiAddInfo);
 		} else {
@@ -192,21 +192,24 @@ public class LevelEditor extends View {
 		return null;
 	}
 
-	public void received(Packet packet) {
-
-		if (packet instanceof MultiAddInfo) {
-			MultiAddInfo multiAddInfo = (MultiAddInfo) packet;
-			multiAddInfo.getAddedEntities().forEach(e -> {
-				LevelEditor.this.received(e);
-			});
+	public void received(Packet packet)
+	{
+		if (packet instanceof MultiEntityInfo) {
+			MultiEntityInfo<?> multiInfo = (MultiEntityInfo<?>) packet;
+			if (multiInfo.getInfo() != null) {
+				multiInfo.getInfo().forEach(e -> {
+					LevelEditor.this.received(e);
+				});
+			}
 		}
 
 		if (packet instanceof AddInfo) {
-			Platform.runLater(new Runnable() {
+			Platform.runLater(new Runnable()
+			{
 				@Override
-				public void run() {
+				public void run()
+				{
 					AddInfo addInfo = (AddInfo) packet;
-					System.out.println(addInfo.getEntityId() + "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 					double x = addInfo.getX();
 					double y = addInfo.getY();
 					long entityId = addInfo.getEntityId();
@@ -220,10 +223,12 @@ public class LevelEditor extends View {
 				}
 			});
 		} else if (packet instanceof DeleteInfo) {
-			Platform.runLater(new Runnable() {
+			Platform.runLater(new Runnable()
+			{
 
 				@Override
-				public void run() {
+				public void run()
+				{
 					DeleteInfo deleteInfo = (DeleteInfo) packet;
 					EntityView deletedEntity = LevelEditor.this.getEntity(deleteInfo.getEntityId());
 					AddDeleteCommand deleteCommand = new AddDeleteCommand(deletedEntity,
@@ -233,9 +238,11 @@ public class LevelEditor extends View {
 
 			});
 		} else if (packet instanceof MoveInfo) {
-			Platform.runLater(new Runnable() {
+			Platform.runLater(new Runnable()
+			{
 				@Override
-				public void run() {
+				public void run()
+				{
 					MoveInfo moveInfo = (MoveInfo) packet;
 					EntityView movedEntity = LevelEditor.this.getEntity(moveInfo.getEntityId());
 					if (movedEntity != null) {
@@ -246,9 +253,11 @@ public class LevelEditor extends View {
 
 			});
 		} else if (packet instanceof ResizeInfo) {
-			Platform.runLater(new Runnable() {
+			Platform.runLater(new Runnable()
+			{
 				@Override
-				public void run() {
+				public void run()
+				{
 					ResizeInfo resizeInfo = (ResizeInfo) packet;
 					EntityView resizedEntity = LevelEditor.this.getEntity(resizeInfo.getEntityId());
 					if (resizedEntity != null) {
@@ -260,6 +269,7 @@ public class LevelEditor extends View {
 			});
 		}
 	}
+
 
 	/**
 	 * Make a close confirmation request. This is created whenever the user

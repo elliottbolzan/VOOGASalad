@@ -277,8 +277,9 @@ public class ExpandablePane extends Pane
 				if (newY.intValue() + node.getBoundsInLocal().getHeight() > height) {
 					updateCanvasBounds();
 				} else if (newY.intValue() < 0) {
+					int newYValue = newY.intValue();
 					updateCanvasBounds();
-					shiftNodesY(-1 * newY.intValue());
+					shiftNodesY(-1 * newYValue);
 					node.setTranslateY(0);
 				}
 				updateDisplay();
@@ -311,6 +312,7 @@ public class ExpandablePane extends Pane
 	private void shiftNodesY(double yShift)
 	{
 		for (Node child : this.getChildren()) {
+			System.out.println(child.getTranslateY() + "======" + yShift);
 			if (!child.equals(gridNodes)) {
 				child.setTranslateY(child.getTranslateY() + yShift);
 			}
