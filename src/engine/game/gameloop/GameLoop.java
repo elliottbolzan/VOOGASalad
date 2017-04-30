@@ -1,9 +1,9 @@
 package engine.game.gameloop;
 
+import data.Game;
 import engine.GameInfo;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 
@@ -14,48 +14,43 @@ import javafx.scene.layout.Pane;
  * @author Matthew Barbano
  *
  */
+
+//This is a git test.
+
 public class GameLoop {
 	private ObservableBundle observableBundle;
 	private Scorebar scorebar;
 	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
-	
-	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine){
+
+	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine, boolean firstTimeLoading) {
 		this.graphicsEngine = graphicsEngine;
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
 
-		levelManager = new LevelManager(game, new LevelStepStrategy());
-		levelManager.loadAllSavedLevels();
-		if(levelManager.getLevels().size() > 0){
+		levelManager = new LevelManager(game, new LevelStepStrategy(), scorebar);
+		levelManager.loadAllSavedLevels(firstTimeLoading);
+		if (levelManager.getLevels().size() > 0) {
 			levelManager.addUnlockedLevel(1);
-		}
-		else{
-			//TODO convert to exception
+		} else {
+			// TODO convert to exception
 			System.out.println("Error in GameLoop.java - game has no levels.");
 		}
-		
 		setupFirstStrategy();
-		
 		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
-		Screen firstScreen = new Screen(levelManager, graphicsEngine, info);
+		Screen firstScreen = new Screen(levelManager, graphicsEngine, info, true);
 		levelManager.setCurrentScreen(firstScreen);
 		timelineManipulator.setInfo(info);
 		graphicsEngine.getScorebar().setLevelManager(levelManager);
+		scorebar.setupLives(levelManager, firstTimeLoading);
 	}
 
-
 	private void setupFirstStrategy() {
-		//TODO set level selection screen mode from GAE here
-		StepStrategy firstStrategy;
-		if(levelManager.getLevelSelectionScreenMode()){
-			firstStrategy = new LevelSelectionStepStrategy();
-		}
-		else{
-			firstStrategy = new LevelStepStrategy();
-		}
+		// TODO set level selection screen mode from GAE here
+		StepStrategy firstStrategy = levelManager.getLevelSelectionScreenMode() ? new LevelSelectionStepStrategy(true)
+				: new LevelStepStrategy();
 		levelManager.setCurrentStepStrategy(firstStrategy);
 	}
 

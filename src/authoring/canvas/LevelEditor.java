@@ -5,8 +5,18 @@ import java.util.List;
 import java.util.Optional;
 
 import authoring.Workspace;
-import engine.Entity;
+import authoring.command.AddDeleteCommand;
+import authoring.command.AddInfo;
+import authoring.command.DeleteInfo;
+import authoring.command.MoveCommand;
+import authoring.command.MoveInfo;
+import authoring.command.ResizeCommand;
+import authoring.command.ResizeInfo;
+import authoring.components.CustomTooltip;
+import authoring.networking.Packet;
+import engine.entities.Entity;
 import engine.game.Level;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.Event;
@@ -26,8 +36,9 @@ import utils.views.View;
  * @author jimmy
  *
  */
-public class LevelEditor extends View
-{
+public class LevelEditor extends View {
+
+	private int PASTE_OFFSET = 25;
 
 	private Workspace workspace;
 	private TabPane tabPane;
@@ -42,8 +53,7 @@ public class LevelEditor extends View
 	 * @param workspace
 	 *            The workspace that the LevelEditor is currently in.
 	 */
-	public LevelEditor(Workspace workspace)
-	{
+	public LevelEditor(Workspace workspace) {
 		this.workspace = workspace;
 		setup();
 	}
@@ -55,8 +65,7 @@ public class LevelEditor extends View
 	 * 
 	 * @return List of levels that this LevelEditor keeps track of.
 	 */
-	public List<Level> getLevels()
-	{
+	public List<Level> getLevels() {
 		List<Level> currentLevels = new ArrayList<Level>();
 		for (LayerEditor level : levels) {
 			currentLevels.add(level.getLevel());
@@ -71,8 +80,7 @@ public class LevelEditor extends View
 	 * @param levels
 	 *            List of levels to load for this LevelEditor.
 	 */
-	public void loadGame(List<Level> levels)
-	{
+	public void loadGame(List<Level> levels) {
 		setup();
 		for (Level level : levels) {
 			tabPane.getSelectionModel().select(0);
@@ -89,8 +97,7 @@ public class LevelEditor extends View
 	 * @param entity
 	 *            the default Entity to match.
 	 */
-	public void updateEntity(Entity entity)
-	{
+	public void updateEntity(Entity entity) {
 		for (LayerEditor layerEditor : levels) {
 			layerEditor.updateEntity(entity);
 		}
@@ -99,8 +106,7 @@ public class LevelEditor extends View
 	/**
 	 * Initialize the LevelEditor.
 	 */
-	private void setup()
-	{
+	private void setup() {
 		levelCount = 0;
 		levels = new ArrayList<LayerEditor>();
 		tabPane = new TabPane();
@@ -109,8 +115,6 @@ public class LevelEditor extends View
 		tabPane.getTabs().add(makePlusTab());
 		setCenter(tabPane);
 		setPadding(new Insets(0, 10, 0, 5));
-		getStyleClass().add("gae-tile");
-		this.addKeyActions();
 	}
 
 	/**
@@ -118,8 +122,7 @@ public class LevelEditor extends View
 	 * 
 	 * @return Tab Tab representing the new level
 	 */
-	private Tab newTab()
-	{
+	private Tab newTab() {
 		Tab tab = new Tab();
 		levelCount++;
 		tab.setText(String.format("Level %d", levelCount));
@@ -138,78 +141,113 @@ public class LevelEditor extends View
 		return tab;
 	}
 
-	private void addKeyActions()
-	{
-		// tabPane.setOnKeyPressed(e -> {
-		// // if (e.getCode().equals(KeyCode.C) && e.isControlDown()) {
-		// // copiedEntities.clear();
-		// // for (Layer layer : currentLevel.getLayers()) {
-		// // copiedEntities.addAll(layer.getSelectedEntities());
-		// // }
-		// // }
-		// // if (e.getCode().equals(KeyCode.V) && e.isControlDown()) {
-		// // for (Layer layer : currentLevel.getLayers()) {
-		// // layer.getSelectedEntities().forEach(entity ->
-		// // entity.setSelected(false));
-		// // }
-		// // for (EntityView entity : copiedEntities) {
-		// // currentLevel.addEntity(entity.getEntity(),
-		// // entity.getEntity().getX() + 25,
-		// // entity.getEntity().getY() + 25,
-		// // currentLevel.getCurrentLayer()).setSelected(true);
-		// // }
-		// // }
-		// if (e.getCode().equals(KeyCode.UP)) {
-		// for (Layer currLayer : currentLevel.getLayers()) {
-		// currLayer.getSelectedEntities().forEach(entity -> {
-		// entity.moveYGrid(-1);
-		// });
-		// }
-		// e.consume();
-		// }
-		// if (e.getCode().equals(KeyCode.DOWN)) {
-		// for (Layer currLayer : currentLevel.getLayers()) {
-		// currLayer.getSelectedEntities().forEach(entity -> {
-		// entity.moveYGrid(1);
-		// });
-		// }
-		// e.consume();
-		// }
-		// if (e.getCode().equals(KeyCode.RIGHT)) {
-		// for (Layer currLayer : currentLevel.getLayers()) {
-		// currLayer.getSelectedEntities().forEach(entity -> {
-		// entity.moveXGrid(1);
-		// });
-		// }
-		// e.consume();
-		// }
-		// if (e.getCode().equals(KeyCode.LEFT)) {
-		// for (Layer currLayer : currentLevel.getLayers()) {
-		// currLayer.getSelectedEntities().forEach(entity -> {
-		// entity.moveXGrid(-1);
-		// });
-		// }
-		// e.consume();
-		// }
-		// });
-	}
-
-	public void copy()
-	{
+	public void copy() {
 		copiedEntities.clear();
 		for (Layer layer : currentLevel.getLayers()) {
 			copiedEntities.addAll(layer.getSelectedEntities());
 		}
 	}
 
-	public void paste()
-	{
+	public void paste() {
 		for (Layer layer : currentLevel.getLayers()) {
 			layer.getSelectedEntities().forEach(entity -> entity.setSelected(false));
 		}
 		for (EntityView entity : copiedEntities) {
-			currentLevel.addEntity(entity.getEntity(), entity.getEntity().getX() + 25, entity.getEntity().getY() + 25,
-					currentLevel.getCurrentLayer()).setSelected(true);
+			System.out.println(entity.getTranslateX());
+			AddInfo addInfo = new AddInfo(entity.getEntity().getName(), entity.getTranslateX() + PASTE_OFFSET,
+					entity.getTranslateY() + PASTE_OFFSET);
+			if (workspace.getNetworking().isConnected()) {
+				workspace.getNetworking().send(addInfo);
+			} else {
+				this.received(addInfo);
+			}
+		}
+	}
+	
+	public void sendToFront() {
+		for (Layer layer : currentLevel.getLayers()) {
+			layer.getSelectedEntities().forEach(entity -> entity.toFront());
+		}
+	}
+	
+	public void sendToBack() {
+		for (Layer layer : currentLevel.getLayers()) {
+			layer.getSelectedEntities().forEach(entity -> entity.toBack());
+		}
+	}
+
+	public EntityView getEntity(long entityId) {
+		for (LayerEditor level : levels) {
+			for (Layer layer : level.getLayers()) {
+				for (EntityView entity : layer.getEntities()) {
+					if (entity.getEntityId() == entityId) {
+						return entity;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	public void received(Packet packet) {
+
+		if (packet instanceof AddInfo) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					AddInfo addInfo = (AddInfo) packet;
+					double x = addInfo.getX();
+					double y = addInfo.getY();
+					System.out.println(x + ", " + y);
+					long entityId = addInfo.getEntityId();
+					Entity entity = workspace.getDefaults().getEntity(addInfo.getEntityName());
+					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
+							getCurrentLevel().getCanvas().getTileSize(), x, y);
+					AddDeleteCommand addCommand = new AddDeleteCommand(newEntity, LevelEditor.this.getCurrentLevel(),
+							true);
+					workspace.execute(addCommand);
+
+				}
+			});
+		} else if (packet instanceof DeleteInfo) {
+			Platform.runLater(new Runnable() {
+
+				@Override
+				public void run() {
+					DeleteInfo deleteInfo = (DeleteInfo) packet;
+					EntityView deletedEntity = LevelEditor.this.getEntity(deleteInfo.getEntityId());
+					AddDeleteCommand deleteCommand = new AddDeleteCommand(deletedEntity,
+							LevelEditor.this.getCurrentLevel(), false);
+					workspace.execute(deleteCommand);
+				}
+
+			});
+		} else if (packet instanceof MoveInfo) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					MoveInfo moveInfo = (MoveInfo) packet;
+					EntityView movedEntity = LevelEditor.this.getEntity(moveInfo.getEntityId());
+					if (movedEntity != null) {
+						MoveCommand moveCommand = new MoveCommand(movedEntity, moveInfo);
+						workspace.execute(moveCommand);
+					}
+				}
+
+			});
+		} else if (packet instanceof ResizeInfo) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					ResizeInfo resizeInfo = (ResizeInfo) packet;
+					EntityView resizedEntity = LevelEditor.this.getEntity(resizeInfo.getEntityId());
+					if (resizedEntity != null) {
+						ResizeCommand resizeCommand = new ResizeCommand(resizedEntity, resizeInfo);
+						workspace.execute(resizeCommand);
+					}
+				}
+
+			});
 		}
 	}
 
@@ -220,8 +258,7 @@ public class LevelEditor extends View
 	 * @param e
 	 *            Event that close confirmation request is attached to
 	 */
-	private void closeRequest(Event e)
-	{
+	private void closeRequest(Event e) {
 		Alert alert = workspace.getMaker().makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader",
 				workspace.getPolyglot().get("ConfirmationContent"));
 		Optional<ButtonType> result = alert.showAndWait();
@@ -235,8 +272,7 @@ public class LevelEditor extends View
 	 * 
 	 * @return LayerEditor describing the currently selected level
 	 */
-	public LayerEditor getCurrentLevel()
-	{
+	public LayerEditor getCurrentLevel() {
 		return currentLevel;
 	}
 
@@ -245,15 +281,13 @@ public class LevelEditor extends View
 	 * 
 	 * @return Plus tab
 	 */
-	private Tab makePlusTab()
-	{
+	private Tab makePlusTab() {
 		Tab plusTab = new Tab("+");
+		plusTab.setTooltip(new CustomTooltip(workspace.getPolyglot().get("AddLevel")));
 		plusTab.setClosable(false);
-		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
-		{
+		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
 			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
-			{
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					workspace.selectExistingLevel(oldTab.getText(), newTab.getText());

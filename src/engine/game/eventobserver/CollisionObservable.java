@@ -3,9 +3,9 @@ package engine.game.eventobserver;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.Collision;
-import engine.CollisionSide;
-import engine.Entity;
+import engine.collisions.Collision;
+import engine.collisions.CollisionSide;
+import engine.entities.Entity;
 
 /**
  * Part of the Observable Design Pattern for detecting if collisions occur
@@ -27,7 +27,7 @@ public class CollisionObservable extends EventObservable {
 	public List<Collision> getCollisions() {
 		return collisions;
 	}
-	
+
 	private CollisionSide collisionSide(Entity entityOne, Entity entityTwo) {
 		if (isHorizontalCollision(entityOne, entityTwo)) {
 			if (entityOne.getX() < entityTwo.getX()) {
@@ -48,7 +48,7 @@ public class CollisionObservable extends EventObservable {
 			return getIntersectionHeight(entityOne, entityTwo);
 		}
 	}
-	
+
 	private boolean isHorizontalCollision(Entity entityOne, Entity entityTwo) {
 		return getIntersectionHeight(entityOne, entityTwo) > getIntersectionWidth(entityOne, entityTwo);
 	}
@@ -74,7 +74,7 @@ public class CollisionObservable extends EventObservable {
 		}
 		return sideTwoMax - sideOneMin;
 	}
-	
+
 	/**
 	 * Checks all entities in the current level for collisions. If a Collision
 	 * is detected, it is added to a list of Collisions.
@@ -84,15 +84,24 @@ public class CollisionObservable extends EventObservable {
 		for (Entity first : getObservers()) {
 			for (Entity second : getObservers()) {
 				if (first != second && isCollision(first, second)) {
-					collisions.add(new Collision(first, second, collisionSide(first, second), collisionDepth(first, second)));
+					collisions.add(
+							new Collision(first, second, collisionSide(first, second), collisionDepth(first, second)));
 				}
 			}
 		}
 	}
 
 	private boolean isCollision(Entity first, Entity second) {
-		return !(first.getZ() != second.getZ() || first.getX() + first.getWidth() < second.getX()
-				|| second.getX() + second.getWidth() < first.getX() || first.getY() + first.getHeight() < second.getY()
-				|| second.getY() + second.getHeight() < first.getY());
+
+		return (first.getZ() == second.getZ()) && first.getIsVisible() && second.getIsVisible()
+				&& !(first.getX() + first.getWidth() < second.getX() || second.getX() + second.getWidth() < first.getX()
+						|| first.getY() + first.getHeight() < second.getY()
+						|| second.getY() + second.getHeight() < first.getY());
+
+		// return !(first.getZ() != second.getZ() || first.getX() +
+		// first.getWidth() < second.getX()
+		// || second.getX() + second.getWidth() < first.getX() || first.getY() +
+		// first.getHeight() < second.getY()
+		// || second.getY() + second.getHeight() < first.getY());
 	}
 }

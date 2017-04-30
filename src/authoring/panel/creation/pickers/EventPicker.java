@@ -3,8 +3,8 @@ package authoring.panel.creation.pickers;
 import authoring.Workspace;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.EventEditor;
-import engine.Event;
 import engine.GameObject;
+import engine.events.Event;
 import engine.game.EngineController;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
@@ -25,6 +25,7 @@ public class EventPicker extends Picker {
 	private EntityMaker entityMaker;
 	private EngineController engine = new EngineController();
 	private ListView<Event> list;
+	private EventEditor editor;
 
 	/**
 	 * Creates an EventPicker.
@@ -136,13 +137,17 @@ public class EventPicker extends Picker {
 	public void update() {
 		list.setItems(FXCollections.observableArrayList(entityMaker.getEntity().getEvents()));
 	}
+	
+	public EventEditor getEditor(){
+		return editor;
+	}
 
 	/* (non-Javadoc)
 	 * @see authoring.panel.creation.pickers.Picker#showEditor()
 	 */
 	@Override
 	public void showEditor() {
-		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
+		 editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
 				engine.getAllEvents(entityMaker.getEntity()));
 		getWorkspace().getMaker().display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
@@ -158,6 +163,12 @@ public class EventPicker extends Picker {
 
 	private void setSelectedEvent() {
 		entityMaker.setSelectedEvent(list.getSelectionModel().getSelectedItem());
+	}
+
+	@Override
+	public void setContainerPos() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

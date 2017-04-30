@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import engine.Entity;
-import engine.entities.BlockEntity;
-import engine.entities.CameraEntity;
-import engine.entities.CharacterEntity;
+import engine.entities.Entity;
+import engine.entities.entities.BackgroundEntity;
+import engine.entities.entities.BlockEntity;
+import engine.entities.entities.CameraEntity;
+import engine.entities.entities.CharacterEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -36,6 +37,7 @@ public class DefaultEntities {
 			add(new CharacterEntity());
 			add(new BlockEntity());
 			add(new CameraEntity());
+			add(new BackgroundEntity());
 		}
 	}
 

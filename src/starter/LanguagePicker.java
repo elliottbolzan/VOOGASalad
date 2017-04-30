@@ -3,7 +3,10 @@ package starter;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import authoring.components.ComponentMaker;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -21,8 +24,8 @@ import polyglot.PolyglotException;
 /**
  * @author Elliott Bolzan
  * 
-
  *
+ * 
  */
 public class LanguagePicker {
 
@@ -46,7 +49,7 @@ public class LanguagePicker {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.titleProperty().bind(polyglot.get("LanguagePickerTitle", Case.TITLE));
 	}
-	
+
 	private void setupView() {
 		Label info = new Label();
 		info.setWrapText(true);
@@ -66,8 +69,8 @@ public class LanguagePicker {
 	public Stage getDialogStage() {
 		return stage;
 	}
-	
-	private ListView<String> makeListView() {	
+
+	private ListView<String> makeListView() {
 		ListView<String> list = new ListView<String>();
 		list.getStyleClass().add("visible-container");
 		list.setEditable(false);
@@ -75,14 +78,23 @@ public class LanguagePicker {
 		list.setOnMouseClicked(e -> selected(list.getSelectionModel().getSelectedItem()));
 		return list;
 	}
-	
+
 	private void selected(String language) {
-		try {
-			polyglot.setLanguage(language);
-			stage.close();
-		} catch (PolyglotException exception) {
-			System.out.println(exception.getMessage());
-		}
+		Task<Void> task = new Task<Void>() {
+			@Override
+			protected Void call() throws PolyglotException {
+				polyglot.setLanguage(language);
+				Platform.runLater(new Runnable() {
+					@Override
+					public void run() {
+						stage.close();
+					}
+				});
+				return null;
+			}
+		};
+		ComponentMaker maker = new ComponentMaker(polyglot, resources);
+		maker.showProgressForTask(task, true);
 	}
 
 }

@@ -96,7 +96,7 @@ public class Polyglot {
 				List<String> translated = translateAPI.translate(original, code);
 				save(translated, code);
 			} else {
-				manager.switchTo(new Locale(code));
+				manager.switchTo(new Locale(code), true);
 			}
 		} catch (Exception e) {
 			throw new PolyglotException(String.format(resources.getString("LanguageChangeFailure"), language), e);
@@ -118,7 +118,7 @@ public class Polyglot {
 		for (int i = 0; i < keys.size(); i++) {
 			vocabulary.put(keys.get(i), StringEscapeUtils.unescapeHtml4(phrases.get(i)));
 		}
-		manager.switchTo(new Locale(code), new Language(vocabulary));
+		manager.switchTo(new Locale(code), new Language(vocabulary), true);
 	}
 
 	/**

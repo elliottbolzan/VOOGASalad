@@ -1,21 +1,24 @@
 package authoring.components;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles.Lookup;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import utils.views.View;
 import javafx.beans.binding.StringBinding;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
@@ -25,7 +28,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -44,6 +46,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 public class ComponentMaker {
 
 	private Polyglot polyglot;
+	private ResourceBundle IOResources;
+	private ResourceBundle combinations;
 	private String stylesheetPath;
 
 	/**
@@ -52,9 +56,11 @@ public class ComponentMaker {
 	 * @param resources
 	 *            the ResourceBundle that the Factory makes use of.
 	 */
-	public ComponentMaker(Polyglot polyglot, String stylesheetPath) {
+	public ComponentMaker(Polyglot polyglot, ResourceBundle IOResources) {
 		this.polyglot = polyglot;
-		this.stylesheetPath = stylesheetPath;
+		this.IOResources = IOResources;
+		this.combinations = ResourceBundle.getBundle(IOResources.getString("CombinationsPath"));
+		this.stylesheetPath = IOResources.getString("StylesheetPath");
 	}
 
 	/**
@@ -146,34 +152,26 @@ public class ComponentMaker {
 	 *            the titles of the subviews that are added to the Accordion.
 	 * @return an Accordion.
 	 */
-	public Accordion makeAccordion(List<View> subviews) {
+	public Accordion makeAccordion(List<View> subviews, List<StringBinding> nameList) {
 		Accordion accordion = new Accordion();
 		List<TitledPane> titledPanes = new ArrayList<TitledPane>();
 		for (int i = 0; i < subviews.size(); i++) {
-			Label infoLabel = new Label("  ?  ");
 			TitledPane pane = new TitledPane();
-			//infoLabel.setStyle("-fx-border-color: white;");
-			pane.setContentDisplay(ContentDisplay.RIGHT);
-			pane.setGraphic(infoLabel);
 			pane.textProperty().bind(subviews.get(i).getTitle());
-			Text t = new Text(pane.getText());
-
-			pane.setGraphicTextGap(188-t.getBoundsInLocal().getWidth());
-			//System.out.println(infoLabel.getBoundsInParent().getX());
 			pane.setContent(subviews.get(i));
+			Label info = new Label("?");
+			new CustomTooltip(nameList.get(i), info);
+			pane.setGraphic(info);
+		    info.translateXProperty().bind(
+		      pane.widthProperty().subtract(info.widthProperty().multiply(6))
+		    );
 			titledPanes.add(pane);
 		}
 		accordion.getPanes().addAll(titledPanes);
 		accordion.setExpandedPane(titledPanes.get(0));
 		return accordion;
 	}
-	
-	public void setToolTips(Accordion accordion, List<StringBinding> nameList){
-		for(int i = 0; i<nameList.size();i++){
-			CustomTooltip t = new CustomTooltip(nameList.get(i),accordion.getPanes().get(i).getGraphic());
-		}
-	}
-	
+
 	/**
 	 * @param property
 	 *            the property that provides the title of the Button.
@@ -248,22 +246,54 @@ public class ComponentMaker {
 		stage.centerOnScreen();
 	}
 
-	public MenuItem makeMenuItem(String title, EventHandler<ActionEvent> handler) {
-		return new CustomMenuItem(title, handler);
-	}
-
-	public MenuItem makeMenuItem(StringBinding binding, EventHandler<ActionEvent> handler) {
-		return new CustomMenuItem(binding, handler);
-	}
-
-	public MenuItem makeMenuItem(StringBinding binding, String keyCombination, EventHandler<ActionEvent> handler) {
-		return new CustomMenuItem(binding, keyCombination, handler);
-	}
-
 	public Menu makeMenu(String titleProperty) {
 		Menu menu = new Menu();
 		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		return menu;
+	}
+
+	public MenuItem makeMenuItem(String property, EventHandler<ActionEvent> handler, boolean showAccelerator) {
+		if (showAccelerator) {
+			return new TextMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), combinations.getString(property),
+					handler);
+		}
+		return new TextMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), handler);
+	}
+
+	public CheckMenuItem makeCheckItem(String property, EventHandler<ActionEvent> handler, boolean selected) {
+		CheckMenuItem item = new CheckMenuItem();
+		item.setOnAction(handler);
+		item.setSelected(selected);
+		item.textProperty().bind(polyglot.get(property + "MenuItem", Case.TITLE));
+		return item;
+	}
+
+	public void showProgressForTask(Task<Void> task, boolean showResult) {
+		ProgressDialog dialog = new ProgressDialog(polyglot, IOResources);
+		task.setOnSucceeded(event -> {
+			dialog.getDialogStage().close();
+			if (showResult) {
+				showSuccess();
+			}
+		});
+		task.setOnFailed(event -> {
+			dialog.getDialogStage().close();
+			if (showResult) {
+				showFailure();
+			}
+		});
+		Thread thread = new Thread(task);
+		thread.start();
+	}
+
+	public void showSuccess() {
+		Alert alert = makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader", polyglot.get("TaskSucceeded"));
+		alert.show();
+	}
+
+	public void showFailure() {
+		Alert alert = makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
+		alert.show();
 	}
 
 }

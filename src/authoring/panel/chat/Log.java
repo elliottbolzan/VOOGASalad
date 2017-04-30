@@ -10,7 +10,7 @@ import org.w3c.dom.events.EventListener;
 import org.w3c.dom.events.EventTarget;
 
 import authoring.Workspace;
-import engine.Entity;
+import engine.entities.Entity;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker;
@@ -122,7 +122,7 @@ public class Log extends View {
 		html.append("</head>");
 		html.append("<body onload='toBottom()'>");
 		html.append(
-				"<center><div class=\"intro\">" + workspace.getPolyglot().get("ChatInfo").get() + "</div></center>");
+				"<center><div class=\"intro\">" + workspace.getPolyglot().get("ChatInstructions").get() + "</div></center>");
 		html.append("<ol>");
 		html.append(chatLog);
 		html.append("</ol>");

@@ -1,8 +1,10 @@
 package engine.game.gameloop;
 
+import data.Game;
+import engine.entities.Entity;
+import engine.entities.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.game.timer.TimerManager;
-import game_data.Game;
 
 /**
  * Contains information displayed on the Scorebar.
@@ -12,39 +14,45 @@ import game_data.Game;
  *
  */
 public class Scorebar {
-	private static final int INITIAL_LIVES = 5;
-	
+
 	private LevelManager levelManager;
-	private TimerManager timerManager; // restart it every time restart new
-										// level! (perhaps in another class
-										// calling this class' methods
-	private int lives; // immutable except by Character Entity - TODO extension
-						// sprint - get rid of this duplication of lives in
-						// CharacterEntity and here by allowing GAE to set
-						// Scorebar values too! (also consider multiplayer)
+	private TimerManager timerManager;
 	private int score;
 	private Game game;
-	// Note: The level number is not a field because it is stored in
-	// LevelManager (but it is still displayed on the scorebar).
+	private int lives;
+	private int initialLives;
 
 	public Scorebar(Game game) {
-		this.timerManager = new TimerManager(120, false);
+		this.timerManager = null;
 		this.game = game;
-		lives = INITIAL_LIVES;
 		score = 0;
-		// Note levelManager is a dummy object (better than null!) - set it
-		// below.
-		levelManager = new LevelManager(game, new LevelStepStrategy());
+		levelManager = new LevelManager(game, null, null);
 	}
-	
-	public void setLivesToInitial(){
-		lives = INITIAL_LIVES;
+
+	public void setupLives(LevelManager levelManager, boolean firstTimeLoading) {
+		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
+			if (entity instanceof CharacterEntity) {
+				initialLives = entity.getLives();
+			}
+		}
+		if (firstTimeLoading) {
+			lives = initialLives; // For loading saved game, setLives() is
+									// called.
+		}
 	}
-	
-	public int getInitialLives(){
-		return INITIAL_LIVES;
+
+	public int getLives() {
+		return lives;
 	}
-	
+
+	public void setLives(int lives) {
+		this.lives = lives;
+	}
+
+	public void resetLives() {
+		lives = initialLives;
+	}
+
 	public void setLevelManager(LevelManager levelManager) {
 		this.levelManager = levelManager;
 	}
@@ -67,14 +75,6 @@ public class Scorebar {
 
 	public void setTimerManager(TimerManager timerManager) {
 		this.timerManager = timerManager;
-	}
-
-	public int getLives() {
-		return lives;
-	}
-
-	public void setLives(int lives) {
-		this.lives = lives;
 	}
 
 	public String getScore() {
@@ -111,10 +111,6 @@ public class Scorebar {
 	}
 
 	public boolean isHighscore() {
-		if (!game.isTestGame()) {
-			return game.isHighscore(getScore(), getTimeValue(), 9);
-		} else {
-			return false;
-		}
+		return game.isHighscore(getScore(), getTimeValue(), 9);
 	}
 }

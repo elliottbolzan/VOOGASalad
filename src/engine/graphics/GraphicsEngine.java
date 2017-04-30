@@ -5,29 +5,31 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import engine.Entity;
-import engine.entities.CameraEntity;
+import data.Game;
+import engine.entities.Entity;
+import engine.entities.entities.AchievementEntity;
+import engine.entities.entities.CameraEntity;
 import engine.game.Level;
 import engine.game.LevelManager;
 import engine.game.gameloop.LevelSelectionStepStrategy;
 import engine.game.gameloop.Scorebar;
-import game_data.Game;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
-import player.MediaManager;
-import player.menu.HighscoreMenu;
+import player.launchers.AbstractPlayer;
 import player.score.Overlay;
 import polyglot.Case;
 import polyglot.Polyglot;
@@ -43,47 +45,49 @@ import polyglot.Polyglot;
  *         time/lives/score) and the Camera.
  */
 public class GraphicsEngine {
+	
 	private Polyglot polyglot;
-	private ResourceBundle IOResources;
+	private ResourceBundle resources;
 
 	private Collection<Entity> entities;
 	private Collection<ImageView> nodes;
 	private CameraEntity camera;
 
+	private AbstractPlayer player;
 	private Scorebar scorebar;
 	private Overlay overlay;
 
-	private Stage stage;
 	private BorderPane displayArea;
 	private Game game;
-	private MediaManager mediaManager;
 
-	public GraphicsEngine(Game game, Overlay overlay, Stage stage, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+	public GraphicsEngine(Game game, AbstractPlayer player, Overlay overlay, Polyglot polyglot, ResourceBundle resources) {
 		this.camera = new CameraEntity();
 		this.entities = new ArrayList<Entity>();
 		this.nodes = new ArrayList<ImageView>();
 		this.scorebar = new Scorebar(game);
+
 		this.overlay = overlay;
-		this.stage = stage;
-		this.game = game;
-		this.mediaManager = mediaManager;
 		this.polyglot = polyglot;
-		this.IOResources = IOResources;
+		this.resources = resources;
+		this.player = player;
+		this.game = game;
+
 		this.setupView();
 	}
 
 	public void setupLevel(Level level) {
+		
 		this.setCamera(level.getCamera());
 		this.setEntitiesCollection(level.getEntities());
-		
+
 		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
 		
-		//Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getCamera()).getImage();
-		//displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
-		//		BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-	
+		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
+		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
+				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+
 	}
-	
+
 	/**
 	 * @return the graphical display for the game
 	 */
@@ -106,7 +110,7 @@ public class GraphicsEngine {
 	public Scorebar getScorebar() {
 		return scorebar;
 	}
-	
+
 	/**
 	 * Sets the camera used to move around the display
 	 * 
@@ -142,36 +146,26 @@ public class GraphicsEngine {
 		label.setAlignment(Pos.CENTER);
 		displayArea.setCenter(label);
 	}
-	
-	public void displayLevelSelectionScreen(LevelManager levelManager, LevelSelectionStepStrategy strategy){
+
+	public void showImage(String imageName) {
+		this.clearView();
+		Image image = new Image(resources.getString(imageName));
+		ImageView imageView = new ImageView(image);
+		imageView.setFitWidth(400);
+		imageView.setPreserveRatio(true);
+		displayArea.setCenter(imageView);
+	}
+
+	public void displayLevelSelectionScreen(LevelManager levelManager, LevelSelectionStepStrategy strategy) {
 		this.clearView();
 		new LevelSelectionGraphics(displayArea, levelManager, polyglot, strategy).draw();
 	}
-	
+
 	/**
 	 * Show Highscore and ability to share to Facebook
 	 */
-	public void endScreen() {
-		this.clearView();
-		VBox container = new VBox(30);
-		
-		Label congrats = new Label("New Highscore!");
-		congrats.scaleXProperty().bind(displayArea.widthProperty().divide(congrats.widthProperty()).divide(2));
-		congrats.scaleYProperty().bind(congrats.scaleXProperty());
-		
-		TextField enterName = new TextField();
-		enterName.setMaxWidth(displayArea.getWidth()/2);
-		enterName.setPromptText("Your name here");
-		
-		Button toHighscores = new Button("Continue");
-		toHighscores.setOnAction(e -> {
-			getScorebar().saveFinalScore(enterName.getText());
-			stage.setScene(new HighscoreMenu(stage, game, mediaManager, polyglot, IOResources).createScene());
-		});
-
-		container.getChildren().addAll(congrats, enterName, toHighscores);
-		container.setAlignment(Pos.CENTER);
-		displayArea.setCenter(container);
+	public void endGame() {
+		player.endGame(scorebar);
 	}
 
 	/**
@@ -204,7 +198,16 @@ public class GraphicsEngine {
 		overlay.setLevel(Integer.toString(scorebar.getLevel()));
 		overlay.setTime(scorebar.getTime());
 	}
-	
+
+	public void blankScorebar(boolean firstPass) {
+		if (firstPass) {
+			overlay.setScore(Overlay.BLANK_SCOREBAR_DISPLAY);
+			overlay.setLives(Overlay.BLANK_SCOREBAR_DISPLAY);
+		}
+		overlay.setLevel(Overlay.BLANK_SCOREBAR_DISPLAY);
+		overlay.setTime(Overlay.BLANK_SCOREBAR_DISPLAY);
+	}
+
 	private void clearView() {
 		this.nodes.clear();
 		displayArea.getChildren().clear();
@@ -216,12 +219,12 @@ public class GraphicsEngine {
 	 */
 	private void drawAllEntities() {
 		NodeFactory factory = new NodeFactory();
-		for (Entity entity : entities) {
+		entities.stream().filter(s -> !(s instanceof AchievementEntity)).forEach(entity -> {
 			ImageView node = (ImageView) factory.getNodeFromEntity(entity);
 			this.makeBindings(node, entity);
 			this.nodes.add(node);
 			displayArea.getChildren().add(node);
-		}
+		});
 	}
 
 	private void makeBindings(ImageView node, Entity entity) {

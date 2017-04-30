@@ -1,8 +1,6 @@
 package engine.game.gameloop;
 
-import engine.Entity;
 import engine.GameInfo;
-import engine.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
@@ -37,16 +35,11 @@ public class GameOverStepStrategy extends TransitionStepStrategy {
 	protected void modifyUnlockedScreens() {
 		levelManager.clearUnlockedLevels();
 		levelManager.addUnlockedLevel(1);
-		info.getScorebar().setLivesToInitial();
-		for(Entity entity : levelManager.getCurrentLevel().getEntities()){
-			if(entity instanceof CharacterEntity){
-				 entity.setLives(info.getScorebar().getInitialLives());
-			}
-		}
+		info.getScorebar().resetLives();
 	}
 	
 	@Override
 	protected StepStrategy nextStrategyLevelSelectionMode() {
-		return new LevelSelectionStepStrategy();
+		return new LevelSelectionStepStrategy(false);
 	}
 }

@@ -4,8 +4,8 @@ import java.util.List;
 
 import authoring.Workspace;
 import authoring.panel.creation.pickers.ActionPicker;
-import engine.Action;
 import engine.Parameter;
+import engine.actions.Action;
 import engine.game.EngineController;
 
 /**

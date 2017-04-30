@@ -1,8 +1,8 @@
 package engine.events.regular_events;
 
-import engine.Entity;
-import engine.Event;
 import engine.Parameter;
+import engine.entities.Entity;
+import engine.events.Event;
 
 /**
  * Checks the distance between the Entity associated with this Event and the
@@ -15,8 +15,8 @@ public class EntityDistanceEvent extends Event {
 
 	public EntityDistanceEvent() {
 		addParam(new Parameter("Entity", String.class, ""));
-		addParam(new Parameter("Distance", Double.class, ""));
-		addParam(new Parameter("Less Than", Boolean.class, ""));
+		addParam(new Parameter("Distance", Double.class, 0.0));
+		addParam(new Parameter("Less Than", boolean.class, true));
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class EntityDistanceEvent extends Event {
 		for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
 			if (((String) getParam("Entity")).equals(entity.getName())) {
 				if(distanceBetween(getEntity(),entity) < (Double) getParam("Distance")){
-					return (Boolean)getParam("Less Than");
+					return (boolean)getParam("Less Than");
 				}
 			}
 		}

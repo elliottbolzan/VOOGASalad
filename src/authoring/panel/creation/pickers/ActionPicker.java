@@ -3,8 +3,8 @@ package authoring.panel.creation.pickers;
 import authoring.Workspace;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.ActionEditor;
-import engine.Action;
 import engine.GameObject;
+import engine.actions.Action;
 import engine.game.EngineController;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
@@ -25,6 +25,7 @@ public class ActionPicker extends Picker {
 	private EntityMaker entityMaker;
 	private EngineController engine = new EngineController();
 	private ListView<Action> list;
+	private ActionEditor editor;
 
 	/** 
 	 * Creates an ActionPicker.
@@ -141,7 +142,7 @@ public class ActionPicker extends Picker {
 	 */
 	@Override
 	public void showEditor() {
-		ActionEditor editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
+				editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
 				engine.getAllActions(entityMaker.getEntity()));
 		getWorkspace().getMaker().display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
@@ -152,6 +153,16 @@ public class ActionPicker extends Picker {
 	@Override
 	public void select(GameObject object) {
 		list.getSelectionModel().select((Action) object);
+	}
+	
+	public ActionEditor getEditor(){
+		return editor;
+	}
+
+	@Override
+	public void setContainerPos() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
