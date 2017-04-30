@@ -1,8 +1,8 @@
 package usecases;
 
+import data.GameDataExternalAPI;
 import engine.game.Level;
 import engine.game.LevelManager;
-import game_data.GameDataExternalAPI;
 
 /*
  *	This is an implementation of the use case for saving a game into an XML file

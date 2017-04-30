@@ -1,9 +1,9 @@
 package testers;
 
+import data.Game;
 import engine.game.Level;
 import engine.game.LevelManager;
 import engine.game.gameloop.GameLoop;
-import game_data.Game;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;

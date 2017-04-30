@@ -175,5 +175,10 @@ public class EntityMaker extends View
 	{
 		return actionPicker;
 	}
+	
+	public void changeSaveHandler(Runnable r)
+	{
+		entityInfo.changeSaveHandler(r);
+	}
 
 }

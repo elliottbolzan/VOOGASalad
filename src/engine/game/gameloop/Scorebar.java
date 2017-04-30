@@ -1,10 +1,10 @@
 package engine.game.gameloop;
 
+import data.Game;
 import engine.entities.Entity;
 import engine.entities.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.game.timer.TimerManager;
-import game_data.Game;
 
 /**
  * Contains information displayed on the Scorebar.
