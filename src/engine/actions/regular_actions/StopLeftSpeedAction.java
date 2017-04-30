@@ -12,7 +12,7 @@ public class StopLeftSpeedAction extends Action {
 
 	@Override
 	public void act() {
-		if(getEntity().getXSpeed() < 0) {
+		if (getEntity().getXSpeed() < 0) {
 			getEntity().setXSpeed(0);
 		}
 	}

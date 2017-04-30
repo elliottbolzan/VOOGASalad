@@ -6,11 +6,11 @@ import engine.actions.Action;
 public class EntityVisibleAction extends Action {
 
 	public EntityVisibleAction() {
-		addParam(new Parameter("Visible", boolean.class, true));
+		addParam(new Parameter(getResource("Visible"), boolean.class, true));
 	}
 
 	@Override
 	public void act() {
-		getEntity().setIsVisible((boolean) getParam("Visible"));
+		getEntity().setIsVisible((boolean) getParam(getResource("Visible")));
 	}
 }

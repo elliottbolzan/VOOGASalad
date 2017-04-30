@@ -20,7 +20,9 @@ public class Main extends Application {
 
 	/**
 	 * Launches the user interface.
-	 * @param primaryStage the application's primary stage / window.
+	 * 
+	 * @param primaryStage
+	 *            the application's primary stage / window.
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {

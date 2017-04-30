@@ -14,24 +14,26 @@ import engine.entities.Entity;
 public class FlipCameraSideAction extends Action {
 
 	public FlipCameraSideAction() {
-		addParam(new Parameter("Flip Right Side", boolean.class, true));
-		addParam(new Parameter("Flip Left Side", boolean.class, true));
-		addParam(new Parameter("Flip Top Side", boolean.class, true));
-		addParam(new Parameter("Flip Bottom Side", boolean.class, true));
+		addParam(new Parameter(getResource("FlipRightSide"), boolean.class, true));
+		addParam(new Parameter(getResource("FlipLeftSide"), boolean.class, true));
+		addParam(new Parameter(getResource("FlipTopSide"), boolean.class, true));
+		addParam(new Parameter(getResource("FlipBottomSide"), boolean.class, true));
 	}
 
 	@Override
 	public void act() {
 		Entity camera = getGameInfo().getGraphicsEngine().getCamera();
-		if (getEntity().getX() > camera.getX() + camera.getWidth() && (boolean) getParam("Flip Right Side")) {
+		if (getEntity().getX() > camera.getX() + camera.getWidth()
+				&& (boolean) getParam(getResource("FlipRightSide"))) {
 			getEntity().setX(camera.getX());
 		} else if (getEntity().getX() + getEntity().getWidth() < camera.getX()
-				&& (boolean) getParam("Flip Left Side")) {
+				&& (boolean) getParam(getResource("FlipLeftSide"))) {
 			getEntity().setX(camera.getX() + camera.getWidth() - getEntity().getWidth());
-		} else if (getEntity().getY() > camera.getY() + camera.getHeight() && (boolean) getParam("Flip Bottom Side")) {
+		} else if (getEntity().getY() > camera.getY() + camera.getHeight()
+				&& (boolean) getParam(getResource("FlipBottomSide"))) {
 			getEntity().setY(camera.getY());
 		} else if (getEntity().getY() + getEntity().getHeight() < camera.getY()
-				&& (boolean) getParam("Flip Top Side")) {
+				&& (boolean) getParam(getResource("FlipTopSide"))) {
 			getEntity().setY(camera.getY() + camera.getHeight() - getEntity().getHeight());
 			;
 		}

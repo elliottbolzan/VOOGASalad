@@ -16,9 +16,10 @@ public class CollisionAllEvent extends Event {
 	private CollisionSide collisionSide;
 
 	public CollisionAllEvent() {
-		addParam(new Parameter("Entity 1", String.class, getResource("ThisEntity")));
-		addParam(new Parameter("Entity 2", String.class, ""));
-		addParam(new Parameter("Detection Depth", double.class, 0.0));
+		addParam(new Parameter(getResource("Entity1"), String.class, getResource("ThisEntity")));
+		addParam(new Parameter(getResource("Entity2"), String.class, ""));
+		addParam(new Parameter(getResource("DetectionDepth"), double.class, 0.0));
+
 		this.collisionSide = CollisionSide.ALL;
 	}
 
@@ -44,7 +45,7 @@ public class CollisionAllEvent extends Event {
 			String param1 = ((String) getParam("Entity 1")).equals(getResource("ThisEntity")) ? getEntity().getName() : (String) getParam("Entity 1");
 			if (collision.isBetween(param1, (String) getParam("Entity 2"))
 					&& collision.getCollisionSide().equals(this.collisionSide)
-					&& collision.getCollisionDepth() > (double) getParam("Detection Depth")) {
+					&& collision.getCollisionDepth() > (double) getParam(getResource("DetectionDepth"))) {
 				return true;
 			}
 		}

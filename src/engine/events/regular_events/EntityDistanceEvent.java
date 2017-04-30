@@ -14,17 +14,17 @@ import engine.events.Event;
 public class EntityDistanceEvent extends Event {
 
 	public EntityDistanceEvent() {
-		addParam(new Parameter("Entity", String.class, ""));
-		addParam(new Parameter("Distance", Double.class, 0.0));
-		addParam(new Parameter("Less Than", boolean.class, true));
+		addParam(new Parameter(getResource("Entity"), String.class, ""));
+		addParam(new Parameter(getResource("Distance"), Double.class, 0.0));
+		addParam(new Parameter(getResource("LessThan"), boolean.class, true));
 	}
 
 	@Override
 	public boolean act() {
 		for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
-			if (((String) getParam("Entity")).equals(entity.getName())) {
-				if(distanceBetween(getEntity(),entity) < (Double) getParam("Distance")){
-					return (boolean)getParam("Less Than");
+			if (((String) getParam(getResource("Entity"))).equals(entity.getName())) {
+				if (distanceBetween(getEntity(), entity) < (Double) getParam(getResource("Distance"))) {
+					return (boolean) getParam(getResource("LessThan"));
 				}
 			}
 		}

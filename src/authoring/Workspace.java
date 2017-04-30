@@ -19,7 +19,6 @@ import data.Game;
 import data.GameData;
 import engine.entities.Entity;
 import javafx.application.Platform;
-import javafx.beans.binding.StringBinding;
 import javafx.concurrent.Task;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -63,6 +62,7 @@ public class Workspace extends View
 	private Stack<UndoableCommand> undoStack;
 	private Stack<UndoableCommand> redoStack;
 	private Label tutorialMessage;
+	private VBox tutorialBox;
 
 	/**
 	 * Creates the Workspace.
@@ -141,7 +141,6 @@ public class Workspace extends View
 		if (packet instanceof EntityListInfo) {
 			Platform.runLater(new Runnable()
 			{
-
 				@Override
 				public void run()
 				{
@@ -151,7 +150,6 @@ public class Workspace extends View
 						Workspace.this.updateEntity(e);
 					});
 				}
-
 			});
 			// panel.getEntityDisplay().createContainer();
 		}
@@ -195,6 +193,7 @@ public class Workspace extends View
 	{
 		command.execute();
 		undoStack.push(command);
+		redoStack.clear();
 	}
 
 	public void undo()
@@ -221,9 +220,10 @@ public class Workspace extends View
 		defaults.setEntities(game.getDefaults());
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
 	}
-	
-	public void addTutorialHost(){
-		VBox tutorialBox = new VBox();
+
+	public void addTutorialHost()
+	{
+		tutorialBox = new VBox();
 		tutorialBox.setPrefWidth(150);
 		Image mario = new Image(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
 		ImageView marioView = new ImageView(mario);
@@ -232,16 +232,17 @@ public class Workspace extends View
 		tutorialMessage = new Label();
 		tutorialMessage.textProperty().bind(polyglot.get("FirstStep"));
 		tutorialMessage.getStyleClass().add("chat-bubble");
-        tutorialMessage.setWrapText(true);
-        tutorialMessage.setMaxWidth(150);
-        tutorialBox.getChildren().addAll(tutorialMessage, marioView);
-        tutorialBox.setAlignment(Pos.CENTER);
-        tutorialMessage.setContentDisplay(ContentDisplay.CENTER);
-        pane.setDividerPositions(.30);
-        setRight(tutorialBox);
+		tutorialMessage.setWrapText(true);
+		tutorialMessage.setMaxWidth(150);
+		tutorialBox.getChildren().addAll(tutorialMessage, marioView);
+		tutorialBox.setAlignment(Pos.CENTER);
+		tutorialMessage.setContentDisplay(ContentDisplay.CENTER);
+		pane.setDividerPositions(.30);
+		setRight(tutorialBox);
 	}
-	
-	public Label getMessage(){
+
+	public Label getMessage()
+	{
 		return tutorialMessage;
 	}
 

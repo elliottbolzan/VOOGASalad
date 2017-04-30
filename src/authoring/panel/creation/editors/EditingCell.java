@@ -1,11 +1,17 @@
-package authoring.components;
+package authoring.panel.creation.editors;
 
 import authoring.Workspace;
+import authoring.components.KeyCodeField;
 import engine.Parameter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
@@ -17,6 +23,11 @@ import javafx.scene.input.KeyEvent;
  *         A custom TableView cell used for displaying and editing both normal
  *         input (Strings, Numbers) and more complex inputs, like KeyCodes.
  *         Could be extended to provide different inputs, eventually.
+ * 
+ *         Updating the cell's contents even on cancelEdit, functionality
+ *         expected by most users, was achieved using information from this
+ *         link:
+ *         http://stackoverflow.com/questions/23632884/how-to-commit-when-clicking-outside-an-editable-tableview-cell-in-javafx.
  *
  */
 public class EditingCell extends TableCell<Parameter, Object> {
@@ -25,6 +36,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 	private TextField textField;
 	private KeyCodeField keyCodeField;
 	private String invalidEdit;
+	private TablePosition<Parameter, ?> tablePos;
 
 	/**
 	 * Creates an EditingCell.
@@ -41,6 +53,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 	public void startEdit() {
 		if (!isEmpty()) {
 			super.startEdit();
+			tablePos = getTableView().getEditingCell();
 			if (getItem() == null || getItem() instanceof KeyCode) {
 				createKeyCodeField();
 				setGraphic(keyCodeField);
@@ -50,6 +63,7 @@ public class EditingCell extends TableCell<Parameter, Object> {
 				createTextField();
 				setGraphic(textField);
 				textField.selectAll();
+				textField.requestFocus();
 			}
 			setText(null);
 		}
@@ -57,8 +71,11 @@ public class EditingCell extends TableCell<Parameter, Object> {
 
 	@Override
 	public void cancelEdit() {
-		super.cancelEdit();
-		setText(getItem() == null ? "" : getItem().toString());
+		if (getItem() == null || getItem() instanceof KeyCode) {
+			commitEdit(keyCodeField.getKeyCode());
+		} else {
+			validateInput();
+		}
 		setGraphic(null);
 	}
 
@@ -155,6 +172,23 @@ public class EditingCell extends TableCell<Parameter, Object> {
 			String content = String.format(invalidEdit, param.getParameterClass().getSimpleName());
 			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);
 			alert.show();
+		}
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@Override
+	public void commitEdit(Object newValue) {
+		if (!isEditing())
+			return;
+		TableView<Parameter> table = getTableView();
+		if (table != null) {
+			CellEditEvent editEvent = new CellEditEvent(table, tablePos, TableColumn.editCommitEvent(), newValue);
+			Event.fireEvent(getTableColumn(), editEvent);
+		}
+		super.cancelEdit();
+		updateItem(newValue, false);
+		if (table != null) {
+			table.edit(-1, null);
 		}
 	}
 
