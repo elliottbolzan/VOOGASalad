@@ -23,6 +23,14 @@ import org.w3c.dom.Element;
 import engine.entities.Entity;
 import engine.game.Level;
 
+/**
+ * This class provides the main functionality for saving games from the authoring environment
+ * or from the player. It compresses the game files into a zip file for easy distribution.
+ * 
+ * @author Michael
+ * @author Jay Doherty
+ *
+ */
 public class GameSaver
 {
 	private GameXMLFactory gameXMLFactory;

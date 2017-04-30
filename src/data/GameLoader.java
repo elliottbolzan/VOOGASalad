@@ -33,6 +33,15 @@ import exceptions.NotAGameFolderException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * This class provides the main functionality for loading games. It unzips the game file to
+ * the user's temporary folder so they do not have to see the game files. It builds a Game
+ * object from the XML file, setting all of its instance variables so the Player/Editor
+ * will have everything needed to load up the game.
+ * 
+ * @author Jay Doherty
+ * @author Michael
+ */
 public class GameLoader {
 
 	private ResourceManager resourceManager;
