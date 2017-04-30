@@ -484,8 +484,9 @@ public class LayerEditor extends View {
 	public void setLevelBackground(EntityView background) {
 		this.levelBackgroundView = background;
 	}
-	
-	public void addEntityListener(Runnable r){
+
+	public void addEntityListener(Runnable r)
+	{
 		canvas.addEntityListener(r);
 	}
 }
