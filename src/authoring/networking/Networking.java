@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import authoring.Workspace;
 import authoring.command.EntityCommandInfo;
 import authoring.command.EntityListInfo;
-import authoring.command.MultiAddInfo;
+import authoring.command.MultiEntityInfo;
 import authoring.panel.chat.Message;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -151,7 +151,7 @@ public class Networking
 		if (packet != null) {
 			if (packet instanceof Message) {
 				workspace.getPanel().getChat().received(packet);
-			} else if (packet instanceof EntityCommandInfo || packet instanceof MultiAddInfo) {
+			} else if (packet instanceof EntityCommandInfo || packet instanceof MultiEntityInfo) {
 				workspace.getLevelEditor().received(packet);
 			} else if (packet instanceof EntityListInfo) {
 				workspace.received(packet);
