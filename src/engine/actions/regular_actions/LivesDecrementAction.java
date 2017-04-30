@@ -13,7 +13,7 @@ public class LivesDecrementAction extends Action {
 
 	@Override
 	public void act() {
-		getGameInfo().getScorebar().setLives(getGameInfo().getScorebar().getLives() - 1);
+		getEntity().setLives(getEntity().getLives() - 1);
 	}
 
 }
