@@ -259,8 +259,8 @@ public class DragUtil
 			// mouseY - region.getHeight() / 2));
 
 			for (EntityView entity : movedEntities) {
-				entity.setTranslateX(getTiledCoordinate(entity.getTranslateX() + mouseX - entity.getWidth() / 2));
-				entity.setTranslateY(getTiledCoordinate(entity.getTranslateY() + mouseY - entity.getHeight() / 2));
+				entity.setTranslateX(getTiledCoordinate(entity.getTranslateX() + mouseX - region.getWidth() / 2));
+				entity.setTranslateY(getTiledCoordinate(entity.getTranslateY() + mouseY - region.getHeight() / 2));
 			}
 		}
 		event.consume();
