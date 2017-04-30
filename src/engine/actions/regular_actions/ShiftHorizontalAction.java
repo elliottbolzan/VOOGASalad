@@ -13,11 +13,11 @@ import engine.actions.Action;
 public class ShiftHorizontalAction extends Action {
 
 	public ShiftHorizontalAction() {
-		addParam(new Parameter("Move amount", Double.class, 0));
+		addParam(new Parameter("Move Amount", Double.class, 0));
 	}
 
 	@Override
 	public void act() {
-		getEntity().setX(getEntity().getX() + (Double) getParam("Move amount"));
+		getEntity().setX(getEntity().getX() + (Double) getParam("Move Amount"));
 	}
 }

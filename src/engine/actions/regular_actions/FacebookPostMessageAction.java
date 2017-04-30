@@ -12,6 +12,7 @@ import poster.FacebookResponse;
  *         utility submitted by myself to achieve the task.
  */
 public class FacebookPostMessageAction extends Action {
+	
 	private FacebookPoster poster;
 
 	public FacebookPostMessageAction() {
