@@ -180,5 +180,10 @@ public class EntityMaker extends View
 	{
 		entityInfo.changeSaveHandler(r);
 	}
+	
+	public void changeImageHandler(Runnable r)
+	{
+		entityInfo.changeImageHandler(r);
+	}
 
 }
