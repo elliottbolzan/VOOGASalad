@@ -10,7 +10,7 @@ import authoring.command.AddInfo;
 import authoring.command.DeleteInfo;
 import authoring.command.MoveCommand;
 import authoring.command.MoveInfo;
-import authoring.command.MultiAddInfo;
+import authoring.command.MultiEntityInfo;
 import authoring.command.ResizeCommand;
 import authoring.command.ResizeInfo;
 import authoring.components.CustomTooltip;
@@ -168,7 +168,7 @@ public class LevelEditor extends View
 					entity.getTranslateY() + PASTE_OFFSET);
 			totalAddInfo.add(addInfo);
 		}
-		MultiAddInfo multiAddInfo = new MultiAddInfo(totalAddInfo);
+		MultiEntityInfo<AddInfo> multiAddInfo = new MultiEntityInfo<AddInfo>(totalAddInfo);
 		if (workspace.getNetworking().isConnected()) {
 			workspace.getNetworking().send(multiAddInfo);
 		} else {
@@ -206,12 +206,13 @@ public class LevelEditor extends View
 
 	public void received(Packet packet)
 	{
-
-		if (packet instanceof MultiAddInfo) {
-			MultiAddInfo multiAddInfo = (MultiAddInfo) packet;
-			multiAddInfo.getAddedEntities().forEach(e -> {
-				LevelEditor.this.received(e);
-			});
+		if (packet instanceof MultiEntityInfo) {
+			MultiEntityInfo<?> multiInfo = (MultiEntityInfo<?>) packet;
+			if (multiInfo.getInfo() != null) {
+				multiInfo.getInfo().forEach(e -> {
+					LevelEditor.this.received(e);
+				});
+			}
 		}
 
 		if (packet instanceof AddInfo) {
@@ -221,7 +222,6 @@ public class LevelEditor extends View
 				public void run()
 				{
 					AddInfo addInfo = (AddInfo) packet;
-					System.out.println(addInfo.getEntityId() + "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 					double x = addInfo.getX();
 					double y = addInfo.getY();
 					long entityId = addInfo.getEntityId();
