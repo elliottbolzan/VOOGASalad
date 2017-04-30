@@ -14,7 +14,8 @@ Hours of Work:
 
 ### Each Person's Role in Developing the Project
 
-*Kyle
+**Kyle**
+
 I worked primarily in the game engine. I created the algorithm and code for detecting when a collision happens and which side the collision occurs on for the two entities involved in the collision. I also worked on designing and coding Actions, Entities, and Events for the game. Additionally, I assisted in the testing and debugging the reflection used to create the lists of Actions, Entities, and Events displayed to the user in the front-end by looping through these classes in the back-end. I was also worked on exception handling within the engine. Outside of coding, I tested different game features and provided feedback to the respective areas of the team. I also organized the first demonstration and acted as the primary-spokesperson.
 
 ### Any books, papers, online, or human resources that you used in developing the project
