@@ -79,11 +79,23 @@ public class AuthoringTutorial {
 	
 	private void createMonster(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EleventhStep"));
-		workspace.addTutorialNode(workspace.getMaker().makeButton("OKButton", e->System.out.println("good"),true));
-	//	workspace.getPanel().getEntityDisplay().changeNewHandler(() -> createMonster());
+		workspace.getPanel().getEntityDisplay().getEntityMaker().changeImageHandler(() -> changedMonsterImage());
 	}
 	
+	private void changedMonsterImage(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("TwelfthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(() -> addedMonsterEvent());
+	}
 	
+	private void addedMonsterEvent(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("ThirteenthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().initTutorialAction("Collision", () -> addedCollision());
+	}
+	
+	private void addedCollision(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FourteenthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(() -> savedEvent());
+	}
 
 	
 	

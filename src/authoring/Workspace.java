@@ -242,15 +242,7 @@ public class Workspace extends View
         pane.setDividerPositions(.30);
         setRight(tutorialBox);
 	}
-	
-	public void addTutorialNode(Node n){
-		tutorialBox.getChildren().add(n);
-	}
-	
-	public void removeTutorialNode(Node n){
-		tutorialBox.getChildren().remove(n);
-	}
-	
+
 	public Label getMessage(){
 		return tutorialMessage;
 	}

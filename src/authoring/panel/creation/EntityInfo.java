@@ -39,6 +39,7 @@ public class EntityInfo extends View {
 	private ToggleButton link;
 	private boolean linked;
 	private Button saveButton;
+	private Button pickButton;
 
 	/**
 	 * Creates an EntityInfo.
@@ -77,7 +78,7 @@ public class EntityInfo extends View {
 	private VBox createImageBox() {
 		VBox imageBox = new VBox(20);
 		thumbnail = new FixedThumbnail(editor.getEntity().getImagePath(), 50, 50);
-		Button pickButton = workspace.getMaker().makeButton("PickButton", e -> pickImage(), true);
+		pickButton = workspace.getMaker().makeButton("PickButton", e -> pickImage(), true);
 		imageBox.getChildren().addAll(thumbnail, pickButton);
 		imageBox.setAlignment(Pos.CENTER);
 		return imageBox;
@@ -204,6 +205,13 @@ public class EntityInfo extends View {
 	public void changeSaveHandler(Runnable r){
 		saveButton.setOnAction(e -> {
 			editor.save();
+			r.run();
+		});
+	}
+	
+	public void changeImageHandler(Runnable r){
+		pickButton.setOnAction(e -> {
+			pickImage();
 			r.run();
 		});
 	}
