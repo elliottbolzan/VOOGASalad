@@ -26,27 +26,31 @@ public class EntitySpawnAction extends Action {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
-					Entity newEntity = null;
-					for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
-						if (((String) getParam("Entity Name")).equals(entity.getName())) {
-							newEntity = entity.clone();
-							newEntity.setGameInfo(getGameInfo());
-							break;
-						}
-					}
-					newEntity.setZ(getEntity().getZ());
-					newEntity.setXSpeed((Double) newEntity.getParam("X Speed"));
-					newEntity.setYSpeed((Double) newEntity.getParam("Y Speed"));
-					newEntity.setXAcceleration((Double) newEntity.getParam("X Acceleration"));
-					newEntity.setYAcceleration((Double) newEntity.getParam("Y Acceleration"));
-					newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
-					newEntity.getGameInfo().getObservableBundle().attachEntityToAll(newEntity);
-					newEntity.getGameInfo().getGraphicsEngine().updateView();
+					spawn();
 				}
 			});
 		}
 	}
 
+	protected void spawn(){
+		System.out.println("Inside of spawn");
+		Entity newEntity = null;
+		for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
+			if (((String) getParam("Entity Name")).equals(entity.getName())) {
+				newEntity = entity.clone();
+				newEntity.setGameInfo(getGameInfo());
+				System.out.println("OLD ENTITY BEFORE: " + entity.getHeight() + " " + entity.getWidth());
+				break;
+			}
+		}
+		placeEntity(getEntity(), newEntity);
+		newEntity.setZ(getEntity().getZ());
+		newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
+		newEntity.getGameInfo().getObservableBundle().attachEntityToAll(newEntity);
+		newEntity.getGameInfo().getGraphicsEngine().updateView();
+	}
+	
+	
 	private CollisionSide getCollisionSide(String side) {
 		return CollisionSide.valueOf(side);
 	}

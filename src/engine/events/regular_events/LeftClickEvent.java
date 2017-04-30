@@ -14,6 +14,8 @@ public class LeftClickEvent extends Event {
 	@Override
 	public boolean act() {
 		ClickHelper helper = new ClickHelper();
+		if (helper.mouseClickToProcess(this) && helper.buttonPressed(this, MouseButton.PRIMARY))
+				System.out.println("LEFT CLICK");
 		return helper.mouseClickToProcess(this) && helper.buttonPressed(this, MouseButton.PRIMARY);
 	}
 	

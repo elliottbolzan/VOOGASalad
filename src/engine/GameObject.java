@@ -102,6 +102,10 @@ public abstract class GameObject {
 		}
 		return null;
 	}
+	
+	public void removeParam(String name){
+		params.remove(findParameter(name));
+	}
 
 	public GameInfo getGameInfo() {
 		return this.info;

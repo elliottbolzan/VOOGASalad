@@ -22,6 +22,7 @@ public class InputObservable extends EventObservable {
 	private boolean keyPressToProcess;
 	private boolean keyReleaseToProcess;
 	private boolean mouseClickToProcess;
+	private boolean firstTime = true;
 
 	public InputObservable(Scene gameScene, GraphicsEngine graphicsEngine) {
 		super();
@@ -45,7 +46,9 @@ public class InputObservable extends EventObservable {
 	}
 
 	public boolean isMouseClickToProcess() {
-		return mouseClickToProcess;
+		boolean temp = firstTime;
+		firstTime = false;
+		return !temp && mouseClickToProcess;
 	}
 
 	// For Nikita to call in InputEvent's act() - for key input
@@ -85,6 +88,9 @@ public class InputObservable extends EventObservable {
 			lastPressedMouseButton = event.getButton();
 			lastPressedCoordinates = new Point2D(event.getX() + graphicsEngine.getCamera().getX(),
 					event.getY() + graphicsEngine.getCamera().getY());
+			System.out
+					.println("Mouse Pressed event.getX: " + event.getX() + " event.getY: " + event.getY() + " camerax: "
+							+ graphicsEngine.getCamera().getX() + " cameray: " + graphicsEngine.getCamera().getY());
 			mouseClickToProcess = true;
 		});
 	}

@@ -71,13 +71,13 @@ public abstract class Event extends GameObject implements EventInterface {
 	}
 
 	private boolean lessThanMaxTimes() {
-		if (((String) getParam("How many times to trigger")).equals("Always"))
+		if (((String) getParam("How many times to trigger")).toLowerCase().equals("always"))
 			return true;
 		else {
 			try {
 				return Integer.parseInt((String) getParam("How many times to trigger")) >= timesEventHasOccurred.get();
 			} catch (Exception e) {
-				return false;
+				return true;
 			}
 		}
 	}

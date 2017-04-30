@@ -15,6 +15,8 @@ public class BlockEntity extends Entity {
 		defaultSetup();
 		this.setName("Block");
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/block.png").toExternalForm());
+		this.setWidth(200);
+		this.setHeight(200);
 	}
 
 }
