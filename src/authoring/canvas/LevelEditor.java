@@ -37,7 +37,8 @@ import utils.views.View;
  * @author jimmy
  *
  */
-public class LevelEditor extends View {
+public class LevelEditor extends View
+{
 
 	private int PASTE_OFFSET = 25;
 
@@ -54,7 +55,8 @@ public class LevelEditor extends View {
 	 * @param workspace
 	 *            The workspace that the LevelEditor is currently in.
 	 */
-	public LevelEditor(Workspace workspace) {
+	public LevelEditor(Workspace workspace)
+	{
 		this.workspace = workspace;
 		setup();
 	}
@@ -66,7 +68,8 @@ public class LevelEditor extends View {
 	 * 
 	 * @return List of levels that this LevelEditor keeps track of.
 	 */
-	public List<Level> getLevels() {
+	public List<Level> getLevels()
+	{
 		List<Level> currentLevels = new ArrayList<Level>();
 		for (LayerEditor level : levels) {
 			currentLevels.add(level.getLevel());
@@ -81,7 +84,8 @@ public class LevelEditor extends View {
 	 * @param levels
 	 *            List of levels to load for this LevelEditor.
 	 */
-	public void loadGame(List<Level> levels) {
+	public void loadGame(List<Level> levels)
+	{
 		setup();
 		for (Level level : levels) {
 			tabPane.getSelectionModel().select(0);
@@ -98,7 +102,8 @@ public class LevelEditor extends View {
 	 * @param entity
 	 *            the default Entity to match.
 	 */
-	public void updateEntity(Entity entity) {
+	public void updateEntity(Entity entity)
+	{
 		for (LayerEditor layerEditor : levels) {
 			layerEditor.updateEntity(entity);
 		}
@@ -107,7 +112,8 @@ public class LevelEditor extends View {
 	/**
 	 * Initialize the LevelEditor.
 	 */
-	private void setup() {
+	private void setup()
+	{
 		levelCount = 0;
 		levels = new ArrayList<LayerEditor>();
 		tabPane = new TabPane();
@@ -123,7 +129,8 @@ public class LevelEditor extends View {
 	 * 
 	 * @return Tab Tab representing the new level
 	 */
-	private Tab newTab() {
+	private Tab newTab()
+	{
 		Tab tab = new Tab();
 		levelCount++;
 		tab.setText(String.format("Level %d", levelCount));
@@ -142,14 +149,16 @@ public class LevelEditor extends View {
 		return tab;
 	}
 
-	public void copy() {
+	public void copy()
+	{
 		copiedEntities.clear();
 		for (Layer layer : currentLevel.getLayers()) {
 			copiedEntities.addAll(layer.getSelectedEntities());
 		}
 	}
 
-	public void paste() {
+	public void paste()
+	{
 		for (Layer layer : currentLevel.getLayers()) {
 			layer.getSelectedEntities().forEach(entity -> entity.setSelected(false));
 		}
@@ -167,19 +176,22 @@ public class LevelEditor extends View {
 		}
 	}
 
-	public void sendToFront() {
+	public void sendToFront()
+	{
 		for (Layer layer : currentLevel.getLayers()) {
 			layer.getSelectedEntities().forEach(entity -> entity.toFront());
 		}
 	}
 
-	public void sendToBack() {
+	public void sendToBack()
+	{
 		for (Layer layer : currentLevel.getLayers()) {
 			layer.getSelectedEntities().forEach(entity -> entity.toBack());
 		}
 	}
 
-	public EntityView getEntity(long entityId) {
+	public EntityView getEntity(long entityId)
+	{
 		for (LayerEditor level : levels) {
 			for (Layer layer : level.getLayers()) {
 				for (EntityView entity : layer.getEntities()) {
@@ -270,7 +282,6 @@ public class LevelEditor extends View {
 		}
 	}
 
-
 	/**
 	 * Make a close confirmation request. This is created whenever the user
 	 * tries to exit out of a level.
@@ -278,7 +289,8 @@ public class LevelEditor extends View {
 	 * @param e
 	 *            Event that close confirmation request is attached to
 	 */
-	private void closeRequest(Event e) {
+	private void closeRequest(Event e)
+	{
 		Alert alert = workspace.getMaker().makeAlert(AlertType.CONFIRMATION, "ConfirmationTitle", "ConfirmationHeader",
 				workspace.getPolyglot().get("ConfirmationContent"));
 		Optional<ButtonType> result = alert.showAndWait();
@@ -292,7 +304,8 @@ public class LevelEditor extends View {
 	 * 
 	 * @return LayerEditor describing the currently selected level
 	 */
-	public LayerEditor getCurrentLevel() {
+	public LayerEditor getCurrentLevel()
+	{
 		return currentLevel;
 	}
 
@@ -301,13 +314,16 @@ public class LevelEditor extends View {
 	 * 
 	 * @return Plus tab
 	 */
-	private Tab makePlusTab() {
+	private Tab makePlusTab()
+	{
 		Tab plusTab = new Tab("+");
 		plusTab.setTooltip(new CustomTooltip(workspace.getPolyglot().get("AddLevel")));
 		plusTab.setClosable(false);
-		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>() {
+		tabPane.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Tab>()
+		{
 			@Override
-			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab) {
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldTab, Tab newTab)
+			{
 				if (newTab.getText().equals("+")) {
 					tabPane.getTabs().add(tabPane.getTabs().size() - 1, newTab());
 					workspace.selectExistingLevel(oldTab.getText(), newTab.getText());
