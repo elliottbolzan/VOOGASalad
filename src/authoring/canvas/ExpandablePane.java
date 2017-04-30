@@ -1,6 +1,5 @@
 package authoring.canvas;
 
-import authoring.components.CustomTooltip;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;

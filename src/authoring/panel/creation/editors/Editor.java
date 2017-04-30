@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import authoring.components.EditingCell;
 import utils.views.View;
 import engine.GameObject;
 import engine.Parameter;
@@ -115,7 +114,7 @@ public abstract class Editor extends View {
 		}
 		setCenter(table);
 	}
-	
+
 	private void createBottom() {
 		VBox box = new VBox(10);
 		Label instructions = new Label();
@@ -186,18 +185,20 @@ public abstract class Editor extends View {
 		parameters.removeIf(item -> item.getName().equals(updatedParameter.getName()));
 		parameters.add(updatedParameter);
 	}
-	
-	public void initTutorialAction(String s, Runnable r){
-		comboBox.setOnAction((e) -> {selected(comboBox.getSelectionModel().getSelectedItem());
-		if(comboBox.getValue().equals(s)){							
-		r.run();
-		}
+
+	public void initTutorialAction(String s, Runnable r) {
+		comboBox.setOnAction((e) -> {
+			selected(comboBox.getSelectionModel().getSelectedItem());
+			if (comboBox.getValue().equals(s)) {
+				r.run();
+			}
 		});
 	}
-	
-	public void changeSaveHandler(Runnable r){
-		saveButton.setOnAction(e -> {save();
-									r.run();
+
+	public void changeSaveHandler(Runnable r) {
+		saveButton.setOnAction(e -> {
+			save();
+			r.run();
 		});
 	}
 
