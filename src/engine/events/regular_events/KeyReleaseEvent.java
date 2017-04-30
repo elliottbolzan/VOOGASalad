@@ -12,13 +12,14 @@ import javafx.scene.input.KeyCode;
 public class KeyReleaseEvent extends Event {
 
 	public KeyReleaseEvent() {
-		addParam(new Parameter("Key", KeyCode.class, KeyCode.UNDEFINED));
+		addParam(new Parameter(getResource("Key"), KeyCode.class, KeyCode.UNDEFINED));
 	}
 
 	@Override
 	public boolean act() {
 		return getGameInfo().getObservableBundle().getInputObservable().isKeyReleaseToProcess()
-				&& getParam("Key").equals(getGameInfo().getObservableBundle().getInputObservable().getLastPressedKey());
+				&& getParam(getResource("Key"))
+						.equals(getGameInfo().getObservableBundle().getInputObservable().getLastPressedKey());
 	}
 
 }

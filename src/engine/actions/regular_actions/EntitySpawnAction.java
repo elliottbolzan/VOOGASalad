@@ -14,39 +14,39 @@ import javafx.application.Platform;
  */
 public class EntitySpawnAction extends Action {
 	public EntitySpawnAction() {
-		addParam(new Parameter("Entity Name", String.class, ""));
-		addParam(new Parameter("Side", String.class, ""));
-		addParam(new Parameter("Spawn Probability", double.class, 1.0));
-		addParam(new Parameter("Random Spawn", boolean.class, false));
+		addParam(new Parameter(getResource("EntityName"), String.class, ""));
+		addParam(new Parameter(getResource("Side"), String.class, ""));
+		addParam(new Parameter(getResource("SpawnProbability"), double.class, 1.0));
+		addParam(new Parameter(getResource("RandomSpawn"), boolean.class, false));
 	}
 
 	@Override
 	public void act() {
-		if (Math.random() < (double) getParam("Spawn Probability")) {
+		if (Math.random() < (double) getParam(getResource("SpawnProbability"))) {
 			Platform.runLater(new Runnable() {
 				@Override
 				public void run() {
 					Entity newEntity = null;
 					for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
-						if (((String) getParam("Entity Name")).equals(entity.getName())) {
+						if (((String) getParam(getResource("EntityName"))).equals(entity.getName())) {
 							newEntity = entity.clone();
 							newEntity.setGameInfo(getGameInfo());
 							break;
 						}
 					}
 					newEntity.setZ(getEntity().getZ());
-					newEntity.setXSpeed((Double) newEntity.getParam("X Speed"));
-					newEntity.setYSpeed((Double) newEntity.getParam("Y Speed"));
-					newEntity.setXAcceleration((Double) newEntity.getParam("X Acceleration"));
-					newEntity.setYAcceleration((Double) newEntity.getParam("Y Acceleration"));
-					String side = ((String) getParam("Side"));
+					newEntity.setXSpeed(newEntity.getXSpeed());
+					newEntity.setYSpeed(newEntity.getYSpeed());
+					newEntity.setXAcceleration(newEntity.getXAcceleration());
+					newEntity.setYAcceleration(newEntity.getYAcceleration());
+					String side = ((String) getParam(getResource("Side")));
 					CollisionSide collisionSide;
 					try {
 						collisionSide = getCollisionSide(side.toUpperCase());
 					} catch (Exception e) {
 						throw new ActionException(getResource("InvalidCollisionSide"));
 					}
-					if ((boolean) getParam("Random Spawn"))
+					if ((boolean) getParam(getResource("RandomSpawn")))
 						collisionSide.placeEntityRandomly(getEntity(), newEntity);
 					else
 						collisionSide.placeEntity(getEntity(), newEntity);

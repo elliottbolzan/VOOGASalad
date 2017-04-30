@@ -21,15 +21,17 @@ import engine.events.Event;
 public class InsideRegionEvent extends Event {
 
 	public InsideRegionEvent() {
-		addParam(new Parameter("Minimum X", Double.class, 0.0));
-		addParam(new Parameter("Maximum X", Double.class, 0.0));
-		addParam(new Parameter("Minimum Y", Double.class, 0.0));
-		addParam(new Parameter("Maximum Y", Double.class, 0.0));
+		addParam(new Parameter(getResource("MinimumX"), Double.class, 0.0));
+		addParam(new Parameter(getResource("MaximumX"), Double.class, 0.0));
+		addParam(new Parameter(getResource("MinimumY"), Double.class, 0.0));
+		addParam(new Parameter(getResource("MaximumY"), Double.class, 0.0));
 	}
 
 	@Override
 	public boolean act() {
-		return getEntity().getX() > ((Double) getParam("MinX")) && getEntity().getX() < ((Double) getParam("MaxX"))
-				&& getEntity().getY() > ((Double) getParam("MinY")) && getEntity().getY() < ((Double) getParam("MaxY"));
+		return getEntity().getX() > ((Double) getParam(getResource("MinimumX")))
+				&& getEntity().getX() < ((Double) getParam(getResource("MaximumX")))
+				&& getEntity().getY() > ((Double) getParam(getResource("MinimumY")))
+				&& getEntity().getY() < ((Double) getParam(getResource("MaximumY")));
 	}
 }

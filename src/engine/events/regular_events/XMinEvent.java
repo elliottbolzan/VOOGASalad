@@ -13,12 +13,12 @@ import engine.events.Event;
 public class XMinEvent extends Event {
 
 	public XMinEvent() {
-		addParam(new Parameter("Min X", Double.class, 0.0));
+		addParam(new Parameter(getResource("MinimumX"), Double.class, 0.0));
 	}
 
 	@Override
 	public boolean act() {
-		return getEntity().getX() <= (Double) getParam("Min X");
+		return getEntity().getX() <= (Double) getParam(getResource("MinimumX"));
 	}
 
 }
