@@ -12,8 +12,8 @@ public class LeftClickEvent extends Event {
 	
 	@Override
 	public boolean act() {
-		return getGameInfo().getObservableBundle().getInputObservable().isMouseClickToProcess()
-				&& getGameInfo().getObservableBundle().getInputObservable().getLastPressedMouseButton().equals(MouseButton.PRIMARY);
+		ClickHelper helper = new ClickHelper();
+		return helper.mouseClickToProcess(this) && helper.buttonPressed(this, MouseButton.PRIMARY);
 	}
 	
 }
