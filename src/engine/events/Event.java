@@ -75,7 +75,7 @@ public abstract class Event extends GameObject implements EventInterface {
 			return true;
 		else {
 			try {
-				return Integer.parseInt((String) getParam("How many times to trigger")) < timesEventHasOccurred.get();
+				return Integer.parseInt((String) getParam("How many times to trigger")) >= timesEventHasOccurred.get();
 			} catch (Exception e) {
 				return false;
 			}
