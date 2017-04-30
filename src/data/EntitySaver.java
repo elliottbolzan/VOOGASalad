@@ -3,10 +3,7 @@ package data;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -24,6 +21,10 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import engine.entities.Entity;
 
 /**
+ * This class provides the methods for saving Entities and lists of Entities using XStream.
+ * It also makes a copy of the Entitiy's image and saves it into a resource file within the
+ * game data folder.
+ * 
  * @author Jay Doherty
  *
  */
