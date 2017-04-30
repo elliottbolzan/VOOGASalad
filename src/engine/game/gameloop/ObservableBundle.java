@@ -5,6 +5,7 @@ import engine.entities.Entity;
 import engine.game.eventobserver.CollisionObservable;
 import engine.game.eventobserver.InputObservable;
 import engine.game.eventobserver.TimerObservable;
+import engine.graphics.GraphicsEngine;
 import javafx.scene.Scene;
 
 /**
@@ -18,8 +19,8 @@ public class ObservableBundle {
 	private CollisionObservable collisionObservable;
 	private TimerObservable timerObservable;
 
-	public ObservableBundle(Scene gameScene) {
-		inputObservable = new InputObservable(gameScene);
+	public ObservableBundle(Scene gameScene, GraphicsEngine graphicsEngine) {
+		inputObservable = new InputObservable(gameScene, graphicsEngine);
 		collisionObservable = new CollisionObservable();
 		timerObservable = new TimerObservable();
 	}

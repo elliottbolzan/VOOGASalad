@@ -1,5 +1,6 @@
 package engine.game.eventobserver;
 
+import engine.graphics.GraphicsEngine;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -16,12 +17,13 @@ public class InputObservable extends EventObservable {
 	private MouseButton lastPressedMouseButton;
 	private Point2D lastPressedCoordinates;
 	private Scene gameScene;
+	private GraphicsEngine graphicsEngine;
 
 	private boolean keyPressToProcess;
 	private boolean keyReleaseToProcess;
 	private boolean mouseClickToProcess;
 
-	public InputObservable(Scene gameScene) {
+	public InputObservable(Scene gameScene, GraphicsEngine graphicsEngine) {
 		super();
 		lastPressedKey = null;
 		lastPressedMouseButton = null;
@@ -30,6 +32,7 @@ public class InputObservable extends EventObservable {
 		keyReleaseToProcess = false;
 		mouseClickToProcess = false;
 		this.gameScene = gameScene;
+		this.graphicsEngine = graphicsEngine;
 	}
 
 	// For Nikita to call in InputEvent's act()
@@ -80,7 +83,8 @@ public class InputObservable extends EventObservable {
 		});
 		gameScene.setOnMouseClicked(event -> {
 			lastPressedMouseButton = event.getButton();
-			lastPressedCoordinates = new Point2D(event.getX(), event.getY());
+			lastPressedCoordinates = new Point2D(event.getX() + graphicsEngine.getCamera().getX(),
+					event.getY() + graphicsEngine.getCamera().getY());
 			mouseClickToProcess = true;
 		});
 	}

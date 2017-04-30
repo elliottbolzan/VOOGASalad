@@ -28,7 +28,7 @@ public class GameInfo {
 	 * for first time, false for rest of game.
 	 */
 	private boolean entitiesNeverUpdated;
-
+	
 	public GameInfo(GameLoop gameLoop) {
 		this.bundle = gameLoop.getObservableBundle();
 		this.scorebar = gameLoop.getScorebar();

@@ -27,7 +27,7 @@ public class GameLoop {
 	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine, boolean firstTimeLoading) {
 		this.graphicsEngine = graphicsEngine;
 		scorebar = graphicsEngine.getScorebar();
-		observableBundle = new ObservableBundle(gameScene);
+		observableBundle = new ObservableBundle(gameScene, graphicsEngine);
 
 		levelManager = new LevelManager(game, new LevelStepStrategy(), scorebar);
 		levelManager.loadAllSavedLevels(firstTimeLoading);
