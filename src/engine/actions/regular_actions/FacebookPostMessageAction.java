@@ -32,6 +32,8 @@ public class FacebookPostMessageAction extends Action {
 			public void doResponse(boolean condition) {
 				Alert alert = new Alert(AlertType.INFORMATION,
 						condition ? getResource("FacebookSuccessString") : getResource("FacebookFailString"));
+				alert.setTitle(condition ? getResource("FacebookSuccessTitle"): getResource("ErrorTitle"));
+				alert.setHeaderText(condition ? getResource("FacebookSuccessHeader") : getResource("ErrorHeader"));
 				alert.setOnHidden(e -> getGameInfo().getTimelineManipulator().start());
 				alert.show();
 			}
