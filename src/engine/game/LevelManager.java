@@ -115,8 +115,6 @@ public class LevelManager {
 	}
 
 	/**
-<<<<<<< HEAD
-=======
 	 * Called only from GAE. (Maybe don't need this method?). Once game play
 	 * phase begins, level state should never be saved (unless add checkpoints).
 	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
