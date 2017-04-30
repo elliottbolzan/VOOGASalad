@@ -340,10 +340,6 @@ public class LayerEditor extends View
 						});
 					});
 					MultiEntityInfo<MoveInfo> multiMoveInfo = new MultiEntityInfo<MoveInfo>(moveInfo);
-					// MoveInfo moveInfo = new
-					// MoveInfo(entity.getEntity().getName(),
-					// entity.getEntityId(), oldX, oldY,
-					// newX, newY);
 					if (workspace.getNetworking().isConnected()) {
 						workspace.getNetworking().send(multiMoveInfo);
 					} else {
