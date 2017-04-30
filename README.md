@@ -9,7 +9,9 @@ Kyle Finke (kwf10), Elliott Bolzan (eab91), Mina Mungekar (mem94), Jimmy Shackfo
 ### Start Date, End Date, and Hours of Work
 
 Start Date: 21 March 2017
+
 End Date: 30 April 2017
+
 Hours of Work: 
 
 ### Each Person's Role in Developing the Project
