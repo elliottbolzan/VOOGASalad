@@ -47,6 +47,7 @@ public abstract class Editor extends View {
 	private List<Parameter> parameters = new ArrayList<Parameter>();
 	private TableView<Parameter> table;
 	private boolean showSave;
+	private Button saveButton;
 
 	/**
 	 * Creates an Editor.
@@ -123,7 +124,7 @@ public abstract class Editor extends View {
 		instructions.setPadding(new Insets(5));
 		instructions.setTextAlignment(TextAlignment.CENTER);
 		if (showSave) {
-			Button saveButton = workspace.getMaker().makeButton("TableEditorSaveButton", e -> save(), true);
+			saveButton = workspace.getMaker().makeButton("TableEditorSaveButton", e -> save(), true);
 			box.getChildren().add(saveButton);
 		}
 		box.getChildren().add(instructions);
@@ -184,6 +185,20 @@ public abstract class Editor extends View {
 	private void addToParameters(Parameter updatedParameter) {
 		parameters.removeIf(item -> item.getName().equals(updatedParameter.getName()));
 		parameters.add(updatedParameter);
+	}
+	
+	public void initTutorialAction(String s, Runnable r){
+		comboBox.setOnAction((e) -> {selected(comboBox.getSelectionModel().getSelectedItem());
+		if(comboBox.getValue().equals(s)){							
+		r.run();
+		}
+		});
+	}
+	
+	public void changeSaveHandler(Runnable r){
+		saveButton.setOnAction(e -> {save();
+									r.run();
+		});
 	}
 
 	/**

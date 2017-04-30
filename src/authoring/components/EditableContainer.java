@@ -143,18 +143,18 @@ public abstract class EditableContainer extends View {
 			}
 		});
 	}
-
-	public void changeEditHandler(Runnable r) {
-		editButton.setOnAction(e -> {
-			edit();
-			r.run();
+	
+	public void changeEditHandler(Runnable r){
+		editButton.setOnAction(e -> {edit();
+									setContainerPos();
+									r.run();
 		});
 	}
-
-	public void changeNewHandler(Runnable r) {
-		newButton.setOnAction(e -> {
-			createNew();
-			r.run();
+	
+	public void changeNewHandler(Runnable r){
+		newButton.setOnAction(e -> {createNew();
+									setContainerPos();
+									r.run();
 		});
 	}
 
@@ -178,5 +178,7 @@ public abstract class EditableContainer extends View {
 	 * Delete an element in the container.
 	 */
 	public abstract void delete();
+	
+	public abstract void setContainerPos();
 
 }

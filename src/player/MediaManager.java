@@ -2,8 +2,8 @@ package player;
 
 import java.io.File;
 
-import game_data.Game;
-import game_data.GameData;
+import data.Game;
+import data.GameData;
 import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

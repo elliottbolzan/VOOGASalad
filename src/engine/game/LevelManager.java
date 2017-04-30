@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import data.Game;
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
 import engine.game.gameloop.Scorebar;
@@ -13,7 +14,6 @@ import engine.game.gameloop.StepStrategy;
 import engine.game.selectiongroup.ListSG;
 import engine.game.selectiongroup.SelectionGroup;
 import engine.game.timer.TimerManager;
-import game_data.Game;
 
 /**
  * Holds all the levels in the current game and allows for game-wide behavior.

@@ -40,7 +40,7 @@ public class FollowAction extends Action {
 		double otherEntityCenterX = other.getX() + other.getWidth() / 2;
 		if (((boolean) getParam("Track Right") && thisEntityCenterX < otherEntityCenterX)
 				|| ((boolean) getParam("Track Left") && thisEntityCenterX > otherEntityCenterX)) {
-			this.getEntity().setX(other.getX() + (other.getWidth() / 2) - (this.getEntity().getWidth() / 2));
+			this.getEntity().setX(otherEntityCenterX - (this.getEntity().getWidth() / 2));
 		}
 	}
 
@@ -49,7 +49,7 @@ public class FollowAction extends Action {
 		double otherEntityCenterY = other.getY() + other.getHeight() / 2;
 		if (((boolean) getParam("Track Up") && thisEntityCenterY > otherEntityCenterY)
 				|| ((boolean) getParam("Track Down") && thisEntityCenterY < otherEntityCenterY)) {
-			this.getEntity().setY(other.getY() + (other.getHeight() / 2) - (this.getEntity().getHeight() / 2));
+			this.getEntity().setY(otherEntityCenterY - (this.getEntity().getHeight() / 2));
 		}
 	}
 }

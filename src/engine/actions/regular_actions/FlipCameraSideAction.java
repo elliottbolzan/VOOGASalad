@@ -14,10 +14,10 @@ import engine.entities.Entity;
 public class FlipCameraSideAction extends Action {
 
 	public FlipCameraSideAction() {
-		addParam(new Parameter("Flip Right Side", boolean.class, "true"));
-		addParam(new Parameter("Flip Left Side", boolean.class, "true"));
-		addParam(new Parameter("Flip Top Side", boolean.class, "true"));
-		addParam(new Parameter("Flip Bottom Side", boolean.class, "true"));
+		addParam(new Parameter("Flip Right Side", boolean.class, true));
+		addParam(new Parameter("Flip Left Side", boolean.class, true));
+		addParam(new Parameter("Flip Top Side", boolean.class, true));
+		addParam(new Parameter("Flip Bottom Side", boolean.class, true));
 	}
 
 	@Override

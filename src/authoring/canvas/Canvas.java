@@ -5,6 +5,9 @@ import java.util.List;
 
 import authoring.Workspace;
 import engine.entities.Entity;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -29,6 +32,8 @@ public class Canvas extends View
 	public static final int TILE_SIZE = 25;
 
 	private List<EntityView> entities;
+	private ObservableList<EntityView> entityList;
+
 	private Workspace workspace;
 
 	private ZoomablePane zoomablePane;
@@ -92,6 +97,7 @@ public class Canvas extends View
 	private void setup()
 	{
 		entities = new ArrayList<EntityView>();
+		entityList = FXCollections.observableList(new ArrayList<EntityView>(entities));
 		final Group group = new Group();
 		expandablePane = new ExpandablePane();
 		group.getChildren().add(expandablePane);
@@ -192,6 +198,7 @@ public class Canvas extends View
 	public void addEntity(EntityView entity)
 	{
 		entities.add(entity);
+		entityList.add(entity);
 		expandablePane.addEntity(entity, entity.getTranslateX(), entity.getTranslateY());
 	}
 
@@ -227,6 +234,13 @@ public class Canvas extends View
 		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
 		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
 		return new Point2D(gridX, gridY);
+	}
+	
+	public void addEntityListener(Runnable r){
+		entityList.addListener((ListChangeListener.Change<? extends EntityView> c) -> {
+			   r.run();
+			});
+
 	}
 
 }

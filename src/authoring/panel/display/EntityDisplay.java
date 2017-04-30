@@ -87,7 +87,7 @@ public class EntityDisplay extends EditableContainer
 	public void createNew()
 	{
 		setCurrentlyEditing(null);
-		 new EntityMaker(getWorkspace(), this, null);
+		 entityMaker = new EntityMaker(getWorkspace(), this, null);
 	}
 
 	/*
@@ -107,8 +107,12 @@ public class EntityDisplay extends EditableContainer
 	{
 		setCurrentlyEditing(entity);
 		entityMaker = new EntityMaker(getWorkspace(), this, entity);
-		entityMaker.setStagePos(0,0);
 		
+	}
+	
+	@Override
+	public void setContainerPos(){
+		entityMaker.setStagePos(0,0);
 	}
 
 	/*
