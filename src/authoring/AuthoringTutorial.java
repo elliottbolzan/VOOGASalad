@@ -44,12 +44,17 @@ public class AuthoringTutorial {
 	
 	private void addedKeyPress(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FourthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(() -> savedEvent());
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(() -> savedEvent("FifthStep",()->addedAction()));
 	}
 	
-	private void savedEvent(){
+	/*private void savedEvent(String s, Runnable r){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FifthStep"));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().changeNewHandler(() -> addedAction());
+	} */
+	
+	private void savedEvent(String s, Runnable r){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get(s));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().changeNewHandler(r);
 	}
 	
 	private void addedAction(){
@@ -62,11 +67,11 @@ public class AuthoringTutorial {
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().changeSaveHandler(() -> savedAction());
 	}
 	
+	
 	private void savedAction(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EighthStep"));	
 		workspace.getPanel().getEntityDisplay().getEntityMaker().changeSaveHandler(() -> savedCharacter());
 	}
-	
 	private void savedCharacter(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("NinthStep"));	
 		workspace.getLevelEditor().getCurrentLevel().addEntityListener(() -> canvasCharacter());
@@ -94,10 +99,31 @@ public class AuthoringTutorial {
 	
 	private void addedCollision(){
 		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FourteenthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(() -> savedEvent());
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(() -> savedEvent("FifteenthStep", ()->addedMonsterAction()));
 	}
 
+/*	private void savedMonsterEvent(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("FifteenthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().changeNewHandler(() -> addedAction());
+	} */
 	
+	private void addedMonsterAction(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SixteenthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().initTutorialAction("Entity Remove", () -> addedDeath());
+	}
 	
+	private void addedDeath(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("SeventeenthStep"));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().changeSaveHandler(() -> savedMonsterAction());
+	}
 	
+	private void savedMonsterAction(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EighteenthStep"));	
+		workspace.getPanel().getEntityDisplay().getEntityMaker().changeSaveHandler(() -> savedMonsterCharacter());
+	}
+	
+	private void savedMonsterCharacter(){
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("NinteenthStep"));	
+		//workspace.getLevelEditor().getCurrentLevel().addEntityListener(() -> canvasCharacter());
+	}
 }
