@@ -16,8 +16,7 @@ import javafx.scene.image.Image;
  * @author jimmy
  *
  */
-public class EntityUpdate extends Packet
-{
+public class EntityUpdate extends Packet {
 	private static final long serialVersionUID = 1930810473204140633L;
 	private String EXTENSION = "gif";
 
@@ -37,8 +36,7 @@ public class EntityUpdate extends Packet
 	 * @param message
 	 *            the content of the Message.
 	 */
-	public EntityUpdate(Image image, double x, double y, double width, double height, String name)
-	{
+	public EntityUpdate(Image image, double x, double y, double width, double height, String name) {
 		this.image = image;
 		this.x = x;
 		this.y = y;
@@ -50,18 +48,15 @@ public class EntityUpdate extends Packet
 	/**
 	 * @return the Message's username.
 	 */
-	public Image getImage()
-	{
+	public Image getImage() {
 		return image;
 	}
 
-	public double getX()
-	{
+	public double getX() {
 		return x;
 	}
 
-	public double getY()
-	{
+	public double getY() {
 		return y;
 	}
 
@@ -69,35 +64,30 @@ public class EntityUpdate extends Packet
 	 *
 	 * @return the Entity's width after update
 	 */
-	public double getWidth()
-	{
+	public double getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return the Entity's height after update
 	 */
-	public double getHeight()
-	{
+	public double getHeight() {
 		return height;
 	}
 
 	/**
 	 * @return the Entity's name.
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
 
-	private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException
-	{
+	private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
 		s.defaultReadObject();
 		image = SwingFXUtils.toFXImage(ImageIO.read(s), null);
 	}
 
-	private void writeObject(ObjectOutputStream s) throws IOException
-	{
+	private void writeObject(ObjectOutputStream s) throws IOException {
 		s.defaultWriteObject();
 		ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", s);
 	}
