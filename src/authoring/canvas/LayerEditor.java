@@ -206,7 +206,7 @@ public class LayerEditor extends View
 					List<EntityView> selectedEntities = layer.getSelectedEntities();
 					selectedEntities.forEach(entity -> {
 						DeleteInfo removeInfo = new DeleteInfo(entity.getEntity().getName(), entity.getTranslateX(),
-								entity.getTranslateY(), entity.getEntityId());
+								entity.getTranslateY(), (int) entity.getEntity().getZ(), entity.getEntityId());
 						if (workspace.getNetworking().isConnected()) {
 							workspace.getNetworking().send(removeInfo);
 						} else {

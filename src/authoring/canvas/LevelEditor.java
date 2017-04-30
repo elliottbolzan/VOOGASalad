@@ -165,7 +165,7 @@ public class LevelEditor extends View
 		List<AddInfo> totalAddInfo = new ArrayList<AddInfo>();
 		for (EntityView entity : copiedEntities) {
 			AddInfo addInfo = new AddInfo(entity.getEntity().getName(), entity.getTranslateX() + PASTE_OFFSET,
-					entity.getTranslateY() + PASTE_OFFSET);
+					entity.getTranslateY() + PASTE_OFFSET, (int) entity.getEntity().getZ());
 			totalAddInfo.add(addInfo);
 		}
 		MultiEntityInfo<AddInfo> multiAddInfo = new MultiEntityInfo<AddInfo>(totalAddInfo);
@@ -226,10 +226,10 @@ public class LevelEditor extends View
 					double y = addInfo.getY();
 					long entityId = addInfo.getEntityId();
 					Entity entity = workspace.getDefaults().getEntity(addInfo.getEntityName()).clone();
+					entity.setZ(addInfo.getZ());
 					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
 							getCurrentLevel().getCanvas().getTileSize(), x, y);
-					AddDeleteCommand addCommand = new AddDeleteCommand(newEntity, LevelEditor.this.getCurrentLevel(),
-							true);
+					AddDeleteCommand addCommand = new AddDeleteCommand(newEntity, LevelEditor.this, true);
 					workspace.execute(addCommand);
 
 				}
@@ -243,8 +243,7 @@ public class LevelEditor extends View
 				{
 					DeleteInfo deleteInfo = (DeleteInfo) packet;
 					EntityView deletedEntity = LevelEditor.this.getEntity(deleteInfo.getEntityId());
-					AddDeleteCommand deleteCommand = new AddDeleteCommand(deletedEntity,
-							LevelEditor.this.getCurrentLevel(), false);
+					AddDeleteCommand deleteCommand = new AddDeleteCommand(deletedEntity, LevelEditor.this, false);
 					workspace.execute(deleteCommand);
 				}
 

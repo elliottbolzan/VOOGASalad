@@ -162,7 +162,8 @@ public class Workspace extends View
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
-				AddInfo addInfo = new AddInfo(addedEntity.getName(), e2.getX(), e2.getY());
+				AddInfo addInfo = new AddInfo(addedEntity.getName(), e2.getX(), e2.getY(),
+						getLevelEditor().getCurrentLevel().getCurrentLayer());
 				getLevelEditor().getCurrentLevel().getLayers().forEach(layer -> {
 					layer.getSelectedEntities().forEach(selectedEntity -> {
 						selectedEntity.setSelected(false);
