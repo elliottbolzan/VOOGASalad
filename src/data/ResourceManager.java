@@ -34,6 +34,9 @@ public class ResourceManager {
 	private final static String XML = "XML";
 	private final static String VS = "VS";
 	private final static String MP3 = "MP3";
+	private final static String FORWARD_SLASH = "ForwardSlash";
+	private final static String BACK_SLASH = "BackSlash";
+	private final static String FILE_START = "FileStart";
 
 	private Properties prop;
 
@@ -145,6 +148,18 @@ public class ResourceManager {
 
 	public String getMP3(){
 		return prop.getProperty(MP3);
+	}
+	
+	public String getForwardSlash(){
+		return prop.getProperty(FORWARD_SLASH);
+	}
+	
+	public String getBackwardSlash(){
+		return prop.getProperty(BACK_SLASH);
+	}
+	
+	public String getFileStart(){
+		return prop.getProperty(FILE_START);
 	}
 }
 

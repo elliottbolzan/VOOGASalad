@@ -25,10 +25,8 @@ import engine.game.Level;
 
 public class GameSaver
 {
-
 	private GameXMLFactory gameXMLFactory;
 	private ResourceManager resourceManager = new ResourceManager();
-
 
 	/**
 	 * Main method to save the entire game to the selected file path. Utilizes

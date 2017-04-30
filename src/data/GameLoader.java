@@ -36,9 +36,6 @@ import javafx.collections.ObservableList;
 public class GameLoader {
 
 	private ResourceManager resourceManager;
-	private final static String FORWARD_SLASH = "/";
-	private final static String BACK_SLASH = "\\";
-	
 
 	/**
 	 * Loads game given the folder path and returns the entities and songpath
@@ -291,7 +288,7 @@ public class GameLoader {
 		xStream.registerConverter(new EntityConverter());
 
 		Entity entity = (Entity) xStream.fromXML(getXMLStringFromElement(entityElement));
-		entity.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(entity.getImagePath()));
+		entity.setImagePath(resourceManager.getFileStart() + gameFolderPath + File.separator + convertPathForSystem(entity.getImagePath()));
 
 		return entity;
 	}
@@ -304,13 +301,13 @@ public class GameLoader {
 	 */
 	private String convertPathForSystem(String path) {
 		String newPath = path;
-		if (File.separator.equals(FORWARD_SLASH)) {
-			if (path.contains(BACK_SLASH)) {
-				newPath = path.replace(BACK_SLASH, File.separator);
+		if (File.separator.equals(resourceManager.getForwardSlash())) {
+			if (path.contains(resourceManager.getBackwardSlash())) {
+				newPath = path.replace(resourceManager.getBackwardSlash(), File.separator);
 			}
 		} else {
-			if (path.contains(FORWARD_SLASH)) {
-				newPath = path.replace(FORWARD_SLASH, File.separator);
+			if (path.contains(resourceManager.getForwardSlash())) {
+				newPath = path.replace(resourceManager.getForwardSlash(), File.separator);
 			}
 		}
 
