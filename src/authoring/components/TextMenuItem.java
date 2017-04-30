@@ -1,6 +1,3 @@
-/**
- * 
- */
 package authoring.components;
 
 import javafx.beans.binding.StringBinding;
@@ -14,24 +11,24 @@ import javafx.scene.input.KeyCombination;
  * @author Elliott Bolzan
  *
  */
-public class CustomMenuItem extends MenuItem {
+public class TextMenuItem extends MenuItem {
 	
 	private Label label;
 	
-	public CustomMenuItem(EventHandler<ActionEvent> handler) {
+	public TextMenuItem(EventHandler<ActionEvent> handler) {
 		label = new Label();
 		label.setMinWidth(100);
 		setGraphic(label);
 		setOnAction(handler);
 	}
 
-	public CustomMenuItem(StringBinding binding, String keyCombination, EventHandler<ActionEvent> handler) {
+	public TextMenuItem(StringBinding binding, String keyCombination, EventHandler<ActionEvent> handler) {
 		this(handler);
 		setBinding(binding);
 	    setAccelerator(KeyCombination.keyCombination(keyCombination));
 	}
 	
-	public CustomMenuItem(StringBinding binding, EventHandler<ActionEvent> handler) {
+	public TextMenuItem(StringBinding binding, EventHandler<ActionEvent> handler) {
 		this(handler);
 		setBinding(binding);
 	}

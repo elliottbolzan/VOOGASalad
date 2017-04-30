@@ -1,6 +1,7 @@
 package authoring.components;
 
 import java.io.File;
+import java.lang.invoke.MethodHandles.Lookup;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -10,14 +11,14 @@ import javafx.beans.binding.StringBinding;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
@@ -27,7 +28,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -152,29 +152,24 @@ public class ComponentMaker {
 	 *            the titles of the subviews that are added to the Accordion.
 	 * @return an Accordion.
 	 */
-	public Accordion makeAccordion(List<View> subviews) {
+	public Accordion makeAccordion(List<View> subviews, List<StringBinding> nameList) {
 		Accordion accordion = new Accordion();
 		List<TitledPane> titledPanes = new ArrayList<TitledPane>();
 		for (int i = 0; i < subviews.size(); i++) {
-			Label infoLabel = new Label("?");
 			TitledPane pane = new TitledPane();
-			pane.setContentDisplay(ContentDisplay.RIGHT);
-			pane.setGraphic(infoLabel);
 			pane.textProperty().bind(subviews.get(i).getTitle());
-			Text t = new Text(pane.getText());
-			pane.setGraphicTextGap(188 - t.getBoundsInLocal().getWidth());
 			pane.setContent(subviews.get(i));
+			Label info = new Label("?");
+			new CustomTooltip(nameList.get(i), info);
+			pane.setGraphic(info);
+		    info.translateXProperty().bind(
+		      pane.widthProperty().subtract(info.widthProperty().multiply(6))
+		    );
 			titledPanes.add(pane);
 		}
 		accordion.getPanes().addAll(titledPanes);
 		accordion.setExpandedPane(titledPanes.get(0));
 		return accordion;
-	}
-
-	public void setToolTips(Accordion accordion, List<StringBinding> nameList) {
-		for (int i = 0; i < nameList.size(); i++) {
-			new CustomTooltip(nameList.get(i), accordion.getPanes().get(i).getGraphic());
-		}
 	}
 
 	/**
@@ -259,10 +254,10 @@ public class ComponentMaker {
 
 	public MenuItem makeMenuItem(String property, EventHandler<ActionEvent> handler, boolean showAccelerator) {
 		if (showAccelerator) {
-			return new CustomMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), combinations.getString(property),
+			return new TextMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), combinations.getString(property),
 					handler);
 		}
-		return new CustomMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), handler);
+		return new TextMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), handler);
 	}
 
 	public CheckMenuItem makeCheckItem(String property, EventHandler<ActionEvent> handler, boolean selected) {

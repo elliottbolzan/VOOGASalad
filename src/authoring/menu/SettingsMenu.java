@@ -45,7 +45,7 @@ public class SettingsMenu extends WorkspaceMenu {
 		CheckMenuItem directionItem = getMaker().makeCheckItem("Direction", e -> setTimeDirection(),
 				getWorkspace().getGame().getClockGoingDown());
 		MenuItem timeItem = getMaker().makeMenuItem("Time", e -> setMaxTime(), true);
-		getItems().addAll(musicItem, new SeparatorMenuItem(), directionItem, timeItem);
+		getItems().addAll(musicItem, new SeparatorMenuItem(), timeItem, directionItem);
 	}
 
 	private void chooseSong() {
