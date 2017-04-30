@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 
 import authoring.AuthoringEnvironment;
 import authoring.components.ComponentMaker;
-import game_data.Game;
-import game_data.GameData;
+import data.Game;
+import data.GameData;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
@@ -18,11 +18,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -31,14 +31,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import player.MediaManager;
-import player.menu.MainMenu;
+import player.menus.MainMenu;
 import polyglot.Case;
 import polyglot.Polyglot;
 import polyglot.PolyglotException;
 
 public class StartMenu extends BorderPane {
-
-	private static final String KEY = "AIzaSyCOWQRgYSfbiNnOdIRPBcuY6iLTqwfmOc4";
 
 	private Stage stage;
 	private Polyglot polyglot;
@@ -49,12 +47,12 @@ public class StartMenu extends BorderPane {
 	public StartMenu(Stage primaryStage) {
 		this.stage = primaryStage;
 		try {
-			this.polyglot = new Polyglot(KEY, "resources/Strings");
+			this.polyglot = new Polyglot(IOResources.getString("Google_API_KEY"), "resources/Strings");
 			this.languages = polyglot.languages();
 		} catch (PolyglotException e) {
 			System.out.println("There probably is no Internet connection.");
 		}
-		this.maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		this.maker = new ComponentMaker(polyglot, IOResources);
 		this.setIcon();
 		this.buildStage();
 	}
@@ -105,9 +103,10 @@ public class StartMenu extends BorderPane {
 	private VBox createMenu() {
 		MenuBar menuBar = new MenuBar();
 		Menu menuFile = maker.makeMenu("GameMenu");
-		menuFile.getItems().addAll(maker.makeMenuItem("NewButton", "Ctrl+N", e -> newGame()),
-				maker.makeMenuItem("EditButton", "Ctrl+E", e -> editGame()),
-				maker.makeMenuItem("PlayButton", "Ctrl+P", e -> playGame()));
+		MenuItem newItem = maker.makeMenuItem("New", e -> newGame(), true);
+		MenuItem editItem = maker.makeMenuItem("Edit", e -> editGame(), true);
+		MenuItem playItem = maker.makeMenuItem("Play", e -> playGame(), true);
+		menuFile.getItems().addAll(newItem, editItem, playItem);
 		Menu languageMenu = makeLanguageMenu();
 		menuBar.getMenus().addAll(menuFile, languageMenu);
 		menuBar.setOpacity(0);
@@ -137,17 +136,17 @@ public class StartMenu extends BorderPane {
 			return selectedDirectory.getAbsolutePath();
 		}
 	}
-	
+
 	private Game createGame(String path) {
 		try {
 			GameData gameData = new GameData();
 			return gameData.loadGame(path);
 		} catch (Exception e) {
 			// Thread this.
+			e.printStackTrace();
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NotAGame").get());
 			alert.show();
 			return null;
-
 		}
 	}
 
@@ -170,14 +169,14 @@ public class StartMenu extends BorderPane {
 		if (!path.equals("")) {
 			Game game = createGame(path);
 			if (game != null) {
-				new MainMenu(game, new MediaManager(game, path, null), polyglot, IOResources);
+				new MainMenu(game, new MediaManager(game, path), polyglot, IOResources);
 			}
 		}
 	}
 
 	private Menu makeLanguageMenu() {
 		Menu languageMenu = maker.makeMenu("LanguageMenu");
-		MenuItem pickLanguage = maker.makeMenuItem("PickLanguageItem", "Ctrl+L", e -> checkForInternet());
+		MenuItem pickLanguage = maker.makeMenuItem("PickLanguage", e -> checkForInternet(), true);
 		languageMenu.getItems().add(pickLanguage);
 		return languageMenu;
 	}

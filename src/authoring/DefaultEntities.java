@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import engine.Entity;
-import engine.entities.CharacterEntity;
+import engine.entities.Entity;
+import engine.entities.entities.BackgroundEntity;
+import engine.entities.entities.BlockEntity;
+import engine.entities.entities.CameraEntity;
+import engine.entities.entities.CharacterEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -30,8 +33,12 @@ public class DefaultEntities {
 	public DefaultEntities(Workspace workspace) {
 		this.workspace = workspace;
 		this.entities = FXCollections.observableArrayList(new ArrayList<Entity>());
-		if (workspace.getGame().getDefaults().size() == 0)
+		if (workspace.getGame().getDefaults().size() == 0) {
 			add(new CharacterEntity());
+			add(new BlockEntity());
+			add(new CameraEntity());
+			add(new BackgroundEntity());
+		}
 	}
 
 	/**
@@ -82,6 +89,16 @@ public class DefaultEntities {
 		entities.remove(entity);
 		updateModel();
 	}
+	
+	public void edit(Entity entity) {
+		for (Entity old: entities) {
+			if (old.getName().equals(entity.getName())) {
+				old.widthProperty().set(entity.getWidth());
+				old.heightProperty().set(entity.getHeight());
+				return;
+			}
+		}
+	}
 
 	/**
 	 * 
@@ -89,6 +106,15 @@ public class DefaultEntities {
 	 */
 	public List<String> getNames() {
 		return entities.stream().map(Entity::getName).collect(Collectors.toList());
+	}
+	
+	public Entity getEntity(String name) {
+		for (Entity entity: entities) {
+			if (entity.getName().equals(name)) {
+				return entity;
+			}
+		}
+		return null;
 	}
 
 	/**

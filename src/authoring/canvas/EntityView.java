@@ -1,12 +1,13 @@
 package authoring.canvas;
 
 import java.util.List;
+import java.util.Random;
 
-import engine.Entity;
+import authoring.Workspace;
+import engine.entities.Entity;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -37,11 +38,15 @@ import javafx.scene.paint.Color;
  */
 public class EntityView extends VBox
 {
-	private Entity entity;
+	private final int MIN_SIZE = 10;
+
+	private transient Entity entity;
+
 	private ImageView image;
 	private int tileSize;
 	private boolean selected;
 	private Canvas canvas;
+	private long entityId;
 
 	/**
 	 * Create an EntityView with the given gridSize and (x,y) position. The
@@ -60,15 +65,23 @@ public class EntityView extends VBox
 	 */
 	public EntityView(Entity entity, Canvas canvas, int gridSize, double x, double y)
 	{
+		this(entity, new Random().nextLong(), canvas, gridSize, x, y);
+	}
+
+	public EntityView(Entity entity, long entityId, Canvas canvas, int gridSize, double x, double y)
+	{
 		this.entity = entity.clone();
 		this.image = new ImageView(new Image(entity.getImagePath()));
 		this.canvas = canvas;
 		this.setMinHeight(entity.getHeight());
 		this.setMinWidth(entity.getWidth());
+		this.setTranslateX(x);
+		this.setTranslateY(y);
 		this.tileSize = gridSize;
 		selected = false;
+		this.entityId = entityId;
 
-		setup(gridSize);
+		setup();
 	}
 
 	/**
@@ -83,10 +96,32 @@ public class EntityView extends VBox
 	 * @param y
 	 *            initial y position of the EntityView
 	 */
-	private void setup(int gridSize)
+	private void setup()
 	{
-		this.setPrefHeight(10);
-		this.setPrefWidth(10);
+		// this.setPrefHeight(MIN_SIZE);
+		// this.setPrefWidth(MIN_SIZE);
+		// image.fitWidthProperty().bind(this.minWidthProperty());
+		// image.fitHeightProperty().bind(this.minHeightProperty());
+		//
+		// entity.xProperty().bind(this.translateXProperty());
+		// entity.yProperty().bind(this.translateYProperty());
+		// entity.widthProperty().bind(image.fitWidthProperty());
+		// entity.heightProperty().bind(image.fitHeightProperty());
+		setupBounds();
+
+		this.getChildren().add(image);
+		// this.setMinWidth(getTiledCoordinate(image.getBoundsInLocal().getWidth()));
+		// this.setMinHeight(getTiledCoordinate(image.getBoundsInLocal().getHeight()));
+
+		DragUtil.makeDraggable(this, tileSize);
+		DragUtil.makeResizeable(this, tileSize);
+	}
+
+	private void setupBounds()
+	{
+		this.setPrefHeight(MIN_SIZE);
+		this.setPrefWidth(MIN_SIZE);
+
 		image.fitWidthProperty().bind(this.minWidthProperty());
 		image.fitHeightProperty().bind(this.minHeightProperty());
 
@@ -95,12 +130,17 @@ public class EntityView extends VBox
 		entity.widthProperty().bind(image.fitWidthProperty());
 		entity.heightProperty().bind(image.fitHeightProperty());
 
-		this.getChildren().add(image);
 		this.setMinWidth(getTiledCoordinate(image.getBoundsInLocal().getWidth()));
 		this.setMinHeight(getTiledCoordinate(image.getBoundsInLocal().getHeight()));
+	}
 
-		DragUtil.makeDraggable(this, gridSize);
-		DragUtil.makeResizeable(this, gridSize);
+	public void setEntity(Entity entity)
+	{
+		this.entity = entity.clone();
+		image.setImage(new Image(entity.getImagePath()));
+		this.setMinHeight(entity.getHeight());
+		this.setMinWidth(entity.getWidth());
+		setupBounds();
 	}
 
 	/**
@@ -136,16 +176,15 @@ public class EntityView extends VBox
 			ds.setColor(Color.GRAY);
 			this.setEffect(ds);
 			this.setFocused(true);
-			this.setFocusTraversable(true);
-			this.setOnKeyPressed(e -> {
-				if (e.getCode().equals(KeyCode.RIGHT)) {
-				} else if (e.getCode().equals(KeyCode.LEFT)) {
-				}
-			});
 		} else {
 			this.setEffect(null);
 			this.setBorder(null);
 		}
+	}
+
+	public long getEntityId()
+	{
+		return entityId;
 	}
 
 	/**
@@ -168,6 +207,16 @@ public class EntityView extends VBox
 	public void moveY(double yAmount)
 	{
 		this.setTranslateY(this.getTranslateY() + yAmount);
+	}
+
+	public void setX(double x)
+	{
+		this.setTranslateX(x);
+	}
+
+	public void setY(double y)
+	{
+		this.setTranslateY(y);
 	}
 
 	/**
@@ -214,6 +263,11 @@ public class EntityView extends VBox
 	public boolean isSelected()
 	{
 		return this.selected;
+	}
+
+	public Workspace getWorkspace()
+	{
+		return canvas.getWorkspace();
 	}
 
 	// TODO: This method is repeated in DragResizer and Canvas

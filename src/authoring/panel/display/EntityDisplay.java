@@ -1,11 +1,14 @@
 package authoring.panel.display;
 
+import java.util.List;
+
 import authoring.Workspace;
+import authoring.command.EntityListInfo;
 import authoring.components.EditableContainer;
 import authoring.components.thumbnail.LiveThumbnail;
 import authoring.components.thumbnail.Thumbnail;
 import authoring.panel.creation.EntityMaker;
-import engine.Entity;
+import engine.entities.Entity;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -23,13 +26,19 @@ import javafx.scene.layout.VBox;
 public class EntityDisplay extends EditableContainer {
 
 	private ListView<Entity> list;
+	private EntityMaker entityMaker;
 
 	/**
 	 * Creates an EntityDisplay.
-	 * @param workspace the workspace that owns the EntityDisplay.
+	 * 
+	 * @param workspace
+	 *            the workspace that owns the EntityDisplay.
 	 */
 	public EntityDisplay(Workspace workspace) {
 		super(workspace, "EntityDisplayTitle");
+		getStyleClass().add("background");
+		addTooltips(workspace.getPolyglot().get("AddEntity"), workspace.getPolyglot().get("EditEntity"),
+				workspace.getPolyglot().get("DeleteEntity"));
 	}
 
 	/**
@@ -41,7 +50,9 @@ public class EntityDisplay extends EditableContainer {
 
 	/**
 	 * Add an Entity to the EntityDisplay.
-	 * @param entity the Entity to be added.
+	 * 
+	 * @param entity
+	 *            the Entity to be added.
 	 */
 	public void addEntity(Entity entity) {
 		if (getCurrentlyEditing() != null) {
@@ -49,29 +60,56 @@ public class EntityDisplay extends EditableContainer {
 			getWorkspace().updateEntity(entity);
 		}
 		getWorkspace().getDefaults().add(entity);
+
+		List<? extends Entity> addedSublist = getWorkspace().getDefaults().getEntities();
+		if (addedSublist.size() > 0) {
+			// EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
+			if (getWorkspace().getNetworking().isConnected()) {
+				EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
+				getWorkspace().getNetworking().send(entityListInfo);
+			} else {
+				// getWorkspace().received(entityListInfo);
+			}
+		}
+		getWorkspace().updateEntity(entity);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.components.EditableContainer#createNew()
 	 */
 	@Override
 	public void createNew() {
 		setCurrentlyEditing(null);
-		new EntityMaker(getWorkspace(), this, null);
+		entityMaker = new EntityMaker(getWorkspace(), this, null);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.components.EditableContainer#edit()
 	 */
 	@Override
 	public void edit() {
 		if (selectionExists(getSelection())) {
-			setCurrentlyEditing(getSelection());
-			new EntityMaker(getWorkspace(), this, getSelection());
+			editHelper(getSelection());
 		}
 	}
 
-	/* (non-Javadoc)
+	public void editHelper(Entity entity) {
+		setCurrentlyEditing(entity);
+		entityMaker = new EntityMaker(getWorkspace(), this, entity);
+	}
+
+	@Override
+	public void setContainerPos() {
+		entityMaker.setStagePos(0, 0);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.components.EditableContainer#delete()
 	 */
 	@Override
@@ -80,7 +118,9 @@ public class EntityDisplay extends EditableContainer {
 			getWorkspace().getDefaults().remove(getSelection());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.components.EditableContainer#createContainer()
 	 */
 	@Override
@@ -125,6 +165,10 @@ public class EntityDisplay extends EditableContainer {
 		Thumbnail thumbnail = new LiveThumbnail(entity.imagePathProperty(), 50, 50);
 		box.getChildren().addAll(thumbnail, name);
 		return box;
+	}
+
+	public EntityMaker getEntityMaker() {
+		return entityMaker;
 	}
 
 }

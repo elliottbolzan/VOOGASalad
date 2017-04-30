@@ -1,6 +1,3 @@
-/**
- * 
- */
 package player;
 
 import java.util.ResourceBundle;
@@ -34,12 +31,18 @@ public class PlayerView extends View {
 	public PlayerView(Polyglot polyglot, ResourceBundle IOResources) {
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
-		this.factory = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		this.factory = new ComponentMaker(polyglot, IOResources);
 		setMinSize(420, 600);
 	}
 	
 	public Scene createScene(double width, double height) {
 		Scene scene = new Scene(this, width, height);
+		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
+		return scene;
+	}
+	
+	public Scene createScene(){
+		Scene scene = new Scene(this);
 		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 		return scene;
 	}

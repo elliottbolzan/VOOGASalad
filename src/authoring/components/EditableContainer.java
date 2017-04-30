@@ -2,6 +2,7 @@ package authoring.components;
 
 import authoring.Workspace;
 import utils.views.View;
+import javafx.beans.binding.StringBinding;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -26,6 +27,7 @@ public abstract class EditableContainer extends View {
 
 	private Workspace workspace;
 	private Object currentlyEditing;
+	private Button newButton, editButton, deleteButton;
 
 	/**
 	 * Create an EditableContainer.
@@ -52,12 +54,26 @@ public abstract class EditableContainer extends View {
 
 	private void createButtons() {
 		VBox buttonBox = new VBox();
-		Button newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
-		Button editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
-		Button deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
+		newButton = workspace.getMaker().makeButton("New", e -> createNew(), true);
+		editButton = workspace.getMaker().makeButton("Edit", e -> edit(), true);
+		deleteButton = workspace.getMaker().makeButton("Delete", e -> delete(), true);
 		HBox modificationButtons = new HBox(editButton, deleteButton);
 		buttonBox.getChildren().addAll(newButton, modificationButtons);
 		setBottom(buttonBox);
+	}
+
+	/**
+	 * Add tooltips to display text when the mouse hovers over the buttons. The
+	 * text will vary based on the context the editable container is used in.
+	 * 
+	 * @param s1
+	 * @param s2
+	 * @param s3
+	 */
+	public void addTooltips(StringBinding s1, StringBinding s2, StringBinding s3) {
+		new CustomTooltip(s1, newButton);
+		new CustomTooltip(s2, editButton);
+		new CustomTooltip(s3, deleteButton);
 	}
 
 	/**
@@ -107,14 +123,30 @@ public abstract class EditableContainer extends View {
 		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if (mouseEvent.getClickCount() == 1) {
-					if (single != null) {
-						single.run();
+				if (list.getSelectionModel().getSelectedItem() != null) {
+					if (mouseEvent.getClickCount() == 1) {
+						if (single != null) {
+							single.run();
+						}
+					} else if (mouseEvent.getClickCount() == 2) {
+						edit();
 					}
-				} else if (mouseEvent.getClickCount() == 2) {
-					edit();
 				}
 			}
+		});
+	}
+	
+	public void changeEditHandler(Runnable r){
+		editButton.setOnAction(e -> {edit();
+									setContainerPos();
+									r.run();
+		});
+	}
+	
+	public void changeNewHandler(Runnable r){
+		newButton.setOnAction(e -> {createNew();
+									setContainerPos();
+									r.run();
 		});
 	}
 
@@ -138,5 +170,7 @@ public abstract class EditableContainer extends View {
 	 * Delete an element in the container.
 	 */
 	public abstract void delete();
+	
+	public abstract void setContainerPos();
 
 }

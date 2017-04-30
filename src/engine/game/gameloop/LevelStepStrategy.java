@@ -1,11 +1,13 @@
 package engine.game.gameloop;
-import engine.Action;
-import engine.Entity;
-import engine.Event;
+
+import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
+import engine.events.Event;
 import engine.GameInfo;
+import engine.actions.Action;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import javafx.scene.Scene;
+
 /**
  * Subclass of StepStrategy implementing step() when a Level should be
  * displayed.
@@ -19,6 +21,7 @@ public class LevelStepStrategy implements StepStrategy {
 	private GameInfo info;
 	private boolean screenFinished;
 	private StepStrategy nextStepStrategy;
+
 	/**
 	 * Functionality executed when timeline for Screen with this
 	 * LevelStepStrategy is step up; only executed once. Called from Screen's
@@ -32,24 +35,19 @@ public class LevelStepStrategy implements StepStrategy {
 		this.screenFinished = false;
 		levelManager.resetCurrentLevel();
 		info.getScorebar().resetTimerManager();
-		addInfoToEntities();
 		setupGameView();
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			if (entity.getName().equals("Mario")) {
-				// System.out.println("x = " + entity.getX() + ", y = " +
-				// entity.getY());
-			}
-		}
-		// System.out.println("Entities in current level: " +
-		// levelManager.getCurrentLevel().getEntities());
+		addInfoToEntities();
 	}
+
 	public void flagScreenFinished(StepStrategy nextStepStrategy) {
 		this.screenFinished = true;
 		this.nextStepStrategy = nextStepStrategy;
 	}
+
 	public boolean screenFinished() {
 		return screenFinished;
 	}
+
 	/**
 	 * Called on every iteration of the Timeline.
 	 * 
@@ -61,20 +59,22 @@ public class LevelStepStrategy implements StepStrategy {
 	@Override
 	public void step() {
 		info.getObservableBundle().updateObservers();
-		// TODO If need an update method in GameInfo, update it here, right
+		// TODO If need an update method in GameInfo, update it here, rsoight
 		// before entity.update();
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			entity.update();
-		}
+		//System.out.println(levelManager.getCurrentLevel().getEntities());
+		levelManager.getCurrentLevel().getEntities().forEach(e -> e.update());
+		info.setEntitiesNeverUpdatedFalse();
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
 		graphicsEngine.updateFrame();
 		if (screenFinished) {
 			levelManager.setCurrentStepStrategy(nextStepStrategy);
-			Screen nextScreen = new Screen(levelManager, graphicsEngine, info);
+			Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
 			nextScreen.getTimeline().play();
 		}
+
 	}
+
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */
@@ -91,8 +91,10 @@ public class LevelStepStrategy implements StepStrategy {
 			}
 		}
 	}
+
 	private void setupGameView() {
-		// TODO call graphicsEngine.setCamera() here
-		graphicsEngine.setEntitiesCollection(levelManager.getCurrentLevel().getEntities());
+		CameraEntity levelCamera = levelManager.getCurrentLevel().getCamera();
+		levelManager.getCurrentLevel().getEntities().add(levelCamera);
+		graphicsEngine.setupLevel(levelManager.getCurrentLevel());
 	}
 }

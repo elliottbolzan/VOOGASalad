@@ -1,78 +1,88 @@
 package engine.game.gameloop;
 
-import java.util.ResourceBundle;
-
+import data.Game;
 import engine.GameInfo;
-import engine.TimelineManipulator;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import game_data.Game;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import player.score.Overlay;
-import polyglot.Polyglot;
 
 /**
- * Manages the highest level of time flow in the game. The client class for the game loop.
+ * Manages the highest level of time flow in the game. The client class for the
+ * game loop.
  * 
  * @author Matthew Barbano
  *
  */
+
+//This is a git test.
+
 public class GameLoop {
 	private ObservableBundle observableBundle;
 	private Scorebar scorebar;
-	private TimelineManipulator levelEnder;
+	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
-	
-	public GameLoop(Scene gameScene, Game game, Overlay overlay, Stage stage, Polyglot polyglot, ResourceBundle IOResources){
-		//Instantiate GraphicsEngine
-		graphicsEngine = new GraphicsEngine(game, overlay, stage, polyglot, IOResources);
-		
-		//TODO: what happens if level changes, camera gets reset??
-		graphicsEngine.setCamera(game.getCamera());
+
+	public GameLoop(Scene gameScene, Game game, GraphicsEngine graphicsEngine, boolean firstTimeLoading) {
+		this.graphicsEngine = graphicsEngine;
 		scorebar = graphicsEngine.getScorebar();
 		observableBundle = new ObservableBundle(gameScene);
-		
-		levelManager = new LevelManager(game, new LevelStepStrategy());
-		levelManager.loadAllSavedLevels();
-		levelEnder = new TimelineManipulator(levelManager, graphicsEngine);
+
+		levelManager = new LevelManager(game, new LevelStepStrategy(), scorebar);
+		levelManager.loadAllSavedLevels(firstTimeLoading);
+		if (levelManager.getLevels().size() > 0) {
+			levelManager.addUnlockedLevel(1);
+		} else {
+			// TODO convert to exception
+			System.out.println("Error in GameLoop.java - game has no levels.");
+		}
+		setupFirstStrategy();
+		timelineManipulator = new TimelineManipulator(levelManager);
 		GameInfo info = new GameInfo(this);
-		Screen level1Screen = new Screen(levelManager, graphicsEngine, info);
-		levelManager.setCurrentScreen(level1Screen);
-		levelEnder.setInfo(info);
+		Screen firstScreen = new Screen(levelManager, graphicsEngine, info, true);
+		levelManager.setCurrentScreen(firstScreen);
+		timelineManipulator.setInfo(info);
+		graphicsEngine.getScorebar().setLevelManager(levelManager);
+		scorebar.setupLives(levelManager, firstTimeLoading);
 	}
-	
-	public void startTimeline(){
+
+	private void setupFirstStrategy() {
+		// TODO set level selection screen mode from GAE here
+		StepStrategy firstStrategy = levelManager.getLevelSelectionScreenMode() ? new LevelSelectionStepStrategy(true)
+				: new LevelStepStrategy();
+		levelManager.setCurrentStepStrategy(firstStrategy);
+	}
+
+	public void startTimeline() {
 		levelManager.getCurrentScreen().start();
 	}
-	
-	public void pauseTimeline(){
+
+	public void pauseTimeline() {
 		levelManager.getCurrentScreen().pause();
 	}
-	
+
 	public Pane getGameView() {
 		return graphicsEngine.getView();
 	}
-	
-	public ObservableBundle getObservableBundle(){
+
+	public ObservableBundle getObservableBundle() {
 		return observableBundle;
 	}
-	
-	public Scorebar getScorebar(){
+
+	public Scorebar getScorebar() {
 		return scorebar;
 	}
-	
-	public TimelineManipulator timelineManipulator(){
-		return levelEnder;
+
+	public TimelineManipulator timelineManipulator() {
+		return timelineManipulator;
 	}
-	
-	public LevelManager getLevelManager(){
+
+	public LevelManager getLevelManager() {
 		return levelManager;
 	}
-	
-	public GraphicsEngine getGraphicsEngine(){
+
+	public GraphicsEngine getGraphicsEngine() {
 		return graphicsEngine;
 	}
 }

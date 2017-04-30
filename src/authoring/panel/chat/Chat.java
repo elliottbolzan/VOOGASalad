@@ -1,18 +1,21 @@
 package authoring.panel.chat;
 
-import java.util.Random;
-
 import authoring.Workspace;
+import authoring.networking.Packet;
 import utils.views.View;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import polyglot.Case;
 
 /**
@@ -26,14 +29,15 @@ import polyglot.Case;
 public class Chat extends View {
 
 	private Workspace workspace;
-	private TextArea chat;
-	private TextField usernameField;
+	private Log log;
 	private TextField sendField;
 	private String username;
 
 	/**
 	 * Creates a Chat.
-	 * @param workspace the workspace that owns the Chat.
+	 * 
+	 * @param workspace
+	 *            the workspace that owns the Chat.
 	 */
 	public Chat(Workspace workspace) {
 		super(workspace.getPolyglot().get("ChatTitle", Case.TITLE));
@@ -42,33 +46,12 @@ public class Chat extends View {
 	}
 
 	private void setup() {
-		username = "User_" + Integer.toString(new Random().nextInt(1000));
-		viewSetup();
-	}
-
-	private void viewSetup() {
-		setTop(createUsernameBox());
-		chat = new TextArea();
-		chat.promptTextProperty().bind(workspace.getPolyglot().get("ChatHeader"));
-		chat.setEditable(false);
-		chat.setPrefHeight(Double.MAX_VALUE);
-		chat.setWrapText(true);
-		setCenter(chat);
+		getStyleClass().add("background");
+		username = System.getProperty("user.name");
+		log = new Log(workspace, username);
+		log.setPrefHeight(Double.MAX_VALUE);
+		setCenter(log);
 		setBottom(createSendBox());
-	}
-
-	private Node createUsernameBox() {
-		HBox usernameBox = new HBox();
-		usernameField = new TextField();
-		usernameField.setPromptText("Username: " + username);
-		usernameField.setOnKeyPressed(e -> saveKeyPressed(e));
-		Button saveButton = new Button();
-		saveButton.textProperty().bind(workspace.getPolyglot().get("SaveButtonChat"));
-		saveButton.setOnAction(e -> save());
-		usernameBox.getChildren().addAll(usernameField, saveButton);
-		usernameBox.setAlignment(Pos.CENTER);
-		HBox.setHgrow(usernameField, Priority.ALWAYS);
-		return usernameBox;
 	}
 
 	private Node createSendBox() {
@@ -92,30 +75,36 @@ public class Chat extends View {
 		}
 	}
 
-	private void saveKeyPressed(KeyEvent event) {
-		if (event.getCode().equals(KeyCode.ENTER)) {
-			event.consume();
-			save();
+	private void send() {
+		if (!sendField.getText().replace("\\s+", "").equals("")) {
+			try {
+				workspace.getNetworking().send(new Message(username, sendField.getText()));
+				sendField.setText("");
+			} catch (Exception e) {
+				Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
+						workspace.getPolyglot().get("MessageFailed"));
+				alert.show();
+			}
 		}
 	}
 
-	private void save() {
-		username = usernameField.getText();
+	public void received(Packet packet) {
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				Message message = (Message) packet;
+				if (!message.getUsername().equals(username)) {
+					play();
+				}
+				log.append(message);
+			}
+		});
 	}
 
-	private void send() {
-		Message message = new Message(username, sendField.getText());
-		appendToChat(message);
-		sendField.setText("");
-	}
-
-	private void receivedMessage(Object object) {
-		Message message = (Message) object;
-		appendToChat(message);
-	}
-
-	private void appendToChat(Message message) {
-		chat.appendText(message.getUsername() + " > " + message.getMessage() + "\n");
+	private void play() {
+		String path = getClass().getResource(workspace.getIOResources().getString("ChatSong")).toExternalForm();
+		MediaPlayer player = new MediaPlayer(new Media(path));
+		player.play();
 	}
 
 }

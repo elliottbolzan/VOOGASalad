@@ -21,7 +21,7 @@ public interface StepStrategy {
 	 * @param info
 	 */
 	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info);
-	
+
 	/**
 	 * Called from Screen's step() method on every iteration of the Timeline.
 	 */

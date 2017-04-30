@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import engine.Entity;
+import engine.entities.Entity;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -26,22 +29,31 @@ import utils.views.View;
  */
 public class Canvas extends View
 {
-	private final int TILE_SIZE = 25;
+	public static final int TILE_SIZE = 25;
 
 	private List<EntityView> entities;
+	private ObservableList<EntityView> entityList;
+
+	private Workspace workspace;
 
 	private ZoomablePane zoomablePane;
-	ExpandablePane expandablePane;
+	private ExpandablePane expandablePane;
 
 	public Canvas(Workspace workspace)
 	{
 		super(workspace.getPolyglot().get("CanvasTitle"));
+		this.workspace = workspace;
 		setup();
 	}
 
 	public ExpandablePane getExpandablePane()
 	{
 		return expandablePane;
+	}
+
+	public ZoomablePane getZoomablePane()
+	{
+		return zoomablePane;
 	}
 
 	/**
@@ -85,6 +97,7 @@ public class Canvas extends View
 	private void setup()
 	{
 		entities = new ArrayList<EntityView>();
+		entityList = FXCollections.observableList(new ArrayList<EntityView>(entities));
 		final Group group = new Group();
 		expandablePane = new ExpandablePane();
 		group.getChildren().add(expandablePane);
@@ -127,7 +140,7 @@ public class Canvas extends View
 	 * 
 	 * @return canvas tile size.
 	 */
-	public double getTileSize()
+	public int getTileSize()
 	{
 		return TILE_SIZE;
 	}
@@ -182,6 +195,13 @@ public class Canvas extends View
 		return newEntity;
 	}
 
+	public void addEntity(EntityView entity)
+	{
+		entities.add(entity);
+		entityList.add(entity);
+		expandablePane.addEntity(entity, entity.getTranslateX(), entity.getTranslateY());
+	}
+
 	/**
 	 * Remove the given EntityView from the Canvas.
 	 * 
@@ -192,6 +212,11 @@ public class Canvas extends View
 	{
 		entities.remove(entity);
 		expandablePane.getChildren().remove(entity);
+	}
+
+	public Workspace getWorkspace()
+	{
+		return workspace;
 	}
 
 	/**
@@ -209,6 +234,13 @@ public class Canvas extends View
 		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
 		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
 		return new Point2D(gridX, gridY);
+	}
+	
+	public void addEntityListener(Runnable r){
+		entityList.addListener((ListChangeListener.Change<? extends EntityView> c) -> {
+			   r.run();
+			});
+
 	}
 
 }

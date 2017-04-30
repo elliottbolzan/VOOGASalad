@@ -3,9 +3,9 @@ package engine.game.eventobserver;
 import java.util.ArrayList;
 import java.util.List;
 
-import engine.Collision;
-import engine.CollisionSide;
-import engine.Entity;
+import engine.collisions.Collision;
+import engine.collisions.CollisionSide;
+import engine.entities.Entity;
 
 /**
  * Part of the Observable Design Pattern for detecting if collisions occur
@@ -20,8 +20,12 @@ public class CollisionObservable extends EventObservable {
 
 	private List<Collision> collisions = new ArrayList<>();
 
-	public CollisionObservable() {
-		super();
+	/**
+	 * 
+	 * @return list of collisions that occurred between observed Entities
+	 */
+	public List<Collision> getCollisions() {
+		return collisions;
 	}
 
 	private CollisionSide collisionSide(Entity entityOne, Entity entityTwo) {
@@ -31,11 +35,18 @@ public class CollisionObservable extends EventObservable {
 			}
 			return CollisionSide.LEFT;
 		}
-		if (entityOne.getY() + entityOne.getHeight() < entityTwo.getY() + entityTwo.getHeight()) {
-			return CollisionSide.TOP;
+		if (entityOne.getY() < entityTwo.getY()) {
+			return CollisionSide.BOTTOM;
 		}
-		return CollisionSide.BOTTOM;
+		return CollisionSide.TOP;
+	}
 
+	private double collisionDepth(Entity entityOne, Entity entityTwo) {
+		if (isHorizontalCollision(entityOne, entityTwo)) {
+			return getIntersectionWidth(entityOne, entityTwo);
+		} else {
+			return getIntersectionHeight(entityOne, entityTwo);
+		}
 	}
 
 	private boolean isHorizontalCollision(Entity entityOne, Entity entityTwo) {
@@ -43,23 +54,25 @@ public class CollisionObservable extends EventObservable {
 	}
 
 	private double getIntersectionWidth(Entity entityOne, Entity entityTwo) {
-		if (entityOne.getX() + entityOne.getWidth() < entityTwo.getX() + entityTwo.getWidth()) {
-			if (entityOne.getX() < entityTwo.getX()) {
-				return (entityOne.getX() + entityOne.getWidth()) - entityTwo.getX();
-			}
-			return entityOne.getWidth();
-		}
-		return (entityTwo.getX() + entityTwo.getWidth()) - entityOne.getX();
+		return intersectionSize(entityOne.getX(), entityOne.getX() + entityOne.getWidth(), entityTwo.getX(),
+				entityTwo.getX() + entityTwo.getWidth());
 	}
 
 	private double getIntersectionHeight(Entity entityOne, Entity entityTwo) {
-		if (entityOne.getY() < entityTwo.getY()) {
-			if (entityOne.getY() + entityOne.getHeight() < entityTwo.getY() + entityTwo.getHeight()) {
-				return entityOne.getY() - (entityTwo.getY() + entityTwo.getHeight());
+		return intersectionSize(entityOne.getY(), entityOne.getY() + entityOne.getHeight(), entityTwo.getY(),
+				entityTwo.getY() + entityTwo.getHeight());
+	}
+
+	private double intersectionSize(double sideOneMin, double sideOneMax, double sideTwoMin, double sideTwoMax) {
+		if (sideOneMin < sideTwoMin) {
+			if (sideOneMax < sideTwoMax) {
+				return sideOneMax - sideTwoMin;
 			}
-			return entityOne.getHeight();
+			return sideTwoMax - sideTwoMin;
+		} else if (sideOneMax < sideTwoMax) {
+			return sideOneMax - sideOneMin;
 		}
-		return entityTwo.getY() - (entityOne.getY() + entityOne.getHeight());
+		return sideTwoMax - sideOneMin;
 	}
 
 	/**
@@ -71,24 +84,24 @@ public class CollisionObservable extends EventObservable {
 		for (Entity first : getObservers()) {
 			for (Entity second : getObservers()) {
 				if (first != second && isCollision(first, second)) {
-					//System.out.println("ONCE");
-					collisions.add(new Collision(first, second, collisionSide(first, second)));
+					collisions.add(
+							new Collision(first, second, collisionSide(first, second), collisionDepth(first, second)));
 				}
 			}
 		}
 	}
 
-	/**
-	 * 
-	 * @return list of collisions that occurred between observed Entities
-	 */
-	public List<Collision> getCollisions() {
-		return collisions;
-	}
-
 	private boolean isCollision(Entity first, Entity second) {
-		return !(first.getZ() != second.getZ() || first.getX() + first.getWidth() < second.getX()
-				|| second.getX() + second.getWidth() < first.getX() || first.getY() + first.getHeight() < second.getY()
-				|| second.getY() + second.getHeight() < first.getY());
+
+		return (first.getZ() == second.getZ()) && first.getIsVisible() && second.getIsVisible()
+				&& !(first.getX() + first.getWidth() < second.getX() || second.getX() + second.getWidth() < first.getX()
+						|| first.getY() + first.getHeight() < second.getY()
+						|| second.getY() + second.getHeight() < first.getY());
+
+		// return !(first.getZ() != second.getZ() || first.getX() +
+		// first.getWidth() < second.getX()
+		// || second.getX() + second.getWidth() < first.getX() || first.getY() +
+		// first.getHeight() < second.getY()
+		// || second.getY() + second.getHeight() < first.getY());
 	}
 }

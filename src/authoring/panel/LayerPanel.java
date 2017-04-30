@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import authoring.Workspace;
-import authoring.components.LabeledField;
+import authoring.components.CustomTooltip;
 import utils.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,7 +22,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import polyglot.Case;
@@ -42,6 +41,11 @@ public class LayerPanel extends View {
 	public LayerPanel(Workspace workspace) {
 		super(workspace.getPolyglot().get("LayerPanelTitle", Case.TITLE));
 		this.workspace = workspace;
+		setup();
+	}
+
+	private void setup() {
+		getStyleClass().add("background");
 		selectionModel = FXCollections.observableArrayList();
 		nameList = new HashMap<String, ArrayList<String>>();
 		myBox = new ComboBox<String>();
@@ -56,12 +60,15 @@ public class LayerPanel extends View {
 		VBox container = new VBox(8);
 		initLayerSelector();
 		Button addButton = workspace.getMaker().makeButton("AddLayerButton", e -> addLayer(), true);
+		new CustomTooltip(workspace.getPolyglot().get("AddLayer"), addButton);
 		Button deleteButton = workspace.getMaker().makeButton("DeleteLayerButton", e -> {
 			initCloseRequest(e);
 			delete();
 		}, true);
-		container.getChildren().addAll(new VBox(myBox, addButton), new Separator(), new Separator(),
-				createVelocitySlider(), new Separator(), deleteButton);
+		new CustomTooltip(workspace.getPolyglot().get("DeleteLayer"), deleteButton);
+		VBox buttonBox = new VBox(2);
+		buttonBox.getChildren().addAll(deleteButton, addButton);
+		container.getChildren().addAll(myBox, buttonBox, createVelocitySlider());
 		container.setPadding(new Insets(20));
 		setCenter(container);
 	}
@@ -82,9 +89,6 @@ public class LayerPanel extends View {
 	}
 
 	private void delete() {
-		// int layer =
-		// Integer.parseInt(myBox.getSelectionModel().getSelectedItem().split("
-		// ")[1]);
 		workspace.deleteLayer(myBox.getSelectionModel().getSelectedIndex() + 1);
 		selectionModel.remove(myBox.getSelectionModel().getSelectedIndex());
 		myBox.setItems(selectionModel);
@@ -137,8 +141,6 @@ public class LayerPanel extends View {
 	public void selectLevelBox(String oldLevel, String newLevel) {
 		nameList.put(oldLevel, new ArrayList<String>(selectionModel));
 		if (oldLevel.equals("+")) {
-			// selectionModel.clear();
-			// selectionModel.add(workspace.getResources().getString("DefaultLayer"));
 			nameList.put(newLevel, new ArrayList<String>(selectionModel));
 		}
 		if (!newLevel.equals("+")) {
@@ -161,7 +163,7 @@ public class LayerPanel extends View {
 		myBox.setItems(selectionModel);
 		myBox.setValue(selectionModel.get(0));
 	}
-	
+
 	public void selectLevelBox(int layerNum) {
 		myBox.getItems().clear();
 		for (int i = 0; i < layerNum; i++) {
@@ -169,6 +171,5 @@ public class LayerPanel extends View {
 		}
 		myBox.setValue(String.format("Layer %d", 1));
 	}
-
 
 }

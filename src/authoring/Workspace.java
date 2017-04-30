@@ -4,29 +4,37 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 import authoring.canvas.LevelEditor;
+import authoring.command.AddInfo;
+import authoring.command.EntityListInfo;
+import authoring.command.UndoableCommand;
 import authoring.components.ComponentMaker;
-import authoring.components.HTMLDisplay;
-import authoring.components.ProgressDialog;
+import authoring.menu.WorkspaceMenuBar;
+import authoring.networking.Networking;
+import authoring.networking.Packet;
 import authoring.panel.Panel;
-import engine.Entity;
-import game_data.Game;
-import game_data.GameData;
+import data.Game;
+import data.GameData;
+import engine.entities.Entity;
+import javafx.application.Platform;
+import javafx.beans.binding.StringBinding;
 import javafx.concurrent.Task;
-import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import player.launcher.BasicPlayer;
+import player.launchers.BasicPlayer;
 import polyglot.Polyglot;
 import utils.views.View;
 
@@ -41,6 +49,7 @@ import utils.views.View;
  */
 public class Workspace extends View
 {
+
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
@@ -50,6 +59,10 @@ public class Workspace extends View
 	private Panel panel;
 	private Game game;
 	private DefaultEntities defaults;
+	private Networking networking;
+	private Stack<UndoableCommand> undoStack;
+	private Stack<UndoableCommand> redoStack;
+	private Label tutorialMessage;
 
 	/**
 	 * Creates the Workspace.
@@ -76,56 +89,130 @@ public class Workspace extends View
 		return game;
 	}
 
+	public Networking getNetworking()
+	{
+		return networking;
+	}
+
+	public Panel getPanel()
+	{
+		return panel;
+	}
+
 	/**
 	 * Initializes the Workspace's components.
 	 */
 	private void setup()
 	{
+		undoStack = new Stack<UndoableCommand>();
+		redoStack = new Stack<UndoableCommand>();
+		networking = new Networking(this);
 		data = new GameData();
-		maker = new ComponentMaker(polyglot, IOResources.getString("StylesheetPath"));
+		maker = new ComponentMaker(polyglot, IOResources);
 		defaults = new DefaultEntities(this);
 		pane = new SplitPane();
 		panel = new Panel(this, 0);
 		levelEditor = new LevelEditor(this);
 		pane.getItems().addAll(panel, levelEditor);
-		pane.setDividerPositions(0.25);
+		pane.setDividerPositions(0.27);
 		pane.getStyleClass().add("workspace-pane");
 		setCenter(pane);
-		setTop(makeMenuBar());
-		dragToAddEntity();
+		setTop(new WorkspaceMenuBar(this));
+		setupDragToAddEntity();
+		// defaults.getEntities().addListener(new ListChangeListener<Entity>()
+		// {
+		// @Override
+		// public void onChanged(javafx.collections.ListChangeListener.Change<?
+		// extends Entity> changed)
+		// {
+		// changed.next();
+		// List<? extends Entity> addedSublist = changed.getList();
+		// if (addedSublist.size() > 0) {
+		// EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
+		// Workspace.this.getNetworking().send(entityListInfo);
+		// }
+		// }
+		//
+		// });
 	}
 
-	private VBox makeMenuBar()
+	public void received(Packet packet)
 	{
-		MenuBar menuBar = new MenuBar();
-		Menu gameMenu = maker.makeMenu("GameMenu");
-		gameMenu.getItems().addAll(maker.makeMenuItem("Save", "Ctrl+S", e -> save()),
-				maker.makeMenuItem("TestMenu", "Ctrl+T", e -> test()));
-		Menu settingsMenu = maker.makeMenu("SettingsTitle");
-		settingsMenu.getItems().add(maker.makeMenuItem("MusicSelect", "Ctrl+M", e -> chooseSong()));
-		Menu helpMenu = maker.makeMenu("HelpTitle");
-		helpMenu.getItems().add(maker.makeMenuItem("KeyCombinations", "Ctrl+H", e -> showKeyCombinations()));
-		menuBar.getMenus().addAll(gameMenu, settingsMenu, helpMenu);
-		VBox box = new VBox(menuBar);
-		box.setPadding(new Insets(15, 0, 0, 0));
-		return box;
+		if (packet instanceof EntityListInfo) {
+			Platform.runLater(new Runnable()
+			{
+
+				@Override
+				public void run()
+				{
+					defaults.getEntities().clear();
+					defaults.getEntities().addAll(((EntityListInfo) packet).getEntities());
+					((EntityListInfo) packet).getEntities().forEach(e -> {
+						Workspace.this.updateEntity(e);
+					});
+				}
+
+			});
+			// panel.getEntityDisplay().createContainer();
+		}
 	}
 
-	private void dragToAddEntity()
+	private void setupDragToAddEntity()
 	{
 		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
-				levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
-				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2.
-				// e2.getSceneY(),
-				// levelEditor.getCurrentLevel().getCurrentLayer());
+				AddInfo addInfo = new AddInfo(addedEntity.getName(), e2.getX(), e2.getY());
+				getLevelEditor().getCurrentLevel().getLayers().forEach(layer -> {
+					layer.getSelectedEntities().forEach(selectedEntity -> {
+						selectedEntity.setSelected(false);
+					});
+				});
+				if (getNetworking().isConnected()) {
+					getNetworking().send(addInfo);
+				} else {
+					getLevelEditor().received(addInfo);
+				}
+				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
 				levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
 				panel.setCursor(Cursor.DEFAULT);
 			});
+			panel.getEntityDisplay().getList().setOnMouseReleased(e2 -> {
+				Point2D canvasPoint = levelEditor.getCurrentLevel().getCanvas().getExpandablePane()
+						.screenToLocal(new Point2D(e2.getScreenX(), e2.getScreenY()));
+				if (!levelEditor.getCurrentLevel().getCanvas().getExpandablePane().intersects(canvasPoint.getX(),
+						canvasPoint.getY(), 0, 0)) {
+					levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
+					panel.setCursor(Cursor.DEFAULT);
+				}
+			});
 		});
+	}
+
+	public void execute(UndoableCommand command)
+	{
+		command.execute();
+		undoStack.push(command);
+	}
+
+	public void undo()
+	{
+		if (undoStack.size() > 0) {
+			UndoableCommand undoCommand = undoStack.pop();
+			undoCommand.unexecute();
+			redoStack.push(undoCommand);
+		}
+	}
+
+	public void redo()
+	{
+		if (redoStack.size() > 0) {
+			UndoableCommand redoCommand = redoStack.pop();
+			redoCommand.execute();
+			undoStack.push(redoCommand);
+		}
 	}
 
 	private void load()
@@ -133,6 +220,29 @@ public class Workspace extends View
 		levelEditor.loadGame(game.getLevels());
 		defaults.setEntities(game.getDefaults());
 		this.selectLoadedLevel(levelEditor.getCurrentLevel().getLayerCount());
+	}
+	
+	public void addTutorialHost(){
+		VBox tutorialBox = new VBox();
+		tutorialBox.setPrefWidth(150);
+		Image mario = new Image(getClass().getClassLoader().getResource("resources/images/mario.png").toExternalForm());
+		ImageView marioView = new ImageView(mario);
+		marioView.setScaleX(.75);
+		marioView.setScaleY(.75);
+		tutorialMessage = new Label();
+		tutorialMessage.textProperty().bind(polyglot.get("FirstStep"));
+		tutorialMessage.getStyleClass().add("chat-bubble");
+        tutorialMessage.setWrapText(true);
+        tutorialMessage.setMaxWidth(150);
+        tutorialBox.getChildren().addAll(tutorialMessage, marioView);
+        tutorialBox.setAlignment(Pos.CENTER);
+        tutorialMessage.setContentDisplay(ContentDisplay.CENTER);
+        pane.setDividerPositions(.30);
+        setRight(tutorialBox);
+	}
+	
+	public Label getMessage(){
+		return tutorialMessage;
 	}
 
 	/**
@@ -151,24 +261,20 @@ public class Workspace extends View
 	{
 		game.setName(title);
 		String path = askForOutputPath();
-		ProgressDialog dialog = new ProgressDialog(this);
-		Task<Void> task = new Task<Void>()
-		{
-			@Override
-			public Void call() throws InterruptedException
+		if (!path.equals("")) {
+			Task<Void> task = new Task<Void>()
 			{
-				createGame();
-				if (!path.equals("")) {
+				@Override
+				public Void call() throws InterruptedException
+				{
+					createGame();
 					data.saveGame(game, path);
+					return null;
 				}
-				return null;
-			}
-		};
-		task.setOnSucceeded(event -> {
-			dialog.getDialogStage().close();
-		});
-		Thread thread = new Thread(task);
-		thread.start();
+			};
+			maker.showProgressForTask(task, true);
+		}
+
 	}
 
 	private String askForOutputPath()
@@ -192,15 +298,15 @@ public class Workspace extends View
 	public void test()
 	{
 		createGame();
-		game.setTestGame(true);
 		Stage stage = new Stage();
-		new BasicPlayer(stage, game, polyglot, IOResources);
+		new BasicPlayer(stage, game.clone(), polyglot, IOResources, true);
 		stage.show();
 	}
 
 	private void createGame()
 	{
 		game.setLevels(levelEditor.getLevels());
+		game.setDefaults(defaults.getEntities());
 	}
 
 	public ComponentMaker getMaker()
@@ -292,6 +398,11 @@ public class Workspace extends View
 		panel.selectLoadedLevelBox(layerCount);
 	}
 
+	public LevelEditor getLevelEditor()
+	{
+		return levelEditor;
+	}
+
 	/**
 	 * When the user instructs the layer panel to delete a layer, the workspace
 	 * alerts the levelEditor, telling it to delete a layer of its current
@@ -316,20 +427,4 @@ public class Workspace extends View
 		levelEditor.updateEntity(entity);
 	}
 
-	private void chooseSong()
-	{
-		String directory = System.getProperty("user.dir") + IOResources.getString("DefaultDirectory");
-		FileChooser chooser = maker.makeFileChooser(directory, polyglot.get("MusicChooserTitle").get(),
-				IOResources.getString("MusicChooserExtensions"));
-		File selectedFile = chooser.showOpenDialog(getScene().getWindow());
-		if (selectedFile != null) {
-			game.setSongPath(selectedFile.getAbsolutePath());
-		}
-	}
-
-	private void showKeyCombinations()
-	{
-		HTMLDisplay display = new HTMLDisplay(IOResources.getString("HelpPath"), polyglot.get("KeyCombinations"));
-		display.show();
-	}
 }

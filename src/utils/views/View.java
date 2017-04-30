@@ -1,7 +1,12 @@
 package utils.views;
 
 import javafx.beans.binding.StringBinding;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  * @author Elliott Bolzan
@@ -42,5 +47,6 @@ public abstract class View extends BorderPane {
 	public StringBinding getTitle() {
 		return title;
 	}
-
+	
+	
 }

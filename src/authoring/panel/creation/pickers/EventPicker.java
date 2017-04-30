@@ -3,8 +3,8 @@ package authoring.panel.creation.pickers;
 import authoring.Workspace;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.EventEditor;
-import engine.Event;
 import engine.GameObject;
+import engine.events.Event;
 import engine.game.EngineController;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Label;
@@ -25,6 +25,7 @@ public class EventPicker extends Picker {
 	private EntityMaker entityMaker;
 	private EngineController engine = new EngineController();
 	private ListView<Event> list;
+	private EventEditor editor;
 
 	/**
 	 * Creates an EventPicker.
@@ -34,6 +35,9 @@ public class EventPicker extends Picker {
 	public EventPicker(Workspace workspace, EntityMaker entityMaker) {
 		super(workspace, "EventPickerTitle", entityMaker);
 		this.entityMaker = entityMaker;
+		addTooltips(workspace.getPolyglot().get("AddEvent"),workspace.getPolyglot().get("EditEvent"),
+				workspace.getPolyglot().get("DeleteEvent"));
+		attachInfoTooltip(workspace.getPolyglot().get("EventInfo"));
 		update();
 	}
 
@@ -48,6 +52,7 @@ public class EventPicker extends Picker {
 		list.setPlaceholder(placeholder);
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
+		list.getStyleClass().add("visible-container");
 		list.setCellFactory(param -> new ListCell<Event>() {
 			@Override
 			protected void updateItem(Event event, boolean empty) {
@@ -132,14 +137,18 @@ public class EventPicker extends Picker {
 	public void update() {
 		list.setItems(FXCollections.observableArrayList(entityMaker.getEntity().getEvents()));
 	}
+	
+	public EventEditor getEditor(){
+		return editor;
+	}
 
 	/* (non-Javadoc)
 	 * @see authoring.panel.creation.pickers.Picker#showEditor()
 	 */
 	@Override
 	public void showEditor() {
-		EventEditor editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
-				engine.getAllEvents());
+		 editor = new EventEditor(getWorkspace(), this, (Event) getCurrentlyEditing(),
+				engine.getAllEvents(entityMaker.getEntity()));
 		getWorkspace().getMaker().display("NewEventTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
 	}
 
@@ -154,6 +163,12 @@ public class EventPicker extends Picker {
 
 	private void setSelectedEvent() {
 		entityMaker.setSelectedEvent(list.getSelectionModel().getSelectedItem());
+	}
+
+	@Override
+	public void setContainerPos() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -1,6 +1,8 @@
 package engine.game.gameloop;
 
+import engine.GameInfo;
 import engine.game.LevelManager;
+import engine.graphics.GraphicsEngine;
 
 /**
  * 
@@ -9,23 +11,35 @@ import engine.game.LevelManager;
  */
 public class GameOverStepStrategy extends TransitionStepStrategy {
 	private static final String RESOURCE_NAME = "GameOver";
+
+	private LevelManager levelManager;
+	private GameInfo info;
 	
-	public GameOverStepStrategy() {
+	public GameOverStepStrategy(LevelManager levelManager, GameInfo info) {
 		super(RESOURCE_NAME);
+		this.levelManager = levelManager;
+		this.info = info;
+	}
+
+	@Override
+	protected int nextLevelNumber() {
+		return -1;
+	}
+
+	@Override
+	protected boolean handleHighscore(GraphicsEngine graphicsEngine) {
+		return false;
+	}
+
+	@Override
+	protected void modifyUnlockedScreens() {
+		levelManager.clearUnlockedLevels();
+		levelManager.addUnlockedLevel(1);
+		info.getScorebar().resetLives();
 	}
 	
 	@Override
-	protected StepStrategy getNextStepStrategy(LevelManager levelManager) {
-		return new LevelStepStrategy();   //TODO change to new LevelSelectionStrategy() or similar when get there
-	}
-
-	@Override
-	protected int nextLevelNumber(LevelManager levelManager) {
-		return 1;
-	}
-
-	@Override
-	protected boolean hasNextScreen(LevelManager levelManager) {   //TODO set to true when add LevelSelectionStrategy - actually get rid of this method then - this is TEMPORARY
-		return false;
+	protected StepStrategy nextStrategyLevelSelectionMode() {
+		return new LevelSelectionStepStrategy(false);
 	}
 }
