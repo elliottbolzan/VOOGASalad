@@ -39,8 +39,6 @@ public class AddDeleteCommand extends EntityCommand
 	private void addOrRemove(boolean add)
 	{
 		EntityView entityView = super.getEntityView();
-		System.out.println(entityView + "~~~~~~~~~~~~~~~" + entityView.getEntity() + "~~~~~~~~~~~~~~~~~"
-				+ entityView.getEntityId());
 		if (add) {
 			entityView.setOpacity(0);
 			layer.addEntity(entityView, 1);
