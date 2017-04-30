@@ -48,7 +48,8 @@ public class GameLoader {
 	 *             : incorrect folder path exception
 	 */
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
-		String tempFolderPath = System.getProperty("java.io.tmpdir") + File.separator + "VoogaSalad";
+		resourceManager = new ResourceManager();
+		String tempFolderPath = System.getProperty(resourceManager.getTempDir()) + File.separator + resourceManager.getVoogaName();
 
 		File voogaDirectory = new File(tempFolderPath);
 		if (!voogaDirectory.exists()) {
@@ -62,7 +63,6 @@ public class GameLoader {
 			throw new NotAGameFolderException();
 		}
 
-		resourceManager = new ResourceManager();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 		Document doc = docBuilder.parse(tempFolderPath + File.separator + saveName);
@@ -90,14 +90,14 @@ public class GameLoader {
 
 	
 	private void addNumberOfLives(Game game, Document doc){
-		NodeList timeNodes = doc.getElementsByTagName("NumberOfLives");
+		NodeList timeNodes = doc.getElementsByTagName(resourceManager.getNumLives());
 		game.setNumberOfLives(Integer.parseInt(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 	
 	private void addUnlockedLevels(Game game, Document doc){
 		
 		
-		NodeList unlockedLevelsNode = doc.getElementsByTagName("UnlockedLevels");
+		NodeList unlockedLevelsNode = doc.getElementsByTagName(resourceManager.getUnlockedLvls());
 		NodeList levelsList = unlockedLevelsNode.item(0).getChildNodes();
 		Set<Integer> gameLevelsUnlocked = new HashSet<Integer>();
 
@@ -113,12 +113,12 @@ public class GameLoader {
 		
 	}
 	private void addCurrentTime(Game game, Document doc) {
-		NodeList timeNodes = doc.getElementsByTagName("CurrentTime");
+		NodeList timeNodes = doc.getElementsByTagName(resourceManager.getCurrTime());
 		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 
 	private void addIsCountingDown(Game game, Document doc) {
-		NodeList countdownNodes = doc.getElementsByTagName("TimeGoingDown");
+		NodeList countdownNodes = doc.getElementsByTagName(resourceManager.getTimeDown());
 		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 
@@ -135,12 +135,12 @@ public class GameLoader {
 	}
 
 	private boolean isSave(Game game, File file) {
-		return (file.getName().contains(game.getName()) && file.getName().contains("save")
-				&& file.getName().contains(".xml"));
+		return (file.getName().contains(game.getName()) && file.getName().contains(resourceManager.getSave())
+				&& file.getName().contains(resourceManager.getXML()));
 	}
 
 	private void addInfo(Game game, Document doc) {
-		NodeList infoNode = doc.getElementsByTagName("GameInfo");
+		NodeList infoNode = doc.getElementsByTagName(resourceManager.getGameInfo());
 		game.setInfo(infoNode.item(0).getAttributes().item(0).getNodeValue());
 	}
 
@@ -288,7 +288,7 @@ public class GameLoader {
 		xStream.registerConverter(new EntityConverter());
 
 		Entity entity = (Entity) xStream.fromXML(getXMLStringFromElement(entityElement));
-		entity.setImagePath("file:" + gameFolderPath + File.separator + convertPathForSystem(entity.getImagePath()));
+		entity.setImagePath(resourceManager.getFileStart() + gameFolderPath + File.separator + convertPathForSystem(entity.getImagePath()));
 
 		return entity;
 	}
@@ -301,13 +301,13 @@ public class GameLoader {
 	 */
 	private String convertPathForSystem(String path) {
 		String newPath = path;
-		if (File.separator.equals("/")) {
-			if (path.contains("\\")) {
-				newPath = path.replace("\\", File.separator);
+		if (File.separator.equals(resourceManager.getForwardSlash())) {
+			if (path.contains(resourceManager.getBackwardSlash())) {
+				newPath = path.replace(resourceManager.getBackwardSlash(), File.separator);
 			}
 		} else {
-			if (path.contains("/")) {
-				newPath = path.replace("/", File.separator);
+			if (path.contains(resourceManager.getForwardSlash())) {
+				newPath = path.replace(resourceManager.getForwardSlash(), File.separator);
 			}
 		}
 
