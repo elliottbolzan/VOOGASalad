@@ -119,7 +119,10 @@ public class LayerEditor extends View
 				}
 			}
 			concerned.forEach(entityView -> {
-				entityView.setEntity(entity);
+				double currZ = entityView.getEntity().getZ();
+				Entity clonedEntity = entity.clone();
+				clonedEntity.setZ(currZ);
+				entityView.setEntity(clonedEntity);
 				// Entity toRemove = entityView.getEntity();
 				// addEntity(entity, toRemove.getX(), toRemove.getY(), (int)
 				// toRemove.getZ());
