@@ -78,7 +78,8 @@ public class AuthoringTutorial {
 	}
 	
 	private void createMonster(){
-		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EleventhStep"));	
+		workspace.getMessage().textProperty().bind(workspace.getPolyglot().get("EleventhStep"));
+		workspace.addTutorialNode(workspace.getMaker().makeButton("OKButton", e->System.out.println("good"),true));
 	//	workspace.getPanel().getEntityDisplay().changeNewHandler(() -> createMonster());
 	}
 	
