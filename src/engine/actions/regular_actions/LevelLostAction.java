@@ -13,6 +13,7 @@ public class LevelLostAction extends Action {
 	@Override
 	public void act() {
 		if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
+			getGameInfo().getScorebar().setLives(getGameInfo().getScorebar().getLives() - 1);
 			getGameInfo().getTimelineManipulator().die(getGameInfo().getScorebar().getLives() <= 0);
 		}
 	}
