@@ -1,11 +1,7 @@
 package engine.events.regular_events;
 
-import engine.Parameter;
-import engine.entities.Entity;
 import engine.events.Event;
 import javafx.geometry.Point2D;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 
 /**
  * Responds to a left click of the mouse (press and release) on the Entity it is
