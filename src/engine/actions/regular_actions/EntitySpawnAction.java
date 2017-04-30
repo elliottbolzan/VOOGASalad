@@ -39,17 +39,6 @@ public class EntitySpawnAction extends Action {
 					newEntity.setYSpeed((Double) newEntity.getParam("Y Speed"));
 					newEntity.setXAcceleration((Double) newEntity.getParam("X Acceleration"));
 					newEntity.setYAcceleration((Double) newEntity.getParam("Y Acceleration"));
-					String side = ((String) getParam("Side"));
-					CollisionSide collisionSide;
-					try {
-						collisionSide = getCollisionSide(side.toUpperCase());
-					} catch (Exception e) {
-						throw new ActionException(getResource("InvalidCollisionSide"));
-					}
-					if ((boolean) getParam("Random Spawn"))
-						collisionSide.placeEntityRandomly(getEntity(), newEntity);
-					else
-						collisionSide.placeEntity(getEntity(), newEntity);
 					newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
 					newEntity.getGameInfo().getObservableBundle().attachEntityToAll(newEntity);
 					newEntity.getGameInfo().getGraphicsEngine().updateView();
@@ -60,5 +49,19 @@ public class EntitySpawnAction extends Action {
 
 	private CollisionSide getCollisionSide(String side) {
 		return CollisionSide.valueOf(side);
+	}
+
+	protected void placeEntity(Entity existing, Entity newEntity) {
+		String side = ((String) getParam("Side"));
+		CollisionSide collisionSide;
+		try {
+			collisionSide = getCollisionSide(side.toUpperCase());
+		} catch (Exception e) {
+			throw new ActionException(getResource("InvalidCollisionSide"));
+		}
+		if ((boolean) getParam("Random Spawn"))
+			collisionSide.placeEntityRandomly(getEntity(), newEntity);
+		else
+			collisionSide.placeEntity(getEntity(), newEntity);
 	}
 }
