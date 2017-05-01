@@ -212,21 +212,6 @@ public class LayerEditor extends View
 	}
 
 	/**
-	 * Place the entity at the position of the given MouseEvent.
-	 * 
-	 * @param e
-	 *            MouseEvent to place the entity at.
-	 */
-	public void addEntity(Entity entity, MouseEvent e)
-	{
-		try {
-			addEntity(entity, e.getX(), e.getY(), currLayer);
-		} catch (Exception exception) {
-			showSelectMessage();
-		}
-	}
-
-	/**
 	 * Add the given entity to the given x, y, and z position. z position =
 	 * layer number.
 	 * 
