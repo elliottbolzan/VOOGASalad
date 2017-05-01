@@ -168,7 +168,7 @@ None.
 
 ### Impressions of the Assignment
 
-**Someone**
+**Kyle Finke (kwf10)**
 
 The project was a good culmination for that class because it provided ample opportunity to apply the design concepts we learned during the course. The size of the 
 teams was also a useful experience because it requires that everyone rely on each other because no one person can take over the entire assignment. It could improve the 
