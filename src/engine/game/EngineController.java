@@ -29,12 +29,12 @@ public class EngineController {
 		resources = ResourceBundle.getBundle("resources/Strings");
 		calendar = Calendar.getInstance();
 	}
-	
-	private int getId(){
+
+	private int getId() {
 		calendar.setTime(new Date());
 		return calendar.get(Calendar.MINUTE) * 100 + calendar.get(Calendar.SECOND);
 	}
-	
+
 	public List<String> getAllEntities() {
 		return findClasses("engine.entities.entities");
 	}

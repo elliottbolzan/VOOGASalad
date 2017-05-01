@@ -73,7 +73,7 @@ public class GraphicsEngine {
 		this.player = player;
 
 		this.setupView();
-		
+
 	}
 
 	public void setupLevel(Level level) {
@@ -83,8 +83,10 @@ public class GraphicsEngine {
 		displayArea.maxWidthProperty().bind(level.getCamera().widthProperty());
 		player.setSize(level.getCamera().getWidth(), level.getCamera().getHeight());
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
-		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, 
+		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		player.setSize(level.getCamera().widthProperty(), level.getCamera().heightProperty());
+
 	}
 
 	/**
@@ -264,5 +266,5 @@ public class GraphicsEngine {
 		clipBoundaries.heightProperty().bind(pane.heightProperty());
 		pane.setClip(clipBoundaries);
 	}
-	
+
 }

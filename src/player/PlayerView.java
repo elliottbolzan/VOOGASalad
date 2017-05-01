@@ -17,7 +17,7 @@ public class PlayerView extends View {
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker factory;
-	
+
 	/**
 	 * @param title
 	 */
@@ -34,27 +34,27 @@ public class PlayerView extends View {
 		this.factory = new ComponentMaker(polyglot, IOResources);
 		setMinSize(420, 600);
 	}
-	
+
 	public Scene createScene(double width, double height) {
 		Scene scene = new Scene(this, width, height);
 		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 		return scene;
 	}
-	
-	public Scene createScene(){
+
+	public Scene createScene() {
 		Scene scene = new Scene(this);
 		scene.getStylesheets().add(IOResources.getString("StylesheetPath"));
 		return scene;
 	}
-	
+
 	protected Polyglot getPolyglot() {
 		return polyglot;
 	}
-	
+
 	protected ResourceBundle getResources() {
 		return IOResources;
 	}
-	
+
 	protected ComponentMaker getFactory() {
 		return factory;
 	}

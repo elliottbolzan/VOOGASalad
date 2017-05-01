@@ -34,11 +34,11 @@ public class Tile extends View {
 		setOpacity(0);
 		animate();
 	}
-	
-	public void setOnAction(EventHandler<Event> handler){
+
+	public void setOnAction(EventHandler<Event> handler) {
 		setOnMouseClicked(handler);
 	}
-	
+
 	private void createTitle(StringBinding titleBinding) {
 		Label title = new Label();
 		title.getStyleClass().add("tile-title");
@@ -48,7 +48,7 @@ public class Tile extends View {
 		title.setTextAlignment(TextAlignment.CENTER);
 		setCenter(title);
 	}
-	
+
 	private void animate() {
 		FadeTransition ft = new FadeTransition(Duration.millis(new Random().nextInt(1000) + 500), this);
 		ft.setFromValue(0.0);
