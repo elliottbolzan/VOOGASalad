@@ -75,6 +75,7 @@ Entities to move in a straight line forever, FaceTowardsAction for enemies attac
 actions for winning a level, and several more.
 
 **Jimmy**
+
 I focused on the canvas portion of the Game Authoring environment. I added the following parts:
 - Allow users to drag-and-drop entities from the side-panel onto the canvas.
 - Allow users to drag entities around on the canvas to move them
