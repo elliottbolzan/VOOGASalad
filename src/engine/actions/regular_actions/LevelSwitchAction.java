@@ -12,9 +12,7 @@ import engine.game.gameloop.LevelStepStrategy;
  *
  */
 public class LevelSwitchAction extends Action {
-
-	// TODO error checking that the level exists
-
+	
 	public LevelSwitchAction() {
 		addParam(new Parameter(getResource("NewLevel"), Integer.class, 0));
 	}

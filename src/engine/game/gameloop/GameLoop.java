@@ -15,8 +15,6 @@ import javafx.scene.layout.Pane;
  *
  */
 
-//This is a git test.
-
 public class GameLoop {
 	private ObservableBundle observableBundle;
 	private Scorebar scorebar;
@@ -33,9 +31,6 @@ public class GameLoop {
 		levelManager.loadAllSavedLevels(firstTimeLoading);
 		if (levelManager.getLevels().size() > 0) {
 			levelManager.addUnlockedLevel(1);
-		} else {
-			// TODO convert to exception
-			System.out.println("Error in GameLoop.java - game has no levels.");
 		}
 		setupFirstStrategy();
 		timelineManipulator = new TimelineManipulator(levelManager);
@@ -48,7 +43,6 @@ public class GameLoop {
 	}
 
 	private void setupFirstStrategy() {
-		// TODO set level selection screen mode from GAE here
 		StepStrategy firstStrategy = levelManager.getLevelSelectionScreenMode() ? new LevelSelectionStepStrategy(true)
 				: new LevelStepStrategy();
 		levelManager.setCurrentStepStrategy(firstStrategy);

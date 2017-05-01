@@ -47,8 +47,7 @@ public class LevelManager {
 		this.levelSelectionScreenMode = true;
 		this.scorebar = scorebar;
 	}
-	
-	// TODO Call from GAE with small checkbox, or similar
+
 	public boolean getLevelSelectionScreenMode() {
 		return levelSelectionScreenMode;
 	}
@@ -113,22 +112,6 @@ public class LevelManager {
 	public int getLevelNumber() {
 		return currentLevel;
 	}
-
-	/**
-	 * Called only from GAE. (Maybe don't need this method?). Once game play
-	 * phase begins, level state should never be saved (unless add checkpoints).
-	 * Only Level PROGRESS (i.e. on the level selection screen) should be saved.
-	 */
-	/*
-	 * public void saveAllLevels() { // GameDataExternalAPI gameData = new
-	 * GameDataExternalAPI(); // gameData.saveGame(levels); // TODO Ask Game
-	 * Data people if they can // save // the entire SelectionGroup object (so I
-	 * // don't have to reconstruct a graph from a // List...alternatively if I
-	 * have them save // the edge list, this will be OK: create //
-	 * getSaveableList() method in // SelectionGroup interface)
-	 * 
-	 * System.out.println("Saved game"); }
-	 */
 
 	/**
 	 * Since never save levels' state during gameplay, can call this method at
