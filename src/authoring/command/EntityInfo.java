@@ -52,14 +52,9 @@ public class EntityInfo implements Serializable
 		xStream.registerConverter(new EntityConverter());
 		xmlString = (String) s.readObject();
 		entity = (Entity) xStream.fromXML(xmlString);
-		extension = entity.getImagePath().replaceAll("^.*\\.(.*)$", "$1");
-		String tempDir = System.getProperty("java.io.tmpdir");
-		File dir = new File(tempDir);
-		File filename = File.createTempFile(entity.getName() + "Image", "." + extension, dir);
+
 		RenderedImage renderedImage = SwingFXUtils.fromFXImage(SwingFXUtils.toFXImage(ImageIO.read(s), null), null);
-		ImageIO.write(renderedImage, extension, filename);
-		entity.setImagePath("file:" + filename.getAbsolutePath());
-		System.out.println(entity.getImagePath());
+		writeImageTempFile(renderedImage);
 	}
 
 	private void writeObject(ObjectOutputStream s) throws IOException
@@ -71,7 +66,16 @@ public class EntityInfo implements Serializable
 		xmlString = xStream.toXML(entity);
 		s.writeObject(xmlString);
 
-		System.out.println(extension);
 		ImageIO.write(SwingFXUtils.fromFXImage(new Image(entity.getImagePath()), null), extension, s);
+	}
+
+	private void writeImageTempFile(RenderedImage renderedImage) throws IOException
+	{
+		extension = entity.getImagePath().replaceAll("^.*\\.(.*)$", "$1");
+		String tempDir = System.getProperty("java.io.tmpdir");
+		File dir = new File(tempDir);
+		File imageTemp = File.createTempFile(entity.getName() + "Image", "." + extension, dir);
+		ImageIO.write(renderedImage, extension, imageTemp);
+		entity.setImagePath("file:" + imageTemp.getAbsolutePath());
 	}
 }
