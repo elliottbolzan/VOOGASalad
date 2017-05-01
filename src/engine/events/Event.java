@@ -69,21 +69,21 @@ public abstract class Event extends GameObject implements EventInterface {
 			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
 		}
 		return (act && timesEventHasOccurred.get() != 0
-				&& timesEventHasOccurred.get() % (int) getParam(getResource("Howoftentotrigger")) == 0
+				&& timesEventHasOccurred.get() % (int) getParam(getResource("HowOftenToTrigger")) == 0
 				&& lessThanMaxTimes());
 	}
 
 	private boolean lessThanMaxTimes() {
-		if (((String) getParam("Howmanytimestotrigger")).toLowerCase().equals("always"))
+		if (((String) getParam(getResource("HowManyTimesToTrigger"))).toLowerCase().equals("always"))
 			return true;
 		else {
 			try {
-				return Integer.parseInt((String) getParam("Howmanytimestotrigger")) >= timesEventHasOccurred.get();
+				return Integer.parseInt(
+						(String) getParam(getResource("HowManyTimesToTrigger"))) >= timesEventHasOccurred.get();
 			} catch (Exception e) {
 				return true;
 			}
 		}
-
 	}
 
 	/**
@@ -91,7 +91,6 @@ public abstract class Event extends GameObject implements EventInterface {
 	 */
 	public void trigger() {
 		actions.forEach(s -> s.act());
-		// System.out.println(timesEventHasOccurred);
 	}
 
 	public SimpleIntegerProperty getNumberTimesTriggered() {
