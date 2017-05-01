@@ -120,18 +120,13 @@ I worked on the following parts during this project:
 * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/Pane.html
 * http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
 * http://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
-<<<<<<< HEAD
-<<<<<<< HEAD
 * http://stackoverflow.com/questions/31148690/get-real-position-of-a-node-in-javafx
 * https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
 * http://www.oodesign.com/
 * Stack Overflow
 * JavaFX 8 Documentation: https://docs.oracle.com/javase/8/javafx/api/toc.htm
-=======
-=======
 * http://stackoverflow.com/questions/19383953/is-it-possible-to-evaluate-a-boolean-expression-for-string-comparions
 * https://rterp.wordpress.com/2015/09/01/creating-custom-animated-transitions-with-javafx/
->>>>>>> cd504af89eb99e1925954ab8e444c97a705981c3
 * http://www.codejava.net/java-se/file-io/programmatically-extract-a-zip-file-using-java
 * http://stackoverflow.com/questions/30183634/how-to-zip-files-and-folders-in-java
 * http://stackoverflow.com/questions/16925612/how-to-resize-component-with-mouse-drag-in-javafx
@@ -140,8 +135,6 @@ I worked on the following parts during this project:
 * http://stackoverflow.com/questions/18982623/restfb-post-as-page-step-by-step-working-example
 * http://restfb.com/documentation/
 * http://x-stream.github.io/tutorial.html
-
->>>>>>> 3043bf1f6a27272bdfcfa523f63ac68903063d09
 
 ### Files Used to Start the Project (the class(es) containing main)
 
@@ -214,3 +207,7 @@ This was a much bigger-scale project than the ones we had done previously in thi
 I think designing utilities for the rest of the class to use was a very interesting part of the project. I believe this is a truly useful skill. It puts more pressure on the coder to make sure their code is readable, usable and well-written. I think the lab during which people from other teams came and tested our code was very helpful; we were able to find a considerable amount of bugs and incorporate our classmates' advice into our project, making for a better end result.
 
 One suggestion I would make is to consider to move the utility requirement up to the first sprint. It might be challenging to come up with a useful util so soon, but it would give people more time to incorporate them into their project, again making for a more impressive result. Additionally, it seems possible to cover multiple game genres in one project; having that aim may produce a more flexible design.
+
+**Matthew Barbano (meb100)**
+
+Although this project was extremely challenging, I enjoyed the fact that it let me experience what it is like to work in a large software engineering team with a large-scale code base. An interesting point was the division into subteams, since unlike previous projects, the whole team did not meet every time code was added. Also, I found myself working more than expected with members of different subteams, particularly the Game Player (for interaction with the game loop) and Game Data (for level loading and saving). Overall, it was a significant challenge but definitely worthwhile.
