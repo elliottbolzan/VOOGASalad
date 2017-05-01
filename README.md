@@ -63,6 +63,17 @@ During this project, I worked on the following parts:
 
 I worked primarily on game data. I worked with Michael to convert our games from a list of entities into an XML file that we saved into a folder initially, and then a zip file. I also worked with Michael to load our games after saving them, so we had to convert our XML file into a list of entities to supply to the backend once again. I made the change to compress all of the files necessary in saving a game so we could save the game into one .zip/.vs file. I also made the changes to load from just one .vs/.zip file, which involved uncompressing all of the files.
 
+**Matthew**
+
+I focused mostly on the Game Engine, with a little overlap into the Game Player. Within the Game Engine,
+I implemented logic on a high-level (e.g. recording all levels, the game loop, etc.), though I did also
+work some on the lower-level creating Events and Actions. During the first sprint, I worked on the LevelManager, Level, and SelectionGroup classes to allow the basics of levels to function. I also used
+the Observer design pattern for user input, collisions, and the timer passing a certain time. I made the timer itself, and worked with Jay to create the Scorebar. I spent most of my time implementing the Game Loop using the Strategy Design Pattern, which included several substantial classes for stepping through levels, transition screens for displaying messages like "Game Over", and significant debugging. I implemented Actions such as LevelLostAction and LevelNextAction. In the second sprint, I began by spending much time
+debugging game loop issues, including reinitialization/cloning after a death and getting multiple levels
+to work. After that, I implemented a screen for selecting which level to play, implemented a "unlocked" level system, worked with Game Data to get game player saving to work, and made lives/the timer modifiable from the Authoring Environment. For Events/Actions, I implemented the TraverseLinePathAction for allowing
+Entities to move in a straight line forever, FaceTowardsAction for enemies attacking the hero, mouse events,
+actions for winning a level, and several more.
+
 ### Resources Used
 
 * http://vignette2.wikia.nocookie.net/nintendo/images/d/de/Princess_Peach_%28Fortune_Street%29.png/revision/latest?cb=20130625131449&path-prefix=en
