@@ -12,7 +12,7 @@ Start Date: 21 March 2017
 
 End Date: 30 April 2017
 
-Hours of Work: 
+Hours of Work: 900
 
 ### Each Person's Role in Developing the Project
 
@@ -63,4 +63,14 @@ All data and resource files are contained in the folders src/resources and src/p
 
 ### Any extra features included in the project
 
+* Chat between two computers
+* Simultaneous editing of a game between two computers
+* Tutorials for making a game
+
 ### Impressions of the assignment to help improve it in the future
+
+The project was a good culmination for that class because it provided ample opportunity to apply the design concepts we learned during the course. The size of the 
+teams was also a useful experience because it requires that everyone rely on each other because no one person can take over the entire assignment. It could improve the 
+project to meet with our TAs more often to show off our project and get advice because although Piazza is useful for answering questions, it doesn't provide the same help
+that having someone outside of the team look at the project. Going off of that idea, the user testing was a great tool and experience because it truly demonstrates the areas
+of the project that need improvement or clarification to allow someone who has not worked on the project to actually use it.
