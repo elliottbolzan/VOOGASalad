@@ -15,11 +15,12 @@ import player.menus.EndGameMenu;
 import polyglot.Polyglot;
 
 /**
- * This is the Full version of the Player, the primary differences being the MediaManager and the
- * control bar at the top of the screen. The control bar allows the user to play, pause, restart,
- * save, and exit the game. The MediaMananger helps makes it possible to save game progress and
- * have background music for the game. Additionally, this version of the Player will save high
- * scores when the game is won.
+ * This is the Full version of the Player, the primary differences being the
+ * MediaManager and the control bar at the top of the screen. The control bar
+ * allows the user to play, pause, restart, save, and exit the game. The
+ * MediaMananger helps makes it possible to save game progress and have
+ * background music for the game. Additionally, this version of the Player will
+ * save high scores when the game is won.
  * 
  * @author Jay Doherty
  * @author Jesse
@@ -32,10 +33,11 @@ public class FullPlayer extends AbstractPlayer {
 	private boolean isPaused;
 	private ImageView playImage;
 	private ImageView pauseImage;
-	
+
 	private MediaManager mediaManager;
 
-	public FullPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources, boolean firstTimeLoading) {
+	public FullPlayer(Stage primaryStage, Game game, MediaManager mediaManager, Polyglot polyglot,
+			ResourceBundle IOResources, boolean firstTimeLoading) {
 		super(primaryStage, game, polyglot, IOResources, firstTimeLoading);
 		this.mediaManager = mediaManager;
 		this.buildControlBar();
@@ -68,7 +70,7 @@ public class FullPlayer extends AbstractPlayer {
 		ToolBar toolbar = new ToolBar(playButton, restartButton, saveButton, exitButton);
 		this.setTop(toolbar);
 	}
-	
+
 	private void togglePlayPause(boolean play) {
 		if (play) {
 			isPaused = false;
@@ -84,21 +86,21 @@ public class FullPlayer extends AbstractPlayer {
 			mediaManager.pauseSong();
 		}
 	}
-	
+
 	private void restart() {
 		this.getRunningGameLoop().pauseTimeline();
 		this.buildGameView(true);
 		this.buildControlBar();
 		this.togglePlayPause(true);
-		
+
 		getRunningGameLoop().getLevelManager().clearUnlockedLevels();
 		getRunningGameLoop().getLevelManager().addUnlockedLevel(1);
 	}
-	
+
 	private void playSong() {
 		mediaManager.playSong();
 	}
-	
+
 	private void save() {
 		Game savedGame = this.getGame().clone();
 		savedGame.setLevels(this.getRunningGameLoop().getLevelManager().getLevels().getListRepresentation());
@@ -107,15 +109,16 @@ public class FullPlayer extends AbstractPlayer {
 		savedGame.setUnlockedLevels(this.getRunningGameLoop().getLevelManager().getUnlockedLevelNumbers());
 		mediaManager.saveGame(savedGame);
 	}
-	
+
 	protected void exit() {
 		super.exit();
 		mediaManager.pauseSong();
 	}
-	
+
 	@Override
 	public void endGame(Scorebar scorebar) {
-		this.getStage().setScene(new EndGameMenu(this.getStage(), this.getGame(), mediaManager, this.getPolyglot(), this.getResources(), scorebar).createScene());
+		this.getStage().setScene(new EndGameMenu(this.getStage(), this.getGame(), mediaManager, this.getPolyglot(),
+				this.getResources(), scorebar).createScene());
 		this.getStage().centerOnScreen();
 	}
 }

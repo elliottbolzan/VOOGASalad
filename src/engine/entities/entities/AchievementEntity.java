@@ -13,6 +13,7 @@ import javafx.beans.property.SimpleDoubleProperty;
  * shouldn't have any actions associated with them.
  * 
  * @author nikita
+ * @author Jesse
  */
 public class AchievementEntity extends Entity {
 
