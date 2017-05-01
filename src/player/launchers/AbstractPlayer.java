@@ -44,6 +44,17 @@ public abstract class AbstractPlayer extends PlayerView {
 		this.buildGameView(firstTimeLoading);
 	}
 	
+
+	/**
+	 * Lets the player window be set to the size of the game view
+	 * @param width
+	 * @param height
+	 */
+	public void setSize(double width, double height){
+		stage.setWidth(width);
+		stage.setHeight(height);
+	}
+	
 	public void endGame(Scorebar scorebar) {
 		//Do nothing by default (Null Object Design Pattern)
 	}
@@ -69,16 +80,6 @@ public abstract class AbstractPlayer extends PlayerView {
 		pane.getChildren().addAll(gameLoop.getGameView(), overlay.display());
 
 		this.setCenter(pane);
-	}
-	
-	/**
-	 * Lets the player window be set to the size of the game view
-	 * @param width
-	 * @param height
-	 */
-	public void setSize(double width, double height){
-		stage.setWidth(width);
-		stage.setHeight(height);
 	}
 	
 	protected void exit() {
