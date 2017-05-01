@@ -17,6 +17,7 @@ import utils.views.View;
  * The authoring tutorial is intended to give the user a quick walk-through of the 
  * Game Authoring Environmnent's major features. It generates a separate stage which guides
  * the user through the process of creating and editing Entities.
+ * 
  * @author Mina
  *
  */
