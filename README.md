@@ -88,6 +88,18 @@ I focused on the canvas portion of the Game Authoring environment. I added the f
 - Allow users to select multiple entities at once and drag them all around at the same time.
 - Added multiple layers and multiple level functionality
 
+**Nikita Zemlevskiy (naz7)**
+I worked on the following parts during this project:
+- Design and implement basic backend structure for running a game
+- Create numerous entities, events and actions according to the above structure
+- Extra features implemented using this structure include:
+    - Random generation of levels
+    - Achievements
+    - Combining events to react to complex conditions (`BooleanEvent`)
+- Wrote a utility, `FacebookPoster`, that posts images and messages on facebook, taking care of oauth and logging in.
+- Create backbone of serialization and deserialization functionality 
+- Created ways for communication at a high level between game data, player, authoring and the engine.
+
 ### Resources Used
 
 * http://vignette2.wikia.nocookie.net/nintendo/images/d/de/Princess_Peach_%28Fortune_Street%29.png/revision/latest?cb=20130625131449&path-prefix=en
@@ -104,7 +116,6 @@ I focused on the canvas portion of the Game Authoring environment. I added the f
 * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/Pane.html
 * http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
 * http://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
-<<<<<<< HEAD
 * http://stackoverflow.com/questions/19383953/is-it-possible-to-evaluate-a-boolean-expression-for-string-comparions
 * https://rterp.wordpress.com/2015/09/01/creating-custom-animated-transitions-with-javafx/
 * http://www.codejava.net/java-se/file-io/programmatically-extract-a-zip-file-using-java
@@ -112,7 +123,9 @@ I focused on the canvas portion of the Game Authoring environment. I added the f
 * http://stackoverflow.com/questions/16925612/how-to-resize-component-with-mouse-drag-in-javafx
 * http://stackoverflow.com/questions/16680295/javafx-correct-scaling
 * http://stackoverflow.com/questions/29506156/javafx-8-zooming-relative-to-mouse-pointer
-
+* http://stackoverflow.com/questions/18982623/restfb-post-as-page-step-by-step-working-example
+* http://restfb.com/documentation/
+* http://x-stream.github.io/tutorial.html
 
 
 ### Files Used to Start the Project (the class(es) containing main)
@@ -151,6 +164,7 @@ None.
 * Automatic translation of the project into hundreds of languages at runtime.
 * The ability to post status updates to Facebook.
 * Parse Boolean expressions for Events. Trigger complex combinations of Events using &&, ||, and !.
+* The ability to generate levels in a game randomly
 
 ### Impressions of the Assignment
 
@@ -177,3 +191,11 @@ The project was a great way to show off what we learned about teamwork and code 
 Through this project, us teammates learned how to evenly divide up work and place trust in each other to achieve a great final product. My favorite part of this project was trying to make the Game Authoring Environment as user-friendly as possible because it required me to forget all of my knowledge of the project and place myself in the shoes of a beginning user. It really opened my eyes to making something that's fun and intuitive to use.
 
 One change that I would make in the future is emphasizing how important the user experience is, and urging people to make their designs more user-friendly, perhaps by incorporating that into the grade.
+
+**Nikita Zemlevskiy (naz7)**
+
+This was a much bigger-scale project than the ones we had done previously in this class. The final product was much more interesting and impressive than the previous ones, making our effort more enjoyable. The power of the product that we made was truly baffling, we realized that our platform could be used to make a vast variety of games, not just scrolling platformers. I think the project shows the effort our team put into it. Working with such a large team was a challenge, both in terms of communication and organization and in terms of getting people to do their work.
+
+I think designing utilities for the rest of the class to use was a very interesting part of the project. I believe this is a truly useful skill. It puts more pressure on the coder to make sure their code is readable, usable and well-written. I think the lab during which people from other teams came and tested our code was very helpful; we were able to find a considerable amount of bugs and incorporate our classmates' advice into our project, making for a better end result.
+
+One suggestion I would make is to consider to move the utility requirement up to the first sprint. It might be challenging to come up with a useful util so soon, but it would give people more time to incorporate them into their project, again making for a more impressive result. Additionally, it seems possible to cover multiple game genres in one project; having that aim may produce a more flexible design.
