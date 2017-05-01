@@ -72,7 +72,6 @@ public class GameSaver {
 		try {
 			(new Unpackager()).unzip(zipFolderPath, gameFolderPath);
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		this.saveAndCompress(game, gameFolderPath, saveName);
 	}
