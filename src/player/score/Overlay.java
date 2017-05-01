@@ -48,12 +48,14 @@ public class Overlay extends BorderPane {
 		container.setPadding(new Insets(5, 0, 0, 0));
 		container.setAlignment(Pos.CENTER);
 		container.getChildren().addAll(makeLabelBox(new Label(), polyglot.get("Score", Case.UPPER), score),
-				makeImageBox(new ImageView(new Image(getClass().getClassLoader().getResourceAsStream(IOResources.getString("HeartPath")))), lives),
+				makeImageBox(
+						new ImageView(new Image(
+								getClass().getClassLoader().getResourceAsStream(IOResources.getString("HeartPath")))),
+						lives),
 				makeLabelBox(new Label(), polyglot.get("Level", Case.UPPER), level),
 				makeLabelBox(new Label(), polyglot.get("Time", Case.UPPER), time));
 		this.setTop(container);
 		this.setPickOnBounds(false);
-		this.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
 	}
 
 	private VBox makeLabelBox(Label title, StringBinding titleValue, Label value) {
