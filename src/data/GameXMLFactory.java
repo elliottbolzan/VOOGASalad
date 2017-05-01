@@ -2,6 +2,8 @@ package data;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,24 +16,21 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+
+/**
+ * This class is an XML file maker that represents a single game object
+ * 
+ * @author Michael Li
+ * 
+ *
+ */
 public class GameXMLFactory
 {
 
-	private DocumentBuilderFactory docFactory;
-	private DocumentBuilder docBuilder;
+
 	private Document doc;
-	private Element nameNode;
-	private Element levelsNode;
-	private Element defaultsNode;
-	private Element cameraNode;
-	private Element resourceNode;
-	private Element achieveNode;
-	private Element backgroundNode;
-	private Element infoNode;
-	private Element timeNode;
-	private Element countdownNode;
-	private Element livesNode;
-	private Element unlockedLevelsNode;
+	private Map<String,Element> elementMap;
+	private Element rootElement;
 	private ResourceManager rm;
 
 	/**
@@ -47,53 +46,41 @@ public class GameXMLFactory
 	private void initiate() {
 		rm = new ResourceManager();
 		
-		docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder=null;
 		try {
 			docBuilder = docFactory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			//TODO
 		}
 		doc = docBuilder.newDocument();
 		
-		Element rootElement = doc.createElement(rm.getGameTitle());
+		rootElement = doc.createElement(rm.getGameTitle());
 		doc.appendChild(rootElement);
 		
-		nameNode = doc.createElement(rm.getNameTitle());
-		rootElement.appendChild(nameNode);
+		elementMap  = new HashMap<String,Element>();
+		initiateRoot();
 		
-		levelsNode = doc.createElement(rm.getLevelsTitle());
-		rootElement.appendChild(levelsNode);
-
-		defaultsNode = doc.createElement(rm.getDefaultsTitle());
-		rootElement.appendChild(defaultsNode);
-
-		cameraNode = doc.createElement(rm.getCameraTitle());
-		rootElement.appendChild(cameraNode);
+		};
+	
+	
+	private void initiateRoot(){
 		
-		resourceNode = doc.createElement(rm.getResourceTitle());
-		rootElement.appendChild(resourceNode);
-		
-//		achieveNode = doc.createElement("Achievements");
-//		rootElement.appendChild(achieveNode);
-//		
-//		backgroundNode = doc.createElement("Background");
-//		rootElement.appendChild(backgroundNode);
-		
-		infoNode = doc.createElement("GameInfo");
-		rootElement.appendChild(infoNode);
-		
-		timeNode = doc.createElement("CurrentTime");
-		rootElement.appendChild(timeNode);
-		
-		countdownNode = doc.createElement("TimeGoingDown");
-		rootElement.appendChild(countdownNode);
-		
-		livesNode = doc.createElement("NumberOfLives");
-		rootElement.appendChild(livesNode);
-		
-		unlockedLevelsNode = doc.createElement("UnlockedLevels");
-		rootElement.appendChild(unlockedLevelsNode);
-		
+		addToRoot(rm.getNameTitle());
+		addToRoot(rm.getLevelsTitle());
+		addToRoot(rm.getDefaultsTitle());
+		addToRoot(rm.getCameraTitle());
+		addToRoot(rm.getResourceTitle());
+		addToRoot(rm.getInfoTitle());
+		addToRoot(rm.getTimeTitle());
+		addToRoot(rm.getCountdownTitle());
+		addToRoot(rm.getLivesTitle());
+		addToRoot(rm.getUnlockedLevelsTitle());
+	}
+	
+	private void addToRoot(String elementName){
+		Element instantiatedElement = doc.createElement(elementName);
+		elementMap.put(elementName, instantiatedElement);
+		rootElement.appendChild(instantiatedElement);
 	}
 	
 	
@@ -105,7 +92,7 @@ public class GameXMLFactory
 	public void setNumberOfLives(int numberOfLives) {
 		Attr attr = doc.createAttribute("LivesAmount");
 		attr.setValue( Integer.toString(numberOfLives));
-		livesNode.setAttributeNode(attr);
+		elementMap.get(rm.getLivesTitle()).setAttributeNode(attr);
 	}
 
 	/**
@@ -116,11 +103,11 @@ public class GameXMLFactory
 	public void setUnlockedLevels(Set<Integer> unlockedLevels) {
 		
 		for(Integer key : unlockedLevels){
-		Element unlockedLevel = doc.createElement("Level");
-		Attr attr=doc.createAttribute("levelnumber");
+		Element unlockedLevel = doc.createElement(rm.getUnlockedLevelsElement());
+		Attr attr=doc.createAttribute(rm.getUnlockedLevelsAttribute());
 		attr.setValue(key.toString());
 		unlockedLevel.setAttributeNode(attr);
-		unlockedLevelsNode.appendChild(unlockedLevel);
+		elementMap.get(rm.getUnlockedLevelsTitle()).appendChild(unlockedLevel);
 		}
 	}
 	
@@ -135,7 +122,7 @@ public class GameXMLFactory
 	public void setTime(double gameTime) {
 		Attr attr = doc.createAttribute("ClockTime");
 		attr.setValue( Double.toString(gameTime));
-		timeNode.setAttributeNode(attr);
+		elementMap.get(rm.getTimeTitle()).setAttributeNode(attr);
 	}
 	
 	
@@ -148,7 +135,7 @@ public class GameXMLFactory
 	public void setCountdown(boolean clockGoingDown) {
 		Attr attr = doc.createAttribute("CountingDown");
 		attr.setValue(Boolean.toString(clockGoingDown));
-		countdownNode.setAttributeNode(attr);
+		elementMap.get(rm.getCountdownTitle()).setAttributeNode(attr);
 	}
 	
 	
@@ -160,7 +147,7 @@ public class GameXMLFactory
 	public void setName(String gameName) {
 		Attr attr = doc.createAttribute(rm.getNameAttribute());
 		attr.setValue(gameName);
-		nameNode.setAttributeNode(attr);
+		elementMap.get(rm.getNameTitle()).setAttributeNode(attr);
 	}
 
 	/**
@@ -169,7 +156,7 @@ public class GameXMLFactory
 	 * 			node to be added into XML
 	 */
 	public void addLevel(Element levelInfo) {
-		levelsNode.appendChild(levelInfo);
+		elementMap.get(rm.getLevelsTitle()).appendChild(levelInfo);
 	}
 
 	/**
@@ -179,27 +166,18 @@ public class GameXMLFactory
 	public void addSong(String songPath) {
 		Attr attr = doc.createAttribute(rm.getSongResourceElement());
 		attr.setValue(songPath);
-		resourceNode.setAttributeNode(attr);
-	}
-	
-	/**
-	 * 
-	 * @param achieve
-	 */
-	public void addAchievement(String achieve){
-		Attr attr = doc.createAttribute("Achievement");
-		attr.setValue(achieve);;
-		achieveNode.setAttributeNode(attr);
+		elementMap.get(rm.getResourceTitle()).setAttributeNode(attr);
 	}
 	
 	/**
 	 * 
 	 * @param info
 	 */
+	
 	public void addInfo(String info){
-		Attr attr = doc.createAttribute("Info");
+		Attr attr = doc.createAttribute(rm.getInfoAttribute());
 		attr.setValue(info);
-		infoNode.setAttributeNode(attr);
+		elementMap.get(rm.getInfoTitle()).setAttributeNode(attr);
 	}
 	
 	/**
@@ -208,18 +186,9 @@ public class GameXMLFactory
 	 */
 	public void addCamera(Element cameraElement) {
 		Element importedCameraNode = (Element) doc.importNode(cameraElement, true);
-		cameraNode.appendChild(importedCameraNode);
+		elementMap.get(rm.getCameraTitle()).appendChild(importedCameraNode);
 	}
 
-	/**
-	 * 
-	 * @param backPath
-	 */
-	public void addBackground(String backPath){
-		Attr attr = doc.createAttribute("Background");
-		attr.setValue(backPath);
-		backgroundNode.setAttributeNode(attr);
-	}
 	
 	/**
 	 * Adds the default entities into XML given the element
@@ -228,7 +197,7 @@ public class GameXMLFactory
 	 */
 	public void addDefaultEntity(Element defaultEntity) {
 		Element importedDefaultEntityNode = (Element) doc.importNode(defaultEntity, true);
-		defaultsNode.appendChild(importedDefaultEntityNode);
+		elementMap.get(rm.getDefaultsTitle()).appendChild(importedDefaultEntityNode);
 	}
 
 	/**
