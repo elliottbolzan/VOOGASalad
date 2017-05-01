@@ -16,7 +16,7 @@
 - Jesse Yue (jty4)
 - Matthew Barbano (meb100)
 - Nikita Zemlevskiy (naz7)
-- Dennis Ling
+- Dennis Ling (dl186)
 - Michael Li (mxl3)
 
 ---------------
@@ -36,6 +36,10 @@
 
 I worked primarily in the game engine. I created the algorithm and code for detecting when a collision happens and which side the collision occurs on for the two entities involved in the collision. I also worked on designing and coding Actions, Entities, and Events for the game. Additionally, I assisted in the testing and debugging the reflection used to create the lists of Actions, Entities, and Events displayed to the user in the front-end by looping through these classes in the back-end. I was also worked on exception handling within the engine. Outside of coding, I tested different game features and provided feedback to the respective areas of the team. I also organized the first demonstration and acted as the primary-spokesperson.
 
+**Jay**
+
+I worked on a wide variety of different parts of the project. Originally I was in charge of the interface between the game engine and the game player, so translating the back-end Entities into JavaFX images to display on screen, which is what the GraphicsEngine class does. I learned how the game engine worked and contributed some to figuring out the flow of the game loop and popping up transition screens between levels. I also took primary responsibilities for making the scrolling camera and the background for the game. Since I understand the camera I helped make Actions for making it follow the player. In the process of adding these I ended up helping with formatting what gets saved in the XML files by game data. I helped a lot with making the file paths saved by game data be flexible enough that a game made on one system should be fully playable/editable on another. Besides all of that I've generally tried to help solve bugs within game data and the game engine since I have worked in both areas.
+
 **Jesse**
 
 I worked primarily on the game player. I created the menus in the player and coded the logic for populating them, along with helping to create the player itself. I also helped around in the authoring environment, game engine, and game data. Created a way to create and display game info in the authoring environment, helped make achievement entities to make displaying and updating achievements possible, and helped work on save states to save the game at any particular point. I also did game testing and helped debug various issues.
@@ -51,7 +55,11 @@ to work. After that, I implemented a screen for selecting which level to play, i
 Entities to move in a straight line forever, FaceTowardsAction for enemies attacking the hero, mouse events,
 actions for winning a level, and several more.
 
-### Any books, papers, online, or human resources that you used in developing the project
+**Dennis**
+
+I worked primarily on game data. I worked with Michael to convert our games from a list of entities into an XML file that we saved into a folder initially, and then a zip file. I also worked with Michael to load our games after saving them, so we had to convert our XML file into a list of entities to supply to the backend once again. I made the change to compress all of the files necessary in saving a game so we could save the game into one .zip/.vs file. I also made the changes to load from just one .vs/.zip file, which involved uncompressing all of the files.
+
+### Resources Used
 
 * http://vignette2.wikia.nocookie.net/nintendo/images/d/de/Princess_Peach_%28Fortune_Street%29.png/revision/latest?cb=20130625131449&path-prefix=en
 * https://i.giphy.com/DGaZTLF390Z0s.gif
@@ -67,11 +75,17 @@ actions for winning a level, and several more.
 * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/Pane.html
 * http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
 * http://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
+<<<<<<< HEAD
 * http://stackoverflow.com/questions/31148690/get-real-position-of-a-node-in-javafx
 * https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
 * http://www.oodesign.com/
 * Stack Overflow
 * JavaFX 8 Documentation: https://docs.oracle.com/javase/8/javafx/api/toc.htm
+=======
+* http://www.codejava.net/java-se/file-io/programmatically-extract-a-zip-file-using-java
+* http://stackoverflow.com/questions/30183634/how-to-zip-files-and-folders-in-java
+
+>>>>>>> 3043bf1f6a27272bdfcfa523f63ac68903063d09
 
 ### Files Used to Start the Project (the class(es) containing main)
 
