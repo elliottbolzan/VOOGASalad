@@ -1,18 +1,34 @@
 # voogasalad
 
-Game Authoring Engine Project
+**Team DuWaldorf**: Game Authoring Engine Project.
+
+**Genre**: Scrolling Platformer.
+
+---
 
 ### Names
 
-Kyle Finke (kwf10), Elliott Bolzan (eab91), Mina Mungekar (mem94), Jimmy Shackford (jas199), Jay Doherty (jld60), Jesse Yue (jty4), Matthew Barbano (meb100), Nikita Zemlevskiy (naz7), Dennis Ling, Michael Li (mxl3)
+- Kyle Finke (kwf10)
+- Elliott Bolzan (eab91)
+- Mina Mungekar (mem94)
+- Jimmy Shackford (jas199)
+- Jay Doherty (jld60)
+- Jesse Yue (jty4)
+- Matthew Barbano (meb100)
+- Nikita Zemlevskiy (naz7)
+- Dennis Ling
+- Michael Li (mxl3)
 
-### Start Date, End Date, and Hours of Work
+---------------
 
-Start Date: 21 March 2017
+### Dates & Times
 
-End Date: 30 April 2017
+- **Start Date**: 21 March 2017.
 
-Hours of Work: 900
+- **End Date**: 30 April 2017.
+
+- **Hours of Work**: 900.
+
 
 ### Each Person's Role in Developing the Project
 
