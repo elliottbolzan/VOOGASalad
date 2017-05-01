@@ -20,14 +20,14 @@ public class TraverseLinePathAction extends Action {
 		addParam(new Parameter(getResource("EndX"), Double.class, 0.0));
 		addParam(new Parameter(getResource("EndY"), Double.class, 0.0));
 		addParam(new Parameter(getResource("TraversalSpeed"), Double.class, 0.0));
-		addParam(new Parameter(getResource("TimesToTraverse", Integer.class, 1.0)));
+		addParam(new Parameter(getResource("Reversible"), Boolean.class, true));
 		firstTime = true;
 	}
 	
 	@Override
 	public void act() {
 		if(firstTime){
-			traverser = new TraverseLineHelper(new Point2D((double) getParam(getResource("EndX")), (double) getParam(getResource("EndY"))), (double) getParam(getResource("TraversalSpeed")), getEntity(), (int) getParam(getResource("TimesToTraverse")));
+			traverser = new TraverseLineHelper(new Point2D((double) getParam(getResource("EndX")), (double) getParam(getResource("EndY"))), (double) getParam(getResource("TraversalSpeed")), getEntity(), (boolean) getParam(getResource("Reversible")));
 			firstTime = false;
 		}
 		traverser.updatePhysics();

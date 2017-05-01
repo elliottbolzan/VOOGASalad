@@ -4,7 +4,7 @@ import engine.entities.Entity;
 import javafx.geometry.Point2D;
 
 public abstract class TraversePathHelper {
-	private static final double ZERO_THRESHOLD = 3; //number of pixels
+	public static final double ZERO_THRESHOLD = 3; //number of pixels
 	
 	private Point2D end;
 	private double speed;

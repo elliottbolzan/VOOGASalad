@@ -4,9 +4,16 @@ import engine.entities.Entity;
 import javafx.geometry.Point2D;
 
 public class TraverseLineHelper extends TraversePathHelper {
+	private EndpointStrategy endpointStrategy;
 	
-	public TraverseLineHelper(Point2D end, double speed, Entity entity){
+	public TraverseLineHelper(Point2D end, double speed, Entity entity, boolean reversible){
 		 super(end, speed, entity);
+		 if(reversible){
+			 endpointStrategy = new IntermediateEndpointStrategy(new Point2D(entity.getX(), entity.getY()));
+		 }
+		 else{
+			 endpointStrategy = new LastEndpointStrategy();
+		 }
 	}
 	
 	@Override
@@ -21,15 +28,8 @@ public class TraverseLineHelper extends TraversePathHelper {
 		 getEntity().setYSpeed(getSpeed() * Math.sin(angle));
 	}
 	
-	protected void handleEnd(){
-		 if(Math.abs(getEntity().getX() - getEnd().getX()) < getZeroThreshold() && Math.abs(getEntity().getY() - getEnd().getY()) < getZeroThreshold()){
-			 getEntity().setXSpeed(0.0);
-			 getEntity().setYSpeed(0.0);
-		 }
-	}
-	
 	@Override
 	public void updatePhysics() {
-		handleEnd();
+		endpointStrategy.handleEndpoint(getEntity(), getEnd());
 	}
 }
