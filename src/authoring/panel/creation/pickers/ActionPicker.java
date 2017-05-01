@@ -144,7 +144,7 @@ public class ActionPicker extends Picker {
 	public void showEditor() {
 				editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
 				engine.getAllActions(entityMaker.getEntity()));
-		getWorkspace().getMaker().display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL);
+		getWorkspace().getMaker().display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL, true);
 	}
 
 	/* (non-Javadoc)
