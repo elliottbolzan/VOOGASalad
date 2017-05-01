@@ -89,6 +89,7 @@ public abstract class AbstractPlayer extends PlayerView {
 		gameScene = this.createScene(DEFAULT_WIDTH, DEFAULT_HEIGHT);	//TODO? Might be ok with resizing the game view and leaving this as is
 		
 		stage.setScene(gameScene);
+		stage.setResizable(false);
 		//stage.setMaxHeight(gameScene.getHeight());
 		//stage.setMaxWidth(gameScene.getWidth());
 		stage.centerOnScreen();
