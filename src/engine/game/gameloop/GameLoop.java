@@ -15,8 +15,6 @@ import javafx.scene.layout.Pane;
  *
  */
 
-//This is a git test.
-
 public class GameLoop {
 	private ObservableBundle observableBundle;
 	private Scorebar scorebar;
@@ -34,7 +32,6 @@ public class GameLoop {
 		if (levelManager.getLevels().size() > 0) {
 			levelManager.addUnlockedLevel(1);
 		} else {
-			// TODO convert to exception
 			System.out.println("Error in GameLoop.java - game has no levels.");
 		}
 		setupFirstStrategy();

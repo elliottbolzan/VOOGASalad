@@ -30,12 +30,12 @@ public class EngineController {
 		resources = ResourceBundle.getBundle("resources/Strings");
 		calendar = Calendar.getInstance();
 	}
-	
-	private int getId(){
+
+	private int getId() {
 		calendar.setTime(new Date());
 		return calendar.get(Calendar.MINUTE) * 100 + calendar.get(Calendar.SECOND);
 	}
-	
+
 	public List<String> getAllEntities() {
 		return findClasses("engine.entities.entities");
 	}
@@ -76,8 +76,6 @@ public class EngineController {
 		try {
 			ret = (Event) getInstance("engine.events.regular_events." + getClassName(event));
 		} catch (Exception e) {
-			e.getCause().printStackTrace();
-			e.printStackTrace();
 			ret = (Event) getInstance("engine.events.additional_events." + getClassName(event));
 		}
 		ret.setId(getId());

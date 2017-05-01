@@ -61,7 +61,6 @@ public class LevelStepStrategy implements StepStrategy {
 		info.getObservableBundle().updateObservers();
 		// TODO If need an update method in GameInfo, update it here, rsoight
 		// before entity.update();
-		//System.out.println(levelManager.getCurrentLevel().getEntities());
 		levelManager.getCurrentLevel().getEntities().forEach(e -> e.update());
 		info.setEntitiesNeverUpdatedFalse();
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();

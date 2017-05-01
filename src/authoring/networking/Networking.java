@@ -183,7 +183,7 @@ public class Networking implements ConnectionObserver
 	@Override
 	public void newConnection()
 	{
-		System.out.println("new connection detected from Networking!");
+
 	}
 
 }
