@@ -166,8 +166,10 @@ public class EditingCell extends TableCell<Parameter, Object> {
 			} else if (param.getParameterClass().equals(Boolean.class)
 					|| param.getParameterClass().equals(boolean.class)) {
 				commitEdit(Boolean.parseBoolean(input));
-			}
-			commitEdit(input);
+			} else if (param.getParameterClass().equals(Long.class) || param.getParameterClass().equals(long.class))
+				commitEdit(Long.parseLong(input));
+			else
+				commitEdit(input);
 		} catch (Exception e) {
 			String content = String.format(invalidEdit, param.getParameterClass().getSimpleName());
 			Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", content);

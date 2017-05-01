@@ -51,6 +51,7 @@ public class EventEditor extends Editor {
 			event = engine.createEvent(string);
 		} catch (Exception e) {
 			getWorkspace().getMaker().showFailure();
+			e.printStackTrace();
 		}
 		event.setEntity(picker.getEntityMaker().getEntity());
 		update(event);

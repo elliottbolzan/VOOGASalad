@@ -15,8 +15,11 @@ import player.menus.EndGameMenu;
 import polyglot.Polyglot;
 
 /**
- * Environment for playing the game. The Player instantiates the engine GameLoop
- * and loads it with data from a chosen file using the GameData interface.
+ * This is the Full version of the Player, the primary differences being the MediaManager and the
+ * control bar at the top of the screen. The control bar allows the user to play, pause, restart,
+ * save, and exit the game. The MediaMananger helps makes it possible to save game progress and
+ * have background music for the game. Additionally, this version of the Player will save high
+ * scores when the game is won.
  * 
  * @author Jay Doherty
  * @author Jesse
