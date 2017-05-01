@@ -70,39 +70,46 @@ I worked primarily on game data. I worked with Michael to convert our games from
 
 ### Files Used to Start the Project (the class(es) containing main)
 
-src/starter/Main.java
+Our main class is located at: `src/starter/Main.java`.
 
 
 ### Files Used to Test the Project
 
-All files in src/testers:
+All files in `src/testers`:
 
-* EntityConverterTest.java
-* TestGameEngineStartup.java
-* TestGameMarioMove.java
-* TestHTML.java
-* TestMultipleLevels.java
+* `EntityConverterTest.java`.
+* `TestGameEngineStartup.java`.
+* `TestGameMarioMove.java`.
+* `TestHTML.java`.
+* `TestMultipleLevels.java`.
 
 ### Any data or resource files required by the project (including format of non-standard files)
 
-All data and resource files are contained in the folders src/resources and src/polyglot/resources.
+All data and resource files are contained in the folders `src/resources` (resources used by code), `data/resources` (resources that can be used to make games) and `src/polyglot/resources` (resources used by Polyglot).
 
 ### Any information about using the program (i.e., command-line/applet arguments, key inputs, interesting example data files, or easter eggs)
 
+See extra features below for a comprehensive list of cool features.
+
+
 ### Any known bugs, crashes, or problems with the project's functionality
+
+None.
 
 ### Any extra features included in the project
 
-* Chat between two computers
-* Simultaneous editing of a game between two computers
-* Tutorials for making a game
-* Polyglot for all languages in Google Translate
-* Posting status updates to Facebook
+* Chat between two computers.
+* Simultaneous editing of a game between two computers.
+* Tutorials for making a game.
+* Automatic translation of the project into hundreds of languages at runtime.
+* The ability to post status updates to Facebook.
 
-### Impressions of the assignment to help improve it in the future
+### Impressions of the Assignment
 
 The project was a good culmination for that class because it provided ample opportunity to apply the design concepts we learned during the course. The size of the 
 teams was also a useful experience because it requires that everyone rely on each other because no one person can take over the entire assignment. It could improve the 
 project to meet with our TAs more often to show off our project and get advice because although Piazza is useful for answering questions, it doesn't provide the same help
 that having someone outside of the team look at the project. Going off of that idea, the user testing was a great tool and experience because it truly demonstrates the areas
 of the project that need improvement or clarification to allow someone who has not worked on the project to actually use it.
+
+**Elliott Bolzan (eab91)**: 

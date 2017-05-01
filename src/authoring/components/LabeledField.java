@@ -1,7 +1,6 @@
 package authoring.components;
 
 import authoring.Workspace;
-import utils.views.View;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -9,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import utils.views.View;
 
 /**
  * @author Elliott Bolzan
