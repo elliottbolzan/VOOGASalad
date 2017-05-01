@@ -14,6 +14,7 @@ import polyglot.Case;
 import polyglot.Polyglot;
 
 /**
+ * Menu from which user launches the game
  * 
  * @author Jesse
  *
@@ -34,12 +35,12 @@ public class LoadMenu extends AbstractMenu {
 		addSaveTiles(true, saveTiles);
 		setupScene(stage);
 	}
-	
-	private void setupSaveTiles(Stage stage, MediaManager mediaManager){
-		for(int i = 0; i < mediaManager.getSaves().size(); i++){
-			final int j = i; 
-			Tile game = new Tile(getPolyglot().get(Integer.toString(i+1), Case.TITLE), 
-					"blue", e -> loadSaveState(stage, saveStates.get(j)));
+
+	private void setupSaveTiles(Stage stage, MediaManager mediaManager) {
+		for (int i = 0; i < mediaManager.getSaves().size(); i++) {
+			final int j = i;
+			Tile game = new Tile(getPolyglot().get(Integer.toString(i + 1), Case.TITLE), "blue",
+					e -> loadSaveState(stage, saveStates.get(j)));
 			saveTiles.add(game);
 		}
 	}
@@ -66,8 +67,8 @@ public class LoadMenu extends AbstractMenu {
 			@Override
 			public void onChanged(javafx.collections.ListChangeListener.Change<? extends String> c) {
 				if (saveStates.size() < 11) {
-					Tile save = new Tile(getPolyglot().get(Integer.toString(saveStates.size()), Case.TITLE), 
-							"blue", e -> loadSaveState(stage, saveStates.get(saveStates.size()-1)));
+					Tile save = new Tile(getPolyglot().get(Integer.toString(saveStates.size()), Case.TITLE), "blue",
+							e -> loadSaveState(stage, saveStates.get(saveStates.size() - 1)));
 					saveTiles.add(save);
 					addSaveTiles(true, saveTiles);
 				} else {
@@ -76,7 +77,7 @@ public class LoadMenu extends AbstractMenu {
 						int index = replacer.getButtonID();
 						// Changes button action to load new save
 						saveTiles.get(index).setOnAction(e1 -> {
-							loadSaveState(stage, saveStates.get(saveStates.size()-1));
+							loadSaveState(stage, saveStates.get(saveStates.size() - 1));
 						});
 						replacer.close();
 					});

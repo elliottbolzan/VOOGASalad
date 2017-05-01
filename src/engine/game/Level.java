@@ -106,7 +106,7 @@ public class Level implements LevelInterface, Selectable {
 	public void setCamera(CameraEntity camera) {
 		this.camera = camera;
 	}
-	
+
 	public BackgroundEntity getBackground() {
 		return this.background;
 	}
