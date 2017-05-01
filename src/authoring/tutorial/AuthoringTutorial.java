@@ -22,7 +22,8 @@ public class AuthoringTutorial extends View {
 	public AuthoringTutorial(Workspace workspace) {
 		this.workspace = workspace;
 		show();
-		editMario();
+		canvasCharacter("TenthStep",()->createMonster(),true);
+		//editMario();
 	}
 	
 	private void show() {
@@ -60,7 +61,7 @@ public class AuthoringTutorial extends View {
 		clickedEdit("SecondStep",() -> addedEvent("ThirdStep", workspace.getPolyglot().get("FirstEvent").get(),
 						() -> addedKeyPress("FourthStep", () -> savedEvent("FifthStep", () -> addedAction("SixthStep",
 								workspace.getPolyglot().get("FirstAction").get(), () -> afterAction("SeventhStep", () -> savedAction("EighthStep",
-										()->savedCharacter("NinthStep",()->canvasCharacter("TenthStep",()->createMonster())))))))));
+										()->savedCharacter("NinthStep",()->canvasCharacter("TenthStep",()->createMonster(),true)))))))));
 	}
 	
 	private void clickedEdit(String s, Runnable r){
@@ -107,9 +108,14 @@ public class AuthoringTutorial extends View {
 		workspace.getLevelEditor().getCurrentLevel().addEntityListener(r);
 	}
 
-	private void canvasCharacter(String s, Runnable r) {
+	private void canvasCharacter(String s, Runnable r, boolean addChange) {
 		label.textProperty().bind(workspace.getPolyglot().get(s));
+		if(addChange){
 		workspace.getPanel().getEntityDisplay().changeNewHandler(r);
+		}
+		else{
+			workspace.getPanel().getEntityDisplay().changeEditHandler(r);
+		}
 	}
 /*	private void savedAction() {
 		label.textProperty().bind(workspace.getPolyglot().get("EighthStep"));
@@ -134,13 +140,11 @@ public class AuthoringTutorial extends View {
 	private void changedMonsterImage() {
 		label.textProperty().bind(workspace.getPolyglot().get("TwelfthStep"));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker()
-				.changeNewHandler(
-						() -> addedEvent("ThirteenthStep", workspace.getPolyglot().get("SecondEvent").get(),
-								() -> addedCollision("FourteenthStep",
-										() -> savedEvent("FifteenthStep", () -> addedAction("SixteenthStep",
-												workspace.getPolyglot().get("SecondAction").get(), () -> afterAction("SeventeenthStep",
-														() -> savedAction("EighteenthStep",()->savedCharacter("NinteenthStep",
-																()->canvasCharacter("TwentiethStep",null)))))))));
+				.changeNewHandler(() -> addedEvent("ThirteenthStep", workspace.getPolyglot().get("SecondEvent").get(),
+								() -> addedCollision("FourteenthStep", () -> savedEvent("FifteenthStep", () -> addedAction("SixteenthStep",
+									workspace.getPolyglot().get("SecondAction").get(), () -> afterAction("SeventeenthStep",
+										() -> savedAction("EighteenthStep",()->savedCharacter("NinteenthStep",()->canvasCharacter("TwentiethStep",()->savedAction("TwentyFirstStep",
+													()->savedCharacter("TwentySecondStep",()->canvasCharacter("TwentyThirdStep",null,false))),false)))))))));
 	}
 
 	private void addedCollision(String s, Runnable r) {
