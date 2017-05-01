@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
  * proper XML tags. 
  * 
  * @author Jay Doherty
- *
+ *@author Michael Li
  */
 public class LevelSaver {
 
