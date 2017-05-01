@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
 import player.score.Score;
 
 /**
- * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano, Jay Doherty)
+ * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano, Jay Doherty, Michael Li)
  * 
  *         This class represents a Game. It is designed to be shared through
  *         submodules: the GameData, Game Authoring Environment, Game Player and
@@ -79,6 +79,15 @@ public class Game {
 		achievements = cloneDefaults().stream().filter(s -> s instanceof AchievementEntity).collect(Collectors.toList());
 		return cloneOfLevels;
 	}
+	
+	/**
+	 * Create a deep copy of a Level object by copying clones of the entities in
+	 * a single Level. Uses GameObject's clone() method to accomplish
+	 * this.
+	 * 
+	 * 
+	 * @return the clone of a level
+	 */
 
 	public Level cloneLevel(Level level) {
 		Level cloneOfLevel = new Level();
@@ -89,6 +98,15 @@ public class Game {
 		cloneOfLevel.setBackground((BackgroundEntity) level.getBackground().clone());
 		return cloneOfLevel;
 	}
+	
+	/**
+	 * Create a deep copy of a Defaults by copying clones of the entities in
+	 * a single Default Instance. Uses GameObject's clone() method to accomplish
+	 * this.
+	 * 
+	 * 
+	 * @return a List<Entity> representing Defaults
+	 */
 
 	public List<Entity> cloneDefaults() {
 		List<Entity> cloneOfDefaults = new ArrayList<Entity>();
@@ -119,7 +137,6 @@ public class Game {
 	 */
 	public List<Level> getLevels() {
 		return levels;
-		// return Collections.unmodifiableList(levels);
 	}
 
 	/**
@@ -149,17 +166,41 @@ public class Game {
 		this.defaults = defaults;
 	}
 	
+	/**
+	 * Set the game's unlocked Levels
+	 * 
+	 * @param inputUnlockedLevels
+	 *            the new unlocked levels
+	 */
 	public void setUnlockedLevels(Set<Integer> inputUnlockedLevels){
 		unlockedLevels=inputUnlockedLevels;
 	}
 	
+	/**
+	 * Set the game's number of Lives
+	 * 
+	 * @param inputNumberOfLives
+	 *            the new number of Lives
+	 */
 	public void setNumberOfLives(int inputNumberOfLives){
 		numberOfLives=inputNumberOfLives;
 	}
 	
+	/**
+	 * gets the game's unlocked levels
+	 * 
+	 * @return game's levels that are unlocked
+	 */
+	
 	public Set<Integer> getUnlockedLevels(){
 		return unlockedLevels;
 	}
+	
+	/**
+	 * gets the game's number of lives
+	 * 
+	 * @return game's current amount of lives
+	 */
 	public int getNumberOfLives(){
 		return numberOfLives;
 	}
@@ -297,7 +338,6 @@ public class Game {
 		cloneGame.setInfo(this.info);
 		cloneGame.setClockGoingDown(this.clockGoingDown);
 		cloneGame.setCurrentTime(this.currentTime);
-		// TODO: clone scores
 		cloneGame.setAchievements(this.cloneAchievements());
 		return cloneGame;
 	}
