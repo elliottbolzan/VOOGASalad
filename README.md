@@ -4,7 +4,7 @@ Game Authoring Engine Project
 
 ### Names
 
-Kyle Finke (kwf10), Elliott Bolzan (eab91), Mina Mungekar (mem94), Jimmy Shackford (jas199), Jay Doherty (jld60), Jesse Yue, Matthew Barbano (meb100), Nikita Zemlevskiy (naz7), Dennis Ling, Michael Li (mxl3)
+Kyle Finke (kwf10), Elliott Bolzan (eab91), Mina Mungekar (mem94), Jimmy Shackford (jas199), Jay Doherty (jld60), Jesse Yue (jty4), Matthew Barbano (meb100), Nikita Zemlevskiy (naz7), Dennis Ling, Michael Li (mxl3)
 
 ### Start Date, End Date, and Hours of Work
 
@@ -19,6 +19,10 @@ Hours of Work: 900
 **Kyle**
 
 I worked primarily in the game engine. I created the algorithm and code for detecting when a collision happens and which side the collision occurs on for the two entities involved in the collision. I also worked on designing and coding Actions, Entities, and Events for the game. Additionally, I assisted in the testing and debugging the reflection used to create the lists of Actions, Entities, and Events displayed to the user in the front-end by looping through these classes in the back-end. I was also worked on exception handling within the engine. Outside of coding, I tested different game features and provided feedback to the respective areas of the team. I also organized the first demonstration and acted as the primary-spokesperson.
+
+**Jesse**
+
+I worked primarily on the game player. I created the menus in the player and coded the logic for populating them, along with helping to create the player itself. I also helped around in the authoring environment, game engine, and game data. Created a way to create and display game info in the authoring environment, helped make achievement entities to make displaying and updating achievements possible, and helped work on save states to save the game at any particular point. I also did game testing and helped debug various issues.
 
 ### Any books, papers, online, or human resources that you used in developing the project
 
