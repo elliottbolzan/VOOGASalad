@@ -59,11 +59,12 @@ public class AuthoringTutorial extends View {
 	private void clickedEdit() {
 		label.textProperty().bind(workspace.getPolyglot().get("SecondStep"));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker()
-				.changeNewHandler(() -> addedEvent("ThirdStep", "Key Press",
+				.changeNewHandler(() -> addedEvent("ThirdStep", workspace.getPolyglot().get("FirstEvent").get(),
 						() -> addedKeyPress("FourthStep", () -> savedEvent("FifthStep", () -> addedAction("SixthStep",
-								"Jump", () -> afterAction("SeventhStep", () -> savedAction()))))));
+								workspace.getPolyglot().get("FirstAction").get(), () -> afterAction("SeventhStep", () -> savedAction()))))));
 	}
 
+	
 	private void addedEvent(String s, String event, Runnable r) {
 		label.textProperty().bind(workspace.getPolyglot().get(s));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().initTutorialAction(event,
@@ -116,10 +117,10 @@ public class AuthoringTutorial extends View {
 		label.textProperty().bind(workspace.getPolyglot().get("TwelfthStep"));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker()
 				.changeNewHandler(
-						() -> addedEvent("ThirteenthStep", "Collision",
+						() -> addedEvent("ThirteenthStep", workspace.getPolyglot().get("SecondEvent").get(),
 								() -> addedCollision("FourteenthStep",
 										() -> savedEvent("FifteenthStep", () -> addedAction("SixteenthStep",
-												"Entity Remove", () -> afterAction("SeventeenthStep",
+												workspace.getPolyglot().get(workspace.getPolyglot().get("SecondAction").get()).toString(), () -> afterAction("SeventeenthStep",
 														() -> savedMonsterAction()))))));
 	}
 
@@ -135,7 +136,12 @@ public class AuthoringTutorial extends View {
 
 	private void savedMonsterCharacter() {
 		label.textProperty().bind(workspace.getPolyglot().get("NinteenthStep"));
-		// workspace.getLevelEditor().getCurrentLevel().addEntityListener(() ->
-		// canvasCharacter());
+		 workspace.getLevelEditor().getCurrentLevel().addEntityListener(() ->
+		 canvasMonsterCharacter());
+	}
+	
+	private void canvasMonsterCharacter() {
+		label.textProperty().bind(workspace.getPolyglot().get("TwentiethStep"));
+		//workspace.getPanel().getEntityDisplay().changeNewHandler(() -> createMonster());
 	}
 }
