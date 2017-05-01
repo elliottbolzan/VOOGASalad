@@ -20,4 +20,9 @@ public class AddInfo extends PositionInfo
 		super(entityName, xPos, yPos, zPos, new Random().nextLong());
 	}
 
+	public AddInfo(String entityName, double xPos, double yPos, int zPos, long entityId)
+	{
+		super(entityName, xPos, yPos, zPos, entityId);
+	}
+
 }

@@ -74,6 +74,19 @@ to work. After that, I implemented a screen for selecting which level to play, i
 Entities to move in a straight line forever, FaceTowardsAction for enemies attacking the hero, mouse events,
 actions for winning a level, and several more.
 
+**Jimmy**
+I focused on the canvas portion of the Game Authoring environment. I added the following parts:
+- Allow users to drag-and-drop entities from the side-panel onto the canvas.
+- Allow users to drag entities around on the canvas to move them
+- Allow users to resize an entity by dragging on any side/corner.
+- Added an undo-redo function so users can redo mistakes.
+- Added live-editing so that multiple users can connect to the same server and edit the same game. This requires the two screens to be synchronized immediately after joining the server.
+- Added feature so users can scroll into the canvas with the mouse scroll wheel.
+- Users can drag the screen to pan around the canvas.
+- Added copy-paste functionality (ctrl-c, ctrl-v), select-all functionality (ctrl-a)
+- Allow users to select multiple entities at once and drag them all around at the same time.
+- Added multiple layers and multiple level functionality
+
 ### Resources Used
 
 * http://vignette2.wikia.nocookie.net/nintendo/images/d/de/Princess_Peach_%28Fortune_Street%29.png/revision/latest?cb=20130625131449&path-prefix=en
@@ -95,6 +108,11 @@ actions for winning a level, and several more.
 * https://rterp.wordpress.com/2015/09/01/creating-custom-animated-transitions-with-javafx/
 * http://www.codejava.net/java-se/file-io/programmatically-extract-a-zip-file-using-java
 * http://stackoverflow.com/questions/30183634/how-to-zip-files-and-folders-in-java
+* http://stackoverflow.com/questions/16925612/how-to-resize-component-with-mouse-drag-in-javafx
+* http://stackoverflow.com/questions/16680295/javafx-correct-scaling
+* http://stackoverflow.com/questions/29506156/javafx-8-zooming-relative-to-mouse-pointer
+
+
 
 ### Files Used to Start the Project (the class(es) containing main)
 
@@ -127,6 +145,7 @@ None.
 
 * Chat between two computers.
 * Simultaneous editing of a game between two computers.
+* Undo-redo button in the game-authoring environment
 * Tutorials for making a game.
 * Automatic translation of the project into hundreds of languages at runtime.
 * The ability to post status updates to Facebook.
@@ -149,3 +168,11 @@ The project, while a considerable amount of work, was enjoyable. The final produ
 The most interesting parts of the project were, by far, designing the utilities and implementing the extra features. In terms of class work, the lab during which we let other teams use our product was very beneficial. We were able to identify a number of problems and it pushed people to work more on our project.
 
 One thing I would change in the future: maybe it would be beneficial to not dissuade people from trying to implement several game genres. Our project seems to cover a few, and had we not been told to focus exclusively on one game genre during our first coding sprint, we probably could have designed games for all genres. That would have been a great experience!
+
+**Jimmy Shackford (jas199)**
+
+The project was a great way to show off what we learned about teamwork and code design principles. The final product was massive, and it definitely shows how much effort we put into it. For this project specifically, we focused our design on being as user-friendly as possible, something that the other projects didn't really require.
+
+Through this project, us teammates learned how to evenly divide up work and place trust in each other to achieve a great final product. My favorite part of this project was trying to make the Game Authoring Environment as user-friendly as possible because it required me to forget all of my knowledge of the project and place myself in the shoes of a beginning user. It really opened my eyes to making something that's fun and intuitive to use.
+
+One change that I would make in the future is emphasizing how important the user experience is, and urging people to make their designs more user-friendly, perhaps by incorporating that into the grade.

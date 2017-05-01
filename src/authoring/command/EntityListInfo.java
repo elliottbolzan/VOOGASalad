@@ -21,7 +21,7 @@ public class EntityListInfo extends Packet
 	{
 		entityInfo = new ArrayList<EntityInfo>();
 		addedSublist.forEach(e -> {
-			entityInfo.add(new EntityInfo(e));
+			entityInfo.add(new EntityInfo(e.clone()));
 		});
 	}
 
