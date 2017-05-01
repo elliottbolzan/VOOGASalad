@@ -40,7 +40,12 @@ public class EntityEditor extends Editor {
 	@Override
 	public void selected(String string) {
 		List<Event> events = entity.getEvents();
+		try{
 		entity = engine.createEntity(string);
+		}
+		catch(Exception e){
+			getWorkspace().getMaker().showFailure();
+		}
 		entity.setEvents(events);
 		update(entity);
 	}

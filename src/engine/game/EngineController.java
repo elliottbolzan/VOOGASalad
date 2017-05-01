@@ -18,13 +18,16 @@ import engine.events.Event;
  *         way.
  */
 public class EngineController {
-
 	private ClassFinder finder;
 	private ResourceBundle resources;
+	private int entityIds, eventIds, actionIds;
 
 	public EngineController() {
 		finder = new ClassFinder();
 		resources = ResourceBundle.getBundle("resources/Strings");
+		entityIds = 0;
+		eventIds = 0;
+		actionIds = 0;
 	}
 
 	public List<String> getAllEntities() {
@@ -56,40 +59,33 @@ public class EngineController {
 		return new CharacterEntity();
 	}
 
-	public Entity createEntity(String entity) {
-		try {
-			return (Entity) getInstance("engine.entities.entities." + getClassName(entity));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
+	public Entity createEntity(String entity) throws Exception {
+		Entity ret = (Entity) getInstance("engine.entities.entities." + getClassName(entity));
+		ret.setId(entityIds++);
+		return ret;
 	}
 
-	public Event createEvent(String event) {
+	public Event createEvent(String event) throws Exception {
+		Event ret;
 		try {
-			return (Event) getInstance("engine.events.regular_events." + getClassName(event));
+			ret = (Event) getInstance("engine.events.regular_events." + getClassName(event));
 		} catch (Exception e) {
-			try {
-				return (Event) getInstance("engine.events.additional_events." + getClassName(event));
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				return null;
-			}
+			ret = (Event) getInstance("engine.events.additional_events." + getClassName(event));
 		}
+		ret.setId(eventIds++);
+		System.out.println(this + " " + ret + " " + ret.getId());
+		return ret;
 	}
 
-	public Action createAction(String action) {
+	public Action createAction(String action) throws Exception {
+		Action ret = null;
 		try {
-			return (Action) getInstance("engine.actions.regular_actions." + getClassName(action));
+			ret = (Action) getInstance("engine.actions.regular_actions." + getClassName(action));
 		} catch (Exception e) {
-			try {
-				return (Action) getInstance("engine.actions.additional_actions." + getClassName(action));
-			} catch (Exception e1) {
-				e1.printStackTrace(); 	
-				return null;
-			}
+			ret = (Action) getInstance("engine.actions.additional_actions." + getClassName(action));
 		}
+		ret.setId(actionIds++);
+		return ret;
 	}
 
 	private String getClassName(String string) {

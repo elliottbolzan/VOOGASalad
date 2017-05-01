@@ -17,5 +17,4 @@ public class RightClickEvent extends Event {
 		ClickHelper helper = new ClickHelper();
 		return helper.mouseClickToProcess(this) && helper.buttonPressed(this, MouseButton.SECONDARY);
 	}
-
 }

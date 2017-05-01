@@ -101,8 +101,7 @@ public class EntityConverter implements Converter {
 			try {
 				value = field.get(entity);
 			} catch (Exception e) {
-				// TODO remove print stack trace
-				// e.printStackTrace();
+				return;
 			}
 			if (value != null) {
 				writer.startNode(name);
@@ -136,14 +135,18 @@ public class EntityConverter implements Converter {
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 		EngineController controller = new EngineController();
 		reader.moveDown();
-		Entity entity = controller.createEntity(reader.getValue());
+		Entity entity;
+		try {
+			entity = controller.createEntity(reader.getValue());
+		} catch (Exception e) {
+			return null;
+		}
 		reader.moveUp();
 
 		while (reader.hasMoreChildren()) {
 			reader.moveDown();
 			Field field = null;
 			try {
-
 				field = entity.getClass().getDeclaredField(reader.getNodeName());
 			} catch (NoSuchFieldException | SecurityException e) {
 				try {
@@ -153,7 +156,7 @@ public class EntityConverter implements Converter {
 						field = entity.getClass().getSuperclass().getSuperclass()
 								.getDeclaredField(reader.getNodeName());
 					} catch (Exception e2) {
-						e1.printStackTrace();
+						return null;
 					}
 
 				}
@@ -173,8 +176,7 @@ public class EntityConverter implements Converter {
 			try {
 				field.set(entity, value);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return null;
 			}
 			reader.moveUp();
 		}
