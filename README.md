@@ -4,7 +4,7 @@ Game Authoring Engine Project
 
 ### Names
 
-Kyle Finke (kwf10), Elliott Bolzan (eab91), Mina Mungekar (mem94), Jimmy Shackford (jas199), Jay Doherty (jld60), Jesse Yue (jty4), Matthew Barbano (meb100), Nikita Zemlevskiy (naz7), Dennis Ling, Michael Li (mxl3)
+Kyle Finke (kwf10), Elliott Bolzan (eab91), Mina Mungekar (mem94), Jimmy Shackford (jas199), Jay Doherty (jld60), Jesse Yue (jty4), Matthew Barbano (meb100), Nikita Zemlevskiy (naz7), Dennis Ling (dl186), Michael Li (mxl3)
 
 ### Start Date, End Date, and Hours of Work
 
@@ -24,6 +24,10 @@ I worked primarily in the game engine. I created the algorithm and code for dete
 
 I worked primarily on the game player. I created the menus in the player and coded the logic for populating them, along with helping to create the player itself. I also helped around in the authoring environment, game engine, and game data. Created a way to create and display game info in the authoring environment, helped make achievement entities to make displaying and updating achievements possible, and helped work on save states to save the game at any particular point. I also did game testing and helped debug various issues.
 
+**Dennis**
+
+I worked primarily on game data. I worked with Michael to convert our games from a list of entities into an XML file that we saved into a folder initially, and then a zip file. I also worked with Michael to load our games after saving them, so we had to convert our XML file into a list of entities to supply to the backend once again. I made the change to compress all of the files necessary in saving a game so we could save the game into one .zip/.vs file. I also made the changes to load from just one .vs/.zip file, which involved uncompressing all of the files.
+
 ### Any books, papers, online, or human resources that you used in developing the project
 
 * http://vignette2.wikia.nocookie.net/nintendo/images/d/de/Princess_Peach_%28Fortune_Street%29.png/revision/latest?cb=20130625131449&path-prefix=en
@@ -40,6 +44,8 @@ I worked primarily on the game player. I created the menus in the player and cod
 * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/Pane.html
 * http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
 * http://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
+* http://www.codejava.net/java-se/file-io/programmatically-extract-a-zip-file-using-java
+* http://stackoverflow.com/questions/30183634/how-to-zip-files-and-folders-in-java
 
 
 ### Files Used to Start the Project (the class(es) containing main)
