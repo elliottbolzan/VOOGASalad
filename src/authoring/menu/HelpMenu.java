@@ -39,7 +39,7 @@ public class HelpMenu extends WorkspaceMenu {
 
 	private void showKeyCombinations() {
 		HTMLDisplay display = new HTMLDisplay(getIOResources().getString("HelpPath"),
-				getPolyglot().get("KeyCombinations"));
+				getPolyglot().get("KeyCombinationsMenuItem"));
 		display.show();
 	}
 
