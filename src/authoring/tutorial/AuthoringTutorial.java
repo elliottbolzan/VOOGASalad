@@ -69,7 +69,7 @@ public class AuthoringTutorial extends View {
 	private void initTutorial() {
 		clickedEdit("SecondStep",() -> addedEvent("ThirdStep", workspace.getPolyglot().get("FirstEvent").get(),
 						() -> addedKeyPress("FourthStep", () -> savedEvent("FifthStep", () -> addedAction("SixthStep",
-								workspace.getPolyglot().get("FirstAction").get(), () -> afterAction("SeventhStep", () -> savedAction("EighthStep",
+								"Set Y Speed", () -> afterAction("SeventhStep", () -> savedAction("EighthStep",
 										()->savedCharacter("NinthStep",()->canvasCharacter("TenthStep",()->createMonster(),true)))))))));
 	}
 	
