@@ -83,7 +83,7 @@ public class GraphicsEngine {
 		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
 		
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
-		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
+		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, 
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 
 	}
