@@ -14,11 +14,9 @@ public class DelayEvent extends Event {
 
 	@Override
 	public boolean act() {
-		System.out.println(getEntity().getEvents());
-		System.out.println(getEntity().getEventById((int) getParam(getResource("EventId"))));
 		if (getEntity().getEventById((int) getParam(getResource("EventId"))).isTriggered(true) && startTime == -1) {
 			startTime = System.currentTimeMillis();
 		}
-		return startTime + (long) getParam(getResource("DelayAmount")) >= System.currentTimeMillis();
+		return startTime != -1 && startTime + (int) getParam(getResource("DelayAmount")) <= System.currentTimeMillis();
 	}
 }
