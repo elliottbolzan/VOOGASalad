@@ -59,6 +59,8 @@ public abstract class Event extends GameObject implements EventInterface {
 	 * Check whether or not to trigger the actions to fire. Depends on how many
 	 * times event is set to trigger, and how often it is set to trigger.
 	 * 
+	 * @param check
+	 *            whether this is a check or actual update of entity
 	 * @return whether the event is triggered or not.
 	 */
 	public boolean isTriggered(boolean check) {
@@ -67,7 +69,8 @@ public abstract class Event extends GameObject implements EventInterface {
 			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
 		}
 		return (act && timesEventHasOccurred.get() != 0
-				&& timesEventHasOccurred.get() % (int) getParam(getResource("How often totrigger")) == 0 && lessThanMaxTimes());
+				&& timesEventHasOccurred.get() % (int) getParam(getResource("How often totrigger")) == 0
+				&& lessThanMaxTimes());
 	}
 
 	private boolean lessThanMaxTimes() {

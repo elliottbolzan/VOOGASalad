@@ -24,10 +24,15 @@ public class EventEditor extends Editor {
 
 	/**
 	 * Creates an EventEditor.
-	 * @param workspace the workspace that owns the Editor.
-	 * @param picker the picker that owns the Editor.
-	 * @param event the Event (optionally null) to be edited.
-	 * @param elements the elements to be displayed in the ComboBox as options.
+	 * 
+	 * @param workspace
+	 *            the workspace that owns the Editor.
+	 * @param picker
+	 *            the picker that owns the Editor.
+	 * @param event
+	 *            the Event (optionally null) to be edited.
+	 * @param elements
+	 *            the elements to be displayed in the ComboBox as options.
 	 */
 	public EventEditor(Workspace workspace, EventPicker picker, Event event, List<String> elements) {
 		super(workspace, elements, event, true);
@@ -35,17 +40,25 @@ public class EventEditor extends Editor {
 		this.event = event;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.editors.Editor#selected(java.lang.String)
 	 */
 	@Override
 	public void selected(String string) {
-		event = engine.createEvent(string);
+		try {
+			event = engine.createEvent(string);
+		} catch (Exception e) {
+			getWorkspace().getMaker().showFailure();
+		}
 		event.setEntity(picker.getEntityMaker().getEntity());
 		update(event);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.editors.Editor#save(java.util.List)
 	 */
 	@Override

@@ -21,6 +21,7 @@ public abstract class GameObject {
 	private List<Parameter> params;
 	private Entity entity;
 	private GameInfo info;
+	private int id;
 
 	public GameObject() {
 		setUpResources();
@@ -55,7 +56,6 @@ public abstract class GameObject {
 
 	public List<Parameter> getParams() {
 		return params;
-		// return Collections.unmodifiableList(params);
 	}
 
 	public void addParam(Parameter param) {
@@ -102,8 +102,8 @@ public abstract class GameObject {
 		}
 		return null;
 	}
-	
-	public void removeParam(String name){
+
+	public void removeParam(String name) {
 		params.remove(findParameter(name));
 	}
 
@@ -139,5 +139,13 @@ public abstract class GameObject {
 		}).collect(Collectors.toList()));
 		copy.setParams(params);
 		return copy;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
