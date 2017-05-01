@@ -84,23 +84,15 @@ public class InputObservable extends EventObservable {
 			lastPressedKey = event.getCode();
 			keyReleaseToProcess = true;
 		});
-		gameScene.setOnMouseClicked(event -> {
-			lastPressedMouseButton = event.getButton();
-			lastPressedCoordinates = new Point2D(event.getSceneX()- /*graphicsEngine.getCamera().getX()*/ getOffsetX(),
-					event.getSceneY() - /*graphicsEngine.getCamera().getY()*/ getOffsetY()); //- graphicsEngine.get;
+		graphicsEngine.getView().setOnMouseClicked(e -> {
+			lastPressedMouseButton = e.getButton();
+			lastPressedCoordinates = new Point2D(e.getX(), e.getY());
 			mouseClickToProcess = true;
-			System.out.println("OffsetX: " + getOffsetX());
-			System.out.println("OffsetY: " + getOffsetY());
 		});
 	}
 
-	private double getOffsetX(){
-		return (graphicsEngine.getCamera().getWidth() - graphicsEngine.getBackgroundPosition().getX()) / 2;
-	}
-	private double getOffsetY(){
-		return (graphicsEngine.getCamera().getHeight() - graphicsEngine.getBackgroundPosition().getY()) / 2;
-	}
 	public void updateObservers() {
 		// Intentionally left blank.
 	}
+
 }
