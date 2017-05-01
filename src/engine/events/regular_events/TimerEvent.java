@@ -30,7 +30,6 @@ public class TimerEvent extends Event {
 			System.out.println("Game Info = " + getGameInfo());
 		}
 		if ((Boolean) getParam(getResource("LessThan"))) {
-			System.out.println(time <= (Integer) getParam(getResource("Time")));
 			return time <= (Integer) getParam(getResource("Time"));
 		} else {
 			return time > (Integer) getParam(getResource("Time"));
