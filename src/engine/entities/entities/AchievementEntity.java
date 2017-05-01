@@ -6,7 +6,6 @@ import engine.events.Event;
 import engine.events.additional_events.FinishAchievementEvent;
 import javafx.beans.property.SimpleDoubleProperty;
 
-
 /**
  * Entity for achievements. Properties of achievements are very similar to those
  * of entities, so achievements were made to be a type of entity. Events owned
@@ -17,10 +16,9 @@ import javafx.beans.property.SimpleDoubleProperty;
  */
 public class AchievementEntity extends Entity {
 
-
 	@Override
 	protected void setupDefaultParameters() {
-		addParam(new Parameter("Description", String.class, ""));
+		addParam(new Parameter(getResource("Description"), String.class, ""));
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		addAdditionalEventClass(FinishAchievementEvent.class);
 	}
@@ -29,17 +27,18 @@ public class AchievementEntity extends Entity {
 	protected void move() {
 	}
 
-	
-	public SimpleDoubleProperty getPercent(){
+	public SimpleDoubleProperty getPercent() {
 		double completed = 0, total = 0;
-		for(Event event : getEvents()){
+		for (Event event : getEvents()) {
 			if (!(event instanceof FinishAchievementEvent)) {
-				total += (int) event.getParam("How often to trigger");
-				completed += event.getNumberTimesTriggered().get() <= (int) event.getParam("How often to trigger")
-						? event.getNumberTimesTriggered().get() : (int) event.getParam("How often to trigger");
+				total += (int) event.getParam(getResource("HowOftenToTrigger"));
+				completed += event.getNumberTimesTriggered()
+						.get() <= (int) event.getParam(getResource("HowOftenToTrigger"))
+								? event.getNumberTimesTriggered().get()
+								: (int) event.getParam(getResource("HowOftenToTrigger"));
 			}
 		}
-		return new SimpleDoubleProperty(completed/total);
+		return new SimpleDoubleProperty(completed / total);
 	}
-	
+
 }

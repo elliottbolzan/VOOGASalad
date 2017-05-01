@@ -17,18 +17,18 @@ import java.util.Collection;
 public class FollowAction extends Action {
 
 	public FollowAction() {
-		this.addParam(new Parameter("Leader Entity", String.class, ""));
-		this.addParam(new Parameter("Track Left", boolean.class, true));
-		this.addParam(new Parameter("Track Right", boolean.class, true));
-		this.addParam(new Parameter("Track Up", boolean.class, true));
-		this.addParam(new Parameter("Track Down", boolean.class, true));
+		this.addParam(new Parameter(getResource("LeaderEntity"), String.class, ""));
+		this.addParam(new Parameter(getResource("TrackLeft"), boolean.class, true));
+		this.addParam(new Parameter(getResource("TrackRight"), boolean.class, true));
+		this.addParam(new Parameter(getResource("TrackUp"), boolean.class, true));
+		this.addParam(new Parameter(getResource("TrackDown"), boolean.class, true));
 	}
 
 	@Override
 	public void act() {
 		Collection<Entity> entities = this.getEntity().getGameInfo().getLevelManager().getCurrentLevel().getEntities();
 		for (Entity entity : entities) {
-			if (((String) getParam("Leader Entity")).equals(entity.getName())) {
+			if (((String) getParam(getResource("LeaderEntity"))).equals(entity.getName())) {
 				shiftHorizontally(entity);
 				shiftVertically(entity);
 			}
@@ -38,8 +38,8 @@ public class FollowAction extends Action {
 	private void shiftHorizontally(Entity other) {
 		double thisEntityCenterX = this.getEntity().getX() + this.getEntity().getWidth() / 2;
 		double otherEntityCenterX = other.getX() + other.getWidth() / 2;
-		if (((boolean) getParam("Track Right") && thisEntityCenterX < otherEntityCenterX)
-				|| ((boolean) getParam("Track Left") && thisEntityCenterX > otherEntityCenterX)) {
+		if (((boolean) getParam(getResource("TrackRight")) && thisEntityCenterX < otherEntityCenterX)
+				|| ((boolean) getParam(getResource("TrackLeft")) && thisEntityCenterX > otherEntityCenterX)) {
 			this.getEntity().setX(otherEntityCenterX - (this.getEntity().getWidth() / 2));
 		}
 	}
@@ -47,8 +47,8 @@ public class FollowAction extends Action {
 	private void shiftVertically(Entity other) {
 		double thisEntityCenterY = this.getEntity().getY() + this.getEntity().getHeight() / 2;
 		double otherEntityCenterY = other.getY() + other.getHeight() / 2;
-		if (((boolean) getParam("Track Up") && thisEntityCenterY > otherEntityCenterY)
-				|| ((boolean) getParam("Track Down") && thisEntityCenterY < otherEntityCenterY)) {
+		if (((boolean) getParam(getResource("TrackUp")) && thisEntityCenterY > otherEntityCenterY)
+				|| ((boolean) getParam(getResource("TrackDown")) && thisEntityCenterY < otherEntityCenterY)) {
 			this.getEntity().setY(otherEntityCenterY - (this.getEntity().getHeight() / 2));
 		}
 	}

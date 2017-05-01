@@ -9,9 +9,8 @@ import engine.collisions.CollisionSide;
  * @author Kyle Finke
  *
  */
-public class CollisionBottomEvent extends CollisionAllEvent{
-	public CollisionBottomEvent(){
+public class CollisionBottomEvent extends CollisionAllEvent {
+	public CollisionBottomEvent() {
 		setCollisionSide(CollisionSide.BOTTOM);
-	}	
+	}
 }
-

@@ -49,11 +49,11 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	protected abstract void setupDefaultParameters();
 
 	protected void defaultSetup() {
-		addParam(new Parameter("X Speed", double.class, 0.0));
-		addParam(new Parameter("Y Speed", double.class, 0.0));
-		addParam(new Parameter("X Acceleration", double.class, 0.0));
-		addParam(new Parameter("Y Acceleration", double.class, 0.0));
-		addParam(new Parameter("Lives", int.class, 1));
+		addParam(new Parameter(getResource("XSpeed"), double.class, 0.0));
+		addParam(new Parameter(getResource("YSpeed"), double.class, 0.0));
+		addParam(new Parameter(getResource("XAcceleration"), double.class, 0.0));
+		addParam(new Parameter(getResource("YAcceleration"), double.class, 0.0));
+		addParam(new Parameter(getResource("Lives"), int.class, 1));
 	}
 
 	/**
@@ -86,7 +86,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	 * @return Value of the Entity meant to represent the Entity's depth.
 	 */
 	public int getLives() {
-		return (int) this.getParam("Lives");
+		return (int) this.getParam(getResource("Lives"));
 	}
 
 	/**
@@ -94,7 +94,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	 * @return Value of the Entity meant to represent the Entity's depth.
 	 */
 	public void setLives(int lives) {
-		this.updateParam("Lives", lives);
+		this.updateParam(getResource("Lives"), lives);
 	}
 
 	/**
@@ -241,42 +241,42 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 
 	@Override
 	public double getXSpeed() {
-		return (double) getParam("X Speed");
+		return (double) getParam(getResource("XSpeed"));
 	}
 
 	@Override
 	public void setXSpeed(double xSpeed) {
-		this.updateParam("X Speed", xSpeed);
+		this.updateParam(getResource("XSpeed"), xSpeed);
 	}
 
 	@Override
 	public double getYSpeed() {
-		return (double) getParam("Y Speed");
+		return (double) getParam(getResource("YSpeed"));
 	}
 
 	@Override
 	public void setYSpeed(double ySpeed) {
-		this.updateParam("Y Speed", ySpeed);
+		this.updateParam(getResource("YSpeed"), ySpeed);
 	}
 
 	@Override
 	public double getXAcceleration() {
-		return (double) getParam("X Acceleration");
+		return (double) getParam(getResource("XAcceleration"));
 	}
 
 	@Override
 	public void setXAcceleration(double xAcceleration) {
-		this.updateParam("X Acceleration", xAcceleration);
+		this.updateParam(getResource("XAcceleration"), xAcceleration);
 	}
 
 	@Override
 	public double getYAcceleration() {
-		return (double) getParam("Y Acceleration");
+		return (double) getParam(getResource("YAcceleration"));
 	}
 
 	@Override
 	public void setYAcceleration(double yAcceleration) {
-		this.updateParam("Y Acceleration", yAcceleration);
+		this.updateParam(getResource("YAcceleration"), yAcceleration);
 	}
 
 	@Override
@@ -359,8 +359,8 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public void addAdditionalActionClass(Class<?> action) {
 		additionalActionClasses.add(action);
 	}
-	
+
 	public void addEntityToCanvas(Canvas canvas, LayerEditor editor, EntityView addedEntityView, int z) {
-		//Do nothing (Null Object Design Pattern)
+		// Do nothing (Null Object Design Pattern)
 	}
 }

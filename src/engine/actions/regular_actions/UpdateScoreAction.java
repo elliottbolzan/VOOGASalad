@@ -13,12 +13,12 @@ import engine.actions.Action;
 public class UpdateScoreAction extends Action {
 
 	public UpdateScoreAction() {
-		addParam(new Parameter("Score Change", Integer.class, 0));
+		addParam(new Parameter(getResource("ScoreChange"), Integer.class, 0));
 	}
 
 	@Override
 	public void act() {
-		getGameInfo().getScorebar().updateScore((Integer) getParam("Score Change"));
+		getGameInfo().getScorebar().updateScore((Integer) getParam(getResource("ScoreChange")));
 	}
 
 }
