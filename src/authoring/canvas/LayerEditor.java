@@ -21,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Rectangle;
 import utils.views.View;
 
 /**
@@ -124,12 +125,7 @@ public class LayerEditor extends View
 				Entity clonedEntity = entity.clone();
 				clonedEntity.setZ(currZ);
 				entityView.setEntity(clonedEntity);
-				// Entity toRemove = entityView.getEntity();
-				// addEntity(entity, toRemove.getX(), toRemove.getY(), (int)
-				// toRemove.getZ());
-				// canvas.removeEntity(entityView);
 			});
-			// layer.getEntities().removeAll(concerned);
 		}
 	}
 
@@ -172,7 +168,7 @@ public class LayerEditor extends View
 	private void clear()
 	{
 		while (layerCount > 1) {
-			executeDelete(layerCount);
+			removeLayer(layerCount);
 		}
 		setup();
 	}
@@ -206,55 +202,12 @@ public class LayerEditor extends View
 					List<EntityView> selectedEntities = layer.getSelectedEntities();
 					selectedEntities.forEach(entity -> {
 						DeleteInfo removeInfo = new DeleteInfo(entity.getEntity().getName(), entity.getTranslateX(),
-								entity.getTranslateY(), entity.getEntityId());
-						if (workspace.getNetworking().isConnected()) {
-							workspace.getNetworking().send(removeInfo);
-						} else {
-							workspace.getLevelEditor().received(removeInfo);
-						}
+								entity.getTranslateY(), (int) entity.getEntity().getZ(), entity.getEntityId());
+						workspace.getNetworking().sendIfConnected(removeInfo);
 					});
-					// layer.getEntities().removeAll(layer.getSelectedEntities());
-					// selectedEntities.forEach(entity ->
-					// canvas.removeEntity(entity));
 				}
 				e.consume();
 			}
-			// if (e.getCode().equals(KeyCode.RIGHT)) {
-			// for (Layer layer : layers.values()) {
-			// layer.getSelectedEntities().forEach(entity -> {
-			// entity.moveX(canvas.getTileSize());
-			// });
-			// }
-			// e.consume();
-			// }
-			// if (e.getCode().equals(KeyCode.LEFT)) {
-			// for (Layer layer : layers.values()) {
-			// layer.getSelectedEntities().forEach(entity -> {
-			// if (entity.getEntity().getX() > canvas.getTileSize()) {
-			// entity.moveX(-1 * canvas.getTileSize());
-			// }
-			// });
-			// }
-			// e.consume();
-			// }
-			// if (e.getCode().equals(KeyCode.DOWN)) {
-			// for (Layer layer : layers.values()) {
-			// layer.getSelectedEntities().forEach(entity -> {
-			// entity.moveY(canvas.getTileSize());
-			// });
-			// }
-			// e.consume();
-			// }
-			// if (e.getCode().equals(KeyCode.UP)) {
-			// for (Layer layer : layers.values()) {
-			// layer.getSelectedEntities().forEach(entity -> {
-			// if (entity.getEntity().getY() > canvas.getTileSize()) {
-			// entity.moveY(-1 * canvas.getTileSize());
-			// }
-			// });
-			// }
-			// e.consume();
-			// }
 		});
 	}
 
@@ -267,7 +220,7 @@ public class LayerEditor extends View
 	public void addEntity(Entity entity, MouseEvent e)
 	{
 		try {
-			addEntity(entity, e.getX() + canvas.getXScrollAmount(), e.getY() + canvas.getYScrollAmount(), currLayer);
+			addEntity(entity, e.getX(), e.getY(), currLayer);
 		} catch (Exception exception) {
 			showSelectMessage();
 		}
@@ -295,7 +248,7 @@ public class LayerEditor extends View
 
 	public EntityView addEntity(EntityView entity, int z)
 	{
-		canvas.addEntity(entity);
+		canvas.addEntityView(entity);
 		this.addEntityToLayer(entity, z);
 		attachSelectionListeners(entity);
 		addDragDetection(entity);
@@ -308,50 +261,55 @@ public class LayerEditor extends View
 	private void addDragDetection(EntityView entity)
 	{
 		entity.addEventHandler(MouseEvent.DRAG_DETECTED, e -> {
-			double oldX = entity.getTranslateX();
-			double oldY = entity.getTranslateY();
-			double oldHeight = entity.getMinHeight();
-			double oldWidth = entity.getMinWidth();
-			EventHandler<MouseEvent> dragFinishHandler = e2 -> {
-				double newX = entity.getTranslateX();
-				double newY = entity.getTranslateY();
-				double newHeight = entity.getMinHeight();
-				double newWidth = entity.getMinWidth();
-				if (oldHeight != newHeight || oldWidth != newWidth) {
-					ResizeInfo resizeInfo = new ResizeInfo(entity.getEntity().getName(), entity.getEntityId(),
-							oldHeight, oldWidth, newHeight, newWidth, oldX, oldY, newX, newY);
-					if (workspace.getNetworking() != null) {
-						if (workspace.getNetworking().isConnected()) {
-							workspace.getNetworking().send(resizeInfo);
-						} else {
-							workspace.getLevelEditor().received(resizeInfo);
+			Rectangle oldBounds = new Rectangle(entity.getTranslateX(), entity.getTranslateY(), entity.getMinWidth(),
+					entity.getMinHeight());
+			EventHandler<MouseEvent> dragFinishHandler = new EventHandler<MouseEvent>()
+			{
+				@Override
+				public void handle(MouseEvent event)
+				{
+					Rectangle newBounds = new Rectangle(entity.getTranslateX(), entity.getTranslateY(),
+							entity.getMinWidth(), entity.getMinHeight());
+					double shiftX = newBounds.getX() - oldBounds.getX();
+					double shiftY = newBounds.getY() - oldBounds.getY();
+					double resizeShiftX = newBounds.getWidth() - oldBounds.getWidth();
+					double resizeShiftY = newBounds.getHeight() - oldBounds.getHeight();
+					if (oldBounds.getHeight() != newBounds.getHeight()
+							|| oldBounds.getWidth() != newBounds.getWidth()) {
+						ResizeInfo resizeInfo = makeResize(entity, shiftX, shiftY, resizeShiftX, resizeShiftY);
+						if (workspace.getNetworking() != null) {
+							workspace.getNetworking().sendIfConnected(resizeInfo);
 						}
-					}
-				} else if (oldX != newX || oldY != newY) {
-					List<MoveInfo> moveInfo = new ArrayList<MoveInfo>();
-					LayerEditor.this.getLayers().forEach(layer -> {
-						layer.getSelectedEntities().forEach(selectedEntity -> {
-							double shiftX = newX - oldX;
-							double shiftY = newY - oldY;
-							moveInfo.add(new MoveInfo(selectedEntity.getEntity().getName(),
-									selectedEntity.getEntityId(), selectedEntity.getTranslateX() - shiftX,
-									selectedEntity.getTranslateY() - shiftY, selectedEntity.getTranslateX(),
-									selectedEntity.getTranslateY()));
+					} else if (oldBounds.getX() != newBounds.getX() || oldBounds.getY() != newBounds.getY()) {
+						List<MoveInfo> moveInfo = new ArrayList<MoveInfo>();
+						LayerEditor.this.getLayers().forEach(layer -> {
+							layer.getSelectedEntities().forEach(selectedEntity -> {
+								moveInfo.add(makeMove(selectedEntity, shiftX, shiftY));
+							});
 						});
-					});
-					MultiEntityInfo<MoveInfo> multiMoveInfo = new MultiEntityInfo<MoveInfo>(moveInfo);
-					if (workspace.getNetworking().isConnected()) {
-						workspace.getNetworking().send(multiMoveInfo);
-					} else {
-						workspace.getLevelEditor().received(multiMoveInfo);
+						MultiEntityInfo<MoveInfo> multiMoveInfo = new MultiEntityInfo<MoveInfo>(moveInfo);
+						workspace.getNetworking().sendIfConnected(multiMoveInfo);
 					}
+					entity.removeEventHandler(MouseEvent.MOUSE_RELEASED, this);
 				}
 			};
 			entity.addEventHandler(MouseEvent.MOUSE_RELEASED, dragFinishHandler);
-			entity.addEventHandler(MouseEvent.MOUSE_RELEASED,
-					e2 -> entity.removeEventHandler(MouseEvent.MOUSE_RELEASED, dragFinishHandler));
 		});
+	}
 
+	private MoveInfo makeMove(EntityView entityView, double shiftX, double shiftY)
+	{
+		return new MoveInfo(entityView.getEntity().getName(), entityView.getEntityId(),
+				entityView.getTranslateX() - shiftX, entityView.getTranslateY() - shiftY, entityView.getTranslateX(),
+				entityView.getTranslateY());
+	}
+
+	private ResizeInfo makeResize(EntityView entityView, double shiftX, double shiftY, double resizeX, double resizeY)
+	{
+		return new ResizeInfo(entityView.getEntity().getName(), entityView.getEntityId(),
+				entityView.getHeight() - resizeY, entityView.getWidth() - resizeX, entityView.getHeight(),
+				entityView.getWidth(), entityView.getTranslateX() - shiftX, entityView.getTranslateY() - shiftY,
+				entityView.getTranslateX(), entityView.getTranslateY());
 	}
 
 	public void addEntityToLayer(EntityView entityView, int z)
@@ -412,7 +370,6 @@ public class LayerEditor extends View
 		layerCount++;
 		Layer newLayer = new Layer("Layer" + " " + layerCount);
 		layers.put(layerCount, newLayer);
-		// newLayerSelected(layerCount);
 	}
 
 	/**
@@ -448,7 +405,6 @@ public class LayerEditor extends View
 	public void select()
 	{
 		this.selectLayer(1);
-		// allow this layer to have key actions
 		addKeyActions();
 	}
 
@@ -485,7 +441,7 @@ public class LayerEditor extends View
 					workspace.getPolyglot().get("LayerError"));
 			alert.showAndWait();
 		} else {
-			executeDelete(layer);
+			removeLayer(layer);
 		}
 	}
 
@@ -494,7 +450,7 @@ public class LayerEditor extends View
 	 * 
 	 * @param layer
 	 */
-	private void executeDelete(int layer)
+	private void removeLayer(int layer)
 	{
 		if (layers.get(layer).getEntities().size() != 0) {
 			layers.get(layer).getEntities().stream().forEach(id -> {
