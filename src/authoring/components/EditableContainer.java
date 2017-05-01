@@ -136,17 +136,30 @@ public abstract class EditableContainer extends View {
 		});
 	}
 	
+	/**
+	 * Changes the event handler of the Edit button (for the tutorial)
+	 * The button click also must trigger the Runnable r to instruct the tutorial
+	 * guide to display a new instruction.
+	 * @param r
+	 */
 	public void changeEditHandler(Runnable r){
 		editButton.setOnAction(e -> {edit();
 									setContainerPos();
 									r.run();
+									editButton.setOnAction(event->edit());
 		});
 	}
-	
+	/**
+	 * Changes the event handler of the New button (for the tutorial)
+	 * The button click also must trigger the Runnable r to instruct the tutorial
+	 * guide to display a new instruction.
+	 * @param r
+	 */
 	public void changeNewHandler(Runnable r){
 		newButton.setOnAction(e -> {createNew();
 									setContainerPos();
 									r.run();
+									editButton.setOnAction(event->createNew());
 		});
 	}
 

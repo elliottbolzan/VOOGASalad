@@ -24,7 +24,8 @@ import javafx.scene.layout.VBox;
 import polyglot.Case;
 
 /**
- * 
+ * The Layer Panel controls the addition and deletion of layers to the game,
+ * allowing the user to set and modify foregrounds and backgrounds.
  * @author Mina Mungekar
  *
  */
