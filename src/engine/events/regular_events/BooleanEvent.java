@@ -1,7 +1,5 @@
 package engine.events.regular_events;
 
-import java.util.Arrays;
-
 import boolean_parser.BooleanParser;
 import engine.Parameter;
 import engine.events.Event;

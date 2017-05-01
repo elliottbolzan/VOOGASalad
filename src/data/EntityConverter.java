@@ -16,8 +16,11 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * @author nikita This class is used by xStream to convert Entities to XML and
- *         load Entities from XML.
+ * This class is used by xStream to convert Entities to XML and load Entities
+ * from XML.
+ * 
+ * @author nikita
+ * 
  */
 public class EntityConverter implements Converter {
 	/**

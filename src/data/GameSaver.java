@@ -99,10 +99,11 @@ public class GameSaver {
 		this.zipDoc(gameFolderPath);
 	}
 
-	/*
+	/**
 	 * adds list of information to game xml document
 	 * 
-	 * @param game : game object being saved
+	 * @param game
+	 *            : game object being saved
 	 * 
 	 */
 	private void setMinorGameXMLInfo(Game game) {

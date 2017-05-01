@@ -23,7 +23,6 @@ public class EngineController {
 	private ClassFinder finder;
 	private ResourceBundle resources;
 	private Calendar calendar;
-	private Date date;
 
 	public EngineController() {
 		finder = new ClassFinder();
