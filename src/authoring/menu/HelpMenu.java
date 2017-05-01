@@ -1,8 +1,8 @@
 package authoring.menu;
 
-import authoring.AuthoringTutorial;
 import authoring.Workspace;
 import authoring.components.HTMLDisplay;
+import authoring.tutorial.AuthoringTutorial;
 import javafx.scene.control.MenuItem;
 
 /**
@@ -44,7 +44,7 @@ public class HelpMenu extends WorkspaceMenu {
 	}
 
 	private void initTutorial() {
-		new AuthoringTutorial(getPolyglot());
+		new AuthoringTutorial(getWorkspace());
 	}
 
 }
