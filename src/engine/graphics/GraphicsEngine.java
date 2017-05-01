@@ -75,11 +75,14 @@ public class GraphicsEngine {
 		this.game = game;
 
 		this.setupView();
+		
 	}
 
 	public void setupLevel(Level level) {
 		this.setCamera(level.getCamera());
 		this.setEntitiesCollection(level.getEntities());
+
+		displayArea.setOnMouseClicked(e -> System.out.println("OVERLAY"));
 
 		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
 
