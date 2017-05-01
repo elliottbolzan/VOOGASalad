@@ -138,6 +138,7 @@ public abstract class GameObject {
 			return new Parameter(s.getName(), s.getParameterClass(), s.getObject());
 		}).collect(Collectors.toList()));
 		copy.setParams(params);
+		copy.setId(id);
 		return copy;
 	}
 

@@ -8,9 +8,10 @@ import engine.entities.Entity;
 /**
  * @author Jay Doherty
  *
- * A BackgroundEntity represents information about a the background in a given Level. There can only
- * ever be one BackgroundEntity on a given layer of the canvas, so when it is added it removes
- * the previous BackgroundEntity, if one exists.
+ *         A BackgroundEntity represents information about a the background in a
+ *         given Level. There can only ever be one BackgroundEntity on a given
+ *         layer of the canvas, so when it is added it removes the previous
+ *         BackgroundEntity, if one exists.
  */
 public class BackgroundEntity extends Entity {
 

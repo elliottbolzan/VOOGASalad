@@ -118,7 +118,6 @@ public class LevelManager {
 	 * any point during game loop to get levels' initial states.
 	 */
 
-	// Call once at beginning of the game
 	public void loadAllSavedLevels(boolean firstTimeLoading) {
 		List<Entity> achievements = game.getAchievements();
 		List<Level> cloneLevels = game.cloneLevels();
@@ -134,7 +133,6 @@ public class LevelManager {
 		}
 	}
 
-	// Call when start up a level (first time AND after die)
 	public void resetCurrentLevel() {
 		levels.set(currentLevel - 1, game.cloneLevel(levelsInInitialState.get(currentLevel - 1)));
 		game.setAchievements(levels.get(0).getEntities().stream().filter(s -> s instanceof AchievementEntity)

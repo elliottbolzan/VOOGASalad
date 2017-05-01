@@ -16,10 +16,14 @@ import javafx.stage.StageStyle;
 import polyglot.Polyglot;
 
 /**
+ * 
+ * Adapted from:
+ * http://stackoverflow.com/questions/29625170/display-popup-with-progressbar-in-javafx.
+ * 
+ * Displays a progress bar while a certain task runs in the background.
+ * 
  * @author Elliott Bolzan
  * 
- *         Adapted from:
- *         http://stackoverflow.com/questions/29625170/display-popup-with-progressbar-in-javafx.
  *
  */
 public class ProgressDialog {
@@ -29,6 +33,12 @@ public class ProgressDialog {
 	private Stage stage;
 	private ProgressBar progressBar = new ProgressBar();
 
+	/**
+	 * Returns a ProgressDialog.
+	 * 
+	 * @param polyglot the internationalization information.
+	 * @param IOResources the ResourceBundle for IO.
+	 */
 	public ProgressDialog(Polyglot polyglot, ResourceBundle IOResources) {
 		this.polyglot = polyglot;
 		this.IOResources = IOResources;
@@ -44,7 +54,7 @@ public class ProgressDialog {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.titleProperty().bind(polyglot.get("ProgressTitle"));
 	}
-	
+
 	private void setupView() {
 		progressBar.setProgress(-1F);
 		progressBar.setPrefSize(Double.MAX_VALUE, 30);
@@ -62,6 +72,9 @@ public class ProgressDialog {
 		stage.setScene(scene);
 	}
 
+	/**
+	 * @return the Stage for the dialog.
+	 */
 	public Stage getDialogStage() {
 		return stage;
 	}

@@ -13,12 +13,19 @@ import javafx.stage.Stage;
 import player.MediaManager;
 import polyglot.Polyglot;
 
+/**
+ * Menu for the end of game
+ * 
+ * @author Jesse, Jay Doherty
+ *
+ */
 public class EndGameMenu extends AbstractMenu {
 
 	private Scorebar scorebar;
 	private MediaManager mediaManager;
-	
-	public EndGameMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources, Scorebar scorebar) {
+
+	public EndGameMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources,
+			Scorebar scorebar) {
 		super(stage, game, mediaManager, "HighscoresTitle", polyglot, IOResources);
 		this.scorebar = scorebar;
 		this.mediaManager = mediaManager;
@@ -30,15 +37,16 @@ public class EndGameMenu extends AbstractMenu {
 		Label congrats = new Label("New Highscore!");
 		congrats.scaleXProperty().bind(this.getStage().widthProperty().divide(congrats.widthProperty()).divide(2));
 		congrats.scaleYProperty().bind(congrats.scaleXProperty());
-		
+
 		TextField enterName = new TextField();
-		enterName.setMaxWidth(this.getStage().getWidth()/2);
+		enterName.setMaxWidth(this.getStage().getWidth() / 2);
 		enterName.setPromptText("Your name here");
-		
+
 		Button toHighscores = new Button("Continue");
 		toHighscores.setOnAction(e -> {
 			scorebar.saveFinalScore(enterName.getText());
-			this.getStage().setScene(new HighscoreMenu(this.getStage(), this.getGame(), mediaManager, this.getPolyglot(), this.getResources()).createScene());
+			this.getStage().setScene(new HighscoreMenu(this.getStage(), this.getGame(), mediaManager,
+					this.getPolyglot(), this.getResources()).createScene());
 		});
 
 		container.getChildren().addAll(congrats, enterName, toHighscores);

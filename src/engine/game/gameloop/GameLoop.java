@@ -31,6 +31,11 @@ public class GameLoop {
 		levelManager.loadAllSavedLevels(firstTimeLoading);
 		if (levelManager.getLevels().size() > 0) {
 			levelManager.addUnlockedLevel(1);
+<<<<<<< HEAD
+=======
+		} else {
+			System.out.println("Error in GameLoop.java - game has no levels.");
+>>>>>>> cd504af89eb99e1925954ab8e444c97a705981c3
 		}
 		setupFirstStrategy();
 		timelineManipulator = new TimelineManipulator(levelManager);

@@ -57,6 +57,51 @@ public class Level implements LevelInterface, Selectable {
 		entities.remove(entity);
 	}
 
+<<<<<<< HEAD
+=======
+	/**
+	 * Internal Engine API. Stops the game timer (for example, if Hero gets
+	 * powerup).
+	 * 
+	 * @return
+	 */
+	public void freezeTimer() {
+
+	}
+
+	/**
+	 * Internal Engine API. Restarts the game timer (for example, if Hero gets
+	 * powerup and it wears off).
+	 * 
+	 * @return
+	 */
+	public void unfreezeTimer() {
+
+	}
+
+	/**
+	 * Internal Engine API. Adds "seconds" to the game timer (for example, if
+	 * Hero gets powerup).
+	 * 
+	 * @param seconds
+	 * @return
+	 */
+	public void addTime(int seconds) {
+
+	}
+
+	/**
+	 * Internal Engine API. Removes "seconds" from the game timer (for example,
+	 * if Hero runs into an enemy).
+	 * 
+	 * @param seconds
+	 * @return
+	 */
+	public void removeTime(int seconds) {
+
+	}
+
+>>>>>>> cd504af89eb99e1925954ab8e444c97a705981c3
 	public CameraEntity getCamera() {
 		return this.camera;
 	}
@@ -64,7 +109,7 @@ public class Level implements LevelInterface, Selectable {
 	public void setCamera(CameraEntity camera) {
 		this.camera = camera;
 	}
-	
+
 	public BackgroundEntity getBackground() {
 		return this.background;
 	}

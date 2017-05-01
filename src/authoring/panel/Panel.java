@@ -10,9 +10,9 @@ import authoring.panel.display.EntityDisplay;
 import authoring.panel.info.InfoPanel;
 import javafx.beans.binding.StringBinding;
 import javafx.scene.control.Accordion;
+import polyglot.Case;
 import utils.views.CollapsibleView;
 import utils.views.View;
-import polyglot.Case;
 
 /**
  * @author Elliott Bolzan
