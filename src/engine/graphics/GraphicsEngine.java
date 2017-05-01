@@ -81,11 +81,7 @@ public class GraphicsEngine {
 	public void setupLevel(Level level) {
 		this.setCamera(level.getCamera());
 		this.setEntitiesCollection(level.getEntities());
-
-		displayArea.setOnMouseClicked(e -> System.out.println("OVERLAY"));
-
 		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
-
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
 		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, 
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));

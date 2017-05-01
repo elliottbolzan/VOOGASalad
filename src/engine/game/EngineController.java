@@ -73,7 +73,6 @@ public class EngineController {
 			ret = (Event) getInstance("engine.events.additional_events." + getClassName(event));
 		}
 		ret.setId(eventIds++);
-		System.out.println(this + " " + ret + " " + ret.getId());
 		return ret;
 	}
 
