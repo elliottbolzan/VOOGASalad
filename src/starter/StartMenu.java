@@ -54,7 +54,7 @@ public class StartMenu extends BorderPane {
 		}
 		this.maker = new ComponentMaker(polyglot, IOResources);
 		this.setIcon();
-		this.buildStage();
+		this.buildStage();    
 	}
 
 	private void setIcon() {

@@ -1,5 +1,8 @@
 package authoring.panel.creation.pickers;
 
+import java.util.Collections;
+import java.util.List;
+
 import authoring.Workspace;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.EventEditor;
@@ -152,7 +155,9 @@ public class EventPicker extends Picker {
 	 */
 	@Override
 	public void update() {
-		list.setItems(FXCollections.observableArrayList(entityMaker.getEntity().getEvents()));
+		List<Event> events = entityMaker.getEntity().getEvents();
+		Collections.sort(events, (a, b) -> a.getDisplayName().compareTo(b.getDisplayName()));
+		list.setItems(FXCollections.observableArrayList(events));
 	}
 
 	public EventEditor getEditor() {
