@@ -266,4 +266,5 @@ public class GraphicsEngine {
 		clipBoundaries.heightProperty().bind(pane.heightProperty());
 		pane.setClip(clipBoundaries);
 	}
+	
 }
