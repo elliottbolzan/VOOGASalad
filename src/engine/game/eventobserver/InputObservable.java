@@ -80,6 +80,9 @@ public class InputObservable extends EventObservable {
 		});
 		gameScene.setOnMouseClicked(event -> {
 			lastPressedMouseButton = event.getButton();
+			System.out.println("X: " + event.getX() + " , Y: " + event.getY());
+			System.out.println("Scene X: " + event.getSceneX() + " , Scene Y: " + event.getSceneY());
+			System.out.println();
 			lastPressedCoordinates = new Point2D(event.getX(), event.getY());
 			mouseClickToProcess = true;
 		});
