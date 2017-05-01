@@ -1,8 +1,5 @@
 package networking.net;
 
-import networking.io.*;
-import networking.net.requests.*;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,6 +11,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import authoring.networking.ConnectionObserver;
+import networking.io.Serializer;
+import networking.io.Unserializer;
+import networking.net.requests.HeartbeatRequest;
+import networking.net.requests.Request;
 
 /**
  * This class provides a general server that allows multiple simultaneous client
@@ -26,7 +27,8 @@ import authoring.networking.ConnectionObserver;
  * @author Created by th174 on 4/1/2017.
  * @see Request,Modifier,ObservableServer,ObservableServer.ServerDelegate,ObservableClient,ObservableHost
  */
-public class ObservableServer<T> extends ObservableHost<T> {
+public class ObservableServer<T> extends ObservableHost<T>
+{
 	private static final int DEFAULT_THREAD_POOL_SIZE = 12;
 	private final long heartBeatIntervalMillis;
 	private final Collection<ServerDelegate> connections;
@@ -45,7 +47,8 @@ public class ObservableServer<T> extends ObservableHost<T> {
 	 *             Thrown if ServerSocket could not be created, or if exception
 	 *             is thrown in serialization
 	 */
-	public ObservableServer(T initialState, int port) throws Exception {
+	public ObservableServer(T initialState, int port) throws Exception
+	{
 		this(initialState, port, Serializer.NONE, Unserializer.NONE);
 	}
 
@@ -67,7 +70,8 @@ public class ObservableServer<T> extends ObservableHost<T> {
 	 *             is thrown in serialization
 	 */
 	public ObservableServer(T initialState, int port, Serializer<? super T> serializer,
-			Unserializer<? extends T> unserializer) throws Exception {
+			Unserializer<? extends T> unserializer) throws Exception
+	{
 		this(initialState, port, serializer, unserializer, NEVER_TIMEOUT, null);
 	}
 
@@ -92,7 +96,8 @@ public class ObservableServer<T> extends ObservableHost<T> {
 	 */
 	public ObservableServer(T initialState, int port, Serializer<? super T> serializer,
 			Unserializer<? extends T> unserializer, Duration timeout, ConnectionObserver connectionObserver)
-			throws Exception {
+			throws Exception
+	{
 		super(serializer, unserializer, timeout);
 		setState(initialState);
 		this.connectionObserver = connectionObserver;
@@ -110,7 +115,8 @@ public class ObservableServer<T> extends ObservableHost<T> {
 	 * pool.
 	 */
 	@Override
-	public void run() {
+	public void run()
+	{
 		executor.scheduleAtFixedRate(this::sendHeartBeatRequest, 0, heartBeatIntervalMillis, TimeUnit.MILLISECONDS);
 		try {
 			while (serverSocket.isBound() && !serverSocket.isClosed()) {
@@ -139,7 +145,8 @@ public class ObservableServer<T> extends ObservableHost<T> {
 	 *            clients.
 	 * @return Returns true if the requests were sent successfully
 	 */
-	public final synchronized boolean sendAndApply(T newState) {
+	public final synchronized boolean sendAndApply(T newState)
+	{
 		setState(newState);
 		incrementCommitIndex();
 		return send(newState);
@@ -153,38 +160,45 @@ public class ObservableServer<T> extends ObservableHost<T> {
 	 *            Request to be applied to the networked state on all clients.
 	 * @return Returns true if the requests were sent successfully
 	 */
-	public final synchronized boolean sendAndApply(Modifier<T> modifier) {
+	public final synchronized boolean sendAndApply(Modifier<T> modifier)
+	{
 		setState(modifier.modify(getState()));
 		setCommitIndex(getCommitIndex() + 1);
 		return send(modifier);
 	}
 
 	@Override
-	protected void handle(T newState) {
+	protected void handle(T newState)
+	{
 		sendAndApply(newState);
 	}
 
 	@Override
-	protected void handle(Modifier<T> stateModifier) {
+	protected void handle(Modifier<T> stateModifier)
+	{
 		sendAndApply(stateModifier);
 	}
 
 	@Override
-	protected void handleError(Request request) {
+	protected void handleError(Request request)
+	{
 	}
 
 	@Override
-	protected boolean send(Request request) {
+	protected boolean send(Request request)
+	{
 		connections.removeIf(e -> !e.send(request));
 		return isActive();
 	}
 
 	@Override
-	public boolean isActive() {
+	public boolean isActive()
+	{
 		return serverSocket.isBound() && !serverSocket.isClosed() && !connections.isEmpty();
 	}
 
-	public void close() {
+	public void close()
+	{
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
@@ -202,7 +216,8 @@ public class ObservableServer<T> extends ObservableHost<T> {
 	 * @see Request,Modifier,ObservableServer,ObservableClient, ObservableHost
 	 *      ,SocketConnection
 	 */
-	protected class ServerDelegate implements Runnable {
+	protected class ServerDelegate implements Runnable
+	{
 		private final SocketConnection connection;
 
 		/**
@@ -212,20 +227,23 @@ public class ObservableServer<T> extends ObservableHost<T> {
 		 *             Thrown if socket is not open for reading and writing, or
 		 *             if an exception is thrown in serialization
 		 */
-		public ServerDelegate(Socket socket, ConnectionObserver observer) throws IOException {
+		public ServerDelegate(Socket socket, ConnectionObserver observer) throws IOException
+		{
 			connection = new SocketConnection(socket, ObservableServer.this.getTimeout());
 			if (observer != null)
-				observer.newConnection();
+				observer.newConnection(connection);
 			System.out.println("\nClient connected:\t" + connection);
 		}
 
 		@Override
-		public void run() {
+		public void run()
+		{
 			send(getHeartBeatRequest());
 			connection.listen(this::handleRequest);
 		}
 
-		private boolean handleRequest(Request request) {
+		private boolean handleRequest(Request request)
+		{
 			if (request instanceof HeartbeatRequest) {
 				return true;
 			} else if (!ObservableServer.this.handleRequest(request)) {
@@ -234,7 +252,8 @@ public class ObservableServer<T> extends ObservableHost<T> {
 			return true;
 		}
 
-		protected boolean send(Request request) {
+		protected boolean send(Request request)
+		{
 			return connection.send(request.setCommitIndex(ObservableServer.this.getCommitIndex()));
 		}
 	}

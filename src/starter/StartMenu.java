@@ -54,7 +54,7 @@ public class StartMenu extends BorderPane {
 		}
 		this.maker = new ComponentMaker(polyglot, IOResources);
 		this.setIcon();
-		this.buildStage();
+		this.buildStage();    
 	}
 
 	private void setIcon() {
@@ -143,7 +143,6 @@ public class StartMenu extends BorderPane {
 			return gameData.loadGame(path);
 		} catch (Exception e) {
 			// Thread this.
-			e.printStackTrace();
 			Alert alert = maker.makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("NotAGame").get());
 			alert.show();
 			return null;

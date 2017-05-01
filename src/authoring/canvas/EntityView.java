@@ -36,7 +36,7 @@ import javafx.scene.paint.Color;
  * The ImageView is automatically resized to fit correctly in the grid with the
  * given grid tile size.
  * 
- * @author jimmy
+ * @author jimmy (modified by Elliott Bolzan)
  *
  */
 public class EntityView extends VBox

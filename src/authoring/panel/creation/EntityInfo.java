@@ -4,7 +4,6 @@ import java.io.File;
 
 import authoring.Workspace;
 import authoring.components.thumbnail.FixedThumbnail;
-import utils.views.View;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import utils.views.View;
 
 /**
  * @author Elliott Bolzan

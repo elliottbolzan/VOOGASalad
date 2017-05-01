@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.Workspace;
-import utils.views.View;
 import engine.GameObject;
 import engine.Parameter;
 import javafx.collections.FXCollections;
@@ -26,6 +25,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import polyglot.Case;
+import utils.views.View;
 
 /**
  * @author Elliott Bolzan

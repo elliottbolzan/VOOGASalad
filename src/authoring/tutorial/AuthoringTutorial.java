@@ -1,6 +1,7 @@
 package authoring.tutorial;
 
 import authoring.Workspace;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContentDisplay;
@@ -11,6 +12,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import utils.views.View;
+
+/**
+ * The authoring tutorial is intended to give the user a quick walk-through of the 
+ * Game Authoring Environmnent's major features. It generates a separate stage which guides
+ * the user through the process of creating and editing Entities.
+ * 
+ * @author Mina
+ *
+ */
 
 public class AuthoringTutorial extends View {
 	
@@ -53,17 +63,22 @@ public class AuthoringTutorial extends View {
 
 	private void editMario() {
 		label.textProperty().bind(workspace.getPolyglot().get("FirstPrompt"));
-		workspace.getPanel().getEntityDisplay().changeEditHandler(() -> clickedEdit());
+		workspace.getPanel().getEntityDisplay().changeEditHandler(() -> initTutorial());
 	}
 
-	private void clickedEdit() {
-		label.textProperty().bind(workspace.getPolyglot().get("SecondStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker()
-				.changeNewHandler(() -> addedEvent("ThirdStep", "Key Press",
+	private void initTutorial() {
+		clickedEdit("SecondStep",() -> addedEvent("ThirdStep", workspace.getPolyglot().get("FirstEvent").get(),
 						() -> addedKeyPress("FourthStep", () -> savedEvent("FifthStep", () -> addedAction("SixthStep",
-								"Jump", () -> afterAction("SeventhStep", () -> savedAction()))))));
+								workspace.getPolyglot().get("FirstAction").get(), () -> afterAction("SeventhStep", () -> savedAction("EighthStep",
+										()->savedCharacter("NinthStep",()->canvasCharacter("TenthStep",()->createMonster(),true)))))))));
+	}
+	
+	private void clickedEdit(String s, Runnable r){
+		label.textProperty().bind(workspace.getPolyglot().get(s));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().changeNewHandler(r);
 	}
 
+	
 	private void addedEvent(String s, String event, Runnable r) {
 		label.textProperty().bind(workspace.getPolyglot().get(s));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().initTutorialAction(event,
@@ -91,20 +106,25 @@ public class AuthoringTutorial extends View {
 		label.textProperty().bind(workspace.getPolyglot().get(s));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getActionPicker().getEditor().changeSaveHandler(r);
 	}
-
-	private void savedAction() {
-		label.textProperty().bind(workspace.getPolyglot().get("EighthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().changeSaveHandler(() -> savedCharacter());
+	
+	private void savedAction(String s, Runnable r) {
+		label.textProperty().bind(workspace.getPolyglot().get(s));
+		workspace.getPanel().getEntityDisplay().getEntityMaker().changeSaveHandler(r);
+	} 
+	
+	private void savedCharacter(String s, Runnable r) {
+		label.textProperty().bind(workspace.getPolyglot().get(s));
+		workspace.getLevelEditor().getCurrentLevel().addEntityListener(r);
 	}
 
-	private void savedCharacter() {
-		label.textProperty().bind(workspace.getPolyglot().get("NinthStep"));
-		workspace.getLevelEditor().getCurrentLevel().addEntityListener(() -> canvasCharacter());
-	}
-
-	private void canvasCharacter() {
-		label.textProperty().bind(workspace.getPolyglot().get("TenthStep"));
-		workspace.getPanel().getEntityDisplay().changeNewHandler(() -> createMonster());
+	private void canvasCharacter(String s, Runnable r, boolean addChange) {
+		label.textProperty().bind(workspace.getPolyglot().get(s));
+		if(addChange){
+		workspace.getPanel().getEntityDisplay().changeNewHandler(r);
+		}
+		else{
+			workspace.getPanel().getEntityDisplay().changeEditHandler(r);
+		}
 	}
 
 	private void createMonster() {
@@ -115,12 +135,11 @@ public class AuthoringTutorial extends View {
 	private void changedMonsterImage() {
 		label.textProperty().bind(workspace.getPolyglot().get("TwelfthStep"));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker()
-				.changeNewHandler(
-						() -> addedEvent("ThirteenthStep", "Collision",
-								() -> addedCollision("FourteenthStep",
-										() -> savedEvent("FifteenthStep", () -> addedAction("SixteenthStep",
-												"Entity Remove", () -> afterAction("SeventeenthStep",
-														() -> savedMonsterAction()))))));
+				.changeNewHandler(() -> addedEvent("ThirteenthStep", workspace.getPolyglot().get("SecondEvent").get(),
+								() -> addedCollision("FourteenthStep", () -> savedEvent("FifteenthStep", () -> addedAction("SixteenthStep",
+									workspace.getPolyglot().get("SecondAction").get(), () -> afterAction("SeventeenthStep",
+										() -> savedAction("EighteenthStep",()->savedCharacter("NinteenthStep",()->canvasCharacter("TwentiethStep",()->savedAction("TwentyFirstStep",
+													()->savedCharacter("TwentySecondStep",()->canvasCharacter("TwentyThirdStep",null,false))),false)))))))));
 	}
 
 	private void addedCollision(String s, Runnable r) {
@@ -128,14 +147,4 @@ public class AuthoringTutorial extends View {
 		workspace.getPanel().getEntityDisplay().getEntityMaker().getEventPicker().getEditor().changeSaveHandler(r);
 	}
 
-	private void savedMonsterAction() {
-		label.textProperty().bind(workspace.getPolyglot().get("EighteenthStep"));
-		workspace.getPanel().getEntityDisplay().getEntityMaker().changeSaveHandler(() -> savedMonsterCharacter());
-	}
-
-	private void savedMonsterCharacter() {
-		label.textProperty().bind(workspace.getPolyglot().get("NinteenthStep"));
-		// workspace.getLevelEditor().getCurrentLevel().addEntityListener(() ->
-		// canvasCharacter());
-	}
 }
