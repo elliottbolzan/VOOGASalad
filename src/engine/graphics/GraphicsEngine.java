@@ -59,7 +59,6 @@ public class GraphicsEngine {
 	private Overlay overlay;
 
 	private BorderPane displayArea;
-	private Game game;
 
 	public GraphicsEngine(Game game, AbstractPlayer player, Overlay overlay, Polyglot polyglot,
 			ResourceBundle resources) {
@@ -72,7 +71,6 @@ public class GraphicsEngine {
 		this.polyglot = polyglot;
 		this.resources = resources;
 		this.player = player;
-		this.game = game;
 
 		this.setupView();
 		
@@ -82,14 +80,13 @@ public class GraphicsEngine {
 		this.setCamera(level.getCamera());
 		this.setEntitiesCollection(level.getEntities());
 
-		displayArea.setOnMouseClicked(e -> System.out.println("OVERLAY"));
-
-		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
-
+		displayArea.maxHeightProperty().bind(level.getCamera().heightProperty());
+		displayArea.maxWidthProperty().bind(level.getCamera().widthProperty());
+		player.setSize(level.getCamera().getWidth(), level.getCamera().getHeight());
+		
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
 		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, 
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-		player.setSize(level.getCamera().getWidth(), level.getCamera().getHeight());
 	}
 
 	/**
