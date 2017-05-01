@@ -44,6 +44,10 @@ I worked on a wide variety of different parts of the project. Originally I was i
 
 I worked primarily on the game player. I created the menus in the player and coded the logic for populating them, along with helping to create the player itself. I also helped around in the authoring environment, game engine, and game data. Created a way to create and display game info in the authoring environment, helped make achievement entities to make displaying and updating achievements possible, and helped work on save states to save the game at any particular point. I also did game testing and helped debug various issues.
 
+**Mina**
+
+I primarily focused on the Game Authoring Environment. I worked on a variety of features in the front-end, including game layering, which involved developing the tools the user could utilize to create a foreground, background, and any number of intermediate layers. I set up the data structures to track the user's drag-drop action to different layers and implemented an error handling system to enforce a minimum number of layers in the game. I also developed a help system for the Game Authoring Environment, creating the Authoring Tutorial, a quick tour of the GAE that the user can select through the Help Menu. As part of developing a user-friendly help system, I also installed tooltips and info boxes at various locations in order to guide the user through the process of developing a game. Beyond coding, I have offered my help on various tasks whenever I've completed my part and made an effort to take in as much feedback as possible from my teammates.
+
 **Elliott Bolzan (eab91)**
 
 During this project, I worked on the following parts:
