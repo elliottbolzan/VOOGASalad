@@ -5,9 +5,12 @@ import java.util.Random;
 
 import authoring.Workspace;
 import engine.entities.Entity;
+import javafx.event.EventHandler;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -98,11 +101,29 @@ public class EntityView extends VBox
 	private void setup()
 	{
 		setupBounds();
+		setupEdit();
 
 		this.getChildren().add(image);
 
 		DragUtil.makeDraggable(this, tileSize);
 		DragUtil.makeResizeable(this, tileSize);
+	}
+
+	private void setupEdit()
+	{
+		setOnMouseClicked(new EventHandler<MouseEvent>()
+		{
+			@Override
+			public void handle(MouseEvent mouseEvent)
+			{
+				if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+					if (mouseEvent.getClickCount() == 2) {
+						Entity defaultEntity = canvas.getWorkspace().getDefaults().getEntity(entity.getName());
+						canvas.getWorkspace().getPanel().getEntityDisplay().editHelper(defaultEntity);
+					}
+				}
+			}
+		});
 	}
 
 	private void setupBounds()
@@ -261,5 +282,4 @@ public class EntityView extends VBox
 	{
 		return canvas.getWorkspace();
 	}
-
 }

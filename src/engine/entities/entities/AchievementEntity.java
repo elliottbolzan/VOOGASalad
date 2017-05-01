@@ -23,6 +23,9 @@ public class AchievementEntity extends Entity {
 		addAdditionalEventClass(FinishAchievementEvent.class);
 	}
 
+	/**
+	 * Achievements don't move.
+	 */
 	@Override
 	protected void move() {
 	}

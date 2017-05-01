@@ -1,7 +1,6 @@
 package authoring.components;
 
 import java.io.File;
-import java.lang.invoke.MethodHandles.Lookup;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -11,7 +10,6 @@ import javafx.beans.binding.StringBinding;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Alert;
@@ -162,9 +160,7 @@ public class ComponentMaker {
 			Label info = new Label("?");
 			new CustomTooltip(nameList.get(i), info);
 			pane.setGraphic(info);
-		    info.translateXProperty().bind(
-		      pane.widthProperty().subtract(info.widthProperty().multiply(6))
-		    );
+			info.translateXProperty().bind(pane.widthProperty().subtract(info.widthProperty().multiply(6)));
 			titledPanes.add(pane);
 		}
 		accordion.getPanes().addAll(titledPanes);
@@ -235,7 +231,8 @@ public class ComponentMaker {
 		return button;
 	}
 
-	public void display(String titleProperty, double width, double height, View view, Modality modality) {
+	public Stage display(String titleProperty, double width, double height, View view, Modality modality,
+			boolean center) {
 		Stage stage = new Stage();
 		stage.initModality(modality);
 		stage.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
@@ -243,7 +240,11 @@ public class ComponentMaker {
 		scene.getStylesheets().add(stylesheetPath);
 		stage.setScene(scene);
 		stage.show();
-		stage.centerOnScreen();
+        scene.setFill(null);
+		if (center) {
+			stage.centerOnScreen();
+		}
+		return stage;
 	}
 
 	public Menu makeMenu(String titleProperty) {
