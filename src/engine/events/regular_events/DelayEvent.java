@@ -3,6 +3,11 @@ package engine.events.regular_events;
 import engine.Parameter;
 import engine.events.Event;
 
+/**
+ * React to another event occurring, with a given delay.
+ * 
+ * @author nikita
+ */
 public class DelayEvent extends Event {
 	private long startTime;
 

@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
 import player.score.Score;
 
 /**
- * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano, Jay Doherty, Michael Li)
+ * @author Elliott Bolzan (Modified by Jesse Yue, Matthew Barbano, Jay Doherty, Michael Li, Nikita Zemlevskiy)
  * 
  *         This class represents a Game. It is designed to be shared through
  *         submodules: the GameData, Game Authoring Environment, Game Player and
