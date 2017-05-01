@@ -60,7 +60,7 @@ public class ActionPicker extends Picker {
 				if (empty || action == null || action.getDisplayName() == null) {
 					setText(null);
 				} else {
-					setText(action.getDisplayName());
+					setText(action.getDisplayName() + " [" + action.getId() + "]");
 				}
 			}
 		});
