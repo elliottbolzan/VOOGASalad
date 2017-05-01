@@ -2,7 +2,6 @@ package authoring.panel.chat;
 
 import authoring.Workspace;
 import authoring.networking.Packet;
-import utils.views.View;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -17,6 +16,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import polyglot.Case;
+import utils.views.View;
 
 /**
  * @author Elliott Bolzan

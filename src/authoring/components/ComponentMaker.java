@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import utils.views.View;
 import javafx.beans.binding.StringBinding;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -32,6 +31,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import polyglot.Case;
 import polyglot.Polyglot;
+import utils.views.View;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**

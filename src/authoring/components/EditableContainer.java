@@ -1,7 +1,6 @@
 package authoring.components;
 
 import authoring.Workspace;
-import utils.views.View;
 import javafx.beans.binding.StringBinding;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -12,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import polyglot.Case;
+import utils.views.View;
 
 /**
  * @author Elliott Bolzan
