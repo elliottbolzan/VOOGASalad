@@ -64,6 +64,7 @@ public class GameXMLFactory
 	
 	
 	private void initiateRoot(){
+		
 		addToRoot(rm.getNameTitle());
 		addToRoot(rm.getLevelsTitle());
 		addToRoot(rm.getDefaultsTitle());

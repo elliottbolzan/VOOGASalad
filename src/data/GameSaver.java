@@ -50,7 +50,9 @@ public class GameSaver
 	{
 		String gameFolderPath = parentDirectoryPath + File.separator + game.getName();
 		createFolder(gameFolderPath);
+		
 		this.saveAndCompress(game, gameFolderPath, resourceManager.getFileName() + resourceManager.getXML());
+		
 	}
 
 	
@@ -92,6 +94,8 @@ public class GameSaver
 	 */
 	private void saveAndCompress(Game game, String gameFolderPath, String saveName)
 	{
+		
+		
 		gameXMLFactory = new GameXMLFactory();
 		setMinorGameXMLInfo(game);
 		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
@@ -107,6 +111,7 @@ public class GameSaver
 	 * 
 	 */
 	private void setMinorGameXMLInfo(Game game){
+		
 		
 		gameXMLFactory.setName(game.getName());
 		gameXMLFactory.addInfo(game.getInfo());
