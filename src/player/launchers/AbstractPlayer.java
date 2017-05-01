@@ -6,6 +6,7 @@ import data.Game;
 import engine.game.gameloop.GameLoop;
 import engine.game.gameloop.Scorebar;
 import engine.graphics.GraphicsEngine;
+import javafx.beans.property.DoubleProperty;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -74,9 +75,9 @@ public abstract class AbstractPlayer extends PlayerView {
 	 * @param width
 	 * @param height
 	 */
-	public void setSize(double width, double height){
-		stage.setWidth(width);
-		stage.setHeight(height);
+	public void setSize(DoubleProperty width, DoubleProperty height){
+		stage.maxWidthProperty().bind(width);
+		stage.maxHeightProperty().bind(height);
 	}
 	
 	protected void exit() {
