@@ -5,7 +5,10 @@ import engine.Parameter;
 import engine.events.Event;
 
 /**
- * Evaluate a expression of booleans
+ * Evaluate a expression of booleans to react to complicated combinations of
+ * expressions
+ * 
+ * @author nikita
  */
 public class BooleanEvent extends Event {
 	private BooleanParser parser;
