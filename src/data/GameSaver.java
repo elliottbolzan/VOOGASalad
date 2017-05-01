@@ -27,7 +27,7 @@ import engine.game.Level;
  * This class provides the main functionality for saving games from the authoring environment
  * or from the player. It compresses the game files into a zip file for easy distribution.
  * 
- * @author Michael
+ * @author Michael Li
  * @author Jay Doherty
  *
  */
@@ -53,6 +53,19 @@ public class GameSaver
 		this.saveAndCompress(game, gameFolderPath, resourceManager.getFileName() + resourceManager.getXML());
 	}
 
+	
+	/**
+	 * Alternate method to save the entire game that is currently being played
+	 *  to the selected file path. Utilizes
+	 * GameXMLFactory to create the XML file.
+	 * 
+	 * @param game
+	 *            : game to be saved
+	 * @param zipFolderPath
+	 *            : path to zip Folder that represents the current game being played
+	 * @param saveName
+	 * 			  : name of the new file being added to the game
+	 */
 	protected void saveGameState(Game game, String zipFolderPath, String saveName)
 	{
 		String gameFolderPath = zipFolderPath.replace(resourceManager.getVS(), "");
@@ -66,20 +79,42 @@ public class GameSaver
 		this.saveAndCompress(game, gameFolderPath, saveName);
 	}
 
+	
+	/**
+	 * saves the game as a folder, and compresses the folder created into a single .vs file
+	 * 
+	 * @param game
+	 *            : game to be saved
+	 * @param gameFolderPath
+	 *            : path to game Folder that represents the current game being played
+	 * @param saveName
+	 * 			  : name of the new file being added to the game
+	 */
 	private void saveAndCompress(Game game, String gameFolderPath, String saveName)
 	{
 		gameXMLFactory = new GameXMLFactory();
+		setMinorGameXMLInfo(game);
+		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
+		this.saveLevels(gameFolderPath, game.getLevels());
+		this.saveDefaults(gameFolderPath, game.getDefaults());
+		this.saveDocument(gameFolderPath, saveName);
+		this.zipDoc(gameFolderPath);
+	}
+	/*adds list of information to game xml document
+	 * 
+	 * @param game
+	 * 			: game object being saved
+	 * 
+	 */
+	private void setMinorGameXMLInfo(Game game){
+		
 		gameXMLFactory.setName(game.getName());
 		gameXMLFactory.addInfo(game.getInfo());
 		gameXMLFactory.setTime(game.getCurrentTime());
 		gameXMLFactory.setCountdown(game.getClockGoingDown());
 		gameXMLFactory.setNumberOfLives(game.getNumberOfLives());
 		gameXMLFactory.setUnlockedLevels(game.getUnlockedLevels());
-		this.saveSong(gameFolderPath, game.getSongPath(), game.getName());
-		this.saveLevels(gameFolderPath, game.getLevels());
-		this.saveDefaults(gameFolderPath, game.getDefaults());
-		this.saveDocument(gameFolderPath, saveName);
-		this.zipDoc(gameFolderPath);
+		
 	}
 
 	/**
@@ -99,7 +134,6 @@ public class GameSaver
 			StreamResult result = new StreamResult(new File(gameFolderPath + File.separator + filename));
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
-			// TODO
 		}
 	}
 
@@ -115,9 +149,6 @@ public class GameSaver
 	{
 		EntitySaver entitySaver = new EntitySaver(gameXMLFactory);
 		List<Element> xmlDefaults = entitySaver.getEntityListAsXML(defaults, gameFolderPath);
-		defaults.forEach(e -> {
-			//System.out.println("~~~~~~~~~~~~~~~" + e.getImagePath());
-		});
 		LevelSaver saver = new LevelSaver(gameXMLFactory);
 		Element defaultsElement = saver.wrapEntityListInXMLTags(xmlDefaults);
 		gameXMLFactory.addDefaultEntity(defaultsElement);
@@ -166,10 +197,8 @@ public class GameSaver
 			String savedSongPath = gameFolderPath + File.separator + relativePath;
 			this.makeFile(savedSongPath);
 			this.copyFileContents(originalSongFile, savedSongPath);
-
 			gameXMLFactory.addSong(relativePath);
 		} catch (IOException e) {
-			// TODO
 		}
 	}
 
@@ -224,7 +253,6 @@ public class GameSaver
 			Packager zipper = new Packager();
 			zipper.packZip(new File(gameFolderPath + resourceManager.getVS()), toCompress);
 		} catch (IOException e) {
-			// TODO
 		}
 		this.deleteDir(dir);
 	}
