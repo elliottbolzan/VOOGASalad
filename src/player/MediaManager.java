@@ -8,6 +8,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * This class encapsulates the behavior of playing game music and saving progress in the middle of
+ * a game.
+ * 
+ * @author Jesse
+ * @author Jay Doherty
+ * 
+ */
 public class MediaManager {
 
 	private String gameFolderPath;

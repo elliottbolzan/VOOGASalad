@@ -20,6 +20,10 @@ Hours of Work:
 
 I worked primarily in the game engine. I created the algorithm and code for detecting when a collision happens and which side the collision occurs on for the two entities involved in the collision. I also worked on designing and coding Actions, Entities, and Events for the game. Additionally, I assisted in the testing and debugging the reflection used to create the lists of Actions, Entities, and Events displayed to the user in the front-end by looping through these classes in the back-end. I was also worked on exception handling within the engine. Outside of coding, I tested different game features and provided feedback to the respective areas of the team. I also organized the first demonstration and acted as the primary-spokesperson.
 
+**Jay**
+
+I worked on a wide variety of different parts of the project. Originally I was in charge of the interface between the game engine and the game player, so translating the back-end Entities into JavaFX images to display on screen, which is what the GraphicsEngine class does. I learned how the game engine worked and contributed some to figuring out the flow of the game loop and popping up transition screens between levels. I also took primary responsibilities for making the scrolling camera and the background for the game. Since I understand the camera I helped make Actions for making it follow the player. In the process of adding these I ended up helping with formatting what gets saved in the XML files by game data. Besides all of that I've generally tried to help solve bugs within game data and the game engine since I have worked in both areas.
+
 ### Any books, papers, online, or human resources that you used in developing the project
 
 http://vignette2.wikia.nocookie.net/nintendo/images/d/de/Princess_Peach_%28Fortune_Street%29.png/revision/latest?cb=20130625131449&path-prefix=en

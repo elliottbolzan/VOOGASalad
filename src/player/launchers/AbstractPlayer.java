@@ -15,6 +15,7 @@ import polyglot.Polyglot;
 
 /**
  * This class encapsulates the essential elements necessary to load and start playing a game.
+ * 
  * @author Jay Doherty
  *
  */
@@ -61,7 +62,8 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	protected void buildGameView(boolean firstTimeLoading) {
 		Overlay overlay = new Overlay(this.getPolyglot(), this.getResources());
-		gameLoop = new GameLoop(gameScene, game, new GraphicsEngine(game, this, overlay, polyglot, resources), firstTimeLoading);
+		GraphicsEngine graphics = new GraphicsEngine(game, this, overlay, polyglot, resources);
+		gameLoop = new GameLoop(gameScene, game, graphics, firstTimeLoading);
 		
 		StackPane pane = new StackPane();
 		pane.getChildren().addAll(gameLoop.getGameView(), overlay.display());
@@ -76,11 +78,9 @@ public abstract class AbstractPlayer extends PlayerView {
 	
 	private void buildStage() {
 		loadScene = stage.getScene();
-		gameScene = this.createScene(DEFAULT_WIDTH, DEFAULT_HEIGHT);	//TODO? Might be ok with resizing the game view and leaving this as is
+		gameScene = this.createScene(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		
 		stage.setScene(gameScene);
-		//stage.setMaxHeight(gameScene.getHeight());
-		//stage.setMaxWidth(gameScene.getWidth());
 		stage.centerOnScreen();
 		stage.setOnCloseRequest(e -> this.exit());
 	}
