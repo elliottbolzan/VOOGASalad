@@ -23,8 +23,7 @@ import utils.views.View;
  *         serves as a wrapper for four main parts: the EntityInfo, the
  *         EntityEditor, the EventPicker, and the ActionPicker.
  */
-public class EntityMaker extends View
-{
+public class EntityMaker extends View {
 
 	private Workspace workspace;
 	private EntityDisplay display;
@@ -49,8 +48,7 @@ public class EntityMaker extends View
 	 * @param entity
 	 *            an Entity to edit (could be null).
 	 */
-	public EntityMaker(Workspace workspace, EntityDisplay display, Entity entity)
-	{
+	public EntityMaker(Workspace workspace, EntityDisplay display, Entity entity) {
 		this.workspace = workspace;
 		this.display = display;
 		engine = new EngineController();
@@ -64,13 +62,11 @@ public class EntityMaker extends View
 	/**
 	 * @return the EntityMaker's entity.
 	 */
-	public Entity getEntity()
-	{
+	public Entity getEntity() {
 		return entityEditor.getEntity();
 	}
 
-	private void setupView(Entity entity)
-	{
+	private void setupView(Entity entity) {
 		entityEditor = new EntityEditor(workspace, entity.clone(), engine.getAllEntities());
 		entityInfo = new EntityInfo(workspace, this);
 		eventPicker = new EventPicker(workspace, this);
@@ -80,8 +76,7 @@ public class EntityMaker extends View
 		setCenter(pane);
 	}
 
-	private void setupStage()
-	{
+	private void setupStage() {
 		stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.titleProperty().bind(workspace.getPolyglot().get("EntityMakerTitle"));
@@ -91,9 +86,8 @@ public class EntityMaker extends View
 		stage.centerOnScreen();
 	}
 
-	private Scene createScene()
-	{
-		Scene scene = new Scene(this, 820, 450);
+	private Scene createScene() {
+		Scene scene = new Scene(this, 860, 450);
 		scene.getStylesheets().add(workspace.getIOResources().getString("StylesheetPath"));
 		return scene;
 	}
@@ -101,8 +95,7 @@ public class EntityMaker extends View
 	/**
 	 * Closes the EntityMaker.
 	 */
-	public void dismiss()
-	{
+	public void dismiss() {
 		stage.close();
 	}
 
@@ -112,8 +105,7 @@ public class EntityMaker extends View
 	 * @param event
 	 *            the currently selected Event.
 	 */
-	public void setSelectedEvent(Event event)
-	{
+	public void setSelectedEvent(Event event) {
 		selectedEvent = event;
 		actionPicker.update();
 	}
@@ -121,8 +113,7 @@ public class EntityMaker extends View
 	/**
 	 * @return the currently selected Event.
 	 */
-	public Event getSelectedEvent()
-	{
+	public Event getSelectedEvent() {
 		return selectedEvent;
 	}
 
@@ -132,8 +123,7 @@ public class EntityMaker extends View
 	 * @param message
 	 *            the message to display.
 	 */
-	public void showMessage(String messageProperty)
-	{
+	public void showMessage(String messageProperty) {
 		Alert alert = workspace.getMaker().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader",
 				workspace.getPolyglot().get(messageProperty));
 		alert.show();
@@ -142,8 +132,7 @@ public class EntityMaker extends View
 	/**
 	 * Save the Entity to defaults.
 	 */
-	public void save()
-	{
+	public void save() {
 		if (entityInfo.getName().trim().equals("") || entityInfo.getName().contains(" ")) {
 			showMessage("EmptyName");
 			return;
@@ -160,29 +149,25 @@ public class EntityMaker extends View
 		display.addEntity(getEntity());
 		dismiss();
 	}
-	
-	public void setStagePos(double x, double y){
+
+	public void setStagePos(double x, double y) {
 		stage.setX(x);
 		stage.setY(y);
 	}
 
-	public EventPicker getEventPicker()
-	{
+	public EventPicker getEventPicker() {
 		return eventPicker;
 	}
 
-	public ActionPicker getActionPicker()
-	{
+	public ActionPicker getActionPicker() {
 		return actionPicker;
 	}
-	
-	public void changeSaveHandler(Runnable r)
-	{
+
+	public void changeSaveHandler(Runnable r) {
 		entityInfo.changeSaveHandler(r);
 	}
-	
-	public void changeImageHandler(Runnable r)
-	{
+
+	public void changeImageHandler(Runnable r) {
 		entityInfo.changeImageHandler(r);
 	}
 

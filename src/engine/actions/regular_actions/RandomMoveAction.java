@@ -8,15 +8,15 @@ public class RandomMoveAction extends Action {
 	private int steps;
 
 	public RandomMoveAction() {
-		addParam(new Parameter("Max Speed", double.class, 0.0));
+		addParam(new Parameter(getResource("MaxSpeed"), double.class, 0.0));
 		steps = 0;
 	}
 
 	@Override
 	public void act() {
 		if (steps % Screen.FRAME_TIME_MILLISECONDS == 0) {
-			getEntity().setXSpeed(getRandomSign() * Math.random() * (double) getParam("Max Speed"));
-			getEntity().setYSpeed(getRandomSign() * Math.random() * (double) getParam("Max Speed"));
+			getEntity().setXSpeed(getRandomSign() * Math.random() * (double) getParam("MaxSpeed"));
+			getEntity().setYSpeed(getRandomSign() * Math.random() * (double) getParam("MaxSpeed"));
 		}
 		steps++;
 	}

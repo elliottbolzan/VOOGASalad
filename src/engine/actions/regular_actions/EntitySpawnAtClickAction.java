@@ -6,13 +6,12 @@ import javafx.application.Platform;
 public class EntitySpawnAtClickAction extends EntitySpawnAction {
 
 	public EntitySpawnAtClickAction() {
-		removeParam("Side");
-		removeParam("Random Spawn");
+		removeParam(getResource("Side"));
+		removeParam(getResource("RandomSpawn"));
 	}
 
 	@Override
 	public void act() {
-		System.out.println("SPAWNING");
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -27,7 +26,5 @@ public class EntitySpawnAtClickAction extends EntitySpawnAction {
 				/*- newEntity.getWidth() / 2*/);
 		newEntity.setY(getGameInfo().getObservableBundle().getInputObservable().getLastPressedCoordinates().getY()
 				/*- newEntity.getHeight() / 2*/);
-		System.out.println("New entity: " + newEntity.getHeight() + " " + newEntity.getWidth());
-		System.out.println("PLACED:" + " new x: " + newEntity.getX() + " new y: " + newEntity.getY());
 	}
 }

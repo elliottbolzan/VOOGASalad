@@ -13,12 +13,12 @@ import engine.events.Event;
 public class XMaxEvent extends Event {
 
 	public XMaxEvent() {
-		addParam(new Parameter("Max X", Double.class, 0.0));
+		addParam(new Parameter(getResource("MaximumX"), Double.class, 0.0));
 	}
 
 	@Override
 	public boolean act() {
-		return getEntity().getX() >= (Double) getParam("Max X");
+		return getEntity().getX() >= (Double) getParam(getResource("MaximumX"));
 	}
 
 }

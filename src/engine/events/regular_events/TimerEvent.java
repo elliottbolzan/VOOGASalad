@@ -10,14 +10,15 @@ import engine.events.Event;
  * Than is False, act() returns True when time is greater that the time for the
  * game.
  * 
- * @author Matthew Barbano, Kyle Finke
+ * @author Matthew Barbano
+ * @author Kyle Finke
  *
  */
 public class TimerEvent extends Event {
 
 	public TimerEvent() {
-		addParam(new Parameter("Time", Integer.class, 0));
-		addParam(new Parameter("Less Than", Boolean.class, true));
+		addParam(new Parameter(getResource("Time"), Integer.class, 0));
+		addParam(new Parameter(getResource("LessThan"), Boolean.class, true));
 	}
 
 	@Override
@@ -28,12 +29,11 @@ public class TimerEvent extends Event {
 		} catch (NullPointerException e) {
 			System.out.println("Game Info = " + getGameInfo());
 		}
-		System.out.println((Boolean) getParam("Less Than"));
-		if ((Boolean) getParam("Less Than")) {
-			System.out.println(time <= (Integer) getParam("Time"));
-			return time <= (Integer) getParam("Time");
+		if ((Boolean) getParam(getResource("LessThan"))) {
+			System.out.println(time <= (Integer) getParam(getResource("Time")));
+			return time <= (Integer) getParam(getResource("Time"));
 		} else {
-			return time > (Integer) getParam("Time");
+			return time > (Integer) getParam(getResource("Time"));
 		}
 	}
 }

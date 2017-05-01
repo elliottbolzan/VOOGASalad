@@ -15,14 +15,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import polyglot.Case;
 
@@ -68,7 +65,7 @@ public class LayerPanel extends View {
 		new CustomTooltip(workspace.getPolyglot().get("DeleteLayer"), deleteButton);
 		VBox buttonBox = new VBox(2);
 		buttonBox.getChildren().addAll(deleteButton, addButton);
-		container.getChildren().addAll(myBox, buttonBox, createVelocitySlider());
+		container.getChildren().addAll(myBox, buttonBox);
 		container.setPadding(new Insets(20));
 		setCenter(container);
 	}
@@ -93,29 +90,6 @@ public class LayerPanel extends View {
 		selectionModel.remove(myBox.getSelectionModel().getSelectedIndex());
 		myBox.setItems(selectionModel);
 		myBox.setValue(selectionModel.get(0));
-	}
-
-	private VBox createVelocitySlider() {
-		Slider velocitySlider = new Slider() {
-			{
-				setMin(0);
-				setMax(100);
-				setValue(50);
-				setMajorTickUnit(25);
-				setShowTickLabels(true);
-				setShowTickMarks(true);
-			}
-		};
-		VBox sliderBox = new VBox() {
-			{
-				setSpacing(4);
-				Label label = new Label();
-				label.textProperty().bind(workspace.getPolyglot().get("LayerSpeedPrompt"));
-				getChildren().addAll(velocitySlider, label);
-				setAlignment(Pos.CENTER);
-			}
-		};
-		return sliderBox;
 	}
 
 	private void initLayerSelector() {

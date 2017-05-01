@@ -19,8 +19,8 @@ public abstract class Event extends GameObject implements EventInterface {
 	private SimpleIntegerProperty timesEventHasOccurred;
 
 	public Event() {
-		addParam(new Parameter("How often to trigger", int.class, 1));
-		addParam(new Parameter("How many times to trigger", String.class, "Always"));
+		addParam(new Parameter(getResource("HowManyTimesToTrigger"), String.class, "Always"));
+		addParam(new Parameter(getResource("HowOftenToTrigger"), int.class, 1));
 		actions = new ArrayList<Action>();
 		timesEventHasOccurred = new SimpleIntegerProperty(0);
 	}
@@ -67,7 +67,7 @@ public abstract class Event extends GameObject implements EventInterface {
 			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
 		}
 		return (act && timesEventHasOccurred.get() != 0
-				&& timesEventHasOccurred.get() % (int) getParam("How often to trigger") == 0 && lessThanMaxTimes());
+				&& timesEventHasOccurred.get() % (int) getParam(getResource("How often totrigger")) == 0 && lessThanMaxTimes());
 	}
 
 	private boolean lessThanMaxTimes() {
@@ -80,6 +80,7 @@ public abstract class Event extends GameObject implements EventInterface {
 				return true;
 			}
 		}
+
 	}
 
 	/**

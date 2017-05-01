@@ -13,12 +13,12 @@ import engine.events.Event;
 public class YMinEvent extends Event {
 
 	public YMinEvent() {
-		addParam(new Parameter("Min Y", Double.class, 0.0));
+		addParam(new Parameter(getResource("MinimumY"), Double.class, 0.0));
 	}
 
 	@Override
 	public boolean act() {
-		return getEntity().getY() <= (Double) getParam("Min Y");
+		return getEntity().getY() <= (Double) getParam(getResource("MinimumY"));
 	}
 
 }

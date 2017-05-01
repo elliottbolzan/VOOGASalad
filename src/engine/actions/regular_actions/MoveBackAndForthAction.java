@@ -13,10 +13,10 @@ public class MoveBackAndForthAction extends Action {
 	private boolean firstTime;
 
 	public MoveBackAndForthAction() {
-		addParam(new Parameter("Allowed x steps", int.class, 0));
-		addParam(new Parameter("Allowed y steps", int.class, 0));
-		addParam(new Parameter("X Speed", double.class, 0.0));
-		addParam(new Parameter("Y Speed", double.class, 0.0));
+		addParam(new Parameter(getResource("AllowedXSteps"), int.class, 0));
+		addParam(new Parameter(getResource("AllowedYSteps"), int.class, 0));
+		addParam(new Parameter(getResource("XSpeed"), double.class, 0.0));
+		addParam(new Parameter(getResource("YSpeed"), double.class, 0.0));
 		stepAmount = 0;
 		firstTime = true;
 	}
@@ -24,8 +24,8 @@ public class MoveBackAndForthAction extends Action {
 	@Override
 	public void act() {
 		if (firstTime) {
-			getEntity().setXSpeed((double) getParam("X Speed"));
-			getEntity().setYSpeed((double) getParam("Y Speed"));
+			getEntity().setXSpeed((double) getParam(getResource("XSpeed")));
+			getEntity().setYSpeed((double) getParam(getResource("YSpeed")));
 			firstTime = false;
 		}
 		updateSpeeds();
@@ -33,9 +33,11 @@ public class MoveBackAndForthAction extends Action {
 	}
 
 	private void updateSpeeds() {
-		if (((int) getParam("Allowed x steps") != 0) && stepAmount % (int) getParam("Allowed x steps") == 0)
+		if (((int) getParam(getResource("AllowedXSteps")) != 0)
+				&& stepAmount % (int) getParam(getResource("AllowedXSteps")) == 0)
 			getEntity().setXSpeed(-getEntity().getXSpeed());
-		if (((int) getParam("Allowed y steps") != 0) && stepAmount % (int) getParam("Allowed y steps") == 0)
+		if (((int) getParam(getResource("AllowedYSteps")) != 0)
+				&& stepAmount % (int) getParam(getResource("AllowedYSteps")) == 0)
 			getEntity().setYSpeed(-getEntity().getYSpeed());
 	}
 }
