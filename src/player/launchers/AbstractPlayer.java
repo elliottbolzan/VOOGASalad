@@ -15,7 +15,7 @@ import polyglot.Polyglot;
 
 /**
  * This class encapsulates the essential elements necessary to load and start playing a game.
- * @author Jay Doherty
+ * @author Jay Doherty (modified by Jesse)
  *
  */
 public abstract class AbstractPlayer extends PlayerView {
@@ -67,6 +67,16 @@ public abstract class AbstractPlayer extends PlayerView {
 		pane.getChildren().addAll(gameLoop.getGameView(), overlay.display());
 
 		this.setCenter(pane);
+	}
+	
+	/**
+	 * Lets the player window be set to the size of the game view
+	 * @param width
+	 * @param height
+	 */
+	public void setSize(double width, double height){
+		stage.setWidth(width);
+		stage.setHeight(height);
 	}
 	
 	protected void exit() {

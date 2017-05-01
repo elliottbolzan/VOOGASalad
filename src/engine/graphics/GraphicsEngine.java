@@ -85,7 +85,7 @@ public class GraphicsEngine {
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
 		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT, 
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-
+		player.setSize(level.getCamera().getWidth(), level.getCamera().getHeight());
 	}
 
 	/**
