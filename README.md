@@ -24,6 +24,17 @@ I worked primarily in the game engine. I created the algorithm and code for dete
 
 I worked primarily on the game player. I created the menus in the player and coded the logic for populating them, along with helping to create the player itself. I also helped around in the authoring environment, game engine, and game data. Created a way to create and display game info in the authoring environment, helped make achievement entities to make displaying and updating achievements possible, and helped work on save states to save the game at any particular point. I also did game testing and helped debug various issues.
 
+**Matthew**
+
+I focused mostly on the Game Engine, with a little overlap into the Game Player. Within the Game Engine,
+I implemented logic on a high-level (e.g. recording all levels, the game loop, etc.), though I did also
+work some on the lower-level creating Events and Actions. During the first sprint, I worked on the LevelManager, Level, and SelectionGroup classes to allow the basics of levels to function. I also used
+the Observer design pattern for user input, collisions, and the timer passing a certain time. I made the timer itself, and worked with Jay to create the Scorebar. I spent most of my time implementing the Game Loop using the Strategy Design Pattern, which included several substantial classes for stepping through levels, transition screens for displaying messages like "Game Over", and significant debugging. I implemented Actions such as LevelLostAction and LevelNextAction. In the second sprint, I began by spending much time
+debugging game loop issues, including reinitialization/cloning after a death and getting multiple levels
+to work. After that, I implemented a screen for selecting which level to play, implemented a "unlocked" level system, worked with Game Data to get game player saving to work, and made lives/the timer modifiable from the Authoring Environment. For Events/Actions, I implemented the TraverseLinePathAction for allowing
+Entities to move in a straight line forever, FaceTowardsAction for enemies attacking the hero, mouse events,
+actions for winning a level, and several more.
+
 ### Any books, papers, online, or human resources that you used in developing the project
 
 * http://vignette2.wikia.nocookie.net/nintendo/images/d/de/Princess_Peach_%28Fortune_Street%29.png/revision/latest?cb=20130625131449&path-prefix=en
@@ -40,7 +51,11 @@ I worked primarily on the game player. I created the menus in the player and cod
 * https://docs.oracle.com/javase/8/javafx/api/javafx/scene/layout/Pane.html
 * http://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
 * http://www.javaworld.com/article/2077258/learn-java/observer-and-observable.html
-
+* http://stackoverflow.com/questions/31148690/get-real-position-of-a-node-in-javafx
+* https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
+* http://www.oodesign.com/
+* Stack Overflow
+* JavaFX 8 Documentation: https://docs.oracle.com/javase/8/javafx/api/toc.htm
 
 ### Files Used to Start the Project (the class(es) containing main)
 
