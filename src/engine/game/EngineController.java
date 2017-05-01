@@ -23,7 +23,6 @@ public class EngineController {
 	private ClassFinder finder;
 	private ResourceBundle resources;
 	private Calendar calendar;
-	private Date date;
 
 	public EngineController() {
 		finder = new ClassFinder();
@@ -76,8 +75,6 @@ public class EngineController {
 		try {
 			ret = (Event) getInstance("engine.events.regular_events." + getClassName(event));
 		} catch (Exception e) {
-			e.getCause().printStackTrace();
-			e.printStackTrace();
 			ret = (Event) getInstance("engine.events.additional_events." + getClassName(event));
 		}
 		ret.setId(getId());
