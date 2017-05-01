@@ -86,15 +86,20 @@ public class InputObservable extends EventObservable {
 		});
 		gameScene.setOnMouseClicked(event -> {
 			lastPressedMouseButton = event.getButton();
-			lastPressedCoordinates = new Point2D(event.getX() + graphicsEngine.getCamera().getX(),
-					event.getY() + graphicsEngine.getCamera().getY());
-			System.out
-					.println("Mouse Pressed event.getX: " + event.getX() + " event.getY: " + event.getY() + " camerax: "
-							+ graphicsEngine.getCamera().getX() + " cameray: " + graphicsEngine.getCamera().getY());
+			lastPressedCoordinates = new Point2D(event.getSceneX()- /*graphicsEngine.getCamera().getX()*/ getOffsetX(),
+					event.getSceneY() - /*graphicsEngine.getCamera().getY()*/ getOffsetY()); //- graphicsEngine.get;
 			mouseClickToProcess = true;
+			System.out.println("OffsetX: " + getOffsetX());
+			System.out.println("OffsetY: " + getOffsetY());
 		});
 	}
 
+	private double getOffsetX(){
+		return (graphicsEngine.getCamera().getWidth() - graphicsEngine.getBackgroundPosition().getX()) / 2;
+	}
+	private double getOffsetY(){
+		return (graphicsEngine.getCamera().getHeight() - graphicsEngine.getBackgroundPosition().getY()) / 2;
+	}
 	public void updateObservers() {
 		// Intentionally left blank.
 	}

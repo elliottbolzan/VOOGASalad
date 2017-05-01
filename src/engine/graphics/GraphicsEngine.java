@@ -13,6 +13,7 @@ import engine.game.Level;
 import engine.game.LevelManager;
 import engine.game.gameloop.LevelSelectionStepStrategy;
 import engine.game.gameloop.Scorebar;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -45,7 +46,7 @@ import polyglot.Polyglot;
  *         time/lives/score) and the Camera.
  */
 public class GraphicsEngine {
-	
+
 	private Polyglot polyglot;
 	private ResourceBundle resources;
 
@@ -60,7 +61,8 @@ public class GraphicsEngine {
 	private BorderPane displayArea;
 	private Game game;
 
-	public GraphicsEngine(Game game, AbstractPlayer player, Overlay overlay, Polyglot polyglot, ResourceBundle resources) {
+	public GraphicsEngine(Game game, AbstractPlayer player, Overlay overlay, Polyglot polyglot,
+			ResourceBundle resources) {
 		this.camera = new CameraEntity();
 		this.entities = new ArrayList<Entity>();
 		this.nodes = new ArrayList<ImageView>();
@@ -76,12 +78,11 @@ public class GraphicsEngine {
 	}
 
 	public void setupLevel(Level level) {
-		
 		this.setCamera(level.getCamera());
 		this.setEntitiesCollection(level.getEntities());
 
 		displayArea.setMaxSize(level.getCamera().getWidth(), level.getCamera().getHeight());
-		
+
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
 		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
@@ -251,6 +252,12 @@ public class GraphicsEngine {
 		VBox.setVgrow(displayArea, Priority.ALWAYS);
 		this.clipAtEdges(displayArea);
 		this.updateView();
+
+	}
+
+	public Point2D getBackgroundPosition() {
+		return new Point2D(displayArea.getBackground().getImages().get(0).getImage().getWidth(),
+				displayArea.getBackground().getImages().get(0).getImage().getHeight());
 	}
 
 	private void clipAtEdges(Pane pane) {
