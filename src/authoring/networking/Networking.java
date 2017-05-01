@@ -4,14 +4,18 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 
 import authoring.Workspace;
+import authoring.command.AddInfo;
 import authoring.command.EntityCommandInfo;
 import authoring.command.EntityListInfo;
 import authoring.command.MultiEntityInfo;
 import authoring.panel.chat.Message;
+import engine.entities.Entity;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.Alert;
@@ -21,6 +25,7 @@ import networking.io.Serializer;
 import networking.io.Unserializer;
 import networking.net.ObservableClient;
 import networking.net.ObservableServer;
+import networking.net.SocketConnection;
 
 /**
  * @author Elliott Bolzan
@@ -32,6 +37,7 @@ public class Networking implements ConnectionObserver
 	private Workspace workspace;
 	private ObservableServer<Packet> server;
 	private ObservableClient<Packet> client;
+	Packet packet;
 	private static final int PORT = 1337;
 
 	public Networking(Workspace workspace)
@@ -181,9 +187,25 @@ public class Networking implements ConnectionObserver
 	}
 
 	@Override
-	public void newConnection()
+	public void newConnection(SocketConnection connection)
 	{
-		System.out.println("new connection detected from Networking!");
+		if (server != null && server.isActive()) {
+			List<? extends Entity> addedEntityList = workspace.getDefaults().getEntities();
+			EntityListInfo currentEntities = new EntityListInfo(addedEntityList);
+			List<AddInfo> addedEntities = new ArrayList<AddInfo>();
+			workspace.getLevelEditor().getCurrentLevel().getLayers().forEach(layer -> {
+				layer.getEntities().forEach(entityView -> {
+					addedEntities.add(new AddInfo(entityView.getEntity().getName(), entityView.getTranslateX(),
+							entityView.getTranslateY(), (int) entityView.getEntity().getZ(), entityView.getEntityId()));
+				});
+			});
+			MultiEntityInfo<AddInfo> multiAdd = new MultiEntityInfo<AddInfo>(addedEntities);
+			List<Packet> startingState = new ArrayList<Packet>();
+			startingState.add(currentEntities);
+			startingState.add(multiAdd);
+			MultiEntityInfo<Packet> startingConfig = new MultiEntityInfo<Packet>(startingState);
+			this.send(startingConfig);
+		}
 	}
 
 }

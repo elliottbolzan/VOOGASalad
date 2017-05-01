@@ -23,7 +23,8 @@ import javafx.scene.layout.VBox;
  *         edit and delete them, or add new ones. Also allows the user to drag
  *         and drop Entities to the Canvas.
  */
-public class EntityDisplay extends EditableContainer {
+public class EntityDisplay extends EditableContainer
+{
 
 	private ListView<Entity> list;
 	private EntityMaker entityMaker;
@@ -34,7 +35,8 @@ public class EntityDisplay extends EditableContainer {
 	 * @param workspace
 	 *            the workspace that owns the EntityDisplay.
 	 */
-	public EntityDisplay(Workspace workspace) {
+	public EntityDisplay(Workspace workspace)
+	{
 		super(workspace, "EntityDisplayTitle");
 		getStyleClass().add("background");
 		addTooltips(workspace.getPolyglot().get("AddEntity"), workspace.getPolyglot().get("EditEntity"),
@@ -44,7 +46,8 @@ public class EntityDisplay extends EditableContainer {
 	/**
 	 * @return the EntityDisplay's ListView.
 	 */
-	public ListView<Entity> getList() {
+	public ListView<Entity> getList()
+	{
 		return list;
 	}
 
@@ -54,7 +57,8 @@ public class EntityDisplay extends EditableContainer {
 	 * @param entity
 	 *            the Entity to be added.
 	 */
-	public void addEntity(Entity entity) {
+	public void addEntity(Entity entity)
+	{
 		if (getCurrentlyEditing() != null) {
 			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
 			getWorkspace().updateEntity(entity);
@@ -63,12 +67,9 @@ public class EntityDisplay extends EditableContainer {
 
 		List<? extends Entity> addedSublist = getWorkspace().getDefaults().getEntities();
 		if (addedSublist.size() > 0) {
-			// EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
 			if (getWorkspace().getNetworking().isConnected()) {
 				EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
 				getWorkspace().getNetworking().send(entityListInfo);
-			} else {
-				// getWorkspace().received(entityListInfo);
 			}
 		}
 		getWorkspace().updateEntity(entity);
@@ -80,7 +81,8 @@ public class EntityDisplay extends EditableContainer {
 	 * @see authoring.components.EditableContainer#createNew()
 	 */
 	@Override
-	public void createNew() {
+	public void createNew()
+	{
 		setCurrentlyEditing(null);
 		entityMaker = new EntityMaker(getWorkspace(), this, null);
 	}
@@ -91,19 +93,22 @@ public class EntityDisplay extends EditableContainer {
 	 * @see authoring.components.EditableContainer#edit()
 	 */
 	@Override
-	public void edit() {
+	public void edit()
+	{
 		if (selectionExists(getSelection())) {
 			editHelper(getSelection());
 		}
 	}
 
-	public void editHelper(Entity entity) {
+	public void editHelper(Entity entity)
+	{
 		setCurrentlyEditing(entity);
 		entityMaker = new EntityMaker(getWorkspace(), this, entity);
 	}
 
 	@Override
-	public void setContainerPos() {
+	public void setContainerPos()
+	{
 		entityMaker.setStagePos(0, 0);
 	}
 
@@ -113,7 +118,8 @@ public class EntityDisplay extends EditableContainer {
 	 * @see authoring.components.EditableContainer#delete()
 	 */
 	@Override
-	public void delete() {
+	public void delete()
+	{
 		if (selectionExists(getSelection()))
 			getWorkspace().getDefaults().remove(getSelection());
 	}
@@ -124,16 +130,19 @@ public class EntityDisplay extends EditableContainer {
 	 * @see authoring.components.EditableContainer#createContainer()
 	 */
 	@Override
-	public void createContainer() {
+	public void createContainer()
+	{
 		list = new ListView<Entity>();
 		Label placeholder = new Label();
 		placeholder.textProperty().bind(getWorkspace().getPolyglot().get("EmptyEntities"));
 		list.setPlaceholder(placeholder);
 		list.setEditable(false);
 		list.prefHeightProperty().bind(heightProperty());
-		list.setCellFactory(param -> new ListCell<Entity>() {
+		list.setCellFactory(param -> new ListCell<Entity>()
+		{
 			@Override
-			protected void updateItem(Entity entity, boolean empty) {
+			protected void updateItem(Entity entity, boolean empty)
+			{
 				super.updateItem(entity, empty);
 				if (entity == null) {
 					setGraphic(null);
@@ -142,9 +151,11 @@ public class EntityDisplay extends EditableContainer {
 				setGraphic(createCellContent(entity));
 			}
 		});
-		setOnClick(list, new Runnable() {
+		setOnClick(list, new Runnable()
+		{
 			@Override
-			public void run() {
+			public void run()
+			{
 				getWorkspace().getDefaults().setSelectedEntity(getSelection());
 			}
 		});
@@ -152,11 +163,13 @@ public class EntityDisplay extends EditableContainer {
 		setCenter(list);
 	}
 
-	private Entity getSelection() {
+	private Entity getSelection()
+	{
 		return list.getSelectionModel().getSelectedItem();
 	}
 
-	private VBox createCellContent(Entity entity) {
+	private VBox createCellContent(Entity entity)
+	{
 		VBox box = new VBox(8);
 		box.setPadding(new Insets(8));
 		box.setAlignment(Pos.CENTER);
@@ -167,7 +180,8 @@ public class EntityDisplay extends EditableContainer {
 		return box;
 	}
 
-	public EntityMaker getEntityMaker() {
+	public EntityMaker getEntityMaker()
+	{
 		return entityMaker;
 	}
 
