@@ -6,6 +6,7 @@ import java.util.List;
 import engine.GameObject;
 import engine.Parameter;
 import engine.actions.Action;
+import engine.events.regular_events.BooleanEvent;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -65,9 +66,8 @@ public abstract class Event extends GameObject implements EventInterface {
 	 */
 	public boolean isTriggered(boolean check) {
 		boolean act = act();
-		if (act && !check) {
+		if (act && !check)
 			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
-		}
 		return (act && timesEventHasOccurred.get() != 0
 				&& timesEventHasOccurred.get() % (int) getParam(getResource("HowOftenToTrigger")) == 0
 				&& lessThanMaxTimes());

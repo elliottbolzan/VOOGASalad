@@ -76,10 +76,11 @@ public class EngineController {
 		try {
 			ret = (Event) getInstance("engine.events.regular_events." + getClassName(event));
 		} catch (Exception e) {
+			e.getCause().printStackTrace();
+			e.printStackTrace();
 			ret = (Event) getInstance("engine.events.additional_events." + getClassName(event));
 		}
 		ret.setId(getId());
-		System.out.println(this + " " + ret + " " + ret.getId());
 		return ret;
 	}
 
