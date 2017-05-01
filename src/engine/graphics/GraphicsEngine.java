@@ -73,6 +73,7 @@ public class GraphicsEngine {
 		this.player = player;
 
 		this.setupView();
+		
 	}
 
 	public void setupLevel(Level level) {

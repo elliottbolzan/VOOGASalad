@@ -1,7 +1,8 @@
 package authoring.command;
 
 import authoring.canvas.EntityView;
-import authoring.canvas.LayerEditor;
+import authoring.canvas.Layer;
+import authoring.canvas.LevelEditor;
 import javafx.animation.FadeTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
@@ -14,13 +15,13 @@ import javafx.util.Duration;
 public class AddDeleteCommand extends EntityCommand
 {
 
-	private LayerEditor layer;
+	private LevelEditor levels;
 	private boolean add;
 
-	public AddDeleteCommand(EntityView entityView, LayerEditor layer, boolean add)
+	public AddDeleteCommand(EntityView entityView, LevelEditor levels, boolean add)
 	{
 		super(entityView);
-		this.layer = layer;
+		this.levels = levels;
 		this.add = add;
 	}
 
@@ -39,24 +40,31 @@ public class AddDeleteCommand extends EntityCommand
 	private void addOrRemove(boolean add)
 	{
 		EntityView entityView = super.getEntityView();
-		System.out.println(entityView + "~~~~~~~~~~~~~~~" + entityView.getEntity() + "~~~~~~~~~~~~~~~~~"
-				+ entityView.getEntityId());
-		if (add) {
-			entityView.setOpacity(0);
-			layer.addEntity(entityView, 1);
-			animate(entityView, 0, 1);
-			entityView.setSelected(true);
+		if (add && levels.getEntity(entityView.getEntityId()) == null) {
+			add(entityView);
 		} else {
-			FadeTransition ft = animate(entityView, 1, 0);
-			ft.setOnFinished(event -> {
-				layer.getCanvas().removeEntity(entityView);
-				layer.getLayers().forEach(e -> {
-					if (e.getEntities().contains(entityView)) {
-						e.getEntities().remove(entityView);
-					}
-				});
-			});
+			remove(entityView);
 		}
+	}
+
+	private void add(EntityView entityView)
+	{
+		entityView.setOpacity(0);
+		levels.getCurrentLevel().addEntity(entityView, (int) entityView.getEntity().getZ());
+		animate(entityView, 0, 1);
+		entityView.setSelected(true);
+	}
+
+	private void remove(EntityView entityView)
+	{
+		FadeTransition ft = animate(entityView, 1, 0);
+		ft.setOnFinished(event -> {
+			Layer addedLayer = levels.getCurrentLevel().getLayers().get((int) entityView.getEntity().getZ() - 1);
+			if (addedLayer != null && addedLayer.getEntities().contains(entityView)) {
+				levels.getCurrentLevel().getCanvas().removeEntity(entityView);
+				addedLayer.getEntities().remove(entityView);
+			}
+		});
 	}
 
 	private FadeTransition animate(Node node, double from, double to)
