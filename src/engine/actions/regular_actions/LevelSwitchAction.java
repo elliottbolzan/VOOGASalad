@@ -16,7 +16,7 @@ public class LevelSwitchAction extends Action {
 	// TODO error checking that the level exists
 
 	public LevelSwitchAction() {
-		addParam(new Parameter("New Level", Integer.class, 0));
+		addParam(new Parameter(getResource("NewLevel"), Integer.class, 0));
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public class LevelSwitchAction extends Action {
 			// This check added to fix bug of multiple NextLevelActions
 			// triggering
 			if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
-				getGameInfo().getTimelineManipulator().startNewLevel((Integer) getParam("New Level"));
+				getGameInfo().getTimelineManipulator().startNewLevel((Integer) getParam(getResource("NewLevel")));
 			}
 		} catch (ClassCastException e) {
 			System.out.println("Casting error in NewLevelAction");
