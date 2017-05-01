@@ -1,5 +1,8 @@
 package authoring.panel.creation.pickers;
 
+import java.util.Collections;
+import java.util.List;
+
 import authoring.Workspace;
 import authoring.panel.creation.EntityMaker;
 import authoring.panel.creation.editors.ActionEditor;
@@ -27,21 +30,26 @@ public class ActionPicker extends Picker {
 	private ListView<Action> list;
 	private ActionEditor editor;
 
-	/** 
+	/**
 	 * Creates an ActionPicker.
-	 * @param workspace the workspace that pertains to this picker.
-	 * @param entityMaker the EntityMaker which created this ActionPicker.
+	 * 
+	 * @param workspace
+	 *            the workspace that pertains to this picker.
+	 * @param entityMaker
+	 *            the EntityMaker which created this ActionPicker.
 	 */
 	public ActionPicker(Workspace workspace, EntityMaker entityMaker) {
 		super(workspace, "ActionPickerTitle", entityMaker);
 		this.entityMaker = entityMaker;
-		addTooltips(workspace.getPolyglot().get("AddAction"),workspace.getPolyglot().get("EditAction"),
+		addTooltips(workspace.getPolyglot().get("AddAction"), workspace.getPolyglot().get("EditAction"),
 				workspace.getPolyglot().get("DeleteAction"));
 		attachInfoTooltip(workspace.getPolyglot().get("ActionInfo"));
 		update();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#createContainer()
 	 */
 	@Override
@@ -60,7 +68,7 @@ public class ActionPicker extends Picker {
 				if (empty || action == null || action.getDisplayName() == null) {
 					setText(null);
 				} else {
-					setText(action.getDisplayName());
+					setText(action.getDisplayName() + " [" + action.getId() + "]");
 				}
 			}
 		});
@@ -68,7 +76,9 @@ public class ActionPicker extends Picker {
 		setCenter(list);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#createNew()
 	 */
 	@Override
@@ -81,7 +91,9 @@ public class ActionPicker extends Picker {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#add(java.lang.Object)
 	 */
 	@Override
@@ -96,7 +108,9 @@ public class ActionPicker extends Picker {
 		select(action);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#remove(java.lang.Object)
 	 */
 	@Override
@@ -105,7 +119,9 @@ public class ActionPicker extends Picker {
 		update();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#delete()
 	 */
 	@Override
@@ -115,7 +131,9 @@ public class ActionPicker extends Picker {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#edit()
 	 */
 	@Override
@@ -126,43 +144,52 @@ public class ActionPicker extends Picker {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#update()
 	 */
 	@Override
 	public void update() {
-		if (entityMaker.getSelectedEvent() != null)
-			list.setItems(FXCollections.observableArrayList(entityMaker.getSelectedEvent().getActions()));
-		else
+		if (entityMaker.getSelectedEvent() != null) {
+			List<Action> actions = entityMaker.getSelectedEvent().getActions();
+			Collections.sort(actions, (a, b) -> a.getDisplayName().compareTo(b.getDisplayName()));
+			list.setItems(FXCollections.observableArrayList(actions));
+		} else {
 			list.setItems(FXCollections.emptyObservableList());
+		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#showEditor()
 	 */
 	@Override
 	public void showEditor() {
-				editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
+		editor = new ActionEditor(getWorkspace(), this, (Action) getCurrentlyEditing(),
 				engine.getAllActions(entityMaker.getEntity()));
 		getWorkspace().getMaker().display("NewActionTitle", 300, 400, editor, Modality.APPLICATION_MODAL, true);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see authoring.panel.creation.pickers.Picker#select(engine.GameObject)
 	 */
 	@Override
 	public void select(GameObject object) {
 		list.getSelectionModel().select((Action) object);
 	}
-	
-	public ActionEditor getEditor(){
+
+	public ActionEditor getEditor() {
 		return editor;
 	}
 
 	@Override
 	public void setContainerPos() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

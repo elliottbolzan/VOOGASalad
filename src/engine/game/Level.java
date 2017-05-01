@@ -99,15 +99,6 @@ public class Level implements LevelInterface, Selectable {
 
 	}
 
-	/*
-	 * public void start(){ setToInitialState(); }
-	 * 
-	 * private void setToInitialState(){
-	 * System.out.println("Setting to initial conditions");
-	 * 
-	 * }
-	 */
-
 	public CameraEntity getCamera() {
 		return this.camera;
 	}
@@ -115,7 +106,7 @@ public class Level implements LevelInterface, Selectable {
 	public void setCamera(CameraEntity camera) {
 		this.camera = camera;
 	}
-	
+
 	public BackgroundEntity getBackground() {
 		return this.background;
 	}

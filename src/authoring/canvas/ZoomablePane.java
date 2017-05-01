@@ -26,8 +26,6 @@ public class ZoomablePane extends ScrollPane
 {
 	private StackPane zoomPane;
 	private Group scrollContent;
-	private static final double MAX_SCALE = 10.0d;
-	private static final double MIN_SCALE = .1d;
 
 	public ZoomablePane(Group entities)
 	{
@@ -72,57 +70,6 @@ public class ZoomablePane extends ScrollPane
 			}
 		});
 
-		// EventHandler<ScrollEvent> onScrollEventHandler = new
-		// EventHandler<ScrollEvent>()
-		// {
-		//
-		// @Override
-		// public void handle(ScrollEvent event)
-		// {
-		//
-		// double delta = 1.2;
-		//
-		// double scale = entities.getScaleX(); // currently we only use Y,
-		// // same
-		// // value is used for X
-		// double oldScale = scale;
-		//
-		// if (event.getDeltaY() < 0)
-		// scale /= delta;
-		// else
-		// scale *= delta;
-		//
-		// scale = clamp(scale, MIN_SCALE, MAX_SCALE);
-		//
-		// double f = (scale / oldScale) - 1;
-		//
-		// double dx = (event.getSceneX()
-		// - (entities.getBoundsInParent().getWidth() / 2 +
-		// entities.getBoundsInParent().getMinX()));
-		// double dy = (event.getSceneY()
-		// - (entities.getBoundsInParent().getHeight() / 2 +
-		// entities.getBoundsInParent().getMinY()));
-		//
-		// entities.setScaleX(scale);
-		// entities.setScaleY(scale);
-		//
-		// System.out.println(dx + ", " + dy);
-		//
-		// // note: pivot value must be untransformed, i. e. without
-		// // scaling
-		// ZoomablePane.this
-		// .setHvalue(ZoomablePane.this.getHvalue() + (f * dx) /
-		// entities.getBoundsInParent().getWidth());
-		// ZoomablePane.this
-		// .setVvalue(ZoomablePane.this.getVvalue() + (f * dy) /
-		// entities.getBoundsInParent().getHeight());
-		//
-		// event.consume();
-		//
-		// }
-		//
-		// };
-
 		zoomPane.setOnScroll(new EventHandler<ScrollEvent>()
 		{
 			@Override
@@ -136,23 +83,15 @@ public class ZoomablePane extends ScrollPane
 
 				double scaleFactor = (event.getDeltaY() > 0) ? SCALE_DELTA : 1 / SCALE_DELTA;
 
-				// amount of scrolling in each direction in scrollContent
-				// coordinate
-				// units
 				Point2D scrollOffset = figureScrollOffset(scrollContent, ZoomablePane.this);
 
 				entities.setScaleX(entities.getScaleX() * scaleFactor);
 				entities.setScaleY(entities.getScaleY() * scaleFactor);
 
-				// move viewport so that old center remains in the center after
-				// the
-				// scaling
 				repositionScroller(scrollContent, ZoomablePane.this, scaleFactor, scrollOffset);
-				// ZoomablePane.this.setViewportBounds(value);
 			}
 		});
 
-		// Panning via drag....
 		final ObjectProperty<Point2D> lastMouseCoordinates = new SimpleObjectProperty<Point2D>();
 		scrollContent.setOnMousePressed(new EventHandler<MouseEvent>()
 		{
@@ -198,7 +137,8 @@ public class ZoomablePane extends ScrollPane
 		return new Point2D(scrollXOffset, scrollYOffset);
 	}
 
-	private void repositionScroller(Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+	private void repositionScroller(Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset)
+	{
 		double scrollXOffset = scrollOffset.getX();
 		double scrollYOffset = scrollOffset.getY();
 		double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();

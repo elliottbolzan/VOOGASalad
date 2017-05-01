@@ -8,6 +8,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
+/**
+ * This class encapsulates the behavior of playing game music and saving
+ * progress in the middle of a game.
+ * 
+ * @author Jesse
+ * @author Jay Doherty
+ * 
+ */
 public class MediaManager {
 
 	private String gameFolderPath;
@@ -23,12 +31,12 @@ public class MediaManager {
 			songPlayer = new MediaPlayer(new Media(uriString));
 		}
 	}
-	
-	public void setSaves(ObservableList<String> saves){
+
+	public void setSaves(ObservableList<String> saves) {
 		saveStates = saves;
 	}
-	
-	public ObservableList<String> getSaves(){
+
+	public ObservableList<String> getSaves() {
 		return saveStates;
 	}
 
@@ -39,10 +47,6 @@ public class MediaManager {
 	public MediaPlayer getMediaPlayer() {
 		return songPlayer;
 	}
-
-	// public ObservableList<Score> getScores() {
-	// return game.getScores();
-	// }
 
 	public void playSong() {
 		if (songPlayer != null) {
@@ -65,8 +69,8 @@ public class MediaManager {
 		saver.saveGameState(game, gameFolderPath, saveName.toString());
 		saveStates.add(saveName.toString());
 	}
-	
-	private void createSaveName(StringBuilder saveName){
+
+	private void createSaveName(StringBuilder saveName) {
 		saveName.append("_");
 		saveName.append("save");
 		saveName.append("_");

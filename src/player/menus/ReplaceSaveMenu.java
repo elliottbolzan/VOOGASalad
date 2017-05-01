@@ -13,6 +13,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import polyglot.Polyglot;
 
+/**
+ * Popup to replace a save state
+ * 
+ * @author Jesse
+ *
+ */
 public class ReplaceSaveMenu {
 
 	private Polyglot polyglot;

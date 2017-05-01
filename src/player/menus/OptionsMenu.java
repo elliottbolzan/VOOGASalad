@@ -33,6 +33,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 /**
+ * Menu where user can change controls and media
  * 
  * @author Jesse
  *
@@ -45,10 +46,11 @@ public class OptionsMenu extends AbstractMenu {
 	private GridPane grid;
 	private int count = 0;
 
-	public OptionsMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
+	public OptionsMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot,
+			ResourceBundle IOResources) {
 		super(stage, game, mediaManager, "OptionsTitle", polyglot, IOResources);
 	}
-	
+
 	@Override
 	public void addElements() {
 		center = new ScrollPane();
@@ -86,13 +88,13 @@ public class OptionsMenu extends AbstractMenu {
 		}
 
 		this.setBottom(this.makeBackButton());
-		
+
 	}
 
 	private Slider setupVolumeSlider() {
 		Slider volume = new Slider();
 		MediaPlayer songPlayer = this.getMediaManager().getMediaPlayer();
-		
+
 		volume.setValue(songPlayer.getVolume() * 100.0);
 		songPlayer.volumeProperty().bind(volume.valueProperty().divide(100.0));
 		volume.setShowTickLabels(true);
@@ -102,16 +104,18 @@ public class OptionsMenu extends AbstractMenu {
 	}
 
 	private void loadKeyBindings() {
-		for(Level level : this.getGame().getLevels()){
+		for (Level level : this.getGame().getLevels()) {
 			Collection<Entity> entities = level.getEntities();
-			for(Entity e : entities){
-				List<Event> keyPress = e.getEvents().stream().filter(s -> s.getClass().equals(KeyPressEvent.class)).collect(Collectors.toList());
-				List<Event> keyRelease = e.getEvents().stream().filter(s -> s.getClass().equals(KeyReleaseEvent.class)).collect(Collectors.toList());
-				
-				for(Event event : keyPress){
+			for (Entity e : entities) {
+				List<Event> keyPress = e.getEvents().stream().filter(s -> s.getClass().equals(KeyPressEvent.class))
+						.collect(Collectors.toList());
+				List<Event> keyRelease = e.getEvents().stream().filter(s -> s.getClass().equals(KeyReleaseEvent.class))
+						.collect(Collectors.toList());
+
+				for (Event event : keyPress) {
 					Parameter k = getKeyParameter(event);
 					List<Action> actions = event.getActions();
-					for(Action action : actions){
+					for (Action action : actions) {
 						String actionName = action.getParams().get(0).getName();
 						String actionValue = action.getParams().get(0).getObject().toString();
 						StringBuilder builder = new StringBuilder(actionName);
@@ -120,18 +124,19 @@ public class OptionsMenu extends AbstractMenu {
 						keys.put(builder.toString(), k);
 					}
 				}
-				
-				for(Event event : keyRelease){
+
+				for (Event event : keyRelease) {
 					Parameter k = getKeyParameter(event);
 					keyReleases.put(k.getObject().toString(), k);
 				}
 			}
 		}
 	}
-	
-	private Parameter getKeyParameter(Event event){
-		//Get parameters that are not numbers
-		List<Parameter> params = event.getParams().stream().filter(s -> !s.getObject().toString().matches("-?\\d+(\\.\\d+)?")).collect(Collectors.toList());
+
+	private Parameter getKeyParameter(Event event) {
+		// Get parameters that are not numbers
+		List<Parameter> params = event.getParams().stream()
+				.filter(s -> !s.getObject().toString().matches("-?\\d+(\\.\\d+)?")).collect(Collectors.toList());
 		return params.get(0);
 	}
 
@@ -174,7 +179,5 @@ public class OptionsMenu extends AbstractMenu {
 		// this.getLoader().getGamePath());
 		key.setText(e.toString());
 	}
-
-
 
 }

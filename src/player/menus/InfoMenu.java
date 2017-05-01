@@ -9,6 +9,7 @@ import player.MediaManager;
 import polyglot.Polyglot;
 
 /**
+ * Menu that displays game info
  * 
  * @author Jesse
  *
@@ -17,22 +18,22 @@ public class InfoMenu extends AbstractMenu {
 
 	public InfoMenu(Stage stage, Game game, MediaManager mediaManager, Polyglot polyglot, ResourceBundle IOResources) {
 		super(stage, game, mediaManager, "GameInfoTitle", polyglot, IOResources);
-		setup(game);		
+		setup(game);
 	}
-	
-	private void setup(Game game){
+
+	private void setup(Game game) {
 		WebView view = new WebView();
 		WebEngine engine = view.getEngine();
-		if(game.getInfo() != null){
+		if (game.getInfo() != null) {
 			engine.loadContent(game.getInfo());
 		}
-		
+
 		this.setCenter(view);
 		this.setInsets();
 	}
 
 	@Override
 	public void addElements() {
-		this.setBottom(this.makeBackButton());	
+		this.setBottom(this.makeBackButton());
 	}
 }

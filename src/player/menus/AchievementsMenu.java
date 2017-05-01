@@ -27,6 +27,7 @@ import player.MediaManager;
 import polyglot.Polyglot;
 
 /**
+ * Menu which holds all achievements
  * 
  * @author Jesse
  *
@@ -47,17 +48,17 @@ public class AchievementsMenu extends AbstractMenu {
 		container.setAlignment(Pos.CENTER);
 		achievements = new HashSet<>();
 		for (Entity entity : this.getGame().getAchievements()) {
-			if(!achievements.contains(entity.getName())){
+			if (!achievements.contains(entity.getName())) {
 				achievements.add(entity.getName());
 				container.getChildren().add(makeAchievementBox(entity));
 			}
-			
+
 		}
 
 		pane.setContent(container);
 		this.setCenter(pane);
 		this.setBottom(this.makeBackButton());
-		this.setInsets();		
+		this.setInsets();
 	}
 
 	private HBox makeAchievementBox(Entity achievement) {
@@ -101,13 +102,13 @@ public class AchievementsMenu extends AbstractMenu {
 
 		ProgressBar progress = new ProgressBar();
 		progress.progressProperty().bind(achievement.getPercent());
-		
+
 		HBox percentContainer = new HBox();
 		Label percent = new Label();
 		percent.textProperty().bind(Bindings.convert(achievement.getPercent().multiply(100)));
 		Label percentSymbol = new Label("%");
 		percentContainer.getChildren().addAll(percent, percentSymbol);
-		
+
 		container.getChildren().addAll(progress, percentContainer);
 		return container;
 	}

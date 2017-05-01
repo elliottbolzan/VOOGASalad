@@ -16,7 +16,7 @@ public class Packager
 		ZipOutputStream zipOut = new ZipOutputStream(new FileOutputStream(output));
 		zipOut.setLevel(Deflater.DEFAULT_COMPRESSION);
 
-		for (File source : sources)
+		for (File source: sources)
 		{
 			if (source.isDirectory())
 			{
