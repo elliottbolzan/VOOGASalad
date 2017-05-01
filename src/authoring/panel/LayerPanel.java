@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import authoring.Workspace;
 import authoring.components.CustomTooltip;
-import utils.views.View;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -22,6 +21,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.VBox;
 import polyglot.Case;
+import utils.views.View;
 
 /**
  * 

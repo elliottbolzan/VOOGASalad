@@ -24,10 +24,10 @@ import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import utils.views.View;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import utils.views.View;
 
 /**
  * LevelEditor keeps track of multiple levels and assigns a LayerEditor to each
