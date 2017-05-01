@@ -68,6 +68,10 @@ public abstract class Editor extends View {
 		if (object != null)
 			update(object);
 	}
+	
+	public Workspace getWorkspace() {
+		return workspace;
+	}
 
 	private void setupView(GameObject object) {
 		setPadding(new Insets(10));

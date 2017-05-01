@@ -1,5 +1,6 @@
 package engine.game.eventobserver;
 
+import engine.graphics.GraphicsEngine;
 import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -16,12 +17,14 @@ public class InputObservable extends EventObservable {
 	private MouseButton lastPressedMouseButton;
 	private Point2D lastPressedCoordinates;
 	private Scene gameScene;
+	private GraphicsEngine graphicsEngine;
 
 	private boolean keyPressToProcess;
 	private boolean keyReleaseToProcess;
 	private boolean mouseClickToProcess;
+	private boolean firstTime = true;
 
-	public InputObservable(Scene gameScene) {
+	public InputObservable(Scene gameScene, GraphicsEngine graphicsEngine) {
 		super();
 		lastPressedKey = null;
 		lastPressedMouseButton = null;
@@ -30,6 +33,7 @@ public class InputObservable extends EventObservable {
 		keyReleaseToProcess = false;
 		mouseClickToProcess = false;
 		this.gameScene = gameScene;
+		this.graphicsEngine = graphicsEngine;
 	}
 
 	// For Nikita to call in InputEvent's act()
@@ -42,7 +46,9 @@ public class InputObservable extends EventObservable {
 	}
 
 	public boolean isMouseClickToProcess() {
-		return mouseClickToProcess;
+		boolean temp = firstTime;
+		firstTime = false;
+		return !temp && mouseClickToProcess;
 	}
 
 	// For Nikita to call in InputEvent's act() - for key input
@@ -80,11 +86,20 @@ public class InputObservable extends EventObservable {
 		});
 		gameScene.setOnMouseClicked(event -> {
 			lastPressedMouseButton = event.getButton();
-			lastPressedCoordinates = new Point2D(event.getX(), event.getY());
+			lastPressedCoordinates = new Point2D(event.getSceneX()- /*graphicsEngine.getCamera().getX()*/ getOffsetX(),
+					event.getSceneY() - /*graphicsEngine.getCamera().getY()*/ getOffsetY()); //- graphicsEngine.get;
 			mouseClickToProcess = true;
+			System.out.println("OffsetX: " + getOffsetX());
+			System.out.println("OffsetY: " + getOffsetY());
 		});
 	}
 
+	private double getOffsetX(){
+		return (graphicsEngine.getCamera().getWidth() - graphicsEngine.getBackgroundPosition().getX()) / 2;
+	}
+	private double getOffsetY(){
+		return (graphicsEngine.getCamera().getHeight() - graphicsEngine.getBackgroundPosition().getY()) / 2;
+	}
 	public void updateObservers() {
 		// Intentionally left blank.
 	}

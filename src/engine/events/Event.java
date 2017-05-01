@@ -19,6 +19,7 @@ public abstract class Event extends GameObject implements EventInterface {
 	private SimpleIntegerProperty timesEventHasOccurred;
 
 	public Event() {
+		addParam(new Parameter(getResource("HowManyTimesToTrigger"), String.class, "Always"));
 		addParam(new Parameter(getResource("HowOftenToTrigger"), int.class, 1));
 		actions = new ArrayList<Action>();
 		timesEventHasOccurred = new SimpleIntegerProperty(0);
@@ -47,20 +48,42 @@ public abstract class Event extends GameObject implements EventInterface {
 	}
 
 	/**
-	 * check if this event is triggered
+	 * check if this event is happening
 	 * 
-	 * @return if this event is triggered
+	 * @return if this event is happening
 	 */
 	@Override
 	public abstract boolean act();
 
+	/**
+	 * Check whether or not to trigger the actions to fire. Depends on how many
+	 * times event is set to trigger, and how often it is set to trigger.
+	 * 
+	 * @param check
+	 *            whether this is a check or actual update of entity
+	 * @return whether the event is triggered or not.
+	 */
 	public boolean isTriggered(boolean check) {
 		boolean act = act();
 		if (act && !check) {
 			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
 		}
 		return (act && timesEventHasOccurred.get() != 0
-				&& timesEventHasOccurred.get() % (int) getParam(getResource("HowOftenToTrigger")) == 0);
+				&& timesEventHasOccurred.get() % (int) getParam(getResource("How often totrigger")) == 0
+				&& lessThanMaxTimes());
+	}
+
+	private boolean lessThanMaxTimes() {
+		if (((String) getParam("How many times to trigger")).toLowerCase().equals("always"))
+			return true;
+		else {
+			try {
+				return Integer.parseInt((String) getParam("How many times to trigger")) >= timesEventHasOccurred.get();
+			} catch (Exception e) {
+				return true;
+			}
+		}
+
 	}
 
 	/**
