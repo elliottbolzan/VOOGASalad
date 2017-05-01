@@ -169,11 +169,7 @@ public class LevelEditor extends View
 			totalAddInfo.add(addInfo);
 		}
 		MultiEntityInfo<AddInfo> multiAddInfo = new MultiEntityInfo<AddInfo>(totalAddInfo);
-		if (workspace.getNetworking().isConnected()) {
-			workspace.getNetworking().send(multiAddInfo);
-		} else {
-			this.received(multiAddInfo);
-		}
+		workspace.getNetworking().sendIfConnected(multiAddInfo);
 	}
 
 	public void sendToFront()

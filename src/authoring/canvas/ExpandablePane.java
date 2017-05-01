@@ -4,8 +4,6 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
@@ -14,7 +12,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 /**
  * 
@@ -27,10 +24,6 @@ public class ExpandablePane extends Pane
 	private final int TILE_SIZE = 25;
 	private final int DEFAULT_WIDTH = 800;
 	private final int DEFAULT_HEIGHT = 600;
-
-	private Group gridNodes;
-	private int numRows;
-	private int numCols;
 
 	private double width;
 	private double height;
@@ -83,10 +76,6 @@ public class ExpandablePane extends Pane
 	{
 		width = DEFAULT_WIDTH;
 		height = DEFAULT_HEIGHT;
-		// gridNodes = new Group();
-		numRows = 0;
-		numCols = 0;
-		// this.getChildren().add(canvas);
 		updateDisplay();
 		setupCoordinateTooltip();
 	}
@@ -146,9 +135,8 @@ public class ExpandablePane extends Pane
 	 */
 	public void addEntity(Node node, double x, double y)
 	{
-		Point2D tiledCoordinate = getTiledCoordinate(x, y);
-		node.setTranslateX(tiledCoordinate.getX());
-		node.setTranslateY(tiledCoordinate.getY());
+		node.setTranslateX(GridUtil.getTiledCoordinate(x, TILE_SIZE));
+		node.setTranslateY(GridUtil.getTiledCoordinate(y, TILE_SIZE));
 		this.getChildren().add(node);
 
 		makeDraggable(node);
@@ -164,85 +152,9 @@ public class ExpandablePane extends Pane
 	 */
 	public void removeEntity(Node node)
 	{
-		this.getChildren().remove(node);
-	}
-
-	/**
-	 * Draw the grid for the Canvas
-	 */
-	private void drawGrid()
-	{
-		// GraphicsContext g = canvas.getGraphicsContext2D();
-		// System.out.println("ASDADS");
-		// // g.clearRect(0, 0, width, height);
-		// g.setFill(Color.gray(0, 0.2));
-		// g.fillRect(0, 0, 100, 100);
-		// for (int x = 0; x < width; x += TILE_SIZE) {
-		// for (int y = 0; y < height; y += TILE_SIZE) {
-		// System.out.println("~~~~~~~~~~~~~~~~~~");
-		// double offsetY = (y % (2 * TILE_SIZE)) == 0 ? TILE_SIZE / 2 : 0;
-		// g.fillOval(x - 1 + offsetY, y - 1, 1 + 1, 1 + 1);
-		// }
-		// }
-
-		// int newRows = (int) (height / TILE_SIZE);
-		// int newCols = (int) (width / TILE_SIZE);
-		// // while (gridCircles.size() > numRows) {
-		// // gridCircles.remove(gridCircles.size() - 1);
-		// // }
-		// // while (gridCircles.get(0).size() > numCols) {
-		// // gridCircles.forEach(e -> {
-		// // e.remove(e.size() - 1);
-		// // });
-		// // }
-		// while (numRows < newRows) {
-		// drawGridRow();
-		// }
-		// while (numCols < newCols) {
-		// drawGridCol();
-		// }
-	}
-
-	private void drawGridRow()
-	{
-		numRows++;
-		// List<Circle> newCircles = new ArrayList<Circle>();
-		for (int i = 0; i < numCols; i++) {
-			gridNodes.getChildren().add(drawGridCircle(numRows, i));
-			// newCircles.add(drawGridCircle(numRows, i));
+		if (this.getChildren().contains(node)) {
+			this.getChildren().remove(node);
 		}
-		// gridCircles.addAll(newCircles);
-		// gridNodes.getChildren().addAll(newCircles);
-	}
-
-	private void drawGridCol()
-	{
-		numCols++;
-		// List<Circle> newCircles = new ArrayList<Circle>();
-		for (int i = 0; i < numRows; i++) {
-			gridNodes.getChildren().add(drawGridCircle(i, numCols));
-			// newCircles.add(drawGridCircle(i, numCols));
-		}
-		// gridCircles.addAll(newCircles);
-		// gridNodes.getChildren().addAll(newCircles);
-	}
-
-	/**
-	 * Draw a single grid dot at the given coordinates.
-	 * 
-	 * @param tileX
-	 *            x coordinate of the grid dot
-	 * @param tileY
-	 *            y coordinate of the grid dot
-	 */
-	private Circle drawGridCircle(double rowNum, double colNum)
-	{
-		Circle gridMarker = new Circle();
-		gridMarker.setCenterX(colNum * TILE_SIZE);
-		gridMarker.setCenterY(rowNum * TILE_SIZE);
-		gridMarker.setRadius(1);
-		gridMarker.setFill(Color.GREY);
-		return gridMarker;
 	}
 
 	/**
@@ -263,11 +175,6 @@ public class ExpandablePane extends Pane
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldX, Number newX)
 			{
-				// scrollScreen.setHvalue(newX.doubleValue() / (width -
-				// entity.getWidth()));
-				// if (newX.intValue() < 0) {
-				// node.setTranslateX(0);
-				// } else
 				if (newX.intValue() + node.getBoundsInLocal().getWidth() > width) {
 					updateCanvasBounds();
 				} else if (newX.intValue() < 0) {
@@ -286,11 +193,6 @@ public class ExpandablePane extends Pane
 			@Override
 			public void changed(ObservableValue<? extends Number> observable, Number oldY, Number newY)
 			{
-				// scrollScreen.setVvalue(newY.doubleValue() / (height -
-				// entity.getHeight()));
-				// if (newY.intValue() < 0) {
-				// node.setTranslateY(0);
-				// } else
 				if (newY.intValue() + node.getBoundsInLocal().getHeight() > height) {
 					updateCanvasBounds();
 				} else if (newY.intValue() < 0) {
@@ -302,35 +204,19 @@ public class ExpandablePane extends Pane
 			}
 
 		});
-
-		// node.boundsInLocalProperty().addListener(new ChangeListener<Bounds>()
-		// {
-		//
-		// @Override
-		// public void changed(ObservableValue<? extends Bounds> observable,
-		// Bounds oldValue, Bounds newValue)
-		// {
-		// updateDisplay();
-		// }
-		//
-		// });
 	}
 
 	private void shiftNodesX(double xShift)
 	{
 		for (Node child : this.getChildren()) {
-			if (!child.equals(gridNodes)) {
-				child.setTranslateX(child.getTranslateX() + xShift);
-			}
+			child.setTranslateX(child.getTranslateX() + xShift);
 		}
 	}
 
 	private void shiftNodesY(double yShift)
 	{
 		for (Node child : this.getChildren()) {
-			if (!child.equals(gridNodes)) {
-				child.setTranslateY(child.getTranslateY() + yShift);
-			}
+			child.setTranslateY(child.getTranslateY() + yShift);
 		}
 	}
 
@@ -340,11 +226,7 @@ public class ExpandablePane extends Pane
 	 */
 	private void updateDisplay()
 	{
-		// updateCanvasBounds();
 		this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-		drawGrid();
-		// this.setMinHeight(height);
-		// this.setMinWidth(width);
 		this.setPrefHeight(height);
 		this.setPrefWidth(width);
 	}
@@ -364,38 +246,13 @@ public class ExpandablePane extends Pane
 			double nodeMaxY = node.getTranslateY() + node.getBoundsInParent().getHeight();
 			double nodeMinX = node.getTranslateX();
 			double nodeMinY = node.getTranslateY();
-			if (nodeMaxX > maxX) {
-				maxX = nodeMaxX;
-			}
-			if (nodeMaxY > maxY) {
-				maxY = nodeMaxY;
-			}
-			if (nodeMinX < minX) {
-				minX = nodeMinX;
-			}
-			if (nodeMinY < minY) {
-				minY = nodeMinY;
-			}
+			maxX = Math.max(nodeMaxX, maxX);
+			maxY = Math.max(nodeMaxY, maxY);
+			minX = Math.min(nodeMinX, minX);
+			minY = Math.min(minY, nodeMinY);
 		}
 		this.width = maxX - minX;
 		this.height = maxY - minY;
-	}
-
-	/**
-	 * Gets the tiled coordinate for the given x and y position. For example,
-	 * for a grid tile_size of 25, position (19, 3) will map to (25, 0).
-	 * 
-	 * @param x
-	 *            x position
-	 * @param y
-	 *            y position
-	 * @return tiled coordinate of the given input.
-	 */
-	private Point2D getTiledCoordinate(double x, double y)
-	{
-		double gridX = ((int) x / TILE_SIZE) * TILE_SIZE;
-		double gridY = ((int) y / TILE_SIZE) * TILE_SIZE;
-		return new Point2D(gridX, gridY);
 	}
 
 }

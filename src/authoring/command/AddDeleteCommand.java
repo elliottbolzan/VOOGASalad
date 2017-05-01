@@ -41,20 +41,30 @@ public class AddDeleteCommand extends EntityCommand
 	{
 		EntityView entityView = super.getEntityView();
 		if (add && levels.getEntity(entityView.getEntityId()) == null) {
-			entityView.setOpacity(0);
-			levels.getCurrentLevel().addEntity(entityView, (int) entityView.getEntity().getZ());
-			animate(entityView, 0, 1);
-			entityView.setSelected(true);
+			add(entityView);
 		} else {
-			FadeTransition ft = animate(entityView, 1, 0);
-			ft.setOnFinished(event -> {
-				Layer addedLayer = levels.getCurrentLevel().getLayers().get((int) entityView.getEntity().getZ() - 1);
-				if (addedLayer != null && addedLayer.getEntities().contains(entityView)) {
-					levels.getCurrentLevel().getCanvas().removeEntity(entityView);
-					addedLayer.getEntities().remove(entityView);
-				}
-			});
+			remove(entityView);
 		}
+	}
+
+	private void add(EntityView entityView)
+	{
+		entityView.setOpacity(0);
+		levels.getCurrentLevel().addEntity(entityView, (int) entityView.getEntity().getZ());
+		animate(entityView, 0, 1);
+		entityView.setSelected(true);
+	}
+
+	private void remove(EntityView entityView)
+	{
+		FadeTransition ft = animate(entityView, 1, 0);
+		ft.setOnFinished(event -> {
+			Layer addedLayer = levels.getCurrentLevel().getLayers().get((int) entityView.getEntity().getZ() - 1);
+			if (addedLayer != null && addedLayer.getEntities().contains(entityView)) {
+				levels.getCurrentLevel().getCanvas().removeEntity(entityView);
+				addedLayer.getEntities().remove(entityView);
+			}
+		});
 	}
 
 	private FadeTransition animate(Node node, double from, double to)

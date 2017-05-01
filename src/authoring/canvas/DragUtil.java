@@ -34,8 +34,6 @@ public class DragUtil
 
 	private double untiledHeight;
 	private double untiledWidth;
-	private double untiledDragLeft;
-	private double untiledDragUp;
 
 	private boolean initMinWidth;
 	private boolean initMinHeight;
@@ -253,14 +251,18 @@ public class DragUtil
 			List<EntityView> movedEntities = region.getSelectedNeighbors();
 			movedEntities.add(region);
 
-			// region.setTranslateX(getTiledCoordinate(region.getTranslateX() +
+			// region.setTranslateX(GridUtil.getTiledCoordinate(region.getTranslateX()
+			// +
 			// mouseX - region.getWidth() / 2));
-			// region.setTranslateY(getTiledCoordinate(region.getTranslateY() +
+			// region.setTranslateY(GridUtil.getTiledCoordinate(region.getTranslateY()
+			// +
 			// mouseY - region.getHeight() / 2));
 
 			for (EntityView entity : movedEntities) {
-				entity.setTranslateX(getTiledCoordinate(entity.getTranslateX() + mouseX - region.getWidth() / 2));
-				entity.setTranslateY(getTiledCoordinate(entity.getTranslateY() + mouseY - region.getHeight() / 2));
+				entity.setTranslateX(
+						GridUtil.getTiledCoordinate(entity.getTranslateX() + mouseX - region.getWidth() / 2, tileSize));
+				entity.setTranslateY(GridUtil
+						.getTiledCoordinate(entity.getTranslateY() + mouseY - region.getHeight() / 2, tileSize));
 			}
 		}
 		event.consume();
@@ -277,7 +279,7 @@ public class DragUtil
 				untiledWidth = newWidth;
 
 				if (untiledWidth >= tileSize) {
-					region.setMinWidth(getTiledCoordinate(untiledWidth));
+					region.setMinWidth(GridUtil.getTiledCoordinate(untiledWidth, tileSize));
 				}
 
 				x = mousex;
@@ -291,7 +293,7 @@ public class DragUtil
 				untiledHeight = newHeight;
 
 				if (untiledHeight >= tileSize) {
-					region.setMinHeight(getTiledCoordinate(untiledHeight));
+					region.setMinHeight(GridUtil.getTiledCoordinate(untiledHeight, tileSize));
 				}
 
 				y = mousey;
@@ -301,19 +303,17 @@ public class DragUtil
 				double mousex = event.getX();
 
 				untiledWidth += (x - mousex);
-				untiledDragLeft += x - mousex;
 
 				double currX = region.getTranslateX();
-				double newX = getTiledCoordinate(region.getBoundsInParent().getMinX() + mousex);
+				double newX = GridUtil.getTiledCoordinate(region.getBoundsInParent().getMinX() + mousex, tileSize);
 
 				if (untiledWidth >= tileSize) {
-					region.setMinWidth(getTiledCoordinate(untiledWidth));
+					region.setMinWidth(GridUtil.getTiledCoordinate(untiledWidth, tileSize));
 					if (currX != newX) {
 						untiledWidth += currX - newX;
 					}
-					region.setTranslateX(getTiledCoordinate(region.getBoundsInParent().getMinX() + mousex));
-					// region.setTranslateX(getTiledCoordinate(untiledDragLeft +
-					// region.getTranslateX()));
+					region.setTranslateX(
+							GridUtil.getTiledCoordinate(region.getBoundsInParent().getMinX() + mousex, tileSize));
 				}
 
 				x = mousex;
@@ -322,20 +322,18 @@ public class DragUtil
 			if (topResizeDragging) {
 				double mousey = event.getY();
 
-				double newHeight = untiledHeight + (y - mousey);
-				untiledHeight = newHeight;
-				untiledDragUp += y - mousey;
+				untiledHeight += (y - mousey);
+
+				double currY = region.getTranslateY();
+				double newY = GridUtil.getTiledCoordinate(region.getBoundsInParent().getMinY() + mousey, tileSize);
 
 				if (untiledHeight >= tileSize) {
-					double newY = getTiledCoordinate(region.getTranslateY() - untiledDragUp);
-					if (newY > region.getTranslateY()) {
-						untiledHeight -= tileSize;
-						region.setMinHeight(untiledHeight);
-					} else if (newY < region.getTranslateY()) {
-						untiledHeight += tileSize;
-						region.setMinHeight(untiledHeight);
+					region.setMinHeight(GridUtil.getTiledCoordinate(untiledHeight, tileSize));
+					if (currY != newY) {
+						untiledHeight += currY - newY;
 					}
-					region.setTranslateY(newY);
+					region.setTranslateY(
+							GridUtil.getTiledCoordinate(region.getBoundsInParent().getMinY() + mousey, tileSize));
 				}
 
 				y = mousey;
@@ -359,10 +357,7 @@ public class DragUtil
 			rightResizeDragging = true;
 
 			if (!initMinWidth) {
-				region.setMinWidth(region.getWidth());
-				untiledWidth = region.getWidth();
-				untiledDragUp = 0;
-				initMinWidth = true;
+				initMinWidth();
 			}
 			x = event.getX();
 		}
@@ -371,10 +366,7 @@ public class DragUtil
 			bottomResizeDragging = true;
 
 			if (!initMinHeight) {
-				region.setMinHeight(region.getHeight());
-				untiledHeight = region.getHeight();
-				untiledDragLeft = 0;
-				initMinHeight = true;
+				initMinHeight();
 			}
 			y = event.getY();
 		}
@@ -383,10 +375,7 @@ public class DragUtil
 			leftResizeDragging = true;
 
 			if (!initMinWidth) {
-				region.setMinWidth(region.getWidth());
-				untiledWidth = region.getWidth();
-				untiledDragLeft = 0;
-				initMinWidth = true;
+				initMinWidth();
 			}
 			x = event.getX();
 		}
@@ -395,21 +384,23 @@ public class DragUtil
 			topResizeDragging = true;
 
 			if (!initMinHeight) {
-				region.setMinHeight(region.getHeight());
-				untiledHeight = region.getHeight();
-				untiledDragUp = 0;
-				initMinHeight = true;
+				initMinHeight();
 			}
 			y = event.getY();
 		}
 	}
 
-	private double getTiledCoordinate(double coordinate)
+	private void initMinWidth()
 	{
-		double gridCoordinate = ((int) coordinate / tileSize) * tileSize;
-		if (coordinate % tileSize > tileSize / 2) {
-			return gridCoordinate + tileSize;
-		}
-		return gridCoordinate;
+		region.setMinWidth(region.getWidth());
+		untiledWidth = region.getWidth();
+		initMinWidth = true;
+	}
+
+	private void initMinHeight()
+	{
+		region.setMinHeight(region.getHeight());
+		untiledHeight = region.getHeight();
+		initMinHeight = true;
 	}
 }

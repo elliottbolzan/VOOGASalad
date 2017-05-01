@@ -119,21 +119,6 @@ public class Workspace extends View
 		setCenter(pane);
 		setTop(new WorkspaceMenuBar(this));
 		setupDragToAddEntity();
-		// defaults.getEntities().addListener(new ListChangeListener<Entity>()
-		// {
-		// @Override
-		// public void onChanged(javafx.collections.ListChangeListener.Change<?
-		// extends Entity> changed)
-		// {
-		// changed.next();
-		// List<? extends Entity> addedSublist = changed.getList();
-		// if (addedSublist.size() > 0) {
-		// EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
-		// Workspace.this.getNetworking().send(entityListInfo);
-		// }
-		// }
-		//
-		// });
 	}
 
 	public void received(Packet packet)
@@ -151,7 +136,6 @@ public class Workspace extends View
 					});
 				}
 			});
-			// panel.getEntityDisplay().createContainer();
 		}
 	}
 
@@ -161,31 +145,26 @@ public class Workspace extends View
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
-			levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(e2 -> {
-				AddInfo addInfo = new AddInfo(addedEntity.getName(), e2.getX(), e2.getY(),
-						getLevelEditor().getCurrentLevel().getCurrentLayer());
-				getLevelEditor().getCurrentLevel().getLayers().forEach(layer -> {
-					layer.getSelectedEntities().forEach(selectedEntity -> {
-						selectedEntity.setSelected(false);
-					});
-				});
-				if (getNetworking().isConnected()) {
-					getNetworking().send(addInfo);
-				} else {
-					getLevelEditor().received(addInfo);
-				}
-				// levelEditor.getCurrentLevel().addEntity(addedEntity, e2);
-				levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
-				panel.setCursor(Cursor.DEFAULT);
-			});
 			panel.getEntityDisplay().getList().setOnMouseReleased(e2 -> {
 				Point2D canvasPoint = levelEditor.getCurrentLevel().getCanvas().getExpandablePane()
 						.screenToLocal(new Point2D(e2.getScreenX(), e2.getScreenY()));
-				if (!levelEditor.getCurrentLevel().getCanvas().getExpandablePane().intersects(canvasPoint.getX(),
+				if (levelEditor.getCurrentLevel().getCanvas().getExpandablePane().intersects(canvasPoint.getX(),
 						canvasPoint.getY(), 0, 0)) {
-					levelEditor.getCurrentLevel().getCanvas().getExpandablePane().setOnMouseEntered(null);
-					panel.setCursor(Cursor.DEFAULT);
+					AddInfo addInfo = new AddInfo(addedEntity.getName(), canvasPoint.getX(), canvasPoint.getY(),
+							getLevelEditor().getCurrentLevel().getCurrentLayer());
+					deselectAllEntities();
+					getNetworking().sendIfConnected(addInfo);
 				}
+				panel.setCursor(Cursor.DEFAULT);
+			});
+		});
+	}
+
+	private void deselectAllEntities()
+	{
+		getLevelEditor().getCurrentLevel().getLayers().forEach(layer -> {
+			layer.getSelectedEntities().forEach(selectedEntity -> {
+				selectedEntity.setSelected(false);
 			});
 		});
 	}
