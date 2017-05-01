@@ -37,7 +37,6 @@ public class Networking implements ConnectionObserver
 	private Workspace workspace;
 	private ObservableServer<Packet> server;
 	private ObservableClient<Packet> client;
-	Packet packet;
 	private static final int PORT = 1337;
 
 	public Networking(Workspace workspace)
