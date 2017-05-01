@@ -17,7 +17,7 @@ public class BackgroundEntity extends Entity {
 	@Override
 	protected void setupDefaultParameters() {
 		defaultSetup();
-		this.setName(getResource("Background"));
+		this.setName(getResource("BackgroundEntity"));
 		this.setImagePath(
 				getClass().getClassLoader().getResource("resources/images/background_cave.png").toExternalForm());
 		this.setIsVisible(false);
