@@ -97,7 +97,7 @@ public class EntitySaver {
 			this.makeFile(savedImagePath);
 			this.copyFileContents(originalImageFile, savedImagePath);
 		} catch (IOException | URISyntaxException e) {
-			// TODO
+			
 		}
 	}
 

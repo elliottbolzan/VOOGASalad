@@ -18,7 +18,7 @@ public class CameraEntity extends Entity {
 	@Override
 	protected void setupDefaultParameters() {
 		defaultSetup();
-		this.setName(getResource("Camera"));
+		this.setName(getResource("CameraEntity"));
 		this.setImagePath(getClass().getClassLoader().getResource("resources/images/camera.png").toExternalForm());
 		this.setIsVisible(false);
 	}

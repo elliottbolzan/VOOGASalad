@@ -6,6 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * This class provides a way to access the properties folder, to avoid hardcoded strings as much as possible
+ * 
+ * @author Michael Li
+ * @author Jay Doherty
+ *
+ */
+
 public class ResourceManager {
 
 	private final static String DEFAULT_RESOURCE_PACKAGE = "src" + File.separator + "resources";
@@ -37,6 +45,14 @@ public class ResourceManager {
 	private final static String FORWARD_SLASH = "ForwardSlash";
 	private final static String BACK_SLASH = "BackSlash";
 	private final static String FILE_START = "FileStart";
+	private final static String GAME_INFO_TITLE= "GameInfoTitle";
+	private final static String GAME_INFO_ATTRIBUTE = "GameInfoAttribute";
+	private final static String TIME_TITLE= "TimeTitle";
+	private final static String COUNTDOWN_TITLE = "CountdownTitle";
+	private final static String LIVES_TITLE = "LivesTitle";
+	private final static String UNLOCKED_LEVELS_TITLE= "UnlockedLevelsTitle";
+	private final static String UNLOCKED_LEVELS_ELEMENT= "UnlockedLevelsElement";
+	private final static String UNLOCKED_LEVELS_ATTRIBUTE = "UnlockedLevelsAttribute";
 
 	private Properties prop;
 
@@ -160,6 +176,34 @@ public class ResourceManager {
 	
 	public String getFileStart(){
 		return prop.getProperty(FILE_START);
+	}
+	
+	public String getInfoTitle(){
+		return prop.getProperty(GAME_INFO_TITLE);
+	}
+
+	public String getInfoAttribute() {
+		return prop.getProperty(GAME_INFO_ATTRIBUTE);
+	}
+	
+	public String getTimeTitle(){
+		return prop.getProperty(TIME_TITLE);
+	}
+	public String getCountdownTitle(){
+		return prop.getProperty(COUNTDOWN_TITLE);
+	}
+	
+	public String getLivesTitle(){
+		return prop.getProperty(LIVES_TITLE);
+	}
+	public String getUnlockedLevelsTitle(){
+		return prop.getProperty(UNLOCKED_LEVELS_TITLE);
+	}
+	public String getUnlockedLevelsElement(){
+		return prop.getProperty(UNLOCKED_LEVELS_ELEMENT);
+	}
+	public String getUnlockedLevelsAttribute(){
+		return prop.getProperty(UNLOCKED_LEVELS_ATTRIBUTE);
 	}
 }
 

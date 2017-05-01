@@ -40,7 +40,7 @@ import javafx.collections.ObservableList;
  * will have everything needed to load up the game.
  * 
  * @author Jay Doherty
- * @author Michael
+ * @author Michael Li
  */
 public class GameLoader {
 
@@ -59,78 +59,113 @@ public class GameLoader {
 	public Game loadGame(String gameFolderPath, String saveName) throws Exception {
 		resourceManager = new ResourceManager();
 		String tempFolderPath = System.getProperty(resourceManager.getTempDir()) + File.separator + resourceManager.getVoogaName();
-
 		File voogaDirectory = new File(tempFolderPath);
 		if (!voogaDirectory.exists()) {
 			voogaDirectory.mkdirs();
 		}
-
 		(new Unpackager()).unzip(gameFolderPath, tempFolderPath);
 		File dataFile = new File(tempFolderPath + File.separator + saveName);
-
 		if (!dataFile.exists()) {
 			throw new NotAGameFolderException();
 		}
-
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = factory.newDocumentBuilder();
 		Document doc = docBuilder.parse(tempFolderPath + File.separator + saveName);
-		// Document doc = docBuilder.parse(gameFolderPath + File.separator +
-		// saveName);
-
 		Game game = new Game();
+		addGameSettings(game,doc,tempFolderPath);
+		return game;
+	}
+
+	
+	/*Adds necessary Information to the Game objet
+	 * 
+	 * @param game
+	 * 			: game where settings are added
+	 * @param doc
+	 * 			: doc where information is derived from
+	 * @param tempFolderPath
+	 * 			: path string to game folder in the temp folder
+	 * 	 */
+	private void addGameSettings(Game game, Document doc, String tempFolderPath){
 		addName(game, doc);
 		addInfo(game, doc);
 		addDefaults(game, doc, tempFolderPath);
 		addLevels(game, doc, tempFolderPath);
 		addSong(game, doc, tempFolderPath);
 		addSaves(game, tempFolderPath);
-
 		addAchievements(game);
-
 		addCurrentTime(game, doc);
 		addIsCountingDown(game, doc);
 		addNumberOfLives(game,doc);
 		addUnlockedLevels(game,doc);
-
-		
-		return game;
 	}
-
 	
+	/*Adds the number of current lives to game
+	 * 
+	 * @param game
+	 * 			: game where lives is set
+	 * @param doc
+	 * 			: doc where number of livess param is derived from
+	 * 	 */
 	private void addNumberOfLives(Game game, Document doc){
 		NodeList timeNodes = doc.getElementsByTagName(resourceManager.getNumLives());
 		game.setNumberOfLives(Integer.parseInt(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 	
+	/*Adds the unlocked levels to game
+	 * 
+	 * @param game
+	 * 			: game where unlocked levels is set
+	 * @param doc
+	 * 			: doc where unlocked levels param is derived from
+	 * 	 */
+	
 	private void addUnlockedLevels(Game game, Document doc){
-		
-		
 		NodeList unlockedLevelsNode = doc.getElementsByTagName(resourceManager.getUnlockedLvls());
 		NodeList levelsList = unlockedLevelsNode.item(0).getChildNodes();
 		Set<Integer> gameLevelsUnlocked = new HashSet<Integer>();
-
 		for (int i = 0; i < levelsList.getLength(); i++) {
 			Element levelElement = (Element) levelsList.item(i);
 			int instantiatedLevel = Integer.parseInt(levelElement.getAttributes().item(0).getNodeValue());
 			System.out.println("int: " + instantiatedLevel);
 			gameLevelsUnlocked.add(instantiatedLevel);
 		}
-		
 		game.setUnlockedLevels(gameLevelsUnlocked);
-		
-		
 	}
+	
+	/*Adds the current time of the timer
+	 * 
+	 * @param game
+	 * 			: game where timer time is set
+	 * @param doc
+	 * 			: doc where current time param is derived from
+	 * 	 */
 	private void addCurrentTime(Game game, Document doc) {
 		NodeList timeNodes = doc.getElementsByTagName(resourceManager.getCurrTime());
 		game.setCurrentTime(Double.parseDouble(timeNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 
+	
+	/*Adds whether timer is counting down
+	 * 
+	 * @param game
+	 * 			: game where countdown is set
+	 * @param doc
+	 * 			: doc where countdown param is derived from
+	 * 	 */
 	private void addIsCountingDown(Game game, Document doc) {
 		NodeList countdownNodes = doc.getElementsByTagName(resourceManager.getTimeDown());
 		game.setClockGoingDown(Boolean.parseBoolean(countdownNodes.item(0).getAttributes().item(0).getNodeValue()));
 	}
 
+	
+	/*Adds saved games to game object
+	 * 
+	 * @param game
+	 * 			: game where saves are added
+	 * @param folderpath
+	 * 			: path of the game folder
+	 * 	 */
 	private void addSaves(Game game, String folderPath) {
 		ObservableList<String> saves = FXCollections.observableArrayList();
 		File folder = new File(folderPath);
@@ -143,11 +178,26 @@ public class GameLoader {
 		game.setSaves(saves);
 	}
 
+	/*Returns if game is a saved game (within player)
+	 * 
+	 * @param game
+	 * 			: current game
+	 * @param File
+	 * 			: file of the settings being read
+	 * 	 */
+	
 	private boolean isSave(Game game, File file) {
 		return (file.getName().contains(game.getName()) && file.getName().contains(resourceManager.getSave())
 				&& file.getName().contains(resourceManager.getXML()));
 	}
 
+	/*Adds game description to game
+	 * 
+	 * @param game
+	 * 			: game where info is added
+	 * @param doc
+	 * 			: doc info is derived from
+	 */
 	private void addInfo(Game game, Document doc) {
 		NodeList infoNode = doc.getElementsByTagName(resourceManager.getGameInfo());
 		game.setInfo(infoNode.item(0).getAttributes().item(0).getNodeValue());
@@ -323,7 +373,7 @@ public class GameLoader {
 		return newPath;
 	}
 
-	// http://stackoverflow.com/questions/32739278/convert-elementorg-w3c-dom-to-string-in-java
+	
 	/**
 	 * Method to convert an element node from XML into a string
 	 * 
@@ -347,7 +397,6 @@ public class GameLoader {
 			result = new StreamResult(new StringWriter());
 			transformer.transform(source, result);
 		} catch (TransformerException e) {
-			// TODO
 		}
 		String strObject = result.getWriter().toString();
 		return strObject;
