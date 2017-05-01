@@ -7,7 +7,7 @@ import engine.actions.TraversePathHelper;
 import javafx.geometry.Point2D;
 
 /**
- * Traverses a path between the starting and ending points in a shape specified by the String given.
+ * Traverses a path between the starting and ending points.
  * @author Matthew Barbano
  *
  */

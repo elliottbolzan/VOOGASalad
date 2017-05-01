@@ -26,7 +26,7 @@ public class LevelSelectionStepStrategy implements StepStrategy{
 		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
-		graphicsEngine.displayLevelSelectionScreen(levelManager, this);  //TODO implement this
+		graphicsEngine.displayLevelSelectionScreen(levelManager, this);
 		graphicsEngine.blankScorebar(firstPass);
 	}
 
@@ -35,7 +35,6 @@ public class LevelSelectionStepStrategy implements StepStrategy{
 		//Intentionally left blank
 	}
 	
-	//Called when a button is clicked in the graphics engine (i.e. the reaction to the button's lambda)
 	public void moveToLevelScreen(int levelNumber){
 		levelManager.getCurrentScreen().getTimeline().stop();
 		boolean hasSelectedLevel = levelManager.setLevelNumber(levelNumber);
@@ -44,9 +43,6 @@ public class LevelSelectionStepStrategy implements StepStrategy{
 			levelManager.setCurrentStepStrategy(nextStepStrategy);
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
 			nextScreen.getTimeline().play();
-		}
-		else{
-			//TODO GAE should display an error, but should never reach here, at least with the button implementation
 		}
 	}
 	
