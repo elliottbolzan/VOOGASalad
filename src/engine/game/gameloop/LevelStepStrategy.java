@@ -69,7 +69,6 @@ public class LevelStepStrategy implements StepStrategy {
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
 			nextScreen.getTimeline().play();
 		}
-
 	}
 
 	/**

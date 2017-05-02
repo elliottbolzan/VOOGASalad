@@ -36,7 +36,6 @@ public class InputObservable extends EventObservable {
 		this.graphicsEngine = graphicsEngine;
 	}
 
-	// For Nikita to call in InputEvent's act()
 	public boolean isKeyPressToProcess() {
 		return keyPressToProcess;
 	}
@@ -51,24 +50,18 @@ public class InputObservable extends EventObservable {
 		return !temp && mouseClickToProcess;
 	}
 
-	// For Nikita to call in InputEvent's act() - for key input
 	public KeyCode getLastPressedKey() {
 		return lastPressedKey;
 	}
 
-	// For Nikita to call in InputEvent's act() - for mouse input
 	public Point2D getLastPressedCoordinates() {
 		return lastPressedCoordinates;
 	}
 
-	// For Nikita to call in InputEvent's act() - for mouse input - see JavaFX's
-	// MouseButton documentation for how to use
 	public MouseButton getLastPressedMouseButton() {
 		return lastPressedMouseButton;
 	}
 
-	// Matthew calls this from game loop (at end, AFTER update Entities/act
-	// Events)
 	public void setInputToProcess(boolean state) {
 		keyPressToProcess = state;
 		keyReleaseToProcess = state;
@@ -92,7 +85,6 @@ public class InputObservable extends EventObservable {
 	}
 
 	public void updateObservers() {
-		// Intentionally left blank.
 	}
 
 }

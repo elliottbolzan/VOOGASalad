@@ -19,7 +19,8 @@ public class Screen {
 	private Timeline timeline;
 	private LevelManager levelManager;
 
-	public Screen(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info, boolean firstPassLevelSelection) {
+	public Screen(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info,
+			boolean firstPassLevelSelection) {
 		this.levelManager = levelManager;
 		levelManager.setCurrentScreen(this);
 		setupTimeline();
@@ -27,7 +28,6 @@ public class Screen {
 	}
 
 	private void setupTimeline() {
-		// From ExampleBounce.java
 		KeyFrame frame = new KeyFrame(Duration.millis(FRAME_TIME_MILLISECONDS), e -> step());
 		timeline = new Timeline();
 		timeline.setCycleCount(Timeline.INDEFINITE);

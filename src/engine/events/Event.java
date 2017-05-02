@@ -20,6 +20,9 @@ public abstract class Event extends GameObject implements EventInterface {
 	private SimpleIntegerProperty timesEventHasOccurred;
 	private int timesTriggered;
 
+	/**
+	 * Create a new event, setting the default parameters for the user to enter.
+	 */
 	public Event() {
 		addParam(new Parameter(getResource("HowManyTimesToTrigger"), String.class, getResource("TriggerLimit")));
 		addParam(new Parameter(getResource("HowOftenToTrigger"), int.class, 1));

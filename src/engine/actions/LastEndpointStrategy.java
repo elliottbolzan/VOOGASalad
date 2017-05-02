@@ -4,8 +4,9 @@ import engine.entities.Entity;
 import javafx.geometry.Point2D;
 
 /**
- * For modifying the speed when a TraverseLinePathAction's is not reversible. Part of
- * Strategy Design Pattern.
+ * For modifying the speed when a TraverseLinePathAction's is not reversible.
+ * Part of Strategy Design Pattern.
+ * 
  * @author Matthew Barbano
  *
  */
@@ -20,5 +21,4 @@ public class LastEndpointStrategy implements EndpointStrategy {
 			entity.setYSpeed(0.0);
 		}
 	}
-
 }

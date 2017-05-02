@@ -13,7 +13,6 @@ public class TimerObservable extends EventObservable {
 		currentLevelTimerManager = toAttach;
 	}
 
-	// For Nikita to call in TimerEvent's act()
 	public int getTimeInMilliseconds() {
 		return currentLevelTimerManager.getMilliseconds();
 	}

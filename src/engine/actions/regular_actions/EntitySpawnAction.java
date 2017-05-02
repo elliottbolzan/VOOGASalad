@@ -32,6 +32,10 @@ public class EntitySpawnAction extends Action {
 		}
 	}
 
+	/**
+	 * Carry out the spawning itself. Create the new entity, place it within the
+	 * level, set relevant parameters and then add it to the level.
+	 */
 	protected void spawn() {
 		Entity newEntity = null;
 		for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
@@ -53,6 +57,15 @@ public class EntitySpawnAction extends Action {
 		return CollisionSide.valueOf(side);
 	}
 
+	/**
+	 * Place the entity appropriately within the level.
+	 * 
+	 * @param existing
+	 *            the existing entity relative to which the new entity is being
+	 *            placed
+	 * @param newEntity
+	 *            the new entity to be placed
+	 */
 	protected void placeEntity(Entity existing, Entity newEntity) {
 		String side = ((String) getParam(getResource("Side")));
 		CollisionSide collisionSide;

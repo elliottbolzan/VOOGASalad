@@ -48,7 +48,6 @@ import polyglot.Polyglot;
  *         time/lives/score) and the Camera.
  */
 public class GraphicsEngine {
-
 	private Polyglot polyglot;
 	private ResourceBundle resources;
 

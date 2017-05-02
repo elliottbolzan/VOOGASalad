@@ -16,7 +16,6 @@ import javafx.scene.input.KeyCode;
  *
  */
 public class KeyPressAndCollisionEvent extends Event {
-
 	private KeyPressEvent keyPressEvent;
 	private CollisionAllEvent collisionEvent;
 
