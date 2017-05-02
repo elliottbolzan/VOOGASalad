@@ -40,7 +40,8 @@ public class CollisionAllEvent extends Event {
 	 */
 	@Override
 	public boolean act() {
-		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
+		//System.out.println("Game info: " + getGameInfo() + " " + this + getEntity().getGameInfo());
+		for (Collision collision : getEntity().getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
 			String param1 = ((String) getParam(getResource("Entity1"))).equals(getResource("ThisEntity")) ? getEntity().getId() + "" : (String) getParam(getResource("Entity1"));
 			if (collision.isBetween(param1, (String) getParam(getResource("Entity2")))
 					&& collision.getCollisionSide().equals(this.collisionSide)
