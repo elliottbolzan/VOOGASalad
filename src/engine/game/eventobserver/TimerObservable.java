@@ -2,6 +2,11 @@ package engine.game.eventobserver;
 
 import engine.game.timer.TimerManager;
 
+/**
+ * 
+ * @author Matthew Barbano
+ *
+ */
 public class TimerObservable extends EventObservable {
 	private TimerManager currentLevelTimerManager;
 

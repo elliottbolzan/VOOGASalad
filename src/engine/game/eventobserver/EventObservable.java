@@ -8,10 +8,26 @@ import engine.entities.Entity;
 import exceptions.ObservableException;
 
 /**
- * Part of the Observable Design Pattern for detecting and responding to Events.
+ * Observer superclass for the Observable Design Pattern for detecting and responding to Events.
  * Subclasses contain Lists of ObservableEntities that will listen to the
  * corresponding Observer. Class is abstract since you should only be able to
- * instantiate specific TYPES of EventObserver.
+ * instantiate specific subclasses of EventObserver. Assumes that the argument of attach()
+ * refers to an existing Entity in the game, and that of detach() refers to an Entity
+ * in the "observers" List. Dependencies are Entity and ObservableException.
+ * 
+ * Example of use:
+ * <pre>EventObservable observable = new TimerObservable();
+ * ...
+ * for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+ * 		observable.attach(entity);
+ * }
+ * ...
+ * observable.updateObservers();
+ * ...
+ * for(Entity entity : levelManager.getCurrentLevel().getEntities()){
+ * 		observable.detach(entity);
+ * }
+ *</pre>
  * 
  * @author Matthew Barbano
  *
@@ -27,10 +43,10 @@ public abstract class EventObservable {
 	/**
 	 * Engine External API. Adds toAttach to the appropriate List(s) of
 	 * ObservableEntities that will update upon calling updateObservables().
+	 * Assumes that "toDetach" must be the same
+	 * object in memory as originally added to the list.
 	 * 
-	 * To other programmers on team - Careful: "toDetach" must be the same
-	 * object in memory as originally added to the list If you want me to change
-	 * this behavior, let me know.
+	 * @param toAttach the Entity to attach
 	 */
 	public void attach(Entity toAttach) {
 		observers.add(toAttach);
@@ -39,8 +55,10 @@ public abstract class EventObservable {
 	/**
 	 * Engine External API. Removes toDetach from all Lists of
 	 * ObservableEntities that will update upon calling updateObservables().
+	 * Assumes that observers.contains(toDetach) is true
 	 * 
-	 * @throws ObservableException
+	 * @param toDetach the Entity to remove from observers
+	 * @throws ObservableException if toDetach is not in observers
 	 */
 	public void detach(Entity toDetach) {
 		try {
@@ -51,11 +69,16 @@ public abstract class EventObservable {
 	}
 
 	/**
-	 * Engine External API. Iterates through the List of ObservableEntities in
-	 * the appropriate subclass and calls their update() method.
+	 * Engine External API. Assumption is that it is called on every iteration
+	 * of the game loop during game play. Takes whatever action is appropriate
+	 * on each iteration of the game loop specific to each observable subclass.
 	 */
 	public abstract void updateObservers();
-
+ 
+	/**
+	 * Returns the observers List
+	 * @return observers
+	 */
 	protected List<Entity> getObservers() {
 		return observers;
 	}
