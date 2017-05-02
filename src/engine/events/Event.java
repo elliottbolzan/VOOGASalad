@@ -6,7 +6,6 @@ import java.util.List;
 import engine.GameObject;
 import engine.Parameter;
 import engine.actions.Action;
-import engine.events.regular_events.BooleanEvent;
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -18,12 +17,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 public abstract class Event extends GameObject implements EventInterface {
 	private List<Action> actions;
 	private SimpleIntegerProperty timesEventHasOccurred;
+	private int timesTriggered;
 
 	public Event() {
 		addParam(new Parameter(getResource("HowManyTimesToTrigger"), String.class, getResource("TriggerLimit")));
 		addParam(new Parameter(getResource("HowOftenToTrigger"), int.class, 1));
 		actions = new ArrayList<Action>();
 		timesEventHasOccurred = new SimpleIntegerProperty(0);
+		timesTriggered = 0;
 	}
 
 	@Override
@@ -68,9 +69,12 @@ public abstract class Event extends GameObject implements EventInterface {
 		boolean act = act();
 		if (act && !check)
 			timesEventHasOccurred.set(timesEventHasOccurred.get() + 1);
-		return (act && timesEventHasOccurred.get() != 0
+		boolean ret = (act && timesEventHasOccurred.get() != 0
 				&& timesEventHasOccurred.get() % (int) getParam(getResource("HowOftenToTrigger")) == 0
 				&& lessThanMaxTimes());
+		if (ret)
+			timesTriggered++;
+		return ret;
 	}
 
 	private boolean lessThanMaxTimes() {
@@ -78,8 +82,7 @@ public abstract class Event extends GameObject implements EventInterface {
 			return true;
 		else {
 			try {
-				return Integer.parseInt(
-						(String) getParam(getResource("HowManyTimesToTrigger"))) >= timesEventHasOccurred.get();
+				return Integer.parseInt((String) getParam(getResource("HowManyTimesToTrigger"))) > timesTriggered;
 			} catch (Exception e) {
 				return true;
 			}

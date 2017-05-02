@@ -19,7 +19,6 @@ public class CollisionAllEvent extends Event {
 		addParam(new Parameter(getResource("Entity1"), String.class, getResource("ThisEntity")));
 		addParam(new Parameter(getResource("Entity2"), String.class, ""));
 		addParam(new Parameter(getResource("DetectionDepth"), double.class, 0.0));
-
 		this.collisionSide = CollisionSide.ALL;
 	}
 
@@ -42,8 +41,8 @@ public class CollisionAllEvent extends Event {
 	@Override
 	public boolean act() {
 		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
-			String param1 = ((String) getParam("Entity 1")).equals(getResource("ThisEntity")) ? getEntity().getName() : (String) getParam("Entity 1");
-			if (collision.isBetween(param1, (String) getParam("Entity 2"))
+			String param1 = ((String) getParam(getResource("Entity1"))).equals(getResource("ThisEntity")) ? getEntity().getId() + "" : (String) getParam(getResource("Entity1"));
+			if (collision.isBetween(param1, (String) getParam(getResource("Entity2")))
 					&& collision.getCollisionSide().equals(this.collisionSide)
 					&& collision.getCollisionDepth() > (double) getParam(getResource("DetectionDepth"))) {
 				return true;

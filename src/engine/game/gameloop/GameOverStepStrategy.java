@@ -5,6 +5,7 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
 /**
+ * TranstionStepStrategy for when a game over occurs.
  * 
  * @author Matthew Barbano
  *

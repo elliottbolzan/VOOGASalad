@@ -98,9 +98,9 @@ public class LevelEditor extends View {
 	 * @param entity
 	 *            the default Entity to match.
 	 */
-	public void updateEntity(Entity entity, String oldName) {
+	public void updateEntity(Entity entity) {
 		for (LayerEditor layerEditor : levels) {
-			layerEditor.updateEntity(entity, oldName);
+			layerEditor.updateEntity(entity);
 		}
 	}
 
@@ -202,6 +202,7 @@ public class LevelEditor extends View {
 			if (multiInfo.getInfo() != null) {
 				multiInfo.getInfo().forEach(e -> {
 					LevelEditor.this.received(e);
+					System.out.println(e);
 				});
 			}
 		}

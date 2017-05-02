@@ -4,6 +4,7 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
 /**
+ * TransitionStepStrategy for when the hero loses a life (but does not have a game over).
  * 
  * @author Matthew Barbano
  *

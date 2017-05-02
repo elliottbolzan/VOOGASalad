@@ -6,7 +6,7 @@ import engine.game.gameloop.LevelStepStrategy;
 /**
  * Starts the next level of the current game.
  * 
- * @author Kyle Finke
+ * @author Kyle Finke, Matthew Barbano
  *
  */
 public class LevelNextAction extends Action {

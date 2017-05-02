@@ -104,12 +104,12 @@ public class LayerEditor extends View {
 	 * @param entity
 	 *            the Entity to be edited.
 	 */
-	public void updateEntity(Entity entity, String oldName) {
+	public void updateEntity(Entity entity) {
 		for (Layer layer : layers.values()) {
 			List<EntityView> concerned = new ArrayList<>();
 			for (EntityView entityView : layer.getEntities()) {
 				Entity toEdit = entityView.getEntity();
-				if (toEdit.getName().equals(oldName)) {
+				if (toEdit.getName().equals(entity.getName())) {
 					concerned.add(entityView);
 				}
 			}
@@ -199,6 +199,7 @@ public class LayerEditor extends View {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Place the entity at the position of the given MouseEvent.
 	 * 
 	 * @param e
@@ -213,6 +214,8 @@ public class LayerEditor extends View {
 	}
 
 	/**
+=======
+>>>>>>> fac6ab561d8acac7971059991209873c36e147f7
 	 * Add the given entity to the given x, y, and z position. z position =
 	 * layer number.
 	 * 

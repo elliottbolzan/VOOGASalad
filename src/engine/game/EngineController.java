@@ -1,8 +1,6 @@
 package engine.game;
 
 import java.lang.reflect.Constructor;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -22,18 +20,10 @@ import engine.events.Event;
 public class EngineController {
 	private ClassFinder finder;
 	private ResourceBundle resources;
-	private Calendar calendar;
-	private Date date;
 
 	public EngineController() {
 		finder = new ClassFinder();
 		resources = ResourceBundle.getBundle("resources/Strings");
-		calendar = Calendar.getInstance();
-	}
-
-	private int getId() {
-		calendar.setTime(new Date());
-		return calendar.get(Calendar.MINUTE) * 100 + calendar.get(Calendar.SECOND);
 	}
 
 	public List<String> getAllEntities() {
@@ -66,9 +56,7 @@ public class EngineController {
 	}
 
 	public Entity createEntity(String entity) throws Exception {
-		Entity ret = (Entity) getInstance("engine.entities.entities." + getClassName(entity));
-		ret.setId(getId());
-		return ret;
+		return (Entity) getInstance("engine.entities.entities." + getClassName(entity));
 	}
 
 	public Event createEvent(String event) throws Exception {
@@ -78,7 +66,6 @@ public class EngineController {
 		} catch (Exception e) {
 			ret = (Event) getInstance("engine.events.additional_events." + getClassName(event));
 		}
-		ret.setId(getId());
 		return ret;
 	}
 
@@ -89,7 +76,6 @@ public class EngineController {
 		} catch (Exception e) {
 			ret = (Action) getInstance("engine.actions.additional_actions." + getClassName(action));
 		}
-		ret.setId(getId());
 		return ret;
 	}
 

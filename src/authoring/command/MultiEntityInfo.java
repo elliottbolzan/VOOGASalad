@@ -5,7 +5,7 @@ import java.util.List;
 
 import authoring.networking.Packet;
 
-public class MultiEntityInfo<T extends EntityCommandInfo> extends Packet
+public class MultiEntityInfo<T extends Packet> extends Packet
 {
 	private static final long serialVersionUID = 871085261882852024L;
 	private List<T> multiInfo;

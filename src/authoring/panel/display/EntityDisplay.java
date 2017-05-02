@@ -54,24 +54,21 @@ public class EntityDisplay extends EditableContainer {
 	 * @param entity
 	 *            the Entity to be added.
 	 */
-	public void addEntity(Entity entity, String oldName) {
+	public void addEntity(Entity entity) {
 		if (getCurrentlyEditing() != null) {
 			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
-			getWorkspace().updateEntity(entity, oldName);
+			getWorkspace().updateEntity(entity);
 		}
 		getWorkspace().getDefaults().add(entity);
 
 		List<? extends Entity> addedSublist = getWorkspace().getDefaults().getEntities();
 		if (addedSublist.size() > 0) {
-			// EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
 			if (getWorkspace().getNetworking().isConnected()) {
 				EntityListInfo entityListInfo = new EntityListInfo(addedSublist);
 				getWorkspace().getNetworking().send(entityListInfo);
-			} else {
-				// getWorkspace().received(entityListInfo);
 			}
 		}
-		getWorkspace().updateEntity(entity, oldName);
+		getWorkspace().updateEntity(entity);
 	}
 
 	/*

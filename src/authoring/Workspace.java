@@ -116,7 +116,7 @@ public class Workspace extends View {
 				public void run() {
 					defaults.getEntities().clear();
 					defaults.getEntities().addAll(((EntityListInfo) packet).getEntities());
-					((EntityListInfo) packet).getEntities().forEach(e -> updateEntity(e, ""));
+					((EntityListInfo) packet).getEntities().forEach(e -> updateEntity(e));
 				}
 			});
 		}
@@ -125,6 +125,7 @@ public class Workspace extends View {
 	private void setupDragToAddEntity() {
 		panel.getEntityDisplay().getList().setOnDragDetected(e -> {
 			Entity addedEntity = panel.getEntityDisplay().getList().getSelectionModel().getSelectedItem();
+			addedEntity.setId(addedEntity.generateId());
 			Image image = new Image(addedEntity.getImagePath());
 			panel.setCursor(new ImageCursor(image, 0, 0));
 			panel.getEntityDisplay().getList().setOnMouseReleased(e2 -> {
@@ -335,8 +336,9 @@ public class Workspace extends View {
 	 * @param entity
 	 *            the Entity to replace the old Entities with.
 	 */
-	public void updateEntity(Entity entity, String oldName) {
-		levelEditor.updateEntity(entity, oldName);
+
+	public void updateEntity(Entity entity) {
+		levelEditor.updateEntity(entity);
 	}
 
 }
