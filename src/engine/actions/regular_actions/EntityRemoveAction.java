@@ -19,6 +19,7 @@ public class EntityRemoveAction extends Action {
 				getEntity().setIsVisible(false);
 				getGameInfo().getObservableBundle().detachEntityFromAll(getEntity());
 				getGameInfo().getLevelManager().getCurrentLevel().removeEntity(getEntity());
+				getGameInfo().getGraphicsEngine().updateView();
 			}
 		});
 	}
