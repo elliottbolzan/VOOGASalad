@@ -43,6 +43,7 @@ import utils.views.View;
  * 
  */
 public class Workspace extends View {
+
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
@@ -115,9 +116,7 @@ public class Workspace extends View {
 				public void run() {
 					defaults.getEntities().clear();
 					defaults.getEntities().addAll(((EntityListInfo) packet).getEntities());
-					((EntityListInfo) packet).getEntities().forEach(e -> {
-						Workspace.this.updateEntity(e);
-					});
+					((EntityListInfo) packet).getEntities().forEach(e -> updateEntity(e));
 				}
 			});
 		}
@@ -337,6 +336,7 @@ public class Workspace extends View {
 	 * @param entity
 	 *            the Entity to replace the old Entities with.
 	 */
+
 	public void updateEntity(Entity entity) {
 		levelEditor.updateEntity(entity);
 	}

@@ -37,7 +37,7 @@ public class EntityMaker extends View {
 	private ActionPicker actionPicker;
 
 	private Event selectedEvent;
-
+	
 	/**
 	 * Creates an EntityMaker.
 	 * 
