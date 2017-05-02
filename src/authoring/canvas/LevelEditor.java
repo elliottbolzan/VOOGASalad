@@ -40,7 +40,6 @@ import javafx.scene.control.TabPane;
 public class LevelEditor extends View {
 
 	private int PASTE_OFFSET = 25;
-
 	private Workspace workspace;
 	private TabPane tabPane;
 	private LayerEditor currentLevel;
@@ -217,6 +216,7 @@ public class LevelEditor extends View {
 					long entityId = addInfo.getEntityId();
 					Entity entity = workspace.getDefaults().getEntity(addInfo.getEntityName()).clone();
 					entity.setZ(addInfo.getZ());
+					entity.setId(entity.generateId());
 					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
 							getCurrentLevel().getCanvas().getTileSize(), x, y);
 					AddDeleteCommand addCommand = new AddDeleteCommand(newEntity, LevelEditor.this, true);
