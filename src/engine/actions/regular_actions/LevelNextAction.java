@@ -13,12 +13,8 @@ public class LevelNextAction extends Action {
 
 	@Override
 	public void act() {
-		try {
-			if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
-				getGameInfo().getTimelineManipulator().startNextLevel();
-			}
-		} catch (ClassCastException e) {
-			System.out.println("Casting error in NextLevelAction");
+		if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
+			getGameInfo().getTimelineManipulator().startNextLevel();
 		}
 	}
 }

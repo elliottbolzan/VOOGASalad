@@ -15,9 +15,9 @@ public abstract class Action extends GameObject implements ActionInterface {
 	 */
 	@Override
 	public abstract void act();
-	
+
 	@Override
-	public GameInfo getGameInfo(){
+	public GameInfo getGameInfo() {
 		return getEntity().getGameInfo();
 	}
 }
