@@ -1,7 +1,6 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
-import engine.entities.Entity;
 import engine.game.LevelManager;
 
 /**
