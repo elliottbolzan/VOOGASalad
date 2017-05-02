@@ -15,8 +15,8 @@ public class RandomMoveAction extends Action {
 	@Override
 	public void act() {
 		if (steps % Screen.FRAME_TIME_MILLISECONDS == 0) {
-			getEntity().setXSpeed(getRandomSign() * Math.random() * (double) getParam("MaxSpeed"));
-			getEntity().setYSpeed(getRandomSign() * Math.random() * (double) getParam("MaxSpeed"));
+			getEntity().setXSpeed(getRandomSign() * Math.random() * (double) getParam(getResource("MaxSpeed")));
+			getEntity().setYSpeed(getRandomSign() * Math.random() * (double) getParam(getResource("MaxSpeed")));
 		}
 		steps++;
 	}
