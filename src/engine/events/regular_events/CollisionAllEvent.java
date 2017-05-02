@@ -43,7 +43,7 @@ public class CollisionAllEvent extends Event {
 		for (Collision collision : getEntity().getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
 			String param1 = ((String) getParam(getResource("Entity1"))).equals(getResource("ThisEntity")) ? getEntity().getId() + "" : (String) getParam(getResource("Entity1"));
 			if (collision.isBetween(param1, (String) getParam(getResource("Entity2")))
-					&& collision.getCollisionSide().equals(this.collisionSide)
+					&& (this.collisionSide == CollisionSide.ALL || this.collisionSide.equals(collision.getCollisionSide()))
 					&& collision.getCollisionDepth() > (double) getParam(getResource("DetectionDepth"))) {
 				return true;
 			}
