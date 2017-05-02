@@ -1,5 +1,7 @@
 package engine.collisions;
 
+import engine.entities.Entity;
+
 /**
  * @author nikita Interface for Collision objects. These are made when a
  *         collision between two entities occurs, or when a user requests a
@@ -18,5 +20,5 @@ public interface CollisionInterface {
 	 * @return whether the names given match the names of the entities in this
 	 *         collision.
 	 */
-	boolean isBetween(String name1, String name2);
+	boolean isBetween(Entity name1, String name2);
 }

@@ -22,7 +22,8 @@ public class KeyPressAndCollisionEvent extends Event {
 
 	public KeyPressAndCollisionEvent() {
 		addParam(new Parameter(getResource("Key"), KeyCode.class, KeyCode.UNDEFINED));
-		addParam(new Parameter(getResource("Entity"), String.class, ""));
+		addParam(new Parameter(getResource("Entity1"), String.class, getResource("ThisEntity")));
+		addParam(new Parameter(getResource("Entity2"), String.class, ""));
 		addParam(new Parameter(getResource("DetectionDepth"), double.class, 0.0));
 		keyPressEvent = new KeyPressEvent();
 		collisionEvent = new CollisionAllEvent();

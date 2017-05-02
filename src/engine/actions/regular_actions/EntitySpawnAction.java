@@ -46,6 +46,10 @@ public class EntitySpawnAction extends Action {
 		newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
 		newEntity.getGameInfo().getObservableBundle().attachEntityToAll(newEntity);
 		newEntity.getGameInfo().getGraphicsEngine().updateView();
+		System.out.println("SpawnEntityAction");
+		System.out.println(newEntity);
+		System.out.println(newEntity.getName());
+		System.out.println(newEntity.getGameInfo());
 	}
 
 	private CollisionSide getCollisionSide(String side) {

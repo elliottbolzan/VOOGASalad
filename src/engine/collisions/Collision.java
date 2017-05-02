@@ -49,7 +49,7 @@ public class Collision implements CollisionInterface {
 	 * @return whether the names given match the names of the entities in this
 	 *         collision.
 	 */
-	public boolean isBetween(String name1, String name2) {
-		return (firstEntity.getName().equals(name1) && secondEntity.getName().equals(name2));
+	public boolean isBetween(Entity name1, String name2) {
+		return (firstEntity == name1 && secondEntity.getName().equals(name2));
 	}
 }

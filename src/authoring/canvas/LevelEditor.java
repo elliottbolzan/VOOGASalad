@@ -207,7 +207,6 @@ public class LevelEditor extends View
 			if (multiInfo.getInfo() != null) {
 				multiInfo.getInfo().forEach(e -> {
 					LevelEditor.this.received(e);
-					System.out.println(e);
 				});
 			}
 		}

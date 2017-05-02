@@ -3,6 +3,7 @@ package engine.events.regular_events;
 import engine.Parameter;
 import engine.collisions.Collision;
 import engine.collisions.CollisionSide;
+import engine.entities.Entity;
 import engine.events.Event;
 
 /**
@@ -16,7 +17,7 @@ public class CollisionAllEvent extends Event {
 	private CollisionSide collisionSide;
 
 	public CollisionAllEvent() {
-		addParam(new Parameter(getResource("Entity1"), String.class, getResource("ThisEntity")));
+		//addParam(new Parameter(getResource("Entity1"), String.class, getResource("ThisEntity")));
 		addParam(new Parameter(getResource("Entity2"), String.class, ""));
 		addParam(new Parameter(getResource("DetectionDepth"), double.class, 0.0));
 
@@ -41,9 +42,17 @@ public class CollisionAllEvent extends Event {
 	 */
 	@Override
 	public boolean act() {
-		for (Collision collision : getGameInfo().getObservableBundle().getCollisionObservable().getCollisions()) {
-			String param1 = ((String) getParam("Entity 1")).equals(getResource("ThisEntity")) ? getEntity().getName() : (String) getParam("Entity 1");
-			if (collision.isBetween(param1, (String) getParam("Entity 2"))
+		if(getEntity().getName().equals("Coin")){
+		System.out.println("===============================================");
+		System.out.println(getEntity());
+		System.out.println(getEntity().getName());
+		System.out.println(getGameInfo());
+		}
+		for (Collision collision : getGameInfo().
+				getObservableBundle().
+				getCollisionObservable().
+				getCollisions()) {
+			if (collision.isBetween(getEntity(),(String)getParam(getResource("Entity2")))
 					&& collision.getCollisionSide().equals(this.collisionSide)
 					&& collision.getCollisionDepth() > (double) getParam(getResource("DetectionDepth"))) {
 				return true;
