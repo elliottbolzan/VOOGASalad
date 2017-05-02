@@ -25,6 +25,8 @@ public class FaceTowardsAction extends Action {
 
 	@Override
 	public void act() {
+		if (getParameterEntity(getResource("TrackedEntity")) == null)
+			return;
 		if ((boolean) getParam(getResource("TrackHorizontal")) && (boolean) getParam(getResource("TrackVertical"))) {
 			double xComponent = getParameterEntity(getResource("TrackedEntity")).getX() - getEntity().getX();
 			double yComponent = getParameterEntity(getResource("TrackedEntity")).getY() - getEntity().getY();

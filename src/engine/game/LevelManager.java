@@ -47,8 +47,7 @@ public class LevelManager {
 		this.levelSelectionScreenMode = true;
 		this.scorebar = scorebar;
 	}
-	
-	// TODO Call from GAE with small checkbox, or similar
+
 	public boolean getLevelSelectionScreenMode() {
 		return levelSelectionScreenMode;
 	}
