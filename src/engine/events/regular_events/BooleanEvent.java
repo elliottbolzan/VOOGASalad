@@ -3,6 +3,7 @@ package engine.events.regular_events;
 import boolean_parser.BooleanParser;
 import engine.Parameter;
 import engine.events.Event;
+import utils.math.IntChecker;
 
 /**
  * Evaluate a expression of booleans to react to complicated combinations of
@@ -12,10 +13,12 @@ import engine.events.Event;
  */
 public class BooleanEvent extends Event {
 	private BooleanParser parser;
+	private IntChecker checker;
 
 	public BooleanEvent() {
 		addParam(new Parameter(getResource("Expression"), String.class, ""));
 		parser = new BooleanParser();
+		checker = new IntChecker();
 	}
 
 	@Override
@@ -23,20 +26,11 @@ public class BooleanEvent extends Event {
 		String[] expression = ((String) getParam(getResource("Expression"))).split("\\s+");
 		String result = "";
 		for (String str : expression) {
-			if (isInt(str))
+			if (checker.check(str))
 				result += String.valueOf(getEntity().getEventById(Integer.parseInt(str)).isTriggered(true)) + " ";
 			else
 				result += str + " ";
 		}
 		return parser.parse(result);
-	}
-
-	private boolean isInt(String expr) {
-		try {
-			Integer.parseInt(expr);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
 	}
 }

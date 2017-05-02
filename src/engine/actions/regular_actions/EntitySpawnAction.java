@@ -43,6 +43,7 @@ public class EntitySpawnAction extends Action {
 		}
 		placeEntity(getEntity(), newEntity);
 		newEntity.setZ(getEntity().getZ());
+		newEntity.setId(newEntity.generateId());
 		newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
 		newEntity.getGameInfo().getObservableBundle().attachEntityToAll(newEntity);
 		newEntity.getGameInfo().getGraphicsEngine().updateView();
