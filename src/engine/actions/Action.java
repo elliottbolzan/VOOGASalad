@@ -1,5 +1,6 @@
 package engine.actions;
 
+import engine.GameInfo;
 import engine.GameObject;
 
 /**
@@ -14,4 +15,9 @@ public abstract class Action extends GameObject implements ActionInterface {
 	 */
 	@Override
 	public abstract void act();
+	
+	@Override
+	public GameInfo getGameInfo(){
+		return getEntity().getGameInfo();
+	}
 }

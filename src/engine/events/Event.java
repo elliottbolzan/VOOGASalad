@@ -3,6 +3,7 @@ package engine.events;
 import java.util.ArrayList;
 import java.util.List;
 
+import engine.GameInfo;
 import engine.GameObject;
 import engine.Parameter;
 import engine.actions.Action;
@@ -82,7 +83,7 @@ public abstract class Event extends GameObject implements EventInterface {
 			return true;
 		else {
 			try {
-				return Integer.parseInt((String) getParam(getResource("HowManyTimesToTrigger"))) > timesTriggered;
+				return Integer.parseInt((String) getParam(getResource("HowManyTimesToTrigger"))) >= timesTriggered;
 			} catch (Exception e) {
 				return true;
 			}
@@ -100,4 +101,8 @@ public abstract class Event extends GameObject implements EventInterface {
 		return timesEventHasOccurred;
 	}
 
+	@Override
+	public GameInfo getGameInfo() {
+		return getEntity().getGameInfo();
+	}
 }
