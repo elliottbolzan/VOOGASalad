@@ -128,8 +128,8 @@ public class DefaultEntities {
 	 * Update the Canvas when a default Entity is updated.
 	 * @param entity the Entity that was updated.
 	 */
-	public void updateCanvas(Entity entity) {
-		workspace.updateEntity(entity);
+	public void updateCanvas(Entity entity, String oldName) {
+		workspace.updateEntity(entity, oldName);
 	}
 
 }

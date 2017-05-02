@@ -54,10 +54,10 @@ public class EntityDisplay extends EditableContainer {
 	 * @param entity
 	 *            the Entity to be added.
 	 */
-	public void addEntity(Entity entity) {
+	public void addEntity(Entity entity, String oldName) {
 		if (getCurrentlyEditing() != null) {
 			getWorkspace().getDefaults().remove((Entity) getCurrentlyEditing());
-			getWorkspace().updateEntity(entity);
+			getWorkspace().updateEntity(entity, oldName);
 		}
 		getWorkspace().getDefaults().add(entity);
 
@@ -71,7 +71,7 @@ public class EntityDisplay extends EditableContainer {
 				// getWorkspace().received(entityListInfo);
 			}
 		}
-		getWorkspace().updateEntity(entity);
+		getWorkspace().updateEntity(entity, oldName);
 	}
 
 	/*

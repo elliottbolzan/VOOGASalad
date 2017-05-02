@@ -37,6 +37,8 @@ public class EntityMaker extends View {
 	private ActionPicker actionPicker;
 
 	private Event selectedEvent;
+	
+	private String oldName;
 
 	/**
 	 * Creates an EntityMaker.
@@ -55,6 +57,7 @@ public class EntityMaker extends View {
 		if (entity == null) {
 			entity = engine.getDefaultEntity();
 		}
+		this.oldName = entity.getName();
 		setupView(entity);
 		setupStage();
 	}
@@ -146,7 +149,7 @@ public class EntityMaker extends View {
 		getEntity().imagePathProperty().set(entityInfo.getImagePath());
 		getEntity().widthProperty().set(entityInfo.getImageWidth());
 		getEntity().heightProperty().set(entityInfo.getImageHeight());
-		display.addEntity(getEntity());
+		display.addEntity(getEntity(), oldName);
 		dismiss();
 	}
 
