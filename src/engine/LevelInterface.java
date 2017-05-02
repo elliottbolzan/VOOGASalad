@@ -14,13 +14,14 @@ public interface LevelInterface {
 	 * 
 	 * @return a collection of all entities in the level
 	 */
-	Collection<Entity> getEntities(); // needed for gameplay
+	Collection<Entity> getEntities();
 
 	/**
 	 * add an entity to this level
 	 * 
 	 * @param entity
 	 *            the entity to be added
-	 */	void addEntity(Entity entity); // needed for authoring
+	 */
+	void addEntity(Entity entity);
 
 }

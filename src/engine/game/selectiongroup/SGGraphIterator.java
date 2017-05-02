@@ -6,11 +6,12 @@ package engine.game.selectiongroup;
  *
  * @param <T>
  */
-public class SGGraphIterator<T> implements SGIterator<T>{
+public class SGGraphIterator<T> implements SGIterator<T> {
 
 	public SGGraphIterator() {
 		// TODO Auto-generated constructor stub
-		//Should have argument allowing access to first node of graph, or the edge list/adjacency matrix
+		// Should have argument allowing access to first node of graph, or the
+		// edge list/adjacency matrix
 	}
 
 	@Override

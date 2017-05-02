@@ -12,10 +12,11 @@ import engine.entities.entities.CharacterEntity;
 import engine.events.Event;
 
 /**
- * @author nikita This class is used for communication between game engine and
- *         the authoring environment. This class is also used when loading
- *         entities from the XML file, in order to create entities in a robust
- *         way.
+ * This class is used for communication between game engine and the authoring
+ * environment. This class is also used when loading entities from the XML file,
+ * in order to create entities in a robust way.
+ * 
+ * @author nikita
  */
 public class EngineController {
 	private ClassFinder finder;
@@ -55,10 +56,31 @@ public class EngineController {
 		return new CharacterEntity();
 	}
 
+	/**
+	 * Create an entity with the given class name. Throws an exception when the
+	 * class is not found.
+	 * 
+	 * @param entity
+	 *            the name of the class of the entity to be created
+	 * @return the requested entity
+	 * @throws Exception
+	 *             if the entity could not be created
+	 * 
+	 */
 	public Entity createEntity(String entity) throws Exception {
 		return (Entity) getInstance("engine.entities.entities." + getClassName(entity));
 	}
 
+	/**
+	 * Create an event with the given class name. Throws an exception when the
+	 * class is not found.
+	 * 
+	 * @param event
+	 *            the name of the class of the event to be created
+	 * @return the requested event
+	 * @throws Exception
+	 *             if the event could not be created
+	 */
 	public Event createEvent(String event) throws Exception {
 		Event ret;
 		try {
@@ -69,6 +91,16 @@ public class EngineController {
 		return ret;
 	}
 
+	/**
+	 * Create an action with the given class name. Throws an exception when the
+	 * class is not found.
+	 * 
+	 * @param action
+	 *            the name of the class of the event to be created
+	 * @return the requested action
+	 * @throws Exception
+	 *             if the action could not be created
+	 */
 	public Action createAction(String action) throws Exception {
 		Action ret = null;
 		try {

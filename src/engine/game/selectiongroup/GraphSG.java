@@ -30,25 +30,25 @@ public class GraphSG<T extends Selectable> implements SelectionGroup<T> {
 	@Override
 	public void add(T element) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void add(int index, T element) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void set(int index, T element) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void remove(int index) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -66,13 +66,13 @@ public class GraphSG<T extends Selectable> implements SelectionGroup<T> {
 	@Override
 	public void addAll(Collection<T> collection) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void removeAll() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

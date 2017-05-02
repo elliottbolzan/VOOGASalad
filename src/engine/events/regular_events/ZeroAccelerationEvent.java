@@ -25,5 +25,4 @@ public class ZeroAccelerationEvent extends Event {
 						&& (boolean) getParam(getResource("TrackXAcceleration"))
 						&& getEntity().getXAcceleration() == 0);
 	}
-
 }

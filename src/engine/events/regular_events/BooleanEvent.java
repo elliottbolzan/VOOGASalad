@@ -7,7 +7,7 @@ import utils.math.IntChecker;
 
 /**
  * Evaluate a expression of booleans to react to complicated combinations of
- * expressions
+ * expressions. Uses the BooleanParser developed by Elliott and me
  * 
  * @author nikita
  */

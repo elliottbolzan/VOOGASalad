@@ -4,8 +4,8 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
 /**
- * TransitionStepStrategy for when the hero wins the level and needs
- * to progress to the next unlocked level via a LevelNextAction.
+ * TransitionStepStrategy for when the hero wins the level and needs to progress
+ * to the next unlocked level via a LevelNextAction.
  * 
  * @author Matthew Barbano
  *
@@ -28,8 +28,9 @@ public class NextLevelStepStrategy extends TransitionStepStrategy {
 
 	@Override
 	protected boolean handleHighscore(GraphicsEngine graphicsEngine) {
-		boolean handled = levelManager.getLevelNumber() == levelManager.getLevels().size() && graphicsEngine.getScorebar().isHighscore();
-		if(handled){
+		boolean handled = levelManager.getLevelNumber() == levelManager.getLevels().size()
+				&& graphicsEngine.getScorebar().isHighscore();
+		if (handled) {
 			graphicsEngine.endGame();
 		}
 		return handled;
@@ -39,7 +40,7 @@ public class NextLevelStepStrategy extends TransitionStepStrategy {
 	protected void modifyUnlockedScreens() {
 		levelManager.addUnlockedLevel(levelManager.getLevelNumber() + 1);
 	}
-	
+
 	@Override
 	protected StepStrategy nextStrategyLevelSelectionMode() {
 		return new LevelSelectionStepStrategy(false);

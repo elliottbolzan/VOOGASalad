@@ -18,6 +18,20 @@ public class Collision implements CollisionInterface {
 	private double collisionDepth;
 	private IntChecker checker;
 
+	/**
+	 * Create a new Collision.
+	 * 
+	 * @param one
+	 *            the first entity participating in the collision
+	 * @param two
+	 *            the second entity participating in the collision
+	 * @param side
+	 *            the side the collision is taking place on from the perspective
+	 *            of the first entity
+	 * @param depth
+	 *            the amount of pixels which the entities are allowed to overlap
+	 *            before a collision happens
+	 */
 	public Collision(Entity one, Entity two, CollisionSide side, double depth) {
 		firstEntity = one;
 		secondEntity = two;

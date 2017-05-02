@@ -20,5 +20,4 @@ public class YMinEvent extends Event {
 	public boolean act() {
 		return getEntity().getY() <= (Double) getParam(getResource("MinimumY"));
 	}
-
 }

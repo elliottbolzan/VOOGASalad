@@ -9,9 +9,9 @@ import java.util.List;
  *
  * @param <T>
  */
-public class SGListIterator<T> implements SGIterator<T>{
+public class SGListIterator<T> implements SGIterator<T> {
 	private Iterator<T> listIterator;
-	
+
 	public SGListIterator(List<T> list) {
 		listIterator = list.listIterator();
 	}

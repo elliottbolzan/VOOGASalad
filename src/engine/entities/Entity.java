@@ -31,6 +31,10 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	private List<Event> events;
 	private List<Class<?>> additionalEventClasses, additionalActionClasses;
 
+	/**
+	 * Create a new entity, initializing all instance variables and relevant
+	 * parameters to this specific entity.
+	 */
 	public Entity() {
 		x = new SimpleDoubleProperty(0);
 		y = new SimpleDoubleProperty(0);
@@ -46,8 +50,15 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.setupDefaultParameters();
 	}
 
+	/**
+	 * Setup the default parameters that this entity has. Different for
+	 * different kinds of entities
+	 */
 	protected abstract void setupDefaultParameters();
 
+	/**
+	 * Default setup for entities. Used by characters and blocks and others.
+	 */
 	protected void defaultSetup() {
 		addParam(new Parameter(getResource("XSpeed"), double.class, 0.0));
 		addParam(new Parameter(getResource("YSpeed"), double.class, 0.0));
@@ -69,6 +80,9 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		eventsToTrigger.forEach(event -> event.trigger());
 	}
 
+	/**
+	 * Move this entity according to its speed and acceleration.
+	 */
 	protected void move() {
 		setX(getX() + getXSpeed() * TIME_STEP);
 		setY(getY() + getYSpeed() * TIME_STEP);
@@ -361,7 +375,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	public void addEntityToCanvas(Canvas canvas, LayerEditor editor, EntityView addedEntityView, int z) {
-		// Do nothing (Null Object Design Pattern)
 	}
 
 	public Event getEventById(int id) {

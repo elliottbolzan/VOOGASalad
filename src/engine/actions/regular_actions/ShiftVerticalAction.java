@@ -20,5 +20,4 @@ public class ShiftVerticalAction extends Action {
 	public void act() {
 		getEntity().setY(getEntity().getY() + (Double) getParam(getResource("MoveAmount")));
 	}
-
 }

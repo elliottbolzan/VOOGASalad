@@ -12,9 +12,9 @@ public interface CollisionInterface {
 	 * names
 	 * 
 	 * @param name1
-	 *            name of the first entity colliding
+	 *            name or id of the first entity colliding
 	 * @param name2
-	 *            name of the second entity colliding
+	 *            name or id of the second entity colliding
 	 * @return whether the names given match the names of the entities in this
 	 *         collision.
 	 */
