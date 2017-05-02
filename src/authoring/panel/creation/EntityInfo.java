@@ -90,7 +90,7 @@ public class EntityInfo extends View {
 		double imageWidth = getImage().getWidth();
 		double currentWidth = editor.getEntity().widthProperty().get();
 		double width = currentWidth == 0 ? imageWidth : currentWidth;
-		widthSlider = new Slider(10, imageWidth, width);
+		widthSlider = new Slider(10, imageWidth * 2, width);
 		VBox widthBox = createSliderBox("WidthSliderTitle", widthSlider);
 
 		link = new ToggleButton();
@@ -101,7 +101,7 @@ public class EntityInfo extends View {
 		double imageHeight = getImage().getHeight();
 		double currentHeight = editor.getEntity().heightProperty().get();
 		double height = currentHeight == 0 ? imageHeight : currentHeight;
-		heightSlider = new Slider(10, imageHeight, height);
+		heightSlider = new Slider(10, imageHeight * 2, height);
 		VBox heightBox = createSliderBox("HeightSliderTitle", heightSlider);
 
 		setupSliderProperties();
