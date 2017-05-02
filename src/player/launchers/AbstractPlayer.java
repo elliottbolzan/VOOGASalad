@@ -96,10 +96,6 @@ public abstract class AbstractPlayer extends PlayerView {
 		stage.maxWidthProperty().bind(width);
 		stage.maxHeightProperty().bind(height);
 	}
-	
-	public void showRuntimeError(String message) {
-		this.getFactory().makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).show();;
-	}
 
 	protected void exit() {
 		gameLoop.pauseTimeline();
