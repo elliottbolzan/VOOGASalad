@@ -73,6 +73,8 @@ public abstract class Event extends GameObject implements EventInterface {
 				&& timesEventHasOccurred.get() % (int) getParam(getResource("HowOftenToTrigger")) == 0
 				&& lessThanMaxTimes());
 		if (ret)
+			System.out.println("Triggered: " + this);
+		if (ret)
 			timesTriggered++;
 		return ret;
 	}

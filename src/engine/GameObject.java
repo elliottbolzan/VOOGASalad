@@ -26,8 +26,12 @@ public abstract class GameObject {
 	public GameObject() {
 		setUpResources();
 		params = new ArrayList<Parameter>();
+		id = generateId();
 	}
-
+	
+	public int generateId() {
+		return (int)(Math.random() * 10000);
+	}
 	public Object readResolve() {
 		setUpResources();
 		return this;
