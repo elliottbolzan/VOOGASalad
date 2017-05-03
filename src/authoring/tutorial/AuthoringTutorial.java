@@ -127,6 +127,7 @@ public class AuthoringTutorial extends View {
 		}
 	}
 
+
 	private void createMonster() {
 		label.textProperty().bind(workspace.getPolyglot().get("EleventhStep"));
 		workspace.getPanel().getEntityDisplay().getEntityMaker().changeImageHandler(() -> changedMonsterImage());
@@ -139,7 +140,7 @@ public class AuthoringTutorial extends View {
 								() -> addedCollision("FourteenthStep", () -> savedEvent("FifteenthStep", () -> addedAction("SixteenthStep",
 									workspace.getPolyglot().get("SecondAction").get(), () -> afterAction("SeventeenthStep",
 										() -> savedAction("EighteenthStep",()->savedCharacter("NinteenthStep",()->canvasCharacter("TwentiethStep",()->savedAction("TwentyFirstStep",
-													()->savedCharacter("TwentySecondStep",()->canvasCharacter("TwentyThirdStep",null,false))),false)))))))));
+													()->savedCharacter("TwentySecondStep",()->label.textProperty().bind(workspace.getPolyglot().get("TwentyThirdStep")))),false)))))))));
 	}
 
 	private void addedCollision(String s, Runnable r) {
