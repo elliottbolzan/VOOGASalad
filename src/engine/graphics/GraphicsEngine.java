@@ -244,8 +244,7 @@ public class GraphicsEngine {
 		node.xProperty().bind(entity.xProperty());
 		node.yProperty().bind(entity.yProperty());
 		node.rotateProperty().bind(entity.rotateProperty());
-		node.setTranslateZ(entity.getZ());
-		//node.tranzlateZProperty(entity.zProperty());
+		node.translateZProperty().bind(entity.zProperty());
 		node.visibleProperty().bind(entity.isVisibleProperty());
 		entity.imagePathProperty().addListener((observer, oldPath, newPath) -> {
 			node.setImage(new Image(newPath));

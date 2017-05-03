@@ -397,4 +397,8 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	public SimpleDoubleProperty rotateProperty() {
 		return rotateProperty;
 	}
+
+	public SimpleDoubleProperty zProperty() {
+		return zIndex;
+	}
 }
