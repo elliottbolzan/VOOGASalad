@@ -43,7 +43,6 @@ import utils.views.View;
  * 
  */
 public class Workspace extends View {
-
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
