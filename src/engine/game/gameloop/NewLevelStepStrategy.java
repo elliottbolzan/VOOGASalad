@@ -4,6 +4,8 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
 /**
+ * TransitionStepStrategy for when the hero wins the level and needs
+ * to progress to the next unlocked level via a LevelSwitchAction.
  * 
  * @author Matthew Barbano
  *

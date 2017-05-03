@@ -35,11 +35,13 @@ import utils.views.View;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
+ * 
+ * A class that creates default GUI components. Currently, the class can create
+ * the following items: file choosers, directory choosers, text input dialogs,
+ * alerts, accordions, buttons, and tab buttons.
+ * 
  * @author Elliott Bolzan
  *
- *         A class that creates default GUI components. Currently, the class can
- *         create the following items: file choosers, directory choosers, text
- *         input dialogs, alerts, accordions, buttons, and tab buttons.
  */
 public class ComponentMaker {
 
@@ -51,7 +53,9 @@ public class ComponentMaker {
 	/**
 	 * Returns a Factory.
 	 * 
-	 * @param resources
+	 * @param polyglot
+	 *            the polyglot for this ComponentMaker.
+	 * @param IOresources
 	 *            the ResourceBundle that the Factory makes use of.
 	 */
 	public ComponentMaker(Polyglot polyglot, ResourceBundle IOResources) {
@@ -128,12 +132,32 @@ public class ComponentMaker {
 		return alert;
 	}
 
+	/**
+	 * @param type
+	 *            the type of Alert that needs to be created.
+	 * @param titleProperty
+	 *            the property that provides the title for the Alert.
+	 * @param headerProperty
+	 *            the property that provides the header for the Alert.
+	 * @param content
+	 *            a StringBinding that provides the content for the Alert.
+	 * @return the Alert.
+	 */
 	public Alert makeAlert(AlertType type, String titleProperty, String headerProperty, StringBinding content) {
 		Alert alert = alertHelper(type, titleProperty, headerProperty);
 		alert.contentTextProperty().bind(content);
 		return alert;
 	}
 
+	/**
+	 * @param type
+	 *            the type of Alert that needs to be created.
+	 * @param titleProperty
+	 *            the property that provides the title for the Alert.
+	 * @param headerProperty
+	 *            the property that provides the header for the Alert.
+	 * @return the Alert.
+	 */
 	private Alert alertHelper(AlertType type, String titleProperty, String headerProperty) {
 		Alert alert = new Alert(type);
 		alert.titleProperty().bind(polyglot.get(titleProperty, Case.TITLE));
@@ -146,8 +170,8 @@ public class ComponentMaker {
 	/**
 	 * @param subviews
 	 *            the subviews that are to be added to the Accordion.
-	 * @param subviewTitles
-	 *            the titles of the subviews that are added to the Accordion.
+	 * @param nameList
+	 *            the tooltip values for these panels.
 	 * @return an Accordion.
 	 */
 	public Accordion makeAccordion(List<View> subviews, List<StringBinding> nameList) {
@@ -231,6 +255,24 @@ public class ComponentMaker {
 		return button;
 	}
 
+	/**
+	 * 
+	 * Displays a View as a Stage.
+	 * 
+	 * @param titleProperty
+	 *            the title for the Stage.
+	 * @param width
+	 *            the width for the Stage.
+	 * @param height
+	 *            the height for the Stage.
+	 * @param view
+	 *            the view to show.
+	 * @param modality
+	 *            the Modality for the Stage.
+	 * @param center
+	 *            whether the Stage is centered.
+	 * @return
+	 */
 	public Stage display(String titleProperty, double width, double height, View view, Modality modality,
 			boolean center) {
 		Stage stage = new Stage();
@@ -240,19 +282,37 @@ public class ComponentMaker {
 		scene.getStylesheets().add(stylesheetPath);
 		stage.setScene(scene);
 		stage.show();
-        scene.setFill(null);
+		scene.setFill(null);
 		if (center) {
 			stage.centerOnScreen();
 		}
 		return stage;
 	}
 
+	/**
+	 * Creates a menu.
+	 * 
+	 * @param titleProperty
+	 *            the title for the Menu.
+	 * @return a Menu.
+	 */
 	public Menu makeMenu(String titleProperty) {
 		Menu menu = new Menu();
 		menu.textProperty().bind(polyglot.get(titleProperty, Case.TITLE));
 		return menu;
 	}
 
+	/**
+	 * Makes a menu item.
+	 * 
+	 * @param property
+	 *            the value of the text.
+	 * @param handler
+	 *            the handler to be called on click.
+	 * @param showAccelerator
+	 *            whether a key combination should be showed.
+	 * @return a MenuItem.
+	 */
 	public MenuItem makeMenuItem(String property, EventHandler<ActionEvent> handler, boolean showAccelerator) {
 		if (showAccelerator) {
 			return new TextMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), combinations.getString(property),
@@ -261,6 +321,17 @@ public class ComponentMaker {
 		return new TextMenuItem(polyglot.get(property + "MenuItem", Case.TITLE), handler);
 	}
 
+	/**
+	 * Makes a check menu item.
+	 * 
+	 * @param property
+	 *            the value of the text.
+	 * @param handler
+	 *            the handler to be called on click.
+	 * @param selected
+	 *            whether the MenuItem is selected by default.
+	 * @return a CheckMenuItem.
+	 */
 	public CheckMenuItem makeCheckItem(String property, EventHandler<ActionEvent> handler, boolean selected) {
 		CheckMenuItem item = new CheckMenuItem();
 		item.setOnAction(handler);
@@ -269,6 +340,16 @@ public class ComponentMaker {
 		return item;
 	}
 
+	/**
+	 * 
+	 * Thread an operation and show a ProgressDialog to the user.
+	 * 
+	 * @param task
+	 *            the task to be run.
+	 * @param showResult
+	 *            whether the result should be shown.
+	 * 
+	 */
 	public void showProgressForTask(Task<Void> task, boolean showResult) {
 		ProgressDialog dialog = new ProgressDialog(polyglot, IOResources);
 		task.setOnSucceeded(event -> {
@@ -287,11 +368,17 @@ public class ComponentMaker {
 		thread.start();
 	}
 
+	/**
+	 * Show an Alert for successful tasks.
+	 */
 	public void showSuccess() {
 		Alert alert = makeAlert(AlertType.INFORMATION, "SuccessTitle", "SuccessHeader", polyglot.get("TaskSucceeded"));
 		alert.show();
 	}
 
+	/**
+	 * Show an Alert for failed tasks.
+	 */
 	public void showFailure() {
 		Alert alert = makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", polyglot.get("TaskFailed"));
 		alert.show();

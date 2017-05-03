@@ -8,13 +8,13 @@ import poster.FacebookPoster;
 import poster.FacebookResponse;
 
 /**
- * @author nikita.
  * 
- *         Action that posts on Facebook. Uses the FacebookPoster utility
- *         submitted by myself to achieve the task.
+ * Action that posts on Facebook. Uses the FacebookPoster utility submitted by
+ * myself to achieve the task.
+ * 
+ * @author nikita.
  */
 public class FacebookPostMessageAction extends Action {
-	
 	private FacebookPoster poster;
 
 	public FacebookPostMessageAction() {
@@ -23,7 +23,7 @@ public class FacebookPostMessageAction extends Action {
 
 	/**
 	 * Post a message on Facebook. Show an alert showing success or failure of
-	 * the post.
+	 * the post. 
 	 */
 	@Override
 	public void act() {
@@ -35,7 +35,7 @@ public class FacebookPostMessageAction extends Action {
 			public void doResponse(boolean condition) {
 				Alert alert = new Alert(AlertType.INFORMATION,
 						condition ? getResource("FacebookSuccessString") : getResource("FacebookFailString"));
-				alert.setTitle(condition ? getResource("FacebookSuccessTitle"): getResource("ErrorTitle"));
+				alert.setTitle(condition ? getResource("FacebookSuccessTitle") : getResource("ErrorTitle"));
 				alert.setHeaderText(condition ? getResource("FacebookSuccessHeader") : getResource("ErrorHeader"));
 				alert.setOnHidden(e -> getGameInfo().getTimelineManipulator().start());
 				alert.show();

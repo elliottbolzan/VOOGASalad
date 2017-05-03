@@ -8,7 +8,6 @@ import javafx.scene.input.MouseButton;
  * Responds to a left click of the mouse (press and release) on the Entity it is
  * attached to.
  * 
- * 
  * @author Matthew Barbano
  *
  */

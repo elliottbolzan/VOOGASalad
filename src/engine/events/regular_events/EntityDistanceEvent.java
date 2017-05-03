@@ -25,6 +25,8 @@ public class EntityDistanceEvent extends Event {
 			if (((String) getParam(getResource("Entity"))).equals(entity.getName())) {
 				if (distanceBetween(getEntity(), entity) < (Double) getParam(getResource("Distance"))) {
 					return (boolean) getParam(getResource("LessThan"));
+				} else {
+					return !((boolean) getParam(getResource("LessThan")));
 				}
 			}
 		}

@@ -8,27 +8,22 @@ import engine.game.gameloop.TimelineManipulator;
 import engine.graphics.GraphicsEngine;
 
 /**
- * @author nikita matt
  * 
- *         This class is used to convey information about the current status of
- *         the game from things that monitor the status of the game (collision
- *         detection, timer, input detection, etc), to things that observe that
- *         status (actions, events, etc).
+ * This class is used to convey information about the current status of the game
+ * from things that monitor the status of the game (collision detection, timer,
+ * input detection, etc), to things that observe that status (actions, events,
+ * etc).
+ * 
+ * @author nikita matt
  */
 public class GameInfo {
-	private ObservableBundle bundle; // immutable/no setter (same for whole
-										// game)
-	private Scorebar scorebar; // immutable/no setter (same for whole game)
+	private ObservableBundle bundle;
+	private Scorebar scorebar;
 	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
-
-	/**
-	 * True if entities have never been updated in current game. Once updated
-	 * for first time, false for rest of game.
-	 */
 	private boolean entitiesNeverUpdated;
-	
+
 	public GameInfo(GameLoop gameLoop) {
 		this.bundle = gameLoop.getObservableBundle();
 		this.scorebar = gameLoop.getScorebar();
@@ -65,16 +60,4 @@ public class GameInfo {
 	public GraphicsEngine getGraphicsEngine() {
 		return graphicsEngine;
 	}
-
-	/*
-	 * NOTE TO OTHER PROGRAMMERS: Call this in LevelStepStrategy right before
-	 * act(). Replaces any "setters"; if need to set a field in GameInfo, add it
-	 * here. Currently empty because all fields in GameInfo are currently
-	 * immutable (set only one through constructor.
-	 */
-	/*
-	 * public void updateFieldsBeforeAct(LevelStepStrategy levelStepStrategy){
-	 * 
-	 * }
-	 */
 }

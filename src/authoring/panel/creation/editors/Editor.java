@@ -1,6 +1,7 @@
 package authoring.panel.creation.editors;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import authoring.Workspace;
@@ -63,6 +64,7 @@ public abstract class Editor extends View {
 	public Editor(Workspace workspace, List<String> elements, GameObject object, boolean showSave) {
 		this.workspace = workspace;
 		this.elements = elements;
+		Collections.sort(this.elements);
 		this.showSave = showSave;
 		setupView(object);
 		if (object != null)

@@ -29,10 +29,10 @@ public class Unpackager {
 		ZipEntry ze = zis.getNextEntry();
 		while (ze != null) {
 			String fileName = ze.getName();
+			int len;
 			File newFile = new File(outputFolder + File.separator + fileName);
 			new File(newFile.getParent()).mkdirs();
 			FileOutputStream fos = new FileOutputStream(newFile);
-			int len;
 			while ((len = zis.read(buffer)) > 0) {
 				fos.write(buffer, 0, len);
 			}

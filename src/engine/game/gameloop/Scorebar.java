@@ -1,7 +1,6 @@
 package engine.game.gameloop;
 
 import data.Game;
-import engine.entities.Entity;
 import engine.entities.entities.CharacterEntity;
 import engine.game.LevelManager;
 import engine.game.timer.TimerManager;
@@ -14,7 +13,6 @@ import engine.game.timer.TimerManager;
  *
  */
 public class Scorebar {
-
 	private LevelManager levelManager;
 	private TimerManager timerManager;
 	private int score;
@@ -30,15 +28,10 @@ public class Scorebar {
 	}
 
 	public void setupLives(LevelManager levelManager, boolean firstTimeLoading) {
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			if (entity instanceof CharacterEntity) {
-				initialLives = entity.getLives();
-			}
-		}
-		if (firstTimeLoading) {
-			lives = initialLives; // For loading saved game, setLives() is
-									// called.
-		}
+		levelManager.getCurrentLevel().getEntities().stream().filter(s -> s instanceof CharacterEntity)
+				.forEach(s -> initialLives = s.getLives());
+		if (firstTimeLoading)
+			lives = initialLives;
 	}
 
 	public int getLives() {
@@ -99,10 +92,6 @@ public class Scorebar {
 	}
 
 	public void saveFinalScore(String name) {
-		// TODO : game data
-		// game.getHighScores();
-		// check if this score should be added
-		// game.setHighScores();
 		game.setHighscores(getScore(), getTime(), getTimeValue(), name);
 	}
 

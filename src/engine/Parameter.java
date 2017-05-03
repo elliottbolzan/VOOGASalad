@@ -13,13 +13,9 @@ public class Parameter {
 	private Class<?> clazz;
 	private Object obj;
 
-	public Parameter(String name, Class<?> clazz) {
+	public Parameter(String name, Class<?> clazz, Object def) {
 		this.name = name;
 		this.clazz = clazz;
-	}
-
-	public Parameter(String name, Class<?> clazz, Object def) {
-		this(name, clazz);
 		this.obj = def;
 	}
 

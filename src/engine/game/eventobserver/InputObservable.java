@@ -8,6 +8,7 @@ import javafx.scene.input.MouseButton;
 
 /**
  * Part of the Observable Design Pattern for detecting and responding to Events.
+ * Handles both keyboard and mouse input.
  * 
  * @author Matthew Barbano
  *
@@ -23,7 +24,15 @@ public class InputObservable extends EventObservable {
 	private boolean keyReleaseToProcess;
 	private boolean mouseClickToProcess;
 	private boolean firstTime = true;
-
+	
+	/**
+	 * Instatiates a new InputObservable by initializing observers to an empty ArrayList,
+	 * the "lastPressed" fields to null, the "toProcess" fields to false, and the gameScene
+	 * and graphicsEngine fields to those in the provided parameters.
+	 * 
+	 * @param gameScene
+	 * @param graphicsEngine
+	 */
 	public InputObservable(Scene gameScene, GraphicsEngine graphicsEngine) {
 		super();
 		lastPressedKey = null;
@@ -35,46 +44,66 @@ public class InputObservable extends EventObservable {
 		this.gameScene = gameScene;
 		this.graphicsEngine = graphicsEngine;
 	}
-
-	// For Nikita to call in InputEvent's act()
+	
+	/**
+	 * @return keyPressToProcess
+	 */
 	public boolean isKeyPressToProcess() {
 		return keyPressToProcess;
 	}
-
+	
+	/**
+	 * @return keyReleaseToProcess
+	 */
 	public boolean isKeyReleaseToProcess() {
 		return keyReleaseToProcess;
 	}
-
+	
+	/**
+	 * @return mouseClickToProcess and not the first time clicked
+	 */
 	public boolean isMouseClickToProcess() {
 		boolean temp = firstTime;
 		firstTime = false;
 		return !temp && mouseClickToProcess;
 	}
-
-	// For Nikita to call in InputEvent's act() - for key input
+	
+	/**
+	 * @return lastPressedKey
+	 */
 	public KeyCode getLastPressedKey() {
 		return lastPressedKey;
 	}
-
-	// For Nikita to call in InputEvent's act() - for mouse input
+	
+	/**
+	 * @return lastPressedCoordinates, the coordinates relative to the graphicsEngine.getView()
+	 * where the mouse was last clicked
+	 */
 	public Point2D getLastPressedCoordinates() {
 		return lastPressedCoordinates;
 	}
-
-	// For Nikita to call in InputEvent's act() - for mouse input - see JavaFX's
-	// MouseButton documentation for how to use
+	
+	/**
+	 * @return lastPressedMouseButton
+	 */
 	public MouseButton getLastPressedMouseButton() {
 		return lastPressedMouseButton;
 	}
-
-	// Matthew calls this from game loop (at end, AFTER update Entities/act
-	// Events)
+	
+	/**
+	 * Sets all the "toProcess" boolean variables to "state".
+	 * @param state
+	 */
 	public void setInputToProcess(boolean state) {
 		keyPressToProcess = state;
 		keyReleaseToProcess = state;
 		mouseClickToProcess = state;
 	}
-
+	
+	/**
+	 * Uses scene's setOnKeyPressed(), setOnKeyReleased(), and setOnMouseClicked()
+	 * to initialize "lastPressed" and "toProcess" booleans to their appropriate values.
+	 */
 	public void setupInputListeners() {
 		gameScene.setOnKeyPressed(event -> {
 			lastPressedKey = event.getCode();
@@ -90,9 +119,11 @@ public class InputObservable extends EventObservable {
 			mouseClickToProcess = true;
 		});
 	}
-
+	
+	/**
+	 * For InputObservable, does nothing (Null Object Design Pattern).
+	 */
 	public void updateObservers() {
-		// Intentionally left blank.
 	}
 
 }

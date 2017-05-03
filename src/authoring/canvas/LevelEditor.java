@@ -24,10 +24,10 @@ import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import utils.views.View;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import utils.views.View;
 
 /**
  * LevelEditor keeps track of multiple levels and assigns a LayerEditor to each
@@ -41,7 +41,6 @@ public class LevelEditor extends View
 {
 
 	private int PASTE_OFFSET = 25;
-
 	private Workspace workspace;
 	private TabPane tabPane;
 	private LayerEditor currentLevel;
@@ -175,6 +174,12 @@ public class LevelEditor extends View
 	public void sendToFront()
 	{
 		for (Layer layer : currentLevel.getLayers()) {
+			/*
+			 * List<EntityView> selected = layer.getSelectedEntities();
+			 * layer.getEntities().removeAll(selected);
+			 * System.out.println(selected.toString());
+			 * layer.getEntities().addAll(0, selected);
+			 */
 			layer.getSelectedEntities().forEach(entity -> entity.toFront());
 		}
 	}
@@ -182,6 +187,13 @@ public class LevelEditor extends View
 	public void sendToBack()
 	{
 		for (Layer layer : currentLevel.getLayers()) {
+			/*
+			 * List<EntityView> selected = layer.getSelectedEntities();
+			 * layer.getEntities().removeAll(selected);
+			 * System.out.println(selected.toString());
+			 * layer.getEntities().addAll(layer.getEntities().size() - 1,
+			 * selected);
+			 */
 			layer.getSelectedEntities().forEach(entity -> entity.toBack());
 		}
 	}
@@ -223,6 +235,7 @@ public class LevelEditor extends View
 					long entityId = addInfo.getEntityId();
 					Entity entity = workspace.getDefaults().getEntity(addInfo.getEntityName()).clone();
 					entity.setZ(addInfo.getZ());
+					entity.setId(entity.generateId());
 					EntityView newEntity = new EntityView(entity, entityId, getCurrentLevel().getCanvas(),
 							getCurrentLevel().getCanvas().getTileSize(), x, y);
 					AddDeleteCommand addCommand = new AddDeleteCommand(newEntity, LevelEditor.this, true);

@@ -20,5 +20,4 @@ public class XMaxEvent extends Event {
 	public boolean act() {
 		return getEntity().getX() >= (Double) getParam(getResource("MaximumX"));
 	}
-
 }
