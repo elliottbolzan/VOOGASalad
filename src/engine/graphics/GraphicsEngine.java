@@ -80,25 +80,27 @@ public class GraphicsEngine {
 	public void setupLevel(Level level) {
 		this.setCamera(level.getCamera());
 		this.setEntitiesCollection(level.getEntities());
-		
+
 		displayArea.maxHeightProperty().bind(level.getCamera().heightProperty());
 		displayArea.maxWidthProperty().bind(level.getCamera().widthProperty());
 		player.setSize(level.getCamera().getWidth(), level.getCamera().getHeight());
-		
+
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
 		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 	}
 
 	/**
-	 * Displays an error message to the user while playing/testing the game. Used for informing the user
-	 * of incorrect use of Events or Actions.
+	 * Displays an error message to the user while playing/testing the game.
+	 * Used for informing the user of incorrect use of Events or Actions.
+	 * 
 	 * @param message
 	 */
 	public void showRuntimeError(String message) {
-		(new ComponentMaker(polyglot, resources)).makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).show();
+		(new ComponentMaker(polyglot, resources)).makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message)
+				.show();
 	}
-	
+
 	/**
 	 * @return the graphical display for the game
 	 */
@@ -241,7 +243,8 @@ public class GraphicsEngine {
 	private void makeBindings(ImageView node, Entity entity) {
 		node.xProperty().bind(entity.xProperty());
 		node.yProperty().bind(entity.yProperty());
-		node.setTranslateZ(entity.getZ());
+		node.rotateProperty().bind(entity.rotateProperty());
+		node.translateZProperty().bind(entity.zProperty());
 		node.visibleProperty().bind(entity.isVisibleProperty());
 		entity.imagePathProperty().addListener((observer, oldPath, newPath) -> {
 			node.setImage(new Image(newPath));

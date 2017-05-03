@@ -25,7 +25,7 @@ import javafx.beans.property.SimpleStringProperty;
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 	public static final double TIME_STEP = Screen.FRAME_TIME_MILLISECONDS / 50.0;
 	public static final Integer YACCELERATION = 1;
-	private SimpleDoubleProperty x, y, width, height, zIndex;
+	private SimpleDoubleProperty x, y, width, height, zIndex, rotateProperty;
 	private SimpleStringProperty name, imagePath;
 	private SimpleBooleanProperty isVisible;
 	private List<Event> events;
@@ -41,6 +41,7 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		width = new SimpleDoubleProperty(0);
 		height = new SimpleDoubleProperty(0);
 		zIndex = new SimpleDoubleProperty(0);
+		rotateProperty = new SimpleDoubleProperty(0);
 		events = new ArrayList<Event>();
 		name = new SimpleStringProperty();
 		imagePath = new SimpleStringProperty();
@@ -383,5 +384,21 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 				return event;
 		}
 		return null;
+	}
+
+	public double getRotate() {
+		return rotateProperty.get();
+	}
+
+	public void setRotate(double rotate) {
+		rotateProperty.set(rotate);
+	}
+
+	public SimpleDoubleProperty rotateProperty() {
+		return rotateProperty;
+	}
+
+	public SimpleDoubleProperty zProperty() {
+		return zIndex;
 	}
 }
