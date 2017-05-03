@@ -27,10 +27,10 @@ import engine.game.timer.TimerManager;
  *
  */
 public class LevelManager {
-	private SelectionGroup<Level> levels; // zero-indexed
-	private SelectionGroup<Level> levelsInInitialState; // zero-indexed
-	private Set<Integer> unlockedLevelNumbers; // one-indexed
-	private int currentLevel; // one-indexed
+	private SelectionGroup<Level> levels;
+	private SelectionGroup<Level> levelsInInitialState;
+	private Set<Integer> unlockedLevelNumbers;
+	private int currentLevel;
 	private final Game game;
 	private Screen currentScreen;
 	private StepStrategy currentStepStrategy;
@@ -47,8 +47,7 @@ public class LevelManager {
 		this.levelSelectionScreenMode = true;
 		this.scorebar = scorebar;
 	}
-	
-	// TODO Call from GAE with small checkbox, or similar
+
 	public boolean getLevelSelectionScreenMode() {
 		return levelSelectionScreenMode;
 	}
@@ -129,7 +128,7 @@ public class LevelManager {
 		levels.addAll(game.getLevels());
 		scorebar.setTimerManager(new TimerManager(game.getCurrentTime(), game.getClockGoingDown()));
 		unlockedLevelNumbers = game.getUnlockedLevels();
-		if(!firstTimeLoading){
+		if (!firstTimeLoading) {
 			scorebar.setLives(game.getNumberOfLives());
 		}
 	}

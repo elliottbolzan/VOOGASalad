@@ -26,6 +26,11 @@ public abstract class GameObject {
 	public GameObject() {
 		setUpResources();
 		params = new ArrayList<Parameter>();
+		id = generateId();
+	}
+
+	public int generateId() {
+		return (int) (Math.random() * 10000);
 	}
 
 	public Object readResolve() {
@@ -64,15 +69,6 @@ public abstract class GameObject {
 
 	public void updateParam(String name, Object value) {
 		findParameter(name).setObject(value);
-	}
-
-	public boolean hasParam(String name) {
-		for (Parameter param : params) {
-			if (param.getName().equals(name)) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public void setParams(List<Parameter> params) {
@@ -125,7 +121,7 @@ public abstract class GameObject {
 
 	/**
 	 * return a copy of this game object, copying all necessary instance
-	 * variables.
+	 * variables, including parameters and ID.
 	 * 
 	 * @return copy of this game object.
 	 */

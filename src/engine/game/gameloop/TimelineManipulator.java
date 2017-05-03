@@ -1,7 +1,6 @@
 package engine.game.gameloop;
 
 import engine.GameInfo;
-import engine.entities.Entity;
 import engine.game.LevelManager;
 
 /**
@@ -34,9 +33,8 @@ public class TimelineManipulator {
 	}
 
 	public void startNewLevel(int newLevel) {
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			info.getObservableBundle().detachEntityFromAll(entity);
-		}
+		levelManager.getCurrentLevel().getEntities().stream()
+				.forEach(s -> info.getObservableBundle().detachEntityFromAll(s));
 		moveToNextScreen(new NewLevelStepStrategy(levelManager, newLevel));
 	}
 
@@ -50,9 +48,8 @@ public class TimelineManipulator {
 	 */
 
 	public void startNextLevel() {
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			info.getObservableBundle().detachEntityFromAll(entity);
-		}
+		levelManager.getCurrentLevel().getEntities().stream()
+				.forEach(s -> info.getObservableBundle().detachEntityFromAll(s));
 		moveToNextScreen(new NextLevelStepStrategy(levelManager));
 	}
 
@@ -69,15 +66,13 @@ public class TimelineManipulator {
 	 */
 
 	public void die(boolean gameOver) {
-		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
-			info.getObservableBundle().detachEntityFromAll(entity);
-		}
+		levelManager.getCurrentLevel().getEntities().stream()
+				.forEach(s -> info.getObservableBundle().detachEntityFromAll(s));
 		StepStrategy nextStepStrategy;
-		if (gameOver) {
+		if (gameOver)
 			nextStepStrategy = new GameOverStepStrategy(levelManager, info);
-		} else {
+		else
 			nextStepStrategy = new LoseLifeStepStrategy(levelManager);
-		}
 		moveToNextScreen(nextStepStrategy);
 	}
 
@@ -85,5 +80,4 @@ public class TimelineManipulator {
 		levelManager.getCurrentScreen().getTimeline().stop();
 		((LevelStepStrategy) levelManager.getCurrentStepStrategy()).flagScreenFinished(nextStepStrategy);
 	}
-
 }

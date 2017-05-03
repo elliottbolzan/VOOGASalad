@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import authoring.components.ComponentMaker;
 import data.Game;
 import engine.entities.Entity;
 import engine.entities.entities.AchievementEntity;
@@ -17,6 +18,7 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -46,7 +48,6 @@ import polyglot.Polyglot;
  *         time/lives/score) and the Camera.
  */
 public class GraphicsEngine {
-
 	private Polyglot polyglot;
 	private ResourceBundle resources;
 
@@ -79,16 +80,25 @@ public class GraphicsEngine {
 	public void setupLevel(Level level) {
 		this.setCamera(level.getCamera());
 		this.setEntitiesCollection(level.getEntities());
+		
 		displayArea.maxHeightProperty().bind(level.getCamera().heightProperty());
 		displayArea.maxWidthProperty().bind(level.getCamera().widthProperty());
 		player.setSize(level.getCamera().getWidth(), level.getCamera().getHeight());
+		
 		Image backgroundImage = (new NodeFactory()).getNodeFromEntity(level.getBackground()).getImage();
 		displayArea.setBackground(new Background(new BackgroundImage(backgroundImage, BackgroundRepeat.REPEAT,
 				BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-		player.setSize(level.getCamera().widthProperty(), level.getCamera().heightProperty());
-
 	}
 
+	/**
+	 * Displays an error message to the user while playing/testing the game. Used for informing the user
+	 * of incorrect use of Events or Actions.
+	 * @param message
+	 */
+	public void showRuntimeError(String message) {
+		(new ComponentMaker(polyglot, resources)).makeAlert(AlertType.ERROR, "ErrorTitle", "ErrorHeader", message).show();
+	}
+	
 	/**
 	 * @return the graphical display for the game
 	 */

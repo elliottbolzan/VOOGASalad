@@ -4,6 +4,8 @@ import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
 /**
+ * TransitionStepStrategy for when the hero loses a life (but does not have a
+ * game over).
  * 
  * @author Matthew Barbano
  *
@@ -29,9 +31,8 @@ public class LoseLifeStepStrategy extends TransitionStepStrategy {
 
 	@Override
 	protected void modifyUnlockedScreens() {
-		//Intentionally left blank.
 	}
-	
+
 	@Override
 	protected StepStrategy nextStrategyLevelSelectionMode() {
 		return new LevelStepStrategy();

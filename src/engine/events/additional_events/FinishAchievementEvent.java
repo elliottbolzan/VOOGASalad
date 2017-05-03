@@ -6,6 +6,11 @@ import java.util.stream.Collectors;
 
 import engine.events.Event;
 
+/**
+ * Make progress on an achievement and react to an achievement completing.
+ * 
+ * @author nikita
+ */
 public class FinishAchievementEvent extends Event {
 	private Map<Event, Boolean> achieved;
 	private boolean done;

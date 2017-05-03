@@ -31,6 +31,11 @@ public class AchievementEntity extends Entity {
 	protected void move() {
 	}
 
+	/**
+	 * Get the how close the achievement is to being completed
+	 * 
+	 * @return percent of the achievement that has been completed
+	 */
 	public SimpleDoubleProperty getPercent() {
 		double completed = 0, total = 0;
 		for (Event event : getEvents()) {

@@ -13,21 +13,14 @@ import engine.game.gameloop.LevelStepStrategy;
  */
 public class LevelSwitchAction extends Action {
 
-	// TODO error checking that the level exists
-
 	public LevelSwitchAction() {
 		addParam(new Parameter(getResource("NewLevel"), Integer.class, 0));
 	}
 
 	@Override
 	public void act() {
-		try {
-			if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
-				getGameInfo().getTimelineManipulator().startNewLevel((Integer) getParam(getResource("NewLevel")));
-			}
-		} catch (ClassCastException e) {
-			System.out.println("Casting error in NewLevelAction");
+		if (!((LevelStepStrategy) getGameInfo().getLevelManager().getCurrentStepStrategy()).screenFinished()) {
+			getGameInfo().getTimelineManipulator().startNewLevel((Integer) getParam(getResource("NewLevel")));
 		}
 	}
-
 }

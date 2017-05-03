@@ -28,7 +28,6 @@ public class ClassFinder {
 			classes.addAll(find(file, scannedPackage));
 		}
 		return classes;
-
 	}
 
 	private List<Class<?>> find(File file, String scannedPackage) {
@@ -48,5 +47,4 @@ public class ClassFinder {
 		}
 		return classes;
 	}
-
 }

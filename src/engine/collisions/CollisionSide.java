@@ -16,7 +16,8 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntity(Entity existing, Entity newEntity) {
-			double[]existingCenter=getCenter(existing);setXY(newEntity,existing.getX()+existing.getWidth(),existingCenter[1]-newEntity.getHeight()/2);
+			double[] existingCenter = getCenter(existing);
+			setXY(newEntity, existing.getX() + existing.getWidth(), existingCenter[1] - newEntity.getHeight() / 2);
 		}
 
 		/**
@@ -24,7 +25,11 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			placeEntity(entity,newEntity);newEntity.setX(newEntity.getX()+Math.random()*entity.getGameInfo().getGraphicsEngine().getCamera().getWidth());newEntity.setY(Math.random()*(entity.getGameInfo().getGraphicsEngine().getCamera().getHeight()-newEntity.getHeight()));
+			placeEntity(entity, newEntity);
+			newEntity.setX(
+					newEntity.getX() + Math.random() * entity.getGameInfo().getGraphicsEngine().getCamera().getWidth());
+			newEntity.setY(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getHeight() - newEntity.getHeight()));
 		}
 	},
 	LEFT() {
@@ -33,7 +38,8 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntity(Entity existing, Entity newEntity) {
-			double[]existingCenter=getCenter(existing);setXY(newEntity,existing.getX()-newEntity.getWidth(),existingCenter[1]-newEntity.getHeight()/2);
+			double[] existingCenter = getCenter(existing);
+			setXY(newEntity, existing.getX() - newEntity.getWidth(), existingCenter[1] - newEntity.getHeight() / 2);
 		}
 
 		/**
@@ -41,7 +47,11 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			placeEntity(entity,newEntity);newEntity.setX(newEntity.getX()-Math.random()*entity.getGameInfo().getGraphicsEngine().getCamera().getWidth());newEntity.setY(Math.random()*(entity.getGameInfo().getGraphicsEngine().getCamera().getHeight()-newEntity.getHeight()));
+			placeEntity(entity, newEntity);
+			newEntity.setX(
+					newEntity.getX() - Math.random() * entity.getGameInfo().getGraphicsEngine().getCamera().getWidth());
+			newEntity.setY(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getHeight() - newEntity.getHeight()));
 		}
 	},
 	TOP() {
@@ -50,7 +60,8 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntity(Entity existing, Entity newEntity) {
-			double[]existingCenter=getCenter(existing);setXY(newEntity,existingCenter[0]-newEntity.getWidth()/2,existing.getY()-newEntity.getHeight());
+			double[] existingCenter = getCenter(existing);
+			setXY(newEntity, existingCenter[0] - newEntity.getWidth() / 2, existing.getY() - newEntity.getHeight());
 		}
 
 		/**
@@ -59,15 +70,8 @@ public enum CollisionSide {
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
 			placeEntity(entity, newEntity);
-			// newEntity.setX(Math.random()
-			// *
-			// (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth()
-			// - newEntity.getWidth()));
-//			newEntity.setX(Math.random()
-//					* (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth() - newEntity.getWidth())
-//					+ entity.getX() - entity.getWidth());
-			newEntity.setX(entity.getGameInfo().getGraphicsEngine().getCamera().getX() + Math.random()
-					* (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth()));
+			newEntity.setX(entity.getGameInfo().getGraphicsEngine().getCamera().getX()
+					+ Math.random() * (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth()));
 			newEntity.setY(newEntity.getY()
 					- Math.random() * entity.getGameInfo().getGraphicsEngine().getCamera().getHeight());
 		}
@@ -78,7 +82,8 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntity(Entity existing, Entity newEntity) {
-			double[]existingCenter=getCenter(existing);setXY(newEntity,existingCenter[0]-newEntity.getWidth()/2,existing.getY()+existing.getHeight());
+			double[] existingCenter = getCenter(existing);
+			setXY(newEntity, existingCenter[0] - newEntity.getWidth() / 2, existing.getY() + existing.getHeight());
 		}
 
 		/**
@@ -86,7 +91,11 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			placeEntity(entity,newEntity);newEntity.setX(Math.random()*(entity.getGameInfo().getGraphicsEngine().getCamera().getWidth()-newEntity.getWidth()));newEntity.setY(newEntity.getY()-Math.random()*entity.getGameInfo().getGraphicsEngine().getCamera().getHeight());
+			placeEntity(entity, newEntity);
+			newEntity.setX(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth() - newEntity.getWidth()));
+			newEntity.setY(newEntity.getY()
+					- Math.random() * entity.getGameInfo().getGraphicsEngine().getCamera().getHeight());
 		}
 	},
 	ALL() {
@@ -95,7 +104,9 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntity(Entity existing, Entity newEntity) {
-			double[]existingCenter=getCenter(existing);setXY(newEntity,existingCenter[0]-newEntity.getWidth()/2,existingCenter[1]-newEntity.getHeight()/2);
+			double[] existingCenter = getCenter(existing);
+			setXY(newEntity, existingCenter[0] - newEntity.getWidth() / 2,
+					existingCenter[1] - newEntity.getHeight() / 2);
 		}
 
 		/**
@@ -103,7 +114,10 @@ public enum CollisionSide {
 		 */
 		@Override
 		public void placeEntityRandomly(Entity entity, Entity newEntity) {
-			newEntity.setX(Math.random()*(entity.getGameInfo().getGraphicsEngine().getCamera().getWidth()-newEntity.getWidth()));newEntity.setY(Math.random()*(entity.getGameInfo().getGraphicsEngine().getCamera().getHeight()-newEntity.getHeight()));
+			newEntity.setX(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getWidth() - newEntity.getWidth()));
+			newEntity.setY(Math.random()
+					* (entity.getGameInfo().getGraphicsEngine().getCamera().getHeight() - newEntity.getHeight()));
 		}
 	};
 
@@ -117,17 +131,6 @@ public enum CollisionSide {
 	private static void setXY(Entity entity, double x, double y) {
 		entity.setX(x);
 		entity.setY(y);
-	}
-
-	/**
-	 * Determines whether this CollisionSide is equal to the other CollisionSide
-	 * 
-	 * @param other
-	 *            CollisionSide to which this is compared
-	 * @return true if this == other, and false otherwise
-	 */
-	public boolean equals(CollisionSide other) {
-		return this == other || this == ALL || other == ALL;
 	}
 
 	/**
