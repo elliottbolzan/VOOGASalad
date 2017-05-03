@@ -58,14 +58,9 @@ public abstract class EventObservable {
 	 * Assumes that observers.contains(toDetach) is true
 	 * 
 	 * @param toDetach the Entity to remove from observers
-	 * @throws ObservableException if toDetach is not in observers
 	 */
 	public void detach(Entity toDetach) {
-		try {
-			observers.remove(observers.indexOf(toDetach));
-		} catch (Exception e) {
-			throw new ObservableException(resources.getString("EntityNotAttached"));
-		}
+		observers.remove(toDetach);
 	}
 
 	/**
