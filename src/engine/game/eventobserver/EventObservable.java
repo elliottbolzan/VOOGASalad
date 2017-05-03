@@ -62,7 +62,9 @@ public abstract class EventObservable {
 	 */
 	public void detach(Entity toDetach) {
 		try {
-			observers.remove(observers.indexOf(toDetach));
+			if(observers.contains(toDetach)){
+				observers.remove(observers.indexOf(toDetach));
+			}
 		} catch (Exception e) {
 			throw new ObservableException(resources.getString("EntityNotAttached"));
 		}
