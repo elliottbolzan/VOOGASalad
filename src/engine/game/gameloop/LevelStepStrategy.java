@@ -7,6 +7,7 @@ import engine.GameInfo;
 import engine.actions.Action;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
+import exceptions.ActionException;
 
 /**
  * Subclass of StepStrategy implementing step() when a Level should be
