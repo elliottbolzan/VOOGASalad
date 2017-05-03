@@ -17,12 +17,13 @@ public class BooleanEvent extends Event {
 
 	public BooleanEvent() {
 		addParam(new Parameter(getResource("Expression"), String.class, ""));
-		parser = new BooleanParser();
 		checker = new IntChecker();
 	}
 
 	@Override
 	public boolean act() {
+		if (parser == null)
+			parser = new BooleanParser();
 		String[] expression = ((String) getParam(getResource("Expression"))).split("\\s+");
 		String result = "";
 		for (String str : expression) {
