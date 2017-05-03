@@ -56,7 +56,7 @@ public class Level implements LevelInterface, Selectable {
 	public void removeEntity(Entity entity) {
 		entities.remove(entity);
 	}
-	
+
 	public CameraEntity getCamera() {
 		return this.camera;
 	}

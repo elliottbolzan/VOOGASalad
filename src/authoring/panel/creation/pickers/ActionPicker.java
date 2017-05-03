@@ -87,7 +87,7 @@ public class ActionPicker extends Picker {
 			setCurrentlyEditing(null);
 			showEditor();
 		} else {
-			entityMaker.showMessage(getWorkspace().getPolyglot().get("NoEventSelected").get());
+			entityMaker.showMessage("NoEventSelected");
 		}
 	}
 

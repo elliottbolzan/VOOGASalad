@@ -25,18 +25,23 @@ import javafx.beans.property.SimpleStringProperty;
 public abstract class Entity extends GameObject implements EntityInterface, Cloneable {
 	public static final double TIME_STEP = Screen.FRAME_TIME_MILLISECONDS / 50.0;
 	public static final Integer YACCELERATION = 1;
-	private SimpleDoubleProperty x, y, width, height, zIndex;
+	private SimpleDoubleProperty x, y, width, height, zIndex, rotateProperty;
 	private SimpleStringProperty name, imagePath;
 	private SimpleBooleanProperty isVisible;
 	private List<Event> events;
 	private List<Class<?>> additionalEventClasses, additionalActionClasses;
 
+	/**
+	 * Create a new entity, initializing all instance variables and relevant
+	 * parameters to this specific entity.
+	 */
 	public Entity() {
 		x = new SimpleDoubleProperty(0);
 		y = new SimpleDoubleProperty(0);
 		width = new SimpleDoubleProperty(0);
 		height = new SimpleDoubleProperty(0);
 		zIndex = new SimpleDoubleProperty(0);
+		rotateProperty = new SimpleDoubleProperty(0);
 		events = new ArrayList<Event>();
 		name = new SimpleStringProperty();
 		imagePath = new SimpleStringProperty();
@@ -46,8 +51,15 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		this.setupDefaultParameters();
 	}
 
+	/**
+	 * Setup the default parameters that this entity has. Different for
+	 * different kinds of entities
+	 */
 	protected abstract void setupDefaultParameters();
 
+	/**
+	 * Default setup for entities. Used by characters and blocks and others.
+	 */
 	protected void defaultSetup() {
 		addParam(new Parameter(getResource("XSpeed"), double.class, 0.0));
 		addParam(new Parameter(getResource("YSpeed"), double.class, 0.0));
@@ -69,6 +81,9 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 		eventsToTrigger.forEach(event -> event.trigger());
 	}
 
+	/**
+	 * Move this entity according to its speed and acceleration.
+	 */
 	protected void move() {
 		setX(getX() + getXSpeed() * TIME_STEP);
 		setY(getY() + getYSpeed() * TIME_STEP);
@@ -361,7 +376,6 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 	}
 
 	public void addEntityToCanvas(Canvas canvas, LayerEditor editor, EntityView addedEntityView, int z) {
-		// Do nothing (Null Object Design Pattern)
 	}
 
 	public Event getEventById(int id) {
@@ -370,5 +384,21 @@ public abstract class Entity extends GameObject implements EntityInterface, Clon
 				return event;
 		}
 		return null;
+	}
+
+	public double getRotate() {
+		return rotateProperty.get();
+	}
+
+	public void setRotate(double rotate) {
+		rotateProperty.set(rotate);
+	}
+
+	public SimpleDoubleProperty rotateProperty() {
+		return rotateProperty;
+	}
+
+	public SimpleDoubleProperty zProperty() {
+		return zIndex;
 	}
 }

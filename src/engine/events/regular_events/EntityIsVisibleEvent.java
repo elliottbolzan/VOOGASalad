@@ -7,8 +7,9 @@ import engine.entities.Entity;
 import engine.events.Event;
 
 /**
- * An Event that triggers every frame (like an AlwaysEvent) as long as the specified Entity is
- * visible. This could provide different behavior for if an Entity is hiding vs. visible.
+ * An Event that triggers every frame (like an AlwaysEvent) as long as the
+ * specified Entity is visible. This could provide different behavior for if an
+ * Entity is hiding vs. visible.
  * 
  * @author Jay Doherty
  *

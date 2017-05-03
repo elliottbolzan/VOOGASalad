@@ -22,8 +22,7 @@ import javafx.scene.image.Image;
  * @author jimmy
  *
  */
-public class EntityInfo implements Serializable
-{
+public class EntityInfo implements Serializable {
 	/**
 	 * 
 	 */
@@ -33,20 +32,17 @@ public class EntityInfo implements Serializable
 	// private transient Image image;
 	private String xmlString;
 
-	public EntityInfo(Entity entity)
-	{
+	public EntityInfo(Entity entity) {
 		this.entity = entity;
 		xmlString = "";
 		extension = entity.getImagePath().replaceAll("^.*\\.(.*)$", "$1");
 	}
 
-	public Entity getEntity()
-	{
+	public Entity getEntity() {
 		return entity;
 	}
 
-	private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException
-	{
+	private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
 		s.defaultReadObject();
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new EntityConverter());
@@ -57,8 +53,7 @@ public class EntityInfo implements Serializable
 		writeImageTempFile(renderedImage);
 	}
 
-	private void writeObject(ObjectOutputStream s) throws IOException
-	{
+	private void writeObject(ObjectOutputStream s) throws IOException {
 		s.defaultWriteObject();
 		extension = entity.getImagePath().replaceAll("^.*\\.(.*)$", "$1");
 		XStream xStream = new XStream(new DomDriver());
@@ -69,8 +64,7 @@ public class EntityInfo implements Serializable
 		ImageIO.write(SwingFXUtils.fromFXImage(new Image(entity.getImagePath()), null), extension, s);
 	}
 
-	private void writeImageTempFile(RenderedImage renderedImage) throws IOException
-	{
+	private void writeImageTempFile(RenderedImage renderedImage) throws IOException {
 		extension = entity.getImagePath().replaceAll("^.*\\.(.*)$", "$1");
 		String tempDir = System.getProperty("java.io.tmpdir");
 		File dir = new File(tempDir);

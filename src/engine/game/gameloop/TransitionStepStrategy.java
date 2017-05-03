@@ -13,10 +13,8 @@ import engine.graphics.GraphicsEngine;
  */
 public abstract class TransitionStepStrategy implements StepStrategy {
 	private static final int FRAME_DURATION = 150;
-
 	private int frameNumber = 1;
 	private String imageKey;
-
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;

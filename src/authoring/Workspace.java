@@ -20,6 +20,7 @@ import data.GameData;
 import engine.entities.Entity;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.ImageCursor;
@@ -42,7 +43,8 @@ import utils.views.View;
  *         Yue)
  * 
  */
-public class Workspace extends View {
+public class Workspace extends View
+{
 	private Polyglot polyglot;
 	private ResourceBundle IOResources;
 	private ComponentMaker maker;
@@ -115,9 +117,7 @@ public class Workspace extends View {
 				public void run() {
 					defaults.getEntities().clear();
 					defaults.getEntities().addAll(((EntityListInfo) packet).getEntities());
-					((EntityListInfo) packet).getEntities().forEach(e -> {
-						Workspace.this.updateEntity(e);
-					});
+					((EntityListInfo) packet).getEntities().forEach(e -> updateEntity(e));
 				}
 			});
 		}
@@ -132,8 +132,11 @@ public class Workspace extends View {
 			panel.getEntityDisplay().getList().setOnMouseReleased(e2 -> {
 				Point2D canvasPoint = levelEditor.getCurrentLevel().getCanvas().getExpandablePane()
 						.screenToLocal(new Point2D(e2.getScreenX(), e2.getScreenY()));
-				if (levelEditor.getCurrentLevel().getCanvas().getExpandablePane().intersects(canvasPoint.getX(),
-						canvasPoint.getY(), 0, 0)) {
+				Point2D workspacePoint = Workspace.this.screenToLocal(new Point2D(e2.getScreenX(), e2.getScreenY()));
+				Bounds canvasBounds = levelEditor.getCurrentLevel().getCanvas()
+						.localToScene(levelEditor.getCurrentLevel().getCanvas().getBoundsInLocal());
+				// only add entity to canvas if the mouse intersects the canvas.
+				if (canvasBounds.intersects(workspacePoint.getX(), workspacePoint.getY(), 0, 0)) {
 					AddInfo addInfo = new AddInfo(addedEntity.getName(), canvasPoint.getX(), canvasPoint.getY(),
 							getLevelEditor().getCurrentLevel().getCurrentLayer());
 					deselectAllEntities();
@@ -337,7 +340,8 @@ public class Workspace extends View {
 	 * @param entity
 	 *            the Entity to replace the old Entities with.
 	 */
-	public void updateEntity(Entity entity) {
+	public void updateEntity(Entity entity)
+	{
 		levelEditor.updateEntity(entity);
 	}
 

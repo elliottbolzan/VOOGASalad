@@ -5,18 +5,18 @@ import javafx.geometry.Point2D;
 
 /**
  * Superclass for traversing paths in any shape given by subclass.
+ * 
  * @author Matthew Barbano
  *
  */
 
 public abstract class TraversePathHelper {
-	public static final double ZERO_THRESHOLD = 3; //number of pixels
-	
+	public static final double ZERO_THRESHOLD = 3; // number of pixels
 	private Point2D end;
 	private double speed;
 	private Entity entity;
-	
-	public TraversePathHelper(Point2D end, double speed, Entity entity){
+
+	public TraversePathHelper(Point2D end, double speed, Entity entity) {
 		this.end = end;
 		this.speed = speed;
 		this.entity = entity;
@@ -46,9 +46,9 @@ public abstract class TraversePathHelper {
 	public void setEntity(Entity entity) {
 		this.entity = entity;
 	}
-	
+
 	protected abstract void setupPhysics();
-	
+
 	public abstract void updatePhysics();
 
 	public double getZeroThreshold() {

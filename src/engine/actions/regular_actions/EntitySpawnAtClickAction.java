@@ -3,6 +3,11 @@ package engine.actions.regular_actions;
 import engine.entities.Entity;
 import javafx.application.Platform;
 
+/**
+ * Spawn an entity where the mouse was last clicked
+ * 
+ * @author nikita
+ */
 public class EntitySpawnAtClickAction extends EntitySpawnAction {
 
 	public EntitySpawnAtClickAction() {
@@ -20,6 +25,10 @@ public class EntitySpawnAtClickAction extends EntitySpawnAction {
 		});
 	}
 
+	/**
+	 * Place the entity at the location of the last mouse click. Center it so
+	 * the center of the entity is at that location.
+	 */
 	@Override
 	protected void placeEntity(Entity existing, Entity newEntity) {
 		newEntity.setX(getGameInfo().getObservableBundle().getInputObservable().getLastPressedCoordinates().getX()

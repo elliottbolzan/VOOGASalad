@@ -8,26 +8,22 @@ import engine.game.gameloop.TimelineManipulator;
 import engine.graphics.GraphicsEngine;
 
 /**
- * @author nikita matt
  * 
- *         This class is used to convey information about the current status of
- *         the game from things that monitor the status of the game (collision
- *         detection, timer, input detection, etc), to things that observe that
- *         status (actions, events, etc).
+ * This class is used to convey information about the current status of the game
+ * from things that monitor the status of the game (collision detection, timer,
+ * input detection, etc), to things that observe that status (actions, events,
+ * etc).
+ * 
+ * @author nikita matt
  */
 public class GameInfo {
 	private ObservableBundle bundle;
-	private Scorebar scorebar; 
+	private Scorebar scorebar;
 	private TimelineManipulator timelineManipulator;
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
-
-	/**
-	 * True if entities have never been updated in current game. Once updated
-	 * for first time, false for rest of game.
-	 */
 	private boolean entitiesNeverUpdated;
-	
+
 	public GameInfo(GameLoop gameLoop) {
 		this.bundle = gameLoop.getObservableBundle();
 		this.scorebar = gameLoop.getScorebar();

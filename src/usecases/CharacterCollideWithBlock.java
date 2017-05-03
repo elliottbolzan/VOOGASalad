@@ -1,6 +1,5 @@
 package usecases;
 
-import engine.GameInterface;
 import engine.actions.ActionInterface;
 import engine.collisions.CollisionInterface;
 import engine.entities.EntityInterface;
@@ -14,7 +13,7 @@ import engine.events.EventInterface;
  */
 public class CharacterCollideWithBlock {
 	public CharacterCollideWithBlock(EntityInterface character, EntityInterface block) {
-		GameInterface game = null;
+		//GameInterface game = null;
 		// collision has been detected already.
 		CollisionInterface collision = null;
 		// find the event that corresponds to this collision
@@ -29,11 +28,11 @@ public class CharacterCollideWithBlock {
 			blockAction.act();
 			//will release a powerup.
 				// create powerup
-				EntityInterface powerup = game.getPowerup();
+				//EntityInterface powerup = game.getPowerup();
 				// set location and speed
-				powerup.setX(0);
-				powerup.setY(0);
-				powerup.setXSpeed(-1);
+				//powerup.setX(0);
+				//powerup.setY(0);
+				//powerup.setXSpeed(-1);
 				// add it to frontend through NodeFactory.
 	}
 }

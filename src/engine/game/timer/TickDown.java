@@ -5,7 +5,7 @@ package engine.game.timer;
  * @author Matthew Barbano
  *
  */
-public class TickDown implements TickStrategy{
+public class TickDown implements TickStrategy {
 
 	@Override
 	public int tick(int milliseconds) {
@@ -16,6 +16,5 @@ public class TickDown implements TickStrategy{
 	public boolean timeIsUp(int milliseconds) {
 		return milliseconds <= 0;
 	}
-	
 
 }

@@ -4,6 +4,12 @@ import engine.Parameter;
 import engine.actions.Action;
 import engine.game.gameloop.Screen;
 
+/**
+ * Make an entity move randomly. Can set the maximum speed at which an entity is
+ * allowed to move.
+ * 
+ * @author nikita
+ */
 public class RandomMoveAction extends Action {
 	private int steps;
 
@@ -15,12 +21,13 @@ public class RandomMoveAction extends Action {
 	@Override
 	public void act() {
 		if (steps % Screen.FRAME_TIME_MILLISECONDS == 0) {
-			getEntity().setXSpeed(getRandomSign() * Math.random() * (double) getParam("MaxSpeed"));
-			getEntity().setYSpeed(getRandomSign() * Math.random() * (double) getParam("MaxSpeed"));
+			getEntity().setXSpeed(getRandomSign() * Math.random() * (double) getParam(getResource("MaxSpeed")));
+			getEntity().setYSpeed(getRandomSign() * Math.random() * (double) getParam(getResource("MaxSpeed")));
 		}
 		steps++;
 	}
-	private int getRandomSign(){
+
+	private int getRandomSign() {
 		return Math.random() > 0.5 ? -1 : 1;
 	}
 }

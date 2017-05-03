@@ -10,15 +10,17 @@ import java.util.List;
  *
  * @param <T>
  */
-public class ListSG<T extends Selectable> implements SelectionGroup<T>{
+public class ListSG<T extends Selectable> implements SelectionGroup<T> {
 	private List<T> list;
-	
+
 	public ListSG() {
 		list = new ArrayList<>();
 	}
-	
+
 	/**
-	 * Example in client class: SG<Level> group = new ListSG<>(new LinkedList<>());
+	 * Example in client class: SG<Level> group = new ListSG<>(new
+	 * LinkedList<>());
+	 * 
 	 * @param listImplementation
 	 */
 	public ListSG(List<T> listImplementation) {
@@ -59,9 +61,9 @@ public class ListSG<T extends Selectable> implements SelectionGroup<T>{
 	public T get(int index) {
 		return list.get(index);
 	}
-	
+
 	@Override
-	public List<T> getListRepresentation(){
+	public List<T> getListRepresentation() {
 		return list;
 	}
 
@@ -72,7 +74,7 @@ public class ListSG<T extends Selectable> implements SelectionGroup<T>{
 
 	@Override
 	public void removeAll() {
-		while(!list.isEmpty()){
+		while (!list.isEmpty()) {
 			list.remove(0);
 		}
 	}
