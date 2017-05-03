@@ -39,7 +39,7 @@ public class EntitySpawnAction extends Action {
 	 */
 	protected void spawn() {
 		Entity newEntity = null;
-		for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
+		for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
 			if (((String) getParam(getResource("EntityName"))).equals(entity.getName())) {
 				newEntity = entity.clone();
 				newEntity.setGameInfo(getGameInfo());
