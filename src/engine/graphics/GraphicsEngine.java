@@ -243,10 +243,9 @@ public class GraphicsEngine {
 	private void makeBindings(ImageView node, Entity entity) {
 		node.xProperty().bind(entity.xProperty());
 		node.yProperty().bind(entity.yProperty());
-		//node.rotateProperty().bind(entity.rotateProperty());
-		node.setRotate(200);
+		node.rotateProperty().bind(entity.rotateProperty());
 		node.setTranslateZ(entity.getZ());
-		//node.tranzlateZ(entity.zProperty());
+		//node.tranzlateZProperty(entity.zProperty());
 		node.visibleProperty().bind(entity.isVisibleProperty());
 		entity.imagePathProperty().addListener((observer, oldPath, newPath) -> {
 			node.setImage(new Image(newPath));

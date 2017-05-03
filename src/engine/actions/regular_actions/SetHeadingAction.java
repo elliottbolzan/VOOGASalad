@@ -16,9 +16,6 @@ public class SetHeadingAction extends Action {
 
 	@Override
 	public void act() {
-		System.out.println("before set heading action: "  + getEntity().getRotate());
 		getEntity().setRotate((double) getParam(getResource("Heading")));
-		getGameInfo().getGraphicsEngine().getView().getChildren().forEach(s -> System.out.print("ROTATE PROPERTY: " + s.rotateProperty().get()));
-		System.out.println("CALLED: " + getEntity().getRotate());
 	}
 }
