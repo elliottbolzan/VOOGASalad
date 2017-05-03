@@ -18,6 +18,7 @@ public class EntitySpawnAction extends Action {
 		addParam(new Parameter(getResource("Side"), String.class, ""));
 		addParam(new Parameter(getResource("SpawnProbability"), double.class, 1.0));
 		addParam(new Parameter(getResource("RandomSpawn"), boolean.class, false));
+		addParam(new Parameter(getResource("MaxDistance"), double.class, 0));
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class EntitySpawnAction extends Action {
 			throw new ActionException(getResource("InvalidCollisionSide"));
 		}
 		if ((boolean) getParam(getResource("RandomSpawn")))
-			collisionSide.placeEntityRandomly(getEntity(), newEntity);
+			collisionSide.placeEntityRandomly(getEntity(), newEntity, (double)getParam(getResource("MaxDistance")));
 		else
 			collisionSide.placeEntity(getEntity(), newEntity);
 	}
