@@ -36,8 +36,7 @@ public class Scorebar {
 			}
 		}
 		if (firstTimeLoading) {
-			lives = initialLives; // For loading saved game, setLives() is
-									// called.
+			lives = initialLives;
 		}
 	}
 
@@ -99,10 +98,6 @@ public class Scorebar {
 	}
 
 	public void saveFinalScore(String name) {
-		// TODO : game data
-		// game.getHighScores();
-		// check if this score should be added
-		// game.setHighScores();
 		game.setHighscores(getScore(), getTime(), getTimeValue(), name);
 	}
 

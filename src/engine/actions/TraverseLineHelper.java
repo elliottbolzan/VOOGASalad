@@ -3,6 +3,12 @@ package engine.actions;
 import engine.entities.Entity;
 import javafx.geometry.Point2D;
 
+/**
+ * Subclass for traversing a path via a line (either one to the end, or back and forth between endpoints).
+ * @author Matthew Barbano
+ *
+ */
+
 public class TraverseLineHelper extends TraversePathHelper {
 	private EndpointStrategy endpointStrategy;
 	

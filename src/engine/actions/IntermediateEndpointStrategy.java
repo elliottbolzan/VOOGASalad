@@ -3,6 +3,13 @@ package engine.actions;
 import engine.entities.Entity;
 import javafx.geometry.Point2D;
 
+/**
+ * For modifying the speed when a TraverseLinePathAction's is reversible. Part of
+ * Strategy Design Pattern.
+ * @author Matthew Barbano
+ *
+ */
+
 public class IntermediateEndpointStrategy implements EndpointStrategy {
 	Point2D start;
 	boolean approachingEnd;

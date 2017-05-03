@@ -42,12 +42,6 @@ public class CollisionAllEvent extends Event {
 	 */
 	@Override
 	public boolean act() {
-		if(getEntity().getName().equals("Coin")){
-		System.out.println("===============================================");
-		System.out.println(getEntity());
-		System.out.println(getEntity().getName());
-		System.out.println(getGameInfo());
-		}
 		for (Collision collision : getGameInfo().
 				getObservableBundle().
 				getCollisionObservable().

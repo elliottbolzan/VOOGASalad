@@ -34,7 +34,7 @@ public class EntitySpawnAction extends Action {
 
 	protected void spawn() {
 		Entity newEntity = null;
-		for (Entity entity : getGameInfo().getLevelManager().getGame().getDefaults()) {
+		for (Entity entity : getGameInfo().getLevelManager().getCurrentLevel().getEntities()) {
 			if (((String) getParam(getResource("EntityName"))).equals(entity.getName())) {
 				newEntity = entity.clone();
 				newEntity.setGameInfo(getGameInfo());
@@ -46,10 +46,6 @@ public class EntitySpawnAction extends Action {
 		newEntity.getGameInfo().getLevelManager().getCurrentLevel().addEntity(newEntity);
 		newEntity.getGameInfo().getObservableBundle().attachEntityToAll(newEntity);
 		newEntity.getGameInfo().getGraphicsEngine().updateView();
-		System.out.println("SpawnEntityAction");
-		System.out.println(newEntity);
-		System.out.println(newEntity.getName());
-		System.out.println(newEntity.getGameInfo());
 	}
 
 	private CollisionSide getCollisionSide(String side) {

@@ -3,6 +3,12 @@ package engine.actions;
 import engine.entities.Entity;
 import javafx.geometry.Point2D;
 
+/**
+ * Superclass for traversing paths in any shape given by subclass.
+ * @author Matthew Barbano
+ *
+ */
+
 public abstract class TraversePathHelper {
 	public static final double ZERO_THRESHOLD = 3; //number of pixels
 	

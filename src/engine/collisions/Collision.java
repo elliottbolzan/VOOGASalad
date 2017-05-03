@@ -1,6 +1,7 @@
 package engine.collisions;
 
 import engine.entities.Entity;
+import utils.math.IntChecker;
 
 /**
  * Collision stores a single collision between two Entities. The information of
@@ -11,29 +12,32 @@ import engine.entities.Entity;
  *
  */
 public class Collision implements CollisionInterface {
-
 	private Entity firstEntity;
 	private Entity secondEntity;
 	private CollisionSide firstRelativeToSecond;
 	private double collisionDepth;
+	private IntChecker checker;
 
 	public Collision(Entity one, Entity two, CollisionSide side, double depth) {
 		firstEntity = one;
 		secondEntity = two;
 		firstRelativeToSecond = side;
 		collisionDepth = depth;
+		checker = new IntChecker();
 	}
-	public Entity getFirstEntity(){
+
+	public Entity getFirstEntity() {
 		return firstEntity;
 	}
-	
-	public Entity getSecondEntity(){
+
+	public Entity getSecondEntity() {
 		return secondEntity;
 	}
+
 	public CollisionSide getCollisionSide() {
 		return firstRelativeToSecond;
 	}
-	
+
 	public double getCollisionDepth() {
 		return collisionDepth;
 	}
@@ -43,11 +47,10 @@ public class Collision implements CollisionInterface {
 	 * names
 	 * 
 	 * @param name1
-	 *            name of the first entity colliding
+	 *            name or id of the first entity colliding
 	 * @param name2
-	 *            name of the second entity colliding
-	 * @return whether the names given match the names of the entities in this
-	 *         collision.
+	 *            name or id of of the second entity colliding
+	 * @return whether the names given match the the entities in this collision.
 	 */
 	public boolean isBetween(Entity name1, String name2) {
 		return (firstEntity == name1 && secondEntity.getName().equals(name2));
