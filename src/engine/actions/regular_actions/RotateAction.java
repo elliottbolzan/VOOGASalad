@@ -16,8 +16,6 @@ public class RotateAction extends Action {
 
 	@Override
 	public void act() {
-		System.out.println("Before rotate action: " + getEntity().getRotate());
 		getEntity().setRotate(getEntity().getRotate() + (double) getParam(getResource("RotateAmount")));
-		System.out.println("CALLED: " + getEntity().getRotate());
 	}
 }
