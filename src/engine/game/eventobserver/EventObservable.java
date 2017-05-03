@@ -79,7 +79,11 @@ public abstract class EventObservable {
 	 * Returns the observers List
 	 * @return observers
 	 */
-	protected List<Entity> getObservers() {
+	public List<Entity> getObservers() {
 		return observers;
+	}
+	
+	public void setObservers(List<Entity> observers){
+		this.observers = observers;
 	}
 }

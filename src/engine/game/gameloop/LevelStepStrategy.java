@@ -3,6 +3,11 @@ package engine.game.gameloop;
 import engine.entities.Entity;
 import engine.entities.entities.CameraEntity;
 import engine.events.Event;
+import engine.events.regular_events.InsideCameraRegionEvent;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import engine.GameInfo;
 import engine.actions.Action;
 import engine.game.LevelManager;
@@ -58,6 +63,13 @@ public class LevelStepStrategy implements StepStrategy {
 	 */
 	@Override
 	public void step() {
+		InsideCameraRegionEvent event = new InsideCameraRegionEvent();
+		List<Entity> observersTemp = info.getObservableBundle().getCollisionObservable().getObservers();
+		info.getObservableBundle().getCollisionObservable()
+				.setObservers(info.getObservableBundle().getCollisionObservable().getObservers().stream().filter(s -> {
+					event.setEntity(s);
+					return event.act();
+				}).collect(Collectors.toList()));
 		info.getObservableBundle().updateObservers();
 		levelManager.getCurrentLevel().getEntities().forEach(e -> e.update());
 		info.setEntitiesNeverUpdatedFalse();
@@ -69,6 +81,7 @@ public class LevelStepStrategy implements StepStrategy {
 			Screen nextScreen = new Screen(levelManager, graphicsEngine, info, false);
 			nextScreen.getTimeline().play();
 		}
+		info.getObservableBundle().getCollisionObservable().setObservers(observersTemp);
 	}
 
 	/**
