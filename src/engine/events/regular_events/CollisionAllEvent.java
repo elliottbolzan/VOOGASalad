@@ -17,7 +17,7 @@ public class CollisionAllEvent extends Event {
 	private CollisionSide collisionSide;
 
 	public CollisionAllEvent() {
-		//addParam(new Parameter(getResource("Entity1"), String.class, getResource("ThisEntity")));
+		addParam(new Parameter(getResource("Entity1"), String.class, getResource("ThisEntity")));
 		addParam(new Parameter(getResource("Entity2"), String.class, ""));
 		addParam(new Parameter(getResource("DetectionDepth"), double.class, 0.0));
 		this.collisionSide = CollisionSide.ALL;
