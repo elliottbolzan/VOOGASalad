@@ -18,11 +18,15 @@ import javax.script.ScriptException;
  *
  */
 public class BooleanParser {
+	ScriptEngine engine;
+
+	public BooleanParser() {
+		ScriptEngineManager manager = new ScriptEngineManager();
+		engine = manager.getEngineByName("JavaScript");
+	}
 
 	public Boolean parse(String expression) {
 		try {
-			ScriptEngineManager manager = new ScriptEngineManager();
-			ScriptEngine engine = manager.getEngineByName("JavaScript");
 			return (Boolean) engine.eval(expression);
 		} catch (ScriptException e) {
 			return false;
