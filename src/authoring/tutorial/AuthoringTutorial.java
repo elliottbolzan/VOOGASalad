@@ -141,8 +141,7 @@ public class AuthoringTutorial extends View {
 								() -> addedCollision("FourteenthStep", () -> savedEvent("FifteenthStep", () -> addedAction("SixteenthStep",
 									workspace.getPolyglot().get("SecondAction").get(), () -> afterAction("SeventeenthStep",
 										() -> savedAction("EighteenthStep",()->savedCharacter("NinteenthStep",()->canvasCharacter("TwentiethStep",()->savedAction("TwentyFirstStep",
-													()->savedCharacter("TwentySecondStep",()->{label.textProperty().bind(workspace.getPolyglot().get("TwentyThirdStep"));
-																								stage.close();})),false)))))))));
+													()->savedCharacter("TwentySecondStep",()->label.textProperty().bind(workspace.getPolyglot().get("TwentyThirdStep")))),false)))))))));
 		
 	}
 
