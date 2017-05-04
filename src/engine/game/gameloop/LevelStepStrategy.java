@@ -11,7 +11,6 @@ import engine.events.Event;
 import engine.events.regular_events.InsideCameraRegionEvent;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
-import exceptions.ActionException;
 
 /**
  * Subclass of StepStrategy implementing step() when a Level should be
