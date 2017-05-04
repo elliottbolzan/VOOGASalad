@@ -44,18 +44,6 @@ public class ZoomablePane extends ScrollPane
 		this.makeZoomable(entities);
 	}
 
-	public static double clamp(double value, double min, double max)
-	{
-
-		if (Double.compare(value, min) < 0)
-			return min;
-
-		if (Double.compare(value, max) > 0)
-			return max;
-
-		return value;
-	}
-
 	private void makeZoomable(Group entities)
 	{
 		final double SCALE_DELTA = 1.1;
@@ -157,7 +145,7 @@ public class ZoomablePane extends ScrollPane
 			scroller.setVvalue(
 					scroller.getVmin() + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
 		} else {
-			scroller.setHvalue(scroller.getHmin());
+			scroller.setVvalue(scroller.getVmin());
 		}
 	}
 }

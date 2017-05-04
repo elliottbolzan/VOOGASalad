@@ -1,15 +1,14 @@
 package engine.game.gameloop;
 
-import engine.entities.Entity;
-import engine.entities.entities.CameraEntity;
-import engine.events.Event;
-import engine.events.regular_events.InsideCameraRegionEvent;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 import engine.GameInfo;
 import engine.actions.Action;
+import engine.entities.Entity;
+import engine.entities.entities.CameraEntity;
+import engine.events.Event;
+import engine.events.regular_events.InsideCameraRegionEvent;
 import engine.game.LevelManager;
 import engine.graphics.GraphicsEngine;
 
@@ -20,7 +19,8 @@ import engine.graphics.GraphicsEngine;
  * @author Matthew Barbano
  *
  */
-public class LevelStepStrategy implements StepStrategy {
+public class LevelStepStrategy implements StepStrategy
+{
 	private LevelManager levelManager;
 	private GraphicsEngine graphicsEngine;
 	private GameInfo info;
@@ -33,7 +33,8 @@ public class LevelStepStrategy implements StepStrategy {
 	 * constructor.
 	 */
 	@Override
-	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info) {
+	public void setup(LevelManager levelManager, GraphicsEngine graphicsEngine, GameInfo info)
+	{
 		this.levelManager = levelManager;
 		this.graphicsEngine = graphicsEngine;
 		this.info = info;
@@ -44,12 +45,14 @@ public class LevelStepStrategy implements StepStrategy {
 		addInfoToEntities();
 	}
 
-	public void flagScreenFinished(StepStrategy nextStepStrategy) {
+	public void flagScreenFinished(StepStrategy nextStepStrategy)
+	{
 		this.screenFinished = true;
 		this.nextStepStrategy = nextStepStrategy;
 	}
 
-	public boolean screenFinished() {
+	public boolean screenFinished()
+	{
 		return screenFinished;
 	}
 
@@ -62,7 +65,8 @@ public class LevelStepStrategy implements StepStrategy {
 	 * 
 	 */
 	@Override
-	public void step() {
+	public void step()
+	{
 		InsideCameraRegionEvent event = new InsideCameraRegionEvent();
 		List<Entity> observersTemp = info.getObservableBundle().getCollisionObservable().getObservers();
 		info.getObservableBundle().getCollisionObservable()
@@ -71,7 +75,10 @@ public class LevelStepStrategy implements StepStrategy {
 					return event.act();
 				}).collect(Collectors.toList()));
 		info.getObservableBundle().updateObservers();
-		levelManager.getCurrentLevel().getEntities().forEach(e -> e.update());
+		levelManager.getCurrentLevel().getEntities().stream().filter(s -> {
+			event.setEntity(s);
+			return event.act();
+		}).forEach(e -> e.update());
 		info.setEntitiesNeverUpdatedFalse();
 		info.getObservableBundle().getCollisionObservable().getCollisions().clear();
 		info.getObservableBundle().getInputObservable().setInputToProcess(false);
@@ -87,7 +94,8 @@ public class LevelStepStrategy implements StepStrategy {
 	/**
 	 * Helper grouping all the observable logic in this class for setup.
 	 */
-	private void addInfoToEntities() {
+	private void addInfoToEntities()
+	{
 		info.getObservableBundle().levelObservableSetup(info);
 		for (Entity entity : levelManager.getCurrentLevel().getEntities()) {
 			entity.setGameInfo(info);
@@ -101,7 +109,8 @@ public class LevelStepStrategy implements StepStrategy {
 		}
 	}
 
-	private void setupGameView() {
+	private void setupGameView()
+	{
 		CameraEntity levelCamera = levelManager.getCurrentLevel().getCamera();
 		levelManager.getCurrentLevel().getEntities().add(levelCamera);
 		graphicsEngine.setupLevel(levelManager.getCurrentLevel());
