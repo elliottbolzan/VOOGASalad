@@ -6,7 +6,11 @@ This program is capable of creating, editing, and playing scrolling-platformer g
 
 An example video showing 10 sample games made with VOOGASalad can be found [here](https://vimeo.com/225642307).
 
-Extra features are incorporated, like the ability to translate the user interface into all of the languages offered by Google translate at runtime. I developed this feature myself as a separate framework, called `polyglot`. It made use of Google's Cloud API.
+Extra features are incorporated, like:
+
+- The ability to translate the user interface into all of the languages offered by Google translate at runtime. I developed this feature myself as a separate framework, called `polyglot`. It made use of Google's Cloud API.
+- Networking ability. Live editing and chatting are available between different machines.
+- Random level generation.
 
 ![](images/start.png)
 
@@ -20,18 +24,9 @@ Extra features are incorporated, like the ability to translate the user interfac
 
 ![](images/fifa.png)
 
+### Files Used to Start the Project (the class(es) containing main)
 
----
-
-### Files Used to Test the Project
-
-All files in `src/testers`:
-
-* `EntityConverterTest.java`.
-* `TestGameEngineStartup.java`.
-* `TestGameMarioMove.java`.
-* `TestHTML.java`.
-* `TestMultipleLevels.java`.
+Our main class is located at: `src/starter/Main.java`.
 
 ### Any data or resource files required by the project (including format of non-standard files)
 
