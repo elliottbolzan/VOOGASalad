@@ -4,6 +4,8 @@ A JavaFX team project (10-person group) for Duke's Computer Science 308 (Design 
 
 This program is capable of creating, editing, and playing scrolling-platformer games. It can also create many other games, like FIFA, checkers, etc. 
 
+An example video showing 10 sample games made with VOOGASalad can be found [here](https://vimeo.com/225642307).
+
 Extra features are incorporated, like the ability to translate the user interface into all of the languages offered by Google translate at runtime. I developed this feature myself as a separate framework, called `polyglot`. It made use of Google's Cloud API.
 
 ![](images/start.png)
